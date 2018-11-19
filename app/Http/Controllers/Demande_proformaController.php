@@ -16,6 +16,7 @@ use App\mailclass;
 use App\Materiel;
 use App\Fournisseur;
 use App\Nature;
+use App\Reponse_fournisseur;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -82,21 +83,7 @@ $message->from('no-reply@procachat.com','procachat')
      * @param $slug
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function les_das_funct($domaine)
-    {
-        $types = DB::table('materiel')
-            ->where('type', '=', $domaine)
-            ->join('lignebesoin', 'materiel.id', '=', 'lignebesoin.id_materiel')
-            ->join('nature', 'nature.id', '=', 'lignebesoin.id_nature')
-            ->select('lignebesoin.id','lignebesoin.id_materiel','unite','DateBesoin','quantite','demandeur','id_valideur','libelleMateriel','libelleNature','lignebesoin.slug')
-            ->distinct()->get();
-        $variable="";
-        $status="<i class='fa fa-circle' style='color: mediumspringgreen'></i>";
 
-        return response()->json($types);
-    //    return response()->json($variable);
-
-    }
     public function les_das_funct($domaine)
     {
         $types = DB::table('materiel')
@@ -112,6 +99,32 @@ $message->from('no-reply@procachat.com','procachat')
         //    return response()->json($variable);
 
     }
+    public function ajouter_reponse(Request $request){
+
+        $parameters = $request->except(['_token']);
+
+        $id_lignebesoin = $parameters['id_lignebesoin'];
+        $id_fournisseur = $parameters['id_fournisseur'];
+        $titre_ext = $parameters['titre_ext'];
+        $quantite_reponse=$parameters['quantite_reponse'];
+        $Unite=$parameters['unite_reponse'];
+        $prix_reponse=$parameters['prix_reponse'];
+
+$rep_fourn = new Reponse_fournisseur();
+        $date = new \DateTime(null);
+        $rep_fourn->id_lignebesoin=$id_lignebesoin;
+        $rep_fourn->id_fournisseur=$id_fournisseur;
+        $rep_fourn->titre_ext=$titre_ext;
+        $rep_fourn->quantite=$quantite_reponse;
+        $rep_fourn->Unite=$Unite;
+        $rep_fourn->prix=$prix_reponse;
+        $rep_fourn->prix=$prix_reponse;
+        $rep_fourn->slug = Str::slug($parameters['titre_ext'].$Unite. $date->format('dmYhis'));
+        $rep_fourn->save();
+        return redirect()->route('gestion_demande_proformas')->with('success', "la pro forma à été ajouté");
+
+    }
+
     public function les_das_fournisseurs_funct($domaine)
     {
         $types = DB::table('fournisseur')

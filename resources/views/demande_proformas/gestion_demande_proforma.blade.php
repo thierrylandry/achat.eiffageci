@@ -82,11 +82,13 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">Ajouter la réponse d'un fournisseur</h4>
                     </div>
-                    <form>
+                    <form action="{{route('ajouter_reponse')}}" method="post">
+                        @csrf
                     <div class="modal-body">
 
                             <div class="form-group">
                                 <b><label for="libelle" class="control-label">Fournisseur</label></b>
+                                <input class="form-control" type="hidden"  name="id_lignebesoin" id="id_lignebesoin"/>
                                 <select class="form-control selectpicker" id="id_fournisseur" name="id_fournisseur" data-live-search="true" data-size="6" required>
                                     <option value="" >SELECTIONNER UN FOURNISSEUR</option>
                                     @foreach($fournisseurs as $fournisseur)
@@ -107,7 +109,7 @@
                         </div>
                         <div class="form-group col-sm-4">
                             <b><label for="libelle" class="control-label">Unite</label></b>
-                            <input class="form-control" type="text"  name="titre_ext" id="titre_ext"/>
+                            <input class="form-control" type="text"  name="unite_reponse" id="unite_reponse"/>
                         </div>
                         <div class="form-group col-sm-4">
                             <b><label for="libelle" class="control-label">Prix</label></b>
@@ -117,7 +119,7 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-succes" data-dismiss="modal">Ajouter</button>
+                        <button type="submit" class="btn btn-succes" >Ajouter</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
                     </div>
                     </form>
@@ -133,19 +135,40 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Ajouter la réponse d'un fournisseur</h4>
+                        <h4 class="modal-title">Lister les  réponses fournisseur</h4>
                     </div>
-                    <form>
+
                         <div class="modal-body">
 
 
+                            <table name ="gestion_reponse_fournisseur" id="gestion_reponse_fournisseur" class='table table-bordered table-striped  no-wrap display'>
+
+                                <thead>
+
+                                <tr>
+                                    <th class="dt-head-center">id</th>
+                                    <th class="dt-head-center">statut</th>
+                                    <th class="dt-head-center">produits et services</th>
+                                    <th class="dt-head-center">Nature</th>
+                                    <th class="dt-head-center">Quantité</th>
+                                    <th class="dt-head-center">Pour le ?</th>
+                                    <th class="dt-head-center">Demandeur</th>
+                                    <th class="dt-head-center">Confirmer ou Infirmer par ?</th>
+                                    <th class="dt-head-center">Les réponses des fournisseurs</th>
+
+                                </tr>
+                                </thead>
+                                <tbody name ="contenu_tableau_entite" id="contenu_tableau_entite">
+
+                                </tbody>
+                            </table>
                         </div>
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-succes" data-dismiss="modal">Ajouter</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
                         </div>
-                    </form>
+
                 </div>
 
             </div>
@@ -154,6 +177,75 @@
 <script>
 
     (function($) {
+
+        //debut
+
+        var editor; // use a global for the submit and return data rendering in the examples
+
+            editor = new $.fn.dataTable.Editor( {
+                ajax: "../php/staff.php",
+                table: "#example",
+                fields: [ {
+                    label: "First name:",
+                    name: "first_name"
+                }, {
+                    label: "Last name:",
+                    name: "last_name"
+                }, {
+                    label: "Position:",
+                    name: "position"
+                }, {
+                    label: "Office:",
+                    name: "office"
+                }, {
+                    label: "Extension:",
+                    name: "extn"
+                }, {
+                    label: "Start date:",
+                    name: "start_date",
+                    type: "datetime"
+                }, {
+                    label: "Salary:",
+                    name: "salary"
+                }
+                ]
+            } );
+
+            // Activate an inline edit on click of a table cell
+            $('#gestion_reponse_fournisseur').on( 'click', 'tbody td:not(:first-child)', function (e) {
+                editor.inline( this );
+            } );
+
+            $('#gestion_reponse_fournisseur').DataTable( {
+                dom: "Bfrtip",
+                ajax: "../php/staff.php",
+                order: [[ 1, 'asc' ]],
+                columns: [
+                    {
+                        data: null,
+                        defaultContent: '',
+                        className: 'select-checkbox',
+                        orderable: false
+                    },
+                    { data: "first_name" },
+                    { data: "last_name" },
+                    { data: "position" },
+                    { data: "office" },
+                    { data: "start_date" },
+                    { data: "salary", render: $.fn.dataTable.render.number( ',', '.', 0, '$' ) }
+                ],
+                select: {
+                    style:    'os',
+                    selector: 'td:first-child'
+                },
+                buttons: [
+                    { extend: "create", editor: editor },
+                    { extend: "edit",   editor: editor },
+                    { extend: "remove", editor: editor }
+                ]
+            } );
+
+        //fin
        $('#fourn').selectpicker({
 
             noneSelectedText: 'AUCUN ELEMENT SELECTIONNE',
@@ -206,6 +298,21 @@
             $('#listeDA').val(mavariable);
 
         });
+        $("body").on("click","#btn_lister",function(){
+            var data = table.row($(this).closest('tr')).data();
+
+            var uti_entite =data[Object.keys(data)[0]];
+            alert('test'+uti_entite);
+        });
+        $("body").on("click","#btn_ajouter",function(){
+            var data = table.row($(this).closest('tr')).data();
+
+            var uti_entite =data[Object.keys(data)[0]];
+            var libproduit =data[Object.keys(data)[2]];
+            $('#id_lignebesoin').val(uti_entite);
+
+            $('#titre_ext').val(libproduit);
+        });
         $('#domaine').change(function(e){
             $domaine=$("#domaine").val();
 
@@ -232,7 +339,7 @@
                                     value.DateBesoin,
                                     value.demandeur,
                                     value.id_valideur,
-                                        "<a href='"+route+"' ><li class='fa fa-list'></li>Lister</a><a href='"+route1+"'>  <li class='fa fa-plus-square-o'></li>Ajouter</a>"
+                                        "<a href='#' data-toggle='modal' data-target='#listerrep' id='btn_lister' ><li class='fa fa-list'></li>Lister</a><a href='#'  id='btn_ajouter' data-toggle='modal' data-target='#ajouterrep'>  <li class='fa fa-plus-square-o'></li>Ajouter</a>"
 
                                 ]);
 

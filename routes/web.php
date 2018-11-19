@@ -259,9 +259,13 @@ Route::post('/mailling', [
     'as'=>'mailling',
     'uses'=>'Demande_proformaController@mailling'
 ]);
-Route::post('/mailling/{domaine}', [
-    'as'=>'mailling',
-    'uses'=>'Demande_proformaController@mailling'
+Route::post('/ajouter_reponse', [
+    'as'=>'ajouter_reponse',
+    'uses'=>'Demande_proformaController@ajouter_reponse'
+]);
+Route::post('/les_info_desde_la_da', [
+    'as'=>'les_info_desde_la_da',
+    'uses'=>'Demande_proformaController@les_info_desde_la_da'
 ]);
 
 Auth::routes();
