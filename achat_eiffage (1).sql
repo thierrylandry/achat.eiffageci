@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  ven. 09 nov. 2018 à 17:23
+-- Généré le :  ven. 16 nov. 2018 à 17:38
 -- Version du serveur :  5.7.23
 -- Version de PHP :  7.2.10
 
@@ -59,6 +59,36 @@ CREATE TABLE IF NOT EXISTS `boncommande` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `domaines`
+--
+
+DROP TABLE IF EXISTS `domaines`;
+CREATE TABLE IF NOT EXISTS `domaines` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `libelleDomainne` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `domaines`
+--
+
+INSERT INTO `domaines` (`id`, `libelleDomainne`, `created_at`, `updated_at`) VALUES
+(1, 'Matériels de quincaillerie', NULL, NULL),
+(2, 'Matériels électriques ', NULL, NULL),
+(3, 'Matériels de plomberie', NULL, NULL),
+(4, 'Matériels mécaniques', NULL, NULL),
+(5, 'Matériels informatiques', NULL, NULL),
+(6, 'Matériels de laboratoire', NULL, NULL),
+(7, 'Matériels d’entretien et nettoyage ', NULL, NULL),
+(8, 'Fournitures de bureau et d’imprimerie ', NULL, NULL),
+(9, 'E.P.I', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `fournisseur`
 --
 
@@ -77,16 +107,17 @@ CREATE TABLE IF NOT EXISTS `fournisseur` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `slug` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `fournisseur`
 --
 
 INSERT INTO `fournisseur` (`id`, `libelle`, `domaine`, `conditionPaiement`, `commentaire`, `adresseGeographique`, `responsable`, `interlocuteur`, `email`, `created_at`, `updated_at`, `slug`) VALUES
-(36, 'EBURTIS', 'logiciel', 'orange money', 'dtft', 'abidjan', 'koffi landry', 'kone', 'cyriaquekodia@gmail.com', '2018-10-29 17:38:57', '2018-10-29 17:56:04', 'eburtis29102018055604'),
-(35, 'EBURNI', 'logiciel', 'je suis la', 'fdfff', 'hhhh', 'd', 'df', 'cyriaquekodia@gmail.com', '2018-10-29 17:22:31', '2018-10-29 17:51:35', 'eburtis29102018055135'),
-(19, 'NOGRAD', 'ghhg', 'ggg', 'fgfg', 'ggg', 'ggg', 'ggg', 'cyriaquekodia@gmail.com', '2018-10-26 18:37:00', '2018-10-26 18:37:00', 'gh26102018063700');
+(37, 'QUINCAILLROSS', '1', 'tout', NULL, 'Rosier programme 3', 'Melaine', 'Mélaine', 'cyriaquekodia@gmail.com', '2018-11-12 15:01:42', '2018-11-12 15:01:42', 'quincaillross12112018030142'),
+(36, 'La quincaillerie Abidjannaise', '1', 'orange money', 'dtft', 'abidjan', 'koffi landry', 'kone', 'cyriaquekodia@gmail.com', '2018-10-29 17:38:57', '2018-11-12 15:00:23', 'la-quincaillerie-abidjannaise12112018030023'),
+(35, 'ELECTROTECH', '2', 'je suis la', 'fdfff', 'hhhh', 'd', 'df', 'cyriaquekodia@gmail.com', '2018-10-29 17:22:31', '2018-11-12 15:00:43', 'electrotech12112018030043'),
+(19, 'PLOMBPLUS', '3', 'ggg', 'fgfg', 'ggg', 'ggg', 'ggg', 'cyriaquekodia@gmail.com', '2018-10-26 18:37:00', '2018-11-12 15:01:03', 'plombplus12112018030103');
 
 -- --------------------------------------------------------
 
@@ -112,17 +143,15 @@ CREATE TABLE IF NOT EXISTS `lignebesoin` (
   `etat` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '1',
   `id_valideur` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `lignebesoin`
 --
 
 INSERT INTO `lignebesoin` (`id`, `unite`, `quantite`, `DateBesoin`, `id_user`, `id_fournisseur_select`, `id_nature`, `id_materiel`, `id_bonommande`, `created_at`, `updated_at`, `demandeur`, `slug`, `etat`, `id_valideur`) VALUES
-(5, 'unite', 1.00, '2018-11-07', 4, 4, 1, 6, NULL, '2018-11-07 17:50:42', '2018-11-09 16:58:17', 'kodia', '607112018055042', '2', 'Cyriaque Kodia'),
-(8, 'Sac - 15 kilo', 5.00, '2018-11-09', 4, 4, 1, 5, NULL, '2018-11-09 10:21:21', '2018-11-09 16:58:20', 'koffi', '509112018102121', '2', 'Cyriaque Kodia'),
-(7, 'Sac - 15 kilo', 5.00, '2018-11-07', 4, 4, 1, 6, NULL, '2018-11-07 18:12:02', '2018-11-09 16:58:18', 'kodia', '607112018061202', '2', 'Cyriaque Kodia'),
-(9, 'Sac - 15 kilo', 4.00, '2018-11-22', 4, 4, 2, 5, NULL, '2018-11-09 10:42:18', '2018-11-09 16:58:22', 'Mélaine', '509112018104218', '2', 'Cyriaque Kodia');
+(14, 'mètre', 2.00, '2018-11-14', 2, NULL, 1, 7, NULL, '2018-11-13 10:51:43', '2018-11-16 15:58:33', 'kodia', '716112018035833', '2', 'Cyriaque Kodia'),
+(15, 'mètre', 3.00, '2018-11-24', 2, NULL, 1, 10, NULL, '2018-11-13 11:15:57', '2018-11-16 15:58:45', 'Mélaine', '1016112018035845', '2', 'Cyriaque Kodia');
 
 -- --------------------------------------------------------
 
@@ -139,16 +168,17 @@ CREATE TABLE IF NOT EXISTS `materiel` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `slug` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `materiel`
 --
 
 INSERT INTO `materiel` (`id`, `libelleMateriel`, `type`, `created_at`, `updated_at`, `slug`) VALUES
-(7, 'SAAG COMPTABILITE', 'logiciel', '2018-10-30 16:54:13', '2018-10-30 16:54:13', 'novad30102018045413'),
-(6, 'Office', 'logiciel', '2018-10-30 16:54:06', '2018-10-30 16:54:06', 'novad30102018045406'),
-(5, 'Ciment belier', 'Construction', '2018-10-30 16:51:34', '2018-10-30 16:51:34', 'novad30102018045134');
+(7, 'filtre à eau', '3', '2018-10-30 16:54:13', '2018-11-13 10:50:47', 'filtre-a-eau13112018105047'),
+(6, 'Office', '2', '2018-10-30 16:54:06', '2018-10-30 16:54:06', 'novad30102018045406'),
+(5, 'tuyaux cylindrique', '3', '2018-10-30 16:51:34', '2018-11-13 10:49:42', 'tuyaux-cylindrique13112018104942'),
+(10, 'tuyaux en fer', '3', '2018-11-13 10:50:01', '2018-11-13 10:50:01', 'tuyaux-en-fer13112018105001');
 
 -- --------------------------------------------------------
 
@@ -162,7 +192,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `migrations`
@@ -188,7 +218,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (17, '2018_11_05_150926_add_id_fournisseur_et_id_materiel_to_tbprix_table', 8),
 (18, '2018_11_06_120314_add_demandeur_to_lignebesoin', 9),
 (19, '2018_11_06_145046_add_slug_to_lignebesoin', 10),
-(20, '2018_11_07_092915_add_etat_to_lignebesoin', 11);
+(20, '2018_11_07_092915_add_etat_to_lignebesoin', 11),
+(21, '2018_11_12_115716_creation_de_la_table_domaine', 12);
 
 -- --------------------------------------------------------
 

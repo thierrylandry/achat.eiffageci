@@ -11,7 +11,6 @@ namespace App\Http\Controllers;
 
 
 use App\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -62,7 +61,7 @@ class UtilisateurController
         $utilisateur=  User::where('slug','=',$parameters['slug'])->first();
 
         // Fournisseur::create($parameters);
-        $date= Carbon::now();
+        $date= new \DateTime(null);
 
 
         $utilisateur->name = $parameters['name'];

@@ -10,7 +10,7 @@
 
     <script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
 
-    <h2>LES DEMANDES DE PROFORMA </h2>
+    <h2>DEMANDER DES PRO FORMA AUX FOURNISSEURS </h2>
     <div class="row">
         <br>        <br>
                 <div class="col-sm-4">
@@ -60,6 +60,7 @@
                             <th class="dt-head-center">Pour le ?</th>
                             <th class="dt-head-center">Demandeur</th>
                             <th class="dt-head-center">Confirmer ou Infirmer par ?</th>
+                            <th class="dt-head-center">Les réponses des fournisseurs</th>
 
                         </tr>
                         </thead>
@@ -70,6 +71,85 @@
 
 
                 </div>
+
+        <!-- Modal -->
+        <div id="ajouterrep" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Ajouter la réponse d'un fournisseur</h4>
+                    </div>
+                    <form>
+                    <div class="modal-body">
+
+                            <div class="form-group">
+                                <b><label for="libelle" class="control-label">Fournisseur</label></b>
+                                <select class="form-control selectpicker" id="id_fournisseur" name="id_fournisseur" data-live-search="true" data-size="6" required>
+                                    <option value="" >SELECTIONNER UN FOURNISSEUR</option>
+                                    @foreach($fournisseurs as $fournisseur)
+                                        <option @if(isset($prix) and $fournisseur->id==$prix->id_fournisseur)
+                                                {{'selected'}}
+                                                @endif value="{{$fournisseur->id}}">{{$fournisseur->libelle}}--{{$fournisseur->domaine}}--{{$fournisseur->conditionPaiement}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group ">
+                                <b><label for="libelle" class="control-label">Titre externe du produit</label></b>
+                                <input class="form-control" type="text"  name="titre_ext" id="titre_ext"/>
+                            </div>
+</br>
+                        <div class="form-group col-sm-4">
+                            <b><label for="libelle" class="control-label ">Quantite</label></b>
+                            <input class="form-control" type="number"  name="quantite_reponse" id="quantite_reponse"/>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <b><label for="libelle" class="control-label">Unite</label></b>
+                            <input class="form-control" type="text"  name="titre_ext" id="titre_ext"/>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <b><label for="libelle" class="control-label">Prix</label></b>
+                            <input class="form-control" type="number"  name="prix_reponse" id="prix_reponse"/>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-succes" data-dismiss="modal">Ajouter</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+        <!-- Modal -->
+        <div id="listerrep" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Ajouter la réponse d'un fournisseur</h4>
+                    </div>
+                    <form>
+                        <div class="modal-body">
+
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-succes" data-dismiss="modal">Ajouter</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
 
 <script>
 
@@ -139,7 +219,10 @@
                             $('#titre').append('Domaine :  '+$domaineText.toUpperCase());
                             $('#gestion_demande_proforma').DataTable().clear();
                             var status="<i class='fa fa-circle' style='color: mediumspringgreen'></i>";
+
                             $.each(data, function( index, value ) {
+                                var route='lister_reponse_fournisseur/'+value.slug;
+                                var route1='ajouter_reponse_fournisseur/'+value.slug;
                                 $('#gestion_demande_proforma').DataTable().row.add([
                                     value.id,
                                     status,
@@ -149,6 +232,7 @@
                                     value.DateBesoin,
                                     value.demandeur,
                                     value.id_valideur,
+                                        "<a href='"+route+"' ><li class='fa fa-list'></li>Lister</a><a href='"+route1+"'>  <li class='fa fa-plus-square-o'></li>Ajouter</a>"
 
                                 ]);
 

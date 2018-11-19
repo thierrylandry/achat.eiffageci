@@ -54,6 +54,7 @@ class Demande_proformaController
         $listeDA = $parameters['listeDA'];
         $tab_listeSA = explode(",", $listeDA);
         $corps='';
+        $enteetab='<table><th>produits et service</th><th>Quantite</th><th>prix</th>';
         foreach($tab_listeSA as $laDA):
             $das=  DA::find($laDA);
 
@@ -61,43 +62,19 @@ class Demande_proformaController
                 $materiel=DB::table('materiel')
                     ->where('id', '=', $das->id_materiel)
                     ->select('libelleMateriel')->distinct()->get();
-                $corps =$corps." ".$materiel[0]->libelleMateriel." ".$das->quantite." ".$das->quantite." ";
+                $corps =$corps." ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelleMateriel." ;";
         }
 
 
-        /*Mail::send('mail.mail',array('corps' =>$corps),function($message){
+/*Mail::send('mail.mail',array('corps' =>$corps),function($message){
 $message->from('no-reply@procachat.com','procachat')
     ->to('cyriaquekodia@gmail.com','cyriaquekodia')
     ->subject('Demande de proforma');
 });*/
-        //Bonjour lkdfjdfkfdj
 
         endforeach;
 
-        $monMail = new mailclass('DEMANDE DE FACTURE PROFORMA',$corps);
-        /*commence*/
-
-        $collection = new Collection();
-
-        /*
-        foreach ($request->input("email") as  $email)
-        {
-            $collection->push(["email" => $email]);
-        }
-        //return view("mail.proforma", compact("piece"));
-*/
-        //dd($collection);
-
-        try{
-          //  Mail::to($collection->toArray())
-            Mail::to('cyriaquekodia@gmail.com')
-              //  ->cc(Application::getMailCopie())
-                ->send(new Demande_proforma_mail($monMail));
-        }catch (\Exception $e){
-            Log::error($e->getMessage()."\r\n".$e->getTraceAsString());
-        }
-
-        return redirect()->route('gestion_demande_proformas')->with('success', "les mail ont été envoyé");
+        return view('mail.mail')->with('corps',$corps);
 
     }
 
@@ -111,13 +88,28 @@ $message->from('no-reply@procachat.com','procachat')
             ->where('type', '=', $domaine)
             ->join('lignebesoin', 'materiel.id', '=', 'lignebesoin.id_materiel')
             ->join('nature', 'nature.id', '=', 'lignebesoin.id_nature')
-            ->select('lignebesoin.id','lignebesoin.id_materiel','unite','DateBesoin','quantite','demandeur','id_valideur','libelleMateriel','libelleNature')
+            ->select('lignebesoin.id','lignebesoin.id_materiel','unite','DateBesoin','quantite','demandeur','id_valideur','libelleMateriel','libelleNature','lignebesoin.slug')
             ->distinct()->get();
         $variable="";
         $status="<i class='fa fa-circle' style='color: mediumspringgreen'></i>";
 
         return response()->json($types);
     //    return response()->json($variable);
+
+    }
+    public function les_das_funct($domaine)
+    {
+        $types = DB::table('materiel')
+            ->where('type', '=', $domaine)
+            ->join('lignebesoin', 'materiel.id', '=', 'lignebesoin.id_materiel')
+            ->join('nature', 'nature.id', '=', 'lignebesoin.id_nature')
+            ->select('lignebesoin.id','lignebesoin.id_materiel','unite','DateBesoin','quantite','demandeur','id_valideur','libelleMateriel','libelleNature','lignebesoin.slug')
+            ->distinct()->get();
+        $variable="";
+        $status="<i class='fa fa-circle' style='color: mediumspringgreen'></i>";
+
+        return response()->json($types);
+        //    return response()->json($variable);
 
     }
     public function les_das_fournisseurs_funct($domaine)

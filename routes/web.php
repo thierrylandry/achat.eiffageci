@@ -18,7 +18,7 @@ Route::get('/profiles',[
     'as'=>'profiles',
     'uses'=>'HomeController@profiles'
 
-])->middleware('auth');
+]);
 Route::get('/fournisseurs',[
     'as'=>'fournisseurs',
     'uses'=>'FournisseurController@fournisseurs'
@@ -256,6 +256,10 @@ Route::post('/envoies', [
     'uses'=>'Demande_proformaController@envoies'
 ]);
 Route::post('/mailling', [
+    'as'=>'mailling',
+    'uses'=>'Demande_proformaController@mailling'
+]);
+Route::post('/mailling/{domaine}', [
     'as'=>'mailling',
     'uses'=>'Demande_proformaController@mailling'
 ]);
