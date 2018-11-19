@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  ven. 16 nov. 2018 à 17:38
+-- Généré le :  lun. 19 nov. 2018 à 17:37
 -- Version du serveur :  5.7.23
 -- Version de PHP :  7.2.10
 
@@ -192,7 +192,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `migrations`
@@ -219,7 +219,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (18, '2018_11_06_120314_add_demandeur_to_lignebesoin', 9),
 (19, '2018_11_06_145046_add_slug_to_lignebesoin', 10),
 (20, '2018_11_07_092915_add_etat_to_lignebesoin', 11),
-(21, '2018_11_12_115716_creation_de_la_table_domaine', 12);
+(21, '2018_11_12_115716_creation_de_la_table_domaine', 12),
+(22, '2018_11_19_080538_create_table_reponse_fournisseur', 13),
+(23, '2018_11_19_081841_add_slug__and_id_lignebesoin_to_reponse_fournisseur', 14);
 
 -- --------------------------------------------------------
 
@@ -281,6 +283,35 @@ CREATE TABLE IF NOT EXISTS `profil` (
 
 INSERT INTO `profil` (`id`, `libelleProfil`, `descriptionProfil`, `created_at`, `updated_at`, `slug`) VALUES
 (1, 'Administrateur', '1000,2000,3000,4000,5000,6000,7000,8000', '2018-11-02 10:43:59', '2018-11-09 15:49:32', 'administrateur09112018034932');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `reponse_fournisseur`
+--
+
+DROP TABLE IF EXISTS `reponse_fournisseur`;
+CREATE TABLE IF NOT EXISTS `reponse_fournisseur` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id_fournisseur` int(11) NOT NULL,
+  `titre_ext` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `quantite` int(11) DEFAULT NULL,
+  `unite` text COLLATE utf8mb4_unicode_ci,
+  `prix` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `slug` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id_lignebesoin` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `reponse_fournisseur`
+--
+
+INSERT INTO `reponse_fournisseur` (`id`, `id_fournisseur`, `titre_ext`, `quantite`, `unite`, `prix`, `created_at`, `updated_at`, `slug`, `id_lignebesoin`) VALUES
+(1, 36, 'fff', 12, 'unité', '3000', '2018-11-19 16:35:44', '2018-11-19 16:35:44', 'fffunite19112018043544', 14),
+(2, 37, 'tuyaux en bois', 2, 'm', '12000', '2018-11-19 16:42:04', '2018-11-19 16:42:04', 'tuyaux-en-boism19112018044204', 14);
 
 -- --------------------------------------------------------
 
