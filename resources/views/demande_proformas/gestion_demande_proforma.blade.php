@@ -147,14 +147,10 @@
 
                                 <tr>
                                     <th class="dt-head-center">id</th>
-                                    <th class="dt-head-center">statut</th>
-                                    <th class="dt-head-center">produits et services</th>
-                                    <th class="dt-head-center">Nature</th>
+                                    <th class="dt-head-center">fournisseur</th>
+                                    <th class="dt-head-center">Titre externe du produit</th>
                                     <th class="dt-head-center">Quantité</th>
-                                    <th class="dt-head-center">Pour le ?</th>
-                                    <th class="dt-head-center">Demandeur</th>
-                                    <th class="dt-head-center">Confirmer ou Infirmer par ?</th>
-                                    <th class="dt-head-center">Les réponses des fournisseurs</th>
+                                    <th class="dt-head-center">Prix</th>
 
                                 </tr>
                                 </thead>
@@ -180,70 +176,6 @@
 
         //debut
 
-        var editor; // use a global for the submit and return data rendering in the examples
-
-            editor = new $.fn.dataTable.Editor( {
-                ajax: "../php/staff.php",
-                table: "#example",
-                fields: [ {
-                    label: "First name:",
-                    name: "first_name"
-                }, {
-                    label: "Last name:",
-                    name: "last_name"
-                }, {
-                    label: "Position:",
-                    name: "position"
-                }, {
-                    label: "Office:",
-                    name: "office"
-                }, {
-                    label: "Extension:",
-                    name: "extn"
-                }, {
-                    label: "Start date:",
-                    name: "start_date",
-                    type: "datetime"
-                }, {
-                    label: "Salary:",
-                    name: "salary"
-                }
-                ]
-            } );
-
-            // Activate an inline edit on click of a table cell
-            $('#gestion_reponse_fournisseur').on( 'click', 'tbody td:not(:first-child)', function (e) {
-                editor.inline( this );
-            } );
-
-            $('#gestion_reponse_fournisseur').DataTable( {
-                dom: "Bfrtip",
-                ajax: "../php/staff.php",
-                order: [[ 1, 'asc' ]],
-                columns: [
-                    {
-                        data: null,
-                        defaultContent: '',
-                        className: 'select-checkbox',
-                        orderable: false
-                    },
-                    { data: "first_name" },
-                    { data: "last_name" },
-                    { data: "position" },
-                    { data: "office" },
-                    { data: "start_date" },
-                    { data: "salary", render: $.fn.dataTable.render.number( ',', '.', 0, '$' ) }
-                ],
-                select: {
-                    style:    'os',
-                    selector: 'td:first-child'
-                },
-                buttons: [
-                    { extend: "create", editor: editor },
-                    { extend: "edit",   editor: editor },
-                    { extend: "remove", editor: editor }
-                ]
-            } );
 
         //fin
        $('#fourn').selectpicker({
@@ -274,8 +206,26 @@
             'select': {
                 'style': 'multi'
             },
-            'order': [[1, 'asc']]
+            'order': [[1, 'asc']],
+            language: {
+                url: "js/French.json"
+            },
+            "ordering":true,
+            "responsive": true,
+            "createdRow": function( row, data, dataIndex){
+
+            }
         });
+        var table1 = $('#gestion_reponse_fournisseur').DataTable({
+            language: {
+                url: "js/French.json"
+            },
+            "ordering":true,
+            "responsive": true,
+            "createdRow": function( row, data, dataIndex){
+
+            }
+        }).column(0).visible(false);
 
         $('#example tbody').on( 'click', 'tr', function () {
             $(this).toggleClass('selected');
@@ -302,7 +252,24 @@
             var data = table.row($(this).closest('tr')).data();
 
             var uti_entite =data[Object.keys(data)[0]];
-            alert('test'+uti_entite);
+            $.get("lister_les_reponse/"+uti_entite,
+                    function (data) {
+                        $.each(data, function( index, value ) {
+                            var route='lister_reponse_fournisseur/'+value.slug;
+                            var route1='ajouter_reponse_fournisseur/'+value.slug;
+                            $('#gestion_reponse_fournisseur').DataTable().row.add([
+                                value.id,
+                                value.libelle,
+                                value.titre_ext,
+                                value.quantite+" "+ value.unite,
+                                value.prix
+                            ]);
+
+                        });
+                        $('#gestion_reponse_fournisseur').DataTable().draw();
+                    }
+
+            );
         });
         $("body").on("click","#btn_ajouter",function(){
             var data = table.row($(this).closest('tr')).data();

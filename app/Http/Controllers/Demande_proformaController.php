@@ -46,6 +46,16 @@ class Demande_proformaController
 
 
     }
+    public function lister_les_reponse($id_lignebesoin)
+    {
+
+        $reponse_fournisseurs = DB::table('reponse_fournisseur')
+            ->join('fournisseur', 'fournisseur.id', '=', 'reponse_fournisseur.id_fournisseur')
+            ->where('reponse_fournisseur.id_lignebesoin', '=', $id_lignebesoin)
+            ->select('titre_ext','quantite','unite','prix','libelle','reponse_fournisseur.slug')->distinct()->get();
+        return response()->json($reponse_fournisseurs);
+
+    }
     public function envoies( Request $request)
     {
 

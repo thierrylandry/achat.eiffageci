@@ -267,6 +267,11 @@ Route::post('/les_info_desde_la_da', [
     'as'=>'les_info_desde_la_da',
     'uses'=>'Demande_proformaController@les_info_desde_la_da'
 ]);
+Route::get('/lister_les_reponse/{id_fournisseur}', [
+    'as'=>'lister_les_reponse',
+    'uses'=>'Demande_proformaController@lister_les_reponse'
+]);
+
 
 Auth::routes();
 
