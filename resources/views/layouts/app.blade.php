@@ -307,17 +307,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <li >
                         <a  href="{{route('gestion_da')}}" @yield('das')>
                             <i class="fa fa-archive"></i>
-                            <span>Les DAs</span>
+                            <span>Les D.A</span>
                         </a>
                     </li>
                     <li>
-                        <a  href="index.html" @yield('demande_proformas')>
+                        <a  href="index.html" @yield('parent_demande_proformas')>
                             <i class="fa fa-book"></i>
                             <span>Les  proformas</span>
                         </a>
                         <ul class="sub">
-                            <li  @yield('demande_proformas')><a href="{{route('gestion_demande_proformas')}}">Demande de proforma</a></li>
-                            <li @yield('utilisateurs')><a href="{{route('gestion_utilisateur')}}">Gestion des proformas</a></li>
+                            <li  @yield('demande_proformas')><a href="{{route('gestion_demande_proformas')}}">Demande de Pro forma</a></li>
+                            <li @yield('reponse_fournisseur')><a href="{{route('gestion_reponse_fournisseur')}}">Reception de Pro forma</a></li>
                         </ul>
                     </li>
                     <li>

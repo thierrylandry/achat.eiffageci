@@ -277,6 +277,21 @@ Route::get('/modifier_reponse_fournisseur/{slug}', [
 ]);
 
 
+
+
+Route::get('/gestion_reponse_fournisseur',[
+    'as'=>'gestion_reponse_fournisseur',
+    'uses'=>'Demande_proformaController@gestion_reponse_fournisseur'
+
+]);
+Route::get('/les_das_fournisseurs_funct_da/{id_da}',[
+    'as'=>'les_das_fournisseurs_funct_da',
+    'uses'=>'Demande_proformaController@les_das_fournisseurs_funct_da'
+
+]);
+
+
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

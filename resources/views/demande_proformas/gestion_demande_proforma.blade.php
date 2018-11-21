@@ -91,11 +91,6 @@
                                 <input class="form-control" type="hidden"  name="id_lignebesoin" id="id_lignebesoin"/>
                                 <select class="form-control selectpicker" id="id_fournisseur" name="id_fournisseur" data-live-search="true" data-size="6" required>
                                     <option value="" >SELECTIONNER UN FOURNISSEUR</option>
-                                    @foreach($fournisseurs as $fournisseur)
-                                        <option @if(isset($prix) and $fournisseur->id==$prix->id_fournisseur)
-                                                {{'selected'}}
-                                                @endif value="{{$fournisseur->id}}">{{$fournisseur->libelle}}--{{$fournisseur->domaine}}--{{$fournisseur->conditionPaiement}}</option>
-                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group ">
@@ -151,7 +146,6 @@
                                     <th class="dt-head-center">Titre externe du produit</th>
                                     <th class="dt-head-center">Quantité</th>
                                     <th class="dt-head-center">Prix</th>
-                                    <th class="dt-head-center">Action</th>
 
                                 </tr>
                                 </thead>
@@ -162,7 +156,6 @@
                         </div>
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-succes" data-dismiss="modal">Ajouter</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
                         </div>
 
@@ -253,6 +246,7 @@
             var data = table.row($(this).closest('tr')).data();
 
             var uti_entite =data[Object.keys(data)[0]];
+            $('#gestion_reponse_fournisseur').DataTable().clear();
             $.get("lister_les_reponse/"+uti_entite,
                     function (data) {
                         $.each(data, function( index, value ) {
@@ -260,15 +254,14 @@
                             var action2 ='lister_reponse_fournisseur/'+value.slug;
                             var route='lister_reponse_fournisseur/'+value.slug;
                             var route1='ajouter_reponse_fournisseur/'+value.slug;
-                            $('#gestion_reponse_fournisseur').DataTable().clear();
+
                             $('#gestion_reponse_fournisseur').DataTable().row.add([
                                 value.slug,
                                 value.libelle,
                                 value.titre_ext,
                                 value.quantite+" "+ value.unite,
-                                value.prix,
-                                " <a href='#' data-toggle='modal' data-target='#ajouterrep' data-target='#ajouterrep' class='btn btn-info col-sm-4 pull-right'><i class=' fa fa-pencil'></i></a><a href='action2' data-toggle='modal' class='btn btn-danger col-sm-4 pull-right'> <i class=' fa fa-trash'></i></a>"
-                            ]);
+                                value.prix
+                             ]);
 
                         });
                         $('#gestion_reponse_fournisseur').DataTable().draw();
@@ -284,6 +277,10 @@
             $('#id_lignebesoin').val(uti_entite);
 
             $('#titre_ext').val(libproduit);
+            $('#id_fournisseur').empty()
+            $('#id_fournisseur').append("<option value=''>SELECTIONNER UN FOURNISSEUR</option>");
+            $('#id_fournisseur').append($('#fourn').html());
+            $('#id_fournisseur').selectpicker('refresh');
         });
         $('#domaine').change(function(e){
             $domaine=$("#domaine").val();
@@ -323,10 +320,11 @@
 
                 $.get("les_das_fournisseurs_funct/"+$domaine,
                         function (data) {
+
                             $.each(data, function( index, value ) {
 
 
-                               $('#fourn').append("<option value='"+value.id+"'>"+value.libelle+"</option>");
+                                $('#fourn').append("<option value='"+value.id+"'>"+value.libelle+"</option>");
 
                                 console.log(value.libelle);
 

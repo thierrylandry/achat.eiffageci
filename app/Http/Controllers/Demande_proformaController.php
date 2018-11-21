@@ -37,7 +37,7 @@ class Demande_proformaController
             ->join('domaines', 'domaines.id', '=', 'materiel.type')
             ->where('etat', '=', 2)
             ->select('domaines.libelleDomainne','domaines.id')->distinct()->get();
-        $fournisseurs=Fournisseur::all();
+$fournisseurs=Fournisseur::all();
         $materiels=Materiel::all();
         $das=  DA::all();
         $natures= Nature::all();
@@ -131,6 +131,7 @@ $message->from('no-reply@procachat.com','procachat')
         //    return response()->json($variable);
 
     }
+
     public function ajouter_reponse(Request $request){
 
         $parameters = $request->except(['_token']);
@@ -159,11 +160,22 @@ $rep_fourn = new Reponse_fournisseur();
 
     public function les_das_fournisseurs_funct($domaine)
     {
+        $valeur = array($domaine);
         $types = DB::table('fournisseur')
-            ->where('domaine', '=', $domaine)
+            ->whereIn('domaine', $valeur)
             ->distinct()->get();
         return response()->json($types);
 
+    }
+
+    public function les_das_fournisseurs_funct_da($id_lignebesoin){
+
+        $sql = 'SELECT*FROM fournisseur,materiel,lignebesoin WHERE   fournisseur.domaine in (materiel.type) and lignebesoin.id_materiel=materiel.id  and lignebesoin.id='.$id_lignebesoin;
+
+
+        $results = DB::select($sql);
+
+        return response()->json($results);
     }
 
     public function alljson(){
@@ -180,5 +192,23 @@ $rep_fourn = new Reponse_fournisseur();
     public function mailling(){
 
         return view('mail/mail')->with('txt',1);
+    }
+
+
+
+    //reponse fournisseur
+    public function gestion_reponse_fournisseur(){
+        $types = DB::table('materiel')
+            ->join('lignebesoin', 'materiel.id', '=', 'lignebesoin.id_materiel')
+            ->where('etat', '=', 2)
+            ->select('materiel.libelleMateriel','lignebesoin.id','quantite','unite')->distinct()->get();
+        $fournisseurs=Fournisseur::all();
+        $materiels=Materiel::all();
+        $das=  DA::all();
+        $natures= Nature::all();
+        $users= User::all();
+        return view('reponse_fournisseur/gestion_reponse_fournisseur',compact('das','fournisseurs','materiels','natures','users','types'));
+
+
     }
 }
