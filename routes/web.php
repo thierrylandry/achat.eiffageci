@@ -271,6 +271,10 @@ Route::get('/lister_les_reponse/{id_fournisseur}', [
     'as'=>'lister_les_reponse',
     'uses'=>'Demande_proformaController@lister_les_reponse'
 ]);
+Route::get('/modifier_reponse_fournisseur/{slug}', [
+    'as'=>'modifier_reponse_fournisseur',
+    'uses'=>'Demande_proformaController@modifier_reponse_fournisseur'
+]);
 
 
 Auth::routes();

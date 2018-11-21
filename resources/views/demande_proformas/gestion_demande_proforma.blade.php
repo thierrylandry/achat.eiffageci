@@ -151,6 +151,7 @@
                                     <th class="dt-head-center">Titre externe du produit</th>
                                     <th class="dt-head-center">Quantité</th>
                                     <th class="dt-head-center">Prix</th>
+                                    <th class="dt-head-center">Action</th>
 
                                 </tr>
                                 </thead>
@@ -255,14 +256,18 @@
             $.get("lister_les_reponse/"+uti_entite,
                     function (data) {
                         $.each(data, function( index, value ) {
+                            var action1 ='modifier_reponse_fournisseur/'+value.slug;
+                            var action2 ='lister_reponse_fournisseur/'+value.slug;
                             var route='lister_reponse_fournisseur/'+value.slug;
                             var route1='ajouter_reponse_fournisseur/'+value.slug;
+                            $('#gestion_reponse_fournisseur').DataTable().clear();
                             $('#gestion_reponse_fournisseur').DataTable().row.add([
-                                value.id,
+                                value.slug,
                                 value.libelle,
                                 value.titre_ext,
                                 value.quantite+" "+ value.unite,
-                                value.prix
+                                value.prix,
+                                " <a href='#' data-toggle='modal' data-target='#ajouterrep' data-target='#ajouterrep' class='btn btn-info col-sm-4 pull-right'><i class=' fa fa-pencil'></i></a><a href='action2' data-toggle='modal' class='btn btn-danger col-sm-4 pull-right'> <i class=' fa fa-trash'></i></a>"
                             ]);
 
                         });

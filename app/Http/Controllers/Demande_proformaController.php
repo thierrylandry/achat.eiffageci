@@ -56,6 +56,28 @@ class Demande_proformaController
         return response()->json($reponse_fournisseurs);
 
     }
+    public function modifier_reponse_fournisseur($slug, Request $request){
+        $parameters=$request->except(['_token']);
+
+
+
+        $fournisseur=  Fournisseur::where('slug','=',$parameters['slug'])->first();
+
+        // Fournisseur::create($parameters);
+        $date= new \DateTime(null);
+
+        $fournisseur->libelle=$parameters['libelle'];
+        $fournisseur->domaine=$parameters['domaine'];
+        $fournisseur->conditionPaiement=$parameters['conditionPaiement'];
+        $fournisseur->commentaire=$parameters['commentaire'];
+        $fournisseur->adresseGeographique=$parameters['adresseGeographique'];
+        $fournisseur->responsable=$parameters['responsable'];
+        $fournisseur->interlocuteur=$parameters['interlocuteur'];
+        $fournisseur->email=$parameters['email'];
+        $fournisseur->slug=Str::slug($parameters['libelle'].$date->format('dmYhis'));
+        $fournisseur->save();
+        return redirect()->route('ajouter_fournisseur')->with('success',"le fournisseur à été mis à jour");
+    }
     public function envoies( Request $request)
     {
 
