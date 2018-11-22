@@ -52,7 +52,8 @@ $fournisseurs=Fournisseur::all();
         $reponse_fournisseurs = DB::table('reponse_fournisseur')
             ->join('fournisseur', 'fournisseur.id', '=', 'reponse_fournisseur.id_fournisseur')
             ->where('reponse_fournisseur.id_lignebesoin', '=', $id_lignebesoin)
-            ->select('titre_ext','quantite','unite','prix','libelle','reponse_fournisseur.slug')->distinct()->get();
+            ->select('titre_ext','quantite','unite','prix','libelle','reponse_fournisseur.slug','id_fournisseur')
+            ->distinct()->orderBy('prix', 'ASC')->get();
         return response()->json($reponse_fournisseurs);
 
     }
@@ -142,8 +143,14 @@ $message->from('no-reply@procachat.com','procachat')
         $quantite_reponse=$parameters['quantite_reponse'];
         $Unite=$parameters['unite_reponse'];
         $prix_reponse=$parameters['prix_reponse'];
+        $id_reponse=$parameters['id_reponse'];
 
-$rep_fourn = new Reponse_fournisseur();
+        if ($id_reponse!=''){
+            $rep_fourn =  Reponse_fournisseur::where('slug','=',$parameters['id_reponse'])->first();
+        }else{
+            $rep_fourn = new Reponse_fournisseur();
+        }
+
         $date = new \DateTime(null);
         $rep_fourn->id_lignebesoin=$id_lignebesoin;
         $rep_fourn->id_fournisseur=$id_fournisseur;
@@ -154,8 +161,42 @@ $rep_fourn = new Reponse_fournisseur();
         $rep_fourn->prix=$prix_reponse;
         $rep_fourn->slug = Str::slug($parameters['titre_ext'].$Unite. $date->format('dmYhis'));
         $rep_fourn->save();
-        return redirect()->route('gestion_demande_proformas')->with('success', "la pro forma à été ajouté");
 
+
+        if ($id_reponse!=''){
+            return redirect()->route('gestion_reponse_fournisseur')->with('success', "la pro forma à été modifié");
+        }else{
+            return redirect()->route('gestion_reponse_fournisseur')->with('success', "la pro forma à été ajouté");
+        }
+    }
+    public function supprimer_reponse_fournisseur($slug)
+    {
+        $reponse_fournisseur = Reponse_fournisseur::where('slug', '=', $slug)->first();
+        $reponse_fournisseur->delete();
+        return redirect()->route('gestion_reponse_fournisseur')->with('success', "la réponse du fournisseur  a été supprimé");
+    }
+    public function modifier_reponse(Request $request){
+        $parameters = $request->except(['_token']);
+
+        $id_lignebesoin = $parameters['id_lignebesoin'];
+        $id_fournisseur = $parameters['id_fournisseur'];
+        $titre_ext = $parameters['titre_ext'];
+        $quantite_reponse=$parameters['quantite_reponse'];
+        $Unite=$parameters['unite_reponse'];
+        $prix_reponse=$parameters['prix_reponse'];
+
+        $rep_fourn = new Reponse_fournisseur();
+        $date = new \DateTime(null);
+        $rep_fourn->id_lignebesoin=$id_lignebesoin;
+        $rep_fourn->id_fournisseur=$id_fournisseur;
+        $rep_fourn->titre_ext=$titre_ext;
+        $rep_fourn->quantite=$quantite_reponse;
+        $rep_fourn->Unite=$Unite;
+        $rep_fourn->prix=$prix_reponse;
+        $rep_fourn->prix=$prix_reponse;
+        $rep_fourn->slug = Str::slug($parameters['titre_ext'].$Unite. $date->format('dmYhis'));
+        $rep_fourn->save();
+        return redirect()->route('gestion_reponse_fournisseur')->with('success', "la pro forma à été modifié");
     }
 
     public function les_das_fournisseurs_funct($domaine)
@@ -170,7 +211,7 @@ $rep_fourn = new Reponse_fournisseur();
 
     public function les_das_fournisseurs_funct_da($id_lignebesoin){
 
-        $sql = 'SELECT*FROM fournisseur,materiel,lignebesoin WHERE   fournisseur.domaine in (materiel.type) and lignebesoin.id_materiel=materiel.id  and lignebesoin.id='.$id_lignebesoin;
+        $sql = 'SELECT fournisseur.id , libelle FROM fournisseur,materiel,lignebesoin WHERE   fournisseur.domaine in (materiel.type) and lignebesoin.id_materiel=materiel.id  and lignebesoin.id='.$id_lignebesoin;
 
 
         $results = DB::select($sql);

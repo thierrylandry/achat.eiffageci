@@ -31,12 +31,13 @@
                                         <thead>
 
                                         <tr>
-                                            <th class="dt-head-center">id</th>
-                                            <th class="dt-head-center">fournisseur</th>
-                                            <th class="dt-head-center">Titre externe du produit</th>
-                                            <th class="dt-head-center">Quantité</th>
+                                            <th class="no-sort">id</th>
+                                            <th class="no-sort">fournisseur</th>
+                                            <th class="no-sort">Titre externe du produit</th>
+                                            <th class="no-sort">Quantité</th>
                                             <th class="dt-head-center">Prix</th>
-                                            <th class="dt-head-center">Action</th>
+                                            <th class="no-sort">Action</th>
+                                            <th class="no-sort">idfourn</th>
 
                                         </tr>
                                         </thead>
@@ -60,11 +61,12 @@
                         @csrf
                     <div class="modal-body">
                         <br>
+                        <input id="id_reponse" name="id_reponse" type="hidden" value="" />
                         <div class="form-group">
                             <b><label for="libelle" class="control-label">Demande approvisionnement en cours</label></b>
 
 
-                            <select class="form-control selectpicker " id="da1" name="da1" data-live-search="true" data-size="6" required>
+                            <select class="form-control selectpicker " id="id_lignebesoin" name="id_lignebesoin" data-live-search="true" data-size="6" required>
                                 <option  value="">SELECTIONNER UNE D.A EN COURS</option>
                                 @foreach($types as $type)
                                     <option value="{{$type->id}}">{{$type->libelleMateriel}} -- {{$type->quantite}} {{$type->unite}}</option>
@@ -73,7 +75,6 @@
                         </div>
                         <div class="form-group">
                                 <b><label for="libelle" class="control-label">Fournisseur</label></b>
-                                <input class="form-control" type="text"  name="id_lignebesoin" id="id_lignebesoin"/>
                                 <select class="form-control selectpicker" id="id_fournisseur" name="id_fournisseur" data-live-search="true" data-size="6" required>
                                     <option value="" >SELECTIONNER UN FOURNISSEUR</option>
                                 </select>
@@ -99,7 +100,7 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-succes" >Ajouter</button>
+                        <button type="submit"  class="btn btn-succes" >Ajouter</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
                     </div>
                     </form>
@@ -107,6 +108,7 @@
 
             </div>
         </div>
+
 
 
 <script>
@@ -136,11 +138,12 @@
                 url: "js/French.json"
             },
             "ordering":true,
+            columnDefs: [{
+                orderable: false,
+                targets: "no-sort"
+            }],
             "responsive": true,
-            "createdRow": function( row, data, dataIndex){
-
-            }
-        }).column(0).visible(false);
+        }).column(0).visible(false).column(6).visible(false);
 
         $('#example tbody').on( 'click', 'tr', function () {
             $(this).toggleClass('selected');
@@ -149,28 +152,16 @@
         $('#button').click( function () {
             alert( table.rows('.selected').data().length +' row(s) selected' );
         } );
-        $('#gestion_demande_proforma').change(function(e){
-            var rows_selected = table.column(0).checkboxes.selected();
-            console.log(rows_selected);
-            // Iterate over all selected checkboxes
-            var mavariable='';
-            $.each(rows_selected, function(index, rowId){
-                // Create a hidden element
-               console.log(rowId);
-                mavariable=mavariable+','+rowId;
-
-            });
-            $('#listeDA').val(mavariable);
-
-        });
 
         $("body").on("click","#Ajouter_pro",function(){
 
 
             $('#titre_ext').val('');
+            $('#id_reponse').val('');
             $('#quantite_reponse').val('');
             $('#unite_reponse').val('');
             $('#prix_reponse').val('');
+            $('#id_fournisseur').val('')
         });
         $("body").on("click","#btn_modifier",function(){
             var data = table1.row($(this).closest('tr')).data();
@@ -179,15 +170,19 @@
             var libproduit =data[Object.keys(data)[2]];
             var quantite =data[Object.keys(data)[3]];
             var prix =data[Object.keys(data)[4]];
+            var fournisseur =data[Object.keys(data)[6]];
+            $('#id_reponse').val(uti_entite);
+          //  $('#id_lignebesoin').val(uti_entite);
+           $('#id_fournisseur').val(fournisseur);
 
-            $('#id_lignebesoin').val(uti_entite);
+            $('#id_fournisseur').selectpicker('refresh');
             $('#titre_ext').val(libproduit);
             $('#quantite_reponse').val(parseInt(quantite));
             $('#unite_reponse').val(quantite.split(" ")[1].toString());
             $('#prix_reponse').val(prix);
         });
-        $('#da1').change(function(e){
-            var da=$("#da1").val();
+        $('#id_lignebesoin').change(function(e){
+            var da=$("#id_lignebesoin").val();
             $('#id_lignebesoin').val(da);
             $.get("les_das_fournisseurs_funct_da/"+da,
                     function (data) {
@@ -211,9 +206,9 @@
             $('#id_lignebesoin').val(da);
 
             if(da!=''){
-                $("#da1").val('');
-                $("#da1").val(da);
-                $("#da1").selectpicker('refresh');
+                $("#id_lignebesoin").val('');
+                $("#id_lignebesoin").val(da);
+                $("#id_lignebesoin").selectpicker('refresh');
                 $('#gestion_reponse_fournisseur').DataTable().clear();
                 $.get("lister_les_reponse/"+da,
                         function (data) {
@@ -222,18 +217,20 @@
                                 var action2 ='lister_reponse_fournisseur/'+value.slug;
                                 var route='lister_reponse_fournisseur/'+value.slug;
                                 var route1='ajouter_reponse_fournisseur/'+value.slug;
+                                var supprimer='supprimer_reponse_fournisseur/'+value.slug;
 
-                                $('#gestion_reponse_fournisseur').DataTable().row.add([
+                                table1.row.add([
                                     value.slug,
                                     value.libelle,
                                     value.titre_ext,
                                     value.quantite+" "+ value.unite,
                                     value.prix,
-                                    " <a href='#' id='btn_modifier' data-toggle='modal'  data-target='#ajouterrep' class='btn btn-info col-sm-4 pull-right'><i class=' fa fa-pencil'></i></a><a href='action2' data-toggle='modal' class='btn btn-danger col-sm-4 pull-right'> <i class=' fa fa-trash'></i></a>"
+                                    " <a href='#' id='btn_modifier' data-toggle='modal'  data-target='#ajouterrep' class='btn btn-info col-sm-4 pull-right'><i class=' fa fa-pencil'></i></a><a href='"+supprimer+"'  class='btn btn-danger col-sm-4 pull-right'> <i class=' fa fa-trash'></i></a>",
+                                        value.id_fournisseur
                                 ]);
 
                             });
-                            $('#gestion_reponse_fournisseur').DataTable().draw();
+                            table1.draw();
                         }
 
                 );

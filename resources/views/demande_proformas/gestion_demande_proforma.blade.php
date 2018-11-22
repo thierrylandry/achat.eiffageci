@@ -308,8 +308,7 @@
                                     value.DateBesoin,
                                     value.demandeur,
                                     value.id_valideur,
-                                        "<a href='#' data-toggle='modal' data-target='#listerrep' id='btn_lister' ><li class='fa fa-list'></li>Lister</a><a href='#'  id='btn_ajouter' data-toggle='modal' data-target='#ajouterrep'>  <li class='fa fa-plus-square-o'></li>Ajouter</a>"
-
+                                        "<a href='#' data-toggle='modal' data-target='#listerrep' id='btn_lister' ><li class='fa fa-list'></li>Lister</a>"
                                 ]);
 
                             });
