@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
-class FournisseurController extends Controller
+class BCController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -27,6 +27,10 @@ class FournisseurController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function bon_commande_file(){
+
+    }
 
     public function fournisseurs()
     {
@@ -80,7 +84,7 @@ class FournisseurController extends Controller
     {
         $parameters=$request->except(['_token']);
 
-       // Fournisseur::create($parameters);
+        // Fournisseur::create($parameters);
         $date= new \DateTime(null);
         $fournisseur= new Fournisseur();
         $fournisseur->libelle=$parameters['libelle'];
@@ -108,4 +112,5 @@ class FournisseurController extends Controller
         var_dump($fournisseurs);
         return redirect()->back();
     }
+
 }

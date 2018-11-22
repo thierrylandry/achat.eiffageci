@@ -25,10 +25,11 @@
                         </div>
                         <div class="form-group">
                             <label for="domaine">Domaine</label>
-                            <select class="form-control selectpicker" id="domaine" name="domaine" data-live-search="true" data-size="6" required>
+
+                            <select class="form-control selectpicker" id="domaine" name="domaine[]" data-live-search="true" data-size="6"  multiple required>
                                 <option  value="">SELECTIONNER UN DOMAINE</option>
                                 @foreach($domaines as $domaine)
-                                    <option @if(isset($fournisseur) and $domaine->id==$fournisseur->domaine)
+                                    <option @if(isset($fournisseur) and  in_array($domaine->id, explode(",",$fournisseur->domaine))!= false)
                                             {{'selected'}}
                                             @endif value="{{$domaine->id}}">{{$domaine->libelleDomainne}}</option>
                                 @endforeach
@@ -72,6 +73,20 @@
                     @include('fournisseurs/list_fournisseur')
                 </div>
 
+        <script>
 
+            var table= $('#fournisseurs1').DataTable({
+                language: {
+                    url: "js/French.json"
+                },
+                "ordering":true,
+                "responsive": true,
+                "createdRow": function( row, data, dataIndex){
+
+                }
+            }).column(0).visible(false);
+            //table.DataTable().draw();
+
+        </script>
     </div>
 @endsection

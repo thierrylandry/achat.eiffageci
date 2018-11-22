@@ -1,7 +1,7 @@
 
 
 
-        <table name ="fournisseurs" id="fournisseurs" class='table table-bordered table-striped  no-wrap '>
+        <table name ="fournisseurs1" id="fournisseurs1" class='table table-bordered table-striped  no-wrap '>
 
             <thead>
 
@@ -23,9 +23,11 @@
                 <tr>
                     <td>{{$fournisseur->id_fournisseur}}</td>
                     <td>
-                        @foreach($domaines as $domaine )
-                            @if($domaine->id==$fournisseur->domaine)
-                                {{$domaine->libelleDomainne}}
+
+                        @foreach( $domaines as $domaine)
+                            @if(in_array($domaine->id, explode(",",$fournisseur->domaine))!= false)
+                                {{$domaine->libelleDomainne." "}}
+                            @else
                             @endif
                         @endforeach
 
@@ -45,6 +47,7 @@
 
                 </tr>
             @endforeach
+
             </tbody>
         </table>
 

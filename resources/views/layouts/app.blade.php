@@ -321,7 +321,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </ul>
                     </li>
                     <li>
-                        <a  href="index.html">
+                        <a  href="{{route('bon_commande_file')}}">
                             <i class="fa fa-archive"></i>
                             <span>Les  BCs</span>
                         </a>
@@ -366,7 +366,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 <script>
 
-  var table= $('#fournisseurs').DataTable({
+    var table= $('#fournisseurs').DataTable({
         language: {
             url: "js/French.json"
         },
