@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 
 
 
+use App\Role;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -20,7 +21,8 @@ class UtilisateurController
     public function utilisateurs()
     {
         $utilisateurs=  User::all();
-        return view('utilisateurs/gestion_utilisateur')->with('utilisateurs',$utilisateurs);
+        $roles=  Role::all();
+        return view('utilisateurs/gestion_utilisateur',compact('utilisateurs','roles'));
     }
     public function Validutilisateurs( Request $request)
     {
@@ -36,6 +38,10 @@ class UtilisateurController
         $utilisateur->password = Hash::make( $parameters['password']);
         $utilisateur->slug = Str::slug($parameters['email'] . $date->format('dmYhis'));
         $utilisateur->save();
+        $roles=$parameters['roles'];
+        foreach ($roles as $role):
+            $utilisateur->roles()->attach(Role::where('name',$role)->first());
+            endforeach;
 
 
         return redirect()->route('gestion_utilisateur')->with('success', "l'utilisateur à été ajouté");
@@ -44,12 +50,15 @@ class UtilisateurController
     {
         $utilisateurs = User::all();
         $utilisateur = User::where('slug', '=', $slug)->first();
-        return view('utilisateurs/gestion_utilisateur')->with('utilisateur', $utilisateur)->with('utilisateurs', $utilisateurs);
+        $roles=  Role::all();
+
+        return view('utilisateurs/gestion_utilisateur',compact('utilisateurs','utilisateur','roles'));
     }
     public function supprimer_utilisateur($slug)
     {
-        $produit = User::where('slug', '=', $slug)->first();
-        $produit->delete();
+        $utilisateur = User::where('slug', '=', $slug)->first();
+        $utilisateur->roles()->detach();
+        $utilisateur->delete();
         return redirect()->route('gestion_utilisateur')->with('success', "l'utilisateur a été supprimé");
     }
     public function modifier_utilisateur( Request $request)
@@ -71,6 +80,12 @@ class UtilisateurController
         $utilisateur->password =Hash::make( $parameters['password']);
         $utilisateur->slug = Str::slug($parameters['email'] . $date->format('dmYhis'));
         $utilisateur->save();
+
+        $utilisateur->roles()->detach();
+        $roles=$parameters['roles'];
+        foreach ($roles as $role):
+            $utilisateur->roles()->attach(Role::where('name',$role)->first());
+        endforeach;
 
         return redirect()->route('gestion_utilisateur')->with('success',"l'utilisateur à été mis à jour");
     }

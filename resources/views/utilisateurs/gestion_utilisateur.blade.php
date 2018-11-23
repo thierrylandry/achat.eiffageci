@@ -39,6 +39,21 @@
                             <label for="responsable">Mot de passe</label>
                             <input type="password" class="form-control" id="password" name="password" placeholder="responsable" value="{{isset($utilisateur)? $utilisateur->password:''}}">
                         </div>
+                                        <div class="form-group">
+                                            <label for="domaine">Les Roles</label>
+
+                                            <select class="form-control selectpicker" id="roles" name="roles[]" data-live-search="true" data-size="6"  multiple required>
+                                                <option  value="">SELECTIONNER LE(S) ROLE(S)</option>
+                                                @foreach($roles as $role)
+                                                    @if(isset($utilisateur) and $utilisateur->hasRole($role->name))
+                                                        <option value="{{$role->name}}" selected>{{$role->description}}</option>
+                                                        @else
+                                                        <option value="{{$role->name}}" >{{$role->description}}</option>
+                                                    @endif
+
+                                                @endforeach
+                                            </select>
+                                        </div>
                         <input type="hidden" class="form-control" id="slug" name="slug" placeholder="" value="{{isset($utilisateur)? $utilisateur->slug:''}}">
                         <br><div class="form-group" >
                             <button type="submit" class="btn btn-success form-control">{{isset($utilisateur)? 'Modifier':'Ajouter'}}</button>
@@ -47,11 +62,17 @@
                             <a href="{{route('gestion_utilisateur')}}">Ajouter un utilisateur</a>
                             @endif
 
+
                     </form>
                 </div>
                 <div class="col-sm-8">
                     @include('utilisateurs/list_utilisateur')
                 </div>
+
+
+    </div>
+    <div class="row">
+
 
 
     </div>
