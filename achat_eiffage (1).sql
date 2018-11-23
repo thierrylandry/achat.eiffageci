@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  lun. 19 nov. 2018 à 17:37
+-- Généré le :  ven. 23 nov. 2018 à 18:01
 -- Version du serveur :  5.7.23
 -- Version de PHP :  7.2.10
 
@@ -107,17 +107,19 @@ CREATE TABLE IF NOT EXISTS `fournisseur` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `slug` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `fournisseur`
 --
 
 INSERT INTO `fournisseur` (`id`, `libelle`, `domaine`, `conditionPaiement`, `commentaire`, `adresseGeographique`, `responsable`, `interlocuteur`, `email`, `created_at`, `updated_at`, `slug`) VALUES
+(39, 'cape nord', '5', 'f', NULL, 'rrr', 'je suis la', 'df', 'landrykoffi@gmail.com', '2018-11-22 14:33:23', '2018-11-22 14:45:04', 'cape-nord22112018024504'),
 (37, 'QUINCAILLROSS', '1', 'tout', NULL, 'Rosier programme 3', 'Melaine', 'Mélaine', 'cyriaquekodia@gmail.com', '2018-11-12 15:01:42', '2018-11-12 15:01:42', 'quincaillross12112018030142'),
+(38, '3D solutions', '5', 'rrrr', NULL, 'rtrtr', 'je suis la', 'df', 'landrykoffi@gmail.com', '2018-11-22 12:36:38', '2018-11-22 12:36:38', '3d-solutions22112018123638'),
 (36, 'La quincaillerie Abidjannaise', '1', 'orange money', 'dtft', 'abidjan', 'koffi landry', 'kone', 'cyriaquekodia@gmail.com', '2018-10-29 17:38:57', '2018-11-12 15:00:23', 'la-quincaillerie-abidjannaise12112018030023'),
-(35, 'ELECTROTECH', '2', 'je suis la', 'fdfff', 'hhhh', 'd', 'df', 'cyriaquekodia@gmail.com', '2018-10-29 17:22:31', '2018-11-12 15:00:43', 'electrotech12112018030043'),
-(19, 'PLOMBPLUS', '3', 'ggg', 'fgfg', 'ggg', 'ggg', 'ggg', 'cyriaquekodia@gmail.com', '2018-10-26 18:37:00', '2018-11-12 15:01:03', 'plombplus12112018030103');
+(35, 'eburtis', '5', 'je suis la', 'fdfff', 'hhhh', 'd', 'df', 'cyriaquekodia@gmail.com', '2018-10-29 17:22:31', '2018-11-22 12:36:12', 'eburtis22112018123612'),
+(42, 'dddd', '1,2,3,4', NULL, NULL, NULL, NULL, 'df', 'landrykoffi@gmail.com', '2018-11-22 15:18:54', '2018-11-22 15:18:54', 'dddd22112018031854');
 
 -- --------------------------------------------------------
 
@@ -143,7 +145,7 @@ CREATE TABLE IF NOT EXISTS `lignebesoin` (
   `etat` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '1',
   `id_valideur` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `lignebesoin`
@@ -151,7 +153,8 @@ CREATE TABLE IF NOT EXISTS `lignebesoin` (
 
 INSERT INTO `lignebesoin` (`id`, `unite`, `quantite`, `DateBesoin`, `id_user`, `id_fournisseur_select`, `id_nature`, `id_materiel`, `id_bonommande`, `created_at`, `updated_at`, `demandeur`, `slug`, `etat`, `id_valideur`) VALUES
 (14, 'mètre', 2.00, '2018-11-14', 2, NULL, 1, 7, NULL, '2018-11-13 10:51:43', '2018-11-16 15:58:33', 'kodia', '716112018035833', '2', 'Cyriaque Kodia'),
-(15, 'mètre', 3.00, '2018-11-24', 2, NULL, 1, 10, NULL, '2018-11-13 11:15:57', '2018-11-16 15:58:45', 'Mélaine', '1016112018035845', '2', 'Cyriaque Kodia');
+(15, 'mètre', 3.00, '2018-11-24', 2, NULL, 1, 10, NULL, '2018-11-13 11:15:57', '2018-11-16 15:58:45', 'Mélaine', '1016112018035845', '2', 'Cyriaque Kodia'),
+(16, 'Licences', 3.00, '2018-11-21', 2, NULL, 2, 6, NULL, '2018-11-21 16:25:02', '2018-11-21 16:25:04', 'koffi', '621112018042502', '2', 'Cyriaque Kodia');
 
 -- --------------------------------------------------------
 
@@ -176,7 +179,7 @@ CREATE TABLE IF NOT EXISTS `materiel` (
 
 INSERT INTO `materiel` (`id`, `libelleMateriel`, `type`, `created_at`, `updated_at`, `slug`) VALUES
 (7, 'filtre à eau', '3', '2018-10-30 16:54:13', '2018-11-13 10:50:47', 'filtre-a-eau13112018105047'),
-(6, 'Office', '2', '2018-10-30 16:54:06', '2018-10-30 16:54:06', 'novad30102018045406'),
+(6, 'Office', '5', '2018-10-30 16:54:06', '2018-11-22 12:35:43', 'office22112018123543'),
 (5, 'tuyaux cylindrique', '3', '2018-10-30 16:51:34', '2018-11-13 10:49:42', 'tuyaux-cylindrique13112018104942'),
 (10, 'tuyaux en fer', '3', '2018-11-13 10:50:01', '2018-11-13 10:50:01', 'tuyaux-en-fer13112018105001');
 
@@ -192,7 +195,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `migrations`
@@ -221,7 +224,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (20, '2018_11_07_092915_add_etat_to_lignebesoin', 11),
 (21, '2018_11_12_115716_creation_de_la_table_domaine', 12),
 (22, '2018_11_19_080538_create_table_reponse_fournisseur', 13),
-(23, '2018_11_19_081841_add_slug__and_id_lignebesoin_to_reponse_fournisseur', 14);
+(23, '2018_11_19_081841_add_slug__and_id_lignebesoin_to_reponse_fournisseur', 14),
+(24, '2016_03_31_065856_create_roles_table', 15),
+(25, '2016_03_31_070114_create_user_role_table', 15);
 
 -- --------------------------------------------------------
 
@@ -303,15 +308,47 @@ CREATE TABLE IF NOT EXISTS `reponse_fournisseur` (
   `slug` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `id_lignebesoin` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `reponse_fournisseur`
 --
 
 INSERT INTO `reponse_fournisseur` (`id`, `id_fournisseur`, `titre_ext`, `quantite`, `unite`, `prix`, `created_at`, `updated_at`, `slug`, `id_lignebesoin`) VALUES
-(1, 36, 'fff', 12, 'unité', '3000', '2018-11-19 16:35:44', '2018-11-19 16:35:44', 'fffunite19112018043544', 14),
-(2, 37, 'tuyaux en bois', 2, 'm', '12000', '2018-11-19 16:42:04', '2018-11-19 16:42:04', 'tuyaux-en-boism19112018044204', 14);
+(7, 19, 'tuyaux en bois', 6, 'm', '20000', '2018-11-22 10:13:15', '2018-11-22 10:13:15', 'tuyaux-en-boism22112018101315', 15),
+(2, 19, 'tuyaux en bois', 2, 'm', '12000', '2018-11-19 16:42:04', '2018-11-19 16:42:04', 'tuyaux-en-boism19112018044204', 14),
+(11, 38, 'Microsoft office 360', 3, 'Licences', '50000', '2018-11-22 12:37:22', '2018-11-22 12:37:22', 'microsoft-office-360licences22112018123722', 16),
+(5, 16, 'Microsoft office 365', 3, 'Licences', '1000000', '2018-11-22 09:31:09', '2018-11-22 09:31:09', 'microsoft-office-365licences22112018093109', 16),
+(6, 35, 'Microsoft office 365', 3, 'Licences', '100000', '2018-11-22 09:38:26', '2018-11-22 11:22:32', 'microsoft-office-365licences22112018112232', 16),
+(10, 35, 'Microsoft office 365', 3, 'Licences', '300000', '2018-11-22 11:41:40', '2018-11-22 11:42:02', 'microsoft-office-365licences22112018114202', 16);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `roles`
+--
+
+DROP TABLE IF EXISTS `roles`;
+CREATE TABLE IF NOT EXISTS `roles` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=85 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `roles`
+--
+
+INSERT INTO `roles` (`id`, `created_at`, `updated_at`, `name`, `description`) VALUES
+(84, '2018-11-23 13:23:55', '2018-11-23 13:23:55', 'Valideur_BC', 'VALIDATION DES B.C'),
+(82, '2018-11-23 13:23:55', '2018-11-23 13:23:55', 'Gestionnaire_Pro_Forma', 'GESTION DES PRO FORMA'),
+(83, '2018-11-23 13:23:55', '2018-11-23 13:23:55', 'Gestionnaire_BC', 'GESTION DES B.C'),
+(81, '2018-11-23 13:23:55', '2018-11-23 13:23:55', 'Valideur_DA', 'VALIDATION DES D.A'),
+(80, '2018-11-23 13:23:55', '2018-11-23 13:23:55', 'Gestionnaire_DA', 'GESTION DES D.A'),
+(79, '2018-11-23 13:23:55', '2018-11-23 13:23:55', 'Parametrage', 'PARAMETRAGE');
 
 -- --------------------------------------------------------
 
@@ -363,15 +400,46 @@ CREATE TABLE IF NOT EXISTS `users` (
   `slug` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `users`
 --
 
 INSERT INTO `users` (`id`, `name`, `abréviation`, `function`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `id_profil`, `slug`) VALUES
-(2, 'Cyriaque Kodia', 'CK', 'informaticien', 'cyriaque.kodia@eiffage.com', NULL, '$2y$10$IaJjYzjEhIjLb4vFsLUiy.rXbvkeE3D1R7FvnnwiJvildd822xJ4i', 'dXyaU8JCv9LEAg7BOKEz6AVA7sJ2qZ08VZ9WtqtKwJqkczZdfjZEkMAeaDmT', '2018-10-22 17:18:51', '2018-10-30 17:47:34', NULL, 'cyriaquekodia-at-gmailcom30102018054734'),
-(1, 'Thierry Koffi', 'LK', 'informaticien', 'thierry.koffi@eiffage.com', NULL, '$2y$10$Yd2Qe9OeGSosDKAQ.QCzC.sk/5BOFUyaib1L0v4Emu23IqUSFuPS.', 'VDqcmAJx5GPzZeDrmVsWtcqaS7Htks84zl7jJBZku1nv9f9HxFTm2snOFcac', '2018-10-30 17:56:37', '2018-10-30 17:56:37', NULL, 'landrykoffi-at-gmailcom30102018055637');
+(2, 'Cyriaque Kodia', 'CK', 'informaticien', 'cyriaque.kodia@eiffage.com', NULL, '$2y$10$IaJjYzjEhIjLb4vFsLUiy.rXbvkeE3D1R7FvnnwiJvildd822xJ4i', '208O3sn7rk6GwuhCRXaQUKFZEUdyaxGp0OQrhnBES2d6CPvXQYbil59EuRXE', '2018-10-22 17:18:51', '2018-10-30 17:47:34', NULL, 'cyriaquekodia-at-gmailcom30102018054734'),
+(1, 'Thierry Koffi', 'LK', 'informaticien', 'thierry.koffi@eiffage.com', NULL, '$2y$10$Yd2Qe9OeGSosDKAQ.QCzC.sk/5BOFUyaib1L0v4Emu23IqUSFuPS.', 'VDqcmAJx5GPzZeDrmVsWtcqaS7Htks84zl7jJBZku1nv9f9HxFTm2snOFcac', '2018-10-30 17:56:37', '2018-10-30 17:56:37', NULL, 'landrykoffi-at-gmailcom30102018055637'),
+(12, 'iceberg', 'IC', 'Comptable', 'test@test.com', NULL, '$2y$10$Nyi5FcuXMXqELLT3LXRdXunSsPtNKgeGps1spFjWDKNVxuC.MHEw.', NULL, '2018-11-23 16:56:42', '2018-11-23 17:07:39', NULL, 'test-at-testcom23112018050739');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `user_role`
+--
+
+DROP TABLE IF EXISTS `user_role`;
+CREATE TABLE IF NOT EXISTS `user_role` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `user_role`
+--
+
+INSERT INTO `user_role` (`id`, `created_at`, `updated_at`, `user_id`, `role_id`) VALUES
+(2, NULL, NULL, 8, 79),
+(3, NULL, NULL, 8, 80),
+(4, NULL, NULL, 8, 81),
+(5, NULL, NULL, 8, 82),
+(6, NULL, NULL, 8, 83),
+(7, NULL, NULL, 8, 84),
+(9, NULL, NULL, 12, 81),
+(10, NULL, NULL, 12, 80);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
