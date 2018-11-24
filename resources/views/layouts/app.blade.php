@@ -289,6 +289,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <span>Tableau de Bord</span>
                         </a>
                     </li>
+                    @if(Auth::user()->hasRole('Parametrage'))
                     <li>
                         <a  href="index.html" @yield('parent_fournisseurs') >
                             <i class="fa fa-gear">
@@ -304,12 +305,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <li @yield('prix') ><a href="{{route('gestion_prix')}}">Tablaau des prix</a></li>
                         </ul>
                     </li>
+                    @endif
+                    @if(Auth::user()->hasAnyRole(['Gestionnaire_DA','Valideur_DA']))
                     <li >
                         <a  href="{{route('gestion_da')}}" @yield('das')>
                             <i class="fa fa-archive"></i>
                             <span>Les D.A</span>
                         </a>
                     </li>
+                    @endif
+                    @if(Auth::user()->hasRole('Gestionnaire_Pro_Forma'))
                     <li>
                         <a  href="index.html" @yield('parent_demande_proformas')>
                             <i class="fa fa-book"></i>
@@ -320,13 +325,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <li @yield('reponse_fournisseur')><a href="{{route('gestion_reponse_fournisseur')}}">Reception de Pro forma</a></li>
                         </ul>
                     </li>
+                    @endif
+                    @if(Auth::user()->hasAnyRole(['Gestionnaire_BC','Valideur_BC']))
                     <li>
                         <a  href="{{route('bon_commande_file')}}">
                             <i class="fa fa-archive"></i>
                             <span>Les  BCs</span>
                         </a>
                     </li>
-
+                    @endif
 
 
                 </ul>            </div>
@@ -349,17 +356,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 @if(Session::has('error'))
                     <div class="alert alert-danger">{{Session::get('error')}}</div>
                 @endif()
-        @yield('content')
+                @yield('content')
+            </div>
+        </section>
+        <!-- footer -->
+        <div class="footer">
+            <div class="wthree-copyright">
+                <p>© 2017 Visitors. All rights reserved | Design by <a href="http://w3layouts.com">EIFFAGE</a></p>
+            </div>
         </div>
-</section>
-<!-- footer -->
-<div class="footer">
-    <div class="wthree-copyright">
-        <p>© 2017 Visitors. All rights reserved | Design by <a href="http://w3layouts.com">EIFFAGE</a></p>
-    </div>
-</div>
-<!-- / footer -->
-</section>
+        <!-- / footer -->
+    </section>
 
     <!--main content end-->
 </section>

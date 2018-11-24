@@ -24,6 +24,8 @@ class UserTableSeeder extends Seeder
         $user = new User();
         $user->name = 'administrateur';
         $user->email = 'admin@eiffage.com';
+        $user->abréviation = 'Admin';
+        $user->function = 'Gestionnaire Application ';
         $user->password = bcrypt('Administrateur');
         $user->slug = Str::slug($user->email . $date->format('dmYhis'));
         $user->save();

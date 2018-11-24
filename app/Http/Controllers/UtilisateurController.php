@@ -77,7 +77,10 @@ class UtilisateurController
         $utilisateur->abréviation = $parameters['abréviation'];
         $utilisateur->function = $parameters['function'];
         $utilisateur->email = $parameters['email'];
-        $utilisateur->password =Hash::make( $parameters['password']);
+        if (Hash::needsRehash($parameters['password'])) {
+            $utilisateur->password =Hash::make( $parameters['password']);
+        }
+
         $utilisateur->slug = Str::slug($parameters['email'] . $date->format('dmYhis'));
         $utilisateur->save();
 

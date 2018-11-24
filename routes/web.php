@@ -377,7 +377,7 @@ Route::get('/supprimer_reponse_fournisseur/{id_reponse}',[
 
 Route::get('/bon_commande_file',[
     'as'=>'bon_commande_file',
-    'uses'=>'BBCController@bon_commande_file'
+    'uses'=>'BCController@bon_commande_file'
 
 ])->middleware('auth');
 
