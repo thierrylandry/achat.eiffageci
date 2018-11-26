@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBoncommandeTable extends Migration
+class AddSlugToLigneBcTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateBoncommandeTable extends Migration
      */
     public function up()
     {
-        Schema::create('boncommande', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('numBonCommande');
-            $table->integer('id_user');
-            $table->timestamps();
+        Schema::table('ligne_bc', function (Blueprint $table) {
+            //
+            $table->string('slug');
         });
     }
 
@@ -28,6 +26,9 @@ class CreateBoncommandeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('boncommande');
+        Schema::table('ligne_bc', function (Blueprint $table) {
+            //
+            $table->removeColum('slug');
+        });
     }
 }

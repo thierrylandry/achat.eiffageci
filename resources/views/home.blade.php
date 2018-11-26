@@ -67,29 +67,7 @@
                     <div class="card-header">Dashboard</div>
 
                     <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
 
-                            </div>
-                        @endif
-
-                        You are logged in!
-
-                        <p>{{ Auth::user()->id_profil }} est un boss</p>
-                        @yield('test')
-                        @switch( Auth::user()->id_profil )
-                        @case(1)
-                        @yield('admin')
-                        @break
-
-                        @case(2)
-                        <span>je suis un demandeur </span>
-                        @break
-
-                        @default
-                        <span>je suis un controlleur </span>
-                        @endswitch
                     </div>
                 </div>
             </div>

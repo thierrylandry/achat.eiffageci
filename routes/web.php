@@ -373,6 +373,14 @@ Route::get('/supprimer_reponse_fournisseur/{id_reponse}',[
 ])->middleware('auth');
 
 
+Route::get('/gestion_bc',[
+    'as'=>'gestion_bc',
+    'uses'=>'BCController@gestion_bc',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_Pro_Forma']
+
+])->middleware('auth');
+
 
 
 Route::get('/bon_commande_file',[

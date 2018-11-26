@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Boncommande;
 use App\fournisseur;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -32,10 +33,10 @@ class BCController extends Controller
 
     }
 
-    public function fournisseurs()
+    public function gestion_bc()
     {
-        $fournisseurs=  Fournisseur::all();
-        return view('fournisseurs/fournisseurs')->with('fournisseurs',$fournisseurs);
+        $bcs=  Boncommande::all();
+        return view('BC/gestion_bc')->with('bcs',$bcs);
     }
     public function voir_fournisseur($slug)
     {

@@ -327,8 +327,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     </li>
                     @endif
                     @if(Auth::user()->hasAnyRole(['Gestionnaire_BC','Valideur_BC']))
-                    <li>
-                        <a  href="{{route('bon_commande_file')}}">
+                    <li >
+                        <a  @yield('gestion_bc') href="{{route('gestion_bc')}}">
                             <i class="fa fa-archive"></i>
                             <span>Les  BCs</span>
                         </a>

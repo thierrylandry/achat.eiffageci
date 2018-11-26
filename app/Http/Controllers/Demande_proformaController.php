@@ -100,15 +100,15 @@ $fournisseurs=Fournisseur::all();
         }
 
 
-/*Mail::send('mail.mail',array('corps' =>$corps),function($message){
+Mail::send('mail.mail',array('corps' =>$corps),function($message){
 $message->from('no-reply@procachat.com','procachat')
     ->to('cyriaquekodia@gmail.com','cyriaquekodia')
     ->subject('Demande de proforma');
-});*/
+});
 
         endforeach;
 
-        return view('mail.mail')->with('corps',$corps);
+     //   return view('mail.mail')->with('corps',$corps);
 
     }
 
