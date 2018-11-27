@@ -96,7 +96,7 @@ $fournisseurs=Fournisseur::all();
                 $materiel=DB::table('materiel')
                     ->where('id', '=', $das->id_materiel)
                     ->select('libelleMateriel')->distinct()->get();
-                $corps =$corps." ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelleMateriel." ;";
+                $corps ="\n".$corps." ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelleMateriel." ;";
         }
 
 
@@ -106,18 +106,18 @@ $fournisseurs=Fournisseur::all();
             $fournisseur= Fournisseur::where('slug','=',$slug)->first();
             $email=$fournisseur->email;
             $interlocuteur=$fournisseur->interlocuteur;
-            Mail::send('mail.mail',array('corps' =>$corps),function($message)use ($email,$interlocuteur ){
+       /*     Mail::send('mail.mail',array('corps' =>$corps),function($message)use ($email,$interlocuteur ){
 
 
                 $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->name )
                     ->to($email ,$interlocuteur)
                     ->subject('Demande de proforma');
 
-            });
+            });*/
         endforeach;
 
 
-        return redirect()->route('gestion_demande_proformas')->with('success', "Envoie d'email reussi");
+       // return redirect()->route('gestion_demande_proformas')->with('success', "Envoie d'email reussi");
         return view('mail.mail')->with('corps',$corps);
 
     }
