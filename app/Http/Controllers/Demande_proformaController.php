@@ -117,8 +117,8 @@ $fournisseurs=Fournisseur::all();
         endforeach;
 
 
-
-     //   return view('mail.mail')->with('corps',$corps);
+        return redirect()->route('gestion_demande_proformas')->with('success', "Envoie d'email reussi");
+        return view('mail.mail')->with('corps',$corps);
 
     }
 
