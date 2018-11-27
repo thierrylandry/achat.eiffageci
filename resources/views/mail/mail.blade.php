@@ -3,16 +3,16 @@
 
     <p>Bonjour,</p>
 
-    <p>Veuillez nous faire parvenir s'il vous plait une Pro forma pour les produits suivant:  </strong></br>
-       <p> {{$corps}}</p>
-    <br/>En attente de votre reponse, Monsieur, Madame, veuillez recevoir nos sincères salutations.</p>
-
-
-    <br/>
+    <p><strong>Veuillez nous adresser votre meilleure offre pour :</strong></p><br>
+    <p>{{$corps}}</p><br/>
+    <p>Dans l’attente, et en vous remerciant,<br><br>
     <p>Cordialement,</p>
-    </br>
-    </br>
+    <br>
+    <p>Best regards,</p>
+    <br>
     {{ \Illuminate\Support\Facades\Auth::user()->name }}
-    </br>
+    <br>
+    <p><strong>Eiffage Génie Civil Côte d’Ivoire</strong></p>
+    <br>
     {{ \Illuminate\Support\Facades\Auth::user()->email }}
 @endsection
