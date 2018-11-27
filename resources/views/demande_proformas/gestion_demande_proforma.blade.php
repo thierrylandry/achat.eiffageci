@@ -31,7 +31,7 @@
                                         </div>
                                         <div class="form-group">
                                             <b><label for="libelle" class="control-label">Les fournisseur concerné</label></b>
-                                            <select class="form-control selectpicker" name="fourn"  id="fourn" data-live-search="true" data-size="6" multiple  required>
+                                            <select class="form-control selectpicker" name="fourn[]"  id="fourn" data-live-search="true" data-size="6" multiple  required>
 
                                             </select>
 
@@ -323,7 +323,7 @@
                             $.each(data, function( index, value ) {
 
 
-                                $('#fourn').append("<option value='"+value.id+"'>"+value.libelle+"</option>");
+                                $('#fourn').append("<option value='"+value.slug+"'>"+value.libelle+"</option>");
 
                                 console.log(value.libelle);
 

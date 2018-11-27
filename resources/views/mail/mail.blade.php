@@ -1,16 +1,18 @@
 @extends('mail.layoutmail')
 @section('content')
 
-    <p></p>
-
     <p>Bonjour,</p>
 
     <p>Veuillez nous faire parvenir s'il vous plait une Pro forma pour les produits suivant:  </strong></br>
        <p> {{$corps}}</p>
-        <br/>En attente de votre reponse, nous sommes diponible pour des dicussions visant votre satisfaction.</p>
+    <br/>En attente de votre reponse, Monsieur, Madame, veuillez recevoir nos sincères salutations.</p>
 
 
-    <p>Sincères salutation</p>
     <br/>
-    {{ \Illuminate\Support\Facades\Auth::user()->email }} {{ \Illuminate\Support\Facades\Auth::user()->name }}
+    <p>Cordialement,</p>
+    </br>
+    </br>
+    {{ \Illuminate\Support\Facades\Auth::user()->name }}
+    </br>
+    {{ \Illuminate\Support\Facades\Auth::user()->email }}
 @endsection

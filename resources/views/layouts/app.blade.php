@@ -41,6 +41,22 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
     <link rel="stylesheet" type="text/css" href="dataTables.bootstrap4.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <style>.coordonnees label {
+            display: inline-block;
+            width: 130px;
+        }
+
+        .coordonnees input {
+            margin: 2px 0;
+            padding: 2px;
+            width: 300px;
+        }
+
+        .coordonnees legend {
+            font-weight: bold;
+            margin: 10px 0;
+            font-size: 18px;
+        }</style>
 </head>
 <body>
 <section id="container">

@@ -4,7 +4,7 @@
 @endsection
 
 @section('content')
-    <div id="ajouterrep" class="modal fade" role="dialog">
+    <div id="ajouterrep" class="modal fade" aria-hidden="true" role="dialog">
         <div class="modal-dialog modal-lg">
 
             <!-- Modal content-->
@@ -18,26 +18,15 @@
                     <form action="inscription.php" method="post">
                         <fieldset class="coordonnees">
                             <legend>Vos Coordonnées</legend>
-                            <label for="nom">Nom</label>
-                            <input id="nom" name="nom" pattern="[a-Z]{*}" type="text" si>
-                            <br>
-                            <label for="prenom">Prénom</label>
-                            <input id="prenom" name="prenom" type="text">
-                            <br>
-                            <label for="mail">mail</label>
-                            <input id="mail" name="mail" type="text">
-                            <br>
-                            <label for="mail_conf">Confirmer mail</label>
-                            <input id="mail_conf" name="Confirmer mail" type="text">
-                            <br>
-                            <legend>Adresse</legend>
-                            <label>Rue</label>
-                            <input id="rue" name="rue" type="text">
-                            <br>
-                            <label>Code postal</label>
-                            <input id="code-postal" name="code-postal" type="text"><br>
-                            <label>Ville</label>
-                            <input id="ville" name="ville" type="text"><br>
+
+                           <div class="row">
+                               <div class="col-sm-4">
+                                   <img src="{{ URL::asset('images
+            /Eiffage_2400_01_colour_RGB.png') }}" width="100" />
+                               </div>
+                               <div class="col-sm-6 col-sm-push-4">
+                                 <p>Bon de commande N°<input type="text" /></p>
+                           </div>
                         </fieldset>
                         <fieldset class="Votre commande">
                             <legend>Votre commande</legend>

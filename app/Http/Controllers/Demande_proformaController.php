@@ -82,9 +82,9 @@ $fournisseurs=Fournisseur::all();
     public function envoies( Request $request)
     {
 
-        $parameters = $request->except(['_token']);
+         $parameters = $request->except(['_token']);
 
-        $fourn = $parameters['fourn'];
+        $fourn= $parameters['fourn'];
         $listeDA = $parameters['listeDA'];
         $tab_listeSA = explode(",", $listeDA);
         $corps='';
@@ -100,13 +100,23 @@ $fournisseurs=Fournisseur::all();
         }
 
 
-Mail::send('mail.mail',array('corps' =>$corps),function($message){
-$message->from('no-reply@procachat.com','procachat')
-    ->to('cyriaquekodia@gmail.com','cyriaquekodia')
-    ->subject('Demande de proforma');
-});
-
         endforeach;
+        $email='';
+        foreach($fourn as $slug):
+            $fournisseur= Fournisseur::where('slug','=',$slug)->first();
+            $email=$fournisseur->email;
+            $interlocuteur=$fournisseur->interlocuteur;
+            Mail::send('mail.mail',array('corps' =>$corps),function($message)use ($email,$interlocuteur ){
+
+
+                $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->name )
+                    ->to($email ,$interlocuteur)
+                    ->subject('Demande de proforma');
+
+            });
+        endforeach;
+
+
 
      //   return view('mail.mail')->with('corps',$corps);
 
