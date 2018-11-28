@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddSlugToBonCommandeTable extends Migration
+class AddEtatToBoncommande extends Migration
 {
     /**
      * Run the migrations.
@@ -15,7 +15,8 @@ class AddSlugToBonCommandeTable extends Migration
     {
         Schema::table('boncommande', function (Blueprint $table) {
             //
-            $table->string('slug');
+            $table->integer('etat')->default(1);
+
         });
     }
 
@@ -28,7 +29,7 @@ class AddSlugToBonCommandeTable extends Migration
     {
         Schema::table('boncommande', function (Blueprint $table) {
             //
-            $table->date('date');
+            $table->removeColumn('etat');
         });
     }
 }

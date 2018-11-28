@@ -7,8 +7,10 @@
 
     <tr>
         <th class="dt-head-center">id</th>
+        <th class="dt-head-center">status</th>
         <th class="dt-head-center">N°B.C</th>
         <th class="dt-head-center">Date</th>
+        <th class="dt-head-center">Auteur</th>
         <th class="dt-head-center">Action</th>
 
     </tr>
@@ -17,16 +19,40 @@
     @foreach($bcs as $bc )
         <tr>
             <td>{{$bc->id}}</td>
+            <td>                        @if($bc->etat==1)
+                    <i class="fa fa-circle "  style="color: #f0ad4e"></i>
+
+                @elseif($bc->etat==2)
+                    <i class="fa fa-circle" style="color: mediumspringgreen"></i>
+                @elseif($bc->etat==0)
+                    <i class="fa fa-circle" style="color: red"></i>
+                @endif
+            </td>
             <td>{{$bc->numBonCommande}}</td>
             <td>
                 {{$bc->created_at	}}
    </td>
-            <td> <a href="{{route('voir_produit',['slug'=>$bc->slug])}}" data-toggle="modal" class="btn btn-info col-sm-4 pull-right">
-                    <i class=" fa fa-pencil"></i>
+            <td>@foreach($utilisateurs as $utilisateur)
+                 @if($utilisateur->id==$bc->id_user)
+                    {{$utilisateur->name}}
+                @endif
+            @endforeach</td>
+            <td>
+                <a href="{{route('voir_produit',['slug'=>$bc->slug])}}" data-toggle="modal" class=" col-sm-4 ">
+                    <i class=" fa fa-pencil"></i>AJouter une ligne
                 </a>
-                <a href="{{route('supprimer_produit',['slug'=>$bc->slug])}}" data-toggle="modal" class="btn btn-danger col-sm-4 pull-right">
+                <a href="{{route('voir_produit',['slug'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default col-sm-4 ">
+                    <i class=" fa fa-list "></i>Liste les commandes
+                </a>
+
+                <a href="{{route('supprimer_produit',['slug'=>$bc->slug])}}" data-toggle="modal" class="btn btn-danger col-sm-1 ">
                     <i class=" fa fa-trash"></i>
                 </a>
+
+                <a href="{{route('voir_bc',['slug'=>$bc->slug])}}" data-toggle="modal" class="btn btn-info col-sm-1 ">
+                    <i class=" fa fa-pencil"></i>
+                </a>
+
             </td>
 
         </tr>
@@ -49,7 +75,6 @@
     //table.DataTable().draw();
     function addRow(tableID) {
 
-        alert(tableID);
         var table = document.getElementById(tableID);
 
         var rowCount = table.rows.length;

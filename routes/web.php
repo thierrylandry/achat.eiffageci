@@ -377,10 +377,23 @@ Route::get('/gestion_bc',[
     'as'=>'gestion_bc',
     'uses'=>'BCController@gestion_bc',
     'middleware' => 'roles',
-    'roles' => ['Gestionnaire_Pro_Forma']
+    'roles' => ['Gestionnaire_BC']
 
 ])->middleware('auth');
+Route::post('/save_bc',[
+    'as'=>'save_bc',
+    'uses'=>'BCController@save_bc',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_BC']
 
+])->middleware('auth');
+Route::get('/voir_bc/{slug}',[
+    'as'=>'voir_bc',
+    'uses'=>'BCController@voir_bc',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_BC']
+
+])->middleware('auth');
 
 
 Route::get('/bon_commande_file',[
