@@ -51,9 +51,10 @@ $fournisseurs=Fournisseur::all();
 
         $reponse_fournisseurs = DB::table('reponse_fournisseur')
             ->join('fournisseur', 'fournisseur.id', '=', 'reponse_fournisseur.id_fournisseur')
+            ->join('lignebesoin', 'lignebesoin.id', '=', 'reponse_fournisseur.id_lignebesoin')
             ->where('reponse_fournisseur.id_lignebesoin', '=', $id_lignebesoin)
-            ->select('titre_ext','quantite','unite','prix','libelle','reponse_fournisseur.slug','id_fournisseur')
-            ->distinct()->orderBy('prix', 'ASC')->get();
+            ->select('titre_ext','reponse_fournisseur.quantite','reponse_fournisseur.unite','reponse_fournisseur.prix','fournisseur.libelle','reponse_fournisseur.slug','id_fournisseur','lignebesoin.id_reponse_fournisseur','reponse_fournisseur.id')
+            ->orderBy('prix', 'ASC')->get();
         return response()->json($reponse_fournisseurs);
 
     }
@@ -260,6 +261,25 @@ $fournisseurs=Fournisseur::all();
         $users= User::all();
         return view('reponse_fournisseur/gestion_reponse_fournisseur',compact('das','fournisseurs','materiels','natures','users','types'));
 
+
+    }
+
+    public function selection_de_la_reponse (Request $request){
+        $parameters = $request->except(['_token']);
+        $lada='';
+        if($parameters['da']!=''){
+            $lada=$parameters['da'];
+        }else{
+            $lada=$parameters['Tda'];
+        }
+        $choix=$parameters['choix'];
+
+        $da =  DA::where('id','=',$lada)->first();
+        $da->id_reponse_fournisseur=$choix;
+
+        $da->save();
+
+            return redirect()->route('gestion_reponse_fournisseur')->with('success', "choix de la proforma du fournisseur effectué");
 
     }
 }

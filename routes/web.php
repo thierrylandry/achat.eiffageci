@@ -372,6 +372,15 @@ Route::get('/supprimer_reponse_fournisseur/{id_reponse}',[
 
 ])->middleware('auth');
 
+Route::post('/selection_de_la_reponse',[
+    'as'=>'selection_de_la_reponse',
+    'uses'=>'Demande_proformaController@selection_de_la_reponse'
+
+])->middleware('auth');
+
+
+
+
 
 Route::get('/gestion_bc',[
     'as'=>'gestion_bc',

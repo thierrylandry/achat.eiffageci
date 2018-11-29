@@ -76,7 +76,9 @@ class BCController extends Controller
             ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
         return view('BC/gestion_bc',compact('fournisseur','bcs','utilisateurs','fournisseurs','bc'));
     }
-
+public function gestion_offre(){
+    return view('BC/choix_offres');
+}
 
     ////
 
