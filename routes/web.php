@@ -403,13 +403,58 @@ Route::get('/voir_bc/{slug}',[
     'roles' => ['Gestionnaire_BC']
 
 ])->middleware('auth');
+Route::post('/modifier_bc',[
+    'as'=>'modifier_bc',
+    'uses'=>'BCController@modifier_bc',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_BC']
 
+])->middleware('auth');
+Route::get('/gestion_bc_ajouter',[
+    'as'=>'gestion_bc_ajouter',
+    'uses'=>'BCController@gestion_bc_ajouter',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_BC']
 
+])->middleware('auth');
+Route::get('/supprimer_bc/{slug}',[
+    'as'=>'supprimer_bc',
+    'uses'=>'BCController@supprimer_bc',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_BC']
+
+])->middleware('auth');
+
+Route::get('/ajouter_ligne_bc/{slug}',[
+    'as'=>'ajouter_ligne_bc',
+    'uses'=>'BCController@ajouter_ligne_bc',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_BC']
+
+])->middleware('auth');
+Route::post('/save_ligne_bc',[
+    'as'=>'save_ligne_bc',
+    'uses'=>'BCController@save_ligne_bc',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_BC']
+
+])->middleware('auth');
+Route::get('/detail_rep_fournisseur/{slug}',[
+    'as'=>'detail_rep_fournisseur',
+    'uses'=>'BCController@detail_rep_fournisseur',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_BC']
+
+])->middleware('auth');
 Route::get('/bon_commande_file',[
     'as'=>'bon_commande_file',
     'uses'=>'BCController@bon_commande_file'
 
 ])->middleware('auth');
+
+
+
+
 
 
 

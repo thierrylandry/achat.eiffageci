@@ -7,11 +7,11 @@
 
     <tr>
         <th class="dt-head-center">id</th>
-        <th class="dt-head-center">status</th>
-        <th class="dt-head-center">N°B.C</th>
-        <th class="dt-head-center">Date</th>
-        <th class="dt-head-center">Auteur</th>
-        <th class="dt-head-center">Action</th>
+        <th class="">status</th>
+        <th class="">N°B.C</th>
+        <th class="">Date</th>
+        <th class="">Auteur</th>
+        <th class="">Action</th>
 
     </tr>
     </thead>
@@ -30,7 +30,7 @@
             </td>
             <td>{{$bc->numBonCommande}}</td>
             <td>
-                {{$bc->created_at	}}
+                {{$bc->date	}}
    </td>
             <td>@foreach($utilisateurs as $utilisateur)
                  @if($utilisateur->id==$bc->id_user)
@@ -38,14 +38,14 @@
                 @endif
             @endforeach</td>
             <td>
-                <a href="{{route('voir_produit',['slug'=>$bc->slug])}}" data-toggle="modal" class=" col-sm-4 ">
+                <a href="{{route('ajouter_ligne_bc',['slug'=>$bc->slug])}}" data-toggle="modal" class=" col-sm-4 ">
                     <i class=" fa fa-pencil"></i>AJouter une ligne
                 </a>
                 <a href="{{route('voir_produit',['slug'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default col-sm-4 ">
                     <i class=" fa fa-list "></i>Liste les commandes
                 </a>
 
-                <a href="{{route('supprimer_produit',['slug'=>$bc->slug])}}" data-toggle="modal" class="btn btn-danger col-sm-1 ">
+                <a href="{{route('supprimer_bc',['slug'=>$bc->slug])}}" data-toggle="modal" class="btn btn-danger col-sm-1 ">
                     <i class=" fa fa-trash"></i>
                 </a>
 
