@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Analytique;
 use App\Boncommande;
 use App\fournisseur;
 use App\ligne_bc;
@@ -52,7 +53,8 @@ class BCController extends Controller
             ->join('materiel', 'materiel.id', '=', 'lignebesoin.id_materiel')
             ->where('lignebesoin.etat', '=', 2)
             ->select('materiel.libelleMateriel','titre_ext','reponse_fournisseur.id')->distinct()->get();
-        return view('BC/gestion_bc',compact('bcs','fournisseurs','utilisateurs','reponse_fournisseurs'));
+$analytiques= Analytique::all();
+        return view('BC/gestion_bc',compact('bcs','fournisseurs','utilisateurs','reponse_fournisseurs','analytiques'));
     }
     public function ajouter_ligne_bc($slugbc)
     {
@@ -69,7 +71,8 @@ class BCController extends Controller
             ->where('lignebesoin.etat', '=', 2)
             ->select('materiel.libelleMateriel','titre_ext','reponse_fournisseur.id')->distinct()->get();
         $ajouterbc='';
-        return view('BC/gestion_bc',compact('bcs','fournisseurs','utilisateurs','ajouterbc','reponse_fournisseurs','slugbc'));
+        $analytiques= Analytique::all();
+        return view('BC/gestion_bc',compact('bcs','fournisseurs','utilisateurs','ajouterbc','reponse_fournisseurs','slugbc','analytiques'));
     }
     public function save_ligne_bc(Request $request)
     {
@@ -81,17 +84,39 @@ class BCController extends Controller
 
         $ligne_bc->id_bonCommande=$boncommande->id;
         $ligne_bc->codeRubrique=$parameters['codeRubrique'];
-        $ligne_bc->	remise_ligne_bc=$parameters['remise'];
+        $ligne_bc->remise_ligne_bc=$parameters['remise'];
         $ligne_bc->quantite_ligne_bc=$parameters['quantite'];
         $ligne_bc->unite_ligne_bc=$parameters['Unite'];
-        $ligne_bc->prix_unitaire_ligne_bc=$parameters['Prix'];
+        $ligne_bc->prix_unitaire_ligne_bc=$parameters['Prix_unitaire'];
+        $ligne_bc->prix_tot=$parameters['Prix'];
         $ligne_bc->id_reponse_fournisseur=$parameters['id_reponse_fournisseur'];
 
         $ligne_bc->slug=Str::slug($ligne_bc->id_bonCommand.$ligne_bc->codeRubrique.$ligne_bc->quantite_ligne_b.$ligne_bc->prix_unitaire_ligne_bc.$date->format('dmYhis'));
         $ligne_bc->save();
         return redirect()->route('gestion_bc')->with('success',"la commande a été ajouté avec success");
     }
-
+    public function lister_commande($slugbc)
+    {
+        $bcs=  Boncommande::all();
+        $utilisateurs=  User::all();
+        $fournisseurs= DB::table('fournisseur')
+            ->join('reponse_fournisseur', 'fournisseur.id', '=', 'reponse_fournisseur.id_fournisseur')
+            ->join('lignebesoin', 'reponse_fournisseur.id', '=', 'lignebesoin.id_reponse_fournisseur')
+            ->where('lignebesoin.etat', '=', 2)
+            ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
+        $reponse_fournisseurs= DB::table('reponse_fournisseur')
+            ->join('lignebesoin', 'reponse_fournisseur.id', '=', 'lignebesoin.id_reponse_fournisseur')
+            ->join('materiel', 'materiel.id', '=', 'lignebesoin.id_materiel')
+            ->where('lignebesoin.etat', '=', 2)
+            ->select('materiel.libelleMateriel','titre_ext','reponse_fournisseur.id')->distinct()->get();
+        $ligne_bcs= Ligne_bc::where('id_bonCommande','=',$slugbc);
+        $ligne_bcs=DB::table('ligne_bc')
+            ->join('reponse_fournisseur', 'reponse_fournisseur.id', '=', 'ligne_bc.id_reponse_fournisseur')
+            ->join('analytique', 'analytique.id', '=', 'ligne_bc.codeRubrique');
+        $listerbc='';
+        $analytiques= Analytique::all();
+        return view('BC/gestion_bc',compact('bcs','fournisseurs','utilisateurs','listerbc','reponse_fournisseurs','slugbc','analytiques','ligne_bcs'));
+    }
     public function gestion_bc_ajouter()
     {
         $bcs=  Boncommande::all();
@@ -107,7 +132,8 @@ class BCController extends Controller
             ->where('lignebesoin.etat', '=', 2)
             ->select('materiel.libelleMateriel','titre_ext','reponse_fournisseur.id')->distinct()->get();
         $ajouter='vrai';
-        return view('BC/gestion_bc',compact('bcs','fournisseurs','utilisateurs','ajouter','reponse_fournisseurs'));
+        $analytiques= Analytique::all();
+        return view('BC/gestion_bc',compact('bcs','fournisseurs','utilisateurs','ajouter','reponse_fournisseurs','analytiques'));
     }
     public function detail_rep_fournisseur($id){
 
@@ -169,7 +195,8 @@ class BCController extends Controller
             ->join('materiel', 'materiel.id', '=', 'lignebesoin.id_materiel')
             ->where('lignebesoin.etat', '=', 2)
             ->select('materiel.libelleMateriel','titre_ext','reponse_fournisseur.id')->distinct()->get();
-        return view('BC/gestion_bc',compact('fournisseur','bcs','utilisateurs','fournisseurs','bc','reponse_fournisseurs'));
+        $analytiques= Analytique::all();
+        return view('BC/gestion_bc',compact('fournisseur','bcs','utilisateurs','fournisseurs','bc','reponse_fournisseurs','analytiques'));
     }
     public function supprimer_bc($slug)
     {

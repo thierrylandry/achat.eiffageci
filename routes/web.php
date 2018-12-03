@@ -446,6 +446,13 @@ Route::get('/detail_rep_fournisseur/{slug}',[
     'roles' => ['Gestionnaire_BC']
 
 ])->middleware('auth');
+Route::get('/lister_commande/{slug}',[
+    'as'=>'lister_commande',
+    'uses'=>'BCController@lister_commande',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_BC']
+
+])->middleware('auth');
 Route::get('/bon_commande_file',[
     'as'=>'bon_commande_file',
     'uses'=>'BCController@bon_commande_file'

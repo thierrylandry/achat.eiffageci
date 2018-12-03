@@ -41,7 +41,7 @@
                 <a href="{{route('ajouter_ligne_bc',['slug'=>$bc->slug])}}" data-toggle="modal" class=" col-sm-4 ">
                     <i class=" fa fa-pencil"></i>AJouter une ligne
                 </a>
-                <a href="{{route('voir_produit',['slug'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default col-sm-4 ">
+                <a href="{{route('lister_commande',['slug'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default col-sm-4 ">
                     <i class=" fa fa-list "></i>Liste les commandes
                 </a>
 
