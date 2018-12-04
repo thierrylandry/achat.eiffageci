@@ -18,7 +18,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- font CSS -->
     <link href='{{ URL::asset('//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic') }}' rel='stylesheet' type='text/css'>
     <!-- font-awesome icons -->
-    <link rel="stylesheet" href="css/font.css" type="text/css"/>
+    <link rel="stylesheet" href="{{ URL::asset('css/font.css') }}" type="text/css"/>
     <link href="{{ URL::asset('css/font-awesome.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ URL::asset('css/default/style.min.css') }}" type="text/css"/>
     <link rel="stylesheet" href="{{ URL::asset('css/bootstrap-select.css') }}" type="text/css"/>
@@ -39,7 +39,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- DataTables -->
 
 
-    <link rel="stylesheet" type="text/css" href="dataTables.bootstrap4.min.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/dataTables.bootstrap4.min.css') }}"/>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <style>.coordonnees label {
             display: inline-block;
