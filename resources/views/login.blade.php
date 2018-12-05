@@ -42,22 +42,28 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
         <h2>{{ __('Connexion') }}</h2>
         <form action="{{ route('login') }}" method="post">
-            <input type="email"  name="Email" id="Email" required=""  class="ggg form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" placeholder="Veuillez saisir le  E-mail">
+            <input type="email"  name="Email" id="Email" required=""  class="ggg form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" placeholder="Veuillez saisir votre e-mail SVP">
+
             @if ($errors->has('email'))
-                <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
+                <span class="invalid-feedback" role="alert" >
+                    <strong>{{ $errors->first('email') }}</strong>
+                </span>
             @endif
-            <input type="password" id="password" name="password"class="ggg form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="Veuillez saisir le mot de passe">
+
+            <input type="password" id="password" name="password" class="ggg form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="Veuillez saisir votre code SVP">
+
             @if ($errors->has('password'))
                 <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
+                    <strong>{{ $errors->first('password') }}</strong>
+                </span>
             @endif
+
             <span><input id="remember" type="checkbox" {{ old('remember') ? 'checked' : '' }} />Se souvenir de moi</span>
+
             <h6><a class="btn btn-link" href="{{ route('password.request') }}">
                     {{ __('Mot de passe oublié?') }}
-                </a></h6>
+                </a>
+            </h6>
             <div class="clearfix"></div>
             <input type="submit" value="{{ __('Connexion') }}" name="login">
         </form>

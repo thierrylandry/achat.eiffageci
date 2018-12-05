@@ -107,14 +107,14 @@ $fournisseurs=Fournisseur::all();
             $fournisseur= Fournisseur::where('slug','=',$slug)->first();
             $email=$fournisseur->email;
             $interlocuteur=$fournisseur->interlocuteur;
-       /*     Mail::send('mail.mail',array('corps' =>$corps),function($message)use ($email,$interlocuteur ){
+           Mail::send('mail.mail',array('corps' =>$corps),function($message)use ($email,$interlocuteur ){
 
 
                 $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->name )
                     ->to($email ,$interlocuteur)
-                    ->subject('Demande de proforma');
+                    ->subject('DEMANDE DE COTATION');
 
-            });*/
+            });
         endforeach;
 
 
@@ -151,13 +151,13 @@ $fournisseurs=Fournisseur::all();
         $id_lignebesoin = $parameters['id_lignebesoin'];
         $id_fournisseur = $parameters['id_fournisseur'];
         $titre_ext = $parameters['titre_ext'];
-        $quantite_reponse=$parameters['quantite_reponse'];
-        $Unite=$parameters['unite_reponse'];
-        $prix_reponse=$parameters['prix_reponse'];
-        $id_reponse=$parameters['id_reponse'];
+        $quantite_reponse = $parameters['quantite_reponse'];
+        $Unite = $parameters['unite_reponse'];
+        $prix_reponse = $parameters['prix_reponse'];
+        $id_reponse = $parameters['id_reponse'];
 
         if ($id_reponse!=''){
-            $rep_fourn =  Reponse_fournisseur::where('slug','=',$parameters['id_reponse'])->first();
+            $rep_fourn = Reponse_fournisseur::where('slug','=',$parameters['id_reponse'])->first();
         }else{
             $rep_fourn = new Reponse_fournisseur();
         }
