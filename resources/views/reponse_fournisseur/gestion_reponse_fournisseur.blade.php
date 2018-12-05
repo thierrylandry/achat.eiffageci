@@ -52,8 +52,11 @@
                                             <th class="no-sort">Titre externe du produit</th>
                                             <th class="no-sort">Quantité</th>
                                             <th class="dt-head-center">Prix</th>
+                                            <th class="no-sort">remise</th>
+                                            <th class="no-sort">date</th>
                                             <th class="no-sort">Action</th>
                                             <th class="no-sort">idfourn</th>
+
 
                                         </tr>
                                         </thead>
@@ -102,6 +105,14 @@
                                 <input class="form-control" type="text"  name="titre_ext" id="titre_ext"/>
                             </div>
 </br>
+                        <div class="form-group col-sm-6">
+                            <b><label for="remise" class="control-label ">Remise %</label></b>
+                            <input class="form-control" type="number"  name="remise" id="remise" required/>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <b><label for="remise" class="control-label ">Date</label></b>
+                            <input class="form-control" type="date" id="date"  name="date" required/>
+                        </div>
                         <div class="form-group col-sm-4">
                             <b><label for="libelle" class="control-label ">Quantite</label></b>
                             <input class="form-control" type="number"  name="quantite_reponse" id="quantite_reponse"/>
@@ -111,7 +122,7 @@
                             <input class="form-control" type="text"  name="unite_reponse" id="unite_reponse"/>
                         </div>
                         <div class="form-group col-sm-4">
-                            <b><label for="libelle" class="control-label">Prix</label></b>
+                            <b><label for="libelle" class="control-label">Prix  unitaire</label></b>
                             <input class="form-control" type="number"  name="prix_reponse" id="prix_reponse"/>
                         </div>
 
@@ -186,7 +197,7 @@ $('#daencours').addClass('hidden');
                 targets: "no-sort"
             }],
             "responsive": true,
-        }).column(0).visible(false).column(7).visible(false);
+        }).column(0).visible(false).column(9).visible(false);
 
         $('#example tbody').on( 'click', 'tr', function () {
             $(this).toggleClass('selected');
@@ -213,15 +224,20 @@ $('#daencours').addClass('hidden');
             var data = table1.row($(this).closest('tr')).data();
             $('#id_lignebesoin').val($('#id_lignebesoin').val());
             var uti_entite =data[Object.keys(data)[0]];
-            var libproduit =data[Object.keys(data)[2]];
+            var libproduit =data[Object.keys(data)[3]];
             var quantite =data[Object.keys(data)[4]];
             var prix =data[Object.keys(data)[5]];
-            var fournisseur =data[Object.keys(data)[7]];
+            var fournisseur =data[Object.keys(data)[9]];
+            var remise =data[Object.keys(data)[6]];
+            var date_precise =data[Object.keys(data)[7]];
+
             $('#id_reponse').val(uti_entite);
           //  $('#id_lignebesoin').val(uti_entite);
            $('#id_fournisseur').val(fournisseur);
 
             $('#id_fournisseur').selectpicker('refresh');
+            $('#remise').val(remise);
+            $('#date').val(date_precise);
             $('#titre_ext').val(libproduit);
             $('#quantite_reponse').val(parseInt(quantite));
             $('#unite_reponse').val(quantite.split(" ")[1].toString());
@@ -276,8 +292,12 @@ $('#daencours').addClass('hidden');
                                     value.titre_ext,
                                     value.quantite+" "+ value.unite,
                                     value.prix,
+                                    value.remise,
+                                    value.date_precise,
                                    "<a href='#' id='btn_modifier' data-toggle='modal'  data-target='#ajouterrep' class='btn btn-info col-sm-4 pull-right btn_modifier'><i class=' fa fa-pencil'></i></a><a href='"+supprimer+"'  class='btn btn-danger col-sm-4 pull-right'> <i class=' fa fa-trash'></i></a>",
                                         value.id_fournisseur
+
+
                                 ]);
 
                             });
@@ -332,13 +352,17 @@ $('#daencours').addClass('hidden');
                                 }
                                 table1.row.add([
                                     value.slug,
-                                    "<div class='form-group'><label for='agree' class='control-label col-lg-3 col-sm-3'></label><div class='col-lg-6 col-sm-9'><input type='radio' style='width: 25px;' class='radio form-control' id='agree' name='choix' value='"+value.id+"' "+selec+"></div></div>",
+                                    "<div class='form-group'><label for='agree' class='control-label col-lg-3 col-sm-3'></label><div class='col-lg-6 col-sm-9'><input type='radio' required style='width: 25px;' class='radio form-control' id='agree' name='choix' value='"+value.id+"' "+selec+"></div></div>",
                                     value.libelle,
                                     value.titre_ext,
                                     value.quantite+" "+ value.unite,
                                     value.prix,
+                                    value.remise,
+                                    value.date_precise,
                                     "<a href='#' id='btn_modifier' data-toggle='modal'  data-target='#ajouterrep' class='btn btn-info col-sm-4 pull-right btn_modifier'><i class=' fa fa-pencil'></i></a><a href='"+supprimer+"'  class='btn btn-danger col-sm-4 pull-right'> <i class=' fa fa-trash'></i></a>",
                                     value.id_fournisseur
+
+
                                 ]);
 
                             });

@@ -53,7 +53,7 @@ $fournisseurs=Fournisseur::all();
             ->join('fournisseur', 'fournisseur.id', '=', 'reponse_fournisseur.id_fournisseur')
             ->join('lignebesoin', 'lignebesoin.id', '=', 'reponse_fournisseur.id_lignebesoin')
             ->where('reponse_fournisseur.id_lignebesoin', '=', $id_lignebesoin)
-            ->select('titre_ext','reponse_fournisseur.quantite','reponse_fournisseur.unite','reponse_fournisseur.prix','fournisseur.libelle','reponse_fournisseur.slug','id_fournisseur','lignebesoin.id_reponse_fournisseur','reponse_fournisseur.id')
+            ->select('titre_ext','reponse_fournisseur.quantite','reponse_fournisseur.unite','reponse_fournisseur.prix','fournisseur.libelle','reponse_fournisseur.slug','id_fournisseur','lignebesoin.id_reponse_fournisseur','reponse_fournisseur.id','remise','date_precise')
             ->orderBy('prix', 'ASC')->get();
         return response()->json($reponse_fournisseurs);
 
@@ -107,14 +107,14 @@ $fournisseurs=Fournisseur::all();
             $fournisseur= Fournisseur::where('slug','=',$slug)->first();
             $email=$fournisseur->email;
             $interlocuteur=$fournisseur->interlocuteur;
-           Mail::send('mail.mail',array('corps' =>$corps),function($message)use ($email,$interlocuteur ){
+       /*     Mail::send('mail.mail',array('corps' =>$corps),function($message)use ($email,$interlocuteur ){
 
 
                 $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->name )
                     ->to($email ,$interlocuteur)
-                    ->subject('DEMANDE DE COTATION');
+                    ->subject('Demande de proforma');
 
-            });
+            });*/
         endforeach;
 
 
@@ -151,13 +151,15 @@ $fournisseurs=Fournisseur::all();
         $id_lignebesoin = $parameters['id_lignebesoin'];
         $id_fournisseur = $parameters['id_fournisseur'];
         $titre_ext = $parameters['titre_ext'];
-        $quantite_reponse = $parameters['quantite_reponse'];
-        $Unite = $parameters['unite_reponse'];
-        $prix_reponse = $parameters['prix_reponse'];
-        $id_reponse = $parameters['id_reponse'];
+        $quantite_reponse=$parameters['quantite_reponse'];
+        $Unite=$parameters['unite_reponse'];
+        $prix_reponse=$parameters['prix_reponse'];
+        $id_reponse=$parameters['id_reponse'];
+        $date=$parameters['date'];
+        $remise=$parameters['remise'];
 
         if ($id_reponse!=''){
-            $rep_fourn = Reponse_fournisseur::where('slug','=',$parameters['id_reponse'])->first();
+            $rep_fourn =  Reponse_fournisseur::where('slug','=',$parameters['id_reponse'])->first();
         }else{
             $rep_fourn = new Reponse_fournisseur();
         }
@@ -170,6 +172,8 @@ $fournisseurs=Fournisseur::all();
         $rep_fourn->Unite=$Unite;
         $rep_fourn->prix=$prix_reponse;
         $rep_fourn->prix=$prix_reponse;
+        $rep_fourn->remise=$remise;
+        $rep_fourn->date_precise=$date;
         $rep_fourn->slug = Str::slug($parameters['titre_ext'].$Unite. $date->format('dmYhis'));
         $rep_fourn->save();
 
