@@ -34,8 +34,33 @@ class BCController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function bon_commande_file(){
+    public function bon_commande_file($slug){
+     // $bc=  Boncommande::where('slug','=',$slug)->first();
+        $bc= DB::table('boncommande')
+            ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
+            ->where('boncommande.slug','=',$slug)
+            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date')->first();
 
+        $ligne_bcs=DB::table('ligne_bc')
+            ->join('reponse_fournisseur', 'reponse_fournisseur.id', '=', 'ligne_bc.id_reponse_fournisseur')
+            ->join('analytique', 'analytique.id_analytique', '=', 'ligne_bc.codeRubrique')
+            ->where('id_bonCommande','=',$bc->id)
+            ->select('titre_ext','quantite_ligne_bc','unite_ligne_bc','prix_unitaire_ligne_bc','remise_ligne_bc','prix_tot','ligne_bc.slug','analytique.codeRubrique')->get();
+return view('BC/bon_commande_file',compact('bc','ligne_bcs'));
+    }
+    public function bon_commande_file1($slug){
+        // $bc=  Boncommande::where('slug','=',$slug)->first();
+        $bc= DB::table('boncommande')
+            ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
+            ->where('boncommande.slug','=',$slug)
+            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date')->first();
+
+        $ligne_bcs=DB::table('ligne_bc')
+            ->join('reponse_fournisseur', 'reponse_fournisseur.id', '=', 'ligne_bc.id_reponse_fournisseur')
+            ->join('analytique', 'analytique.id_analytique', '=', 'ligne_bc.codeRubrique')
+            ->where('id_bonCommande','=',$bc->id)
+            ->select('titre_ext','quantite_ligne_bc','unite_ligne_bc','prix_unitaire_ligne_bc','remise_ligne_bc','prix_tot','ligne_bc.slug','analytique.codeRubrique')->get();
+        return view('BC/bon_commande_file',compact('bc','ligne_bcs'));
     }
 
     public function gestion_bc()

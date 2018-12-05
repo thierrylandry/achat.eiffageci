@@ -53,6 +53,9 @@
                     <a href="" data-toggle="modal" class="">
                         <i class="fa fa-hourglass-end"></i> Terminer
                     </a>
+                    <a href="{{route('bon_commande_file',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
+                        <i class="fa fa-file-pdf-o"></i>
+                    </a>
                 @endif
                    @if($bc->etat==1)
                 <div class="btn-group">

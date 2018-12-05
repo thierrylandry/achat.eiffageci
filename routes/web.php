@@ -489,9 +489,14 @@ Route::get('/annuler_commande/{slug}',[
 
 ])->middleware('auth');
 
-Route::get('/bon_commande_file',[
+Route::get('/bon_commande_file/{slug}',[
     'as'=>'bon_commande_file',
     'uses'=>'BCController@bon_commande_file'
+
+])->middleware('auth');
+Route::get('/bon_commande_file1/{slug}',[
+    'as'=>'bon_commande_file1',
+    'uses'=>'BCController@bon_commande_file1'
 
 ])->middleware('auth');
 
