@@ -46,7 +46,7 @@
                     <a href="{{route('annuler_commande',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default ">
                         <i class="fa fa-ban"></i> Annuler
                     </a>
-                    <a href="{{route('annuler_commande',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
+                    <a href="{{route('send_it',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
                         <i class="fa fa-file-pdf-o"></i><i class="fa fa-paper-plane-o"></i> envoyer au fournisseur
                     </a>
                    @elseif($bc->etat==0)

@@ -18,8 +18,9 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use League\Flysystem\Exception;
-
+use PDF;
 class BCController extends Controller
 {
     /**
@@ -46,7 +47,47 @@ class BCController extends Controller
             ->join('analytique', 'analytique.id_analytique', '=', 'ligne_bc.codeRubrique')
             ->where('id_bonCommande','=',$bc->id)
             ->select('titre_ext','quantite_ligne_bc','unite_ligne_bc','prix_unitaire_ligne_bc','remise_ligne_bc','prix_tot','ligne_bc.slug','analytique.codeRubrique')->get();
-return view('BC/bon_commande_file',compact('bc','ligne_bcs'));
+
+
+        // Send data to the view using loadView function of PDF facade
+        $pdf = PDF::loadView('BC.bon_commande_file', compact('bc','ligne_bcs'));
+        // If you want to store the generated pdf to the server then you can use the store function
+       // $pdf->save(storage_path().'_filename.pdf');
+        // Finally, you can download the file using download function
+        return $pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
+    }
+    public function send_it($slug){
+
+        $bc= DB::table('boncommande')
+            ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
+            ->where('boncommande.slug','=',$slug)
+            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','email','interlocuteur')->first();
+
+        $ligne_bcs=DB::table('ligne_bc')
+            ->join('reponse_fournisseur', 'reponse_fournisseur.id', '=', 'ligne_bc.id_reponse_fournisseur')
+            ->join('analytique', 'analytique.id_analytique', '=', 'ligne_bc.codeRubrique')
+            ->where('id_bonCommande','=',$bc->id)
+            ->select('titre_ext','quantite_ligne_bc','unite_ligne_bc','prix_unitaire_ligne_bc','remise_ligne_bc','prix_tot','ligne_bc.slug','analytique.codeRubrique')->get();
+
+
+        // Send data to the view using loadView function of PDF facade
+        $pdf = PDF::loadView('BC.bon_commande_file', compact('bc','ligne_bcs'));
+        // If you want to store the generated pdf to the server then you can use the store function
+         $pdf->save(storage_path('bon_commande').'bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
+        // Finally, you can download the file using download function
+         $pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
+        //envoie par email
+        $email=$bc->email;
+        $interlocuteur=$bc->interlocuteur;
+        $numBonCommande=$bc->numBonCommande;
+        Mail::send('mail.mail_bc',array('corps' =>''),function($message)use ($email,$interlocuteur,$numBonCommande){
+            $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->name )
+                ->to($email,$interlocuteur)
+                ->subject('Demande de proforma')
+                ->attach( storage_path('bon_commande').'bon_de_commande_n°'.$numBonCommande.'.pdf'  );
+
+        });
+        return redirect()->route('gestion_bc')->with('success', "Envoie d'email reussi");
     }
     public function bon_commande_file1($slug){
         // $bc=  Boncommande::where('slug','=',$slug)->first();
