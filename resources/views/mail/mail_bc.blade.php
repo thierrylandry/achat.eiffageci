@@ -3,9 +3,19 @@
 
     <p>Bonjour,</p>
 
-    <p><strong>Veuillez  recevoir ci-joint le bon de commande
+    <p><strong>Ci-joint un  bon de commande.</br>
 
-            <br><strong>{{$corps}}</strong><br/>
+
+
+            <?php         if(in_array('3',$tab)){
+               echo "MERCI ET BONNE RECEPTION";
+
+            }elseif(in_array('1',$tab)){
+ echo "Merci de nous confirmer la date de livraison svp";
+            }elseif(in_array('2',$tab)){
+                echo "Merci de nous confirmer la date d’exécution des travaux svp";
+            }?>
+           <br/>
     <p>Dans l’attente, et en vous remerciant,<br>
         <br>
     <p>

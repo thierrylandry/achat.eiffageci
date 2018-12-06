@@ -13,6 +13,7 @@ use App\Analytique;
 use App\Boncommande;
 use App\fournisseur;
 use App\ligne_bc;
+use App\Lignebesoin;
 use App\Reponse_fournisseur;
 use App\User;
 use Illuminate\Http\Request;
@@ -72,21 +73,38 @@ class BCController extends Controller
 
         // Send data to the view using loadView function of PDF facade
         $pdf = PDF::loadView('BC.bon_commande_file', compact('bc','ligne_bcs'));
-        // If you want to store the generated pdf to the server then you can use the store function
-         $pdf->save(storage_path('bon_commande').'bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
-        // Finally, you can download the file using download function
-         $pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
-        //envoie par email
+
+        //$lignebesoins=Lignebesoin::where('id_bonommande','=',$bc->id)->first();
+        $lignebesoins=DB::table('lignebesoin')->where('id_bonommande','=',$bc->id)->get();
         $email=$bc->email;
         $interlocuteur=$bc->interlocuteur;
         $numBonCommande=$bc->numBonCommande;
-        Mail::send('mail.mail_bc',array('corps' =>''),function($message)use ($email,$interlocuteur,$numBonCommande){
+
+        foreach($lignebesoins as $lignebesoin){
+            $tab[]=$lignebesoin->id_nature;
+        }
+
+
+        // If you want to store the generated pdf to the server then you can use the store function
+        $pdf->save(storage_path('bon_commande').'\bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
+        Mail::send('mail.mail_bc',array('tab' =>$tab),function($message)use ($email,$interlocuteur,$numBonCommande){
             $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->name )
                 ->to($email,$interlocuteur)
-                ->subject('Demande de proforma')
-                ->attach( storage_path('bon_commande').'bon_de_commande_n°'.$numBonCommande.'.pdf'  );
+                ->subject('Commande')
+                ->attach( storage_path('bon_commande').'\bon_de_commande_n°'.$numBonCommande.'.pdf'  );
 
         });
+
+      //  return redirect()->route('gestion_bc')->with('success', "Envoie d'email reussi");
+
+        $boncom=Boncommande::where('id','=',$bc->id)->first();
+        $boncom->etat=3;
+        $boncom->save();
+        $lignebesoin=Lignebesoin::where('id_bonommande','=',$bc->id)->first();
+        $lignebesoin->etat=3;
+        $lignebesoin->save();
+        // Finally, you can download the file using download function
+          $pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
         return redirect()->route('gestion_bc')->with('success', "Envoie d'email reussi");
     }
     public function bon_commande_file1($slug){
@@ -178,6 +196,9 @@ $analytiques= Analytique::all();
 
         $ligne_bc->slug=Str::slug($ligne_bc->id_bonCommand.$ligne_bc->codeRubrique.$ligne_bc->quantite_ligne_b.$ligne_bc->prix_unitaire_ligne_bc.$date->format('dmYhis'));
         $ligne_bc->save();
+        $lignebesoin=Lignebesoin::where('id_reponse_fournisseur','=',$parameters['id_reponse_fournisseur'])->first();
+        $lignebesoin->id_bonommande=$boncommande->id;
+        $lignebesoin->save();
         return redirect()->route('gestion_bc')->with('success',"la commande a été ajouté avec success");
     }
     public function update_ligne_bc(Request $request)
@@ -197,6 +218,7 @@ $analytiques= Analytique::all();
 
         $ligne_bc->slug=Str::slug($ligne_bc->id_bonCommand.$ligne_bc->codeRubrique.$ligne_bc->quantite_ligne_b.$ligne_bc->prix_unitaire_ligne_bc.$date->format('dmYhis'));
         $ligne_bc->save();
+
         return redirect()->route('gestion_bc')->with('success',"la ligne  a été mise à jour avec succes");
     }
     public function valider_commande($slug)
@@ -207,6 +229,15 @@ $analytiques= Analytique::all();
         $Boncommande->save();
         return redirect()->route('gestion_bc')->with('success',"le bon de commande à été valider avec succès");
     }
+    public function refuser_commande($slug)
+    {
+        $date= new \DateTime(null);
+        $Boncommande= Boncommande::where('slug', '=', $slug)->first();
+        $Boncommande->etat=0;
+        $Boncommande->save();
+        return redirect()->route('gestion_bc')->with('success',"le bon de commande à été valider avec succès");
+    }
+
     public function annuler_commande($slug)
     {
         $date= new \DateTime(null);
@@ -277,6 +308,7 @@ $analytiques= Analytique::all();
        // $Boncommande->save();
         try{$Boncommande->save();
         }catch (\Illuminate\Database\QueryException $ex){
+
             return redirect()->route('gestion_bc')->with('error',"le numero du bon de commande est déjà utilisé");
         }
 

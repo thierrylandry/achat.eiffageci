@@ -489,6 +489,13 @@ Route::get('/annuler_commande/{slug}',[
 
 ])->middleware('auth');
 
+Route::get('/refuser_commande/{slug}',[
+    'as'=>'refuser_commande',
+    'uses'=>'BCController@refuser_commande',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_BC']
+
+])->middleware('auth');
 Route::get('/bon_commande_file/{slug}',[
     'as'=>'bon_commande_file',
     'uses'=>'BCController@bon_commande_file'

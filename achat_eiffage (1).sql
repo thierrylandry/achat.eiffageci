@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  ven. 30 nov. 2018 à 17:46
+-- Généré le :  jeu. 06 déc. 2018 à 11:51
 -- Version du serveur :  5.7.23
 -- Version de PHP :  7.2.10
 
@@ -35,7 +35,15 @@ CREATE TABLE IF NOT EXISTS `analytique` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id_analytique`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `analytique`
+--
+
+INSERT INTO `analytique` (`id_analytique`, `codeRubrique`, `created_at`, `updated_at`) VALUES
+(1, '22522', NULL, NULL),
+(2, '22523', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -56,17 +64,15 @@ CREATE TABLE IF NOT EXISTS `boncommande` (
   `id_fournisseur` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `numBonCommande` (`numBonCommande`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `boncommande`
 --
 
 INSERT INTO `boncommande` (`id`, `numBonCommande`, `id_user`, `created_at`, `updated_at`, `slug`, `date`, `etat`, `id_fournisseur`) VALUES
-(18, '003FF', 13, '2018-11-30 10:30:15', '2018-11-30 10:30:15', '003ff30112018103015', '2018-11-13', 1, 38),
-(20, 'new', 13, '2018-11-30 10:34:39', '2018-11-30 10:34:39', 'new30112018103439', '2018-11-14', 1, 36),
-(21, '003FFFct', 13, '2018-11-30 11:11:26', '2018-11-30 11:11:26', '003fffct30112018111126', '2018-11-15', 1, 35),
-(22, '003FFF55', 13, '2018-11-30 12:08:34', '2018-11-30 12:08:34', '003fff5530112018120834', '2018-11-29', 1, 35);
+(23, '003FFF5', 13, '2018-12-04 16:08:51', '2018-12-06 10:55:10', '003fff504122018040851', '2018-12-04', 1, 35),
+(24, '003FFF', 13, '2018-12-04 16:32:20', '2018-12-04 17:59:32', '003fff04122018043220', '2018-12-06', 0, 35);
 
 -- --------------------------------------------------------
 
@@ -129,7 +135,7 @@ INSERT INTO `fournisseur` (`id`, `libelle`, `domaine`, `conditionPaiement`, `com
 (35, 'eburtis', '5', 'je suis la', 'fdfff', 'hhhh', 'd', 'df', 'cyriaquekodia@gmail.com', '2018-10-29 17:22:31', '2018-11-22 12:36:12', 'eburtis22112018123612'),
 (36, 'La quincaillerie Abidjannaise', '5', 'orange money', 'dtft', 'abidjan', 'koffi landry', 'kone', 'cyriaquekodia@gmail.com', '2018-10-29 17:38:57', '2018-11-12 15:00:23', 'la-quincaillerie-abidjannaise12112018030023'),
 (37, 'QUINCAILLROSS', '3', 'tout', NULL, 'Rosier programme 3', 'Melaine', 'Mélaine', 'thierry.koffi@eiffage.com', '2018-11-12 15:01:42', '2018-11-12 15:01:42', 'quincaillross12112018030142'),
-(38, '3D solutions', '3', 'rrrr', NULL, 'rtrtr', 'je suis la', 'df', 'thierry.koffi@eiffage.com', '2018-11-22 12:36:38', '2018-11-22 12:36:38', '3d-solutions22112018123638'),
+(38, '3D solutions', '5', 'rrrr', NULL, 'rtrtr', 'je suis la', 'df', 'thierry.koffi@eiffage.com', '2018-11-22 12:36:38', '2018-11-22 12:36:38', '3d-solutions22112018123638'),
 (39, 'cape nord', '5', 'f', NULL, 'rrr', 'je suis la', 'df', 'cyriaque.kodia.ext@eiffage.com', '2018-11-22 14:33:23', '2018-11-22 14:45:04', 'cape-nord22112018024504'),
 (42, 'dddd', '1,2,3,4', NULL, NULL, NULL, NULL, 'df', 'cyriaquekodia@gmail.com', '2018-11-22 15:18:54', '2018-11-22 15:18:54', 'dddd22112018031854'),
 (43, 'EDF TUYAUX', '3', 'je suis la', NULL, 'test', 'je suis la', 'rrr', 'cyriaquekodia@gmail.com', '2018-11-27 15:26:22', '2018-11-27 15:26:22', 'edf-tuyaux27112018032622');
@@ -188,15 +194,18 @@ CREATE TABLE IF NOT EXISTS `ligne_bc` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `slug` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `prix_tot` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `ligne_bc`
 --
 
-INSERT INTO `ligne_bc` (`id`, `codeRubrique`, `remise_ligne_bc`, `quantite_ligne_bc`, `unite_ligne_bc`, `prix_unitaire_ligne_bc`, `id_reponse_fournisseur`, `id_bonCommande`, `created_at`, `updated_at`, `slug`) VALUES
-(1, '6', '23', 3, 'Licence', '320000', 6, 18, '2018-11-30 16:59:48', '2018-11-30 16:59:48', '632000030112018045948');
+INSERT INTO `ligne_bc` (`id`, `codeRubrique`, `remise_ligne_bc`, `quantite_ligne_bc`, `unite_ligne_bc`, `prix_unitaire_ligne_bc`, `id_reponse_fournisseur`, `id_bonCommande`, `created_at`, `updated_at`, `slug`, `prix_tot`) VALUES
+(4, '2', '10', 3, 'Licences', '100000', 6, 18, '2018-12-04 10:38:27', '2018-12-04 10:38:27', '210000004122018103827', '300 000'),
+(6, '2', '10', 1, 'Licences', '100000', 6, 23, '2018-12-04 16:22:47', '2018-12-04 16:22:47', '210000004122018042247', '100 000'),
+(7, '1', '10', 3, 'Licences', '100000', 6, 23, '2018-12-04 16:23:00', '2018-12-04 16:23:00', '110000004122018042300', '270 000');
 
 -- --------------------------------------------------------
 
@@ -237,7 +246,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(191) NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `migrations`
@@ -275,7 +284,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (29, '2018_11_28_153729_add_date_to_boncommande', 19),
 (30, '2018_11_28_164345_add_etat_to_boncommande', 20),
 (31, '2018_11_29_142810_supprimer_id_fournisseur_select_pour_id_reponse_fournisseur', 21),
-(32, '2018_11_30_081711_add_id_fournisseur', 22);
+(32, '2018_11_30_081711_add_id_fournisseur', 22),
+(33, '2018_12_03_082757_add_remise_and_dateprecis_to_table_reponse_fournisseur', 23),
+(34, '2018_12_03_151342_add_prix_tot_to_ligne_bc', 24);
 
 -- --------------------------------------------------------
 
@@ -356,6 +367,8 @@ CREATE TABLE IF NOT EXISTS `reponse_fournisseur` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `slug` varchar(191) NOT NULL,
   `id_lignebesoin` int(11) NOT NULL,
+  `remise` int(11) DEFAULT NULL,
+  `date_precise` date DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
@@ -363,10 +376,10 @@ CREATE TABLE IF NOT EXISTS `reponse_fournisseur` (
 -- Déchargement des données de la table `reponse_fournisseur`
 --
 
-INSERT INTO `reponse_fournisseur` (`id`, `id_fournisseur`, `titre_ext`, `quantite`, `unite`, `prix`, `created_at`, `updated_at`, `slug`, `id_lignebesoin`) VALUES
-(6, 35, 'eburtis', 4, 'Licences', '100000', '2018-11-22 09:38:26', '2018-11-29 17:44:24', 'eburtislicences29112018054424', 16),
-(10, 35, 'Microsoft office 365', 3, 'Licences', '300000', '2018-11-22 11:41:40', '2018-11-22 11:42:02', 'microsoft-office-365licences22112018114202', 16),
-(11, 38, 'Microsoft office 360', 3, 'Licences', '50000', '2018-11-22 12:37:22', '2018-11-22 12:37:22', 'microsoft-office-360licences22112018123722', 16);
+INSERT INTO `reponse_fournisseur` (`id`, `id_fournisseur`, `titre_ext`, `quantite`, `unite`, `prix`, `created_at`, `updated_at`, `slug`, `id_lignebesoin`, `remise`, `date_precise`) VALUES
+(6, 35, 'Open office', 1, 'Licences', '100000', '2018-11-22 09:38:26', '2018-12-03 09:25:21', 'open-officelicences03122018092521', 16, 10, '2018-12-03'),
+(10, 35, 'Microsoft office 360', 1, 'Licences', '300000', '2018-11-22 11:41:40', '2018-12-03 09:30:25', 'microsoft-office-360licences03122018093025', 16, 0, '2018-12-03'),
+(11, 38, 'Microsoft office 365', 1, 'Licences', '50000', '2018-11-22 12:37:22', '2018-12-03 09:30:42', 'microsoft-office-365licences03122018093042', 16, 0, '2018-12-03');
 
 -- --------------------------------------------------------
 

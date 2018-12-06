@@ -24,9 +24,12 @@
 
                 @elseif($bc->etat==2)
                     <i class="fa fa-circle" style="color: mediumspringgreen"><p style="visibility: hidden">2</p></i>
+                @elseif($bc->etat==3)
+                    <i class="fa fa-circle" style="color: black"><p style="visibility: hidden">3</p></i>
                 @elseif($bc->etat==0)
-                    <i class="fa fa-circle" style="color: black"><p style="visibility: hidden">0</p></i>
+                    <i class="fa fa-circle" style="color: red"><p style="visibility: hidden">0</p></i>
                 @endif
+
             </td>
             <td>{{$bc->numBonCommande}}</td>
             <td>
@@ -46,10 +49,43 @@
                     <a href="{{route('annuler_commande',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default ">
                         <i class="fa fa-ban"></i> Annuler
                     </a>
+                    <a href="{{route('bon_commande_file',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
+                        <i class="fa fa-file-pdf-o"></i>
+                    </a>
                     <a href="{{route('send_it',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
                         <i class="fa fa-file-pdf-o"></i><i class="fa fa-paper-plane-o"></i> envoyer au fournisseur
                     </a>
                    @elseif($bc->etat==0)
+                    <a href="{{route('valider_commande',['id'=>$bc->slug])}}" data-toggle="modal" class="">
+                        <i class=" fa fa-check-square-o"></i> Valider le bon
+                    </a>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-info">Action</button>
+                        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <div class="dropdown-menu" role="menu">
+                            <a href="{{route('ajouter_ligne_bc',['slug'=>$bc->slug])}}" data-toggle="modal" class=" ">
+                                <i class=" fa fa-plus-circle"></i>Ajouter une ligne
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="{{route('lister_commande',['slug'=>$bc->id])}}" data-toggle="modal" class="">
+                                <i class=" fa fa-list "></i>Liste les commandes
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="{{route('voir_bc',['slug'=>$bc->slug])}}" data-toggle="modal" class=" ">
+                                <i class=" fa fa-pencil"></i>Modifier
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="{{route('supprimer_bc',['slug'=>$bc->slug])}}" data-toggle="modal" class="">
+                                <i class=" fa fa-trash"></i>Supprimer
+                            </a>
+                            <div class="dropdown-divider"></div>
+
+                        </div>
+                    </div>
+                @elseif($bc->etat==3)
                     <a href="" data-toggle="modal" class="">
                         <i class="fa fa-hourglass-end"></i> Terminer
                     </a>
@@ -84,6 +120,9 @@
 
                     </div>
                 </div>
+                       <a href="{{route('refuser_commande',['id'=>$bc->slug])}}" data-toggle="modal" class="">
+                           <i class="fa fa-ban"></i> Rejeter le bon
+                       </a>
                        @endif
             </td>
 

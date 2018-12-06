@@ -86,7 +86,7 @@
                 </tr>
 
 
-            <?php
+                <?php
 
                 $i=1;
                 $tothtax=0;
@@ -101,9 +101,9 @@
                 $ttc=$tothtax-$tva;
                 ?>
 
-                    <tr><th colspan="7" style="text-align:right" >Total Hors Taxes en FCFA:</th> <th id="tot"><?=$tothtax?></th> </tr>
-                    <tr><th colspan="7" style="text-align:right" >TVA</th> <th id="tot"><?=$tva?></th> </tr>
-                    <tr><th colspan="7" style="text-align:right" >TOTAL TTC EN FCFA</th> <th id="tot"><?=$ttc?></th> </tr>
+                <tr><th colspan="7" style="text-align:right" >Total Hors Taxes en FCFA:</th> <th id="tot"><?=$tothtax?></th> </tr>
+                <tr><th colspan="7" style="text-align:right" >TVA</th> <th id="tot"><?=$tva?></th> </tr>
+                <tr><th colspan="7" style="text-align:right" >TOTAL TTC EN FCFA</th> <th id="tot"><?=$ttc?></th> </tr>
 
 
             </table>

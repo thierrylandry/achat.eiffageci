@@ -32,6 +32,8 @@
 
                            @elseif($da->etat==2)
                             <i class="fa fa-circle" style="color: mediumspringgreen"></i>
+                        @elseif($da->etat==3)
+                            <i class="fa fa-circle" style="color: black"></i>
                         @elseif($da->etat==0)
                             <i class="fa fa-circle" style="color: red"></i>
                             @endif
@@ -95,6 +97,23 @@
                             <a href="{{route('refuser_da',['slug'=>$da->slug])}} "id="btnconfirmerda2" data-toggle="modal" class="btn btn-danger">
                                 <i class=" fa fa-times" style="size: 40px"> Refuser ?</i>
                             </a>
+                            <div class="btn-group ">
+                                <button type="button" class="btn btn-default btn-flat ">Autres</button>
+                                <button type="button" class="btn btn-default btn-flat dropdown-toggle" data-toggle="dropdown">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <div class="dropdown-menu" role="menu">
+
+                                    <a href="{{route('voir_da',['slug'=>$da->slug])}}" data-toggle="modal">
+                                        <i class=" fa fa-pencil"> modifier</i>
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <a href="{{route('supprimer_da',['slug'=>$da->slug])}}" data-toggle="modal" >
+                                        <i class=" fa fa-trash">Supprimer</i>
+                                    </a>
+                                </div>
+                            </div>
                         @elseif($da->etat==2)
                             <a href="{{route('suspendre_da',['slug'=>$da->slug])}} "id="btnconfirmerda12" data-toggle="modal" class="btn btn-warning ">
                                 <i class=" fa fa-pause" style="size: 40px"> Suspendre ?</i>
@@ -106,27 +125,30 @@
                             <a href="{{route('confirmer_da',['slug'=>$da->slug])}} "id="btnconfirmerda2" data-toggle="modal" class="btn btn-success ">
                                 <i class=" fa fa-check-circle" style="size: 40px"> Accepter ?</i>
                             </a>
-                            <a href="{{route('suspendre_da',['slug'=>$da->slug])}} "id="btnconfirmerda12" data-toggle="modal" class="btn btn-warning ">
-                                <i class=" fa fa-pause" style="size: 40px"> Suspendre ?</i>
+
+                            <div class="btn-group ">
+                                <button type="button" class="btn btn-default btn-flat ">Autres</button>
+                                <button type="button" class="btn btn-default btn-flat dropdown-toggle" data-toggle="dropdown">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <div class="dropdown-menu" role="menu">
+
+                                    <a href="{{route('voir_da',['slug'=>$da->slug])}}" data-toggle="modal">
+                                        <i class=" fa fa-pencil"> modifier</i>
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <a href="{{route('supprimer_da',['slug'=>$da->slug])}}" data-toggle="modal" >
+                                        <i class=" fa fa-trash">Supprimer</i>
+                                    </a>
+                                </div>
+                            </div>
+                        @elseif($da->etat==3)
+                            <a href="" data-toggle="modal" class="">
+                                <i class="fa fa-hourglass-end"></i> Terminer
                             </a>
                         @endif
-                        <div class="btn-group ">
-                            <button type="button" class="btn btn-default btn-flat ">Autres</button>
-                            <button type="button" class="btn btn-default btn-flat dropdown-toggle" data-toggle="dropdown">
-                                <span class="caret"></span>
-                                <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <div class="dropdown-menu" role="menu">
 
-                                <a href="{{route('voir_da',['slug'=>$da->slug])}}" data-toggle="modal">
-                                    <i class=" fa fa-pencil"> modifier</i>
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a href="{{route('supprimer_da',['slug'=>$da->slug])}}" data-toggle="modal" >
-                                    <i class=" fa fa-trash">Supprimer</i>
-                                </a>
-                            </div>
-                        </div>
                     </td>
 
                 </tr>
