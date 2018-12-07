@@ -90,7 +90,7 @@ class BCController extends Controller
         Mail::send('mail.mail_bc',array('tab' =>$tab),function($message)use ($email,$interlocuteur,$numBonCommande){
             $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->name )
                 ->to($email,$interlocuteur)
-                ->subject('Commande')
+                ->subject('TRANSMISSION DE BON DE COMMANDE')
                 ->attach( storage_path('bon_commande').'\bon_de_commande_n°'.$numBonCommande.'.pdf'  );
 
         });

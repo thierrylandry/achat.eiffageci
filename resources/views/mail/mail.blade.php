@@ -21,7 +21,7 @@
         <br>
         {{ \Illuminate\Support\Facades\Auth::user()->function }}
         <br>
-        <label>Téléphone : </label>{{ \Illuminate\Support\Facades\Auth::user()->telephone }}
+        <label>Téléphone : </label>{{ \Illuminate\Support\Facades\Auth::user()->contact }}
         <br>
         <label>Mail : </label>{{ \Illuminate\Support\Facades\Auth::user()->email }}
         <br>
