@@ -49,7 +49,7 @@
         @endif
     </tbody>
     <tfooter>
-        <tr> <th colspan="6" style="text-align:right" >Total:</th> <th id="tot">32</th> </tr>
+        <tr> <th colspan="6" style="text-align:right" >Total:</th> <th id="tot"></th> </tr>
     </tfooter>
 </table>
 
