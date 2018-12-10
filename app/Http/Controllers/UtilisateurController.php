@@ -36,6 +36,8 @@ class UtilisateurController
         $utilisateur->function = $parameters['function'];
         $utilisateur->email = $parameters['email'];
         $utilisateur->password = Hash::make( $parameters['password']);
+        $utilisateur->contact =$parameters['contact'];
+        $utilisateur->id_service = $parameters['id_service'];
         $utilisateur->slug = Str::slug($parameters['email'] . $date->format('dmYhis'));
         $utilisateur->save();
         $roles=$parameters['roles'];
@@ -77,6 +79,8 @@ class UtilisateurController
         $utilisateur->abréviation = $parameters['abréviation'];
         $utilisateur->function = $parameters['function'];
         $utilisateur->email = $parameters['email'];
+        $utilisateur->contact =$parameters['contact'];
+        $utilisateur->id_service = $parameters['id_service'];
         if (Hash::needsRehash($parameters['password'])) {
             $utilisateur->password =Hash::make( $parameters['password']);
         }

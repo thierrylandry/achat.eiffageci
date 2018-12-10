@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTableService extends Migration
+class AddNumeroToUser extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateTableService extends Migration
      */
     public function up()
     {
-        Schema::create('service', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             //
-            $table->integer('id');
-            $table->string('libelle')->nullable();
-            $table->timestamps();
+            $table->integer('id_service')->nullable();
+            $table->string('contact')->nullable();
         });
     }
 
@@ -28,9 +27,10 @@ class CreateTableService extends Migration
      */
     public function down()
     {
-        Schema::table('service', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             //
-            Schema::dropIfExists('service');
+            $table->removeColumn('id_service');
+            $table->removeColumn('contact');
         });
     }
 }

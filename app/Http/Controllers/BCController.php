@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use League\Flysystem\Exception;
 use PDF;
+use Spipu\Html2Pdf\Html2Pdf;
 class BCController extends Controller
 {
     /**
@@ -56,6 +57,12 @@ class BCController extends Controller
        // $pdf->save(storage_path().'_filename.pdf');
         // Finally, you can download the file using download function
         return $pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
+        $html22 = View('BC.bcl.bon_commande_file')->with(array('bc' => $bc,'ligne_bcs' => $ligne_bcs))->render();
+        $html2pdf = new HTML2PDF('P', 'A4', 'en', true, 'UTF-8', array(0, 0, 0, 0));
+        $html2pdf->pdf->SetDisplayMode('fullpage');
+        $html2pdf->WriteHTML($html22);
+        return $html2pdf->Output('Invoice.pdf');
+
     }
     public function send_it($slug){
 
@@ -90,7 +97,7 @@ class BCController extends Controller
         Mail::send('mail.mail_bc',array('tab' =>$tab),function($message)use ($email,$interlocuteur,$numBonCommande){
             $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->name )
                 ->to($email,$interlocuteur)
-                ->subject('Commande')
+                ->subject('TRANSMISSION DE BON DE COMMANDE')
                 ->attach( storage_path('bon_commande').'\bon_de_commande_n°'.$numBonCommande.'.pdf'  );
 
         });
