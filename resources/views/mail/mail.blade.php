@@ -14,6 +14,7 @@
         Best regards,
         </p>
     </p>
+
     <p>
         {{ \Illuminate\Support\Facades\Auth::user()->name }}
         <br>
