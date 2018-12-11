@@ -142,7 +142,7 @@
                                     <div class="col-sm-6">
                                         <label class="control-label col-sm-6" for="Prix">Prix total:</label>
                                         <div class="">
-                                            <input type="text"  class="form-control" id="Prix" name="Prix" value="{{isset($ligne_bc) ?$ligne_bc->prix_tot:''}}" readonly>
+                                            <input type="text"  class="form-control" id="Prix" name="Prix" value="{{isset($ligne_bc) ?$ligne_bc->prix_tot-($ligne_bc->prix_tot*$ligne_bc->remise_ligne_bc)/100:''}}" readonly>
                                         </div>
                                     </div>
                                  </div>
@@ -264,7 +264,7 @@
                             function (data) {
                                 $('#quantite').val(data.quantite);
                                 $('#Unite').val(data.unite);
-                                $('#Prix').val(lisibilite_nombre(data.prix));
+                                $('#Prix').val(lisibilite_nombre(data.prix-(data.prix*data.remise)/100));
                                 $('#Prix_unitaire').val(data.prix);
                                 $('#remise').val(data.remise);
 

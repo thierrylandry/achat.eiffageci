@@ -84,16 +84,17 @@ class BCController extends Controller
             ->where('id_bonCommande','=',$bc->id)
             ->select('titre_ext','quantite_ligne_bc','unite_ligne_bc','prix_unitaire_ligne_bc','remise_ligne_bc','prix_tot','ligne_bc.slug','analytique.codeRubrique')->get();
 
+        $tothtax = 0;
 
         // Send data to the view using loadView function of PDF facade
-        $pdf = PDF::loadView('BC.bon_commande_file', compact('bc','ligne_bcs'));
+        $pdf = PDF::loadView('BC.bon-commande', compact('bc','ligne_bcs','tothtax'));
 
-        //$lignebesoins=Lignebesoin::where('id_bonommande','=',$bc->id)->first();
-        $lignebesoins=DB::table('lignebesoin')->where('id_bonommande','=',$bc->id)->get();
+        //$lignebesoins=Lignebesoin::where('id_bonCommande','=',$bc->id)->first();
+        $lignebesoins=DB::table('lignebesoin')->where('id_bonCommande','=',$bc->id)->get();
         $email=$bc->email;
         $interlocuteur=$bc->interlocuteur;
         $numBonCommande=$bc->numBonCommande;
-
+        $tab=Array();
         foreach($lignebesoins as $lignebesoin){
             $tab[]=$lignebesoin->id_nature;
         }
@@ -114,7 +115,7 @@ class BCController extends Controller
         $boncom=Boncommande::where('id','=',$bc->id)->first();
         $boncom->etat=3;
         $boncom->save();
-        $lignebesoin=Lignebesoin::where('id_bonommande','=',$bc->id)->first();
+        $lignebesoin=Lignebesoin::where('id_bonCommande','=',$bc->id)->first();
         $lignebesoin->etat=3;
         $lignebesoin->save();
         // Finally, you can download the file using download function
@@ -133,7 +134,8 @@ class BCController extends Controller
             ->join('analytique', 'analytique.id_analytique', '=', 'ligne_bc.codeRubrique')
             ->where('id_bonCommande','=',$bc->id)
             ->select('titre_ext','quantite_ligne_bc','unite_ligne_bc','prix_unitaire_ligne_bc','remise_ligne_bc','prix_tot','ligne_bc.slug','analytique.codeRubrique')->get();
-        return view('BC/bon_commande_file',compact('bc','ligne_bcs'));
+        $tothtax = 0;
+        return view('BC.bon-commande',compact('bc','ligne_bcs','tothtax'));
     }
 
     public function gestion_bc()
@@ -156,6 +158,7 @@ $analytiques= Analytique::all();
     }
     public function ajouter_ligne_bc($slugbc)
     {
+        $bc=  Boncommande::where('slug','=',$slugbc)->first();
         $bcs=  Boncommande::all();
         $utilisateurs=  User::all();
         $fournisseurs= DB::table('fournisseur')
@@ -167,6 +170,7 @@ $analytiques= Analytique::all();
             ->join('lignebesoin', 'reponse_fournisseur.id', '=', 'lignebesoin.id_reponse_fournisseur')
             ->join('materiel', 'materiel.id', '=', 'lignebesoin.id_materiel')
             ->where('lignebesoin.etat', '=', 2)
+            ->where('reponse_fournisseur.id_fournisseur', '=', $bc->id_fournisseur)
             ->select('materiel.libelleMateriel','titre_ext','reponse_fournisseur.id')->distinct()->get();
         $ajouterbc='';
         $analytiques= Analytique::all();
@@ -205,14 +209,21 @@ $analytiques= Analytique::all();
         $ligne_bc->quantite_ligne_bc=$parameters['quantite'];
         $ligne_bc->unite_ligne_bc=$parameters['Unite'];
         $ligne_bc->prix_unitaire_ligne_bc=$parameters['Prix_unitaire'];
-        $ligne_bc->prix_tot=$parameters['Prix'];
+        $ligne_bc->prix_tot=str_replace(" ","",$parameters['Prix']);
         $ligne_bc->id_reponse_fournisseur=$parameters['id_reponse_fournisseur'];
 
         $ligne_bc->slug=Str::slug($ligne_bc->id_bonCommand.$ligne_bc->codeRubrique.$ligne_bc->quantite_ligne_b.$ligne_bc->prix_unitaire_ligne_bc.$date->format('dmYhis'));
         $ligne_bc->save();
+
+        $sumligne=ligne_bc::where('id_bonCommande','=',$boncommande->id)->sum('prix_tot');
+        $tot_ttc=$sumligne*1.18;
+
+        $boncommande->total_ttc=$tot_ttc;
+        $boncommande->save();
         $lignebesoin=Lignebesoin::where('id_reponse_fournisseur','=',$parameters['id_reponse_fournisseur'])->first();
-        $lignebesoin->id_bonommande=$boncommande->id;
+        $lignebesoin->id_bonCommande=$boncommande->id;
         $lignebesoin->save();
+
         return redirect()->route('gestion_bc')->with('success',"la commande a été ajouté avec success");
     }
     public function update_ligne_bc(Request $request)
@@ -227,12 +238,17 @@ $analytiques= Analytique::all();
         $ligne_bc->quantite_ligne_bc=$parameters['quantite'];
         $ligne_bc->unite_ligne_bc=$parameters['Unite'];
         $ligne_bc->prix_unitaire_ligne_bc=$parameters['Prix_unitaire'];
-        $ligne_bc->prix_tot=$parameters['Prix'];
+        $ligne_bc->prix_tot=str_replace(" ","",$parameters['Prix']);
         $ligne_bc->id_reponse_fournisseur=$parameters['id_reponse_fournisseur'];
 
         $ligne_bc->slug=Str::slug($ligne_bc->id_bonCommand.$ligne_bc->codeRubrique.$ligne_bc->quantite_ligne_b.$ligne_bc->prix_unitaire_ligne_bc.$date->format('dmYhis'));
         $ligne_bc->save();
 
+        $boncommande= Boncommande::where('id','=',$ligne_bc->id_bonCommande)->first();
+        $sumligne=ligne_bc::where('id_bonCommande','=',$boncommande->id)->sum('prix_tot');
+        $tot_ttc=$sumligne*1.18;
+        $boncommande->total_ttc=$tot_ttc;
+        $boncommande->save();
         return redirect()->route('gestion_bc')->with('success',"la ligne  a été mise à jour avec succes");
     }
     public function valider_commande($slug)
@@ -373,8 +389,15 @@ $analytiques= Analytique::all();
     }
     public function supprimer_ligne_bc($slug)
     {
-        $fournisseur = ligne_bc::where('slug', '=', $slug)->first();
-        $fournisseur->delete();
+        $ligne_bc = ligne_bc::where('slug', '=', $slug)->first();
+       $id=$ligne_bc->id_bonCommande;
+        $ligne_bc->delete();
+
+        $sumligne=ligne_bc::where('id_bonCommande','=',$id)->sum('prix_tot');
+        $tot_ttc=$sumligne*1.18;
+        $boncommande=Boncommande::where('id','=',$id)->first();
+        $boncommande->total_ttc=$tot_ttc;
+        $boncommande->save();
 
 
         return redirect()->route('gestion_bc')->with('success', "La ligne du bon de commande a été supprimée avec succes ");

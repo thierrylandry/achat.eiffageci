@@ -85,6 +85,11 @@
     table.numero tr, table.numero tr td{
         margin: 3px;
     }
+    .lignesEspacees
+    {
+        border-collapse : separate;
+        border-spacing : 10px;
+    }
 </style>
 <body style=" margin-top: -0.5cm; margin-left: 0cm; width: 19cm; border: 1px solid #ffffff;">
 <div class="entete">
@@ -96,9 +101,9 @@
                 <p style="font-size: 8pt; padding: 0;">N° RCCM : CI-ABJ-2017-B-22961 / N° CC : 1739936Z</p>
             </td>
             <td width="50%">
-                <table class="numero">
-                    <tr>
-                        <td style="" width="50%" valign="center" align="right">Bon de commande N°</td>
+                <table class="numero lignesEspacees">
+                    <tr >
+                        <td  width="50%" valign="center" align="right">Bon de commande N°</td>
                         <td style="border: 0.3pt solid #000000;" width="50%" valign="center" align="center"> 645654FFFFHG </td>
                     </tr>
                     <tr>
