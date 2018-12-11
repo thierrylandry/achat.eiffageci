@@ -52,16 +52,23 @@ class BCController extends Controller
 
 
         // Send data to the view using loadView function of PDF facade
-        $pdf = PDF::loadView('BC.bon_commande_file', compact('bc','ligne_bcs'));
+
+        //$pdf = PDF::loadView('BC.bon_commande_file', compact('bc','ligne_bcs'));
+        $tothtax = 0;
+        //return view('BC.bon-commande', compact('bc','ligne_bcs','tothtax'));
+        $pdf = PDF::loadView('BC.bon-commande', compact('bc','ligne_bcs','tothtax'));
+
         // If you want to store the generated pdf to the server then you can use the store function
        // $pdf->save(storage_path().'_filename.pdf');
         // Finally, you can download the file using download function
-        return $pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
-        $html22 = View('BC.bcl.bon_commande_file')->with(array('bc' => $bc,'ligne_bcs' => $ligne_bcs))->render();
+        //return $pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
+        return $pdf->stream('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
+
+      /*  $html22 = View('BC.bcl.bon_commande_file')->with(array('bc' => $bc,'ligne_bcs' => $ligne_bcs))->render();
         $html2pdf = new HTML2PDF('P', 'A4', 'en', true, 'UTF-8', array(0, 0, 0, 0));
         $html2pdf->pdf->SetDisplayMode('fullpage');
         $html2pdf->WriteHTML($html22);
-        return $html2pdf->Output('Invoice.pdf');
+        return $html2pdf->Output('Invoice.pdf');*/
 
     }
     public function send_it($slug){
