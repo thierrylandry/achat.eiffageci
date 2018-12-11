@@ -1,6 +1,4 @@
 
-
-
 <table name ="bonCommandes" id="bonCommandes" class='table table-bordered table-striped  no-wrap '>
 
     <thead>

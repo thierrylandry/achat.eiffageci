@@ -48,21 +48,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="form-group row">
 
                     <div class="col-md-12">
-                        <input type="email"  name="email" id="email" required=""  class="ggg form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" placeholder="Veuillez saisir le  E-mail">
+                        <input type="email"  name="email" id="email" required=""  class="ggg form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" placeholder="Veuillez saisir votre e-mail SVP">
 
                         @if ($errors->has('email'))
                             <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('email') }}</strong>
+                                        <strong class="row-md-8">{{ $errors->first('email') }}</strong>
                             </span>
                         @endif
                     </div>
                 </div>
 
 
-                <input type="password" id="password" name="password"class="ggg form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="Veuillez saisir le mot de passe">
+                <input type="password" id="password" name="password" class="ggg form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="Veuillez saisir votre code SVP">
                 @if ($errors->has('password'))
                     <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('password') }}</strong>
+                                        <strong class="row-md-8">{{ $errors->first('password') }}</strong>
                                     </span>
                 @endif
                 <span><input id="remember" type="checkbox" {{ old('remember') ? 'checked' : '' }} />Se souvenir de moi</span>

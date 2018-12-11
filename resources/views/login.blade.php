@@ -36,13 +36,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
         <div class="row">
             <div class="col-sm-2"></div>
-            <img  src="images/Eiffage_2400_01_colour_RGB.png" class="col-sm-8"  alt="">
+            <img  src="images/Eiffage_2400_01_colour_RGB.png" class="col-sm-8" alt="">
             <div class="col-sm-2"></div>
         </div>
 
         <h2>{{ __('Connexion') }}</h2>
         <form action="{{ route('login') }}" method="post">
-            <input type="email"  name="Email" id="Email" required=""  class="ggg form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" placeholder="Veuillez saisir votre e-mail SVP">
+            <input type="email"  name="Email" id="Email" required="" class="ggg form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" placeholder="Veuillez saisir votre e-mail SVP">
 
             @if ($errors->has('email'))
                 <span class="invalid-feedback" role="alert" >
