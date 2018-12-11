@@ -80,7 +80,7 @@ $fournisseurs=Fournisseur::all();
         $fournisseur->save();
         return redirect()->route('ajouter_fournisseur')->with('success',"le fournisseur à été mis à jour");
     }
-    public function envoies( Request $request)
+    public function envoies(Request $request)
     {
 
          $parameters = $request->except(['_token']);
@@ -89,7 +89,7 @@ $fournisseurs=Fournisseur::all();
         $listeDA = $parameters['listeDA'];
         $tab_listeSA = explode(",", $listeDA);
         $corps='';
-        $enteetab='<table><th>produits et service</th><th>Quantite</th><th>prix</th>';
+        $enteetab='<table><th>Produits et Service</th><th>Quantite</th><th>Prix</th>';
         foreach($tab_listeSA as $laDA):
             $das=  DA::find($laDA);
 
@@ -211,7 +211,7 @@ $fournisseurs=Fournisseur::all();
         $rep_fourn->prix=$prix_reponse;
         $rep_fourn->slug = Str::slug($parameters['titre_ext'].$Unite. $date->format('dmYhis'));
         $rep_fourn->save();
-        return redirect()->route('gestion_reponse_fournisseur')->with('success', "la pro forma à été modifié");
+        return redirect()->route('gestion_reponse_fournisseur')->with('success', "La pro forma à été modifié");
     }
 
     public function les_das_fournisseurs_funct($domaine)
@@ -283,7 +283,7 @@ $fournisseurs=Fournisseur::all();
 
         $da->save();
 
-            return redirect()->route('gestion_reponse_fournisseur')->with('success', "choix de la proforma du fournisseur effectué");
+            return redirect()->route('gestion_reponse_fournisseur')->with('success', "Choix de la proforma du fournisseur effectué");
 
     }
 }
