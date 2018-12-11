@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  jeu. 06 déc. 2018 à 11:51
+-- Généré le :  mar. 11 déc. 2018 à 18:08
 -- Version du serveur :  5.7.23
 -- Version de PHP :  7.2.10
 
@@ -62,17 +62,19 @@ CREATE TABLE IF NOT EXISTS `boncommande` (
   `date` date NOT NULL,
   `etat` int(11) NOT NULL DEFAULT '1',
   `id_fournisseur` int(11) NOT NULL,
+  `total_ttc` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `numBonCommande` (`numBonCommande`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `boncommande`
 --
 
-INSERT INTO `boncommande` (`id`, `numBonCommande`, `id_user`, `created_at`, `updated_at`, `slug`, `date`, `etat`, `id_fournisseur`) VALUES
-(23, '003FFF5', 13, '2018-12-04 16:08:51', '2018-12-06 10:55:10', '003fff504122018040851', '2018-12-04', 1, 35),
-(24, '003FFF', 13, '2018-12-04 16:32:20', '2018-12-04 17:59:32', '003fff04122018043220', '2018-12-06', 0, 35);
+INSERT INTO `boncommande` (`id`, `numBonCommande`, `id_user`, `created_at`, `updated_at`, `slug`, `date`, `etat`, `id_fournisseur`, `total_ttc`) VALUES
+(25, '003FFF5', 13, '2018-12-11 11:07:58', '2018-12-11 15:22:08', '003fff511122018110758', '2018-12-21', 3, 37, 4543),
+(26, '003FF', 13, '2018-12-11 12:00:05', '2018-12-11 14:57:07', '003ff11122018120005', '2018-12-19', 3, 43, 5310),
+(27, '003Fcc', 13, '2018-12-11 16:09:17', '2018-12-11 16:41:01', '003fcc11122018040917', '2018-12-26', 1, 35, 13452);
 
 -- --------------------------------------------------------
 
@@ -156,7 +158,7 @@ CREATE TABLE IF NOT EXISTS `lignebesoin` (
   `id_reponse_fournisseur` int(11) DEFAULT NULL,
   `id_nature` int(11) DEFAULT NULL,
   `id_materiel` int(11) DEFAULT NULL,
-  `id_bonommande` int(11) DEFAULT NULL,
+  `id_bonCommande` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `demandeur` varchar(191) NOT NULL,
@@ -164,16 +166,17 @@ CREATE TABLE IF NOT EXISTS `lignebesoin` (
   `etat` varchar(191) NOT NULL DEFAULT '1',
   `id_valideur` varchar(191) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `lignebesoin`
 --
 
-INSERT INTO `lignebesoin` (`id`, `unite`, `quantite`, `DateBesoin`, `id_user`, `id_reponse_fournisseur`, `id_nature`, `id_materiel`, `id_bonommande`, `created_at`, `updated_at`, `demandeur`, `slug`, `etat`, `id_valideur`) VALUES
-(14, 'mètre', 2.00, '2018-11-14', 2, NULL, 1, 7, NULL, '2018-11-13 10:51:43', '2018-11-16 15:58:33', 'kodia', '716112018035833', '2', 'Cyriaque Kodia'),
-(15, 'mètre', 3.00, '2018-11-24', 2, NULL, 1, 10, NULL, '2018-11-13 11:15:57', '2018-11-16 15:58:45', 'Mélaine', '1016112018035845', '2', 'Cyriaque Kodia'),
-(16, 'Licences', 3.00, '2018-11-21', 2, 6, 2, 6, NULL, '2018-11-21 16:25:02', '2018-11-29 16:21:22', 'koffi', '621112018042502', '2', 'Cyriaque Kodia');
+INSERT INTO `lignebesoin` (`id`, `unite`, `quantite`, `DateBesoin`, `id_user`, `id_reponse_fournisseur`, `id_nature`, `id_materiel`, `id_bonCommande`, `created_at`, `updated_at`, `demandeur`, `slug`, `etat`, `id_valideur`) VALUES
+(17, 'mètre', 3.00, '2018-12-13', 13, 12, 1, 7, 25, '2018-12-11 10:59:10', '2018-12-11 11:42:16', 'koffi', '711122018105910', '3', 'administrateur'),
+(18, 'mètre', 6.00, '2018-12-21', 13, 14, 1, 5, 26, '2018-12-11 10:59:40', '2018-12-11 14:57:07', 'Mélaine', '511122018105940', '3', 'administrateur'),
+(19, 'Installations', 2.00, '2018-12-19', 13, 16, 2, 6, 27, '2018-12-11 16:06:10', '2018-12-11 16:09:32', 'Mélaine', '611122018040610', '2', 'administrateur'),
+(20, 'mètre', 2.00, '2018-12-12', 13, NULL, 1, 7, NULL, '2018-12-11 16:26:23', '2018-12-11 16:26:23', 'kodia', '711122018042623', '1', NULL);
 
 -- --------------------------------------------------------
 
@@ -188,24 +191,24 @@ CREATE TABLE IF NOT EXISTS `ligne_bc` (
   `remise_ligne_bc` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `quantite_ligne_bc` int(11) DEFAULT NULL,
   `unite_ligne_bc` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `prix_unitaire_ligne_bc` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `prix_unitaire_ligne_bc` float DEFAULT NULL,
   `id_reponse_fournisseur` int(11) DEFAULT NULL,
   `id_bonCommande` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `slug` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `prix_tot` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `prix_tot` float DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `ligne_bc`
 --
 
 INSERT INTO `ligne_bc` (`id`, `codeRubrique`, `remise_ligne_bc`, `quantite_ligne_bc`, `unite_ligne_bc`, `prix_unitaire_ligne_bc`, `id_reponse_fournisseur`, `id_bonCommande`, `created_at`, `updated_at`, `slug`, `prix_tot`) VALUES
-(4, '2', '10', 3, 'Licences', '100000', 6, 18, '2018-12-04 10:38:27', '2018-12-04 10:38:27', '210000004122018103827', '300 000'),
-(6, '2', '10', 1, 'Licences', '100000', 6, 23, '2018-12-04 16:22:47', '2018-12-04 16:22:47', '210000004122018042247', '100 000'),
-(7, '1', '10', 3, 'Licences', '100000', 6, 23, '2018-12-04 16:23:00', '2018-12-04 16:23:00', '110000004122018042300', '270 000');
+(13, '2', '5', 2, 'Installations', 12000, 16, 27, '2018-12-11 16:41:01', '2018-12-11 16:41:01', '21200011122018044101', 11400),
+(10, '1', '10', 1, 'm', 5000, 14, 26, '2018-12-11 12:04:51', '2018-12-11 12:04:51', '1500011122018120451', 4500),
+(9, '1', '23', 1, 'm', 5000, 14, 25, '2018-12-11 11:33:31', '2018-12-11 11:58:35', '1500011122018115835', 3850);
 
 -- --------------------------------------------------------
 
@@ -246,7 +249,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(191) NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `migrations`
@@ -286,7 +289,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (31, '2018_11_29_142810_supprimer_id_fournisseur_select_pour_id_reponse_fournisseur', 21),
 (32, '2018_11_30_081711_add_id_fournisseur', 22),
 (33, '2018_12_03_082757_add_remise_and_dateprecis_to_table_reponse_fournisseur', 23),
-(34, '2018_12_03_151342_add_prix_tot_to_ligne_bc', 24);
+(34, '2018_12_03_151342_add_prix_tot_to_ligne_bc', 24),
+(35, '2018_12_06_174847_create_table_service', 25),
+(36, '2018_12_07_102916_add_numero_to_user', 25),
+(37, '2018_12_11_153440_add_total_ttc_to_boncommande', 25);
 
 -- --------------------------------------------------------
 
@@ -370,16 +376,18 @@ CREATE TABLE IF NOT EXISTS `reponse_fournisseur` (
   `remise` int(11) DEFAULT NULL,
   `date_precise` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `reponse_fournisseur`
 --
 
 INSERT INTO `reponse_fournisseur` (`id`, `id_fournisseur`, `titre_ext`, `quantite`, `unite`, `prix`, `created_at`, `updated_at`, `slug`, `id_lignebesoin`, `remise`, `date_precise`) VALUES
-(6, 35, 'Open office', 1, 'Licences', '100000', '2018-11-22 09:38:26', '2018-12-03 09:25:21', 'open-officelicences03122018092521', 16, 10, '2018-12-03'),
-(10, 35, 'Microsoft office 360', 1, 'Licences', '300000', '2018-11-22 11:41:40', '2018-12-03 09:30:25', 'microsoft-office-360licences03122018093025', 16, 0, '2018-12-03'),
-(11, 38, 'Microsoft office 365', 1, 'Licences', '50000', '2018-11-22 12:37:22', '2018-12-03 09:30:42', 'microsoft-office-365licences03122018093042', 16, 0, '2018-12-03');
+(12, 37, 'filtre à liquide au ph neutre', 1, 'm', '5000', '2018-12-11 11:03:36', '2018-12-11 11:03:36', 'filtre-a-liquide-au-ph-neutrem11122018110336', 17, 23, '2018-12-11'),
+(13, 43, 'filtre à liquide au ph neutre', 1, 'm', '5000', '2018-12-11 11:04:18', '2018-12-11 11:04:18', 'filtre-a-liquide-au-ph-neutrem11122018110418', 17, 10, '2018-12-11'),
+(14, 43, 'tuyaux b2', 1, 'm', '5000', '2018-12-11 11:05:36', '2018-12-11 11:05:36', 'tuyaux-b2m11122018110536', 18, 10, '2018-12-11'),
+(15, 37, 'tyaux allu', 1, 'm', '6000', '2018-12-11 11:07:14', '2018-12-11 11:07:14', 'tyaux-allum11122018110714', 18, 10, '2018-12-11'),
+(16, 35, 'Assistance logiciel', 2, 'Installations', '12000', '2018-12-11 16:07:54', '2018-12-11 16:07:54', 'assistance-logicielinstallations11122018040754', 19, 5, '2018-12-11');
 
 -- --------------------------------------------------------
 
@@ -414,6 +422,20 @@ INSERT INTO `roles` (`id`, `created_at`, `updated_at`, `name`, `description`) VA
 (88, '2018-11-26 08:11:56', '2018-11-26 08:11:56', 'Gestionnaire_Pro_Forma', 'GESTION DES PRO FORMA'),
 (89, '2018-11-26 08:11:56', '2018-11-26 08:11:56', 'Gestionnaire_BC', 'GESTION DES B.C'),
 (90, '2018-11-26 08:11:56', '2018-11-26 08:11:56', 'Valideur_BC', 'VALIDATION DES B.C');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `service`
+--
+
+DROP TABLE IF EXISTS `service`;
+CREATE TABLE IF NOT EXISTS `service` (
+  `id` int(11) NOT NULL,
+  `libelle` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -464,6 +486,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `id_profil` int(11) DEFAULT NULL,
   `slug` varchar(191) NOT NULL,
+  `id_service` int(11) DEFAULT NULL,
+  `contact` varchar(191) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
@@ -472,9 +496,9 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Déchargement des données de la table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `abréviation`, `function`, `telephone`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `id_profil`, `slug`) VALUES
-(13, 'administrateur', 'Admin', 'Gestionnaire Application ', '+XXX XX XX XX XX', 'admin@eiffage.com', NULL, '$2y$10$.k1X.RyevXjktAPrTIZ.Ze9.07DGbI.GNtmEsEJuKQOFa5GKNPWfG', 'vKhsgj8AF3anszDfgg8vDzidiYpyMiGIje6rVnrnl4ht4jHfVRpe9aToAu5z', '2018-11-26 08:11:56', '2018-11-26 08:11:56', NULL, 'admin-at-eiffagecom26112018081156'),
-(14, 'Thierry Koffi', 'TKO', 'Informaticien Terrain', '+XXX XX XX XX XX', 'thierry.koffi@eiffage.com', NULL, '$2y$10$SKNOTGJ/oxmtRLD4PgsK0.0CS2Lt/kxbUPmjGx.Qeacjcsjss.GrS', NULL, '2018-11-27 17:31:36', '2018-11-27 17:31:36', NULL, 'thierrykoffi-at-eiffagecom27112018053136');
+INSERT INTO `users` (`id`, `name`, `abréviation`, `function`, `telephone`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `id_profil`, `slug`, `id_service`, `contact`) VALUES
+(13, 'administrateur', 'Admin', 'Gestionnaire Application ', '+XXX XX XX XX XX', 'admin@eiffage.com', NULL, '$2y$10$.k1X.RyevXjktAPrTIZ.Ze9.07DGbI.GNtmEsEJuKQOFa5GKNPWfG', 'vKhsgj8AF3anszDfgg8vDzidiYpyMiGIje6rVnrnl4ht4jHfVRpe9aToAu5z', '2018-11-26 08:11:56', '2018-11-26 08:11:56', NULL, 'admin-at-eiffagecom26112018081156', NULL, NULL),
+(14, 'Thierry Koffi', 'TKO', 'Informaticien Terrain', '+XXX XX XX XX XX', 'thierry.koffi@eiffage.com', NULL, '$2y$10$SKNOTGJ/oxmtRLD4PgsK0.0CS2Lt/kxbUPmjGx.Qeacjcsjss.GrS', NULL, '2018-11-27 17:31:36', '2018-11-27 17:31:36', NULL, 'thierrykoffi-at-eiffagecom27112018053136', NULL, NULL);
 
 -- --------------------------------------------------------
 

@@ -24,7 +24,7 @@
             <td style=" text-align: right;">{{$ligne_bc->prix_unitaire_ligne_bc}}</td>
             <td style=" text-align: center;">{{$ligne_bc->remise_ligne_bc}}</td>
             <td style=" text-align: right;">{{$ligne_bc->prix_tot}}
-                <span style="display: none;">{{ $tothtax += intval(str_replace(" ","",$ligne_bc->prix_tot)) }}</span>
+                <span style="display: none;">{{ $tothtax +=  intval(str_replace(" ","",$ligne_bc->prix_tot)) }}</span>
             </td>
         </tr>
         @endforeach
@@ -44,16 +44,16 @@
                 </div>
                 <p align="center"><b>Condition de paiement</b></p>
                 <div class="rubrique">
-                    <p><b>RIB à mentionner sur la facture</b><br/>
-                    Par virement ou chèque 30 jours fin de mois<br/>
+                    <p><b>RIB à mentionner sur la facture</b> <br/>
+                    Par virement ou chèque 30 jours fin de mois <br/>
                     date de réception de facture.</p>
                 </div>
             </th>
             <th colspan="6" valign="top" style="margin: 0; padding: 0;">
                 <table class="ssfacture" style="margin: 0; padding: 0;">
                     <tr>
-                        <td width="61.8%" style="text-align:right"><b>Total Hors Taxes en FCFA</b></td>
-                        <td class="value">{{ number_format($tothtax, 0,".", " ") }}</td>
+                        <td width="61.8%" style="text-align:right"><b>Total Hors Taxes en FCFA</b> </td>
+                        <td class="value">{{ number_format($tothtax, 0,".", " ")  }}</td>
                     </tr>
                     <tr>
                         <td style="text-align:right" ><b>TVA </b></td>

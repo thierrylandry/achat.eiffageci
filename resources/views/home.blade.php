@@ -5,40 +5,25 @@
 @section('dashboard')
     <div class="market-updates">
         <div class="col-md-3 market-update-gd">
+            <div class="market-update-block clr-block-4">
+                <div class="col-md-4 market-update-right">
+                    <i class="fa fa-refresh fa-5x fa-spin  fa-fw" style="color: white"></i>
+                </div>
+                <div class="col-md-8 market-update-left">
+                    <h4>D.A en attente de validation</h4>
+                    <h3>{{$daencours}}/{{$das}}</h3>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+        </div>
+        <div class="col-md-3 market-update-gd">
             <div class="market-update-block clr-block-2">
                 <div class="col-md-4 market-update-right">
-                    <i class="fa fa-eye"> </i>
+                    <i class="fa fa-refresh fa-5x fa-spin  fa-fw" style="color: white"> </i>
                 </div>
                 <div class="col-md-8 market-update-left">
-                    <h4>Nombre de DA en cours</h4>
-                    <h3>13,500</h3>
-                    <p>Other hand, we denounce</p>
-                </div>
-                <div class="clearfix"> </div>
-            </div>
-        </div>
-        <div class="col-md-3 market-update-gd">
-            <div class="market-update-block clr-block-1">
-                <div class="col-md-4 market-update-right">
-                    <i class="fa fa-users" ></i>
-                </div>
-                <div class="col-md-8 market-update-left">
-                    <h4>Nombre de fournisseur</h4>
-                    <h3>1,250</h3>
-                    <p>Other hand, we denounce</p>
-                </div>
-                <div class="clearfix"> </div>
-            </div>
-        </div>
-        <div class="col-md-3 market-update-gd">
-            <div class="market-update-block clr-block-3">
-                <div class="col-md-4 market-update-right">
-                    <i class="fa fa-usd"></i>
-                </div>
-                <div class="col-md-8 market-update-left">
-                    <h4>Montant  total des Achats</h4>
-                    <h3>1,500</h3>
-                    <p>Other hand, we denounce</p>
+                    <h4>B.C en attente de valisation</h4>
+                    <h3>{{$Boncommandeencours}}/{{$Boncommandes}}</h3>
                 </div>
                 <div class="clearfix"> </div>
             </div>
@@ -46,16 +31,28 @@
         <div class="col-md-3 market-update-gd">
             <div class="market-update-block clr-block-4">
                 <div class="col-md-4 market-update-right">
-                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                    <i class="fa fa-refresh fa-5x fa-spin  fa-fw" style="color: white"> </i>
                 </div>
                 <div class="col-md-8 market-update-left">
-                    <h4>Nombre d'utilisateurs</h4>
-                    <h3>1,500</h3>
-                    <p>Other hand, we denounce</p>
+                    <h4>Total des B.C validés</h4>
+                    <h3>{{number_format($montant_bc, 0,".", " ")}} Fr CFA</h3>
                 </div>
                 <div class="clearfix"> </div>
             </div>
         </div>
+        <div class="col-md-3 market-update-gd">
+            <div class="market-update-block clr-block-2">
+                <div class="col-md-4 market-update-right">
+                    <i class="fa fa-refresh fa-5x fa-spin  fa-fw" style="color: white"> </i>
+                </div>
+                <div class="col-md-8 market-update-left">
+                    <h4>Total des B.C traités</h4>
+                    <h3>{{number_format($montant_bct, 0,".", " ")}} Fr CFA</h3>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+        </div>
+
         <div class="clearfix"> </div>
     </div>
 @endsection()
