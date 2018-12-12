@@ -14,20 +14,113 @@
         </tr>
         </thead>
         <tbody>
+        @if($taille<=9)
+
+            @if($taille==9)
+                @else
+
+            @endif
+            @foreach($ligne_bcs as $ligne_bc)
+                @if($loop->index + 1!=9)
+                <tr>
+                    <td  style="border-bottom-color: white">{{$loop->index + 1}}</td>
+                    <td  style="border-bottom-color: white">{{$ligne_bc->titre_ext }}</td>
+                    <td style=" text-align: center;border-bottom-color: white">{{$ligne_bc->codeRubrique}}</td>
+                    <td style=" text-align: center;border-bottom-color: white">{{$ligne_bc->quantite_ligne_bc}}</td>
+                    <td style="border-bottom-color: white">{{$ligne_bc->unite_ligne_bc}}</td>
+                    <td style=" text-align: right;border-bottom-color: white">{{$ligne_bc->prix_unitaire_ligne_bc}}</td>
+                    <td style=" text-align: center;border-bottom-color: white">{{$ligne_bc->remise_ligne_bc}}</td>
+                    <td style=" text-align: right;border-bottom-color: white">{{$ligne_bc->prix_tot}}
+                        <span style="display: none;border-bottom-color: white">{{ $tothtax +=  $ligne_bc->prix_tot }}</span>
+                    </td>
+                </tr>
+                    @else
+                    <tr>
+                        <td  style="">{{$loop->index + 1}}</td>
+                        <td  style="">{{$ligne_bc->titre_ext }}</td>
+                        <td style=" text-align: center;">{{$ligne_bc->codeRubrique}}</td>
+                        <td style=" text-align: center;">{{$ligne_bc->quantite_ligne_bc}}</td>
+                        <td style="">{{$ligne_bc->unite_ligne_bc}}</td>
+                        <td style=" text-align: right;">{{$ligne_bc->prix_unitaire_ligne_bc}}</td>
+                        <td style=" text-align: center;">{{$ligne_bc->remise_ligne_bc}}</td>
+                        <td style=" text-align: right;">{{$ligne_bc->prix_tot}}
+                            <span style="display: none;">{{ $tothtax +=  $ligne_bc->prix_tot }}</span>
+                        </td>
+                    </tr>
+                @endif
+            @endforeach
+
+        @for($i=0;$i<$val=9-$taille;$i++)
+            @if($i==$val-1)
+                <tr>
+                    <td >&nbsp;&nbsp;&nbsp;</td>
+                    <td >&nbsp;&nbsp;&nbsp;</td>
+                    <td >&nbsp;&nbsp;&nbsp;</td>
+                    <td >&nbsp;&nbsp;&nbsp;</td>
+                    <td >&nbsp;&nbsp;&nbsp;</td>
+                    <td >&nbsp;&nbsp;&nbsp;</td>
+                    <td >&nbsp;&nbsp;&nbsp;</td>
+                    <td >&nbsp;&nbsp;&nbsp;</span>
+                    </td>
+                </tr>
+            @else
+                <tr>
+                    <td style="border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style="border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style="border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style=" text-align: right;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style=" text-align: right;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</span>
+                    </td>
+                </tr>
+            @endif
+        @endfor
+            @elseif( $taille>9)
         @foreach($ligne_bcs as $ligne_bc)
-        <tr>
-            <td>{{$loop->index + 1}}</td>
-            <td>{{$ligne_bc->titre_ext }}</td>
-            <td style=" text-align: center;">{{$ligne_bc->codeRubrique}}</td>
-            <td style=" text-align: center;">{{$ligne_bc->quantite_ligne_bc}}</td>
-            <td>{{$ligne_bc->unite_ligne_bc}}</td>
-            <td style=" text-align: right;">{{$ligne_bc->prix_unitaire_ligne_bc}}</td>
-            <td style=" text-align: center;">{{$ligne_bc->remise_ligne_bc}}</td>
-            <td style=" text-align: right;">{{$ligne_bc->prix_tot}}
-                <span style="display: none;">{{ $tothtax +=  $ligne_bc->prix_tot }}</span>
-            </td>
-        </tr>
+            <tr >
+                <td style="border-bottom-color: white">{{$loop->index + 1}} </td>
+                <td style="border-bottom-color: white">{{$ligne_bc->titre_ext }}</td>
+                <td style=" text-align: center;border-bottom-color: white">{{$ligne_bc->codeRubrique}}</td>
+                <td style=" text-align: center;border-bottom-color: white">{{$ligne_bc->quantite_ligne_bc}}</td>
+                <td style="border-bottom-color: white">{{$ligne_bc->unite_ligne_bc}}</td>
+                <td style=" text-align: right;border-bottom-color: white">{{$ligne_bc->prix_unitaire_ligne_bc}}</td>
+                <td style=" text-align: center;border-bottom-color: white">{{$ligne_bc->remise_ligne_bc}}</td>
+                <td style=" text-align: right;border-bottom-color: white">{{$ligne_bc->prix_tot}}
+                    <span style="display: none;border-bottom-color: white">{{ $tothtax +=  $ligne_bc->prix_tot }}</span>
+                </td>
+            </tr>
+
         @endforeach
+        @for($i=0;$i<$val=38-$taille;$i++)
+            @if($i==$val-1)
+                <tr>
+                    <td >&nbsp;&nbsp;&nbsp;</td>
+                    <td >&nbsp;&nbsp;&nbsp;</td>
+                    <td >&nbsp;&nbsp;&nbsp;</td>
+                    <td >&nbsp;&nbsp;&nbsp;</td>
+                    <td >&nbsp;&nbsp;&nbsp;</td>
+                    <td >&nbsp;&nbsp;&nbsp;</td>
+                    <td >&nbsp;&nbsp;&nbsp;</td>
+                    <td >&nbsp;&nbsp;&nbsp;</span>
+                    </td>
+                </tr>
+            @else
+                <tr>
+                    <td style="border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style="border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style="border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style=" text-align: right;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style=" text-align: right;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</span>
+                    </td>
+                </tr>
+            @endif
+        @endfor
+@endif
         </tbody>
         <tfoot style="margin: 0; padding: 0;">
         <tr style="margin: 0; padding: 0;">
@@ -77,8 +170,8 @@
                         </th>
                     </tr>
                     <tr>
-                        <th style="border-right: none;"> Nom du Signataire Habilité : </th>
-                        <th style="border-left: none;">NICOLAS DESCAMPS</th>
+                        <th style="border-right: none;border-bottom-color: white "> Nom du Signataire Habilité : </th>
+                        <th style="border-left: none;border-bottom-color: white" >NICOLAS DESCAMPS</th>
                     </tr>
                 </table>
             </th>
