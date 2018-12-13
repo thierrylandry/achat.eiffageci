@@ -80,10 +80,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <!--  notification start -->
             <ul class="nav top-menu">
                 <!-- settings start -->
+
                 <li class="dropdown">
+
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <i class="fa fa-tasks"></i>
-                        <span class="badge bg-success">8</span>
+                        <span class="badge bg-success" id="da">{{isset($daencours)?$daencours:''}}</span>
+                        <input type="hidden" class="badge bg-success" id="da1">
                     </a>
                     <ul class="dropdown-menu extended tasks-bar">
                         <li>
@@ -152,8 +155,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <li id="header_notification_bar" class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
 
-                        <i class="fa fa-bell-o"></i>
-                        <span class="badge bg-warning">ici</span>
+                        <i class="fa fa-bell-o"> B.C à Confirmer</i>
+                        <span class="badge bg-warning" id="bc">{{isset($Boncommandeencours)?$Boncommandeencours:''}}</span>
+                        <input type="hidden" class="badge bg-success" id="bc1">
                     </a>
                     <ul class="dropdown-menu extended notification">
                         <li>
@@ -243,7 +247,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <span>Tableau de Bord</span>
                         </a>
                     </li>
-                    @if(Auth::user()->hasRole('Parametrage'))
+                    @if(Auth::user() != null && Auth::user()->hasRole('Parametrage'))
                     <li>
                         <a  href="index.html" @yield('parent_fournisseurs') >
                             <i class="fa fa-gear">
@@ -260,7 +264,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </ul>
                     </li>
                     @endif
-                    @if(Auth::user()->hasAnyRole(['Gestionnaire_DA','Valideur_DA']))
+                    @if(Auth::user() != null && Auth::user()->hasAnyRole(['Gestionnaire_DA','Valideur_DA']))
                     <li >
                         <a  href="{{route('gestion_da')}}" @yield('das')>
                             <i class="fa fa-archive"></i>
@@ -268,7 +272,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </a>
                     </li>
                     @endif
-                    @if(Auth::user()->hasRole('Gestionnaire_Pro_Forma'))
+                    @if(Auth::user() != null && Auth::user()->hasRole('Gestionnaire_Pro_Forma'))
                     <li>
                         <a  href="index.html" @yield('parent_demande_proformas')>
                             <i class="fa fa-book"></i>
@@ -280,7 +284,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </ul>
                     </li>
                     @endif
-                    @if(Auth::user()->hasAnyRole(['Gestionnaire_BC','Valideur_BC']))
+                    @if(Auth::user() != null && Auth::user()->hasAnyRole(['Gestionnaire_BC','Valideur_BC']))
                     <li >
                         <a  @yield('gestion_bc') href="{{route('gestion_bc')}}">
                             <i class="fa fa-archive"></i>

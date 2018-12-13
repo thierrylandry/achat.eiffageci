@@ -164,7 +164,7 @@
                         <th style="text-align:center; border-left: none;">SERVICE MATERIEL</th>
                     </tr>
                     <tr>
-                        <th colspan="2" style="text-align:left" >
+                        <th colspan="2" style="text-align:left;border-bottom-color: white" >
                             SIGNATURE
                             <br/><br/><br/><br/><br/><br/><br/><br/>
                         </th>

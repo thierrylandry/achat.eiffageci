@@ -512,6 +512,12 @@ Route::get('/send_it/{slug}',[
 
 ])->middleware('auth');
 
+Route::get('/mettre_ajour',[
+    'as'=>'mettre_ajour',
+    'uses'=>'NotificationController@mettre_ajour'
+
+])->middleware('auth');
+
 
 
 
