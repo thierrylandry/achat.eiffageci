@@ -256,7 +256,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <span>Paramétrage</span>
                         </a>
                         <ul class="sub">
-                            <li  @yield('profils')><a href="{{route('gestion_profil')}}">Profils</a></li>
+                            
                             <li @yield('utilisateurs')><a href="{{route('gestion_utilisateur')}}">Utilisateurs</a></li>
                             <li @yield('fournisseurs') ><a href="{{route('ajouter_fournisseur')}}"> Fournisseurs </a></li>
                             <li @yield('produits') ><a href="{{route('gestion_produit')}}">Produits et Services</a></li>
