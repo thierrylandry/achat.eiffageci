@@ -19,7 +19,7 @@
                  <b><label for="libelle" class="control-label">Demande approvisionnement en cours</label></b>
                 @csrf
 
-            <select class="form-control selectpicker " id="da11" name="da11" data-live-search="true" data-size="6">
+            <select class="form-control selectpicker " id="da11" name="da" data-live-search="true" data-size="6">
                 <option  value="">SELECTIONNER UNE D.A EN COURS</option>
                 @foreach($types as $type)
                     <option value="{{$type->id}}">{{$type->libelleMateriel}} -- {{$type->quantite}} {{$type->unite}}</option>
