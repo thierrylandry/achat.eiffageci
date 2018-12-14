@@ -15,7 +15,7 @@
                 <th class="dt-head-center">Pour le ?</th>
                 <th class="dt-head-center">Demandeur</th>
                 <th class="dt-head-center">Auteur</th>
-                <th class="dt-head-center">Confirmer ou Infirmer par ?</th>
+                <th class="dt-head-center">Confirmer/infirmer</th>
                 <th class="dt-head-center">Etat</th>
                 <th class="dt-head-center">Action</th>
 
@@ -86,18 +86,18 @@
                            Réfusée
                         @endif
                     </td>
-                    <td class="col-sm-6">
+                    <td>
 
 
 
                         @if($da->etat==1)
-                            <a href="{{route('confirmer_da',['slug'=>$da->slug])}} "id="btnconfirmerda2" data-toggle="modal" class="btn btn-success col-sm-12">
+                            <a href="{{route('confirmer_da',['slug'=>$da->slug])}} "id="btnconfirmerda2" data-toggle="modal" class="btn btn-success">
                                 <i class=" fa fa-check-circle" style="size: 40px"> Accepter ?</i>
                             </a>
                             <a href="{{route('refuser_da',['slug'=>$da->slug])}} "id="btnconfirmerda2" data-toggle="modal" class="btn btn-danger">
                                 <i class=" fa fa-times" style="size: 40px"> Refuser ?</i>
                             </a>
-                            <div class="btn-group ">
+                            <div class="btn-group " >
                                 <button type="button" class="btn btn-default btn-flat ">Autres</button>
                                 <button type="button" class="btn btn-default btn-flat dropdown-toggle" data-toggle="dropdown">
                                     <span class="caret"></span>
@@ -122,9 +122,10 @@
                                 <i class=" fa fa-check-circle" style="size: 40px"> Refuser ?</i>
                             </a>
                             @elseif($da->etat==0)
-                            <a href="{{route('confirmer_da',['slug'=>$da->slug])}} "id="btnconfirmerda2" data-toggle="modal" class="btn btn-success ">
-                                <i class=" fa fa-check-circle" style="size: 40px"> Accepter ?</i>
-                            </a>
+                            <a href="{{route('confirmer_da',['slug'=>$da->slug])}} " id="btnconfirmerda2" data-toggle="modal" class="btn btn-success ">
+                                    <i class=" fa fa-check-circle" > </i>Accepter ?
+                                </a>
+
 
                             <div class="btn-group ">
                                 <button type="button" class="btn btn-default btn-flat ">Autres</button>

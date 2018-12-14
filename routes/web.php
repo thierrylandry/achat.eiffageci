@@ -360,8 +360,6 @@ Route::get('/gestion_reponse_fournisseur',[
 Route::get('/les_das_fournisseurs_funct_da/{id_da}',[
     'as'=>'les_das_fournisseurs_funct_da',
     'uses'=>'Demande_proformaController@les_das_fournisseurs_funct_da',
-    'middleware' => 'roles',
-    'roles' => ['Gestionnaire_Pro_Forma']
 
 ])->middleware('auth');
 Route::get('/supprimer_reponse_fournisseur/{id_reponse}',[

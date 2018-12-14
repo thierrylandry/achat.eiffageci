@@ -155,7 +155,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <li id="header_notification_bar" class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
 
-                        <i class="fa fa-bell-o"> B.C à Confirmer</i>
+                        <i class="fa fa-bell-o"></i>
                         <span class="badge bg-warning" id="bc">{{isset($Boncommandeencours)?$Boncommandeencours:''}}</span>
                         <input type="hidden" class="badge bg-success" id="bc1">
                     </a>
@@ -340,7 +340,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         "responsive": true,
         "createdRow": function( row, data, dataIndex){
 
-        }
+        },
+        columnDefs: [
+            { responsivePriority: 1, targets: 0 },
+            { responsivePriority: 2, targets: -1 }
+        ]
     }).column(0).visible(false);
     //table.DataTable().draw();
 

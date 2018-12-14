@@ -40,10 +40,16 @@ $(function(){
 
     }
     function les_notification() {
+        $tab_role= Array();
+
+
 
         setTimeout(function () {
             $.get("mettre_ajour/",
                 function (data){
+                    $.each(data['roles'],function(index,value){
+                        $tab_role.push(value.name);
+                    });
                     /*
                      $data[]=$daencours;
                      $data[]=$das;
@@ -51,11 +57,6 @@ $(function(){
                      $data[]=$Boncommandes;
                      $data[]=$montant_bc;
                      $data[]=$montant_bct;*/
-                    $tab_role= Array();
-
-                    $.each(data['roles'],function(index,value){
-                        $tab_role.push(value.name);
-                    });
 
 
 /*
@@ -107,8 +108,9 @@ $(function(){
 
                 }
             );
-        }, 6000);
-        les_notification();
+        }, 15000);
+      //  les_notification();
     }
-    les_notification();
+   // les_notification();
+
 });

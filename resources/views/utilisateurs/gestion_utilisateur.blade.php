@@ -28,7 +28,7 @@
 
                         <div class="form-group">
                             <label for="email">E - mail</label>
-                            <input type="text" class="form-control" id="email" name="email" placeholder="Condition de Paiement" value="{{isset($utilisateur)? $utilisateur->email:''}}">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Condition de Paiement" value="{{isset($utilisateur)? $utilisateur->email:''}}">
                         </div>
                                         <div class="form-group">
                                             <label for="contact">Contact</label>
@@ -48,7 +48,7 @@
         <div class="col-sm-4">
             <div class="form-group">
                 <label for="domaine">Abréviation</label>
-                <input type="text" class="form-control" id="abréviation" name="abréviation" placeholder="abréviation" required value="{{isset($utilisateur)? $utilisateur->abréviation:''}}">
+                <input type="text" class="form-control" id="abréviation" name="abréviation" placeholder="abréviation"  value="{{isset($utilisateur)? $utilisateur->abréviation:''}}">
             </div>   <div class="form-group">
                 <label for="domaine">fonction</label>
                 <input type="text" class="form-control" id="function" name="function" placeholder="function" value="{{isset($utilisateur)? $utilisateur->function:''}}">
@@ -78,7 +78,7 @@
                 </select>
             </div>
                 <br><div class="form-group" >
-                    <button type="submit" class="btn btn-success form-control">{{isset($utilisateur)? 'Modifier':'Ajouter'}}</button>
+                    <button type="submit" class="btn btn-success form-control " style="width: 200px;margin-right: 10px">{{isset($utilisateur)? 'Modifier':'Ajouter'}}</button>
                 </div>
                 @if(isset($utilisateur))
                     <a href="{{route('gestion_utilisateur')}}">Ajouter un utilisateur</a>

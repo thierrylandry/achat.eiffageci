@@ -1,7 +1,7 @@
 
 
 
-        <table name ="fournisseurs" id="fournisseurs" class='table table-bordered table-striped  no-wrap '>
+        <table data-page-length='5' name ="fournisseurs" id="fournisseurs" class='table table-bordered table-striped  no-wrap '>
 
             <thead>
 

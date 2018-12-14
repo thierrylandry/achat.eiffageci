@@ -19,7 +19,7 @@
                  <b><label for="libelle" class="control-label">Demande approvisionnement en cours</label></b>
                 @csrf
 
-            <select class="form-control selectpicker " id="da" name="da" data-live-search="true" data-size="6">
+            <select class="form-control selectpicker " id="da11" name="da11" data-live-search="true" data-size="6">
                 <option  value="">SELECTIONNER UNE D.A EN COURS</option>
                 @foreach($types as $type)
                     <option value="{{$type->id}}">{{$type->libelleMateriel}} -- {{$type->quantite}} {{$type->unite}}</option>
@@ -263,8 +263,8 @@ $('#daencours').addClass('hidden');
             );
 
         });
-        $('#da').change(function(e){
-            var da=$("#da").val();
+        $('#da11').change(function(e){
+            var da=$("#da11").val();
             $('#id_lignebesoin').val(da);
 
             if(da!=''){

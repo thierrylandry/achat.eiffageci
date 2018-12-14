@@ -65,7 +65,7 @@ class FournisseurController extends Controller
         $date= new \DateTime(null);
 
         $fournisseur->libelle=$parameters['libelle'];
-        $fournisseur->domaine=$parameters['domaine'];
+        $fournisseur->domaine=implode(',',$parameters['domaine']);
         $fournisseur->conditionPaiement=$parameters['conditionPaiement'];
         $fournisseur->commentaire=$parameters['commentaire'];
         $fournisseur->adresseGeographique=$parameters['adresseGeographique'];
