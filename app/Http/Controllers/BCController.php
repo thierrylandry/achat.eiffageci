@@ -51,18 +51,20 @@ class BCController extends Controller
             ->select('titre_ext','quantite_ligne_bc','unite_ligne_bc','prix_unitaire_ligne_bc','remise_ligne_bc','prix_tot','ligne_bc.slug','analytique.codeRubrique')->get();
 
 
+        $taille=sizeof($ligne_bcs);
         // Send data to the view using loadView function of PDF facade
+        $commandes='';
 
         //$pdf = PDF::loadView('BC.bon_commande_file', compact('bc','ligne_bcs'));
         $tothtax = 0;
         //return view('BC.bon-commande', compact('bc','ligne_bcs','tothtax'));
-        $pdf = PDF::loadView('BC.bon-commande', compact('bc','ligne_bcs','tothtax'));
+        $pdf = PDF::loadView('BC.bon-commande', compact('bc','ligne_bcs','tothtax','taille'));
 
         // If you want to store the generated pdf to the server then you can use the store function
        // $pdf->save(storage_path().'_filename.pdf');
         // Finally, you can download the file using download function
-        //return $pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
-        return $pdf->stream('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
+        return $pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
+      //  return $pdf->stream('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
 
       /*  $html22 = View('BC.bcl.bon_commande_file')->with(array('bc' => $bc,'ligne_bcs' => $ligne_bcs))->render();
         $html2pdf = new HTML2PDF('P', 'A4', 'en', true, 'UTF-8', array(0, 0, 0, 0));
@@ -85,9 +87,9 @@ class BCController extends Controller
             ->select('titre_ext','quantite_ligne_bc','unite_ligne_bc','prix_unitaire_ligne_bc','remise_ligne_bc','prix_tot','ligne_bc.slug','analytique.codeRubrique')->get();
 
         $tothtax = 0;
-
+        $taille=sizeof($ligne_bcs);
         // Send data to the view using loadView function of PDF facade
-        $pdf = PDF::loadView('BC.bon-commande', compact('bc','ligne_bcs','tothtax'));
+        $pdf = PDF::loadView('BC.bon-commande', compact('bc','ligne_bcs','tothtax','taille'));
 
         //$lignebesoins=Lignebesoin::where('id_bonCommande','=',$bc->id)->first();
         $lignebesoins=DB::table('lignebesoin')->where('id_bonCommande','=',$bc->id)->get();
