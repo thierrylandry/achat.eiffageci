@@ -79,6 +79,20 @@
         @endfor
             @elseif( $taille>9)
         @foreach($ligne_bcs as $ligne_bc)
+<<<<<<< HEAD
+        <tr>
+            <td>{{$loop->index + 1}}</td>
+            <td>{{$ligne_bc->titre_ext }}</td>
+            <td style=" text-align: center;">{{$ligne_bc->codeRubrique}}</td>
+            <td style=" text-align: center;">{{$ligne_bc->quantite_ligne_bc}}</td>
+            <td>{{$ligne_bc->unite_ligne_bc}}</td>
+            <td style=" text-align: right;">{{$ligne_bc->prix_unitaire_ligne_bc}}</td>
+            <td style=" text-align: center;">{{$ligne_bc->remise_ligne_bc}}</td>
+            <td style=" text-align: right;">{{$ligne_bc->prix_tot}}
+                <span style="display: none;">{{ $tothtax +=  intval(str_replace(" ","",$ligne_bc->prix_tot)) }}</span>
+            </td>
+        </tr>
+=======
             <tr >
                 <td style="border-bottom-color: white">{{$loop->index + 1}} </td>
                 <td style="border-bottom-color: white">{{$ligne_bc->titre_ext }}</td>
@@ -92,6 +106,7 @@
                 </td>
             </tr>
 
+>>>>>>> c33f50ea4cecb6a3eef53b8e2530a4c7ef4c8cc6
         @endforeach
         @for($i=0;$i<$val=38-$taille;$i++)
             @if($i==$val-1)
@@ -146,7 +161,7 @@
                 <table class="ssfacture" style="margin: 0; padding: 0;">
                     <tr>
                         <td width="61.8%" style="text-align:right"><b>Total Hors Taxes en FCFA</b> </td>
-                        <td class="value">{{ number_format(intval($tothtax), 0,".", " ")  }}</td>
+                        <td class="value">{{ number_format($tothtax, 0,".", " ")  }}</td>
                     </tr>
                     <tr>
                         <td style="text-align:right" ><b>TVA </b></td>
