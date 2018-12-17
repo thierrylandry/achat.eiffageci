@@ -19,7 +19,7 @@
 
 
                             @csrf
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                             <div class="form-group">
                                 <b><label for="libelle" class="control-label">Libelle</label></b>
                                 <input type="text" class="form-control" id="libelle" name="libelle" placeholder="libelle" value="{{isset($fournisseur)? $fournisseur->libelle:''}}" required>
@@ -40,11 +40,11 @@
                                 <input type="text" class="form-control" id="adresseGeographique" name="adresseGeographique" placeholder="Domaine" value="{{isset($fournisseur)? $fournisseur->adresseGeographique:''}}">
                             </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
 
                                 <div class="form-group">
                                     <label for="domaine">Condition de paiement</label>
-                                    <input type="text" class="form-control" id="conditionPaiement" name="conditionPaiement" placeholder="Condition de Paiement" value="{{isset($fournisseur)? $fournisseur->conditionPaiement:''}}">
+                                    <textarea id="conditionPaiement" name="conditionPaiement" class="form-control col-sm-8">{{isset($fournisseur)? $fournisseur->commentaire:''}}</textarea>
                                 </div>
 
                                 <div class="form-group">
@@ -52,19 +52,150 @@
                                     <input type="text" class="form-control" id="responsable" name="responsable" placeholder="responsable" value="{{isset($fournisseur)? $fournisseur->responsable:''}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="interlocuteur">Interlocuteur</label>
-                                    <input type="text" class="form-control" id="interlocuteur" name="interlocuteur" placeholder="interlocuteur" required value="{{isset($fournisseur)? $fournisseur->interlocuteur:''}}" >
+                                    <label for="commentaire">Commentaire</label>
+                                    <textarea id="commentaire" name="commentaire" class="form-control col-sm-8">{{isset($fournisseur)? $fournisseur->commentaire:''}}</textarea>
                                 </div>
-
-                            </div>
-                            <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="email">E - mail</label>
                                     <input type="text" class="form-control" id="email" name="email" placeholder="E -mail" value="{{isset($fournisseur)? $fournisseur->email:''}}" required>
                                 </div>
-                                <div class="form-group">
-                                    <label for="commentaire">Commentaire</label>
-                                    <textarea id="commentaire" name="commentaire" class="form-control col-sm-8">{{isset($fournisseur)? $fournisseur->commentaire:''}}</textarea>
+                            </div>
+                            <div class="col-sm-6">
+
+
+                                <h4>Contacts</h4>
+                                Ajouter un champ
+                                <button type="button" class="btn bg-teal btn-circle waves-effect waves-circle waves-float" id="addcontact">
+                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                </button>
+                                </br>
+                                </br>
+                                </br>
+                                <div id="contacts">
+                                    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4 form-control-label">
+                                        <label for="titre_c[]">Interlocuteur </label>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input type="text" name="titre_c[]" class="titre_c form-control" placeholder="Titre contact" value="{{ old('fullname_c[]') }}">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-1 col-md-1 col-sm-3 col-xs-4 form-control-label">
+                                        <label for="observation_c[]">Adresse</label>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                        <div class="form-group">
+                                            <select type="text" name="type_c[]" class="type_c form-control input-field">
+                                                @foreach(\App\Metier\Json\Contact::$typeListe as $key => $typeliste)
+                                                    <option value="{{ $key }}">{{ $typeliste }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-2 col-sm-7 col-xs-7">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input type="text" name="valeur_c[]" class="valeur_c form-control" placeholder="Valeur" value="{{ old('valeur_c[]') }}">
+                                            </div>
+                                        </div>
+                                    </div>                                    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4 form-control-label">
+                                        <label for="titre_c[]">Interlocuteur </label>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input type="text" name="titre_c[]" class="titre_c form-control" placeholder="Titre contact" value="{{ old('fullname_c[]') }}">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-1 col-md-1 col-sm-3 col-xs-4 form-control-label">
+                                        <label for="observation_c[]">Adresse</label>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                        <div class="form-group">
+                                            <select type="text" name="type_c[]" class="type_c form-control input-field">
+                                                @foreach(\App\Metier\Json\Contact::$typeListe as $key => $typeliste)
+                                                    <option value="{{ $key }}">{{ $typeliste }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-2 col-sm-7 col-xs-7">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input type="text" name="valeur_c[]" class="valeur_c form-control" placeholder="Valeur" value="{{ old('valeur_c[]') }}">
+                                            </div>
+                                        </div>
+                                    </div>                                    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4 form-control-label">
+                                        <label for="titre_c[]">Interlocuteur </label>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input type="text" name="titre_c[]" class="titre_c form-control" placeholder="Titre contact" value="{{ old('fullname_c[]') }}">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-1 col-md-1 col-sm-3 col-xs-4 form-control-label">
+                                        <label for="observation_c[]">Adresse</label>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                        <div class="form-group">
+                                            <select type="text" name="type_c[]" class="type_c form-control input-field">
+                                                @foreach(\App\Metier\Json\Contact::$typeListe as $key => $typeliste)
+                                                    <option value="{{ $key }}">{{ $typeliste }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-2 col-sm-7 col-xs-7">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input type="text" name="valeur_c[]" class="valeur_c form-control" placeholder="Valeur" value="{{ old('valeur_c[]') }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="contacttemplate" class="row clearfix" style="display: none">
+                                    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4 form-control-label">
+                                        <label for="titre_c[]">Interlocuteur </label>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input type="text" name="titre_c[]" class="titre_c form-control" placeholder="Titre contact" value="{{ old('fullname_c[]') }}">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-1 col-md-1 col-sm-3 col-xs-4 form-control-label">
+                                        <label for="observation_c[]">Adresse</label>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                        <div class="form-group">
+                                            <select type="text" name="type_c[]" class="type_c form-control input-field">
+                                                @foreach(\App\Metier\Json\Contact::$typeListe as $key => $typeliste)
+                                                    <option value="{{ $key }}">{{ $typeliste }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-2 col-sm-7 col-xs-7">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input type="text" name="valeur_c[]" class="valeur_c form-control" placeholder="Valeur" value="{{ old('valeur_c[]') }}">
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 </br>
                                 <input type="hidden" class="form-control" id="slug" name="slug" placeholder="" value="{{isset($fournisseur)? $fournisseur->slug:''}}">
@@ -76,6 +207,11 @@
                                 @endif
 
                             </div>
+                            <div class="row">
+                                <div class="col-sm-8"> </div>
+                            </div>
+
+
 
 
                         </form>
@@ -83,7 +219,7 @@
     <div class="row">
 
                 <div class="col-sm-12">
-                    @include('fournisseurs/list_fournisseur')
+                    @include('fournisseurs.lister_fournisseur')
                 </div>
 
         <script>
@@ -102,4 +238,9 @@
 
         </script>
     </div>
+    <script type="application/javascript">
+        $("#addcontact").click(function (e) {
+            $($("#contacttemplate").html()).appendTo($("#contacts"));
+        });
+    </script>
 @endsection

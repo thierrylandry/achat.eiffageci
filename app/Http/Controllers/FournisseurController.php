@@ -10,6 +10,8 @@ namespace App\Http\Controllers;
 
 
 use App\fournisseur;
+use App\Metier\Json\Contact;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
@@ -31,14 +33,14 @@ class FournisseurController extends Controller
     public function fournisseurs()
     {
         $fournisseurs=  Fournisseur::all();
-        return view('fournisseurs/fournisseurs')->with('fournisseurs',$fournisseurs);
+        return view('fournisseurs/lister_fournisseur')->with('fournisseurs',$fournisseurs);
     }
     public function voir_fournisseur($slug)
     {
         $domaines=  DB::table('domaines')->get();
         $fournisseurs = Fournisseur::all();
         $fournisseur = Fournisseur::where('slug', '=', $slug)->first();
-        return view('fournisseurs/ajouter_fournisseur')->with('fournisseur', $fournisseur)->with('fournisseurs', $fournisseurs)->with('domaines',$domaines);
+        return view('fournisseurs/lister__fournisseurs')->with('fournisseur', $fournisseur)->with('fournisseurs', $fournisseurs)->with('domaines',$domaines);
     }
 
     public function ajouter_fournisseur()
@@ -79,8 +81,27 @@ class FournisseurController extends Controller
     public function Validfournisseur( Request $request)
     {
         $parameters=$request->except(['_token']);
+// pour enregistrer les contacts multiple
+        $contacts = new Collection();
 
-       // Fournisseur::create($parameters);
+
+
+        for($i = 0; $i <= count($request->input("titre_c"))-1; $i++ )
+        {
+            $contact = new Contact();
+            $contact->titre_c = $request->input("titre_c")[$i];
+            $contact->type_c = $request->input("type_c")[$i];
+            $contact->valeur_c = $request->input("valeur_c")[$i];
+            $contacts->add($contact);
+        }
+
+        $raw = $request->except("_token", "valeur_c", "type_c", "titre_c");
+        $raw["contact"] = json_encode($contacts->toArray());
+
+
+
+// fin -- pour enregistrer les contact multiple
+        // Fournisseur::create($parameters);
         $date= new \DateTime(null);
         $fournisseur= new Fournisseur();
         $fournisseur->libelle=$parameters['libelle'];
@@ -90,8 +111,9 @@ class FournisseurController extends Controller
         $fournisseur->commentaire=$parameters['commentaire'];
         $fournisseur->adresseGeographique=$parameters['adresseGeographique'];
         $fournisseur->responsable=$parameters['responsable'];
-        $fournisseur->interlocuteur=$parameters['interlocuteur'];
+      //  $fournisseur->interlocuteur=$parameters['interlocuteur'];
         $fournisseur->email=$parameters['email'];
+        $fournisseur->contact=$raw["contact"];
         $fournisseur->slug=Str::slug($parameters['libelle'].$date->format('dmYhis'));
         $fournisseur->save();
 

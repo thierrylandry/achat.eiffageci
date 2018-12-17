@@ -134,6 +134,7 @@ $fournisseurs=Fournisseur::all();
             ->where('type', '=', $domaine)
             ->join('lignebesoin', 'materiel.id', '=', 'lignebesoin.id_materiel')
             ->join('nature', 'nature.id', '=', 'lignebesoin.id_nature')
+            ->where('lignebesoin.etat', '=', 2)
             ->select('lignebesoin.id','lignebesoin.id_materiel','unite','DateBesoin','quantite','demandeur','id_valideur','libelleMateriel','libelleNature','lignebesoin.slug')
             ->distinct()->get();
         $variable="";

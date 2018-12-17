@@ -1,4 +1,12 @@
 
+@extends('layouts.app')
+@section('fournisseurs')
+    class='active'
+@endsection
+@section('parent_fournisseurs')
+    class='active'
+@endsection
+@section('content')
 
 
         <table name ="fournisseurs1" id="fournisseurs1" class='table table-bordered table-striped  no-wrap '>
@@ -51,3 +59,4 @@
             </tbody>
         </table>
 
+@endsection

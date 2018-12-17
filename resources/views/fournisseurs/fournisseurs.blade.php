@@ -10,7 +10,7 @@
     <h2>LES FOURNISSEURS</h2>
 
     <div class="table-responsive">
-    @include('fournisseurs/list_fournisseur')
+    @include('fournisseurs.lister_fournisseur')
         <a href="{{route('ajouter_fournisseur')}}"  class="btn btn-success col-sm-2 pull-right" >
             Ajouter un fournisseur
         </a>

@@ -52,6 +52,13 @@ Route::get('/ajouter_fournisseur',[
     'roles' => ['Parametrage']
 
 ])->middleware('auth');
+Route::get('/lister__fournisseur',[
+    'as'=>'lister__fournisseur',
+    'uses'=>'FournisseurController@fournisseurs',
+    'middleware' => 'roles',
+    'roles' => ['Parametrage']
+
+])->middleware('auth');
 Route::get('/voir_fournisseur/{slug}',[
     'as'=>'voir_fournisseur',
     'uses'=>'FournisseurController@voir_fournisseur',
