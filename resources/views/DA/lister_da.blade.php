@@ -1,6 +1,47 @@
 
+@extends('layouts.app')
+@section('das')
+    class='active'
+    @endsection
+@section('lister_da')
+    class='active'
+    @endsection
+@section('parent_da')
+    class='active'
+@endsection
+@section('content')
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Motif</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">slug:</label>
+                            <input type="text" class="form-control" id="slug">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label">Message:</label>
+                            <textarea class="form-control" id="message-text"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger">refuser</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-
+    <h2>LES DEMANDES D'ACHATS - LISTER</h2>
+    </br>
+    </br>
         <table name ="fournisseurs" id="fournisseurs" class='table table-bordered table-striped  no-wrap '>
 
             <thead>
@@ -94,8 +135,8 @@
                             <a href="{{route('confirmer_da',['slug'=>$da->slug])}} "id="btnconfirmerda2" data-toggle="modal" class="btn btn-success">
                                 <i class=" fa fa-check-circle" style="size: 40px"> Accepter ?</i>
                             </a>
-                            <a href="{{route('refuser_da',['slug'=>$da->slug])}} "id="btnconfirmerda2" data-toggle="modal" class="btn btn-danger">
-                                <i class=" fa fa-times" style="size: 40px"> Refuser ?</i>
+                            <a href="" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" id="btnconfirmerda2" data-toggle="modal" class="btn btn-danger ">
+                                <i class=" fa fa-check-circle" style="size: 40px"> Refuser ?</i>
                             </a>
                             <div class="btn-group " >
                                 <button type="button" class="btn btn-default btn-flat ">Autres</button>
@@ -118,7 +159,7 @@
                             <a href="{{route('suspendre_da',['slug'=>$da->slug])}} "id="btnconfirmerda12" data-toggle="modal" class="btn btn-warning ">
                                 <i class=" fa fa-pause" style="size: 40px"> Suspendre ?</i>
                             </a>
-                            <a href="{{route('refuser_da',['slug'=>$da->slug])}} "id="btnconfirmerda2" data-toggle="modal" class="btn btn-danger ">
+                            <a href="" data-toggle="modal" data-target="#exampleModal" data-whatever="test" id="btnconfirmerda2" data-toggle="modal" class="btn btn-danger ">
                                 <i class=" fa fa-check-circle" style="size: 40px"> Refuser ?</i>
                             </a>
                             @elseif($da->etat==0)
@@ -156,4 +197,4 @@
             @endforeach
             </tbody>
         </table>
-
+        @endsection

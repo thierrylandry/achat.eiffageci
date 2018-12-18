@@ -255,12 +255,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             </i>
                             <span>Paramétrage</span>
                         </a>
-                        <ul class="sub">
+                        <ul class="sub" >
 
                             <li @yield('utilisateurs')><a href="{{route('gestion_utilisateur')}}">Utilisateurs</a></li>
-                            <li @yield('fournisseurs') ><a href="{{route('lister_fournisseur')}}"> Fournisseurs </a></li>
+                            <li @yield('fournisseurs') ><a href="{{route('lister_fournisseur')}}"> Fournisseurs </a>
+
+                                <ul class="sub" @yield('ul_fournisseur')>
+
+                                    <li @yield('lister_fournisseurs') ><a href="{{route('lister_fournisseurs')}}" @yield('lister_fournisseurs') > Lister fournisseurs </a></li>
+                                    <li @yield('ajouter_fournisseur') ><a href="{{route('ajouter_fournisseur')}}"> Ajouter fournisseur </a></li>
+
+                                </ul></li>
                             <li @yield('produits') ><a href="{{route('gestion_produit')}}">Produits et Services</a></li>
-                            <li @yield('prix') ><a href="{{route('gestion_prix')}}">Tablaau des prix</a></li>
                         </ul>
                     </li>
                     @endif
@@ -268,19 +274,24 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <li >
                         <a  href="{{route('gestion_da')}}" @yield('das')>
                             <i class="fa fa-archive"></i>
-                            <span>Les D.A</span>
+                            <span>Les D.A.</span>
                         </a>
+                        <ul class="sub">
+                            <li @yield('lister_da')><a href="{{route('lister_da')}}">Lister les D.A.</a></li>
+                            <li  @yield('creer_da')><a href="{{route('creer_da')}}">Creer une  D.A.</a></li>
+
+                        </ul>
                     </li>
                     @endif
                     @if(Auth::user() != null && Auth::user()->hasRole('Gestionnaire_Pro_Forma'))
                     <li>
                         <a  href="index.html" @yield('parent_demande_proformas')>
                             <i class="fa fa-book"></i>
-                            <span>Les  proformas</span>
+                            <span>Les Dévis</span>
                         </a>
                         <ul class="sub">
-                            <li  @yield('demande_proformas')><a href="{{route('gestion_demande_proformas')}}">Demande de Pro forma</a></li>
-                            <li @yield('reponse_fournisseur')><a href="{{route('gestion_reponse_fournisseur')}}">Reception de Pro forma</a></li>
+                            <li  @yield('demande_proformas')><a href="{{route('gestion_demande_proformas')}}">Demande de Dévis</a></li>
+                            <li @yield('reponse_fournisseur')><a href="{{route('gestion_reponse_fournisseur')}}">Reception de Dévis</a></li>
                         </ul>
                     </li>
                     @endif

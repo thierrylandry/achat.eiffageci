@@ -30,7 +30,15 @@ class DAController
         $natures= Nature::all();
         $users= User::all();
         $domaines=  DB::table('domaines')->get();
-        return view('DA/gestion_da',compact('das','fournisseurs','materiels','natures','users','domaines'));
+        return view('DA/lister_da',compact('das','fournisseurs','materiels','natures','users','domaines'));
+
+
+    }
+    public function creer_da()
+    {
+        $materiels=Materiel::all();
+        $natures= Nature::all();
+        return view('DA/creer_da')->with('materiels', $materiels)->with('natures', $natures);
 
 
     }
@@ -55,7 +63,7 @@ class DAController
         $da->save();
 
 
-        return redirect()->route('gestion_da')->with('success', "la demande d'approvisionnement a été ajouté");
+        return redirect()->route('creer_da')->with('success', "la demande d'approvisionnement a été ajouté");
 
 
 

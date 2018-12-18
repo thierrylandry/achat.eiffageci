@@ -38,6 +38,7 @@ Route::get('/Administration', [
     'middleware' => 'roles',
     'roles' => ['Parametrage']
 ])->middleware('auth');
+
 Route::post('/Validfournisseur', [
     'as'=>'Validfournisseur',
     'uses'=>'FournisseurController@Validfournisseur',
@@ -52,30 +53,34 @@ Route::get('/ajouter_fournisseur',[
     'roles' => ['Parametrage']
 
 ])->middleware('auth');
-Route::get('/lister__fournisseur',[
-    'as'=>'lister__fournisseur',
+
+
+Route::get('/lister_fournisseurs',[
+    'as'=>'lister_fournisseurs',
     'uses'=>'FournisseurController@fournisseurs',
     'middleware' => 'roles',
     'roles' => ['Parametrage']
-
 ])->middleware('auth');
-Route::get('/voir_fournisseur/{slug}',[
-    'as'=>'voir_fournisseur',
-    'uses'=>'FournisseurController@voir_fournisseur',
+
+
+Route::get('/modifier_fournisseur/{slug}',[
+    'as'=>'modifier_fournisseur',
+    'uses'=>'FournisseurController@modifier_fournisseur',
     'middleware' => 'roles',
     'roles' => ['Parametrage']
 
 ])->middleware('auth');
+Route::post('/update_fournisseur',[
+    'as'=>'update_fournisseur',
+    'uses'=>'FournisseurController@update_fournisseur',
+    'middleware' => 'roles',
+    'roles' => ['Parametrage']
+
+])->middleware('auth');
+
 Route::get('/supprimer_fournisseur/{slug}',[
     'as'=>'supprimer_fournisseur',
     'uses'=>'FournisseurController@supprimer_fournisseur',
-    'middleware' => 'roles',
-    'roles' => ['Parametrage']
-
-])->middleware('auth');
-Route::post('/modifier_fournisseur}',[
-    'as'=>'modifier_fournisseur',
-    'uses'=>'FournisseurController@modifier_fournisseur',
     'middleware' => 'roles',
     'roles' => ['Parametrage']
 
@@ -206,6 +211,22 @@ Route::get('/gestion_da',[
     'roles' => ['Gestionnaire_DA']
 
 ])->middleware('auth');
+Route::get('/creer_da',[
+    'as'=>'creer_da',
+    'uses'=>'DAController@creer_da',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_DA']
+
+])->middleware('auth');
+
+Route::get('/lister_da',[
+    'as'=>'lister_da',
+    'uses'=>'DAController@das',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_DA']
+
+])->middleware('auth');
+
 Route::post('/Validdas', [
     'as'=>'Validdas',
     'uses'=>'DAController@Validdas',
