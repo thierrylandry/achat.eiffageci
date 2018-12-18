@@ -7,101 +7,99 @@
     class='active'
 @endsection
 @section('content')
-    <h2>LES UTILISATEURS - {{isset($utilisateur)? 'MODIFIER UTILISATEUR':'AJOUTER UTILISATEUR'}}</h2><br/>
+    <h2>LES UTILISATEURS - {{isset($utilisateur)? 'MODIFIER UTILISATEUR':'AJOUTER UTILISATEUR'}}</h2><br/><br/><br/>
 
     <div class="row">
-    @if(isset($utilisateur))
+        @if(isset($utilisateur))
         <form role="form" id="FormRegister" class="bucket-form" method="post" action="{{route('modifier_utilisateur')}}">
-    @else
+        @else
         <form role="form" id="FormRegister" class="bucket-form" method="post" action="{{route('Validutilisateurs')}}">
-    @endif
+        @endif
+
         <div class="col-sm-4">
-    @csrf
+            @csrf
+            <div class="form-group">
+                <b><label for="nom" class="control-label">Nom</label></b>
+                <input type="text" class="form-control" id="nom" name="nom" placeholder="nom" value="{{isset($utilisateur)? $utilisateur->nom:''}}" required>
+            </div>
 
-    <div class="form-group">
-        <b><label for="nom" class="control-label">Nom</label></b>
-        <input type="text" class="form-control" id="nom" name="nom" placeholder="nom" value="{{isset($utilisateur)? $utilisateur->nom:''}}" required>
-    </div>
+            <div class="form-group">
+                <label for="prenoms">Prénoms</label>
+                <input type="prenoms" class="form-control" id="prenoms" name="prenoms" placeholder="Condition de Paiement" value="{{isset($utilisateur)? $utilisateur->prenoms:''}}">
+            </div>
 
-    <div class="form-group">
-        <label for="prenoms">Prénoms</label>
-        <input type="prenoms" class="form-control" id="prenoms" name="prenoms" placeholder="Condition de Paiement" value="{{isset($utilisateur)? $utilisateur->prenoms:''}}">
-    </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" value="{{old('mail')}}">
+            </div>
 
-    <div class="form-group">
-        <label for="email">E - mail</label>
-        <input type="email" class="form-control" id="email" name="email" placeholder="Entrer votre mail" value="{{old('mail')}}">
-    </div>
-
-    <div class="form-group">
-        <label for="contact">Contact</label>
-        <input type="text" class="form-control" id="contact" name="contact" placeholder="Contact" value="{{isset($utilisateur)? $utilisateur->contact:''}}">
-    </div>
-
-
-    <input type="hidden" class="form-control" id="slug" name="slug" placeholder="" value="{{isset($utilisateur)? $utilisateur->slug:''}}"/>
-
-    </div>
-
-    <div class="col-sm-4">
-        <div class="form-group">
-            <label for="responsable">Mot de passe</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="responsable" value="{{isset($utilisateur)? $utilisateur->password:''}}">
+            <input type="hidden" class="form-control" id="slug" name="slug" placeholder="" value="{{isset($utilisateur)? $utilisateur->slug:''}}"/>
         </div>
-    <div class="form-group">
-        <label for="domaine">Abréviation</label>
-        <input type="text" class="form-control" id="abréviation" name="abréviation" placeholder="abréviation"  value="{{isset($utilisateur)? $utilisateur->abréviation:''}}">
-    </div>
 
-    <div class="form-group">
-        <label for="domaine">Fonction</label>
-        <input type="text" class="form-control" id="function" name="function" placeholder="function" value="{{isset($utilisateur)? $utilisateur->function:''}}">
-    </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label for="responsable">Mot de passe</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="responsable" value="{{isset($utilisateur)? $utilisateur->password:''}}">
+            </div>
 
-    <div class="form-group">
-        <b><label for="service">Service</label></b>
-        <select class="form-control selectpicker" id="id_service" name="id_service" data-live-search="true" data-size="6">
-        <option value="">SELECTIONNER UN SERVICE</option>
-        </select>
-    </div>
+            <div class="form-group">
+                <label for="domaine">Abréviation</label>
+                <input type="text" class="form-control" id="abréviation" name="abréviation" placeholder="abréviation"  value="{{isset($utilisateur)? $utilisateur->abréviation:''}}">
+            </div>
 
-    </div>
+            <div class="form-group">
+                <label for="contact">Contact</label>
+                <input type="text" class="form-control" id="contact" name="contact" placeholder="Contact" value="{{isset($utilisateur)? $utilisateur->contact:''}}">
+            </div>
+        </div>
 
-    <div class="col-sm-4">
-        <fieldset><title>Habilitation</title>
-        <div class="form-group">
-                <label for="domaine">Les Roles</label>
+        <div class="col-sm-4">
+            <fieldset><title>Habilitation</title>
 
-                <select class="form-control selectpicker" id="roles" name="roles[]" data-live-search="true" data-size="6"  multiple required>
-                    <option  value="">SELECTIONNER LE(S) ROLE(S)</option>
-                    @foreach($roles as $role)
-                        @if(isset($utilisateur) and $utilisateur->hasRole($role->nom))
-                            <option value="{{$role->nom}}" selected>{{$role->description}}</option>
-                        @else
-                            <option value="{{$role->nom}}" >{{$role->description}}</option>
-                        @endif
+            <div class="form-group">
+                <label for="domaine">Fonction</label>
+                <input type="text" class="form-control" id="function" name="function" placeholder="function" value="{{isset($utilisateur)? $utilisateur->function:''}}">
+            </div>
 
-                    @endforeach
+            <div class="form-group">
+                <b><label for="service">Service</label></b>
+                <select class="form-control selectpicker" id="id_service" name="id_service" data-live-search="true" data-size="6">
+                    <option value="">SELECTIONNER UN SERVICE</option>
                 </select>
-        </div>
+            </div>
 
-                <br><div class="form-group" >
-                    <button type="submit" class="btn btn-success form-control " style="width: 200px;margin-right: 10px">{{isset($utilisateur)? 'Modifier':'Ajouter'}}</button>
-                </div>
-                @if(isset($utilisateur))
-                    <a href="{{route('gestion_utilisateur')}}">Ajouter un utilisateur</a>
-                @endif
+            <div class="form-group">
+                    <label for="domaine">Les Roles</label>
 
-            </fieldset>
+                    <select class="form-control selectpicker" id="roles" name="roles[]" data-live-search="true" data-size="6"  multiple required>
+                        <option  value="">SELECTIONNER LE(S) ROLE(S)</option>
+                        @foreach($roles as $role)
+                            @if(isset($utilisateur) and $utilisateur->hasRole($role->nom))
+                                <option value="{{$role->nom}}" selected>{{$role->description}}</option>
+                            @else
+                                <option value="{{$role->nom}}" >{{$role->description}}</option>
+                            @endif
+
+                        @endforeach
+                    </select>
+            </div>
+
+                    <br><div class="form-group" >
+                        <button type="submit" class="btn btn-success form-control " style="width: 200px;margin-right: 10px">{{isset($utilisateur)? 'Modifier':'Ajouter'}}</button>
+                    </div>
+                    @if(isset($utilisateur))
+                        <a href="{{route('gestion_utilisateur')}}">Ajouter un utilisateur</a>
+                    @endif
+
+                </fieldset>
         </div>
         </form>
-    <div class="row">
 
-        <div class="col-sm-12">
-            @include('utilisateurs/list_utilisateur')
+        <div class="row">
+            <div class="col-sm-12">
+                @include('utilisateurs/list_utilisateur')
+            </div>
         </div>
-
-    </div>
 
 <!-- Script pour générer l'adresse e-mail à partir du nom et prénoms saisi -->
 <script type="application/javascript">

@@ -445,10 +445,10 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Déchargement des données de la table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `abréviation`, `function`, `telephone`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `id_profil`, `slug`, `id_service`, `contact`) VALUES
-(13, 'administrateur', 'Admin', 'Gestionnaire Application', '+XXX XX XX XX XX', 'admin@eiffage.com', NULL, '$2y$10$.k1X.RyevXjktAPrTIZ.Ze9.07DGbI.GNtmEsEJuKQOFa5GKNPWfG', 'Vfn07ETKicRBQNUFezvDzX1u061cdCXabbarBJs8si3D45kXKo3pOtBDKq1A', '2018-11-26 08:11:56', '2018-12-14 10:56:25', NULL, 'admin-at-eiffagecom14122018105625', NULL, NULL),
-(14, 'Thierry Koffi', 'TKO', 'Informaticien Terrain', '+XXX XX XX XX XX', 'thierry.koffi@eiffage.com', NULL, '$2y$10$SKNOTGJ/oxmtRLD4PgsK0.0CS2Lt/kxbUPmjGx.Qeacjcsjss.GrS', NULL, '2018-11-27 17:31:36', '2018-11-27 17:31:36', NULL, 'thierrykoffi-at-eiffagecom27112018053136', NULL, NULL),
-(16, 'kodia cyriaque', NULL, NULL, NULL, 'cyriaque.KODIA@eiffage.com', NULL, '$2y$10$z1jF8bp8mSNCyS8pwhQLJeKxHxBFSCaXw3ZHAFeB6OjA6GHRlBNni', '8Q0IxR2hMpvnzxuqPLmKArzAvEOcOGODq4sUHPdaZqazI5GveniqETZGNpIe', '2018-12-14 11:34:42', '2018-12-14 11:34:42', NULL, 'cyriaquekodia-at-eiffagecom14122018113442', NULL, NULL);
+INSERT INTO `users` (`id`, nom, `abréviation`, `function`, `contact`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `id_profil`, `slug`, service,) VALUES
+(13, 'administrateur', 'Admin', 'Gestionnaire Application', '+XXX XX XX XX XX', 'admin@eiffage.com', NULL, '$2y$10$.k1X.RyevXjktAPrTIZ.Ze9.07DGbI.GNtmEsEJuKQOFa5GKNPWfG', 'Vfn07ETKicRBQNUFezvDzX1u061cdCXabbarBJs8si3D45kXKo3pOtBDKq1A', '2018-11-26 08:11:56', '2018-12-14 10:56:25', NULL, 'admin-at-eiffagecom14122018105625', NULL),
+(14, 'Thierry Koffi', 'TKO', 'Informaticien Terrain', '+XXX XX XX XX XX', 'thierry.koffi@eiffage.com', NULL, '$2y$10$SKNOTGJ/oxmtRLD4PgsK0.0CS2Lt/kxbUPmjGx.Qeacjcsjss.GrS', NULL, '2018-11-27 17:31:36', '2018-11-27 17:31:36', NULL, 'thierrykoffi-at-eiffagecom27112018053136', NULL),
+(16, 'kodia cyriaque', NULL, NULL, NULL, 'cyriaque.KODIA@eiffage.com', NULL, '$2y$10$z1jF8bp8mSNCyS8pwhQLJeKxHxBFSCaXw3ZHAFeB6OjA6GHRlBNni', '8Q0IxR2hMpvnzxuqPLmKArzAvEOcOGODq4sUHPdaZqazI5GveniqETZGNpIe', '2018-12-14 11:34:42', '2018-12-14 11:34:42', NULL, 'cyriaquekodia-at-eiffagecom14122018113442', NULL);
 
 -- --------------------------------------------------------
 

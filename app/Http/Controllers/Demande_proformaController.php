@@ -227,7 +227,7 @@ $fournisseurs=Fournisseur::all();
 
     public function les_das_fournisseurs_funct_da($id_lignebesoin){
 
-        $sql = 'SELECT fournisseur.id , libelle FROM fournisseur,materiel,lignebesoin WHERE   fournisseur.domaine in (materiel.type) and lignebesoin.id_materiel=materiel.id  and lignebesoin.id='.$id_lignebesoin;
+        $sql = 'SELECT fournisseur.id , libelle FROM fournisseur,materiel,lignebesoin WHERE fournisseur.domaine in (materiel.type) and lignebesoin.id_materiel=materiel.id  and lignebesoin.id='.$id_lignebesoin;
 
 
         $results = DB::select($sql);

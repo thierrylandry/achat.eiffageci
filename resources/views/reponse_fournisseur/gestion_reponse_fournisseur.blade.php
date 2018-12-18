@@ -10,7 +10,7 @@
 
     <script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
 
-    <h2>RECEPTION DE PRO FORMA DES FOURNISSEURS </h2>
+    <h2>RECEPTION DE DEVIS DES FOURNISSEURS </h2>
     <div class='form-group'><label for='agree' class='control-label '>Rechercher parmit toute les D.A</label><div><input type='checkbox' style='width: 25px;' class='checkbox form-control' id='rechercher'  ></div></div>
 
     <div class="row">
@@ -27,7 +27,7 @@
             </select>
         </div>
         <div  id="Touteda"class="form-group col-sm-3 hidden" >
-            <b><label for="libelle" class="control-label">Toute les demandes d'approvisionnement</label></b>
+            <b><label for="libelle" class="control-label">Toutes les demandes d'approvisionnement</label></b>
 
 
             <select class="form-control selectpicker " id="Tda" name="Tda" data-live-search="true" data-size="6">
@@ -37,7 +37,7 @@
                 @endforeach
             </select>
         </div>
-        <a href="#" class="btn btn-success pull-right" id="Ajouter_pro" data-target='#ajouterrep' data-toggle='modal'>Ajouter Pro forma</a>   <br>
+        <a href="#" class="btn btn-success pull-right" id="Ajouter_pro" data-target='#ajouterrep' data-toggle='modal'>Ajouter Devis</a>   <br>
 
                 <div class="col-sm-12">
 
@@ -76,7 +76,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title"> Réponse d'un fournisseur</h4>
+                        <h4 class="modal-title">Réponse d'un fournisseur</h4>
                     </div>
                     <form action="{{route('ajouter_reponse')}}" method="post">
                         @csrf
