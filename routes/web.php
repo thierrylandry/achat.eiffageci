@@ -254,7 +254,7 @@ Route::get('/suspendre_da/{slug}',[
     'roles' => ['Valideur_DA']
 
 ])->middleware('auth');
-Route::get('/refuser_da/{slug}',[
+Route::post('/refuser_da',[
     'as'=>'refuser_da',
     'uses'=>'DAController@refuser_da',
     'middleware' => 'roles',

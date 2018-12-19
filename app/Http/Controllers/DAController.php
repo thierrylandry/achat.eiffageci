@@ -17,6 +17,7 @@ use App\Nature;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 class DAController
@@ -98,21 +99,55 @@ class DAController
             $da->id_valideur= Auth::user()->name ;
 
         }
+  /*
+        $daa = DB::table('lignebesoin')
+            ->join('materiel','materiel.id','=','lignebesoin.id_materiel')
+            ->select('libelleMateriel','id_user')->get()->first();
+        $user=User::where('id','=',$daa->id_user)->first();
+        $da = DA::where('id', '=', $da->id)->first();
+        if($da->etat==0){
+            Mail::send('mail/mail_action_da',array('da' =>$da,'etat' =>2,'libelleMateriel'=>$daa->libelleMateriel),function($message)use ($user){
+                $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->name )
+                    ->to($user->email)
+                    ->subject("Confirmation de la demande d'achat préalablement refusée");
+
+            });
+        }
+*/
         $da->etat=2;
+
+
+
+        $da->motif="";
         $da->save();
+
         return redirect()->route('gestion_da')->with('success', "la demande d'approvisionnement a bien été confirmé");
 
     }
-    public function refuser_da($slug)
+    public function refuser_da(Request $request)
     {
-        $da = DA::where('slug', '=', $slug)->first();
+        $parameters = $request->except(['_token']);
+
+        $daa = DB::table('lignebesoin')
+            ->join('materiel','materiel.id','=','lignebesoin.id_materiel')
+            ->select('libelleMateriel','id_user')->get()->first();
+        $da = DA::where('id', '=', $parameters['id'])->first();
+
+        $user=User::where('id','=',$daa->id_user)->first();
 
         if (isset(Auth::user()->name)) {
             $da->id_valideur= Auth::user()->name ;
 
         }
         $da->etat=0;
+        $da->motif=$parameters['motif'];
         $da->save();
+        Mail::send('mail/mail_action_da',array('da' =>$da,'etat' =>$da->etat,'libelleMateriel'=>$daa->libelleMateriel),function($message)use ($user){
+            $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->name )
+                ->to($user->email)
+                ->subject("Refus de la demande d'achat");
+
+        });
         return redirect()->route('gestion_da')->with('succes', "la demande d'approvisionnement a bien été refusé");
 
     }

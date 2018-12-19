@@ -10,7 +10,7 @@
 
     <script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
 
-    <h2>DEMANDER DES PRO FORMA AUX FOURNISSEURS </h2>
+    <h2>DEMANDER DES DEVIS AUX FOURNISSEURS </h2>
     <div class="row">
         <br>        <br>
                 <div class="col-sm-4">

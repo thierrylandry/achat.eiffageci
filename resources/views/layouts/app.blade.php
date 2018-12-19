@@ -58,7 +58,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             font-weight: bold;
             margin: 10px 0;
             font-size: 18px;
-        }</style>
+        }
+        table.dataTable tbody tr.selected {
+            color: white;
+            background-color:#f0bcb4;
+        }
+    </style>
 </head>
 <body>
 <section id="container">
@@ -214,7 +219,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <img alt="" src="images/2.png">
-                            <span class="username">{{ Auth::user()->name }} </span>
+                            <span class="username">{{ Auth::user()->prenoms }} {{ Auth::user()->nom }}  </span>
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu extended logout">

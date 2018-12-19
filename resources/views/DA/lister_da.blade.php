@@ -9,40 +9,45 @@
 @section('parent_da')
     class='active'
 @endsection
+<style>
+
+</style>
 @section('content')
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Motif</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">MOTIF DU REFUS</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+                <form action="{{route('refuser_da')}}" method="post">
+                    @csrf
                 <div class="modal-body">
-                    <form>
+
                         <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">slug:</label>
-                            <input type="text" class="form-control" id="slug">
+                            <input type="hidden" class="form-control" id="id" name="id" >
                         </div>
                         <div class="form-group">
                             <label for="message-text" class="col-form-label">Message:</label>
-                            <textarea class="form-control" id="message-text"></textarea>
+                            <textarea class="form-control" id="motif" name="motif"></textarea>
                         </div>
-                    </form>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-danger">refuser</button>
+                    <button type="submit" class="btn btn-danger">refuser</button>
                 </div>
+                </form>
             </div>
         </div>
     </div>
 
-    <h2>LES DEMANDES D'ACHATS - LISTER</h2>
+    <h2>LES DEMANDES D'ACHATS - LISTER <a href="{{route('creer_da')}}" class="btn btn-default  pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i> Ajouter</a></h2>
     </br>
     </br>
-        <table name ="fournisseurs" id="fournisseurs" class='table table-bordered table-striped  no-wrap '>
+        <table name ="tableDA" id="tableDA" class='table table-bordered table-striped  no-wrap '>
 
             <thead>
 
@@ -135,7 +140,7 @@
                             <a href="{{route('confirmer_da',['slug'=>$da->slug])}} "id="btnconfirmerda2" data-toggle="modal" class="btn btn-success">
                                 <i class=" fa fa-check-circle" style="size: 40px"> Accepter ?</i>
                             </a>
-                            <a href="" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" id="btnconfirmerda2" data-toggle="modal" class="btn btn-danger ">
+                            <a href="" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" id="btnconfirmerda2" data-toggle="modal" class="btn btn-danger btn_refuser">
                                 <i class=" fa fa-check-circle" style="size: 40px"> Refuser ?</i>
                             </a>
                             <div class="btn-group " >
@@ -159,7 +164,7 @@
                             <a href="{{route('suspendre_da',['slug'=>$da->slug])}} "id="btnconfirmerda12" data-toggle="modal" class="btn btn-warning ">
                                 <i class=" fa fa-pause" style="size: 40px"> Suspendre ?</i>
                             </a>
-                            <a href="" data-toggle="modal" data-target="#exampleModal" data-whatever="test" id="btnconfirmerda2" data-toggle="modal" class="btn btn-danger ">
+                            <a href="" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" id="btnconfirmerda2" data-toggle="modal" class="btn btn-danger btn_refuser">
                                 <i class=" fa fa-check-circle" style="size: 40px"> Refuser ?</i>
                             </a>
                             @elseif($da->etat==0)
@@ -197,4 +202,58 @@
             @endforeach
             </tbody>
         </table>
+    <script>
+        (function($) {
+            var table= $('#tableDA').DataTable({
+                language: {
+                    url: "js/French.json"
+                },
+                "ordering":true,
+                "responsive": true,
+                "createdRow": function( row, data, dataIndex){
+
+                },
+                columnDefs: [
+                    { responsivePriority: 1, targets: 0 },
+                    { responsivePriority: 2, targets: -1 }
+                ]
+            }).column(0).visible(false);
+            //table.DataTable().draw();
+
+            $('#tableDA tbody').on( 'click', 'tr', function () {
+                if ( $(this).hasClass('selected') ) {
+                    $(this).removeClass('selected');
+                }
+                else {
+                    table.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                }
+            } );
+
+            $('#button').click( function () {
+             //   table.row('.selected').remove().draw( false );
+            } );
+
+
+            $("body").on("click",".btn_refuser",function(){
+             //   var selec= this;
+
+
+                if ( $(this).parent().parent().parent().hasClass('selected') ) {
+                    $(this).parent().parent().removeClass('selected');
+                }
+                else {
+                    table.$('tr.selected').removeClass('selected');
+                    $(this).parent().parent().addClass('selected');
+                }
+
+                var data = table.row($(this).closest('tr')).data();
+                $('#id').val(data[Object.keys(data)[0]]);
+                console.log(data[Object.keys(data)[0]]);
+
+
+            });
+        })(jQuery);
+
+    </script>
         @endsection
