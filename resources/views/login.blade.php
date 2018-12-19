@@ -67,7 +67,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <div class="clearfix"></div>
             <input type="submit" value="{{ __('Connexion') }}" name="login">
         </form>
-        <p>Vous n'avez pas de compte ?<a href="{{ route('register') }}">Creez-en un</a></p>
+        <p>Vous n'avez pas de compte ?<a href="{{ route('register') }}">Créez-en un</a></p>
     </div>
 </div>
 <script src="js/bootstrap.js"></script>
