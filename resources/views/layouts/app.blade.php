@@ -22,6 +22,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <link href="{{ URL::asset('css/font-awesome.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ URL::asset('css/default/style.min.css') }}" type="text/css"/>
     <link rel="stylesheet" href="{{ URL::asset('css/bootstrap-select.css') }}" type="text/css"/>
+
+    <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+    <link rel="stylesheet" href="{{ URL::asset('css/jquery.fileupload.css') }}">
     <!-- //font-awesome icons -->
     <script src="{{ URL::asset('js/jquery2.0.3.min.js') }}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
@@ -31,7 +34,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="{{ URL::asset('js/jquery.dcjqaccordion.2.7.js') }}"></script>
     <script src="{{ URL::asset('js/scripts.js') }}"></script>
     <script src="{{ URL::asset('js/jquery.slimscroll.js') }}"></script>
-    <script src="{{ URL::asset('js/main.js') }}"></script>
     <script src="{{ URL::asset('js/jquery.nicescroll.js') }}"></script>
     <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="{{ URL::asset('js/flot-chart/excanvas.min.js') }}"></script><![endif]-->
     <script src="{{ URL::asset('js/jquery.scrollTo.js') }}"></script>
@@ -323,7 +325,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <section class=" wrapper">
             <!-- //market-->
             @yield('dashboard')
-            <div class="agile-grid" style="background-color: #FFFFFF; margin: 5px">
+            <div class="agile-grid"  style="background-color: #FFFFFF;@yield('pour_register') margin: 5px">
 
                 @if(Session::has('success'))
                     <div class="alert alert-success">{{Session::get('success')}}</div>

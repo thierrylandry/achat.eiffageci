@@ -50,7 +50,8 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
+            'nom' => 'required|string|max:255',
+            'prenom' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
@@ -68,13 +69,20 @@ class RegisterController extends Controller
         $date = new \DateTime(null);
         /*je modifie le code*/
 
+
         $user=User::create([
-            'name' => $data['name'],
+            'nom' => $data['nom'],
+            'prenoms' => $data['prenoms'],
+            'function' => $data['function'],
+            'contact' => $data['contact'],
+            'abréviation' => $data['abréviation'],
+            'id_service' => $data['id_service'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'slug' => Str::slug($data['email']. $date->format('dmYhis')),
         ]);
         $user->roles()->attach(Role::where('name','Gestionnaire_DA')->first());
+
 
         return $user;
 
