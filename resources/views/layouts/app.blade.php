@@ -38,10 +38,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="{{ URL::asset('js/flot-chart/excanvas.min.js') }}"></script><![endif]-->
     <script src="{{ URL::asset('js/jquery.scrollTo.js') }}"></script>
     <script src="{{ URL::asset('js/bootstrap-select.js') }}"></script>
+    <script src="{{ URL::asset('js/dropzone.js') }}"></script>
 
     <!-- DataTables -->
 
-
+    <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/dropzone.css') }}"/>
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/dataTables.bootstrap4.min.css') }}"/>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="{{ URL::asset('js/notification.js') }}"></script>

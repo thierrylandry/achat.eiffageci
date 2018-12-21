@@ -26,7 +26,8 @@ class ProduitController
     public function Validproduits( Request $request)
     {
         $parameters = $request->except(['_token']);
-
+        $request->file();
+dd($request->file('file'));
         // Fournisseur::create($parameters);
         $date = new \DateTime(null);
         $produit = new Materiel();
@@ -35,8 +36,24 @@ class ProduitController
         $produit->slug = Str::slug($parameters['libelleMateriel'] . $date->format('dmYhis'));
         $produit->save();
 
+        $storeFolder = 'uploads';   //2
 
-        return redirect()->route('gestion_produit')->with('success', "le produit à été ajouté");
+
+        $image = $request->file('file');
+        $imageName = $image->getClientOriginalName();
+        $image->move(public_path('images'),$imageName);
+        if (!empty($_FILES)) {
+
+            $tempFile = $_FILES['file']['tmp_name'];          //3
+
+            $targetPath = dirname( __FILE__ ) . $ds. $storeFolder . $ds;  //4
+dd($targetPath);
+            $targetFile =  $targetPath. $_FILES['file']['name'];  //5
+
+            move_uploaded_file($tempFile,$targetFile); //6
+        }
+
+      //  return redirect()->route('gestion_produit')->with('success', "le produit à été ajouté");
     }
     public function voir_produit($slug)
     {
