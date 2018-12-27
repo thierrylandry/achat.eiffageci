@@ -119,10 +119,17 @@
                     <td>{{$da->demandeur}}</td>
                     <td>@foreach($users as $user )
                             @if($user->id==$da->id_user)
-                                {{$user->name}}
+                                {{$user->nom}}
+                                {{$user->prenom}}
                             @endif
                         @endforeach</td>
-                    <td>{{$da->id_valideur}}</td>
+                    <td>
+                        @foreach($users as $user )
+                            @if($user->id==$da->id_valideur)
+                                {{$user->nom}}
+                                {{$user->prenom}}
+                            @endif
+                        @endforeach</td>
                     <td>
                         @if($da->etat==1)
                             Suspendu

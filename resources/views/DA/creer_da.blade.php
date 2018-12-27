@@ -17,7 +17,7 @@
 
 
                         <form role="form" id="FormRegister" class="" method="post" action="{{route('Validdas')}}">
-                            <div class="col-sm-2"></div>
+                            <div class="col-sm-2"><img id="image"  width="200px" height="200px"/></div>
                             <div class="col-sm-4">
 
                             @csrf<div class="form-group">
@@ -59,7 +59,29 @@
                                 </div>
                                 <div class="form-group col-sm-3">
                                     <label for="type">Unité</label>
-                                    <input type="text" class="form-control" id="unite" name="unite" placeholder="unite" value="{{isset($da)? $da->unite:''}}" required>
+                                    <select class="form-control selectpicker col-sm-4" id="unite" name="unite" data-live-search="true" data-size="6">
+                                        <option value="U">U</option>
+
+                                        <optgroup label="La longeur">
+                                            <option value="Km"> Km</option>
+                                            <option value="m">m</option>
+                                            <option value="cm">cm</option>
+                                            <option value="mm">mm</option>
+                                        </optgroup>
+                                        <optgroup label="La masse">
+                                            <option value="T"> T</option>
+                                            <option value="Kg">Kg</option>
+                                            <option value="g">g</option>
+                                            <option value="mg">mg</option>
+                                        </optgroup>
+                                        <optgroup label="Le litre">
+                                            <option value="L"> L</option>
+                                            <option value="ml">ml</option>
+                                        </optgroup>
+                                        <optgroup label="La surface">
+                                            <option value="m²"> m²</option>
+                                        </optgroup>
+                                    </select>
                                 </div>
                                 <div class="form-group col-sm-6">
                                     <label for="type">Pour le?</label>
@@ -87,4 +109,19 @@
 
     </div>
     <script src="{{URL::asset('js/scriptperso.js')}}"> </script>
+    <script>
+        $('#id_materiel').change(function (e) {
+            $.get("afficher_image/" + this.value,
+                    function (data) {
+                        if(data!=""){
+                            $('#image').attr('src',"uploads/"+data);
+                        }else{
+                            $('#image').attr('src',"images/background2.jpg");
+                        }
+
+
+                    }
+            );
+        });
+    </script>
 @endsection

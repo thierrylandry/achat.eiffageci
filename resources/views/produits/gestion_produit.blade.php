@@ -10,6 +10,13 @@
     <h2>LES PRODUITS ET SERVICES - {{isset($produit)? 'MODIFIER FOURNISSEUR':'AJOUTER UN PRODUIT'}}</h2>
     </br>
     <div class="row">
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+            <span class="close" id="close">&times;</span>
+            <img class="modal-content" id="img01">
+            <div id="caption"></div>
+        </div>
+
                 <div class="col-sm-4">
 @if(isset($produit))
 
@@ -38,8 +45,12 @@
 
                                         <br>
 
+                                        <!--
                                         <div class="form-group dropzone"  id="my-dropzone" name="file">
 
+                                        </div>
+                                        -->
+                                        <div class="form-group" >   <input type="file" name="image"/>
                                         </div>
                         <input type="hidden" class="form-control" id="slug" name="slug" placeholder="" value="{{isset($produit)? $produit->slug:''}}">
                         <br>
@@ -58,7 +69,7 @@
         <script>
 
             Dropzone.options.myDropzone = {
-                url: "/file/post",
+                url: "/uploads/",
                 addRemoveLinks: true,
 
                 // Prevents Dropzone from uploading dropped files immediately

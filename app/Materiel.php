@@ -9,5 +9,5 @@ class Materiel extends Model
     //
     protected  $table="materiel";
     //
-    protected $fillable= ['libelleMateriel','type'];
+    protected $fillable= ['libelleMateriel','type','image'];
 }

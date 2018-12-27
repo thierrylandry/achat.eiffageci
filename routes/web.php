@@ -240,6 +240,14 @@ Route::get('/voir_da/{slug}',[
     'roles' => ['Gestionnaire_DA']
 
 ])->middleware('auth');
+Route::get('afficher_image/{id}',[
+    'as'=>'afficher_image',
+    'uses'=>'DAController@afficher_image',
+
+
+])->middleware('auth');
+
+
 Route::get('/confirmer_da/{slug}',[
     'as'=>'confirmer_da',
     'uses'=>'DAController@confirmer_da',

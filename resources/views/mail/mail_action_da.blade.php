@@ -17,12 +17,9 @@
         <br>
     <p>
         Cordialement,
-        <br>
-        Best regards,
-    </p></p><br>
-
-
-    {{ \Illuminate\Support\Facades\Auth::user()->name }}
+    </p></p>
+    {{ \Illuminate\Support\Facades\Auth::user()->nom }}
+    {{ \Illuminate\Support\Facades\Auth::user()->prenoms }}
     <br>
     <strong>Eiffage Génie Civil Côte d’Ivoire</strong>
     <br>
