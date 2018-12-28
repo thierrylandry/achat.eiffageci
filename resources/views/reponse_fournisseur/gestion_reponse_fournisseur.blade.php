@@ -40,30 +40,69 @@
         <a href="#" class="btn btn-success pull-right" id="Ajouter_pro" data-target='#ajouterrep' data-toggle='modal'>Ajouter Devis</a>   <br>
 
                 <div class="col-sm-12">
+                    <table name ="gestion_reponse_fournisseur" id="gestion_reponse_fournisseur" class='table table-bordered table-striped  no-wrap '>
 
-                                    <table name ="gestion_reponse_fournisseur" id="gestion_reponse_fournisseur" class='table table-bordered table-striped  no-wrap display'>
+                        <thead>
 
-                                        <thead>
+                        <tr>
+                            <th class="dt-head-center">id</th>
+                            <th class="dt-head-center">Service</th>
+                            <th class="dt-head-center">Matériel et consultation</th>
+                            <th class="dt-head-center">type</th>
+                            <th class="dt-head-center">Quantité</th>
+                            <th class="dt-head-center">Pour le ?</th>
+                            <th class="dt-head-center">Fournisseur</th>
+                            <th class="dt-head-center">Prix Unitaire</th>
+                        </tr>
+                        </thead>
+                        <tbody name ="contenu_tableau_entite" id="contenu_tableau_entite">
+                        @foreach($das as $da )
+                            <tr>
+                                <td>{{$da->id}}</td>
+                                <td>@foreach($users as $user )
+                                        @if($user->id==$da->id_user)
+                                            <b style=" font-size: 15px; color:black ">{{$user->service}}</b>
+                                        @endif
+                                    @endforeach</td>
+                                <td>
+                                    @foreach($materiels as $materiel )
+                                        @if($materiel->id==$da->id_materiel)
 
-                                        <tr>
-                                            <th class="no-sort">id</th>
-                                            <th class="no-sort">Choix</th>
-                                            <th class="no-sort">fournisseur</th>
-                                            <th class="no-sort">Titre externe du produit</th>
-                                            <th class="no-sort">Quantité</th>
-                                            <th class="dt-head-center">Prix</th>
-                                            <th class="no-sort">remise</th>
-                                            <th class="no-sort">date</th>
-                                            <th class="no-sort">Action</th>
-                                            <th class="no-sort">idfourn</th>
+                                            {{$materiel->libelleMateriel}}
+                                        @endif
+                                    @endforeach</td>
+                                <td>
+                                    @foreach($materiels as $materiel )
+                                        @if($materiel->id==$da->id_materiel)
 
 
-                                        </tr>
-                                        </thead>
-                                        <tbody name ="contenu_tableau_entite" id="contenu_tableau_entite">
+                                            @foreach($domaines as $domaine )
+                                                @if($domaine->id==$materiel->type)
+                                                    {{$domaine->libelleDomainne}}
 
-                                        </tbody>
-                                    </table>
+                                                @endif
+                                            @endforeach
+
+                                        @endif
+
+
+                                    @endforeach</td>
+
+
+                                <td>{{$da->quantite}}</td>
+                                <td>{{$da->DateBesoin}}</td>
+                                <td><select class="form-control" id="row_n_{{$da->id}}_fournisseur" name="row_n_{{$da->id}}_fournisseur">
+                                        <option value="">SELECTIONNER UN  FOURNISSEUR</option>
+                                        @foreach($fournisseurs as $fournisseur)
+                                            @if($fournisseur->domaine==$da->type)
+                                            <option value="{{$fournisseur->id}}">{{$fournisseur->libelle}}</option>
+                                            @endif
+                                        @endforeach</select></td>
+                                <td><input class="form-control" type="text" min="0" id="row_n_{{$da->id}}_prix_unitaire" name="row_n_{{$da->id}}_prix_unitaire" /><select ><option></option></select></td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
 
                     <button class="btn btn-success pull-right" type="submit">Soumettre votre choix</button>
                 </div>

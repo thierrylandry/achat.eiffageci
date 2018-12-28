@@ -111,6 +111,9 @@
     <script src="{{URL::asset('js/scriptperso.js')}}"> </script>
     <script>
         $('#id_materiel').change(function (e) {
+            if(this.value==""){
+                $('#image').attr('src',"images/background2.jpg");
+            }
             $.get("afficher_image/" + this.value,
                     function (data) {
                         if(data!=""){
@@ -118,7 +121,6 @@
                         }else{
                             $('#image').attr('src',"images/background2.jpg");
                         }
-
 
                     }
             );

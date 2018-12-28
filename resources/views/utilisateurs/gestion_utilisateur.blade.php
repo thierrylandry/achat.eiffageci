@@ -121,6 +121,8 @@
     }
 
     txtprenoms.addEventListener('keydown', function (e) {génère_mail()});
+    txtprenoms.addEventListener('change', function (e) {génère_mail()});
+    txtnom.addEventListener('change', function (e) {génère_mail()});
     txtnom.addEventListener('keydown', function (e) {génère_mail()});
 
     $(document).ready(function (e) {

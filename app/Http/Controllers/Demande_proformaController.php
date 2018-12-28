@@ -259,12 +259,18 @@ $fournisseurs=Fournisseur::all();
             ->join('lignebesoin', 'materiel.id', '=', 'lignebesoin.id_materiel')
             ->where('etat', '=', 2)
             ->select('materiel.libelleMateriel','lignebesoin.id','quantite','unite')->distinct()->get();
-        $fournisseurs=Fournisseur::all();
+        $fournisseurs=DB::table('fournisseur')
+            ->join('domaines', 'domaines.id', '=', 'fournisseur.domaine')
+            ->select('libelle','libelleDomainne','fournisseur.id','fournisseur.domaine')->distinct()->get();
         $materiels=Materiel::all();
-        $das=  DA::all();
+        $das= DB::table('materiel')
+            ->join('lignebesoin', 'materiel.id', '=', 'lignebesoin.id_materiel')
+            ->where('etat', '=', 2)
+            ->select('lignebesoin.id', 'unite', 'quantite', 'DateBesoin','id_user', 'id_reponse_fournisseur','id_nature', 'id_materiel', 'id_bonCommande','demandeur','lignebesoin.slug','etat','id_valideur','motif','type')->distinct()->get();
         $natures= Nature::all();
         $users= User::all();
-        return view('reponse_fournisseur/gestion_reponse_fournisseur',compact('das','fournisseurs','materiels','natures','users','types'));
+        $domaines=  DB::table('domaines')->get();
+        return view('reponse_fournisseur/gestion_reponse_fournisseur',compact('das','fournisseurs','materiels','natures','users','types','domaines'));
 
 
     }
