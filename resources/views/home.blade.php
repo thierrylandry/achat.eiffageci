@@ -7,7 +7,7 @@
         <div class="col-md-3 market-update-gd">
             <div class="market-update-block clr-block-4">
                 <div class="col-md-4 market-update-right">
-                    <i class="fa fa-refresh fa-5x fa-spin  fa-fw" style="color: white"></i>
+                    <i class="fa fa-refresh fa-3x fa-spin  fa-fw" style="color: white"></i>
                 </div>
                 <div class="col-md-8 market-update-left">
                     <h4>D.A en attente de validation</h4>
@@ -19,7 +19,7 @@
         <div class="col-md-3 market-update-gd">
             <div class="market-update-block clr-block-2">
                 <div class="col-md-4 market-update-right">
-                    <i class="fa fa-refresh fa-5x fa-spin  fa-fw" style="color: white"> </i>
+                    <i class="fa fa-refresh fa-3x fa-spin  fa-fw" style="color: white"> </i>
                 </div>
                 <div class="col-md-8 market-update-left">
                     <h4>B.C en attente de confirmation</h4>
@@ -31,7 +31,7 @@
         <div class="col-md-3 market-update-gd">
             <div class="market-update-block clr-block-4">
                 <div class="col-md-4 market-update-right">
-                    <i class="fa fa-refresh fa-5x fa-spin  fa-fw" style="color: white"> </i>
+                    <i class="fa fa-refresh fa-3x fa-spin  fa-fw" style="color: white"> </i>
                 </div>
                 <div class="col-md-8 market-update-left">
                     <h4>Total des B.C validés</h4>
@@ -43,7 +43,7 @@
         <div class="col-md-3 market-update-gd">
             <div class="market-update-block clr-block-2">
                 <div class="col-md-4 market-update-right">
-                    <i class="fa fa-refresh fa-5x fa-spin  fa-fw" style="color: white"> </i>
+                    <i class="fa fa-refresh fa-3x fa-spin  fa-fw" style="color: white"> </i>
                 </div>
                 <div class="col-md-8 market-update-left">
                     <h4>Total des B.C traités</h4>

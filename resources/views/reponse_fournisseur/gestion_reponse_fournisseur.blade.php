@@ -11,35 +11,11 @@
     <script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
 
     <h2>RECEPTION DE DEVIS DES FOURNISSEURS </h2>
-    <div class='form-group'><label for='agree' class='control-label '>Rechercher parmit toute les D.A</label><div><input type='checkbox' style='width: 25px;' class='checkbox form-control' id='rechercher'  ></div></div>
-
     <div class="row">
-
-        <form action="{{route('selection_de_la_reponse')}}" method="post"><div id="daencours" class="form-group col-sm-3">
-                 <b><label for="libelle" class="control-label">Demande approvisionnement en cours</label></b>
-                @csrf
-
-            <select class="form-control selectpicker " id="da11" name="da" data-live-search="true" data-size="6">
-                <option  value="">SELECTIONNER UNE D.A EN COURS</option>
-                @foreach($types as $type)
-                    <option value="{{$type->id}}">{{$type->libelleMateriel}} -- {{$type->quantite}} {{$type->unite}}</option>
-                @endforeach
-            </select>
-        </div>
-        <div  id="Touteda"class="form-group col-sm-3 hidden" >
-            <b><label for="libelle" class="control-label">Toutes les demandes d'approvisionnement</label></b>
+        <div class="col-sm-12">
+        <form action="{{route('selection_de_la_reponse')}}" method="post"><div id="daencours">
 
 
-            <select class="form-control selectpicker " id="Tda" name="Tda" data-live-search="true" data-size="6">
-                <option  value="">SELECTIONNER UNE D.A</option>
-                @foreach($types as $type)
-                    <option value="{{$type->id}}">{{$type->libelleMateriel}} -- {{$type->quantite}} {{$type->unite}}</option>
-                @endforeach
-            </select>
-        </div>
-        <a href="#" class="btn btn-success pull-right" id="Ajouter_pro" data-target='#ajouterrep' data-toggle='modal'>Ajouter Devis</a>   <br>
-
-                <div class="col-sm-12">
                     <table name ="gestion_reponse_fournisseur" id="gestion_reponse_fournisseur" class='table table-bordered table-striped  no-wrap '>
 
                         <thead>
@@ -48,11 +24,11 @@
                             <th class="dt-head-center">id</th>
                             <th class="dt-head-center">Service</th>
                             <th class="dt-head-center">Matériel et consultation</th>
-                            <th class="dt-head-center">type</th>
-                            <th class="dt-head-center">Quantité</th>
-                            <th class="dt-head-center">Pour le ?</th>
+                            <th class="dt-head-center" width="5%">Quantité</th>
+                            <th class="dt-head-center" width="10%">Pour le ?</th>
                             <th class="dt-head-center">Fournisseur</th>
                             <th class="dt-head-center">Prix Unitaire</th>
+                            <th class="dt-head-center">Monaie</th>
                         </tr>
                         </thead>
                         <tbody name ="contenu_tableau_entite" id="contenu_tableau_entite">
@@ -68,116 +44,33 @@
                                     @foreach($materiels as $materiel )
                                         @if($materiel->id==$da->id_materiel)
 
-                                            {{$materiel->libelleMateriel}}
-                                        @endif
-                                    @endforeach</td>
-                                <td>
-                                    @foreach($materiels as $materiel )
-                                        @if($materiel->id==$da->id_materiel)
-
-
-                                            @foreach($domaines as $domaine )
-                                                @if($domaine->id==$materiel->type)
-                                                    {{$domaine->libelleDomainne}}
-
-                                                @endif
+                                            <input type="text" value="{{$materiel->libelleMateriel}}" id="" name=""/>
+                                            @endif
                                             @endforeach
-
-                                        @endif
-
-
-                                    @endforeach</td>
+                                </td>
 
 
-                                <td>{{$da->quantite}}</td>
+                                <td> <input value="{{$da->quantite}}" class="form-control"> </td>
                                 <td>{{$da->DateBesoin}}</td>
                                 <td><select class="form-control" id="row_n_{{$da->id}}_fournisseur" name="row_n_{{$da->id}}_fournisseur">
                                         <option value="">SELECTIONNER UN  FOURNISSEUR</option>
                                         @foreach($fournisseurs as $fournisseur)
                                             @if($fournisseur->domaine==$da->type)
-                                            <option value="{{$fournisseur->id}}">{{$fournisseur->libelle}}</option>
+                                                <option value="{{$fournisseur->id}}">{{$fournisseur->libelle}}</option>
                                             @endif
                                         @endforeach</select></td>
-                                <td><input class="form-control" type="text" min="0" id="row_n_{{$da->id}}_prix_unitaire" name="row_n_{{$da->id}}_prix_unitaire" /><select ><option></option></select></td>
+                                <td><input class="form-control"  type="text" min="0" id="row_n_{{$da->id}}_prix_unitaire" name="row_n_{{$da->id}}_prix_unitaire" /></td>
+                                <td><select class="form-control" style="width: 100px;"><option value="Fr CFA">Fr CFA</option><option value="EURO">EURO</option></select></td>
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
 
-                    <button class="btn btn-success pull-right" type="submit">Soumettre votre choix</button>
-                </div>
+                    <button class="btn btn-success pull-right" type="submit">Soumettre </button>
+
         </form>
 
-        <div id="ajouterrep" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Réponse d'un fournisseur</h4>
-                    </div>
-                    <form action="{{route('ajouter_reponse')}}" method="post">
-                        @csrf
-                    <div class="modal-body">
-                        <br>
-                        <input id="id_reponse" name="id_reponse" type="hidden" value="" />
-                        <div class="form-group">
-                            <b><label for="libelle" class="control-label">Demande approvisionnement en cours</label></b>
-
-
-                            <select class="form-control selectpicker " id="id_lignebesoin" name="id_lignebesoin" data-live-search="true" data-size="6" required>
-                                <option  value="">SELECTIONNER UNE D.A EN COURS</option>
-                                @foreach($types as $type)
-                                    <option value="{{$type->id}}">{{$type->libelleMateriel}} -- {{$type->quantite}} {{$type->unite}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
-                                <b><label for="libelle" class="control-label">Fournisseur</label></b>
-                                <select class="form-control selectpicker" id="id_fournisseur" name="id_fournisseur" data-live-search="true" data-size="6" required>
-                                    <option value="" >SELECTIONNER UN FOURNISSEUR</option>
-                                </select>
-                            </div>
-                            <div class="form-group ">
-                                <b><label for="libelle" class="control-label">Titre externe du produit</label></b>
-                                <input class="form-control" type="text"  name="titre_ext" id="titre_ext"/>
-                            </div>
-</br>
-                        <div class="form-group col-sm-6">
-                            <b><label for="remise" class="control-label ">Remise %</label></b>
-                            <input class="form-control" type="number"  name="remise" id="remise" required/>
-                        </div>
-                        <div class="form-group col-sm-6">
-                            <b><label for="remise" class="control-label ">Date</label></b>
-                            <input class="form-control" type="date" id="date"  name="date" required/>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <b><label for="libelle" class="control-label ">Quantite</label></b>
-                            <input class="form-control" type="number"  name="quantite_reponse" id="quantite_reponse"/>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <b><label for="libelle" class="control-label">Unite</label></b>
-                            <input class="form-control" type="text"  name="unite_reponse" id="unite_reponse"/>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <b><label for="libelle" class="control-label">Prix  unitaire</label></b>
-                            <input class="form-control" type="number"  name="prix_reponse" id="prix_reponse"/>
-                        </div>
-
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="submit"  class="btn btn-succes" name="btn_gestion_reponse"  id="btn_gestion_reponse">Ajouter</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-                    </div>
-                    </form>
-                </div>
-
-            </div>
         </div>
-
-
 
 <script>
 
