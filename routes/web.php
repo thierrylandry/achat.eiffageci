@@ -358,6 +358,10 @@ Route::post('/mailling', [
     'as'=>'mailling',
     'uses'=>'Demande_proformaController@mailling'
 ])->middleware('auth');
+
+
+
+
 Route::post('/ajouter_reponse', [
     'as'=>'ajouter_reponse',
     'uses'=>'Demande_proformaController@ajouter_reponse',
@@ -383,7 +387,12 @@ Route::get('/modifier_reponse_fournisseur/{slug}', [
     'roles' => ['Gestionnaire_Pro_Forma']
 ])->middleware('auth');
 
-
+Route::get('/enregistrer_devis/{res}/{tab}', [
+    'as'=>'enregistrer_devis',
+    'uses'=>'Demande_proformaController@enregistrer_devis',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_Pro_Forma']
+])->middleware('auth');
 
 
 Route::get('/gestion_reponse_fournisseur',[

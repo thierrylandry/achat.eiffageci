@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 
 
 use App\DA;
+use App\Devis;
 use App\Mail\Demande_proforma_mail;
 use App\mailclass;
 use App\Materiel;
@@ -44,6 +45,29 @@ $fournisseurs=Fournisseur::all();
         $users= User::all();
         return view('demande_proformas/gestion_demande_proforma',compact('das','fournisseurs','materiels','natures','users','types'));
 
+
+    }
+    public function enregistrer_devis($res,$lesId)
+    {
+        $lesId=explode(',',$lesId);
+        parse_str($res,$tab);
+//dd($lesId);
+        foreach($lesId as $id){
+            if($id!=="undefined"){
+                $devis = new Devis();
+                $devis->titre_ext=$tab["row_n_".$id."_titre_ext"];
+                $devis->titre_ext=$tab["row_n_".$id."_titre_ext"];
+                echo ($tab["row_n_".$id."_titre_ext"]);
+                echo ($tab["row_n_".$id."_titre_ext"]);
+                echo ($tab["row_n_".$id."_titre_ext"]);
+            }
+        }
+
+
+
+
+
+return $lesId;
 
     }
     public function lister_les_reponse($id_lignebesoin)
@@ -270,7 +294,12 @@ $fournisseurs=Fournisseur::all();
         $natures= Nature::all();
         $users= User::all();
         $domaines=  DB::table('domaines')->get();
-        return view('reponse_fournisseur/gestion_reponse_fournisseur',compact('das','fournisseurs','materiels','natures','users','types','domaines'));
+        $id_da= Array();
+        foreach( $das as $da):
+        $id_da[]=$da->id;
+            endforeach;
+        $id_das=json_encode($id_da);
+        return view('reponse_fournisseur/gestion_reponse_fournisseur',compact('das','fournisseurs','materiels','natures','users','types','domaines','id_das'));
 
 
     }

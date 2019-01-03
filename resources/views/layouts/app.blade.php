@@ -23,8 +23,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <link rel="stylesheet" href="{{ URL::asset('css/default/style.min.css') }}" type="text/css"/>
     <link rel="stylesheet" href="{{ URL::asset('css/bootstrap-select.css') }}" type="text/css"/>
 
-    <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
-    <link rel="stylesheet" href="{{ URL::asset('css/jquery.fileupload.css') }}">
     <!-- //font-awesome icons -->
     <script src="{{ URL::asset('js/jquery2.0.3.min.js') }}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
@@ -38,11 +36,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="{{ URL::asset('js/flot-chart/excanvas.min.js') }}"></script><![endif]-->
     <script src="{{ URL::asset('js/jquery.scrollTo.js') }}"></script>
     <script src="{{ URL::asset('js/bootstrap-select.js') }}"></script>
-    <script src="{{ URL::asset('js/dropzone.js') }}"></script>
 
     <!-- DataTables -->
-
-    <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/dropzone.css') }}"/>
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/dataTables.bootstrap4.min.css') }}"/>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="{{ URL::asset('js/notification.js') }}"></script>
@@ -419,25 +414,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!--main content end-->
 </section>
 
-<script>
 
-    var table= $('#fournisseurs').DataTable({
-        language: {
-            url: "js/French.json"
-        },
-        "ordering":true,
-        "responsive": true,
-        "createdRow": function( row, data, dataIndex){
-
-        },
-        columnDefs: [
-            { responsivePriority: 1, targets: 0 },
-            { responsivePriority: 2, targets: -1 }
-        ]
-    }).column(0).visible(false);
-    //table.DataTable().draw();
-
-</script>
 
 </body>
 </html>

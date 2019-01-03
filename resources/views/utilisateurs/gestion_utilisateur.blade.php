@@ -128,5 +128,23 @@
     $(document).ready(function (e) {
         génère_mail();
     });
+
+    var table= $('#fournisseurs').DataTable({
+        language: {
+            url: "js/French.json"
+        },
+        "ordering":true,
+        "responsive": true,
+        "createdRow": function( row, data, dataIndex){
+
+        },
+        columnDefs: [
+            { responsivePriority: 1, targets: 0 },
+            { responsivePriority: 2, targets: -1 }
+        ]
+    }).column(0).visible(false);
+    //table.DataTable().draw();
+
+
 </script>
 @endsection
