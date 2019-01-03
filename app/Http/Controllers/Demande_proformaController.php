@@ -56,7 +56,7 @@ $fournisseurs=Fournisseur::all();
 //dd($lesId);
         $i=0;
         foreach($lesId as $id){
-            if($id!=="undefined"){
+            if($id!=="undefined" && $tab["row_n_".$id."_titre_ext"]!="" && $tab["row_n_".$id."_fournisseur"]!="" && $tab["row_n_".$id."_prix_unitaire"]!=""){
 
                 $devis = new Devis();
                 $devis->titre_ext=$tab["row_n_".$id."_titre_ext"];
@@ -65,10 +65,11 @@ $fournisseurs=Fournisseur::all();
                 $devis->quantite=$tab["row_n_".$id."_quantite"];
                 $devis->prix_unitaire=$tab["row_n_".$id."_prix_unitaire"];
                 $devis->devise=$tab["row_n_".$id."_devise"];
+                $devis->etat=1;
 
                 $devis->save();
-                $lignebesoin= Lignebesoin::where('id','=',$id);
-                dd($lignebesoin);
+                $lignebesoin= Lignebesoin::find($id);
+
                 $lignebesoin->etat=3;
                 $lignebesoin->save();
             }
@@ -291,7 +292,7 @@ return 1;
 
 
 
-    //reponse fournisseur
+    //reponse fournisseur iportant
     public function gestion_reponse_fournisseur(){
         $types = DB::table('materiel')
             ->join('lignebesoin', 'materiel.id', '=', 'lignebesoin.id_materiel')
@@ -308,7 +309,8 @@ return 1;
         $natures= Nature::all();
         $users= User::all();
         $domaines=  DB::table('domaines')->get();
-        return view('reponse_fournisseur/gestion_reponse_fournisseur',compact('das','fournisseurs','materiels','natures','users','types','domaines'));
+        $devis = Devis::where('etat','=',1)->get();
+        return view('reponse_fournisseur/gestion_reponse_fournisseur',compact('das','fournisseurs','materiels','natures','users','types','domaines','devis'));
 
 
     }
