@@ -127,7 +127,7 @@
 
 
                                             <tr>
-                                                <td>{{$da->id}}</td>
+                                                <td>{{$devi->id}}</td>
                                                 <td>
                                                     @foreach($materiels as $materiel )
                                                         @if($materiel->id==$devi->id_materiel)
