@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Boncommande extends Model
 {
     //
-    protected  $table="Boncommande";
+    protected  $table="boncommande";
     //
     protected $fillable= ['numBonCommande','id_user'];
 }

@@ -56,10 +56,12 @@ $fournisseurs=Fournisseur::all();
             if($id!=="undefined"){
                 $devis = new Devis();
                 $devis->titre_ext=$tab["row_n_".$id."_titre_ext"];
-                $devis->titre_ext=$tab["row_n_".$id."_titre_ext"];
-                echo ($tab["row_n_".$id."_titre_ext"]);
-                echo ($tab["row_n_".$id."_titre_ext"]);
-                echo ($tab["row_n_".$id."_titre_ext"]);
+                $devis->id_materiel=$tab["row_n_".$id."_titre_ext"];
+                $devis->id_fournisseur=$tab["row_n_".$id."_fournisseur"];
+                $devis->quantite=$tab["row_n_".$id."_quantite"];
+                $devis->prix_unitaire=$tab["row_n_".$id."_prix_unitaire"];
+                $devis->devise=$tab["row_n_".$id."_devise"];
+
             }
         }
 

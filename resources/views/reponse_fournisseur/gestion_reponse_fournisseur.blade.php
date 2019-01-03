@@ -29,7 +29,7 @@
                             <th class="dt-head-center" width="10%">Pour le ?</th>
                             <th class="dt-head-center">Fournisseur</th>
                             <th class="dt-head-center">Prix Unitaire</th>
-                            <th class="dt-head-center">Monaie</th>
+                            <th class="dt-head-center">Devise</th>
                         </tr>
                         </thead>
                         <tbody name ="contenu_tableau_entite" id="contenu_tableau_entite">
@@ -44,9 +44,8 @@
                                 <td>
                                     @foreach($materiels as $materiel )
                                         @if($materiel->id==$da->id_materiel)
-
-                                            <input type="text" value="{{$materiel->id_materiel}}" id="row_n_{{$da->id}}_id_materiel" name="row_n_{{$da->id}}_id_materiel"/>
-                                        @endif
+                                            {{$materiel->id}}
+                                         @endif
                                     @endforeach
                                 </td>
                                 <td>@foreach($users as $user )
@@ -74,7 +73,7 @@
                                             @endif
                                         @endforeach</select></td>
                                 <td><input class="form-control"  type="number" min="0" id="row_n_{{$da->id}}_prix_unitaire" name="row_n_{{$da->id}}_prix_unitaire" /></td>
-                                <td><select class="form-control" style="width: 100px;"><option value="Fr CFA">Fr CFA</option><option value="EURO">EURO</option></select></td>
+                                <td><select class="form-control" style="width: 100px;" id="row_n_{{$da->id}}_devise" name="row_n_{{$da->id}}_devise"><option value="Fr CFA">Fr CFA</option><option value="EURO">EURO</option></select></td>
                             </tr>
                         @endforeach
 
@@ -117,7 +116,7 @@
                     if(typeof(valeur)!=="undefined"){
                         lesId=lesId+','+valeur;
                     }
-
+alert(value);
                 });
                 var res= Array();
                 res.push(table1.$('input, select').serialize()) ;
