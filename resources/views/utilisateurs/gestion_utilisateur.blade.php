@@ -63,21 +63,28 @@
 
             <div class="form-group">
                 <b><label for="service">Service</label></b>
-                <select class="form-control selectpicker" id="id_service" name="id_service" data-live-search="true" data-size="6">
+                <select class="form-control selectpicker" id="id_service" name="id_service" data-live-search="true" data-size="6" noneSelectedText="SELECTIONNER UN SERVICE">
                     <option value="">SELECTIONNER UN SERVICE</option>
+
+                    <option {{isset($utilisateur)&&$utilisateur->service=="Service matériel"? "selected":''}} value="Service matériel">Service matériel</option>
+                    <option  {{isset($utilisateur)&&$utilisateur->service=="Direction"? "selected":''}} value="Direction">Direction</option>
+                    <option {{isset($utilisateur)&&$utilisateur->service=="Secrétariat"? "selected":''}} value="Secrétariat">Secrétariat</option>
+                    <option  {{isset($utilisateur)&&$utilisateur->service=="Service travaux"? "selected":''}}value="Service travaux">Service travaux </option>
+                    <option {{isset($utilisateur)&&$utilisateur->service=="Service méthodes"? "selected":''}} value="Service méthodes">Service méthodes </option>
+                    <option {{isset($utilisateur)&&$utilisateur->service=="Service informatique"? "selected":''}} value="Service informatique">Service informatique </option>
                 </select>
             </div>
 
             <div class="form-group">
                     <label for="domaine">Les Roles</label>
 
-                    <select class="form-control selectpicker" id="roles" name="roles[]" data-live-search="true" data-size="6"  multiple required>
+                    <select class="form-control selectpicker" id="roles" name="roles[]" data-live-search="true" data-size="6" noneSelectedText="SELECTIONNER LE(S) ROLE(S)"  multiple required >
                         <option  value="">SELECTIONNER LE(S) ROLE(S)</option>
                         @foreach($roles as $role)
-                            @if(isset($utilisateur) and $utilisateur->hasRole($role->nom))
-                                <option value="{{$role->nom}}" selected>{{$role->description}}</option>
+                            @if(isset($utilisateur) and $utilisateur->hasRole($role->name))
+                                <option value="{{$role->name}}" selected>{{$role->description}}</option>
                             @else
-                                <option value="{{$role->nom}}" >{{$role->description}}</option>
+                                <option value="{{$role->name}}" >{{$role->description}}</option>
                             @endif
 
                         @endforeach
@@ -114,10 +121,30 @@
     }
 
     txtprenoms.addEventListener('keydown', function (e) {génère_mail()});
+    txtprenoms.addEventListener('change', function (e) {génère_mail()});
+    txtnom.addEventListener('change', function (e) {génère_mail()});
     txtnom.addEventListener('keydown', function (e) {génère_mail()});
 
     $(document).ready(function (e) {
         génère_mail();
     });
+
+    var table= $('#fournisseurs').DataTable({
+        language: {
+            url: "js/French.json"
+        },
+        "ordering":true,
+        "responsive": true,
+        "createdRow": function( row, data, dataIndex){
+
+        },
+        columnDefs: [
+            { responsivePriority: 1, targets: 0 },
+            { responsivePriority: 2, targets: -1 }
+        ]
+    }).column(0).visible(false);
+    //table.DataTable().draw();
+
+
 </script>
 @endsection

@@ -37,7 +37,7 @@ class UtilisateurController
         $utilisateur->email = $parameters['email'];
         $utilisateur->password = Hash::make( $parameters['password']);
         $utilisateur->contact =$parameters['contact'];
-        $utilisateur->id_service = $parameters['id_service'];
+        $utilisateur->service = $parameters['id_service'];
         $utilisateur->slug = Str::slug($parameters['email'] . $date->format('dmYhis'));
         $utilisateur->save();
         $roles=$parameters['roles'];
@@ -75,12 +75,13 @@ class UtilisateurController
         $date= new \DateTime(null);
 
 
-        $utilisateur->name = $parameters['name'];
+        $utilisateur->nom = $parameters['nom'];
+        $utilisateur->prenoms = $parameters['prenoms'];
         $utilisateur->abréviation = $parameters['abréviation'];
         $utilisateur->function = $parameters['function'];
         $utilisateur->email = $parameters['email'];
         $utilisateur->contact =$parameters['contact'];
-        $utilisateur->id_service = $parameters['id_service'];
+        $utilisateur->service = $parameters['id_service'];
         if (Hash::needsRehash($parameters['password'])) {
             $utilisateur->password =Hash::make( $parameters['password']);
         }
@@ -89,6 +90,7 @@ class UtilisateurController
         $utilisateur->save();
 
         $utilisateur->roles()->detach();
+
         $roles=$parameters['roles'];
         foreach ($roles as $role):
             $utilisateur->roles()->attach(Role::where('name',$role)->first());

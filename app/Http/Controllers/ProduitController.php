@@ -26,34 +26,28 @@ class ProduitController
     public function Validproduits( Request $request)
     {
         $parameters = $request->except(['_token']);
-        $request->file();
-dd($request->file('file'));
+
         // Fournisseur::create($parameters);
+        $image = $request->file('image');
+
+        $imageName =  $_FILES['image']['name'];
         $date = new \DateTime(null);
         $produit = new Materiel();
         $produit->libelleMateriel = $parameters['libelleMateriel'];
         $produit->type = $parameters['type'];
+        $produit->image = $imageName;
         $produit->slug = Str::slug($parameters['libelleMateriel'] . $date->format('dmYhis'));
         $produit->save();
 
-        $storeFolder = 'uploads';   //2
 
 
-        $image = $request->file('file');
-        $imageName = $image->getClientOriginalName();
-        $image->move(public_path('images'),$imageName);
-        if (!empty($_FILES)) {
+if(isset($_FILES['image']['name'])){
+    $image->move(public_path('uploads'),$imageName);
+}
 
-            $tempFile = $_FILES['file']['tmp_name'];          //3
 
-            $targetPath = dirname( __FILE__ ) . $ds. $storeFolder . $ds;  //4
-dd($targetPath);
-            $targetFile =  $targetPath. $_FILES['file']['name'];  //5
 
-            move_uploaded_file($tempFile,$targetFile); //6
-        }
-
-      //  return redirect()->route('gestion_produit')->with('success', "le produit à été ajouté");
+        return redirect()->route('gestion_produit')->with('success', "le produit à été ajouté");
     }
     public function voir_produit($slug)
     {
@@ -65,6 +59,8 @@ dd($targetPath);
     public function supprimer_produit($slug)
     {
         $produit = Materiel::where('slug', '=', $slug)->first();
+        unlink('uploads/'.$produit->image);
+
         $produit->delete();
         return redirect()->route('gestion_produit')->with('success', "le produit a été supprimé");
     }
@@ -79,12 +75,19 @@ dd($targetPath);
         // Fournisseur::create($parameters);
         $date= new \DateTime(null);
 
-
+        unlink('uploads/'.$produit->image);
         $produit->libelleMateriel = $parameters['libelleMateriel'];
         $produit->type = $parameters['type'];
         $produit->slug = Str::slug($parameters['libelleMateriel'] . $date->format('dmYhis'));
+        $image = $request->file('image');
+
+        $imageName =  $_FILES['image']['name'];
+        $produit->image=$imageName;
         $produit->save();
 
+        if(isset($_FILES['image']['name'])){
+            $image->move(public_path('uploads'),$imageName);
+        }
         return redirect()->route('gestion_produit')->with('success',"le produit à été mis à jour");
     }
     public function alljson(){

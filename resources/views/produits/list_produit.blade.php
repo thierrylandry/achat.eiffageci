@@ -7,6 +7,7 @@
 
             <tr>
                 <th class="dt-head-center">id</th>
+                <th class="dt-head-center">image</th>
                 <th class="dt-head-center">libelle Mareriel</th>
                 <th class="dt-head-center">Type</th>
                 <th class="dt-head-center">Action</th>
@@ -17,6 +18,7 @@
             @foreach($produits as $produit )
                 <tr>
                     <td>{{$produit->id}}</td>
+                    <td> @if($produit->image<>"")<img src="{{ URL::asset('/uploads/'.$produit->image)}}" width="100px" height="100px" alt="Snow" onclick="voir(this)"/> @endif </td>
                     <td>{{$produit->libelleMateriel}}</td>
                     <td>
                         @foreach($domaines as $domaine )
@@ -37,3 +39,28 @@
             </tbody>
         </table>
 
+        <script>
+            function voir(val){
+                var modal = document.getElementById('myModal');
+
+                // Get the image and insert it inside the modal - use its "alt" text as a caption
+                var img = val;
+                var modalImg = document.getElementById("img01");
+                var captionText = document.getElementById("caption");
+                img.onclick = function(){
+                    modal.style.display = "block";
+                    modalImg.src = this.src;
+                    captionText.innerHTML = this.alt;
+                }
+
+                // Get the <span> element that closes the modal
+                var span = document.getElementsByClassName("close")[0];
+
+                // When the user clicks on <span> (x), close the modal
+                span.onclick = function() {
+                    modal.style.display = "none";
+                }
+            }
+            // Get the modal
+
+        </script>

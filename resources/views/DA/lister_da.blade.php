@@ -53,8 +53,9 @@
 
             <tr>
                 <th class="dt-head-center">id</th>
+                <th class="dt-head-center">Service</th>
                 <th class="dt-head-center">statut</th>
-                <th class="dt-head-center">produits et services</th>
+                <th class="dt-head-center">Matériel et consultation</th>
                 <th class="dt-head-center">type</th>
                 <th class="dt-head-center">Nature</th>
                 <th class="dt-head-center">Quantité</th>
@@ -71,6 +72,11 @@
             @foreach($das as $da )
                 <tr>
                     <td>{{$da->id}}</td>
+                    <td>@foreach($users as $user )
+                            @if($user->id==$da->id_user)
+                               <b style=" font-size: 15px; color:black ">{{$user->service}}</b>
+                            @endif
+                        @endforeach</td>
                     <td>
 
                         @if($da->etat==1)
@@ -119,10 +125,17 @@
                     <td>{{$da->demandeur}}</td>
                     <td>@foreach($users as $user )
                             @if($user->id==$da->id_user)
-                                {{$user->name}}
+                                {{$user->nom}}
+                                {{$user->prenom}}
                             @endif
                         @endforeach</td>
-                    <td>{{$da->id_valideur}}</td>
+                    <td>
+                        @foreach($users as $user )
+                            @if($user->id==$da->id_valideur)
+                                {{$user->nom}}
+                                {{$user->prenom}}
+                            @endif
+                        @endforeach</td>
                     <td>
                         @if($da->etat==1)
                             Suspendu

@@ -80,6 +80,14 @@ class DAController
         $natures= Nature::all();
         return view('DA/gestion_da',compact('das','fournisseurs','materiels','natures','da','users','domaines'));
     }
+    public function afficher_image($id)
+    {
+
+       $materiel=Materiel::where('id','=',$id)->first();
+
+        return $materiel->image;
+    }
+
     public function supprimer_da($slug)
     {
         $da = DA::where('slug', '=', $slug)->first();
@@ -95,8 +103,8 @@ class DAController
     {
         $da = DA::where('slug', '=', $slug)->first();
 
-        if (isset(Auth::user()->name)) {
-            $da->id_valideur= Auth::user()->name ;
+        if (isset(Auth::user()->id)) {
+            $da->id_valideur= Auth::user()->id ;
 
         }
   /*
@@ -132,18 +140,16 @@ class DAController
             ->join('materiel','materiel.id','=','lignebesoin.id_materiel')
             ->select('libelleMateriel','id_user')->get()->first();
         $da = DA::where('id', '=', $parameters['id'])->first();
-
-        $user=User::where('id','=',$daa->id_user)->first();
-
-        if (isset(Auth::user()->name)) {
-            $da->id_valideur= Auth::user()->name ;
+     $user=User::where('id','=',$daa->id_user)->first();
+        if (isset(Auth::user()->id)) {
+            $da->id_valideur= Auth::user()->id ;
 
         }
         $da->etat=0;
         $da->motif=$parameters['motif'];
         $da->save();
         Mail::send('mail/mail_action_da',array('da' =>$da,'etat' =>$da->etat,'libelleMateriel'=>$daa->libelleMateriel),function($message)use ($user){
-            $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->name )
+            $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->nom )
                 ->to($user->email)
                 ->subject("Refus de la demande d'achat");
 

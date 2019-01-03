@@ -59,8 +59,15 @@
 
                             <div class="form-group">
                                 <b><label for="service">Service</label></b>
-                                <select class="form-control selectpicker" id="id_service" name="id_service" data-live-search="true" data-size="6">
+                                <select class="form-control selectpicker" id="id_service" name="id_service" data-live-search="true" data-size="6" noneSelectedText="SELECTIONNER UN SERVICE">
                                     <option value="">SELECTIONNER UN SERVICE</option>
+
+                                    <option value="Service matériel">Service matériel</option>
+                                    <option value="Direction">Direction</option>
+                                    <option value="Secrétariat">Secrétariat</option>
+                                    <option value="Service travaux">Service travaux </option>
+                                    <option value="Service méthodes">Service méthodes </option>
+                                    <option value="Service méthodes">Service informatique </option>
                                 </select>
                             </div>
 

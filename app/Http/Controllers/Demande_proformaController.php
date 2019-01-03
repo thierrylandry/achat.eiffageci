@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 
 
 use App\DA;
+use App\Devis;
 use App\Mail\Demande_proforma_mail;
 use App\mailclass;
 use App\Materiel;
@@ -44,6 +45,29 @@ $fournisseurs=Fournisseur::all();
         $users= User::all();
         return view('demande_proformas/gestion_demande_proforma',compact('das','fournisseurs','materiels','natures','users','types'));
 
+
+    }
+    public function enregistrer_devis($res,$lesId)
+    {
+        $lesId=explode(',',$lesId);
+        parse_str($res,$tab);
+//dd($lesId);
+        foreach($lesId as $id){
+            if($id!=="undefined"){
+                $devis = new Devis();
+                $devis->titre_ext=$tab["row_n_".$id."_titre_ext"];
+                $devis->titre_ext=$tab["row_n_".$id."_titre_ext"];
+                echo ($tab["row_n_".$id."_titre_ext"]);
+                echo ($tab["row_n_".$id."_titre_ext"]);
+                echo ($tab["row_n_".$id."_titre_ext"]);
+            }
+        }
+
+
+
+
+
+return $lesId;
 
     }
     public function lister_les_reponse($id_lignebesoin)
@@ -259,12 +283,23 @@ $fournisseurs=Fournisseur::all();
             ->join('lignebesoin', 'materiel.id', '=', 'lignebesoin.id_materiel')
             ->where('etat', '=', 2)
             ->select('materiel.libelleMateriel','lignebesoin.id','quantite','unite')->distinct()->get();
-        $fournisseurs=Fournisseur::all();
+        $fournisseurs=DB::table('fournisseur')
+            ->join('domaines', 'domaines.id', '=', 'fournisseur.domaine')
+            ->select('libelle','libelleDomainne','fournisseur.id','fournisseur.domaine')->distinct()->get();
         $materiels=Materiel::all();
-        $das=  DA::all();
+        $das= DB::table('materiel')
+            ->join('lignebesoin', 'materiel.id', '=', 'lignebesoin.id_materiel')
+            ->where('etat', '=', 2)
+            ->select('lignebesoin.id', 'unite', 'quantite', 'DateBesoin','id_user', 'id_reponse_fournisseur','id_nature', 'id_materiel', 'id_bonCommande','demandeur','lignebesoin.slug','etat','id_valideur','motif','type')->distinct()->get();
         $natures= Nature::all();
         $users= User::all();
-        return view('reponse_fournisseur/gestion_reponse_fournisseur',compact('das','fournisseurs','materiels','natures','users','types'));
+        $domaines=  DB::table('domaines')->get();
+        $id_da= Array();
+        foreach( $das as $da):
+        $id_da[]=$da->id;
+            endforeach;
+        $id_das=json_encode($id_da);
+        return view('reponse_fournisseur/gestion_reponse_fournisseur',compact('das','fournisseurs','materiels','natures','users','types','domaines','id_das'));
 
 
     }
