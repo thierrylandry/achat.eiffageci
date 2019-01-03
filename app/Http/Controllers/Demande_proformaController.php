@@ -12,6 +12,7 @@ namespace App\Http\Controllers;
 
 use App\DA;
 use App\Devis;
+use App\Lignebesoin;
 use App\Mail\Demande_proforma_mail;
 use App\mailclass;
 use App\Materiel;
@@ -47,29 +48,40 @@ $fournisseurs=Fournisseur::all();
 
 
     }
-    public function enregistrer_devis($res,$lesId)
+    public function enregistrer_devis($res,$lesId,$lesIdmat)
     {
         $lesId=explode(',',$lesId);
+        $lesIdmat=explode(',',$lesIdmat);
         parse_str($res,$tab);
 //dd($lesId);
+        $i=0;
         foreach($lesId as $id){
             if($id!=="undefined"){
+
                 $devis = new Devis();
                 $devis->titre_ext=$tab["row_n_".$id."_titre_ext"];
-                $devis->id_materiel=$tab["row_n_".$id."_titre_ext"];
+                $devis->id_materiel=$lesIdmat[$i];
                 $devis->id_fournisseur=$tab["row_n_".$id."_fournisseur"];
                 $devis->quantite=$tab["row_n_".$id."_quantite"];
                 $devis->prix_unitaire=$tab["row_n_".$id."_prix_unitaire"];
                 $devis->devise=$tab["row_n_".$id."_devise"];
 
+                $devis->save();
+                $lignebesoin= Lignebesoin::where('id','=',$id);
+                dd($lignebesoin);
+                $lignebesoin->etat=3;
+                $lignebesoin->save();
             }
+            $i++;
         }
 
 
 
 
 
-return $lesId;
+
+
+return 1;
 
     }
     public function lister_les_reponse($id_lignebesoin)
@@ -296,12 +308,7 @@ return $lesId;
         $natures= Nature::all();
         $users= User::all();
         $domaines=  DB::table('domaines')->get();
-        $id_da= Array();
-        foreach( $das as $da):
-        $id_da[]=$da->id;
-            endforeach;
-        $id_das=json_encode($id_da);
-        return view('reponse_fournisseur/gestion_reponse_fournisseur',compact('das','fournisseurs','materiels','natures','users','types','domaines','id_das'));
+        return view('reponse_fournisseur/gestion_reponse_fournisseur',compact('das','fournisseurs','materiels','natures','users','types','domaines'));
 
 
     }

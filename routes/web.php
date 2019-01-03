@@ -387,7 +387,7 @@ Route::get('/modifier_reponse_fournisseur/{slug}', [
     'roles' => ['Gestionnaire_Pro_Forma']
 ])->middleware('auth');
 
-Route::get('/enregistrer_devis/{res}/{tab}', [
+Route::get('/enregistrer_devis/{res}/{tab}/{lesIdmat}', [
     'as'=>'enregistrer_devis',
     'uses'=>'Demande_proformaController@enregistrer_devis',
     'middleware' => 'roles',

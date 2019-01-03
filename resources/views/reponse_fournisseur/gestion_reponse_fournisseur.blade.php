@@ -111,20 +111,27 @@
             $('#soumettre').click( function() {
                 var data = table1.rows().data();
                 var lesId;
+                var lesIdmat;
                 data.each(function (value, index) {
-                    var valeur=parseInt(value);
+                   // var valeur=parseInt(value);
+                    var valeur=value+'';
+                    var  text=valeur.split(",");
                     if(typeof(valeur)!=="undefined"){
-                        lesId=lesId+','+valeur;
+                        lesId=lesId+','+text[0];
+                        lesIdmat=lesIdmat+','+text[1];
                     }
-alert(value);
+
+alert(text[1]);
                 });
                 var res= Array();
                 res.push(table1.$('input, select').serialize()) ;
 
              //   console.log(data);
-                $.post("enregistrer_devis/"+res+"/"+lesId,
+                $.get("enregistrer_devis/"+res+"/"+lesId+"/"+lesIdmat,
                         function (data) {
-
+            if(data==1){
+                location.reload();
+                    }
                         }
                 );
                 return false;
