@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 
 use App\Analytique;
 use App\Boncommande;
+use App\Devis;
 use App\fournisseur;
 use App\ligne_bc;
 use App\Lignebesoin;
@@ -287,11 +288,11 @@ $analytiques= Analytique::all();
             ->join('lignebesoin', 'reponse_fournisseur.id', '=', 'lignebesoin.id_reponse_fournisseur')
             ->where('lignebesoin.etat', '=', 2)
             ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
-        $reponse_fournisseurs= DB::table('reponse_fournisseur')
-            ->join('lignebesoin', 'reponse_fournisseur.id', '=', 'lignebesoin.id_reponse_fournisseur')
-            ->join('materiel', 'materiel.id', '=', 'lignebesoin.id_materiel')
-            ->where('lignebesoin.etat', '=', 2)
-            ->select('materiel.libelleMateriel','titre_ext','reponse_fournisseur.id')->distinct()->get();
+        $devis= DB::table('devis')
+            ->leftJoin('ligne_bc', 'ligne_bc.id_bonCommande', '=', 'devis.id_bc')
+            ->where('devis.etat', '=', 2)
+            ->where('devis.id_bc', '=', $id)
+            ->select('devis.id','devis.titre_ext','id_bc','devis.codeRubrique','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','ligne_bc.prix_tot')->distinct()->get();
         $ligne_bcs=DB::table('ligne_bc')
             ->join('reponse_fournisseur', 'reponse_fournisseur.id', '=', 'ligne_bc.id_reponse_fournisseur')
             ->join('analytique', 'analytique.id_analytique', '=', 'ligne_bc.codeRubrique')
@@ -299,16 +300,15 @@ $analytiques= Analytique::all();
             ->select('titre_ext','quantite_ligne_bc','unite_ligne_bc','prix_unitaire_ligne_bc','remise_ligne_bc','prix_tot','ligne_bc.slug','analytique.codeRubrique')->get();
         $listerbc='';
         $analytiques= Analytique::all();
-        return view('BC/gestion_bc',compact('bcs','fournisseurs','utilisateurs','listerbc','reponse_fournisseurs','slugbc','analytiques','ligne_bcs'));
+        return view('BC/gestion_bc',compact('bcs','fournisseurs','utilisateurs','listerbc','devis','slugbc','analytiques','ligne_bcs'));
     }
     public function gestion_bc_ajouter()
     {
         $bcs=  Boncommande::all();
         $utilisateurs=  User::all();
         $fournisseurs= DB::table('fournisseur')
-            ->join('reponse_fournisseur', 'fournisseur.id', '=', 'reponse_fournisseur.id_fournisseur')
-            ->join('lignebesoin', 'reponse_fournisseur.id', '=', 'lignebesoin.id_reponse_fournisseur')
-            ->where('lignebesoin.etat', '=', 2)
+            ->join('devis', 'fournisseur.id', '=', 'devis.id_fournisseur')
+            ->where('devis.etat', '=', 1)
             ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
         $reponse_fournisseurs= DB::table('reponse_fournisseur')
             ->join('lignebesoin', 'reponse_fournisseur.id', '=', 'lignebesoin.id_reponse_fournisseur')
@@ -332,7 +332,7 @@ $analytiques= Analytique::all();
         $date= new \DateTime(null);
         $Boncommande= new Boncommande();
         $Boncommande->numBonCommande=$parameters['numbc'];
-        $Boncommande->date=$parameters['date'];
+       // $Boncommande->date=$parameters['date'];
         $Boncommande->id_fournisseur=$parameters['id_fournisseur'];
         $Boncommande->id_user=\Illuminate\Support\Facades\Auth::user()->id;
 
@@ -341,9 +341,16 @@ $analytiques= Analytique::all();
         try{$Boncommande->save();
         }catch (\Illuminate\Database\QueryException $ex){
 
+
             return redirect()->route('gestion_bc')->with('error',"le numero du bon de commande est déjà utilisé");
         }
+        $lesdevis= Devis::where('id_fournisseur','=',$Boncommande->id_fournisseur)->get();
 
+        foreach($lesdevis as $devi):
+            $devi->id_bc=$Boncommande->id;
+            $devi->etat=2;
+            $devi->save();
+        endforeach;
         return redirect()->route('gestion_bc')->with('success',"le bon de commande a été ajouté, Veuillez ajouter la listes des produits ou des services");
     }
     public function modifier_bc( Request $request)

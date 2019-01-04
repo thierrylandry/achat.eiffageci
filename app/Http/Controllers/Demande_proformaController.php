@@ -63,6 +63,14 @@ $fournisseurs=Fournisseur::all();
                 $devis->id_materiel=$lesIdmat[$i];
                 $devis->id_fournisseur=$tab["row_n_".$id."_fournisseur"];
                 $devis->quantite=$tab["row_n_".$id."_quantite"];
+                $devis->id_da=$id;
+                $devis->remise=$tab["row_n_".$id."_remise"];
+                $devis->unite=$tab["row_n_".$id."_unite"];
+
+               if( $tab["row_n_".$id."_codeRubrique"]!=""){
+                   $devis->codeRubrique=$tab["row_n_".$id."_codeRubrique"];
+               }
+
                 $devis->prix_unitaire=$tab["row_n_".$id."_prix_unitaire"];
                 $devis->devise=$tab["row_n_".$id."_devise"];
                 $devis->etat=1;
@@ -83,6 +91,51 @@ $fournisseurs=Fournisseur::all();
 
 
 return 1;
+
+    }
+    public function modifier_devis($res,$lesId)
+    {
+        $lesId=explode(',',$lesId);
+        parse_str($res,$tab);
+//dd($lesId);
+        $i=0;
+        foreach($lesId as $id){
+            if($id!=="undefined" && $tab["row_n_".$id."_titre_ext"]!="" && $tab["row_n_".$id."_fournisseur"]!="" && $tab["row_n_".$id."_prix_unitaire"]!="" && $tab["row_n_".$id."_quantite"]){
+
+                $devis =  Devis::find($id);
+                if( $devis->etat==1){
+
+                    $devis->titre_ext=$tab["row_n_".$id."_titre_ext"];
+                    $devis->id_fournisseur=$tab["row_n_".$id."_fournisseur"];
+                    $devis->quantite=$tab["row_n_".$id."_quantite"];
+                    $devis->id_da=$id;
+                    //$devis->remise=$tab["row_n_".$id."_remise"];
+                    $devis->unite=$tab["row_n_".$id."_unite"];
+
+                    if( $tab["row_n_".$id."_codeRubrique"]!=""){
+                        $devis->codeRubrique=$tab["row_n_".$id."_codeRubrique"];
+                    }
+
+                    $devis->prix_unitaire=$tab["row_n_".$id."_prix_unitaire"];
+                    $devis->devise=$tab["row_n_".$id."_devise"];
+                    $devis->etat=1;
+
+                    $devis->save();
+                }else{
+                    return 2;
+                }
+
+            }
+            $i++;
+        }
+
+
+
+
+
+
+
+        return 1;
 
     }
     public function lister_les_reponse($id_lignebesoin)
@@ -184,76 +237,6 @@ return 1;
 
     }
 
-    public function ajouter_reponse(Request $request){
-
-        $parameters = $request->except(['_token']);
-
-        $id_lignebesoin = $parameters['id_lignebesoin'];
-        $id_fournisseur = $parameters['id_fournisseur'];
-        $titre_ext = $parameters['titre_ext'];
-        $quantite_reponse=$parameters['quantite_reponse'];
-        $Unite=$parameters['unite_reponse'];
-        $prix_reponse=$parameters['prix_reponse'];
-        $id_reponse=$parameters['id_reponse'];
-        $date=$parameters['date'];
-        $remise=$parameters['remise'];
-
-        if ($id_reponse!=''){
-            $rep_fourn =  Reponse_fournisseur::where('slug','=',$parameters['id_reponse'])->first();
-        }else{
-            $rep_fourn = new Reponse_fournisseur();
-        }
-
-        $date = new \DateTime(null);
-        $rep_fourn->id_lignebesoin=$id_lignebesoin;
-        $rep_fourn->id_fournisseur=$id_fournisseur;
-        $rep_fourn->titre_ext=$titre_ext;
-        $rep_fourn->quantite=$quantite_reponse;
-        $rep_fourn->Unite=$Unite;
-        $rep_fourn->prix=$prix_reponse;
-        $rep_fourn->prix=$prix_reponse;
-        $rep_fourn->remise=$remise;
-        $rep_fourn->date_precise=$date;
-        $rep_fourn->slug = Str::slug($parameters['titre_ext'].$Unite. $date->format('dmYhis'));
-        $rep_fourn->save();
-
-
-        if ($id_reponse!=''){
-            return redirect()->route('gestion_reponse_fournisseur')->with('success', "la pro forma à été modifié");
-        }else{
-            return redirect()->route('gestion_reponse_fournisseur')->with('success', "la pro forma à été ajouté");
-        }
-    }
-    public function supprimer_reponse_fournisseur($slug)
-    {
-        $reponse_fournisseur = Reponse_fournisseur::where('slug', '=', $slug)->first();
-        $reponse_fournisseur->delete();
-        return redirect()->route('gestion_reponse_fournisseur')->with('success', "la réponse du fournisseur  a été supprimé");
-    }
-    public function modifier_reponse(Request $request){
-        $parameters = $request->except(['_token']);
-
-        $id_lignebesoin = $parameters['id_lignebesoin'];
-        $id_fournisseur = $parameters['id_fournisseur'];
-        $titre_ext = $parameters['titre_ext'];
-        $quantite_reponse=$parameters['quantite_reponse'];
-        $Unite=$parameters['unite_reponse'];
-        $prix_reponse=$parameters['prix_reponse'];
-
-        $rep_fourn = new Reponse_fournisseur();
-        $date = new \DateTime(null);
-        $rep_fourn->id_lignebesoin=$id_lignebesoin;
-        $rep_fourn->id_fournisseur=$id_fournisseur;
-        $rep_fourn->titre_ext=$titre_ext;
-        $rep_fourn->quantite=$quantite_reponse;
-        $rep_fourn->Unite=$Unite;
-        $rep_fourn->prix=$prix_reponse;
-        $rep_fourn->prix=$prix_reponse;
-        $rep_fourn->slug = Str::slug($parameters['titre_ext'].$Unite. $date->format('dmYhis'));
-        $rep_fourn->save();
-        return redirect()->route('gestion_reponse_fournisseur')->with('success', "La pro forma à été modifié");
-    }
-
     public function les_das_fournisseurs_funct($domaine)
     {
         $valeur = array($domaine);
@@ -315,22 +298,4 @@ return 1;
 
     }
 
-    public function selection_de_la_reponse (Request $request){
-        $parameters = $request->except(['_token']);
-        $lada='';
-        if($parameters['da']!=''){
-            $lada=$parameters['da'];
-        }else{
-            $lada=$parameters['Tda'];
-        }
-        $choix=$parameters['choix'];
-
-        $da =  DA::where('id','=',$lada)->first();
-        $da->id_reponse_fournisseur=$choix;
-
-        $da->save();
-
-            return redirect()->route('gestion_reponse_fournisseur')->with('success', "Choix de la proforma du fournisseur effectué");
-
-    }
 }

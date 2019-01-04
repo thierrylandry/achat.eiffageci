@@ -394,6 +394,12 @@ Route::get('/enregistrer_devis/{res}/{tab}/{lesIdmat}', [
     'roles' => ['Gestionnaire_Pro_Forma']
 ])->middleware('auth');
 
+Route::get('/modifier_devis/{res}/{tab}', [
+    'as'=>'modifier_devis',
+    'uses'=>'Demande_proformaController@modifier_devis',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_Pro_Forma']
+])->middleware('auth');
 
 Route::get('/gestion_reponse_fournisseur',[
     'as'=>'gestion_reponse_fournisseur',

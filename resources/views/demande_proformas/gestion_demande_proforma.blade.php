@@ -53,14 +53,12 @@
 
                         <tr>
                             <th class="dt-head-center">id</th>
-                            <th class="dt-head-center">statut</th>
                             <th class="dt-head-center">produits et services</th>
                             <th class="dt-head-center">Nature</th>
                             <th class="dt-head-center">Quantité</th>
                             <th class="dt-head-center">Pour le ?</th>
                             <th class="dt-head-center">Demandeur</th>
                             <th class="dt-head-center">Confirmer ou Infirmer par ?</th>
-                            <th class="dt-head-center">Les réponses des fournisseurs</th>
 
                         </tr>
                         </thead>
@@ -122,47 +120,7 @@
 
             </div>
         </div>
-        <!-- Modal -->
-        <div id="listerrep" class="modal fade" role="dialog">
-            <div class="modal-dialog">
 
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Lister les  réponses fournisseur</h4>
-                    </div>
-
-                        <div class="modal-body">
-
-
-                            <table name ="gestion_reponse_fournisseur" id="gestion_reponse_fournisseur" class='table table-bordered table-striped  no-wrap display'>
-
-                                <thead>
-
-                                <tr>
-                                    <th class="dt-head-center">id</th>
-                                    <th class="dt-head-center">fournisseur</th>
-                                    <th class="dt-head-center">Titre externe du produit</th>
-                                    <th class="dt-head-center">Quantité</th>
-                                    <th class="dt-head-center">Prix</th>
-
-                                </tr>
-                                </thead>
-                                <tbody name ="contenu_tableau_entite" id="contenu_tableau_entite">
-
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-                        </div>
-
-                </div>
-
-            </div>
-        </div>
 
 <script>
 
@@ -242,46 +200,6 @@
             $('#listeDA').val(mavariable);
 
         });
-        $("body").on("click","#btn_lister",function(){
-            var data = table.row($(this).closest('tr')).data();
-
-            var uti_entite =data[Object.keys(data)[0]];
-            $('#gestion_reponse_fournisseur').DataTable().clear();
-            $.get("lister_les_reponse/"+uti_entite,
-                    function (data) {
-                        $.each(data, function( index, value ) {
-                            var action1 ='modifier_reponse_fournisseur/'+value.slug;
-                            var action2 ='lister_reponse_fournisseur/'+value.slug;
-                            var route='lister_reponse_fournisseur/'+value.slug;
-                            var route1='ajouter_reponse_fournisseur/'+value.slug;
-
-                            $('#gestion_reponse_fournisseur').DataTable().row.add([
-                                value.slug,
-                                value.libelle,
-                                value.titre_ext,
-                                value.quantite+" "+ value.unite,
-                                value.prix
-                             ]);
-
-                        });
-                        $('#gestion_reponse_fournisseur').DataTable().draw();
-                    }
-
-            );
-        });
-        $("body").on("click","#btn_ajouter",function(){
-            var data = table.row($(this).closest('tr')).data();
-
-            var uti_entite =data[Object.keys(data)[0]];
-            var libproduit =data[Object.keys(data)[2]];
-            $('#id_lignebesoin').val(uti_entite);
-
-            $('#titre_ext').val(libproduit);
-            $('#id_fournisseur').empty()
-            $('#id_fournisseur').append("<option value=''>SELECTIONNER UN FOURNISSEUR</option>");
-            $('#id_fournisseur').append($('#fourn').html());
-            $('#id_fournisseur').selectpicker('refresh');
-        });
         $('#domaine').change(function(e){
             $domaine=$("#domaine").val();
 
@@ -301,14 +219,12 @@
                                 var route1='ajouter_reponse_fournisseur/'+value.slug;
                                 $('#gestion_demande_proforma').DataTable().row.add([
                                     value.id,
-                                    status,
                                     value.libelleMateriel,
                                     value.libelleNature,
                                     value.quantite+" "+ value.unite,
                                     value.DateBesoin,
                                     value.demandeur,
-                                    value.id_valideur,
-                                        "<a href='#' data-toggle='modal' data-target='#listerrep' id='btn_lister' ><li class='fa fa-list'></li>Lister</a>"
+                                    value.id_valideur
                                 ]);
 
                             });

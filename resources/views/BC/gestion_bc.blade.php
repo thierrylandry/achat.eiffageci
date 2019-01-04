@@ -29,14 +29,9 @@
                                 <input type="text" class="form-control" id="numbc" name="numbc" placeholder="Enter un numero" value="{{isset($bc)? $bc->numBonCommande:''}}" {{isset($bc)? 'disabled':''}}   required>
                             </div>
                         </div>
+
                         <div class="form-group">
-                            <label class="control-label col-sm-6" for="date">Date:</label>
-                            <div class="col-sm-4">
-                                <input type="date" class="form-control" id="date" name="date" value="{{isset($bc)? $bc->date:''}}" >
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <b><label for="libelle" class="control-label col-sm-6">Fournisseur</label></b>
+                            <b><label for="libelle" class="control-label col-sm-6">Fournisseur:</label></b>
                             <div class="col-sm-6">
                             <select class="form-control selectpicker " id="id_fournisseur" name="id_fournisseur" data-live-search="true" data-size="6" required>
                                 <option value="" >SELECTIONNER UN FOURNISSEUR</option>
@@ -50,7 +45,6 @@
                                     <option value="{{$fournisseur->id}}" {{$selec}}>{{$fournisseur->libelle}}</option>
                                     @endforeach
                             </select>
-                                <p style="color: red;font-size: 12px">NB: Les fournisseurs qui apparaissent ici sont ceux dont les cotations ont élé choisi</p>
                             </div>
                         </div>
 
@@ -77,7 +71,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">fiche de Commande</h4>
                 </div>
-                @if(isset($ligne_bc))
+                @if(isset($devis))
                     <form  action="{{route('update_ligne_bc')}}" method="post">
                         @else
                             <form action="{{route('save_ligne_bc')}}" method="post">
@@ -85,20 +79,7 @@
                                 @csrf
 
                                 <div class="modal-body">
-                                    <div class="form-group">
-                                        <b><label for="libelle" class="control-label col-sm-6"> les  pro formas du fournisseur </label></b>
-                                        <div >
-                                            <select class="form-control selectpicker " id="id_reponse_fournisseur" name="id_reponse_fournisseur" data-live-search="true" data-size="6" required>
-                                                <option value="" >SELECTIONNER UNE PRO FORMA</option>
-                                                @foreach($reponse_fournisseurs as $reponse_fournisseur)
 
-
-                                                    <option value="{{$reponse_fournisseur->id}}" {{isset($ligne_bc) ?'selected':''}}> Libellé:{{$reponse_fournisseur->libelleMateriel}} titre externe: ({{$reponse_fournisseur->titre_ext}})</option>
-                                                @endforeach
-                                            </select>
-                                            <p style="color: red;font-size: 12px">NB: Les pro formas listés ici proviennent du fournisseur lié au bon de commande</p>
-                                        </div>
-                                    </div>
                                     <input type="hidden" name="slugbc"  value="{{isset($slugbc)? $slugbc:''}}"/>
                                     <input type="hidden" name="slugligne"  value="{{isset($ligne_bc) ?$ligne_bc->slug:''}}"/>
                                     <div class="form-group">

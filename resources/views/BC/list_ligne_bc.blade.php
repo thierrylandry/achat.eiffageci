@@ -14,35 +14,24 @@
         <th class="">Pu HT</th>
         <th class="">remise %</th>
         <th class="">Total  HT</th>
-        <th class="">Action</th>
 
     </tr>
     </thead>
     <tbody name ="contenu_tableau_entite" id="contenu_tableau_entite">
 
-    @if(isset($ligne_bcs))
-    @foreach($ligne_bcs as $ligne_bc )
+    @if(isset($devis))
+    @foreach($devis as $devi )
         <tr>
-            <td>{{$ligne_bc->slug}}</td>
-            <td>{{$ligne_bc->titre_ext}}</td>
-            <td>{{$ligne_bc->codeRubrique}}</td>
-            <td>{{$ligne_bc->quantite_ligne_bc}}</td>
+            <td>{{$devi->id}}</td>
+            <td>{{$devi->titre_ext}}</td>
+            <td><input type="text" value="{{$devi->codeRubrique}}" id="row_n_{{$devi->id}}_codeRubrique" name="row_n_{{$devi->id}}_codeRubrique"/></td>
+            <td>{{$devi->quantite}}</td>
             <td>
-                {{$ligne_bc->unite_ligne_bc}}
+                {{$devi->unite}}
             </td>
-            <td>  {{$ligne_bc->prix_unitaire_ligne_bc}}</td>
-            <td>  {{$ligne_bc->remise_ligne_bc}}</td>
-            <td>  {{$ligne_bc->prix_tot}}</td>
-            <td>
-                <a href="{{route('supprimer_ligne_bc',['slug'=>$ligne_bc->slug])}}" data-toggle="modal" class="btn btn-danger col-sm-1 ">
-                    <i class=" fa fa-trash"></i>
-                </a>
-
-                <a href="{{route('modifier_ligne_bc',['slug'=>$ligne_bc->slug])}}" data-toggle="modal" class="btn btn-info col-sm-1 ">
-                    <i class=" fa fa-pencil"></i>
-                </a>
-
-            </td>
+            <td>  {{$devi->prix_unitaire}}</td>
+            <td>  {{$devi->remise}}</td>
+            <td>  {{$devi->prix_tot}}</td>
 
         </tr>
     @endforeach

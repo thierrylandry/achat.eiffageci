@@ -43,7 +43,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script type="text/javascript" src="{{ URL::asset('js/notification.js') }}"></script>
     <style>
 
-
+        table.dataTable {
+            margin: 0 auto;
+        }
 
 
         /* Modal Content (image) */
