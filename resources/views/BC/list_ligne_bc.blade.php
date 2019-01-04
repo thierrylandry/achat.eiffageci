@@ -31,7 +31,7 @@
             </td>
             <td>  {{$devi->prix_unitaire}}</td>
             <td>  {{$devi->remise}}</td>
-            <td>  {{$devi->prix_tot}}</td>
+            <td>  {{($devi->remise*$devi->prix_unitaire)/100}}</td>
 
         </tr>
     @endforeach
