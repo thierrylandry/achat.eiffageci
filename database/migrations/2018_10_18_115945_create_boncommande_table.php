@@ -15,7 +15,7 @@ class CreateBoncommandeTable extends Migration
     {
         Schema::create('boncommande', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('numBonCommande');
+            $table->integer('numBonCommande')->nullable();
             $table->integer('id_user');
             $table->timestamps();
         });

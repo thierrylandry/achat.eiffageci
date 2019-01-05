@@ -15,7 +15,7 @@ class AddDateToBoncommande extends Migration
     {
         Schema::table('boncommande', function (Blueprint $table) {
             //
-            $table->date('date');
+            $table->date('date')->nullable();
         });
     }
 
@@ -28,7 +28,7 @@ class AddDateToBoncommande extends Migration
     {
         Schema::table('boncommande', function (Blueprint $table) {
             //
-            $table->removeColum('slug');
+            $table->removeColum('date');
         });
     }
 }

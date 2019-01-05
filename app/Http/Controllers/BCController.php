@@ -281,26 +281,22 @@ $analytiques= Analytique::all();
     }
     public function lister_commande($id)
     {
-        $bcs=  Boncommande::all();
+        $bc=  Boncommande::find($id);
         $utilisateurs=  User::all();
-        $fournisseurs= DB::table('fournisseur')
-            ->join('reponse_fournisseur', 'fournisseur.id', '=', 'reponse_fournisseur.id_fournisseur')
-            ->join('lignebesoin', 'reponse_fournisseur.id', '=', 'lignebesoin.id_reponse_fournisseur')
-            ->where('lignebesoin.etat', '=', 2)
-            ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
+        $fournisseur= Fournisseur::find($bc->id_fournisseur);
         $devis= DB::table('devis')
             ->leftJoin('ligne_bc', 'ligne_bc.id_bonCommande', '=', 'devis.id_bc')
             ->where('devis.etat', '=', 2)
             ->where('devis.id_bc', '=', $id)
             ->select('devis.id','devis.titre_ext','id_bc','devis.codeRubrique','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','ligne_bc.prix_tot')->distinct()->get();
-        $ligne_bcs=DB::table('ligne_bc')
+      /*  $ligne_bcs=DB::table('ligne_bc')
             ->join('reponse_fournisseur', 'reponse_fournisseur.id', '=', 'ligne_bc.id_reponse_fournisseur')
             ->join('analytique', 'analytique.id_analytique', '=', 'ligne_bc.codeRubrique')
             ->where('id_bonCommande','=',$id)
-            ->select('titre_ext','quantite_ligne_bc','unite_ligne_bc','prix_unitaire_ligne_bc','remise_ligne_bc','prix_tot','ligne_bc.slug','analytique.codeRubrique')->get();
+            ->select('titre_ext','quantite_ligne_bc','unite_ligne_bc','prix_unitaire_ligne_bc','remise_ligne_bc','prix_tot','ligne_bc.slug','analytique.codeRubrique')->get();*/
         $listerbc='';
         $analytiques= Analytique::all();
-        return view('BC/gestion_bc',compact('bcs','fournisseurs','utilisateurs','listerbc','devis','slugbc','analytiques','ligne_bcs'));
+        return view('BC/list_ligne_bc',compact('bc','fournisseur','utilisateurs','listerbc','devis','slugbc','analytiques'));
     }
     public function gestion_bc_ajouter()
     {

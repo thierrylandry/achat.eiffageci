@@ -138,23 +138,6 @@
 
         </div>
     </div>
-    <div id="listerbc" class="modal fade in" aria-hidden="true" role="dialog" >
-        <div class="modal-dialog modal-lg">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Liste des commandes</h4>
-                </div>
-
-                                <div class="modal-body">
-@include('BC/list_ligne_bc')
-                                </div>
-            </div>
-
-        </div>
-    </div>
 
 
     <a href="{{route('gestion_bc_ajouter')}}" class="btn btn-success pull-right" id="Ajouter_pro" >Ajouter un bon de commande</a>   <br>

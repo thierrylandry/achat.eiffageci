@@ -1,6 +1,23 @@
 
+@extends('layouts.app')
+@section('gestion_bc')
+    class='active'
+@endsection
+
+@section('content')
 
 
+    <h2>LISTE DES COMMANDES POUR  - {{$fournisseur->libelle}} - N° BC : {{$bc->numBonCommande}}</h2>
+    <br>
+    <div >
+
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-6" for="numbc">Date de livraison:</label>
+        <div class="col-sm-4">
+            <input type="date" class="form-control" id="numbc" name="numbc" placeholder="Enter un numero" value=""    required>
+        </div>
+    </div>
 <table name ="ligneCommandes" id="ligneCommandes" class='table table-bordered table-striped  no-wrap '>
 
     <thead>
@@ -31,7 +48,7 @@
             </td>
             <td>  {{$devi->prix_unitaire}}</td>
             <td>  {{$devi->remise}}</td>
-            <td>  {{($devi->remise*$devi->prix_unitaire)/100}}</td>
+            <td>  {{$devi->prix_unitaire*$devi->quantite-($devi->remise*$devi->prix_unitaire)/100}}</td>
 
         </tr>
     @endforeach
@@ -132,3 +149,4 @@
         }).column(0).visible(false);
     })(jQuery);
 </script>
+@endsection

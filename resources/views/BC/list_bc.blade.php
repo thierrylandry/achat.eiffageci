@@ -35,7 +35,7 @@
    </td>
             <td>@foreach($utilisateurs as $utilisateur)
                  @if($utilisateur->id==$bc->id_user)
-                    {{$utilisateur->name}}
+                    {{$utilisateur->nom}}
                 @endif
             @endforeach</td>
             <td>

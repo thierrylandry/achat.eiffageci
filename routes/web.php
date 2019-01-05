@@ -509,6 +509,7 @@ Route::get('/modifier_ligne_bc/{slug}',[
     'roles' => ['Gestionnaire_BC']
 
 ])->middleware('auth');
+
 Route::post('/update_ligne_bc',[
     'as'=>'update_ligne_bc',
     'uses'=>'BCController@update_ligne_bc',
