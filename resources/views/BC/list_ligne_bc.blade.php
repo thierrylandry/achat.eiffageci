@@ -199,12 +199,12 @@
                 $( api.column( 7 ).footer() ).html(
                         '$'+pageTotal +' ( $'+ total +' total)'
                 );
-               $('#tot').html(lisibilite_nombre(pageTotal)+" {{$devise}}");
-               $('#tot_serv').val(pageTotal);
-               $('#tva').html(lisibilite_nombre((pageTotal*18)/100)+" {{$devise}}");
-               $('#tva_serv').val((pageTotal*18)/100);
-               $('#ttc').html(lisibilite_nombre(pageTotal*1.18) +" {{$devise}}");
-               $('#ttc_serv').val(pageTotal*1.18);
+               $('#tot').html(lisibilite_nombre(Math.round(pageTotal))+" {{$devise}}");
+               $('#tot_serv').val(Math.round(pageTotal));
+               $('#tva').html(lisibilite_nombre(Math.round((pageTotal*18)/100))+" {{$devise}}");
+               $('#tva_serv').val(Math.round((pageTotal*18)/100));
+               $('#ttc').html(lisibilite_nombre(Math.round(pageTotal*1.18)) +" {{$devise}}");
+               $('#ttc_serv').val(Math.round(pageTotal*1.18));
             }
         }).column(0).visible(false);
     })(jQuery);

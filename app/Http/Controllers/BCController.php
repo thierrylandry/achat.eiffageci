@@ -96,7 +96,11 @@ class BCController extends Controller
         $lignebesoins=DB::table('lignebesoin')->where('id_bonCommande','=',$bc->id)->get();
       //  $email=$bc->email;
         $contact=\GuzzleHttp\json_decode($bc->contact);
-        $interlocuteur=$contact[0];
+        if(isset($contact[0])){
+            $interlocuteur=$contact[0]->valeur_c;
+
+        }
+
         $numBonCommande=$bc->numBonCommande;
         $tab=Array();
         foreach($lignebesoins as $lignebesoin){
@@ -108,7 +112,8 @@ class BCController extends Controller
         $pdf->save(storage_path('bon_commande').'\bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
         Mail::send('mail.mail_bc',array('tab' =>$tab),function($message)use ($interlocuteur,$numBonCommande){
             $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->name )
-                ->to(\Illuminate\Support\Facades\Auth::user()->email,$interlocuteur)
+                ->to($interlocuteur)
+                ->to(\Illuminate\Support\Facades\Auth::user()->email)
                 ->subject('TRANSMISSION DE BON DE COMMANDE')
                 ->attach( storage_path('bon_commande').'\bon_de_commande_n°'.$numBonCommande.'.pdf'  );
 
@@ -262,8 +267,15 @@ $analytiques= Analytique::all();
     {
         $date= new \DateTime(null);
         $Boncommande= Boncommande::where('slug', '=', $slug)->first();
-        $Boncommande->etat=2;
-        $Boncommande->save();
+        $ligne_bc= Lignebesoin::where('id_bonCommande', '=', $Boncommande->id)->first();
+        if($Boncommande->date==null && $ligne_bc==null){
+            return redirect()->route('gestion_bc')->with('error',"le bon de commande n'est pas rempli donc ne peut être validé");
+
+        }else{
+            $Boncommande->etat=2;
+            $Boncommande->save();
+        }
+
         return redirect()->route('gestion_bc')->with('success',"le bon de commande à été valider avec succès");
     }
     public function traite_finalise($slug)
@@ -369,7 +381,9 @@ $analytiques= Analytique::all();
 
             return redirect()->route('gestion_bc')->with('error',"le numero du bon de commande est déjà utilisé");
         }
-        $lesdevis= Devis::where('id_fournisseur','=',$Boncommande->id_fournisseur)->get();
+        $lesdevis= Devis::where('id_fournisseur','=',$Boncommande->id_fournisseur)
+
+            ->where('etat','=',1)->get();
 
         foreach($lesdevis as $devi):
             $devi->id_bc=$Boncommande->id;
