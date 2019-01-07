@@ -161,22 +161,22 @@
                 <table class="ssfacture" style="margin: 0; padding: 0;">
                     <tr>
                         <td width="61.8%" style="text-align:right"><b>Total Hors Taxes en FCFA</b> </td>
-                        <td class="value">{{ number_format($tothtax, 0,".", " ")  }}</td>
+                        <td class="value">{{ number_format($tothtax, 0,".", " ")." ".$ligne_bcs[0]->devise  }}</td>
                     </tr>
                     <tr>
                         <td style="text-align:right" ><b>TVA </b></td>
-                        <td class="value">{{ number_format($tothtax*0.18, 0,".", " ") }}</td>
+                        <td class="value">{{ number_format($tothtax*0.18, 0,".", " ")." ".$ligne_bcs[0]->devise }}</td>
                     </tr>
                     <tr>
                         <td style="text-align:right" ><b>TOTAL TTC EN FCFA </b></td>
-                        <td class="value">{{ number_format($tothtax*1.18, 0,".", " ") }}</td>
+                        <td class="value">{{ number_format($tothtax*1.18, 0,".", " ")." ".$ligne_bcs[0]->devise }}</td>
                     </tr>
                 </table>
 
                 <table>
                     <tr>
                         <th style="text-align:left; border-right: none;">Demandeur :(Nom/Téléphone)</th>
-                        <th style="text-align:center; border-left: none;">SERVICE MATERIEL</th>
+                        <th style="text-align:center; border-left: none;">{{strtoupper($bc->service_demandeur)}}</th>
                     </tr>
                     <tr>
                         <th colspan="2" style="text-align:left;border-bottom-color: white" >

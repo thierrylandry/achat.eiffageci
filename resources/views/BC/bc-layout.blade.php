@@ -104,11 +104,11 @@
                 <table class="numero lignesEspacees">
                     <tr >
                         <td  width="50%" valign="center" align="right">Bon de commande N°</td>
-                        <td style="border: 0.3pt solid #000000;" width="50%" valign="center" align="center"> 645654FFFFHG </td>
+                        <td style="border: 0.3pt solid #000000;" width="50%" valign="center" align="center"> {{$bc->numBonCommande}} </td>
                     </tr>
                     <tr>
                         <td width="50%" valign="center" align="right" >Date</td>
-                        <td valign="center" align="center" style="border: 0.3pt solid #000000;" >{{ \Illuminate\Support\Carbon::now()->formatLocalized('%d %B %Y') }}</td>
+                        <td valign="center" align="center" style="border: 0.3pt solid #000000;" >{{ \Illuminate\Support\Carbon::createFromFormat('Y-m-d',explode(' ',$bc->created_at)[0])->formatLocalized('%d %B %Y') }}</td>
                     </tr>
                 </table>
             </td>

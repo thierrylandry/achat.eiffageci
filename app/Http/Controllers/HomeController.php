@@ -32,10 +32,10 @@ $daencours= DB::table('lignebesoin')->where('etat','=','1')->count();
             ->orwhere('etat','=','1')->count();
 $Boncommandeencours= Boncommande::where('etat','=','2')->count();
 $montant_bc= DB::table('boncommande')
-    ->where('boncommande.etat','=',2)
+    ->where('boncommande.etat','=',4)
     ->sum('total_ttc');
         $montant_bct= DB::table('boncommande')
-            ->where('boncommande.etat','=',3)
+            ->where('boncommande.etat','=',11)
             ->sum('total_ttc');
 $Boncommandes= Boncommande::all()->count();
 

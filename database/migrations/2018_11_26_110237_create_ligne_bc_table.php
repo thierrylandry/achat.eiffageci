@@ -20,7 +20,7 @@ class CreateLigneBcTable extends Migration
             $table->integer('quantite_ligne_bc')->nullable();
             $table->string('unite_ligne_bc')->nullable();
             $table->string('prix_unitaire_ligne_bc')->nullable();
-            $table->integer('id_reponse_fournisseur')->nullable();
+            $table->integer('id_devis')->nullable();
             $table->integer('id_bonCommande')->nullable();
             $table->timestamps();
         });

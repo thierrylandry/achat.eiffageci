@@ -105,7 +105,7 @@
                                                         @endforeach</select></td>
                                                 <td><input class="form-control"  type="number" min="0" id="row_n_{{$da->id}}_prix_unitaire" name="row_n_{{$da->id}}_prix_unitaire" /></td>
                                                 <td><input class="form-control"  type="number" min="0" id="row_n_{{$da->id}}_remise" name="row_n_{{$da->id}}_remise" /></td>
-                                                <td><select class="form-control" style="width: 100px;" id="row_n_{{$da->id}}_devise" name="row_n_{{$da->id}}_devise"><option value="Fr CFA">Fr CFA</option><option value="EURO">EURO</option></select></td>
+                                                <td><select class="form-control" style="width: 100px;" id="row_n_{{$da->id}}_devise" name="row_n_{{$da->id}}_devise"><option value="FCFA">FCFA</option><option value="EURO">EURO</option></select></td>
                                             </tr>
                                         @endforeach
 
@@ -213,7 +213,7 @@
                                                 <td><select class="form-control" style="width: 100px;" id="row_n_{{$devi->id}}_devise" name="row_n_{{$devi->id}}_devise">
 
 
-                                                        <option value="Fr CFA"  {{"Fr CFA"==$devi->devise?"selected":''}}>Fr CFA</option>
+                                                        <option value="FCFA"  {{"FCFA"==$devi->devise?"selected":''}}>FCFA</option>
                                                         <option value="EURO" {{"EURO"==$devi->devise?"selected":''}}>EURO</option>
 
                                                     </select></td>

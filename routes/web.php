@@ -445,20 +445,7 @@ Route::post('/save_bc',[
     'roles' => ['Gestionnaire_BC']
 
 ])->middleware('auth');
-Route::get('/voir_bc/{slug}',[
-    'as'=>'voir_bc',
-    'uses'=>'BCController@voir_bc',
-    'middleware' => 'roles',
-    'roles' => ['Gestionnaire_BC']
 
-])->middleware('auth');
-Route::post('/modifier_bc',[
-    'as'=>'modifier_bc',
-    'uses'=>'BCController@modifier_bc',
-    'middleware' => 'roles',
-    'roles' => ['Gestionnaire_BC']
-
-])->middleware('auth');
 Route::get('/gestion_bc_ajouter',[
     'as'=>'gestion_bc_ajouter',
     'uses'=>'BCController@gestion_bc_ajouter',
@@ -473,8 +460,22 @@ Route::get('/supprimer_bc/{slug}',[
     'roles' => ['Gestionnaire_BC']
 
 ])->middleware('auth');
+Route::get('/traite_finalise/{slug}',[
+    'as'=>'traite_finalise',
+    'uses'=>'BCController@traite_finalise',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_BC']
 
-Route::get('/ajouter_ligne_bc/{slug}',[
+])->middleware('auth');
+Route::get('/traite_retourne/{slug}',[
+    'as'=>'traite_retourne',
+    'uses'=>'BCController@traite_retourne',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_BC']
+
+])->middleware('auth');
+
+Route::post('/ajouter_ligne_bc',[
     'as'=>'ajouter_ligne_bc',
     'uses'=>'BCController@ajouter_ligne_bc',
     'middleware' => 'roles',

@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 
 use App\Analytique;
 use App\Boncommande;
+use App\DA;
 use App\Devis;
 use App\fournisseur;
 use App\ligne_bc;
@@ -43,13 +44,12 @@ class BCController extends Controller
         $bc= DB::table('boncommande')
             ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
             ->where('boncommande.slug','=',$slug)
-            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date')->first();
+            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','service_demandeur')->first();
 
         $ligne_bcs=DB::table('ligne_bc')
-            ->join('reponse_fournisseur', 'reponse_fournisseur.id', '=', 'ligne_bc.id_reponse_fournisseur')
-            ->join('analytique', 'analytique.id_analytique', '=', 'ligne_bc.codeRubrique')
+            ->join('devis', 'devis.id', '=', 'ligne_bc.id_devis')
             ->where('id_bonCommande','=',$bc->id)
-            ->select('titre_ext','quantite_ligne_bc','unite_ligne_bc','prix_unitaire_ligne_bc','remise_ligne_bc','prix_tot','ligne_bc.slug','analytique.codeRubrique')->get();
+            ->select('titre_ext','quantite_ligne_bc','unite_ligne_bc','prix_unitaire_ligne_bc','remise_ligne_bc','prix_tot','ligne_bc.slug','devis.codeRubrique','devise')->get();
 
 
         $taille=sizeof($ligne_bcs);
@@ -79,13 +79,13 @@ class BCController extends Controller
         $bc= DB::table('boncommande')
             ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
             ->where('boncommande.slug','=',$slug)
-            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','email','interlocuteur')->first();
+            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','service_demandeur','contact')->first();
+
 
         $ligne_bcs=DB::table('ligne_bc')
-            ->join('reponse_fournisseur', 'reponse_fournisseur.id', '=', 'ligne_bc.id_reponse_fournisseur')
-            ->join('analytique', 'analytique.id_analytique', '=', 'ligne_bc.codeRubrique')
+            ->join('devis', 'devis.id', '=', 'ligne_bc.id_devis')
             ->where('id_bonCommande','=',$bc->id)
-            ->select('titre_ext','quantite_ligne_bc','unite_ligne_bc','prix_unitaire_ligne_bc','remise_ligne_bc','prix_tot','ligne_bc.slug','analytique.codeRubrique')->get();
+            ->select('titre_ext','quantite_ligne_bc','unite_ligne_bc','prix_unitaire_ligne_bc','remise_ligne_bc','prix_tot','ligne_bc.slug','devis.codeRubrique','devise')->get();
 
         $tothtax = 0;
         $taille=sizeof($ligne_bcs);
@@ -94,8 +94,9 @@ class BCController extends Controller
 
         //$lignebesoins=Lignebesoin::where('id_bonCommande','=',$bc->id)->first();
         $lignebesoins=DB::table('lignebesoin')->where('id_bonCommande','=',$bc->id)->get();
-        $email=$bc->email;
-        $interlocuteur=$bc->interlocuteur;
+      //  $email=$bc->email;
+        $contact=\GuzzleHttp\json_decode($bc->contact);
+        $interlocuteur=$contact[0];
         $numBonCommande=$bc->numBonCommande;
         $tab=Array();
         foreach($lignebesoins as $lignebesoin){
@@ -105,9 +106,9 @@ class BCController extends Controller
 
         // If you want to store the generated pdf to the server then you can use the store function
         $pdf->save(storage_path('bon_commande').'\bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
-        Mail::send('mail.mail_bc',array('tab' =>$tab),function($message)use ($email,$interlocuteur,$numBonCommande){
+        Mail::send('mail.mail_bc',array('tab' =>$tab),function($message)use ($interlocuteur,$numBonCommande){
             $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->name )
-                ->to($email,$interlocuteur)
+                ->to(\Illuminate\Support\Facades\Auth::user()->email,$interlocuteur)
                 ->subject('TRANSMISSION DE BON DE COMMANDE')
                 ->attach( storage_path('bon_commande').'\bon_de_commande_n°'.$numBonCommande.'.pdf'  );
 
@@ -159,26 +160,7 @@ class BCController extends Controller
 $analytiques= Analytique::all();
         return view('BC/gestion_bc',compact('bcs','fournisseurs','utilisateurs','reponse_fournisseurs','analytiques'));
     }
-    public function ajouter_ligne_bc($slugbc)
-    {
-        $bc=  Boncommande::where('slug','=',$slugbc)->first();
-        $bcs=  Boncommande::all();
-        $utilisateurs=  User::all();
-        $fournisseurs= DB::table('fournisseur')
-            ->join('reponse_fournisseur', 'fournisseur.id', '=', 'reponse_fournisseur.id_fournisseur')
-            ->join('lignebesoin', 'reponse_fournisseur.id', '=', 'lignebesoin.id_reponse_fournisseur')
-            ->where('lignebesoin.etat', '=', 2)
-            ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
-        $reponse_fournisseurs= DB::table('reponse_fournisseur')
-            ->join('lignebesoin', 'reponse_fournisseur.id', '=', 'lignebesoin.id_reponse_fournisseur')
-            ->join('materiel', 'materiel.id', '=', 'lignebesoin.id_materiel')
-            ->where('lignebesoin.etat', '=', 2)
-            ->where('reponse_fournisseur.id_fournisseur', '=', $bc->id_fournisseur)
-            ->select('materiel.libelleMateriel','titre_ext','reponse_fournisseur.id')->distinct()->get();
-        $ajouterbc='';
-        $analytiques= Analytique::all();
-        return view('BC/gestion_bc',compact('bcs','fournisseurs','utilisateurs','ajouterbc','reponse_fournisseurs','slugbc','analytiques'));
-    }
+
     public function modifier_ligne_bc($slug)
     {
         $bcs=  Boncommande::all();
@@ -202,28 +184,50 @@ $analytiques= Analytique::all();
     {
         $parameters=$request->except(['_token']);
 
+        $les_id_devis=explode(',',$parameters['les_id_devis']);
+
         $date= new \DateTime(null);
-        $ligne_bc= new ligne_bc();
-        $boncommande= Boncommande::where('slug','=',$parameters['slugbc'])->first();
+        foreach ($les_id_devis as $id):
+            if($id!=""){
+                $Devis= Devis::find($id);
+                $ligne_bc= ligne_bc::where('id_devis','=',$id)->first();
+                if(isset($ligne_bc->id)){
 
-        $ligne_bc->id_bonCommande=$boncommande->id;
-        $ligne_bc->codeRubrique=$parameters['codeRubrique'];
-        $ligne_bc->remise_ligne_bc=$parameters['remise'];
-        $ligne_bc->quantite_ligne_bc=$parameters['quantite'];
-        $ligne_bc->unite_ligne_bc=$parameters['Unite'];
-        $ligne_bc->prix_unitaire_ligne_bc=$parameters['Prix_unitaire'];
-        $ligne_bc->prix_tot=str_replace(" ","",$parameters['Prix']);
-        $ligne_bc->id_reponse_fournisseur=$parameters['id_reponse_fournisseur'];
+                }else{
+                    $ligne_bc= new ligne_bc();
 
-        $ligne_bc->slug=Str::slug($ligne_bc->id_bonCommand.$ligne_bc->codeRubrique.$ligne_bc->quantite_ligne_b.$ligne_bc->prix_unitaire_ligne_bc.$date->format('dmYhis'));
-        $ligne_bc->save();
+                }
+               ;
+
+                $ligne_bc->id_bonCommande=$parameters['id_bc'];
+                $ligne_bc->codeRubrique=$parameters['row_n_'.$id.'_codeRubrique'];
+                $ligne_bc->remise_ligne_bc=$Devis->remise;
+                $ligne_bc->quantite_ligne_bc=$Devis->quantite;
+                $ligne_bc->unite_ligne_bc=$Devis->unite;
+                $ligne_bc->id_devis=$Devis->id;
+                $ligne_bc->prix_unitaire_ligne_bc=$Devis->prix_unitaire;
+                $ligne_bc->prix_tot=$Devis->prix_unitaire*$Devis->quantite-($Devis->remise*($Devis->prix_unitaire*$Devis->quantite))/100;
+
+                $ligne_bc->slug=Str::slug($ligne_bc->id_bonCommand.$ligne_bc->codeRubrique.$ligne_bc->quantite_ligne_b.$ligne_bc->prix_unitaire_ligne_bc.$date->format('dmYhis'));
+                $ligne_bc->save();
+            }
+
+            endforeach;
+
+
+        $boncommande= Boncommande::find($parameters['id_bc']);
+
+        $boncommande->date=$parameters['date_livraison'];
+        $boncommande->service_demandeur=$parameters['id_service'];
 
         $sumligne=ligne_bc::where('id_bonCommande','=',$boncommande->id)->sum('prix_tot');
         $tot_ttc=$sumligne*1.18;
 
         $boncommande->total_ttc=$tot_ttc;
         $boncommande->save();
-        $lignebesoin=Lignebesoin::where('id_reponse_fournisseur','=',$parameters['id_reponse_fournisseur'])->first();
+
+        $Devis= Devis::where('id_bc','=',$parameters['id_bc'])->first();
+        $lignebesoin=Lignebesoin::find($Devis->id_da);
         $lignebesoin->id_bonCommande=$boncommande->id;
         $lignebesoin->save();
 
@@ -262,6 +266,22 @@ $analytiques= Analytique::all();
         $Boncommande->save();
         return redirect()->route('gestion_bc')->with('success',"le bon de commande à été valider avec succès");
     }
+    public function traite_finalise($slug)
+    {
+        $date= new \DateTime(null);
+        $Boncommande= Boncommande::where('slug', '=', $slug)->first();
+        $Boncommande->etat=4;
+        $Boncommande->save();
+        return redirect()->route('gestion_bc')->with('success',"le bon de commande à été traité et finalisé");
+    }
+    public function traite_retourne($slug)
+    {
+        $date= new \DateTime(null);
+        $Boncommande= Boncommande::where('slug', '=', $slug)->first();
+        $Boncommande->etat=11;
+        $Boncommande->save();
+        return redirect()->route('gestion_bc')->with('success',"le bon de commande à été traité et finalisé");
+    }
     public function refuser_commande($slug)
     {
         $date= new \DateTime(null);
@@ -285,18 +305,27 @@ $analytiques= Analytique::all();
         $utilisateurs=  User::all();
         $fournisseur= Fournisseur::find($bc->id_fournisseur);
         $devis= DB::table('devis')
-            ->leftJoin('ligne_bc', 'ligne_bc.id_bonCommande', '=', 'devis.id_bc')
+            ->leftJoin('lignebesoin', 'lignebesoin.id', '=', 'devis.id_da')
+            ->leftJoin('users', 'lignebesoin.id_user', '=', 'users.id')
             ->where('devis.etat', '=', 2)
             ->where('devis.id_bc', '=', $id)
-            ->select('devis.id','devis.titre_ext','id_bc','devis.codeRubrique','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','ligne_bc.prix_tot')->distinct()->get();
-      /*  $ligne_bcs=DB::table('ligne_bc')
+            ->select('devis.id','devis.titre_ext','id_bc','devis.codeRubrique','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.devise','DateBesoin','users.service')->distinct()->get();
+
+        $devise=$devis->first()->devise;
+
+        $id_devi="";
+        foreach($devis as $devi):
+            $id_devi=$id_devi.$devi->id.",";
+            endforeach;
+
+        /*  $ligne_bcs=DB::table('ligne_bc')
             ->join('reponse_fournisseur', 'reponse_fournisseur.id', '=', 'ligne_bc.id_reponse_fournisseur')
             ->join('analytique', 'analytique.id_analytique', '=', 'ligne_bc.codeRubrique')
             ->where('id_bonCommande','=',$id)
             ->select('titre_ext','quantite_ligne_bc','unite_ligne_bc','prix_unitaire_ligne_bc','remise_ligne_bc','prix_tot','ligne_bc.slug','analytique.codeRubrique')->get();*/
         $listerbc='';
         $analytiques= Analytique::all();
-        return view('BC/list_ligne_bc',compact('bc','fournisseur','utilisateurs','listerbc','devis','slugbc','analytiques'));
+        return view('BC/list_ligne_bc',compact('bc','fournisseur','utilisateurs','listerbc','devis','slugbc','analytiques','devise','id_devi'));
     }
     public function gestion_bc_ajouter()
     {
@@ -344,6 +373,7 @@ $analytiques= Analytique::all();
 
         foreach($lesdevis as $devi):
             $devi->id_bc=$Boncommande->id;
+            //pour dire que ce la sont lie a un bon de commande
             $devi->etat=2;
             $devi->save();
         endforeach;
@@ -356,8 +386,8 @@ $analytiques= Analytique::all();
         $date= new \DateTime(null);
         $Boncommande= Boncommande::where('slug', '=', $slug)->first();
        // $Boncommande->numBonCommande=$parameters['numbc'];
-        $Boncommande->date=$parameters['date'];
-        $Boncommande->id_fournisseur=$parameters['id_fournisseur'];
+        //$Boncommande->date=$parameters['date'];
+       // $Boncommande->id_fournisseur=$parameters['id_fournisseur'];
         $Boncommande->id_user=\Illuminate\Support\Facades\Auth::user()->id;
 
        // $Boncommande->slug=Str::slug($parameters['numbc'].$date->format('dmYhis'));
@@ -367,29 +397,22 @@ $analytiques= Analytique::all();
         return redirect()->route('gestion_bc')->with('success',"le bon de commande a été Modifier");
     }
 
-    public function voir_bc($slug)
-    {
-        $bc = Boncommande::where('slug', '=', $slug)->first();
-        $bcs=  Boncommande::all();
-        $utilisateurs=  User::all();
-        $fournisseurs= DB::table('materiel')
-            ->join('lignebesoin', 'materiel.id', '=', 'lignebesoin.id_materiel')
-            ->join('domaines', 'domaines.id', '=', 'materiel.type')
-            ->join('fournisseur', 'fournisseur.domaine', '=', 'domaines.id')
-            ->where('etat', '=', 2)
-            ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
-        $reponse_fournisseurs= DB::table('reponse_fournisseur')
-            ->join('lignebesoin', 'reponse_fournisseur.id', '=', 'lignebesoin.id_reponse_fournisseur')
-            ->join('materiel', 'materiel.id', '=', 'lignebesoin.id_materiel')
-            ->where('lignebesoin.etat', '=', 2)
-            ->select('materiel.libelleMateriel','titre_ext','reponse_fournisseur.id')->distinct()->get();
-        $analytiques= Analytique::all();
-        return view('BC/gestion_bc',compact('fournisseur','bcs','utilisateurs','fournisseurs','bc','reponse_fournisseurs','analytiques'));
-    }
     public function supprimer_bc($slug)
     {
         $fournisseur = Boncommande::where('slug', '=', $slug)->first();
+
+        $devis = Devis::where('id_bc','=',$fournisseur->id)->get();
+       foreach ($devis as $devi):
+        $devi->etat=1;
+        $devi->id_bc=null;
+        $devi->save();
+        endforeach;
+        $ligne_bcs= ligne_bc::where('id_bonCommande','=',$fournisseur->id)->get();
+        foreach ($ligne_bcs as $ligne_bc):
+            $ligne_bc->delete();
+            endforeach;
         $fournisseur->delete();
+
         return redirect()->route('gestion_bc')->with('success', "le Bon de commande a été supprimé   NB: la suppression d'un bon de commande, entraine la suppression en cascade des lignes de cet bon de commande ");
     }
     public function supprimer_ligne_bc($slug)
@@ -412,24 +435,5 @@ public function gestion_offre(){
 }
 
     ////
-
-
-    public function ajouter_fournisseur()
-    {
-        $domaines=  DB::table('domaines')->get();
-        $fournisseurs=  Fournisseur::all();
-        return view('fournisseurs/ajouter_fournisseur')->with('fournisseurs',$fournisseurs)->with('domaines',$domaines);
-    }
-
-    public function alljson(){
-        $collections = [];
-        return response()->json($collections);
-    }
-    public function Listefournisseur()
-    {
-        $fournisseurs=  Fournisseur::all();
-        var_dump($fournisseurs);
-        return redirect()->back();
-    }
 
 }

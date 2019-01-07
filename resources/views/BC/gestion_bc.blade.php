@@ -15,12 +15,8 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Bon de commande</h4>
                 </div>
-                @if(isset($bc))
-                <form class="form-horizontal" action="{{route('modifier_bc')}}" method="post">
-                    @else
                         <form class="form-horizontal" action="{{route('save_bc')}}" method="post">
-                        @endif
-                    @csrf
+@csrf
                 <div class="modal-body">
 <input type="hidden" name="slug"  value="{{isset($bc)? $bc->slug:''}}"/>
                         <div class="form-group">
