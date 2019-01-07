@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
+-- version 4.7.9
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  ven. 04 jan. 2019 à 17:50
--- Version du serveur :  5.7.23
--- Version de PHP :  7.2.10
+-- Généré le :  lun. 07 jan. 2019 à 04:39
+-- Version du serveur :  5.7.21
+-- Version de PHP :  7.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -54,7 +54,7 @@ INSERT INTO `analytique` (`id_analytique`, `codeRubrique`, `created_at`, `update
 DROP TABLE IF EXISTS `boncommande`;
 CREATE TABLE IF NOT EXISTS `boncommande` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `numBonCommande` varchar(100) DEFAULT NULL,
+  `numBonCommande` varchar(100) NOT NULL,
   `id_user` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -63,18 +63,17 @@ CREATE TABLE IF NOT EXISTS `boncommande` (
   `etat` int(11) NOT NULL DEFAULT '1',
   `id_fournisseur` int(11) NOT NULL,
   `total_ttc` int(11) DEFAULT NULL,
+  `service_demandeur` varchar(191) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `numBonCommande` (`numBonCommande`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `boncommande`
 --
 
-INSERT INTO `boncommande` (`id`, `numBonCommande`, `id_user`, `created_at`, `updated_at`, `slug`, `date`, `etat`, `id_fournisseur`, `total_ttc`) VALUES
-(6, '003FFF5', 13, '2019-01-04 17:46:01', '2019-01-04 17:46:01', '003fff504012019054601', NULL, 1, 6, NULL),
-(7, '003FFF6', 13, '2019-01-04 17:46:30', '2019-01-04 17:46:30', '003fff604012019054630', NULL, 1, 1, NULL),
-(8, '003FFF7', 13, '2019-01-04 17:46:48', '2019-01-04 17:46:48', '003fff704012019054648', NULL, 1, 8, NULL);
+INSERT INTO `boncommande` (`id`, `numBonCommande`, `id_user`, `created_at`, `updated_at`, `slug`, `date`, `etat`, `id_fournisseur`, `total_ttc`, `service_demandeur`) VALUES
+(6, '003FFF05', 13, '2019-01-07 02:42:23', '2019-01-07 04:25:51', '003fff0507012019024223', '2018-12-29', 2, 1, 72216, 'Service informatique');
 
 -- --------------------------------------------------------
 
@@ -100,17 +99,15 @@ CREATE TABLE IF NOT EXISTS `devis` (
   `id_da` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `unite` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `devis`
 --
 
 INSERT INTO `devis` (`id`, `id_materiel`, `id_fournisseur`, `quantite`, `prix_unitaire`, `titre_ext`, `devise`, `created_at`, `updated_at`, `etat`, `id_bc`, `remise`, `codeRubrique`, `id_da`, `unite`) VALUES
-(15, 35, 6, 3, 15000, 'tuyaux à eaux', 'Fr CFA', '2019-01-04 17:44:28', '2019-01-04 17:46:01', 2, 6, 15, 22521, '12', 'U'),
-(16, 34, 1, 3, 9000, 'office 365', 'Fr CFA', '2019-01-04 17:44:28', '2019-01-04 17:46:30', 2, 7, 10, 22521, '13', 'U'),
-(14, 37, 8, 3, 12000, 'tuyaux d\'aspiration', 'Fr CFA', '2019-01-04 17:44:28', '2019-01-04 17:46:48', 2, 8, 12, 22523, '11', 'm'),
-(13, 34, 1, 3, 14000, 'office 365', 'Fr CFA', '2019-01-04 17:44:28', '2019-01-04 17:46:30', 2, 7, 20, 22522, '10', 'U');
+(1, 34, 1, 3, 12000, 'office 365', 'Fr CFA', '2019-01-05 15:59:18', '2019-01-07 02:42:23', 2, 6, 10, 2234, '10', 'U'),
+(2, 33, 1, 3, 12000, 'Windows 10', 'Fr CFA', '2019-01-05 15:59:18', '2019-01-07 02:42:23', 2, 6, 20, 2235, '15', 'U');
 
 -- --------------------------------------------------------
 
@@ -164,7 +161,7 @@ CREATE TABLE IF NOT EXISTS `fournisseur` (
   `slug` varchar(191) NOT NULL,
   `contact` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `fournisseur`
@@ -174,8 +171,7 @@ INSERT INTO `fournisseur` (`id`, `libelle`, `domaine`, `conditionPaiement`, `com
 (1, 'EBURTIS', '5', NULL, NULL, 'Abidjan', 'konan', 'kone', 'cyriaquekodia@gmail.com', '2018-12-14 12:07:53', '2018-12-18 15:17:26', 'eburtis18122018031726', '[{\"titre_c\":\"kone\",\"type_c\":\"EMA\",\"valeur_c\":\"cyriaquekodia@gmail.com\"}]'),
 (5, 'sogelux', '4', NULL, NULL, 'Abidjan', 'konan', NULL, 'admin@eiffage.com', '2018-12-17 16:33:49', '2018-12-18 15:08:58', 'sogelux18122018030858', '[{\"titre_c\":\"youri\",\"type_c\":\"EMA\",\"valeur_c\":\"cyriaquekodia@gmail.com\"},{\"titre_c\":\"koffi\",\"type_c\":\"EMA\",\"valeur_c\":\"y@gmail.com\"},{\"titre_c\":\"francky\",\"type_c\":\"EMA\",\"valeur_c\":\"franck@gmail.com\"},{\"titre_c\":\"test\",\"type_c\":\"MOB\",\"valeur_c\":\"02336655\"]'),
 (6, 'test', '3', NULL, NULL, 'Abidjan', 'konan', NULL, 'cyriaquekodia@gmail.com', '2018-12-18 10:48:30', '2018-12-18 15:15:21', 'test18122018031521', '[{\"titre_c\":\"kone\",\"type_c\":\"MOB\",\"valeur_c\":\"cyriaquekodia@gmail.com\"},{\"titre_c\":\"youri\",\"type_c\":\"MOB\",\"valeur_c\":\"cyriaquekodia@gmail.com\"}]'),
-(7, 'InfoProGICIEL', '5', 'je suis la', NULL, 'test', 'konan', NULL, 'landrykoffi@gmail.com', '2019-01-04 09:32:40', '2019-01-04 09:32:40', 'infoprogiciel04012019093240', '[{\"titre_c\":\"kone\",\"type_c\":\"EMA\",\"valeur_c\":\"landrykoffi@gmail.com\"}]'),
-(8, 'Y Entretien', '7', 'test', NULL, 'Abidjan', 'konan', NULL, 'cyriaquekodia@gmail.com', '2019-01-04 16:28:42', '2019-01-04 16:28:42', 'y-entretien04012019042842', '[{\"titre_c\":\"kone\",\"type_c\":\"EMA\",\"valeur_c\":\"landrykoffi@gmail.com\"}]');
+(7, 'Netoyageplus', '7', NULL, NULL, '06 BP 51 ABIDJAN 06', 'sanogo', NULL, 'cyriaquekodia@gmail.com', '2018-12-30 23:38:23', '2018-12-30 23:38:23', 'netoyageplus30122018113823', '[{\"titre_c\":\"Sanogo\",\"type_c\":\"EMA\",\"valeur_c\":\"cyriaquekodia@gmail.com\"}]');
 
 -- --------------------------------------------------------
 
@@ -202,18 +198,20 @@ CREATE TABLE IF NOT EXISTS `lignebesoin` (
   `id_valideur` varchar(191) DEFAULT NULL,
   `motif` varchar(191) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `lignebesoin`
 --
 
 INSERT INTO `lignebesoin` (`id`, `unite`, `quantite`, `DateBesoin`, `id_user`, `id_reponse_fournisseur`, `id_nature`, `id_materiel`, `id_bonCommande`, `created_at`, `updated_at`, `demandeur`, `slug`, `etat`, `id_valideur`, `motif`) VALUES
-(10, 'U', 3.00, '2018-12-29', 16, NULL, 1, 34, NULL, '2018-12-27 17:26:27', '2019-01-04 17:44:28', 'koffi', '3427122018052627', '3', '13', ''),
-(11, 'm', 3.00, '2018-12-30', 16, NULL, 1, 37, NULL, '2018-12-28 10:38:46', '2019-01-04 17:44:28', 'kodia', '3728122018103846', '3', '13', ''),
-(12, 'U', 3.00, '2018-12-30', 13, NULL, 1, 35, NULL, '2018-12-28 10:40:53', '2019-01-04 17:44:28', 'koffi', '3528122018104053', '3', '', ''),
-(13, 'U', 3.00, '2018-12-21', 22, NULL, 1, 34, NULL, '2018-12-28 10:44:18', '2019-01-04 17:44:28', 'Mélaine', '3428122018104418', '3', '13', ''),
-(14, 'U', 3.00, '2018-12-30', 13, NULL, 1, 33, NULL, '2018-12-28 11:23:24', '2018-12-28 14:30:51', 'Mélaine', '3328122018023051', '0', '13', 'on en a en stock');
+(10, 'U', 3.00, '2018-12-29', 16, NULL, 1, 34, 6, '2018-12-27 17:26:27', '2019-01-07 02:42:36', 'koffi', '3427122018052627', '3', '13', ''),
+(11, 'm', 3.00, '2018-12-30', 16, NULL, 1, 37, NULL, '2018-12-28 10:38:46', '2018-12-28 11:29:54', 'kodia', '3728122018103846', '2', '13', ''),
+(12, 'U', 3.00, '2018-12-30', 13, NULL, 1, 35, NULL, '2018-12-28 10:40:53', '2018-12-28 12:05:18', 'koffi', '3528122018104053', '1', '', ''),
+(13, 'U', 3.00, '2018-12-21', 22, NULL, 1, 34, NULL, '2018-12-28 10:44:18', '2018-12-28 11:29:57', 'Mélaine', '3428122018104418', '2', '13', ''),
+(14, 'U', 3.00, '2018-12-30', 13, NULL, 1, 33, NULL, '2018-12-28 11:23:24', '2018-12-28 14:30:51', 'Mélaine', '3328122018023051', '0', '13', 'on en a en stock'),
+(15, 'U', 3.00, '2019-01-15', 13, NULL, 1, 33, NULL, '2019-01-05 15:58:06', '2019-01-05 15:59:18', 'kanon', '3305012019035806', '3', '13', ''),
+(16, 'U', 12.00, '2019-01-09', 13, NULL, 1, 37, NULL, '2019-01-06 15:42:38', '2019-01-06 15:42:55', 'kanon', '3706012019034238', '2', '13', '');
 
 -- --------------------------------------------------------
 
@@ -229,14 +227,22 @@ CREATE TABLE IF NOT EXISTS `ligne_bc` (
   `quantite_ligne_bc` int(11) DEFAULT NULL,
   `unite_ligne_bc` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `prix_unitaire_ligne_bc` float DEFAULT NULL,
-  `id_reponse_fournisseur` int(11) DEFAULT NULL,
+  `id_devis` int(11) DEFAULT NULL,
   `id_bonCommande` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `slug` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `prix_tot` float DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `ligne_bc`
+--
+
+INSERT INTO `ligne_bc` (`id`, `codeRubrique`, `remise_ligne_bc`, `quantite_ligne_bc`, `unite_ligne_bc`, `prix_unitaire_ligne_bc`, `id_devis`, `id_bonCommande`, `created_at`, `updated_at`, `slug`, `prix_tot`) VALUES
+(8, '2235', '20', 3, 'U', 12000, 2, 6, '2019-01-07 02:42:36', '2019-01-07 02:42:36', '22351200007012019024236', 28800),
+(7, '2234', '10', 3, 'U', 12000, 1, 6, '2019-01-07 02:42:36', '2019-01-07 02:42:36', '22341200007012019024236', 32400);
 
 -- --------------------------------------------------------
 
@@ -280,7 +286,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(191) NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `migrations`
@@ -328,10 +334,11 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (39, '2018_12_19_121900_add_motif_to_da', 27),
 (40, '2018_12_27_092141_add_image_to_materiel', 28),
 (41, '2018_12_30_230821_create_table_devis', 29),
-(42, '2019_01_03_163411_add_etat_to_devis', 29),
+(42, '2019_01_03_163411_add_etat_to_devis', 30),
 (43, '2019_01_04_140622_add_id_bc_to_devi', 30),
-(44, '2019_01_04_152830_add_remise_cod_rubrique_id_da_to_devis', 31),
-(45, '2019_01_04_163129_add_unite_to_devi', 32);
+(44, '2019_01_04_152830_add_remise_cod_rubrique_id_da_to_devis', 30),
+(45, '2019_01_04_163129_add_unite_to_devi', 30),
+(46, '2019_01_07_011431_add_service_demandeur_to_boncommende', 31);
 
 -- --------------------------------------------------------
 
@@ -511,7 +518,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `nom`, `abréviation`, `service`, `function`, `contact`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `id_profil`, `slug`, `prenoms`) VALUES
-(13, 'administrateur', 'Admin', 'Secrétariat', 'Gestionnaire Application', '+XXX XX XX XX XX', 'admin@eiffage.com', NULL, '$2y$10$.k1X.RyevXjktAPrTIZ.Ze9.07DGbI.GNtmEsEJuKQOFa5GKNPWfG', 'QqRPYG5wvdICqoAT9T6b6qqdkh3JHD5YRVvoq2BgdtJuJxBv0765oXurZw47', '2018-11-26 08:11:56', '2018-12-28 10:40:14', NULL, 'admin-at-eiffagecom28122018104014', NULL),
+(13, 'administrateur', 'Admin', 'Secrétariat', 'Gestionnaire Application', '+XXX XX XX XX XX', 'admin@eiffage.com', NULL, '$2y$10$.k1X.RyevXjktAPrTIZ.Ze9.07DGbI.GNtmEsEJuKQOFa5GKNPWfG', 'eCtQwexCnF0dYi6vhd8v7DegXTfk5T6ZMxQ9Z5XjhPrfUXhdGlglxOX74bPc', '2018-11-26 08:11:56', '2018-12-28 10:40:14', NULL, 'admin-at-eiffagecom28122018104014', NULL),
 (16, 'kodia', NULL, 'Service informatique', NULL, NULL, 'Cyriaque.kodia@eiffage.com', NULL, '$2y$10$z1jF8bp8mSNCyS8pwhQLJeKxHxBFSCaXw3ZHAFeB6OjA6GHRlBNni', 'wZ10zB4gYv0Rvk219sdgT9HkeHJP7E1PWZvkTP0dMJuBdjgFE3cZfhkpByy0', '2018-12-14 11:34:42', '2018-12-28 10:39:17', NULL, 'cyriaquekodia-at-eiffagecom28122018103917', 'Cyriaque'),
 (22, 'koffi', 'CK', 'Direction', 'informaticien', '67988805', 'Thierry.koff@eiffage.com', NULL, '$2y$10$a.jb1Ooxu04TISYaGwO2ju2HFQhn6UW5h9oC8KpimJfUNDzilWKKW', 'FHlZ4isHlBo35ogLuuS5hZsggHdyBslbZi39BjCi1o0wv7vxrmqrKI7IKpV4', '2018-12-27 16:46:48', '2018-12-28 10:43:37', NULL, 'thierrykoff-at-eiffagecom28122018104337', 'Thierry');
 
