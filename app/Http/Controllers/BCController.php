@@ -323,6 +323,20 @@ $analytiques= Analytique::all();
             ->where('devis.id_bc', '=', $id)
             ->select('devis.id','devis.titre_ext','id_bc','devis.codeRubrique','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.devise','DateBesoin','users.service')->distinct()->get();
 
+        $date_propose= Array();
+        $service= Array();
+        foreach($devis as $dev){
+
+            if(!in_array($dev->DateBesoin, $date_propose)){
+                $date_propose[]=$dev->DateBesoin;
+            }
+            if(!in_array($dev->service, $service)){
+                $service[]=$dev->service;
+            }
+        }
+
+
+
         $devise=$devis->first()->devise;
 
         $id_devi="";
@@ -337,7 +351,7 @@ $analytiques= Analytique::all();
             ->select('titre_ext','quantite_ligne_bc','unite_ligne_bc','prix_unitaire_ligne_bc','remise_ligne_bc','prix_tot','ligne_bc.slug','analytique.codeRubrique')->get();*/
         $listerbc='';
         $analytiques= Analytique::all();
-        return view('BC/list_ligne_bc',compact('bc','fournisseur','utilisateurs','listerbc','devis','slugbc','analytiques','devise','id_devi'));
+        return view('BC/list_ligne_bc',compact('bc','fournisseur','utilisateurs','listerbc','devis','slugbc','analytiques','devise','id_devi','date_propose','service'));
     }
     public function gestion_bc_ajouter()
     {

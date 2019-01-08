@@ -246,16 +246,24 @@
                     url: "js/French.json"
                 },
                 "ordering":true,
-                "responsive": true,
-                "paging": false
+                "paging": false,
+                responsive: true,
+                columnDefs: [
+                    { responsivePriority: 12, targets: 0 },
+                    { responsivePriority: 2, targets: -1 }
+                ]
             }).column(0).visible(false).column(1).visible(false);
             var table2 = $('#gestion_reponse_fournisseur1').DataTable({
                 language: {
                     url: "js/French.json"
                 },
                 "ordering":true,
-                "responsive": true,
-                "paging": false
+                "paging": false,
+                responsive: true,
+                columnDefs: [
+                    { responsivePriority: 12, targets: 0 },
+                    { responsivePriority: 2, targets: -1 }
+                ]
             }).column(0).visible(false).column(1).visible(false);
 
             $('#gestion_reponse_fournisseur').on( 'click', 'tr', function () {

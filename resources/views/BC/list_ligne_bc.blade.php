@@ -23,8 +23,9 @@
                 <div>
                     <input type="date" class="form-control" id="date_livraison" name="date_livraison" placeholder="Enter un numero" value="{{isset($bc->date)?$bc->date:''}}"  {{$bc->etat!=1?'readonly':''}}  required>
                 </div>
-                <label>LISTE DES DATES PROPOSEES: @foreach($devis as $devi)
-                        <a  onclick="document.getElementById('date_livraison').value='{{$devi->DateBesoin}}'">  {{ "".$devi->DateBesoin}}</a>;
+                <label>LISTE DES DATES PROPOSEES: @foreach($date_propose as $date)
+
+                        <a  onclick="document.getElementById('date_livraison').value='{{$date}}'">  {{ "".$date}}</a>;
                     @endforeach</label>
             </div>
             </br>
@@ -42,8 +43,8 @@
                         <option {{isset($bc->service_demandeur)&&$bc->service_demandeur=="Service informatique"? "selected":''}} value="Service informatique">Service informatique </option>
                     </select>
                 </div>
-                <label>LISTE DES SERVICE PROPOSES: @foreach($devis as $devi)
-                        <a  onclick="document.getElementById('id_service').value='{{$devi->service}}';$('#id_service').selectpicker('refresh')">  {{$devi->service}}</a>;
+                <label>LISTE DES SERVICE PROPOSES: @foreach($service as $serve)
+                        <a  onclick="document.getElementById('id_service').value='{{$serve}}';$('#id_service').selectpicker('refresh')">  {{$serve}}</a>;
                     @endforeach</label>
             </div>
         </div>
@@ -64,7 +65,7 @@
 
     </div>
 
-<table name ="ligneCommandes" id="ligneCommandes" class='table table-bordered table-striped  no-wrap '>
+<table name ="ligneCommandes" id="ligneCommandes" class='table table-bordered table-striped  no-wrap display nowrap'>
 
     <thead>
 
@@ -205,7 +206,12 @@
                $('#tva_serv').val(Math.round((pageTotal*18)/100));
                $('#ttc').html(lisibilite_nombre(Math.round(pageTotal*1.18)) +" {{$devise}}");
                $('#ttc_serv').val(Math.round(pageTotal*1.18));
-            }
+            },
+            responsive: true,
+            columnDefs: [
+                { responsivePriority: 5, targets: 0 },
+                { responsivePriority: 2, targets: -2 }
+            ]
         }).column(0).visible(false);
     })(jQuery);
 </script>

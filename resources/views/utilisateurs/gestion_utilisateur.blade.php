@@ -103,7 +103,7 @@
         </form>
 
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-12 col-xr-12">
                 @include('utilisateurs/list_utilisateur')
             </div>
         </div>
@@ -137,11 +137,7 @@
         "responsive": true,
         "createdRow": function( row, data, dataIndex){
 
-        },
-        columnDefs: [
-            { responsivePriority: 1, targets: 0 },
-            { responsivePriority: 2, targets: -1 }
-        ]
+        }
     }).column(0).visible(false);
     //table.DataTable().draw();
 
