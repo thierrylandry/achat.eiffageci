@@ -284,6 +284,9 @@ $analytiques= Analytique::all();
         $Boncommande= Boncommande::where('slug', '=', $slug)->first();
         $Boncommande->etat=4;
         $Boncommande->save();
+        $lignebesoin=Lignebesoin::where('id_bonCommande','=',$Boncommande->id)->first();
+        $lignebesoin->etat=4;
+        $lignebesoin->save();
         return redirect()->route('gestion_bc')->with('success',"le bon de commande à été traité et finalisé");
     }
     public function traite_retourne($slug)
@@ -292,6 +295,10 @@ $analytiques= Analytique::all();
         $Boncommande= Boncommande::where('slug', '=', $slug)->first();
         $Boncommande->etat=11;
         $Boncommande->save();
+
+        $lignebesoin=Lignebesoin::where('id_bonCommande','=',$Boncommande->id)->first();
+        $lignebesoin->etat=11;
+        $lignebesoin->save();
         return redirect()->route('gestion_bc')->with('success',"le bon de commande à été traité et finalisé");
     }
     public function refuser_commande($slug)

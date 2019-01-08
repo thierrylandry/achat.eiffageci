@@ -123,10 +123,10 @@
         <div class="row justify-content-center m-auto text-center w-75">
 
             <div class="col-md-4 container-fluid bg-gradient p-5">
-                <a href="http://localhost:8080/achat.eiffageci/public/lister_da">
+                <a href="{{route('creer_da')}}">
                         <div class="col-4 princing-item red">
                             <div class="pricing-divider ">
-                                <h3 class="text-light" style="color: white">DEMANDE D'ACHAT</h3>
+                                <h3 class="text-light" style="color: white">FAIRE UNE D.A.</h3>
                                 <svg class='pricing-divider-img' enable-background='new 0 0 300 100' height='100px' id='Layer_1' preserveAspectRatio='none' version='1.1' viewBox='0 0 300 100' width='300px' x='0px' xml:space='preserve' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns='http://www.w3.org/2000/svg' y='0px'>
           <path class='deco-layer deco-layer--1' d='M30.913,43.944c0,0,42.911-34.464,87.51-14.191c77.31,35.14,113.304-1.952,146.638-4.729
 	c48.654-4.056,69.94,16.218,69.94,16.218v54.396H30.913V43.944z' fill='#FFFFFF' opacity='0.6'></path>
@@ -163,11 +163,11 @@
             </div>
             <div class="col-sm-4 container-fluid bg-gradient p-5">
 
-                <a href="http://localhost:8080/achat.eiffageci/public/gestion_reponse_fournisseur">
+                <a href="{{route('gestion_reponse_fournisseur')}}">
 
                 <div class="col-4 princing-item blue">
                     <div class="pricing-divider ">
-                        <h3 class="text-light"  style="color: white">DEVIS</h3>
+                        <h3 class="text-light"  style="color: white">RECEPTION DE DEVIS</h3>
                         <svg class='pricing-divider-img' enable-background='new 0 0 300 100' height='100px' id='Layer_1' preserveAspectRatio='none' version='1.1' viewBox='0 0 300 100' width='300px' x='0px' xml:space='preserve' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns='http://www.w3.org/2000/svg' y='0px'>
           <path class='deco-layer deco-layer--1' d='M30.913,43.944c0,0,42.911-34.464,87.51-14.191c77.31,35.14,113.304-1.952,146.638-4.729
 	c48.654-4.056,69.94,16.218,69.94,16.218v54.396H30.913V43.944z' fill='#FFFFFF' opacity='0.6'></path>
@@ -181,7 +181,7 @@
                     </div>
 
                     <div class="card-body bg-white mt-0 shadow">
-                        <image src="images/devis.jpg" width="200px" height="200px"//>
+                        <image src="images/devis.jpg" width="200px" height="200px"/>
                         <button type="button" class="btn btn-lg btn-block  btn-custom "></button>
                     </div>
                 </div>
@@ -190,11 +190,11 @@
             <div class="col-sm-4 container-fluid bg-gradient p-5">
 
 
-                <a href="http://localhost:8080/achat.eiffageci/public/gestion_bc">
+                <a href="{{route('gestion_bc_ajouter')}}">
 
                 <div class="col-4 princing-item green">
                     <div class="pricing-divider ">
-                        <h3 class="text-light"  style="color: white">BON DE COMMANDE</h3>
+                        <h3 class="text-light"  style="color: white">CREATION DE B.C.</h3>
 
                         <svg class='pricing-divider-img' enable-background='new 0 0 300 100' height='100px' id='Layer_1' preserveAspectRatio='none' version='1.1' viewBox='0 0 300 100' width='300px' x='0px' xml:space='preserve' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns='http://www.w3.org/2000/svg' y='0px'>
           <path class='deco-layer deco-layer--1' d='M30.913,43.944c0,0,42.911-34.464,87.51-14.191c77.31,35.14,113.304-1.952,146.638-4.729

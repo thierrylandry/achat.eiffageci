@@ -88,6 +88,10 @@
                             <i class="fa fa-circle" style="color: black"></i>
                         @elseif($da->etat==0)
                             <i class="fa fa-circle" style="color: red"></i>
+                        @elseif($da->etat==4)
+                            <i class="fa fa-hourglass-end"></i>
+                        @elseif($da->etat==11)
+                            <i class="fa fa-circle" style="color: red"></i>
                             @endif
                             </td>
                     <td>
@@ -141,8 +145,14 @@
                             Suspendu
                         @elseif($da->etat==2)
                            Acceptée
+                        @elseif($da->etat==3)
+                            En attente de reception
                         @elseif($da->etat==0)
                            Réfusée
+                        @elseif($da->etat==4)
+                            Achevée
+                        @elseif($da->etat==11)
+                            Retournée
                         @endif
                     </td>
                     <td>
@@ -204,9 +214,7 @@
                                 </div>
                             </div>
                         @elseif($da->etat==3)
-                            <a href="" data-toggle="modal" class="">
-                                <i class="fa fa-hourglass-end"></i> Terminer
-                            </a>
+
                         @endif
 
                     </td>
