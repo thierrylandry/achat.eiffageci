@@ -137,7 +137,11 @@
         "responsive": true,
         "createdRow": function( row, data, dataIndex){
 
-        }
+        },
+        columnDefs: [
+            { responsivePriority: 5, targets: 0 },
+            { responsivePriority: 4, targets: -1 }
+        ]
     }).column(0).visible(false);
     //table.DataTable().draw();
 
