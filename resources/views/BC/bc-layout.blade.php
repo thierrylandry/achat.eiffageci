@@ -159,16 +159,15 @@
 </div>
 <main class="page">
     @yield('content')
-    @yield('charte')
-
+    <footer>
+        <p>Siége Social : EIFFAGE GENIE CIVIL - Campus Pierre Berger - 3 à 7 Place de l'Europe 78140 VELIZY VILLACOUBLAY <br/>
+            SA au Capital de 29 388 795 € RCS Versailles 352 745 749 - NAF 4213 A - TVA FR 42 352 745 749<br/>
+            VOIR AU VERSO NOS CONDITIONS GENERALES D'ACHAT QUI FONT PARTIE DE LA COMMANDE</p>
+    </footer>
 </main>
-<footer>
-    <p>Siége Social : EIFFAGE GENIE CIVIL - Campus Pierre Berger - 3 à 7 Place de l'Europe 78140 VELIZY VILLACOUBLAY <br/>
-        SA au Capital de 29 388 795 € RCS Versailles 352 745 749 - NAF 4213 A - TVA FR 42 352 745 749<br/>
-        VOIR AU VERSO NOS CONDITIONS GENERALES D'ACHAT QUI FONT PARTIE DE LA COMMANDE</p>
-</footer>
 
-<main class="" style="font-size:7pt;page-break-inside: avoid;page-break-before: always;">
+
+<main class="page" style="font-size:7pt;page-break-inside: avoid;page-break-before: always; text-align: justify">
     @include('BC.charte')
 </main>
 </body>

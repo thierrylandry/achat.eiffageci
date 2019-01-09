@@ -1,4 +1,3 @@
-
 <div align="center"><b>CONDITIONS GENERALES D'ACHAT EIFFAGE GENIE CIVIL</b></div>
 <div>Les présentes Conditions Générales d'Achat s'appliquent à tout achat de matériels, matériaux et fournitures ainsi qu'à l'exécution de toutes prestations s'y rapportant. Les conditions particulières mentionnées sur la
 commande prévalent sur les conditions générales d'Achat et s'y substituent. Les parties auxquelles ces conditions sont remises peuvent, en cas de contradiction avec leurs propres CGV, demander l'accord d'EIFFAGE
@@ -6,7 +5,7 @@ commande prévalent sur les conditions générales d'Achat et s'y substituent. L
 moment l'objet d'un accord. En aucun cas les dispositions contraires de Conditions Générales de Vente ou de Prestations de Services ne sauraient prévaloir sur les Conditions d'Achat ou se substituer à elles sans
 accord exprès et préalable d'EIFFAGE GENIE CIVIL</div>
 <div> <b>1/. OBJET DE LA COMMANDE</b></div>
-<div style="margin-left: 15px" >La commande précise les conditions techniques, commerciales et administratives exigées du Fournisseur. Aucune modification de ces conditions ne peut être prise en considération si elle n'a fait l'objet préalablement d'un avenant.</span></div>
+<div style="margin-left: 15px" >La commande précise les conditions techniques, commerciales et administratives exigées du Fournisseur. Aucune modification de ces conditions ne peut être prise en considération si elle n'a fait l'objet préalablement d'un avenant.</div>
 <div style=""><b>2/. DELAIS</b></div>
 <div style="margin-left: 15px">Sauf indications contraires mentionnées dans la commande, les délais de livraison sont impératifs et s'entendent matériels, matériaux et fournitures rendus à l'adresse de livraison portée sur la commande.</div>
 <div style=""><b>3/. DOCUMENTS - PLANS - NOTICES</b></div>
@@ -66,7 +65,6 @@ l'égard de tout tiers. Le Fournisseur se substituera à l'Acheteur en cas de co
 environnement) nécessaires à la bonne utilisation du produit. Dans le cas où le Fournisseur possède un système de management de la qualité (SMQ) ou environnemental (SME), ce dernier tiendra à la
 disposition de l'acheteur les preuves de conformité du produit (contrôles internes, contrôles externes,͙).Dans l'exécution directe ou indirecte des prestations qui lui sont confiées, le Fournisseur s'engage à
 respecter la réglementation liée à la responsabilité sociale, notamment dans le domaine du travail des enfants ou du travail clandestin.</div>
-<div style=""><b>17/. CONTESTATION - ATTRIBUTION DE COMPETENCE -</b></div>
+<div style=""><b>17/. CONTESTATION - ATTRIBUTION DE COMPETENCE</b></div>
 <div style="margin-left: 15px">En cas de contestation relative à la présente commande, les litiges seront de la compétence exclusive du Tribunal de Commerce du lieu du siège social de l'Acheteur comme indiqué dans la commande. La loi
 applicable est la loi française.</div>
-
