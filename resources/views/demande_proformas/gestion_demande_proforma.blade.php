@@ -217,6 +217,13 @@
                             $.each(data, function( index, value ) {
                                 var route='lister_reponse_fournisseur/'+value.slug;
                                 var route1='ajouter_reponse_fournisseur/'+value.slug;
+var nom="";
+                                if(value.prenoms!=null){
+                                    nom=value.nom+" "+value.prenoms;
+                                }else{
+                                    nom=value.nom;
+                                }
+
                                 $('#gestion_demande_proforma').DataTable().row.add([
                                     value.id,
                                     value.libelleMateriel,
@@ -224,7 +231,8 @@
                                     value.quantite+" "+ value.unite,
                                     value.DateBesoin,
                                     value.demandeur,
-                                    value.id_valideur
+                                    nom
+
                                 ]);
 
                             });

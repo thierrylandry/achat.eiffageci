@@ -14,6 +14,12 @@
 Route::get('/', function () {
     return view('auth/login');
 });
+Route::get('erreur', [
+    'as'=>'erreur',
+    'uses'=>'ErreurController@erreur'
+
+]);
+
 Route::get('/profiles',[
     'as'=>'profiles',
     'uses'=>'HomeController@profiles'

@@ -24,7 +24,8 @@ class CheckRole
         if ($request->user()->hasAnyRole($roles) || !$roles) {
             return $next($request);
         }
-        return response("<!DOCTYPE html>
+        return redirect()->route('erreur');
+      /*  return response("<!DOCTYPE html>
 <head>
 <title>Visitors an Admin Panel Category Bootstrap Responsive Website Template | 404 :: w3layouts</title>
 <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
@@ -33,7 +34,7 @@ class CheckRole
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design\" />
 <script type=\"application/x-javascript\"> addEventListener(\"load\", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 <!-- bootstrap-css -->
-<link rel=\"stylesheet\" href=\"css/bootstrap.min.css\" >
+<link rel=\"stylesheet\" href=\"{{ URL::asset('css/bootstrap.min.css') }}\" >
 <!-- //bootstrap-css -->
 <!-- Custom CSS -->
 <link href=\"css/style.css\" rel='stylesheet' type='text/css' />
@@ -65,5 +66,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src=\"js/jquery.scrollTo.js\"></script>
 </body>
 </html>", 401);
+      */
     }
+
 }
+

@@ -8,8 +8,8 @@
             <tr>
                 <th class="dt-head-center">id</th>
                 <th class="dt-head-center">nom</th>
+                <th class="dt-head-center">prenoms</th>
                 <th class="dt-head-center">abréviation</th>
-
                 <th class="dt-head-center">fonction</th>
                 <th class="dt-head-center">email</th>
                 <th class="dt-head-center">Action</th>
@@ -20,7 +20,8 @@
             @foreach($utilisateurs as $utilisateur )
                 <tr>
                     <td>{{$utilisateur->id}}</td>
-                    <td>{{$utilisateur->name}}</td>
+                    <td>{{$utilisateur->nom}}</td>
+                    <td>{{$utilisateur->prenoms}}</td>
                     <td>{{$utilisateur->abréviation}}</td>
                     <td>{{$utilisateur->function}}</td>
                     <td>{{$utilisateur->email}}</td>

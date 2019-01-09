@@ -226,8 +226,9 @@ return 1;
             ->where('type', '=', $domaine)
             ->join('lignebesoin', 'materiel.id', '=', 'lignebesoin.id_materiel')
             ->join('nature', 'nature.id', '=', 'lignebesoin.id_nature')
+            ->leftJoin('users', 'users.id', '=', 'lignebesoin.id_valideur')
             ->where('lignebesoin.etat', '=', 2)
-            ->select('lignebesoin.id','lignebesoin.id_materiel','unite','DateBesoin','quantite','demandeur','id_valideur','libelleMateriel','libelleNature','lignebesoin.slug')
+            ->select('lignebesoin.id','lignebesoin.id_materiel','unite','DateBesoin','quantite','demandeur','users.nom','users.prenoms','libelleMateriel','libelleNature','lignebesoin.slug')
             ->distinct()->get();
         $variable="";
         $status="<i class='fa fa-circle' style='color: mediumspringgreen'></i>";
