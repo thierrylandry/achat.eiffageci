@@ -58,7 +58,18 @@
                                                         @endif
                                                     @endforeach
                                                 </td>
-                                                <td><input type="text"  id="row_n_{{$da->id}}_codeRubrique" name="row_n_{{$da->id}}_codeRubrique" /> </td>
+                                                <td><div class="form-group">
+                                                        <label for="type">Code analytique par defaut</label>
+                                                        <select class="form-control selectpicker" id="row_n_{{$da->id}}_codeRubrique" name="row_n_{{$da->id}}_codeRubrique" data-live-search="true" data-size="6" required>
+                                                            <option  value="">SELECTIONNER UN CODE ANALYTIQUE</option>
+                                                            @foreach($analytiques as $analytique)
+                                                                <option @if(isset($produit->code_analytique) and $analytique->codeRubrique==$da->id)
+                                                                        {{'selected'}}
+                                                                        @endif value="{{$analytique->codeRubrique}}">{{$analytique->codeRubrique}} -- {{$analytique->libelle}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </td>
                                                 <td>
                                                     @foreach($materiels as $materiel )
                                                         @if($materiel->id==$da->id_materiel)

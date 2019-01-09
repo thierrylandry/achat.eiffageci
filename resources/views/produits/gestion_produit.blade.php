@@ -41,6 +41,17 @@
                                                 @endforeach
                                             </select>
                                         </div>
+                                        <div class="form-group">
+                                            <label for="type">Code analytique par defaut</label>
+                                            <select class="form-control selectpicker" id="code_analytique" name="code_analytique" data-live-search="true" data-size="6" required>
+                                                <option  value="">SELECTIONNER UN CODE ANALYTIQUE</option>
+                                                @foreach($analytiques as $analytique)
+                                                    <option @if(isset($produit->code_analytique) and $analytique->codeRubrique==$produit->code_analytique)
+                                                            {{'selected'}}
+                                                            @endif value="{{$analytique->codeRubrique}}">{{$analytique->codeRubrique}} -- {{$analytique->libelle}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
 
 
                                         <br>

@@ -21,7 +21,8 @@ class ProduitController
     {
         $produits=  Materiel::all();
         $domaines=  DB::table('domaines')->get();
-        return view('produits/gestion_produit')->with('produits',$produits)->with('domaines', $domaines);
+        $analytiques=  DB::table('analytique')->distinct()->get(['codeRubrique','libelle']);
+        return view('produits/gestion_produit',compact('produits','domaines','analytiques'));
     }
     public function Validproduits( Request $request)
     {
@@ -36,6 +37,7 @@ class ProduitController
         $produit->libelleMateriel = $parameters['libelleMateriel'];
         $produit->type = $parameters['type'];
         $produit->image = $imageName;
+        $produit->code_analytique = $parameters['code_analytique'];
         $produit->slug = Str::slug($parameters['libelleMateriel'] . $date->format('dmYhis'));
         $produit->save();
 
@@ -54,7 +56,8 @@ if(isset($_FILES['image']['name'])){
         $domaines=  DB::table('domaines')->get();
         $produits = Materiel::all();
         $produit = Materiel::where('slug', '=', $slug)->first();
-        return view('produits/gestion_produit')->with('produit', $produit)->with('produits', $produits)->with('domaines', $domaines);
+        $analytiques=  DB::table('analytique')->distinct()->get(['codeRubrique','libelle']);
+      return  view('produits/gestion_produit',compact('produits','domaines','analytiques','produit'));
     }
     public function supprimer_produit($slug)
     {
@@ -74,18 +77,24 @@ if(isset($_FILES['image']['name'])){
 
         // Fournisseur::create($parameters);
         $date= new \DateTime(null);
+        $imageName =  $_FILES['image']['name'];
+        if($imageName!=""){
 
-        unlink('uploads/'.$produit->image);
+            chmod('uploads',777);
+            unlink('uploads/'.$produit->image);
+            $produit->image=$imageName;
+        }
         $produit->libelleMateriel = $parameters['libelleMateriel'];
         $produit->type = $parameters['type'];
+        $produit->code_analytique = $parameters['code_analytique'];
         $produit->slug = Str::slug($parameters['libelleMateriel'] . $date->format('dmYhis'));
         $image = $request->file('image');
 
-        $imageName =  $_FILES['image']['name'];
-        $produit->image=$imageName;
+
+
         $produit->save();
 
-        if(isset($_FILES['image']['name'])){
+        if(isset($_FILES['image']['name']) && $_FILES['image']['name']!=''){
             $image->move(public_path('uploads'),$imageName);
         }
         return redirect()->route('gestion_produit')->with('success',"le produit à été mis à jour");

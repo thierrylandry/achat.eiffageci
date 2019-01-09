@@ -294,7 +294,8 @@ return 1;
         $users= User::all();
         $domaines=  DB::table('domaines')->get();
         $devis = Devis::where('etat','=',1)->get();
-        return view('reponse_fournisseur/gestion_reponse_fournisseur',compact('das','fournisseurs','materiels','natures','users','types','domaines','devis'));
+        $analytiques=  DB::table('analytique')->distinct()->get(['codeRubrique','libelle']);
+        return view('reponse_fournisseur/gestion_reponse_fournisseur',compact('analytiques','das','fournisseurs','materiels','natures','users','types','domaines','devis'));
 
 
     }
