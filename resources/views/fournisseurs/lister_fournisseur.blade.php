@@ -77,7 +77,7 @@
                     { responsivePriority: 2, targets: -2 }
                 ],
 
-            }).column(0).visible(false);
+            }).column(0).visible(false).column(5).visible(false);
             //table.DataTable().draw();
 
         </script>
