@@ -36,7 +36,7 @@
 
                                 <div class="form-group  ">
                                     <label for="type">Demandeur</label>
-                                    <input type="text" class="form-control " id="demandeur" name="demandeur" placeholder="demandeur" value="{{isset($da)? $da->demandeur:''}}" required>
+                                    <input type="text" class="form-control " id="demandeur" name="demandeur" placeholder="demandeur" value="{{isset($da)? $da->demandeur: \Illuminate\Support\Facades\Auth::user()->nom.' '.\Illuminate\Support\Facades\Auth::user()->prenoms}} " required>
                                 </div>
 
 

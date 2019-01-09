@@ -47,7 +47,7 @@
     <h2>LES DEMANDES D'ACHATS - LISTER <a href="{{route('creer_da')}}" class="btn btn-default  pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i> Ajouter</a></h2>
     </br>
     </br>
-        <table name ="tableDA" id="tableDA" class='table table-bordered table-striped  no-wrap '>
+        <table name ="tableDA" id="tableDA" class='table table-bordered table-striped  no-wrap responsive '>
 
             <thead>
 
@@ -235,7 +235,7 @@
                 },
                 responsive: true,
                 columnDefs: [
-                    { responsivePriority: 12, targets: 0 },
+                    { responsivePriority: 2, targets: 0 },
                     { responsivePriority: 1, targets: -1 }
                 ]
             }).column(0).visible(false);

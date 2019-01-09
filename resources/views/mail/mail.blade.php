@@ -16,7 +16,8 @@
     </p>
 
     <p>
-        {{ \Illuminate\Support\Facades\Auth::user()->name }}
+        {{ \Illuminate\Support\Facades\Auth::user()->nom }}
+        {{ \Illuminate\Support\Facades\Auth::user()->prenoms }}
         <br>
         <strong>Eiffage Génie Civil Côte d’Ivoire</strong>
         <br>
