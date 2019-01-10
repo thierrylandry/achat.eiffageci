@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
+use phpDocumentor\Reflection\Types\Array_;
 
 class Demande_proformaController
 {
@@ -57,14 +58,18 @@ $fournisseurs=Fournisseur::all();
         $i=0;
         foreach($lesId as $id){
             if($id!=="undefined" && $tab["row_n_".$id."_titre_ext"]!="" && $tab["row_n_".$id."_fournisseur"]!="" && $tab["row_n_".$id."_prix_unitaire"]!=""){
-
                 $devis = new Devis();
                 $devis->titre_ext=$tab["row_n_".$id."_titre_ext"];
                 $devis->id_materiel=$lesIdmat[$i];
                 $devis->id_fournisseur=$tab["row_n_".$id."_fournisseur"];
                 $devis->quantite=$tab["row_n_".$id."_quantite"];
                 $devis->id_da=$id;
-                $devis->remise=$tab["row_n_".$id."_remise"];
+                if(isset($tab["row_n_".$id."_remise"]) && $tab["row_n_".$id."_remise"]!=""){
+                    $devis->remise=$tab["row_n_".$id."_remise"];
+                }else{
+                    $devis->remise=0;
+                }
+
                 $devis->unite=$tab["row_n_".$id."_unite"];
 
                if( $tab["row_n_".$id."_codeRubrique"]!=""){
@@ -115,7 +120,11 @@ return 1;
                     if( $tab["row_n_".$id."_codeRubrique"]!=""){
                         $devis->codeRubrique=$tab["row_n_".$id."_codeRubrique"];
                     }
-
+                    if(isset($tab["row_n_".$id."_remise"]) && $tab["row_n_".$id."_remise"]!=""){
+                        $devis->remise=$tab["row_n_".$id."_remise"];
+                    }else{
+                        $devis->remise=0;
+                    }
                     $devis->prix_unitaire=$tab["row_n_".$id."_prix_unitaire"];
                     $devis->devise=$tab["row_n_".$id."_devise"];
                     $devis->etat=1;
@@ -281,7 +290,7 @@ return 1;
         $types = DB::table('materiel')
             ->join('lignebesoin', 'materiel.id', '=', 'lignebesoin.id_materiel')
             ->where('etat', '=', 2)
-            ->select('materiel.libelleMateriel','lignebesoin.id','quantite','unite')->distinct()->get();
+            ->select('materiel.libelleMateriel','lignebesoin.id','quantite','unite','code_analytique')->distinct()->get();
         $fournisseurs=DB::table('fournisseur')
             ->join('domaines', 'domaines.id', '=', 'fournisseur.domaine')
             ->select('libelle','libelleDomainne','fournisseur.id','fournisseur.domaine')->distinct()->get();
@@ -289,13 +298,26 @@ return 1;
         $das= DB::table('materiel')
             ->join('lignebesoin', 'materiel.id', '=', 'lignebesoin.id_materiel')
             ->where('etat', '=', 2)
-            ->select('lignebesoin.id', 'unite', 'quantite', 'DateBesoin','id_user', 'id_reponse_fournisseur','id_nature', 'id_materiel', 'id_bonCommande','demandeur','lignebesoin.slug','etat','id_valideur','motif','type')->distinct()->get();
+            ->select('lignebesoin.id', 'lignebesoin.unite', 'lignebesoin.quantite', 'DateBesoin','id_user', 'id_reponse_fournisseur','id_nature', 'lignebesoin.id_materiel', 'id_bonCommande','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','type','code_analytique')->distinct()->get();
+
+        $tab_proposition= Array();
+        $tab_proposition_pu= Array();
+        $tab_proposition_remise= Array();
+        foreach ($das as $d):
+            $dev = Devis::where('id_materiel','=',$d->id_materiel)->get()->first();
+            if($dev!=null){
+                $tab_proposition[$d->id]=$dev->id_fournisseur;
+                $tab_proposition_pu[$d->id]=$dev->prix_unitaire;
+                    $tab_proposition_remise[$d->id]=$dev->remise;
+            }
+
+        endforeach;
         $natures= Nature::all();
         $users= User::all();
         $domaines=  DB::table('domaines')->get();
         $devis = Devis::where('etat','=',1)->get();
         $analytiques=  DB::table('analytique')->distinct()->get(['codeRubrique','libelle']);
-        return view('reponse_fournisseur/gestion_reponse_fournisseur',compact('analytiques','das','fournisseurs','materiels','natures','users','types','domaines','devis'));
+        return view('reponse_fournisseur/gestion_reponse_fournisseur',compact('analytiques','das','fournisseurs','materiels','natures','users','types','domaines','devis','tab_proposition','tab_proposition_pu','tab_proposition_remise'));
 
 
     }

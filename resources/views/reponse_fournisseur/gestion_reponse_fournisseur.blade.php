@@ -63,7 +63,8 @@
                                                         <select class="form-control selectpicker" id="row_n_{{$da->id}}_codeRubrique" name="row_n_{{$da->id}}_codeRubrique" data-live-search="true" data-size="6" required>
                                                             <option  value="">SELECTIONNER UN CODE ANALYTIQUE</option>
                                                             @foreach($analytiques as $analytique)
-                                                                <option @if(isset($produit->code_analytique) and $analytique->codeRubrique==$da->id)
+
+                                                                <option @if(isset($da->code_analytique) && $analytique->codeRubrique==$da->code_analytique)
                                                                         {{'selected'}}
                                                                         @endif value="{{$analytique->codeRubrique}}">{{$analytique->codeRubrique}} -- {{$analytique->libelle}}</option>
                                                             @endforeach
@@ -111,11 +112,13 @@
                                                         <option value="">SELECTIONNER UN  FOURNISSEUR</option>
                                                         @foreach($fournisseurs as $fournisseur)
                                                             @if($fournisseur->domaine==$da->type)
-                                                                <option value="{{$fournisseur->id}}">{{$fournisseur->libelle}}</option>
+                                                                <option  @if( $fournisseur->id==$tab_proposition[$da->id])
+                                                                         {{'selected'}}
+                                                                         @endif value="{{$analytique->codeRubrique}}" value="{{$fournisseur->id}}">{{$fournisseur->libelle}}</option>
                                                             @endif
                                                         @endforeach</select></td>
-                                                <td><input class="form-control"  type="number" min="0" id="row_n_{{$da->id}}_prix_unitaire" name="row_n_{{$da->id}}_prix_unitaire" /></td>
-                                                <td><input class="form-control"  type="number" min="0" id="row_n_{{$da->id}}_remise" name="row_n_{{$da->id}}_remise" /></td>
+                                                <td><input class="form-control"  type="number" min="0" id="row_n_{{$da->id}}_prix_unitaire" name="row_n_{{$da->id}}_prix_unitaire" value="{{$tab_proposition_pu[$da->id]}}" /></td>
+                                                <td><input class="form-control"  type="number" min="0" id="row_n_{{$da->id}}_remise" name="row_n_{{$da->id}}_remise" value="0" value="{{$tab_proposition_remise[$da->id]}}" /></td>
                                                 <td><select class="form-control" style="width: 100px;" id="row_n_{{$da->id}}_devise" name="row_n_{{$da->id}}_devise"><option value="FCFA">FCFA</option><option value="EURO">EURO</option></select></td>
                                             </tr>
                                         @endforeach
@@ -151,10 +154,11 @@
                                             <th class="dt-head-center" width="30px">Quantité</th>
                                             <th class="dt-head-center">Fournisseur</th>
                                             <th class="dt-head-center">Prix Unitaire</th>
+                                            <th class="dt-head-center" width="80px">Remise %</th>
                                             <th class="dt-head-center">Devise</th>
                                         </tr>
                                         </thead>
-                                        <tbody name ="contenu_tableau_entite" id="contenu_tableau_entite">
+                                        <tbody name ="contenu_tableau_entite" id="contenu_tableau_entite" onload="alert('jai chargé')">
 
                                         @foreach($devis as $devi )
 
@@ -221,6 +225,7 @@
 
                                                         @endforeach</select></td>
                                                 <td><input class="form-control"  type="number" min="0" id="row_n_{{$devi->id}}_prix_unitaire" name="row_n_{{$devi->id}}_prix_unitaire" value="{{$devi->prix_unitaire}}" /></td>
+                                                <td><input class="form-control"  type="number" min="0" id="row_n_{{$devi->id}}_remise" name="row_n_{{$devi->id}}_remise" value="{{$devi->remise}}" /></td>
                                                 <td><select class="form-control" style="width: 100px;" id="row_n_{{$devi->id}}_devise" name="row_n_{{$devi->id}}_devise">
 
 
@@ -258,11 +263,7 @@
                 },
                 "ordering":true,
                 "paging": false,
-                responsive: true,
-                columnDefs: [
-                    { responsivePriority: 12, targets: 0 },
-                    { responsivePriority: 2, targets: -1 }
-                ]
+                responsive: false,
             }).column(0).visible(false).column(1).visible(false);
             var table2 = $('#gestion_reponse_fournisseur1').DataTable({
                 language: {
@@ -270,11 +271,8 @@
                 },
                 "ordering":true,
                 "paging": false,
-                responsive: true,
-                columnDefs: [
-                    { responsivePriority: 12, targets: 0 },
-                    { responsivePriority: 2, targets: -1 }
-                ]
+                responsive: false,
+
             }).column(0).visible(false).column(1).visible(false);
 
             $('#gestion_reponse_fournisseur').on( 'click', 'tr', function () {
