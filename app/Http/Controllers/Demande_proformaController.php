@@ -287,10 +287,6 @@ return 1;
 
     //reponse fournisseur iportant
     public function gestion_reponse_fournisseur(){
-        $types = DB::table('materiel')
-            ->join('lignebesoin', 'materiel.id', '=', 'lignebesoin.id_materiel')
-            ->where('etat', '=', 2)
-            ->select('materiel.libelleMateriel','lignebesoin.id','quantite','unite','code_analytique')->distinct()->get();
         $fournisseurs=DB::table('fournisseur')
             ->join('domaines', 'domaines.id', '=', 'fournisseur.domaine')
             ->select('libelle','libelleDomainne','fournisseur.id','fournisseur.domaine')->distinct()->get();
@@ -298,17 +294,13 @@ return 1;
         $das= DB::table('materiel')
             ->join('lignebesoin', 'materiel.id', '=', 'lignebesoin.id_materiel')
             ->where('etat', '=', 2)
-            ->select('lignebesoin.id', 'lignebesoin.unite', 'lignebesoin.quantite', 'DateBesoin','id_user', 'id_reponse_fournisseur','id_nature', 'lignebesoin.id_materiel', 'id_bonCommande','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','type','code_analytique')->distinct()->get();
+            ->select('lignebesoin.id', 'lignebesoin.unite', 'lignebesoin.quantite', 'DateBesoin','id_user', 'id_reponse_fournisseur','id_nature', 'lignebesoin.id_materiel', 'id_bonCommande','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','code_analytique','type')->distinct()->get();
 
         $tab_proposition= Array();
-        $tab_proposition_pu= Array();
-        $tab_proposition_remise= Array();
         foreach ($das as $d):
-            $dev = Devis::where('id_materiel','=',$d->id_materiel)->get()->first();
+            $dev = Devis::where('id_materiel','=',$d->id_materiel)->orderByRaw('devis.id DESC')->get()->first();
             if($dev!=null){
-                $tab_proposition[$d->id]=$dev->id_fournisseur;
-                $tab_proposition_pu[$d->id]=$dev->prix_unitaire;
-                    $tab_proposition_remise[$d->id]=$dev->remise;
+                $tab_proposition[$d->id]=$dev;
             }
 
         endforeach;
@@ -317,7 +309,7 @@ return 1;
         $domaines=  DB::table('domaines')->get();
         $devis = Devis::where('etat','=',1)->get();
         $analytiques=  DB::table('analytique')->distinct()->get(['codeRubrique','libelle']);
-        return view('reponse_fournisseur/gestion_reponse_fournisseur',compact('analytiques','das','fournisseurs','materiels','natures','users','types','domaines','devis','tab_proposition','tab_proposition_pu','tab_proposition_remise'));
+        return view('reponse_fournisseur/gestion_reponse_fournisseur',compact('analytiques','das','fournisseurs','materiels','natures','users','types','domaines','devis','tab_proposition'));
 
 
     }

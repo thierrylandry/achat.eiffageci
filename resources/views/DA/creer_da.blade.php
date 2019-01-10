@@ -17,7 +17,7 @@
 
 
                         <form role="form" id="FormRegister" class="" method="post" action="{{route('Validdas')}}">
-                            <div class="col-sm-2"><img id="image"  width="200px" height="200px"/></div>
+                            <div class="col-sm-2"><img id="image"  width="200px" height="200px" onclick="voir(this)"/></div>
                             <div class="col-sm-4">
 
                             @csrf<div class="form-group">
@@ -125,5 +125,30 @@
                     }
             );
         });
+    </script>
+    <script>
+        function voir(val){
+            var modal = document.getElementById('myModal');
+
+            // Get the image and insert it inside the modal - use its "alt" text as a caption
+            var img = val;
+            var modalImg = document.getElementById("img01");
+            var captionText = document.getElementById("caption");
+            img.onclick = function(){
+                modal.style.display = "block";
+                modalImg.src = this.src;
+                captionText.innerHTML = this.alt;
+            }
+
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+        }
+        // Get the modal
+
     </script>
 @endsection
