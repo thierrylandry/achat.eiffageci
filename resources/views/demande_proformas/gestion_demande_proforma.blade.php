@@ -134,7 +134,7 @@
 
             noneSelectedText: 'AUCUN ELEMENT SELECTIONNE',
            selectAllText: 'Selectionner tout',
-           deselectAllText: 'Deselctionner Tout',
+           deselectAllText: 'Désélectionner Tout',
             noneResultsText: 'No results matched {0}',
             actionsBox:true,
             countSelectedText: function (numSelected, numTotal) {

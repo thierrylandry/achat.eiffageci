@@ -52,7 +52,7 @@
 
 
                     <a href="{{route('lister_commande',['slug'=>$bc->id])}}" data-toggle="modal" class="">
-                        <i class=" fa fa-list "></i>Liste les commandes
+                        <i class=" fa fa-list "></i> plus d'info
                     </a>
                         <div class="btn-group">
                             <button type="button" class="btn btn-info">Action</button>
@@ -90,7 +90,7 @@
                     </a>
                    @elseif($bc->etat==0)
                     <a href="{{route('lister_commande',['slug'=>$bc->id])}}" data-toggle="modal" class="">
-                        <i class=" fa fa-list "></i>Liste les commandes
+                        <i class=" fa fa-list "></i> plus d'info
                     </a>
                     <div class="btn-group">
                         <button type="button" class="btn btn-info">Action</button>

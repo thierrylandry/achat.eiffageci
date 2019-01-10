@@ -111,7 +111,7 @@ class BCController extends Controller
         // If you want to store the generated pdf to the server then you can use the store function
         $pdf->save(storage_path('bon_commande').'\bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
         Mail::send('mail.mail_bc',array('tab' =>$tab),function($message)use ($interlocuteur,$numBonCommande){
-            $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->name )
+            $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->nom." ".\Illuminate\Support\Facades\Auth::user()->prenoms)
                 ->to($interlocuteur)
                 ->to(\Illuminate\Support\Facades\Auth::user()->email)
                 ->subject('TRANSMISSION DE BON DE COMMANDE')

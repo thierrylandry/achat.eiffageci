@@ -206,14 +206,22 @@ return 1;
         $email='';
         foreach($fourn as $slug):
             $fournisseur= Fournisseur::where('slug','=',$slug)->first();
-            $email=$fournisseur->email;
-            $interlocuteur=$fournisseur->interlocuteur;
+            $contact=\GuzzleHttp\json_decode($fournisseur->contact);
+            if(isset($contact[0])){
+                $email=$contact[0]->valeur_c;
+                $interlocuteur=$contact[0]->titre_c;
+            }else{
+                $email=$fournisseur->email;
+                $interlocuteur=$fournisseur->responsable;
+            }
+
+
             Mail::send('mail.mail',array('corps' =>$corps),function($message)use ($email,$interlocuteur ){
 
 
-                $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->name )
-                    ->to($email ,$interlocuteur)
-                    ->subject('Demande de proforma');
+                $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->nom." ".\Illuminate\Support\Facades\Auth::user()->prenoms )
+                    ->to($email)
+                    ->subject('Demande de devis');
 
             });
         endforeach;
