@@ -37,9 +37,15 @@ class DAController
     }
     public function creer_da()
     {
+        //ici
+        $fournisseurs=Fournisseur::all();
         $materiels=Materiel::all();
+        $das=  DA::where('id_user','=',\Illuminate\Support\Facades\Auth::user()->id)->orderBy('id', 'ASC')->get();
         $natures= Nature::all();
-        return view('DA/creer_da')->with('materiels', $materiels)->with('natures', $natures);
+        $users= User::all();
+        $domaines=  DB::table('domaines')->get();
+
+        return view('DA/creer_da',compact('das','fournisseurs','materiels','natures','users','domaines'));
 
 
     }
@@ -58,7 +64,8 @@ class DAController
 
         $da->id_nature = $parameters['id_nature'];
         $da->id_materiel = $parameters['id_materiel'];
-        //$da->id_bonommande = $parameters['id_bonommande'];
+        $da->commentaire = $parameters['commentaire'];
+        $da->usage = $parameters['usage'];
         $da->demandeur = $parameters['demandeur'];
         $da->slug = Str::slug($parameters['id_materiel'] . $date->format('dmYhis'));
         $da->save();
@@ -191,7 +198,8 @@ class DAController
 
         $da->id_nature = $parameters['id_nature'];
         $da->id_materiel = $parameters['id_materiel'];
-        //$da->id_bonommande = $parameters['id_bonommande'];
+        $da->commentaire = $parameters['commentaire'];
+        $da->usage = $parameters['usage'];
         $da->demandeur = $parameters['demandeur'];
         $da->slug = Str::slug($parameters['id_materiel'] . $date->format('dmYhis'));
         $da->save();

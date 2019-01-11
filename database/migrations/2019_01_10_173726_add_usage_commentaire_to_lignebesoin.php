@@ -16,6 +16,7 @@ class AddUsageCommentaireToLignebesoin extends Migration
         Schema::table('lignebesoin', function (Blueprint $table) {
             //
             $table->string("usage")->nullable();
+            $table->string("commentaire")->nullable();
         });
     }
 
@@ -29,6 +30,7 @@ class AddUsageCommentaireToLignebesoin extends Migration
         Schema::table('lignebesoin', function (Blueprint $table) {
             //
             $table->removeColumn("usage");
+            $table->removeColumn("commentaire");
         });
     }
 }

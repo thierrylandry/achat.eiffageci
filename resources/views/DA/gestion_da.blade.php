@@ -43,7 +43,10 @@
                                     <label for="type">Demandeur</label>
                                     <input type="text" class="form-control " id="demandeur" name="demandeur" placeholder="demandeur" value="{{isset($da)? $da->demandeur:''}}" required>
                                 </div>
-
+                                <div class="form-group  ">
+                                    <label for="type">Usage</label>
+                                    <input type="text" class="form-control " id="demandeur" name="usage" placeholder="usage" value="{{isset($da)? $da->usage:''}} " required>
+                                </div>
 
 
                             </div>
@@ -92,7 +95,10 @@
                                     <label for="type">Pour le?</label>
                                     <input type="date" class="form-control" id="DateBesoin" name="DateBesoin" placeholder="DateBesoin" value="{{isset($da)? $da->DateBesoin:''}}" required>
                                 </div>
-
+                                <div class="form-group">
+                                    <label for="commentaire">Commentaire</label>
+                                    <textarea id="commentaire" name="commentaire" class="form-control col-sm-8" style="height: 100px">{{isset($da)? $da->commentaire:''}}</textarea>
+                                </div>
                                 <input type="hidden" class="form-control" id="slug" name="slug" placeholder="" value="{{isset($da)? $da->slug:''}}">
                                 <input type="hidden" class="form-control" id="id_user" name="id_user" placeholder="" value="{{ Auth::user()->id }}">
                                 <br>
