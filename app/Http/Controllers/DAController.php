@@ -27,7 +27,7 @@ class DAController
     {
         $fournisseurs=Fournisseur::all();
         $materiels=Materiel::all();
-        $das=  DA::all();
+        $das=  DA::orderBy('created_at', 'DESC')->get();
         $natures= Nature::all();
         $users= User::all();
         $domaines=  DB::table('domaines')->get();
@@ -40,7 +40,7 @@ class DAController
         //ici
         $fournisseurs=Fournisseur::all();
         $materiels=Materiel::all();
-        $das=  DA::where('id_user','=',\Illuminate\Support\Facades\Auth::user()->id)->orderBy('id', 'ASC')->get();
+        $das=  DA::where('id_user','=',\Illuminate\Support\Facades\Auth::user()->id)->orderBy('created_at', 'DESC')->get();
         $natures= Nature::all();
         $users= User::all();
         $domaines=  DB::table('domaines')->get();
@@ -204,7 +204,7 @@ class DAController
         $da->slug = Str::slug($parameters['id_materiel'] . $date->format('dmYhis'));
         $da->save();
 
-        return redirect()->route('gestion_da')->with('success',"la demande d'approvisionnement a été mis à jour");
+        return redirect()->route('creer_da')->with('success',"la demande d'approvisionnement a été mis à jour");
     }
     public function alljson(){
         $collections = [];

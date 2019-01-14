@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 
 
 use App\Materiel;
+use Dompdf\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
@@ -81,7 +82,12 @@ if(isset($_FILES['image']['name'])){
         if($imageName!=""){
 
             chmod('uploads',777);
-            unlink('uploads/'.$produit->image);
+            try{
+                unlink('uploads/'.$produit->image);
+            }catch (Exception $Ex){
+
+            }
+
             $produit->image=$imageName;
         }
         $produit->libelleMateriel = $parameters['libelleMateriel'];

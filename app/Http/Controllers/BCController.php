@@ -149,7 +149,7 @@ class BCController extends Controller
 
     public function gestion_bc()
     {
-        $bcs=  Boncommande::all();
+        $bcs=  Boncommande::orderBy('created_at', 'DESC')->get();
         $utilisateurs=  User::all();
         $fournisseurs= DB::table('fournisseur')
             ->join('reponse_fournisseur', 'fournisseur.id', '=', 'reponse_fournisseur.id_fournisseur')

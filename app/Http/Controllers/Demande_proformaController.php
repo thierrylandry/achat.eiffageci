@@ -19,6 +19,7 @@ use App\Materiel;
 use App\Fournisseur;
 use App\Nature;
 use App\Reponse_fournisseur;
+use App\Tracemail;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -48,6 +49,10 @@ $fournisseurs=Fournisseur::all();
         return view('demande_proformas/gestion_demande_proforma',compact('das','fournisseurs','materiels','natures','users','types'));
 
 
+    }
+    public function demande_ou_rappel($tab_slug,$list_da){
+        // a terminer
+dd($list_da);
     }
     public function enregistrer_devis($res,$lesId,$lesIdmat)
     {
@@ -205,6 +210,7 @@ return 1;
         endforeach;
         $email='';
         foreach($fourn as $slug):
+
             $fournisseur= Fournisseur::where('slug','=',$slug)->first();
             $contact=\GuzzleHttp\json_decode($fournisseur->contact);
             if(isset($contact[0])){
@@ -224,6 +230,11 @@ return 1;
                     ->subject('Demande de devis');
 
             });
+            $Trace_mail= new Tracemail();
+            $Trace_mail->id_fournisseur=$fournisseur->id;
+            $Trace_mail->das=$listeDA;
+            $Trace_mail->save();
+
         endforeach;
 
 

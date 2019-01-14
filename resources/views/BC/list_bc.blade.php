@@ -148,7 +148,7 @@
         language: {
             url: "js/French.json"
         },
-        "ordering":true,
+        "ordering":false,
         "responsive": true,
         "createdRow": function( row, data, dataIndex){
 

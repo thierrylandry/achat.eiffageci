@@ -47,6 +47,19 @@
     <h2>LES DEMANDES D'ACHATS - LISTER <a href="{{route('creer_da')}}" class="btn btn-default  pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i> Ajouter</a></h2>
     </br>
     </br>
+    <div>
+        AFFICHER OU CACHER DES COLONNES: <a class="toggle-vis" data-column="1">Service</a> - <a class="toggle-vis" data-column="2">statut</a> - <a class="toggle-vis" data-column=
+        "3">Matériel et consultation</a> - <a class="toggle-vis" data-column="4">type</a> - <a class="toggle-vis" data-column="5">Nature</a> - <a class="toggle-vis" data-column=
+        "6">Quantité</a>- <a class="toggle-vis" data-column=
+        "7">Pour le ?</a>- <a class="toggle-vis" data-column=
+        "8">Demandeur</a>- <a class="toggle-vis" data-column=
+        "9">Auteur</a>- <a class="toggle-vis" data-column=
+        "10">Confirmer/infirmer</a>- <a class="toggle-vis" data-column=
+        "11">Etat</a>- <a class="toggle-vis" data-column=
+        "12">Usage</a>- <a class="toggle-vis" data-column=
+        "13">Commentaire</a>
+    </div>
+    </br>
         <table name ="tableDA" id="tableDA" class='table table-bordered table-striped  no-wrap responsive '>
 
             <thead>
@@ -64,6 +77,8 @@
                 <th class="dt-head-center">Auteur</th>
                 <th class="dt-head-center">Confirmer/infirmer</th>
                 <th class="dt-head-center">Etat</th>
+                <th class="dt-head-center">Usage</th>
+                <th class="dt-head-center">Commentaire</th>
                 <th class="dt-head-center">Action</th>
 
             </tr>
@@ -156,6 +171,12 @@
                         @endif
                     </td>
                     <td>
+                        {{$da->usage}}
+                    </td>
+                    <td>
+                        {{$da->commentaire}}
+                        </td>
+                    <td>
 
 
 
@@ -229,18 +250,26 @@
                 language: {
                     url: "js/French.json"
                 },
-                "ordering":true,
+                "ordering":false,
                 "createdRow": function( row, data, dataIndex){
 
                 },
-                responsive: true,
+                responsive: false,
                 columnDefs: [
                     { responsivePriority: 2, targets: 0 },
                     { responsivePriority: 1, targets: -1 }
                 ]
-            }).column(0).visible(false);
+            }).column(0).visible(false).column(4).visible(false).column(5).visible(false).column(9).visible(false).column(11).visible(false);
             //table.DataTable().draw();
+            $('a.toggle-vis').on( 'click', function (e) {
+                e.preventDefault();
 
+                // Get the column API object
+                var column = table.column( $(this).attr('data-column') );
+
+                // Toggle the visibility
+                column.visible( ! column.visible() );
+            } );
             $('#tableDA tbody').on( 'click', 'tr', function () {
                 if ( $(this).hasClass('selected') ) {
                     $(this).removeClass('selected');

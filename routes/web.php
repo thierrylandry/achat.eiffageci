@@ -341,6 +341,15 @@ Route::get('/gestion_demande_proformas',[
 
 ])->middleware('auth');
 
+Route::get('/demande_ou_rappel/{tab_fourn}/{list_da}',[
+    'as'=>'demande_ou_rappel',
+    'uses'=>'Demande_proformaController@demande_ou_rappel',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_Pro_Forma']
+
+])->middleware('auth');
+
+
 Route::get('/les_das_funct/{domaine}',[
     'as'=>'les_das_funct',
     'uses'=>'Demande_proformaController@les_das_funct'

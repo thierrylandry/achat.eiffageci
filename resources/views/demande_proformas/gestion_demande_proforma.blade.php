@@ -12,7 +12,20 @@
 
     <h2>DEMANDER DES DEVIS AUX FOURNISSEURS </h2>
     <div class="row">
-        <br>        <br>
+        <br>
+        <div class="alert alert-warning ">
+            <span class="alert-icon"><i class="fa fa-bell-o"></i></span>
+            <div class="notification-info">
+                <ul class="clearfix notification-meta">
+                    <li class="pull-left notification-sender">Vous avez  <b style="font-size: 24px">{{sizeof($types)}}</b>  domaine(s) d'activité qui ont fait  l'objet de demande d'achat</li>
+
+                </ul>
+                <p>
+                    ...
+                </p>
+            </div>
+        </div>
+        <br>
                 <div class="col-sm-4">
 
                                     <form role="form" id="FormRegister" class="bucket-form" method="post" action="{{route('envoies')}}">
@@ -40,7 +53,7 @@
                         <input type="hidden" class="form-control" id="listeDA" name="listeDA" placeholder="" value="">
                         <br>
                                         <div class="form-group" >
-                            <button type="submit" class="btn btn-success form-control">ENVOYER</button>
+                            <button type="submit" class="btn btn-success form-control">MAIL DE DEMANDE (0) / MAIL DE RAPPEL (0)</button>
                         </div>
 
                     </form>
@@ -268,6 +281,18 @@ var nom="";
 
 
         });
+
+        $('#fourn').change(function(e){
+            $tab_fourn=$(this).val();
+            $list_da=$("#listeDA").val();
+            $.get("demande_ou_rappel/"+$tab_fourn+"/"+$list_da,
+                    function (data) {
+
+
+                    }
+            );
+        });
+
     })(jQuery);
 </script>
     </div>
