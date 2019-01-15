@@ -46,7 +46,12 @@ $fournisseurs=Fournisseur::all();
         $das=  DA::all();
         $natures= Nature::all();
         $users= User::all();
-        return view('demande_proformas/gestion_demande_proforma',compact('das','fournisseurs','materiels','natures','users','types'));
+        $trace_mails= DB::table('trace_mail')
+            ->join('fournisseur', 'fournisseur.id', '=', 'trace_mail.id_fournisseur')
+            ->select('trace_mail.id','das','trace_mail.created_at','libelle')->orderBy('trace_mail.created_at', 'DESC')->get();
+
+
+        return view('demande_proformas/gestion_demande_proforma',compact('das','fournisseurs','materiels','natures','users','types','trace_mails'));
 
 
     }
@@ -194,8 +199,15 @@ return 1;
         $fourn= $parameters['fourn'];
         $listeDA = $parameters['listeDA'];
         $tab_listeSA = explode(",", $listeDA);
+
+        if(isset($parameters['rappel'])){
+            $rappel = $parameters['rappel'];
+        }else{
+            $rappel="";
+        }
+
         $corps='';
-        $enteetab='<table><th>Produits et Service</th><th>Quantite</th><th>Prix</th>';
+
         foreach($tab_listeSA as $laDA):
             $das=  DA::find($laDA);
 
@@ -221,26 +233,38 @@ return 1;
                 $interlocuteur=$fournisseur->responsable;
             }
 
+if($rappel!="on"){
+    Mail::send('mail.mail',array('corps' =>$corps),function($message)use ($email,$interlocuteur ){
 
-            Mail::send('mail.mail',array('corps' =>$corps),function($message)use ($email,$interlocuteur ){
+
+        $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->nom." ".\Illuminate\Support\Facades\Auth::user()->prenoms )
+            ->to($email)
+            ->subject('Demande de devis');
+
+    });
+}else{
+    Mail::send('mail.rappel_mail',array('corps' =>$corps),function($message)use ($email,$interlocuteur ){
 
 
-                $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->nom." ".\Illuminate\Support\Facades\Auth::user()->prenoms )
-                    ->to($email)
-                    ->subject('Demande de devis');
+        $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->nom." ".\Illuminate\Support\Facades\Auth::user()->prenoms )
+            ->to($email)
+            ->subject('Rappel de demande de devis');
 
-            });
+
+    });
+
+}
             $Trace_mail= new Tracemail();
             $Trace_mail->id_fournisseur=$fournisseur->id;
-            $Trace_mail->das=$listeDA;
+            $Trace_mail->rappel=$rappel;
+            $Trace_mail->email=$email;
+            $Trace_mail->das=$corps;
             $Trace_mail->save();
-
+     //   dd(Mail::failures());
         endforeach;
 
-
-        return redirect()->route('gestion_demande_proformas')->with('success', "Envoie d'email reussi");
        // return view('mail.mail')->with('corps',$corps);
-
+            return redirect()->route('gestion_demande_proformas')->with('success', "Envoie d'email reussi");
     }
 
     /**
