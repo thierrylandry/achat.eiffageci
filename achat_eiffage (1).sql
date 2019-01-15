@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  jeu. 10 jan. 2019 à 17:12
+-- Généré le :  mar. 15 jan. 2019 à 17:55
 -- Version du serveur :  5.7.23
 -- Version de PHP :  7.2.10
 
@@ -295,19 +295,7 @@ CREATE TABLE IF NOT EXISTS `boncommande` (
   `service_demandeur` varchar(191) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `numBonCommande` (`numBonCommande`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `boncommande`
---
-
-INSERT INTO `boncommande` (`id`, `numBonCommande`, `id_user`, `created_at`, `updated_at`, `slug`, `date`, `etat`, `id_fournisseur`, `total_ttc`, `service_demandeur`) VALUES
-(5, '003FFF5', 13, '2019-01-07 14:50:31', '2019-01-08 15:11:18', '003fff507012019025031', '2019-01-23', 4, 1, 44840, 'Secrétariat'),
-(6, '003FFF6', 13, '2019-01-07 14:52:01', '2019-01-08 15:22:32', '003fff607012019025201', '2019-01-30', 11, 1, 5723, 'Secrétariat'),
-(7, '003FFF7', 13, '2019-01-10 10:52:16', '2019-01-10 10:58:02', '003fff710012019105216', '2019-01-24', 3, 1, 42480, 'Secrétariat'),
-(8, '003FFF8', 13, '2019-01-10 10:57:27', '2019-01-10 13:17:19', '003fff810012019105727', '2019-01-31', 11, 6, 52194, 'Service méthodes'),
-(9, '003FFF9', 13, '2019-01-10 11:01:10', '2019-01-10 16:59:23', '003fff910012019110110', '2019-01-31', 1, 1, 28320, 'Secrétariat'),
-(10, '003FFF10', 13, '2019-01-10 13:26:39', '2019-01-10 14:11:07', '003fff1010012019012639', '2019-01-25', 3, 1, 14160, 'Secrétariat');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -403,7 +391,7 @@ CREATE TABLE IF NOT EXISTS `fournisseur` (
   `slug` varchar(191) NOT NULL,
   `contact` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `fournisseur`
@@ -412,9 +400,10 @@ CREATE TABLE IF NOT EXISTS `fournisseur` (
 INSERT INTO `fournisseur` (`id`, `libelle`, `domaine`, `conditionPaiement`, `commentaire`, `adresseGeographique`, `responsable`, `interlocuteur`, `email`, `created_at`, `updated_at`, `slug`, `contact`) VALUES
 (1, 'EBURTIS', '5', NULL, NULL, 'Abidjan', 'konan', 'kone', 'cyriaquekodia@gmail.com', '2018-12-14 12:07:53', '2018-12-18 15:17:26', 'eburtis18122018031726', '[{\"titre_c\":\"kone\",\"type_c\":\"EMA\",\"valeur_c\":\"cyriaquekodia@gmail.com\"}]'),
 (5, 'sogelux', '4', NULL, NULL, 'Abidjan', 'konan', NULL, 'admin@eiffage.com', '2018-12-17 16:33:49', '2019-01-10 12:37:30', 'sogelux10012019123730', '[{\"titre_c\":\"fournisseur admin\",\"type_c\":\"EMA\",\"valeur_c\":\"admin@eiffage.com\"}]'),
-(6, 'test', '3', NULL, NULL, 'Abidjan', 'konan', NULL, 'cyriaquekodia@gmail.com', '2018-12-18 10:48:30', '2018-12-18 15:15:21', 'test18122018031521', '[{\"titre_c\":\"kone\",\"type_c\":\"MOB\",\"valeur_c\":\"cyriaquekodia@gmail.com\"},{\"titre_c\":\"youri\",\"type_c\":\"MOB\",\"valeur_c\":\"cyriaquekodia@gmail.com\"}]'),
-(7, 'InfoProGICIEL', '5', 'je suis la', NULL, 'test', 'konan', NULL, 'landrykoffi@gmail.com', '2019-01-04 09:32:40', '2019-01-04 09:32:40', 'infoprogiciel04012019093240', '[{\"titre_c\":\"kone\",\"type_c\":\"EMA\",\"valeur_c\":\"landrykoffi@gmail.com\"}]'),
-(8, 'Y Entretien', '7', 'test', NULL, 'Abidjan', 'konan', NULL, 'cyriaquekodia@gmail.com', '2019-01-04 16:28:42', '2019-01-04 16:28:42', 'y-entretien04012019042842', '[{\"titre_c\":\"kone\",\"type_c\":\"EMA\",\"valeur_c\":\"landrykoffi@gmail.com\"}]');
+(6, 'test', '3', NULL, NULL, 'Abidjan', 'konan', NULL, 'cyriaquekodia@gmail.com', '2018-12-18 10:48:30', '2019-01-15 17:31:46', 'test15012019053146', '[{\"titre_c\":\"kone\",\"type_c\":\"MOB\",\"valeur_c\":\"cyriaquekodia@gmail.com\"},{\"titre_c\":\"youri\",\"type_c\":\"MOB\",\"valeur_c\":\"cyriaque.kodia@eiffage.com\"}]'),
+(7, 'InfoProGICIEL', '5', NULL, NULL, 'test', 'konan', NULL, 'landrykoffi@gmail.com', '2019-01-04 09:32:40', '2019-01-15 17:30:02', 'infoprogiciel15012019053002', '[{\"titre_c\":\"Koffi landry pro\",\"type_c\":\"EMA\",\"valeur_c\":\"Thierry.KOFFI@eiffage.com\"},{\"titre_c\":\"Koffi landry perso\",\"type_c\":\"EMA\",\"valeur_c\":\"landrykoffi@gmail.com\"}]'),
+(8, 'Y Entretien', '7', NULL, NULL, 'Abidjan', 'konan', NULL, 'cyriaquekodia@gmail.com', '2019-01-04 16:28:42', '2019-01-15 16:10:08', 'y-entretien15012019041008', '[{\"titre_c\":\"kone\",\"type_c\":\"EMA\",\"valeur_c\":\"cyriaquekodia@gmail.com\"}]'),
+(9, 'Entretien TTF', '7', NULL, NULL, 'Abidjan', 'Yadom', NULL, 'cyriaquekodia@gmail.com', '2019-01-14 17:24:07', '2019-01-15 16:09:52', 'entretien-ttf15012019040952', '[{\"titre_c\":\"kone\",\"type_c\":\"EMA\",\"valeur_c\":\"cyriaquekodia@gmail.com\"}]');
 
 -- --------------------------------------------------------
 
@@ -452,25 +441,20 @@ CREATE TABLE IF NOT EXISTS `lignebesoin` (
   `etat` varchar(191) NOT NULL DEFAULT '1',
   `id_valideur` varchar(191) DEFAULT NULL,
   `motif` varchar(191) DEFAULT NULL,
+  `usage` varchar(191) DEFAULT NULL,
+  `commentaire` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `lignebesoin`
 --
 
-INSERT INTO `lignebesoin` (`id`, `unite`, `quantite`, `DateBesoin`, `id_user`, `id_reponse_fournisseur`, `id_nature`, `id_materiel`, `id_bonCommande`, `created_at`, `updated_at`, `demandeur`, `slug`, `etat`, `id_valideur`, `motif`) VALUES
-(1, 'U', 3.00, '2019-01-23', 13, NULL, 1, 33, 5, '2019-01-07 14:23:23', '2019-01-08 15:11:18', 'koffi', '3307012019022323', '4', '13', ''),
-(2, 'U', 2.00, '2019-01-31', 13, NULL, 1, 34, NULL, '2019-01-07 14:23:36', '2019-01-07 14:24:26', 'koffi', '3407012019022336', '3', '13', ''),
-(3, 'U', 1.00, '2019-01-30', 13, NULL, 1, 33, 6, '2019-01-07 14:51:26', '2019-01-08 15:22:32', 'koffi', '3307012019025126', '11', '13', ''),
-(4, 'U', 3.00, '2019-01-24', 13, NULL, 1, 33, 7, '2019-01-08 14:20:13', '2019-01-10 10:52:27', 'koffi', '3308012019022013', '3', '13', ''),
-(5, 'U', 2.00, '2019-01-31', 23, NULL, 1, 36, 8, '2019-01-09 11:51:04', '2019-01-10 13:17:19', 'test', '3609012019115104', '11', '13', ''),
-(6, 'U', 1.00, '2019-01-25', 13, NULL, 1, 35, NULL, '2019-01-10 08:26:23', '2019-01-10 08:26:23', 'administrateur', '3510012019082623', '1', NULL, NULL),
-(7, 'm', 4.00, '2019-01-31', 13, NULL, 1, 35, 9, '2019-01-10 09:48:27', '2019-01-10 11:01:22', 'administrateur', '3510012019094827', '3', '13', ''),
-(8, 'U', 2.00, '2019-01-31', 13, NULL, 1, 33, NULL, '2019-01-10 09:54:21', '2019-01-10 10:51:55', 'administrateur', '3310012019095421', '3', '13', ''),
-(9, 'U', 1.00, '2019-01-22', 13, NULL, 1, 36, NULL, '2019-01-10 10:55:25', '2019-01-10 10:56:56', 'administrateur', '3610012019105525', '3', '13', ''),
-(10, 'U', 1.00, '2019-02-02', 13, NULL, 1, 35, NULL, '2019-01-10 12:38:18', '2019-01-10 13:26:05', 'administrateur', '3510012019123818', '3', '13', ''),
-(11, 'U', 1.00, '2019-01-25', 13, NULL, 1, 33, 10, '2019-01-10 13:25:33', '2019-01-10 14:10:50', 'administrateur', '3310012019012533', '3', '13', '');
+INSERT INTO `lignebesoin` (`id`, `unite`, `quantite`, `DateBesoin`, `id_user`, `id_reponse_fournisseur`, `id_nature`, `id_materiel`, `id_bonCommande`, `created_at`, `updated_at`, `demandeur`, `slug`, `etat`, `id_valideur`, `motif`, `usage`, `commentaire`) VALUES
+(15, 'U', 6.00, '2019-01-25', 13, NULL, 1, 36, NULL, '2019-01-14 10:06:49', '2019-01-14 14:11:33', 'administrateur', '3614012019101649', '2', '13', '', 'test', 'je veux de couleur transparente'),
+(16, 'm', 8.00, '2019-01-29', 13, NULL, 1, 37, NULL, '2019-01-14 10:07:29', '2019-01-14 14:11:32', 'administrateur', '3714012019100729', '2', '13', '', 'test', NULL),
+(17, 'm', 8.00, '2019-01-31', 13, NULL, 1, 35, NULL, '2019-01-14 12:34:44', '2019-01-14 14:11:29', 'administrateur', '3514012019123444', '2', '13', '', 'test', 'avec les adaptateurs pour les voiture'),
+(18, 'U', 2.00, '2019-01-24', 13, NULL, 1, 34, NULL, '2019-01-14 12:54:10', '2019-01-14 12:54:10', 'administrateur', '3414012019125410', '1', NULL, NULL, 'test', NULL);
 
 -- --------------------------------------------------------
 
@@ -494,21 +478,6 @@ CREATE TABLE IF NOT EXISTS `ligne_bc` (
   `prix_tot` float DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Déchargement des données de la table `ligne_bc`
---
-
-INSERT INTO `ligne_bc` (`id`, `codeRubrique`, `remise_ligne_bc`, `quantite_ligne_bc`, `unite_ligne_bc`, `prix_unitaire_ligne_bc`, `id_devis`, `id_bonCommande`, `created_at`, `updated_at`, `slug`, `prix_tot`) VALUES
-(4, '12345', '5', 2, 'U', 2000, 2, 5, '2019-01-07 14:50:52', '2019-01-07 14:50:52', '12345200007012019025052', 3800),
-(3, '224522', '5', 3, 'U', 12000, 1, 5, '2019-01-07 14:50:52', '2019-01-07 14:50:52', '2245221200007012019025052', 34200),
-(5, '4785', '3', 1, 'U', 5000, 3, 6, '2019-01-07 15:16:13', '2019-01-07 15:16:13', '4785500007012019031613', 4850),
-(6, '33208', '0', 3, 'm', 12000, 4, 7, '2019-01-10 10:52:27', '2019-01-10 10:52:27', '332081200010012019105227', 36000),
-(7, '22532', '8', 2, 'U', 7800, 5, 8, '2019-01-10 10:57:44', '2019-01-10 10:57:44', '22532780010012019105744', 14352),
-(8, '22532', '8', 4, 'm', 6000, 6, 8, '2019-01-10 10:57:44', '2019-01-10 10:57:44', '22532600010012019105744', 22080),
-(9, '22532', '0', 1, 'U', 7800, 8, 8, '2019-01-10 10:57:44', '2019-01-10 10:57:44', '22532780010012019105744', 7800),
-(10, '44004', '0', 2, 'U', 12000, 7, 9, '2019-01-10 11:01:22', '2019-01-10 11:01:22', '440041200010012019110122', 24000),
-(11, '44004', '0', 1, 'U', 12000, 10, 10, '2019-01-10 14:10:50', '2019-01-10 14:10:50', '440041200010012019021050', 12000);
 
 -- --------------------------------------------------------
 
@@ -534,7 +503,7 @@ CREATE TABLE IF NOT EXISTS `materiel` (
 --
 
 INSERT INTO `materiel` (`id`, `libelleMateriel`, `type`, `created_at`, `updated_at`, `slug`, `image`, `code_analytique`) VALUES
-(33, 'Windows 10', '5', '2018-12-27 09:37:22', '2019-01-09 17:34:11', 'windows-1009012019053411', 'microsoft_windows_10_pro_64.png', '44004'),
+(33, 'Windows 10', '5', '2018-12-27 09:37:22', '2019-01-14 12:23:05', 'windows-1014012019122305', 'microsoft_windows_10_pro_64.png', '44004'),
 (34, 'office 365', '5', '2018-12-27 09:40:20', '2019-01-09 17:34:51', 'office-36509012019053451', '617GjtWatCL._SL1500_.jpg', '44004'),
 (35, 'tuyaux à eaux', '3', '2018-12-27 09:40:47', '2019-01-10 09:53:30', 'tuyaux-a-eaux10012019095330', 'tuyaux-plat-diametre-75-equipe-raccord-symetrique-guillemin.jpg', '22532'),
 (36, 'tuyaux cylindrique', '3', '2018-12-27 09:41:26', '2019-01-10 09:53:08', 'tuyaux-cylindrique10012019095308', 'tuyaux-pvc-vert-epandage-diametre-40-mm.jpg', '22532'),
@@ -553,7 +522,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(191) NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `migrations`
@@ -607,7 +576,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (45, '2019_01_04_163129_add_unite_to_devi', 32),
 (46, '2019_01_07_011431_add_service_demandeur_to_boncommende', 33),
 (47, '2019_01_08_160019_add_libelle_to_analytique', 34),
-(48, '2019_01_09_112549_add_code_analytique_to_materiel', 35);
+(48, '2019_01_09_112549_add_code_analytique_to_materiel', 35),
+(49, '2019_01_10_173726_add_usage_commentaire_to_lignebesoin', 36),
+(50, '2019_01_14_164744_create_trace_mail', 37),
+(51, '2019_01_15_154007_add_rappel_email_to_trace_mail', 38);
 
 -- --------------------------------------------------------
 
@@ -754,6 +726,36 @@ CREATE TABLE IF NOT EXISTS `tbprix` (
   `id_materiel` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `trace_mail`
+--
+
+DROP TABLE IF EXISTS `trace_mail`;
+CREATE TABLE IF NOT EXISTS `trace_mail` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id_fournisseur` int(11) NOT NULL,
+  `das` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `rappel` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `trace_mail`
+--
+
+INSERT INTO `trace_mail` (`id`, `id_fournisseur`, `das`, `created_at`, `updated_at`, `rappel`, `email`) VALUES
+(14, 9, '\n 8 m de tuyaux d\'aspiration ;', '2019-01-15 16:18:37', '2019-01-15 16:18:37', 'on', 'cyriaquekodia@gmail.com'),
+(13, 8, '\n 8 m de tuyaux d\'aspiration ;', '2019-01-15 16:18:35', '2019-01-15 16:18:35', 'on', 'cyriaquekodia@gmail.com'),
+(12, 9, '\n 8 m de tuyaux d\'aspiration ;', '2019-01-15 16:17:51', '2019-01-15 16:17:51', '', 'cyriaquekodia@gmail.com'),
+(11, 8, '\n 8 m de tuyaux d\'aspiration ;', '2019-01-15 16:17:50', '2019-01-15 16:17:50', '', 'cyriaquekodia@gmail.com'),
+(15, 8, '\n 8 m de tuyaux d\'aspiration ;', '2019-01-15 16:22:51', '2019-01-15 16:22:51', '', 'cyriaquekodia@gmail.com'),
+(16, 8, '\n 8 m de tuyaux d\'aspiration ;', '2019-01-15 16:23:23', '2019-01-15 16:23:23', '', 'cyriaquekodia@gmail.com');
 
 -- --------------------------------------------------------
 
