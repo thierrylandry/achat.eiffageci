@@ -43,6 +43,14 @@
                             </select>
                             </div>
                         </div>
+                    <div class="form-group">
+                        <b><label for="libelle" class="control-label col-sm-6">le(s) email(s):</label></b>
+                        <div class="col-sm-6">
+                            <select class="form-control selectpicker " id="lesemails" name="lesemails[]" data-live-search="true" data-size="6" data-none-selected-text="Aucun email selectionné" multiple  data-actions-box="true" required>
+
+                            </select>
+                        </div>
+                    </div>
 
                 </div>
             <div class="modal-footer">
@@ -58,14 +66,14 @@
 
 
 
-    <div id="ajoutercom" class="modal fade in" aria-hidden="true" role="dialog" >
+    <div id="confirm_email" class="modal fade in" aria-hidden="true" role="dialog" >
         <div class="modal-dialog modal-md">
 
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">fiche de Commande</h4>
+                    <h4 class="modal-title">Confirmer l'adresse email</h4>
                 </div>
                 @if(isset($devis))
                     <form  action="{{route('update_ligne_bc')}}" method="post">
@@ -75,55 +83,9 @@
                                 @csrf
 
                                 <div class="modal-body">
+                                    <div id="jstree" >
 
-                                    <input type="hidden" name="slugbc"  value="{{isset($slugbc)? $slugbc:''}}"/>
-                                    <input type="hidden" name="slugligne"  value="{{isset($ligne_bc) ?$ligne_bc->slug:''}}"/>
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-6" for="codeRubrique">Code analytique:</label>
-                                        <div class="">
-                                            <select class="form-control selectpicker " id="codeRubrique" name="codeRubrique" data-live-search="true" data-size="6" required>
-                                                <option value="" >SELECTIONNER UN CODE ANALYTIQUE</option>
-                                                @foreach($analytiques as $analytique)
-
-
-                                                    <option value="{{$analytique->id_analytique}}" {{isset($ligne_bc) && $ligne_bc->codeRubrique==$analytique->id_analytique  ?'selected':''}}> {{$analytique->codeRubrique}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
                                     </div>
-                                 <div class="row">
-                                    <div class="col-sm-6">
-                                        <label class="control-label " for="date">Remise %:</label>
-                                        <div class="">
-                                            <input type="number" min="0" max="100" class="form-control" id="remise" name="remise" value="{{isset($ligne_bc) ?$ligne_bc->remise_ligne_bc:''}}" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <label class="control-label col-sm-6" for="quantite">Quantité:</label>
-                                        <div class="">
-                                            <input type="number" min="0" max="100" class="form-control" id="quantite" name="quantite" value="{{isset($ligne_bc) ?$ligne_bc->quantite_ligne_bc:''}}" >
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <label class="control-label col-sm-6" for="Unite">Unité:</label>
-                                        <div class="">
-                                            <input type="text" class="form-control" id="Unite" name="Unite" value="{{isset($ligne_bc) ?$ligne_bc->unite_ligne_bc:''}}"  readonly>
-                                        </div>
-                                    </div>
-                                     <div class="col-sm-6">
-                                         <label class="control-label col-sm-6" for="Prix">Prix unitaire:</label>
-                                         <div class="">
-                                             <input type="text"  class="form-control" id="Prix_unitaire" name="Prix_unitaire" value="{{isset($ligne_bc) ?$ligne_bc->prix_unitaire_ligne_bc:''}}" readonly>
-                                         </div>
-                                     </div>
-                                    <div class="col-sm-6">
-                                        <label class="control-label col-sm-6" for="Prix">Prix total:</label>
-                                        <div class="">
-                                            <input type="text"  class="form-control" id="Prix" name="Prix" value="{{isset($ligne_bc) ?$ligne_bc->prix_tot-($ligne_bc->prix_tot*$ligne_bc->remise_ligne_bc)/100:''}}" readonly>
-                                        </div>
-                                    </div>
-                                 </div>
-
                                 </div>
                                 <div class="modal-footer">
 
@@ -252,6 +214,28 @@
         });
 
 
+
+
+            $('#id_fournisseur').change(function (e){
+                $('#lesemails').empty();
+                var valeur=$('#id_fournisseur').val();
+                $.get("les_das_fournisseurs_funct_da/"+valeur,
+                        function (data) {
+var resultat=JSON.parse(data);
+                            console.log(valeur);
+                            var chaine="";
+                            $.each(resultat, function( indexi, value ) {
+
+                                chaine+="<option value='"+value.valeur_c+"'>"+value.valeur_c+"</option>";
+
+                            });
+
+                            $('#lesemails').empty();
+                            $('#lesemails').append(chaine);
+                            $('#lesemails').selectpicker('refresh');
+                        }
+                );
+            });
         });
 
     </script>

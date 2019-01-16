@@ -42,31 +42,17 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="form-group">
-                                            <b><label for="libelle" class="control-label">Les fournisseur concerné</label></b>
-                                            <select class="form-control selectpicker" name="fourn[]"  id="fourn" data-live-search="true" data-size="6" multiple  required>
 
-                                            </select>
-
-                                        </div>
-
-                        <input type="hidden" class="form-control" id="listeDA" name="listeDA" placeholder="" value="">
+                        <input type="text" class="form-control" id="listeDA" name="listeDA" placeholder="" value="" style="visibility: hidden" required>
                         <br>
                                         <div class="form-group">
                                       rappel :  <input type="checkbox" name="rappel" id="rappel"/>
                                             </div>
 
-
-
-
-
-
-
-
-                                        <div style="overflow-y:scroll; max-height: 400px; min-height: 400px">
+                                        <div style="">
                                             <div class="form-group">
                                                 <label> Les fournisseur concerné</label>
-                                                <input type="hidden" name="description" id="description" value="{{isset($profil)? $profil->descriptionProfil:''}}" />
+                                                <input type="text" id="fournisseur" name="fournisseur"   value="" required style="visibility: hidden"/>
 
                                             </div>
                                             <div id="jstree" >
@@ -74,16 +60,9 @@
                                             </div>
                                         </div>
 
-<input type="text" id="description" />
-
-
-
-
-
-
-
-
-
+                                        </br>
+                                        </br>
+                                        </br>
                                         <div class="form-group" >
                             <button type="submit" class="btn btn-success form-control"> ENVOYER MAIL</button>
                         </div>
@@ -117,8 +96,8 @@
     </div>
     </br>
     </br>
-    <div class="row col-sm-offset-2">
-        <div class="col-sm-8">
+    <div class="row col-sm-offset-0">
+        <div class="col-sm-12">
             <h3 id="titre">Hisorique des envois de mail :</h3>
             <table name ="historique" id="historique" class='table table-bordered table-striped  no-wrap display'>
 
@@ -126,7 +105,9 @@
 
                 <tr>
                     <th class="dt-head-center">id</th>
+                    <th class="dt-head-center">type de mail</th>
                     <th class="dt-head-center">Destinataire</th>
+                    <th class="dt-head-center">email</th>
                     <th class="dt-head-center">Produit et service </th>
                     <th class="dt-head-center">Date et heure</th>
 
@@ -139,7 +120,17 @@
             {{$trace_mail->id}}
         </td>
         <td>
+            @if($trace_mail->rappel=="on")
+            Rappel
+                @else
+              demande
+                @endif
+        </td>
+        <td>
             {{$trace_mail->libelle}}
+        </td>
+        <td>
+            {{$trace_mail->email}}
         </td>
         <td>
             {{$trace_mail->das}}
@@ -171,14 +162,14 @@
         });
         $('#jstree').on("changed.jstree", function (e,data){
 
-            selection=$('#jstree').jstree(true).get_top_selected(true);
+            selection=$('#jstree').jstree(true).get_bottom_selected(true);
 
             valeur="";
             $.each(selection,function (index, value) {
                 if (value != null)
                     valeur=valeur+ ','+value.id;
             });
-            $('#description').val(valeur);
+            $('#fournisseur').val(valeur);
 
             console.log(selection);
 

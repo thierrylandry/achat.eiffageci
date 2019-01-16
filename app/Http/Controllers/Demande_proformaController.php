@@ -48,7 +48,7 @@ $fournisseurs=Fournisseur::all();
         $users= User::all();
         $trace_mails= DB::table('trace_mail')
             ->join('fournisseur', 'fournisseur.id', '=', 'trace_mail.id_fournisseur')
-            ->select('trace_mail.id','das','trace_mail.created_at','libelle')->orderBy('trace_mail.created_at', 'DESC')->get();
+            ->select('trace_mail.id','das','trace_mail.created_at','rappel','trace_mail.email','libelle')->orderBy('trace_mail.created_at', 'DESC')->get();
 
 
         return view('demande_proformas/gestion_demande_proforma',compact('das','fournisseurs','materiels','natures','users','types','trace_mails'));
@@ -197,6 +197,18 @@ return 1;
          $parameters = $request->except(['_token']);
 
         $fourn= $parameters['fourn'];
+        $fournisseurs= explode(',',$parameters['fournisseur']);
+        foreach($fournisseurs as $fournisseur):
+            if($fournisseur!="" && strstr($fournisseur,'@')){
+                $recup_email[]=$fournisseur;
+            }elseif($fournisseur!="" && !strstr($fournisseur,'@')){
+                $recup_slug[]=$fournisseur;
+            }
+
+
+
+            endforeach;
+     //   dd($recup_email);
         $listeDA = $parameters['listeDA'];
         $tab_listeSA = explode(",", $listeDA);
 
@@ -221,10 +233,10 @@ return 1;
 
         endforeach;
         $email='';
-        foreach($fourn as $slug):
+        foreach($recup_email as $em):
 
-            $fournisseur= Fournisseur::where('slug','=',$slug)->first();
-            $contact=\GuzzleHttp\json_decode($fournisseur->contact);
+         //   $fournisseur= Fournisseur::where('slug','=',$slug)->first();
+        /*    $contact=\GuzzleHttp\json_decode($fournisseur->contact);
             if(isset($contact[0])){
                 $email=$contact[0]->valeur_c;
                 $interlocuteur=$contact[0]->titre_c;
@@ -232,9 +244,10 @@ return 1;
                 $email=$fournisseur->email;
                 $interlocuteur=$fournisseur->responsable;
             }
-
+        */
+$email=$em;
 if($rappel!="on"){
-    Mail::send('mail.mail',array('corps' =>$corps),function($message)use ($email,$interlocuteur ){
+    Mail::send('mail.mail',array('corps' =>$corps),function($message)use ($email ){
 
 
         $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->nom." ".\Illuminate\Support\Facades\Auth::user()->prenoms )
@@ -243,7 +256,7 @@ if($rappel!="on"){
 
     });
 }else{
-    Mail::send('mail.rappel_mail',array('corps' =>$corps),function($message)use ($email,$interlocuteur ){
+    Mail::send('mail.rappel_mail',array('corps' =>$corps),function($message)use ($email ){
 
 
         $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->nom." ".\Illuminate\Support\Facades\Auth::user()->prenoms )
@@ -254,6 +267,7 @@ if($rappel!="on"){
     });
 
 }
+            $fournisseur= Fournisseur::where('contact','LIKE', '%'.$email.'%')->first();
             $Trace_mail= new Tracemail();
             $Trace_mail->id_fournisseur=$fournisseur->id;
             $Trace_mail->rappel=$rappel;
@@ -290,6 +304,16 @@ if($rappel!="on"){
 
     }
 
+
+    public function contact_fonction_du_fournisseur($slug)
+    {
+
+
+        return response()->json($types);
+        //    return response()->json($variable);
+
+    }
+
     public function les_das_fournisseurs_funct($domaine)
     {
         $valeur = array($domaine);
@@ -300,14 +324,16 @@ if($rappel!="on"){
 
     }
 
-    public function les_das_fournisseurs_funct_da($id_lignebesoin){
+    public function les_das_fournisseurs_funct_da($id_fournisseur){
 
-        $sql = 'SELECT fournisseur.id , libelle FROM fournisseur,materiel,lignebesoin WHERE fournisseur.domaine in (materiel.type) and lignebesoin.id_materiel=materiel.id  and lignebesoin.id='.$id_lignebesoin;
+        $fournisseur= Fournisseur::find($id_fournisseur);
+       // dd($fournisseur);
+
+        $contact=$fournisseur->contact;
 
 
-        $results = DB::select($sql);
 
-        return response()->json($results);
+        return response()->json($contact);
     }
 
     public function alljson(){

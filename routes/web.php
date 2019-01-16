@@ -328,7 +328,11 @@ Route::get('/supprimer_prix/{slug}',[
 
 ])->middleware('auth');
 
+Route::get('/contact_fonction_du_fournisseur/{slug}',[
+    'as'=>'contact_fonction_du_fournisseur',
+    'uses'=>'Demande_proformaController@contact_fonction_du_fournisseur'
 
+])->middleware('auth');
 
 
 

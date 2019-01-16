@@ -7,6 +7,7 @@
         <th class="dt-head-center">id</th>
         <th class="">status</th>
         <th class="">N°B.C</th>
+        <th class="">Fournisseur</th>
         <th class="">Date Livraison</th>
         <th class="">Auteur</th>
         <th class="">Action</th>
@@ -39,6 +40,13 @@
 
             </td>
             <td>{{$bc->numBonCommande}}</td>
+            <td>
+                @foreach($fournisseurs as $fournisseur)
+                    @if($fournisseur->id==$bc->id_fournisseur)
+                        {{$fournisseur->libelle}}
+                    @endif
+
+            @endforeach</td>
             <td>
                 {{$bc->date	}}
    </td>
@@ -85,7 +93,7 @@
                     <a href="{{route('bon_commande_file',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
                         <i class="fa fa-file-pdf-o"></i>
                     </a>
-                    <a href="{{route('send_it',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
+                    <a href="" data-toggle="modal" data-target="#confirm_email" class="btn btn-default">
                         <i class="fa fa-file-pdf-o"></i><i class="fa fa-paper-plane-o"></i> envoyer au fournisseur
                     </a>
                    @elseif($bc->etat==0)
@@ -142,6 +150,37 @@
     </tbody>
 </table>
 
+<script src="{{ URL::asset('js/jstree.min.js') }}"></script>
+<script src="{{ URL::asset('js/jstree.checkbox.js') }}"></script>
+<script>
+    selection= Array();
+    $('#jstree').jstree({
+        "core" : {
+            "themes" : {
+                "variant" : "large"
+            }
+        },
+        "checkbox" : {
+            "keep_selected_style" : false
+        },
+        "plugins" : [ "wholerow", "checkbox" ]
+    });
+    $('#jstree').on("changed.jstree", function (e,data){
+
+        selection=$('#jstree').jstree(true).get_bottom_selected(true);
+
+        valeur="";
+        $.each(selection,function (index, value) {
+            if (value != null)
+                valeur=valeur+ ','+value.id;
+        });
+        $('#fournisseur').val(valeur);
+
+        console.log(selection);
+
+    })
+
+</script>
 <script>
 
     var table= $('#bonCommandes').DataTable({

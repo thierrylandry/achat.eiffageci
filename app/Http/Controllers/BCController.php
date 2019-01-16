@@ -151,11 +151,7 @@ class BCController extends Controller
     {
         $bcs=  Boncommande::orderBy('created_at', 'DESC')->get();
         $utilisateurs=  User::all();
-        $fournisseurs= DB::table('fournisseur')
-            ->join('reponse_fournisseur', 'fournisseur.id', '=', 'reponse_fournisseur.id_fournisseur')
-            ->join('lignebesoin', 'reponse_fournisseur.id', '=', 'lignebesoin.id_reponse_fournisseur')
-            ->where('lignebesoin.etat', '=', 2)
-            ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
+        $fournisseurs= Fournisseur::all();
 
         $reponse_fournisseurs= DB::table('reponse_fournisseur')
             ->join('lignebesoin', 'reponse_fournisseur.id', '=', 'lignebesoin.id_reponse_fournisseur')
@@ -364,18 +360,10 @@ $analytiques= Analytique::all();
     {
         $bcs=  Boncommande::all();
         $utilisateurs=  User::all();
-        $fournisseurs= DB::table('fournisseur')
-            ->join('devis', 'fournisseur.id', '=', 'devis.id_fournisseur')
-            ->where('devis.etat', '=', 1)
-            ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
-        $reponse_fournisseurs= DB::table('reponse_fournisseur')
-            ->join('lignebesoin', 'reponse_fournisseur.id', '=', 'lignebesoin.id_reponse_fournisseur')
-            ->join('materiel', 'materiel.id', '=', 'lignebesoin.id_materiel')
-            ->where('lignebesoin.etat', '=', 2)
-            ->select('materiel.libelleMateriel','titre_ext','reponse_fournisseur.id')->distinct()->get();
+        $fournisseurs= Fournisseur::all();
         $ajouter='vrai';
         $analytiques= Analytique::all();
-        return view('BC/gestion_bc',compact('bcs','fournisseurs','utilisateurs','ajouter','reponse_fournisseurs','analytiques'));
+        return view('BC/gestion_bc',compact('bcs','fournisseurs','utilisateurs','ajouter','analytiques'));
     }
     public function detail_rep_fournisseur($id){
 
