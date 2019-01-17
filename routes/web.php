@@ -334,6 +334,12 @@ Route::get('/contact_fonction_du_fournisseur/{slug}',[
 
 ])->middleware('auth');
 
+Route::get('/list_contact/{slug}',[
+    'as'=>'list_contact',
+    'uses'=>'BCController@list_contact'
+
+])->middleware('auth');
+
 
 
 
@@ -576,7 +582,7 @@ Route::get('/bon_commande_file1/{slug}',[
     'uses'=>'BCController@bon_commande_file1'
 
 ])->middleware('auth');
-Route::get('/send_it/{slug}',[
+Route::post('/send_it',[
     'as'=>'send_it',
     'uses'=>'BCController@send_it'
 

@@ -96,7 +96,7 @@
             </td>
             <td>  {{$devi->prix_unitaire}}</td>
             <td>  {{$devi->remise}}</td>
-            <td>  {{($devi->prix_unitaire*$devi->quantite)-($devi->remise*($devi->prix_unitaire*$devi->quantite))/100}}</td>
+            <td>  {{($devi->prix_unitaire*$devi->quantite)-(($devi->remise/100*($devi->prix_unitaire*$devi->quantite)))}}</td>
 
         </tr>
     @endforeach

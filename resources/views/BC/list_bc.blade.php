@@ -93,7 +93,7 @@
                     <a href="{{route('bon_commande_file',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
                         <i class="fa fa-file-pdf-o"></i>
                     </a>
-                    <a href="" data-toggle="modal" data-target="#confirm_email" class="btn btn-default">
+                    <a href="" data-toggle="modal" data-target="#confirm_email" class="btn btn-default" id="envoie_fourniseur">
                         <i class="fa fa-file-pdf-o"></i><i class="fa fa-paper-plane-o"></i> envoyer au fournisseur
                     </a>
                    @elseif($bc->etat==0)

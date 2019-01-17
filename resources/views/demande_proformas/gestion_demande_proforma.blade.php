@@ -298,6 +298,8 @@ var nom="";
                         function (data) {
                          //   $('#jstree').empty();
                             var chaine= "<ul>";
+                            var le_selectionne="";
+
                             $.each(data, function( index, value ) {
 
 
@@ -305,10 +307,11 @@ var nom="";
 
 
                                 //chaine+="<li id='"+value.slug+"'>"+value.libelle+"</li>";
-                                console.log(value.contact);
-var chaine_du_milieu="";
+
+                                var chaine_du_milieu="";
                                 var contact= JSON.parse(value.contact);
-                                console.log(contact);
+
+                                le_selectionne=value.contact;
                                 $.each(contact, function( indexi, valeur ) {
 
                                     chaine_du_milieu+="<li id='"+valeur.valeur_c+"'>"+valeur.valeur_c+"</li>";
@@ -316,16 +319,20 @@ var chaine_du_milieu="";
                                 });
                                 chaine+="<li id='"+value.slug+"'>"+value.libelle;
                                 chaine+="<ul>"+chaine_du_milieu+"</ul></li>";
-                                console.log(value.libelle);
-
+                              //  console.log(value.libelle);
+                                console.log(value.contact);
                             });
                             chaine+="</ul>";
+
                            // $('#jstree').append(chaine);
                             $('#jstree').jstree(true).settings.core.data = chaine;
                             $('#jstree').jstree(true).refresh();
 
+                           var selec= data[0];
+                           var contact= JSON.parse(selec.contact);
+                            $('#jstree').jstree('select_node',contact[0].valeur_c);
                             $('#fourn').selectpicker('refresh');
-                            console.log(data);
+                            console.log(contact[0].valeur_c);
                         }
                 );
 

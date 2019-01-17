@@ -43,14 +43,6 @@
                             </select>
                             </div>
                         </div>
-                    <div class="form-group">
-                        <b><label for="libelle" class="control-label col-sm-6">le(s) email(s):</label></b>
-                        <div class="col-sm-6">
-                            <select class="form-control selectpicker " id="lesemails" name="lesemails[]" data-live-search="true" data-size="6" data-none-selected-text="Aucun email selectionné" multiple  data-actions-box="true" required>
-
-                            </select>
-                        </div>
-                    </div>
 
                 </div>
             <div class="modal-footer">
@@ -78,18 +70,20 @@
                 @if(isset($devis))
                     <form  action="{{route('update_ligne_bc')}}" method="post">
                         @else
-                            <form action="{{route('save_ligne_bc')}}" method="post">
+                            <form action="{{route('send_it')}}" method="post">
                                 @endif
                                 @csrf
 
                                 <div class="modal-body">
+                                    <input type="text" name="bc_slug" id="bc_slug" style="visibility: hidden" required  />
+                                    <input type="text" name="contact" id="contact" style="visibility: hidden" required />
                                     <div id="jstree" >
 
                                     </div>
                                 </div>
                                 <div class="modal-footer">
 
-                                    <button type="submit" class="btn btn-default">{{isset($modifierlignebc)?'Modifier':'Enregistrer'}}</button>
+                                    <button type="submit" class="btn btn-default"> <i class="fa fa-file-pdf-o"></i><i class="fa fa-paper-plane-o"></i></button>
                                 </div>
                             </form>
             </div>
@@ -236,7 +230,65 @@ var resultat=JSON.parse(data);
                         }
                 );
             });
+
+            $("body").on("click","#envoie_fourniseur",function(){
+var data=table.row($(this).closest('tr')).data();
+                var id=data[Object.keys(data)[0]];
+                $('#bc_slug').val(id);
+
+                $.get("list_contact/"+id,
+                        function (data) {
+                            //   $('#jstree').empty();
+                            var chaine= "<ul>";
+
+                            var resultat= JSON.parse(data);
+                            console.log(resultat);
+
+var le_selectionne="";
+                            $.each(resultat, function( indexi, valeur ) {
+                                if(le_selectionne==''){
+                                    le_selectionne=valeur.valeur_c;
+                                }
+
+                                chaine+="<li id='"+valeur.valeur_c+"'>"+valeur.valeur_c+"</li>";
+
+                            });
+
+                            chaine+="</ul>";
+                            // $('#jstree').append(chaine);
+                            $('#jstree').jstree(true).settings.core.data = chaine;
+                            $('#jstree').jstree(true).refresh();
+                            $('#jstree').jstree('select_node', le_selectionne);
+
+                           // $('#fourn').selectpicker('refresh');
+                            console.log(data);
+                        }
+                );
+
+            });
+
+            $('#jstree').on("changed.jstree", function (e,data){
+
+                selection=$('#jstree').jstree(true).get_bottom_selected(true);
+
+                valeur="";
+                $.each(selection,function (index, value) {
+
+
+                        valeur=valeur+ ','+value.id;
+                });
+                $('#contact').val(valeur);
+
+                console.log(selection);
+
+            });
+
+
+
         });
+
+
+
 
     </script>
 @endsection
