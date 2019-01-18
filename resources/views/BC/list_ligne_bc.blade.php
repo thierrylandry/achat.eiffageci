@@ -78,6 +78,7 @@
         <th class="">Pu HT</th>
         <th class="">remise %</th>
         <th class="">Total  HT</th>
+        <th class="">TVA</th>
 
     </tr>
     </thead>
@@ -97,7 +98,7 @@
             <td>  {{$devi->prix_unitaire}}</td>
             <td>  {{$devi->remise}}</td>
             <td>  {{($devi->prix_unitaire*$devi->quantite)-(($devi->remise/100*($devi->prix_unitaire*$devi->quantite)))}}</td>
-
+            <td><input type="checkbox" value="1" id="row_n_{{$devi->id}}_tva" name="row_n_{{$devi->id}}_tva" {{1==$devi->hastva?"checked":''}}/>   </td>
         </tr>
     @endforeach
         @endif

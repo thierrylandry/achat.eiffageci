@@ -23,7 +23,7 @@
                         </h4>
                     </div>
                     <div id="collapse1" class="panel-collapse collapse in">
-                        <div class="panel-body"><form action="{{route('selection_de_la_reponse')}}" method="post"><div id="daencours">
+                        <div class="panel-body"><form action="" method="post"><div id="daencours">
 
                                     <table name ="gestion_reponse_fournisseur" id="gestion_reponse_fournisseur" class='table table-bordered table-striped  no-wrap '>
 
@@ -40,8 +40,10 @@
                                             <th class="dt-head-center">Pu HT</th>
                                             <th class="dt-head-center" width="80px">Remise %</th>
                                             <th class="dt-head-center">Devise</th>
+                                            <th class="dt-head-center">TVA</th>
                                         </tr>
                                         </thead>
+
                                         <tbody name ="contenu_tableau_entite" id="contenu_tableau_entite">
 
                                         @foreach($das as $da )
@@ -121,13 +123,14 @@
                                                 <td><input class="form-control"  type="number" min="0" id="row_n_{{$da->id}}_remise" name="row_n_{{$da->id}}_remise" value="0" value="{{isset($tab_proposition[$da->id])?$tab_proposition[$da->id]->remise:''}}" /></td>
                                                 <td><select class="form-control" style="width: 100px;" id="row_n_{{$da->id}}_devise" name="row_n_{{$da->id}}_devise"><option  @if( isset($tab_proposition[$da->id]) && "FCFA"==$tab_proposition[$da->id]->devise)
                                                                                                                                                                               {{'selected'}}
-                                                                                                                                                                              @endif value="FCFA">FCFA</option><option @if( isset($tab_proposition[$da->id]) && "EURO"==$tab_proposition[$da->id]->devise)
-                                                                                                                                                                                                                                                                                                                                                                                            {{'selected'}}
-                                                                                                                                                                                                                                                                                                                                                                                            @endif value="EURO">EURO</option></select></td>
+                                                                                                                                                                              @endif value="FCFA">FCFA</option><option @if( isset($tab_proposition[$da->id]) && "EURO"==$tab_proposition[$da->id]->devise) {{'selected'}}@endif value="EURO">EURO</option></select></td>
+                                                <td><input type="checkbox" value="1" id="row_n_{{$da->id}}_tva" name="row_n_{{$da->id}}_tva" checked/>   </td>
                                             </tr>
+
                                         @endforeach
 
                                         </tbody>
+
                                     </table>
 
                                     <input type="button" class="btn btn-success pull-right" id="soumettre" name="soumettre" value="Soumettre" />
@@ -160,6 +163,7 @@
                                             <th class="dt-head-center">Prix Unitaire</th>
                                             <th class="dt-head-center" width="80px">Remise %</th>
                                             <th class="dt-head-center">Devise</th>
+                                            <th class="dt-head-center">TVA</th>
                                         </tr>
                                         </thead>
                                         <tbody name ="contenu_tableau_entite" id="contenu_tableau_entite" onload="alert('jai chargé')">
@@ -237,6 +241,7 @@
                                                         <option value="EURO" {{"EURO"==$devi->devise?"selected":''}}>EURO</option>
 
                                                     </select></td>
+                                                <td><input type="checkbox" value="1" id="row_n_{{$devi->id}}_tva" name="row_n_{{$devi->id}}_tva" {{1==$devi->hastva?"checked":''}}/>   </td>
                                             </tr>
                                         @endforeach
 
@@ -290,6 +295,7 @@
                 var data = table1.rows().data();
                 var lesId;
                 var lesIdmat;
+                console.log(data);
                 data.each(function (value, index) {
                    // var valeur=parseInt(value);
                     var valeur=value+'';

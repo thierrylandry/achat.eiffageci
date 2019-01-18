@@ -188,7 +188,7 @@
             url: "js/French.json"
         },
         "ordering":false,
-        "responsive": true,
+        "responsive": false,
         "createdRow": function( row, data, dataIndex){
 
         }

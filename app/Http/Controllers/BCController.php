@@ -164,19 +164,18 @@ endforeach;
     {
         $bcs=  Boncommande::orderBy('created_at', 'DESC')->get();
         $utilisateurs=  User::all();
+        /*
         $fournisseurs= DB::table('fournisseur')
             ->join('reponse_fournisseur', 'fournisseur.id', '=', 'reponse_fournisseur.id_fournisseur')
-            ->join('lignebesoin', 'reponse_fournisseur.id', '=', 'lignebesoin.id_reponse_fournisseur')
-            ->where('lignebesoin.etat', '=', 2)
-            ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
 
-        $reponse_fournisseurs= DB::table('reponse_fournisseur')
-            ->join('lignebesoin', 'reponse_fournisseur.id', '=', 'lignebesoin.id_reponse_fournisseur')
-            ->join('materiel', 'materiel.id', '=', 'lignebesoin.id_materiel')
             ->where('lignebesoin.etat', '=', 2)
-            ->select('materiel.libelleMateriel','titre_ext','reponse_fournisseur.id')->distinct()->get();
+            ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();*/
+        $fournisseurs=DB::table('fournisseur')
+            ->join('domaines', 'domaines.id', '=', 'fournisseur.domaine')
+            ->select('libelle','libelleDomainne','fournisseur.id','fournisseur.domaine')->distinct()->get();
+
 $analytiques= Analytique::all();
-        return view('BC/gestion_bc',compact('bcs','fournisseurs','utilisateurs','reponse_fournisseurs','analytiques'));
+        return view('BC/gestion_bc',compact('bcs','fournisseurs','utilisateurs','analytiques'));
     }
 
     public function modifier_ligne_bc($slug)
@@ -215,7 +214,7 @@ $analytiques= Analytique::all();
                     $ligne_bc= new ligne_bc();
 
                 }
-               ;
+
 
                 $ligne_bc->id_bonCommande=$parameters['id_bc'];
                 $ligne_bc->codeRubrique=$parameters['row_n_'.$id.'_codeRubrique'];
@@ -223,6 +222,12 @@ $analytiques= Analytique::all();
                 $ligne_bc->quantite_ligne_bc=$Devis->quantite;
                 $ligne_bc->unite_ligne_bc=$Devis->unite;
                 $ligne_bc->id_devis=$Devis->id;
+                if(isset($parameters['row_n_'.$id.'_tva'])){
+                    $ligne_bc->hastva=$parameters['row_n_'.$id.'_tva'];
+                }else{
+                    $ligne_bc->hastva=0;
+
+                }
                 $ligne_bc->prix_unitaire_ligne_bc=$Devis->prix_unitaire;
                 $ligne_bc->prix_tot=$Devis->prix_unitaire*$Devis->quantite-($Devis->remise*($Devis->prix_unitaire*$Devis->quantite))/100;
 
@@ -265,6 +270,7 @@ $analytiques= Analytique::all();
         $ligne_bc->prix_unitaire_ligne_bc=$parameters['Prix_unitaire'];
         $ligne_bc->prix_tot=str_replace(" ","",$parameters['Prix']);
         $ligne_bc->id_reponse_fournisseur=$parameters['id_reponse_fournisseur'];
+
 
         $ligne_bc->slug=Str::slug($ligne_bc->id_bonCommand.$ligne_bc->codeRubrique.$ligne_bc->quantite_ligne_b.$ligne_bc->prix_unitaire_ligne_bc.$date->format('dmYhis'));
         $ligne_bc->save();
@@ -341,7 +347,7 @@ $analytiques= Analytique::all();
             ->leftJoin('users', 'lignebesoin.id_user', '=', 'users.id')
             ->where('devis.etat', '=', 2)
             ->where('devis.id_bc', '=', $id)
-            ->select('devis.id','devis.titre_ext','id_bc','devis.codeRubrique','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.devise','DateBesoin','users.service')->distinct()->get();
+            ->select('devis.id','devis.titre_ext','id_bc','devis.codeRubrique','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.devise','devis.hastva','DateBesoin','users.service')->distinct()->get();
 //dd($devis);
         $date_propose= Array();
         $service= Array();
@@ -377,10 +383,9 @@ $analytiques= Analytique::all();
     {
         $bcs=  Boncommande::all();
         $utilisateurs=  User::all();
-        $fournisseurs=         $fournisseurs= DB::table('fournisseur')
-            ->join('dev', 'fournisseur.id', '=', 'reponse_fournisseur.id_fournisseur')
-            ->join('lignebesoin', 'reponse_fournisseur.id', '=', 'lignebesoin.id_reponse_fournisseur')
-            ->where('lignebesoin.etat', '=', 2)
+        $fournisseurs= DB::table('fournisseur')
+            ->join('devis', 'fournisseur.id', '=', 'devis.id_fournisseur')
+            ->where('devis.etat', '=', 1)
             ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
         $ajouter='vrai';
         $analytiques= Analytique::all();

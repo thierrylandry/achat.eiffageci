@@ -64,7 +64,6 @@ dd($list_da);
         $lesId=explode(',',$lesId);
         $lesIdmat=explode(',',$lesIdmat);
         parse_str($res,$tab);
-//dd($lesId);
         $i=0;
         foreach($lesId as $id){
             if($id!=="undefined" && $tab["row_n_".$id."_titre_ext"]!="" && $tab["row_n_".$id."_fournisseur"]!="" && $tab["row_n_".$id."_prix_unitaire"]!=""){
@@ -73,6 +72,12 @@ dd($list_da);
                 $devis->id_materiel=$lesIdmat[$i];
                 $devis->id_fournisseur=$tab["row_n_".$id."_fournisseur"];
                 $devis->quantite=$tab["row_n_".$id."_quantite"];
+                if(isset($tab["row_n_".$id."_tva"]) && $tab["row_n_".$id."_tva"]!=""){
+                    $devis->hastva=$tab["row_n_".$id."_tva"];
+                }else{
+                    $devis->hastva=0;
+                }
+
                 $devis->id_da=$id;
                 if(isset($tab["row_n_".$id."_remise"]) && $tab["row_n_".$id."_remise"]!=""){
                     $devis->remise=$tab["row_n_".$id."_remise"];
@@ -124,6 +129,11 @@ return 1;
                     $devis->id_fournisseur=$tab["row_n_".$id."_fournisseur"];
                     $devis->quantite=$tab["row_n_".$id."_quantite"];
                     $devis->id_da=$id;
+                    if(isset($tab["row_n_".$id."_tva"]) && $tab["row_n_".$id."_tva"]!=""){
+                        $devis->hastva=$tab["row_n_".$id."_tva"];
+                    }else{
+                        $devis->hastva=0;
+                    }
                     //$devis->remise=$tab["row_n_".$id."_remise"];
                     $devis->unite=$tab["row_n_".$id."_unite"];
 
