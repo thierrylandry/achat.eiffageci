@@ -78,6 +78,7 @@
         <th class="">Pu HT</th>
         <th class="">remise %</th>
         <th class="">Total  HT</th>
+        <th class="">TVA /produit</th>
         <th class="">TVA</th>
 
     </tr>
@@ -97,8 +98,14 @@
             </td>
             <td>  {{$devi->prix_unitaire}}</td>
             <td>  {{$devi->remise}}</td>
-            <td>  {{($devi->prix_unitaire*$devi->quantite)-(($devi->remise/100*($devi->prix_unitaire*$devi->quantite)))}}</td>
-            <td><input type="checkbox" value="1" id="row_n_{{$devi->id}}_tva" name="row_n_{{$devi->id}}_tva" {{1==$devi->hastva?"checked":''}}/>   </td>
+            <td>  {{($THT=($devi->prix_unitaire*$devi->quantite)-(($devi->remise/100*($devi->prix_unitaire*$devi->quantite))))}}</td>
+            <td> @if(1==$devi->hastva)
+                    {{number_format(intval(($THT*18)/100), 0,".", " ")}}
+            @else
+                    {{0}}
+
+            @endif </td>
+            <td><input type="checkbox" value="1" id="row_n_{{$devi->id}}_tva" name="row_n_{{$devi->id}}_tva" class="row_n__tva" {{1==$devi->hastva?"checked":''}}/>   </td>
         </tr>
     @endforeach
         @endif
@@ -169,7 +176,7 @@
                 url: '../js/French.json'
             },
             "ordering":true,
-            "responsive": true,
+            "responsive": false,
             "createdRow": function( row, data, dataIndex){
 
             },
@@ -201,6 +208,13 @@
                         .reduce( function (a, b) {
                             return intVal(ilisibilite_nombre(a)) + intVal(ilisibilite_nombre(b));
                         }, 0 );
+                // Total tva
+                TTva = api
+                        .column( 8, { page: 'current'} )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(ilisibilite_nombre(a)) + intVal(ilisibilite_nombre(b));
+                        }, 0 );
 
                 // Update footer
                 $( api.column( 7 ).footer() ).html(
@@ -208,8 +222,8 @@
                 );
                $('#tot').html(lisibilite_nombre(Math.round(pageTotal))+" {{$devise}}");
                $('#tot_serv').val(Math.round(pageTotal));
-               $('#tva').html(lisibilite_nombre(Math.round((pageTotal*18)/100))+" {{$devise}}");
-               $('#tva_serv').val(Math.round((pageTotal*18)/100));
+               $('#tva').html(lisibilite_nombre(TTva)+" {{$devise}}");
+               $('#tva_serv').val(Math.round(TTva));
                $('#ttc').html(lisibilite_nombre(Math.round(pageTotal*1.18)) +" {{$devise}}");
                $('#ttc_serv').val(Math.round(pageTotal*1.18));
             },
@@ -219,6 +233,31 @@
                 { responsivePriority: 2, targets: -2 }
             ]
         }).column(0).visible(false);
+        $('.row_n__tva').click(function (e) {
+
+
+
+
+            var tot_serv=$('#tot_serv').val();
+            var tva_serv=$('#tva_serv').val(Math.round(TTva));
+            var ttc_serv=$('#ttc_serv').val(Math.round(pageTotal*1.18));
+            var val_init=0;
+
+            if($(this).prop('checked') == true){
+                $(this).closest('td').prev().html(lisibilite_nombre(($(this).closest('td').prev().prev().html()*18)/100));
+            }
+            else {
+                $(this).parent().css('border-color', 'red');
+                val_init=$(this).closest('td').prev().html(0);
+                $(this).closest('td').prev().html(0);
+            }
+
+            var valeur= $('#tva_serv').val()-val_init
+
+            $('#tva_serv').val(Math.round(valeur));
+            $('#ttc').html(lisibilite_nombre(Math.round(pageTotal*1.18)) +" {{$devise}}");
+            $('#ttc_serv').val(Math.round(pageTotal*1.18));
+        })
     })(jQuery);
 </script>
 @endsection
