@@ -105,7 +105,7 @@
                     {{0}}
 
             @endif </td>
-            <td><input type="checkbox" value="1" id="row_n_{{$devi->id}}_tva" name="row_n_{{$devi->id}}_tva" class="row_n__tva" {{1==$devi->hastva?"checked":''}}/>   </td>
+            <td><input type="checkbox" id="row_n_{{$devi->id}}_tva" name="row_n_{{$devi->id}}_tva" class="row_n__tva" {{1==$devi->hastva?"checked='checked'":"checked=''"}}/>   </td>
         </tr>
     @endforeach
         @endif
@@ -233,30 +233,41 @@
                 { responsivePriority: 2, targets: -2 }
             ]
         }).column(0).visible(false);
+
         $('.row_n__tva').click(function (e) {
 
-
-
-
-            var tot_serv=$('#tot_serv').val();
-            var tva_serv=$('#tva_serv').val(Math.round(TTva));
-            var ttc_serv=$('#ttc_serv').val(Math.round(pageTotal*1.18));
-            var val_init=0;
-
-            if($(this).prop('checked') == true){
+            var tva=0;
+            var data = table.row($(this).parents('tr')).data();
+            var num_row=$(this).parents('tr');
+var tht_prod=($(this).closest('td').prev().prev().html()*18)/100;
+            $(this).parent().css('border-color', 'red');
+            if($(this).prop('checked') ){
                 $(this).closest('td').prev().html(lisibilite_nombre(($(this).closest('td').prev().prev().html()*18)/100));
+
+                data[8] = lisibilite_nombre(tht_prod);
+
+
             }
             else {
-                $(this).parent().css('border-color', 'red');
-                val_init=$(this).closest('td').prev().html(0);
-                $(this).closest('td').prev().html(0);
+
+              $(this).closest('td').prev().html(0);
+             //   $(this).closest('td').prev().html(0);
+                data[8] = 0;
+
+
+
+
+
             }
+            table.reload();
+         //   table.row($(this).parents('tr')).data().invalidate();
 
-            var valeur= $('#tva_serv').val()-val_init
+         //
+        //     $('#ligneCommandes').DataTable().ajax.reload();
 
-            $('#tva_serv').val(Math.round(valeur));
-            $('#ttc').html(lisibilite_nombre(Math.round(pageTotal*1.18)) +" {{$devise}}");
-            $('#ttc_serv').val(Math.round(pageTotal*1.18));
+              //  tva=Math.round(tva)+Math.round(ilisibilite_nombre(value[8]));
+
+
         })
     })(jQuery);
 </script>
