@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  mar. 15 jan. 2019 à 17:55
+-- Généré le :  mer. 23 jan. 2019 à 18:15
 -- Version du serveur :  5.7.23
 -- Version de PHP :  7.2.10
 
@@ -295,7 +295,14 @@ CREATE TABLE IF NOT EXISTS `boncommande` (
   `service_demandeur` varchar(191) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `numBonCommande` (`numBonCommande`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `boncommande`
+--
+
+INSERT INTO `boncommande` (`id`, `numBonCommande`, `id_user`, `created_at`, `updated_at`, `slug`, `date`, `etat`, `id_fournisseur`, `total_ttc`, `service_demandeur`) VALUES
+(1, '003FFF5', 13, '2019-01-23 15:12:50', '2019-01-23 17:51:57', '003fff523012019031250', '2019-01-31', 4, 7, 932000, 'Secrétariat');
 
 -- --------------------------------------------------------
 
@@ -320,24 +327,20 @@ CREATE TABLE IF NOT EXISTS `devis` (
   `codeRubrique` int(11) DEFAULT NULL,
   `id_da` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `unite` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `hastva` int(11) DEFAULT NULL,
+  `prix_tot` double(8,2) DEFAULT NULL,
+  `valeur_tva` double(8,2) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `devis`
 --
 
-INSERT INTO `devis` (`id`, `id_materiel`, `id_fournisseur`, `quantite`, `prix_unitaire`, `titre_ext`, `devise`, `created_at`, `updated_at`, `etat`, `id_bc`, `remise`, `codeRubrique`, `id_da`, `unite`) VALUES
-(1, 33, 1, 3, 12000, 'Windows 10', 'FCFA', '2019-01-07 14:24:26', '2019-01-07 14:50:31', 2, 5, 5, 224522, '1', 'U'),
-(2, 34, 1, 2, 2000, 'office 365', 'FCFA', '2019-01-07 14:24:26', '2019-01-07 14:50:31', 2, 5, 5, 12345, '2', 'U'),
-(3, 33, 1, 1, 5000, 'Windows 10', 'FCFA', '2019-01-07 14:51:52', '2019-01-07 14:52:01', 2, 6, 3, 4785, '3', 'U'),
-(4, 33, 1, 3, 12000, 'Windows 10', 'FCFA', '2019-01-10 08:22:57', '2019-01-10 10:52:16', 2, 7, 0, 33208, '4', 'm'),
-(5, 36, 6, 2, 7800, 'tuyaux cylindrique', 'FCFA', '2019-01-10 10:51:55', '2019-01-10 10:57:27', 2, 8, 8, 22532, '5', 'U'),
-(6, 35, 6, 4, 6000, 'tuyaux à eaux', 'FCFA', '2019-01-10 10:51:55', '2019-01-10 10:57:27', 2, 8, 8, 22532, '6', 'm'),
-(7, 33, 1, 2, 12000, 'Windows 10 service pack 2', 'FCFA', '2019-01-10 10:51:55', '2019-01-10 11:01:10', 2, 9, 0, 44004, '7', 'U'),
-(8, 36, 6, 1, 7800, 'tuyaux cylindrique', 'FCFA', '2019-01-10 10:56:56', '2019-01-10 10:57:27', 2, 8, 0, 22532, '8', 'U'),
-(9, 35, 6, 1, 6000, 'tuyaux à eaux', 'FCFA', '2019-01-10 13:26:05', '2019-01-10 13:26:05', 1, NULL, 0, 22532, '10', 'm'),
-(10, 33, 1, 1, 12000, 'Windows 10 service pack 2', 'FCFA', '2019-01-10 13:26:05', '2019-01-10 13:26:39', 2, 10, 0, 44004, '11', 'U');
+INSERT INTO `devis` (`id`, `id_materiel`, `id_fournisseur`, `quantite`, `prix_unitaire`, `titre_ext`, `devise`, `created_at`, `updated_at`, `etat`, `id_bc`, `remise`, `codeRubrique`, `id_da`, `unite`, `hastva`, `prix_tot`, `valeur_tva`) VALUES
+(24, 38, 7, 1, 6000, 'novad', 'FCFA', '2019-01-23 15:16:49', '2019-01-23 15:16:49', 1, NULL, 1, 44004, '34', 'U', 1, NULL, NULL),
+(23, 34, 7, 8, 50000, 'office 365', 'FCFA', '2019-01-23 15:12:42', '2019-01-23 17:08:07', 2, 1, 0, 44004, '33', 'U', 1, 400000.00, 72000.00),
+(22, 33, 7, 8, 70000, 'Windows 10', 'FCFA', '2019-01-23 15:12:42', '2019-01-23 17:08:07', 2, 1, 5, 44004, '32', 'U', 1, 532000.00, 95760.00);
 
 -- --------------------------------------------------------
 
@@ -402,8 +405,8 @@ INSERT INTO `fournisseur` (`id`, `libelle`, `domaine`, `conditionPaiement`, `com
 (5, 'sogelux', '4', NULL, NULL, 'Abidjan', 'konan', NULL, 'admin@eiffage.com', '2018-12-17 16:33:49', '2019-01-10 12:37:30', 'sogelux10012019123730', '[{\"titre_c\":\"fournisseur admin\",\"type_c\":\"EMA\",\"valeur_c\":\"admin@eiffage.com\"}]'),
 (6, 'test', '3', NULL, NULL, 'Abidjan', 'konan', NULL, 'cyriaquekodia@gmail.com', '2018-12-18 10:48:30', '2019-01-15 17:31:46', 'test15012019053146', '[{\"titre_c\":\"kone\",\"type_c\":\"MOB\",\"valeur_c\":\"cyriaquekodia@gmail.com\"},{\"titre_c\":\"youri\",\"type_c\":\"MOB\",\"valeur_c\":\"cyriaque.kodia@eiffage.com\"}]'),
 (7, 'InfoProGICIEL', '5', NULL, NULL, 'test', 'konan', NULL, 'landrykoffi@gmail.com', '2019-01-04 09:32:40', '2019-01-15 17:30:02', 'infoprogiciel15012019053002', '[{\"titre_c\":\"Koffi landry pro\",\"type_c\":\"EMA\",\"valeur_c\":\"Thierry.KOFFI@eiffage.com\"},{\"titre_c\":\"Koffi landry perso\",\"type_c\":\"EMA\",\"valeur_c\":\"landrykoffi@gmail.com\"}]'),
-(8, 'Y Entretien', '7', NULL, NULL, 'Abidjan', 'konan', NULL, 'cyriaquekodia@gmail.com', '2019-01-04 16:28:42', '2019-01-15 16:10:08', 'y-entretien15012019041008', '[{\"titre_c\":\"kone\",\"type_c\":\"EMA\",\"valeur_c\":\"cyriaquekodia@gmail.com\"}]'),
-(9, 'Entretien TTF', '7', NULL, NULL, 'Abidjan', 'Yadom', NULL, 'cyriaquekodia@gmail.com', '2019-01-14 17:24:07', '2019-01-15 16:09:52', 'entretien-ttf15012019040952', '[{\"titre_c\":\"kone\",\"type_c\":\"EMA\",\"valeur_c\":\"cyriaquekodia@gmail.com\"}]');
+(8, 'Y Entretien', '3,7', NULL, NULL, 'Abidjan', 'konan', NULL, 'cyriaquekodia@gmail.com', '2019-01-04 16:28:42', '2019-01-23 14:06:35', 'y-entretien23012019020635', '[{\"titre_c\":\"kone\",\"type_c\":\"EMA\",\"valeur_c\":\"cyriaquekodia@gmail.com\"},{\"titre_c\":\"test\",\"type_c\":\"EMA\",\"valeur_c\":\"cyriaque.kodia@gmail.com\"}]'),
+(9, 'Entretien TTF', '7', NULL, NULL, 'Abidjan', 'Yadom', NULL, 'cyriaquekodia@gmail.com', '2019-01-14 17:24:07', '2019-01-16 09:21:54', 'entretien-ttf16012019092154', '[{\"titre_c\":\"kone\",\"type_c\":\"EMA\",\"valeur_c\":\"ttf@gmail.com\"}]');
 
 -- --------------------------------------------------------
 
@@ -444,17 +447,16 @@ CREATE TABLE IF NOT EXISTS `lignebesoin` (
   `usage` varchar(191) DEFAULT NULL,
   `commentaire` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `lignebesoin`
 --
 
 INSERT INTO `lignebesoin` (`id`, `unite`, `quantite`, `DateBesoin`, `id_user`, `id_reponse_fournisseur`, `id_nature`, `id_materiel`, `id_bonCommande`, `created_at`, `updated_at`, `demandeur`, `slug`, `etat`, `id_valideur`, `motif`, `usage`, `commentaire`) VALUES
-(15, 'U', 6.00, '2019-01-25', 13, NULL, 1, 36, NULL, '2019-01-14 10:06:49', '2019-01-14 14:11:33', 'administrateur', '3614012019101649', '2', '13', '', 'test', 'je veux de couleur transparente'),
-(16, 'm', 8.00, '2019-01-29', 13, NULL, 1, 37, NULL, '2019-01-14 10:07:29', '2019-01-14 14:11:32', 'administrateur', '3714012019100729', '2', '13', '', 'test', NULL),
-(17, 'm', 8.00, '2019-01-31', 13, NULL, 1, 35, NULL, '2019-01-14 12:34:44', '2019-01-14 14:11:29', 'administrateur', '3514012019123444', '2', '13', '', 'test', 'avec les adaptateurs pour les voiture'),
-(18, 'U', 2.00, '2019-01-24', 13, NULL, 1, 34, NULL, '2019-01-14 12:54:10', '2019-01-14 12:54:10', 'administrateur', '3414012019125410', '1', NULL, NULL, 'test', NULL);
+(32, 'U', 8.00, '2019-01-31', 13, NULL, 1, 33, NULL, '2019-01-23 15:11:02', '2019-01-23 15:12:42', 'administrateur', '3323012019031102', '3', '13', '', 'pour la bureautique', 'windows 10 service pack 3'),
+(33, 'U', 8.00, '2019-01-31', 13, NULL, 1, 34, 1, '2019-01-23 15:11:36', '2019-01-23 17:45:55', 'administrateur', '3423012019031136', '4', '13', '', 'test', 'pour la bureautique'),
+(34, 'U', 1.00, '2019-01-31', 13, NULL, 1, 38, NULL, '2019-01-23 15:15:14', '2019-01-23 15:16:49', 'administrateur', '3823012019031514', '3', '13', '', 'test', NULL);
 
 -- --------------------------------------------------------
 
@@ -476,8 +478,17 @@ CREATE TABLE IF NOT EXISTS `ligne_bc` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `slug` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `prix_tot` float DEFAULT NULL,
+  `hastva` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `ligne_bc`
+--
+
+INSERT INTO `ligne_bc` (`id`, `codeRubrique`, `remise_ligne_bc`, `quantite_ligne_bc`, `unite_ligne_bc`, `prix_unitaire_ligne_bc`, `id_devis`, `id_bonCommande`, `created_at`, `updated_at`, `slug`, `prix_tot`, `hastva`) VALUES
+(20, '44004', '5', 8, 'U', 70000, 22, 1, '2019-01-23 15:48:35', '2019-01-23 15:54:32', '440047000023012019035432', 532000, 1),
+(19, '44004', '0', 8, 'U', 50000, 23, 1, '2019-01-23 15:48:35', '2019-01-23 15:54:32', '440045000023012019035432', 400000, 1);
 
 -- --------------------------------------------------------
 
@@ -508,7 +519,7 @@ INSERT INTO `materiel` (`id`, `libelleMateriel`, `type`, `created_at`, `updated_
 (35, 'tuyaux à eaux', '3', '2018-12-27 09:40:47', '2019-01-10 09:53:30', 'tuyaux-a-eaux10012019095330', 'tuyaux-plat-diametre-75-equipe-raccord-symetrique-guillemin.jpg', '22532'),
 (36, 'tuyaux cylindrique', '3', '2018-12-27 09:41:26', '2019-01-10 09:53:08', 'tuyaux-cylindrique10012019095308', 'tuyaux-pvc-vert-epandage-diametre-40-mm.jpg', '22532'),
 (37, 'tuyaux d\'aspiration', '7', '2018-12-27 09:41:57', '2019-01-10 09:53:47', 'tuyaux-daspiration10012019095347', 'tuyaux-d-aspirateur-pour-aspirateur-ct-festool-ig-41836.jpg', '33214'),
-(38, 'novad', '3', '2018-12-27 10:00:06', '2018-12-27 10:00:06', 'novad27122018100006', '', NULL);
+(38, 'novad', '5', '2018-12-27 10:00:06', '2019-01-23 15:16:21', 'novad23012019031621', '', '44004');
 
 -- --------------------------------------------------------
 
@@ -522,7 +533,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(191) NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `migrations`
@@ -579,7 +590,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (48, '2019_01_09_112549_add_code_analytique_to_materiel', 35),
 (49, '2019_01_10_173726_add_usage_commentaire_to_lignebesoin', 36),
 (50, '2019_01_14_164744_create_trace_mail', 37),
-(51, '2019_01_15_154007_add_rappel_email_to_trace_mail', 38);
+(51, '2019_01_15_154007_add_rappel_email_to_trace_mail', 38),
+(52, '2019_01_18_090525_add_tva_to_devis', 39),
+(53, '2019_01_18_175033_add_hastva_to_hastva_to', 40),
+(54, '2019_01_23_162055_add_prix_tot_valeur_tva_to_devis', 41);
 
 -- --------------------------------------------------------
 
@@ -663,15 +677,7 @@ CREATE TABLE IF NOT EXISTS `reponse_fournisseur` (
   `remise` int(11) DEFAULT NULL,
   `date_precise` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `reponse_fournisseur`
---
-
-INSERT INTO `reponse_fournisseur` (`id`, `id_fournisseur`, `titre_ext`, `quantite`, `unite`, `prix`, `created_at`, `updated_at`, `slug`, `id_lignebesoin`, `remise`, `date_precise`) VALUES
-(1, 1, 'Microsoft office 360', 1, 'u', '12000', '2018-12-14 17:15:20', '2018-12-14 17:15:20', 'microsoft-office-360u14122018051520', 1, 10, '2018-12-14'),
-(2, 1, 'torsade', 2, 'u', '6500', '2018-12-17 08:55:39', '2018-12-17 08:55:39', 'torsadeu17122018085539', 1, 10, '2018-12-17');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -743,19 +749,7 @@ CREATE TABLE IF NOT EXISTS `trace_mail` (
   `rappel` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Déchargement des données de la table `trace_mail`
---
-
-INSERT INTO `trace_mail` (`id`, `id_fournisseur`, `das`, `created_at`, `updated_at`, `rappel`, `email`) VALUES
-(14, 9, '\n 8 m de tuyaux d\'aspiration ;', '2019-01-15 16:18:37', '2019-01-15 16:18:37', 'on', 'cyriaquekodia@gmail.com'),
-(13, 8, '\n 8 m de tuyaux d\'aspiration ;', '2019-01-15 16:18:35', '2019-01-15 16:18:35', 'on', 'cyriaquekodia@gmail.com'),
-(12, 9, '\n 8 m de tuyaux d\'aspiration ;', '2019-01-15 16:17:51', '2019-01-15 16:17:51', '', 'cyriaquekodia@gmail.com'),
-(11, 8, '\n 8 m de tuyaux d\'aspiration ;', '2019-01-15 16:17:50', '2019-01-15 16:17:50', '', 'cyriaquekodia@gmail.com'),
-(15, 8, '\n 8 m de tuyaux d\'aspiration ;', '2019-01-15 16:22:51', '2019-01-15 16:22:51', '', 'cyriaquekodia@gmail.com'),
-(16, 8, '\n 8 m de tuyaux d\'aspiration ;', '2019-01-15 16:23:23', '2019-01-15 16:23:23', '', 'cyriaquekodia@gmail.com');
+) ENGINE=MyISAM AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
