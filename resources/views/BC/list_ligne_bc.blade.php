@@ -80,6 +80,7 @@
         <th class="">Total  HT</th>
         <th class="">TVA /produit</th>
         <th class="">TVA</th>
+        <th class="">statit tva</th>
 
     </tr>
     </thead>
@@ -105,7 +106,8 @@
                     {{0}}
 
             @endif </td>
-            <td><input type="checkbox" id="row_n_{{$devi->id}}_tva" name="row_n_{{$devi->id}}_tva" class="row_n__tva" {{1==$devi->hastva?"checked='checked'":"checked=''"}}/>   </td>
+            <td><input type="checkbox" id="row_n_{{$devi->id}}_tva" name="row_n_{{$devi->id}}_tva" class="row_n__tva" {{1==$devi->hastva?"checked='checked'":""}}/>   </td>
+        <td>{{$devi->hastva}}</td>
         </tr>
     @endforeach
         @endif
@@ -232,41 +234,55 @@
                 { responsivePriority: 5, targets: 0 },
                 { responsivePriority: 2, targets: -2 }
             ]
-        }).column(0).visible(false);
+        }).column(0).visible(false).column(10).visible(false);
 
         $('.row_n__tva').click(function (e) {
 
+            $(this).closest('td').next().html(1);
             var tva=0;
             var data = table.row($(this).parents('tr')).data();
             var num_row=$(this).parents('tr');
-var tht_prod=($(this).closest('td').prev().prev().html()*18)/100;
-            $(this).parent().css('border-color', 'red');
+var tva_prod=ilisibilite_nombre(($(this).closest('td').prev().prev().html())*18)/100;
+
             if($(this).prop('checked') ){
-                $(this).closest('td').prev().html(lisibilite_nombre(($(this).closest('td').prev().prev().html()*18)/100));
 
-                data[8] = lisibilite_nombre(tht_prod);
-
+                $(this).closest('td').prev().html(lisibilite_nombre(tva_prod));
+                data[8] = lisibilite_nombre(tva_prod);
+                data[9] = 1;
 
             }
             else {
 
-              $(this).closest('td').prev().html(0);
-             //   $(this).closest('td').prev().html(0);
-                data[8] = 0;
+
+                data[9] = 0;
+               // var valeur=Math.round(ilisibilite_nombre(data[8])+Math.round(tva_prod));
+                data[8]=0;
+                $(this).closest('td').prev().html(0);
 
 
 
 
 
             }
-            table.reload();
-         //   table.row($(this).parents('tr')).data().invalidate();
 
-         //
-        //     $('#ligneCommandes').DataTable().ajax.reload();
+            var data = table.rows().data();
+            var sumtva=0;
+            data.each(function (value, index) {
+//alert(value[8]);
 
-              //  tva=Math.round(tva)+Math.round(ilisibilite_nombre(value[8]));
+                    sumtva+=Math.round(ilisibilite_nombre(value[8]));
 
+
+            });
+
+            $('#tva').empty();
+            $('#tva').html(lisibilite_nombre(sumtva)+" {{$devise}}");
+            $('#tva_serv').val(Math.round(sumtva));
+
+            var ttc=Math.round(sumtva+Math.round($('#tot_serv').val()));
+            $('#ttc').empty();
+            $('#ttc').html(lisibilite_nombre(ttc) +" {{$devise}}");
+            $('#ttc_serv').val(Math.round(ttc));
 
         })
     })(jQuery);

@@ -147,7 +147,7 @@
                 </table>
             </td>
             <td width="50%" class="fournisseur" valign="center" align="center">
-                SOGELUX
+                {{$bc->libelle}}
             </td>
         </tr>
     </table>

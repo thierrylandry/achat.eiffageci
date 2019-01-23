@@ -20,31 +20,31 @@
                 @else
 
             @endif
-            @foreach($ligne_bcs as $ligne_bc)
+            @foreach($devis as $dev)
                 @if($loop->index + 1!=9)
                 <tr>
                     <td  style="border-bottom-color: white">{{$loop->index + 1}}</td>
-                    <td  style="border-bottom-color: white">{{$ligne_bc->titre_ext }}</td>
-                    <td style=" text-align: center;border-bottom-color: white">{{$ligne_bc->codeRubrique}}</td>
-                    <td style=" text-align: center;border-bottom-color: white">{{$ligne_bc->quantite_ligne_bc}}</td>
-                    <td style="border-bottom-color: white">{{$ligne_bc->unite_ligne_bc}}</td>
-                    <td style=" text-align: right;border-bottom-color: white">{{$ligne_bc->prix_unitaire_ligne_bc}}</td>
-                    <td style=" text-align: center;border-bottom-color: white">{{$ligne_bc->remise_ligne_bc}}</td>
-                    <td style=" text-align: right;border-bottom-color: white">{{$ligne_bc->prix_tot}}
-                        <span style="display: none;border-bottom-color: white">{{ $tothtax +=  $ligne_bc->prix_tot }}</span>
+                    <td  style="border-bottom-color: white">{{$dev->titre_ext }}</td>
+                    <td style=" text-align: center;border-bottom-color: white">{{$dev->codeRubrique}}</td>
+                    <td style=" text-align: center;border-bottom-color: white">{{$dev->quantite}}</td>
+                    <td style="border-bottom-color: white">{{$dev->unite}}</td>
+                    <td style=" text-align: right;border-bottom-color: white">{{$dev->prix_unitaire}}</td>
+                    <td style=" text-align: center;border-bottom-color: white">{{$dev->remise}}</td>
+                    <td style=" text-align: right;border-bottom-color: white">{{$dev->prix_tot}}
+                        <span style="display: none;border-bottom-color: white">{{ $tothtax +=  $dev->prix_tot }}</span>
                     </td>
                 </tr>
                     @else
                     <tr>
                         <td  style="">{{$loop->index + 1}}</td>
-                        <td  style="">{{$ligne_bc->titre_ext }}</td>
-                        <td style=" text-align: center;">{{$ligne_bc->codeRubrique}}</td>
-                        <td style=" text-align: center;">{{$ligne_bc->quantite_ligne_bc}}</td>
-                        <td style="">{{$ligne_bc->unite_ligne_bc}}</td>
-                        <td style=" text-align: right;">{{$ligne_bc->prix_unitaire_ligne_bc}}</td>
-                        <td style=" text-align: center;">{{$ligne_bc->remise_ligne_bc}}</td>
-                        <td style=" text-align: right;">{{$ligne_bc->prix_tot}}
-                            <span style="display: none;">{{ $tothtax +=  $ligne_bc->prix_tot }}</span>
+                        <td  style="">{{$dev->titre_ext }}</td>
+                        <td style=" text-align: center;">{{$dev->codeRubrique}}</td>
+                        <td style=" text-align: center;">{{$dev->quantite}}</td>
+                        <td style="">{{$dev->unite_ligne}}</td>
+                        <td style=" text-align: right;">{{$dev->prix_unitaire}}</td>
+                        <td style=" text-align: center;">{{$dev->remise}}</td>
+                        <td style=" text-align: right;">{{$dev->prix_tot}}
+                            <span style="display: none;">{{ $tothtax +=  $dev->prix_tot }}</span>
                         </td>
                     </tr>
                 @endif
@@ -78,31 +78,31 @@
             @endif
         @endfor
             @elseif( $taille>9)
-        @foreach($ligne_bcs as $ligne_bc)
+        @foreach($devis as $dev)
 <<<<<<< HEAD
         <tr>
             <td>{{$loop->index + 1}}</td>
-            <td>{{$ligne_bc->titre_ext }}</td>
-            <td style=" text-align: center;">{{$ligne_bc->codeRubrique}}</td>
-            <td style=" text-align: center;">{{$ligne_bc->quantite_ligne_bc}}</td>
-            <td>{{$ligne_bc->unite_ligne_bc}}</td>
-            <td style=" text-align: right;">{{$ligne_bc->prix_unitaire_ligne_bc}}</td>
-            <td style=" text-align: center;">{{$ligne_bc->remise_ligne_bc}}</td>
-            <td style=" text-align: right;">{{$ligne_bc->prix_tot}}
-                <span style="display: none;">{{ $tothtax +=  intval(str_replace(" ","",$ligne_bc->prix_tot)) }}</span>
+            <td>{{$dev->titre_ext }}</td>
+            <td style=" text-align: center;">{{$dev->codeRubrique}}</td>
+            <td style=" text-align: center;">{{$dev->quantite}}</td>
+            <td>{{$dev->unite_ligne}}</td>
+            <td style=" text-align: right;">{{$dev->prix_unitaire}}</td>
+            <td style=" text-align: center;">{{$dev->remise}}</td>
+            <td style=" text-align: right;">{{$dev->prix_tot}}
+                <span style="display: none;">{{ $tothtax +=  intval(str_replace(" ","",$dev->prix_tot)) }}</span>
             </td>
         </tr>
 =======
             <tr >
                 <td style="border-bottom-color: white">{{$loop->index + 1}} </td>
-                <td style="border-bottom-color: white">{{$ligne_bc->titre_ext }}</td>
-                <td style=" text-align: center;border-bottom-color: white">{{$ligne_bc->codeRubrique}}</td>
-                <td style=" text-align: center;border-bottom-color: white">{{$ligne_bc->quantite_ligne_bc}}</td>
-                <td style="border-bottom-color: white">{{$ligne_bc->unite_ligne_bc}}</td>
-                <td style=" text-align: right;border-bottom-color: white">{{$ligne_bc->prix_unitaire_ligne_bc}}</td>
-                <td style=" text-align: center;border-bottom-color: white">{{$ligne_bc->remise_ligne_bc}}</td>
-                <td style=" text-align: right;border-bottom-color: white">{{$ligne_bc->prix_tot}}
-                    <span style="display: none;border-bottom-color: white">{{ $tothtax +=  $ligne_bc->prix_tot }}</span>
+                <td style="border-bottom-color: white">{{$dev->titre_ext }}</td>
+                <td style=" text-align: center;border-bottom-color: white">{{$dev->codeRubrique}}</td>
+                <td style=" text-align: center;border-bottom-color: white">{{$dev->quantite}}</td>
+                <td style="border-bottom-color: white">{{$dev->unite_ligne}}</td>
+                <td style=" text-align: right;border-bottom-color: white">{{$dev->prix_unitaire}}</td>
+                <td style=" text-align: center;border-bottom-color: white">{{$dev->remise}}</td>
+                <td style=" text-align: right;border-bottom-color: white">{{$dev->prix_tot}}
+                    <span style="display: none;border-bottom-color: white">{{ $tothtax +=  $dev->prix_tot }}</span>
                 </td>
             </tr>
 
@@ -161,15 +161,15 @@
                 <table class="ssfacture" style="margin: 0; padding: 0;">
                     <tr>
                         <td width="61.8%" style="text-align:right"><b>Total Hors Taxes en FCFA</b> </td>
-                        <td class="value">{{ number_format($tothtax, 0,".", " ")." ".$ligne_bcs[0]->devise  }}</td>
+                        <td class="value">{{ number_format($tothtax, 0,".", " ")." ".$devis[0]->devise  }}</td>
                     </tr>
                     <tr>
                         <td style="text-align:right" ><b>TVA </b></td>
-                        <td class="value">{{ number_format($tothtax*0.18, 0,".", " ")." ".$ligne_bcs[0]->devise }}</td>
+                        <td class="value">{{ number_format($tothtax*0.18, 0,".", " ")." ".$devis[0]->devise }}</td>
                     </tr>
                     <tr>
                         <td style="text-align:right" ><b>TOTAL TTC EN FCFA </b></td>
-                        <td class="value">{{ number_format($tothtax*1.18, 0,".", " ")." ".$ligne_bcs[0]->devise }}</td>
+                        <td class="value">{{ number_format($tothtax*1.18, 0,".", " ")." ".$devis[0]->devise }}</td>
                     </tr>
                 </table>
 

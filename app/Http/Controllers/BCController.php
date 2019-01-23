@@ -46,20 +46,19 @@ class BCController extends Controller
             ->where('boncommande.slug','=',$slug)
             ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','service_demandeur')->first();
 
-        $ligne_bcs=DB::table('ligne_bc')
-            ->join('devis', 'devis.id', '=', 'ligne_bc.id_devis')
-            ->where('id_bonCommande','=',$bc->id)
-            ->select('titre_ext','quantite_ligne_bc','unite_ligne_bc','prix_unitaire_ligne_bc','remise_ligne_bc','prix_tot','ligne_bc.slug','devis.codeRubrique','devise')->get();
+        $devis=DB::table('devis')
+            ->where('id_bc','=',$bc->id)
+            ->select('titre_ext','quantite','unite','prix_unitaire','remise','prix_tot','devis.codeRubrique','devise')->get();
 
 
-        $taille=sizeof($ligne_bcs);
+        $taille=sizeof($devis);
         // Send data to the view using loadView function of PDF facade
         $commandes='';
 
         //$pdf = PDF::loadView('BC.bon_commande_file', compact('bc','ligne_bcs'));
         $tothtax = 0;
         //return view('BC.bon-commande', compact('bc','ligne_bcs','tothtax'));
-        $pdf = PDF::loadView('BC.bon-commande', compact('bc','ligne_bcs','tothtax','taille'));
+        $pdf = PDF::loadView('BC.bon-commande', compact('bc','devis','tothtax','taille'));
 
         // If you want to store the generated pdf to the server then you can use the store function
        // $pdf->save(storage_path().'_filename.pdf');
@@ -88,15 +87,14 @@ class BCController extends Controller
             ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','service_demandeur','contact')->first();
 
 
-        $ligne_bcs=DB::table('ligne_bc')
-            ->join('devis', 'devis.id', '=', 'ligne_bc.id_devis')
-            ->where('id_bonCommande','=',$bc->id)
-            ->select('titre_ext','quantite_ligne_bc','unite_ligne_bc','prix_unitaire_ligne_bc','remise_ligne_bc','prix_tot','ligne_bc.slug','devis.codeRubrique','devise')->get();
+        $devis=DB::table('devis')
+            ->where('id_bc','=',$bc->id)
+            ->select('titre_ext','quantite','unite','prix_unitaire','remise','prix_tot','devis.codeRubrique','devise')->get();
 
         $tothtax = 0;
-        $taille=sizeof($ligne_bcs);
+        $taille=sizeof($devis);
         // Send data to the view using loadView function of PDF facade
-        $pdf = PDF::loadView('BC.bon-commande', compact('bc','ligne_bcs','tothtax','taille'));
+        $pdf = PDF::loadView('BC.bon-commande', compact('bc','devis','tothtax','taille'));
 
         //$lignebesoins=Lignebesoin::where('id_bonCommande','=',$bc->id)->first();
         $lignebesoins=DB::table('lignebesoin')->where('id_bonCommande','=',$bc->id)->get();
@@ -204,8 +202,11 @@ $analytiques= Analytique::all();
         $les_id_devis=explode(',',$parameters['les_id_devis']);
 
         $date= new \DateTime(null);
+
         foreach ($les_id_devis as $id):
             if($id!=""){
+
+
                 $Devis= Devis::find($id);
                 $ligne_bc= ligne_bc::where('id_devis','=',$id)->first();
                 if(isset($ligne_bc->id)){
@@ -215,15 +216,15 @@ $analytiques= Analytique::all();
 
                 }
 
-
+/*
                 $ligne_bc->id_bonCommande=$parameters['id_bc'];
                 $ligne_bc->codeRubrique=$parameters['row_n_'.$id.'_codeRubrique'];
                 $ligne_bc->remise_ligne_bc=$Devis->remise;
                 $ligne_bc->quantite_ligne_bc=$Devis->quantite;
                 $ligne_bc->unite_ligne_bc=$Devis->unite;
                 $ligne_bc->id_devis=$Devis->id;
-                if(isset($parameters['row_n_'.$id.'_tva'])){
-                    $ligne_bc->hastva=$parameters['row_n_'.$id.'_tva'];
+                if(isset($parameters['row_n_'.$id.'_tva']) && $parameters['row_n_'.$id.'_tva']=='on' ){
+                    $ligne_bc->hastva=1;
                 }else{
                     $ligne_bc->hastva=0;
 
@@ -233,6 +234,22 @@ $analytiques= Analytique::all();
 
                 $ligne_bc->slug=Str::slug($ligne_bc->id_bonCommand.$ligne_bc->codeRubrique.$ligne_bc->quantite_ligne_b.$ligne_bc->prix_unitaire_ligne_bc.$date->format('dmYhis'));
                 $ligne_bc->save();
+*/
+                //utiliser le devis
+
+                $Devis->id_bc=$parameters['id_bc'];
+                $Devis->codeRubrique=$parameters['row_n_'.$id.'_codeRubrique'];
+
+                if(isset($parameters['row_n_'.$id.'_tva']) && $parameters['row_n_'.$id.'_tva']=='on' ){
+                    $Devis->hastva=1;
+                }else{
+                    $Devis->hastva=0;
+
+                }
+                $Devis->prix_tot=$Devis->prix_unitaire*$Devis->quantite-($Devis->remise*($Devis->prix_unitaire*$Devis->quantite))/100;
+                $Devis->valeur_tva=$Devis->prix_tot*0.18;
+
+                $Devis->save();
             }
 
             endforeach;
@@ -243,14 +260,17 @@ $analytiques= Analytique::all();
         $boncommande->date=$parameters['date_livraison'];
         $boncommande->service_demandeur=$parameters['id_service'];
 
-        $sumligne=ligne_bc::where('id_bonCommande','=',$boncommande->id)->sum('prix_tot');
-        $tot_ttc=$sumligne*1.18;
+      //  $sumligne=ligne_bc::where('id_bonCommande','=',$boncommande->id)->sum('prix_tot');
+
+        $tot_ttc=$parameters['tot_serv'];
 
         $boncommande->total_ttc=$tot_ttc;
         $boncommande->save();
 
         $Devis= Devis::where('id_bc','=',$parameters['id_bc'])->first();
+
         $lignebesoin=Lignebesoin::find($Devis->id_da);
+
         $lignebesoin->id_bonCommande=$boncommande->id;
         $lignebesoin->save();
 
@@ -277,7 +297,7 @@ $analytiques= Analytique::all();
 
         $boncommande= Boncommande::where('id','=',$ligne_bc->id_bonCommande)->first();
         $sumligne=ligne_bc::where('id_bonCommande','=',$boncommande->id)->sum('prix_tot');
-        $tot_ttc=$sumligne*1.18;
+        $tot_ttc=$parameters['tot_serv'];
         $boncommande->total_ttc=$tot_ttc;
         $boncommande->save();
         return redirect()->route('gestion_bc')->with('success',"la ligne  a été mise à jour avec succes");
@@ -286,8 +306,8 @@ $analytiques= Analytique::all();
     {
         $date= new \DateTime(null);
         $Boncommande= Boncommande::where('slug', '=', $slug)->first();
-        $ligne_bc= Lignebesoin::where('id_bonCommande', '=', $Boncommande->id)->first();
-        if($Boncommande->date==null && $ligne_bc==null){
+        $ligne_besoin= Lignebesoin::where('id_bonCommande', '=', $Boncommande->id)->first();
+        if($Boncommande->date==null && $ligne_besoin==null){
             return redirect()->route('gestion_bc')->with('error',"le bon de commande n'est pas rempli donc ne peut être validé");
 
         }else{
@@ -303,9 +323,14 @@ $analytiques= Analytique::all();
         $Boncommande= Boncommande::where('slug', '=', $slug)->first();
         $Boncommande->etat=4;
         $Boncommande->save();
-        $lignebesoin=Lignebesoin::where('id_bonCommande','=',$Boncommande->id)->first();
-        $lignebesoin->etat=4;
-        $lignebesoin->save();
+        $lignebesoins=Lignebesoin::where('id_bonCommande','=',$Boncommande->id);
+        foreach( $lignebesoins as $lignebesoin):
+            $lignebesoin->etat=4;
+            $lignebesoin->save();
+            endforeach;
+
+
+
         return redirect()->route('gestion_bc')->with('success',"le bon de commande à été traité et finalisé");
     }
     public function traite_retourne($slug)
@@ -315,9 +340,11 @@ $analytiques= Analytique::all();
         $Boncommande->etat=11;
         $Boncommande->save();
 
-        $lignebesoin=Lignebesoin::where('id_bonCommande','=',$Boncommande->id)->first();
-        $lignebesoin->etat=11;
-        $lignebesoin->save();
+        $lignebesoins=Lignebesoin::where('id_bonCommande','=',$Boncommande->id);
+        foreach( $lignebesoins as $lignebesoin):
+            $lignebesoin->etat=11;
+            $lignebesoin->save();
+        endforeach;
         return redirect()->route('gestion_bc')->with('success',"le bon de commande à été traité et finalisé");
     }
     public function refuser_commande($slug)
