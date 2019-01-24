@@ -582,6 +582,12 @@ Route::get('/bon_commande_file1/{slug}',[
     'uses'=>'BCController@bon_commande_file1'
 
 ])->middleware('auth');
+
+Route::get('/afficher_le_mail/{slug}',[
+    'as'=>'bon_commande_file',
+    'uses'=>'BCController@bon_commande_file'
+
+])->middleware('auth');
 Route::post('/send_it',[
     'as'=>'send_it',
     'uses'=>'BCController@send_it'

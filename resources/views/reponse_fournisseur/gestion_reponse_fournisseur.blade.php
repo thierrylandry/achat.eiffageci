@@ -61,7 +61,6 @@
                                                     @endforeach
                                                 </td>
                                                 <td><div class="form-group">
-                                                        <label for="type">Code analytique par defaut</label>
                                                         <select class="form-control selectpicker" id="row_n_{{$da->id}}_codeRubrique" name="row_n_{{$da->id}}_codeRubrique" data-live-search="true" data-size="6" required>
                                                             <option  value="">SELECTIONNER UN CODE ANALYTIQUE</option>
                                                             @foreach($analytiques as $analytique)
@@ -182,7 +181,17 @@
                                                         @endif
                                                     @endforeach
                                                 </td>
-                                                <td><input type="text"  id="row_n_{{$devi->id}}_codeRubrique" name="row_n_{{$devi->id}}_codeRubrique" value="{{$devi->codeRubrique}}" /> </td>
+                                                <td> <div class="form-group">
+                                                        <select class="form-control selectpicker" id="row_n_{{$devi->id}}_codeRubrique" name="row_n_{{$devi->id}}_codeRubrique" data-live-search="true" data-size="6" required>
+                                                            <option  value="">SELECTIONNER UN CODE ANALYTIQUE</option>
+                                                            @foreach($analytiques as $analytique)
+
+                                                                <option @if(isset($devi) && $analytique->codeRubrique==$devi->codeRubrique)
+                                                                        {{'selected'}}
+                                                                        @endif value="{{$analytique->codeRubrique}}">{{$analytique->codeRubrique}} -- {{$analytique->libelle}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div></td>
                                                 <td>
 
 

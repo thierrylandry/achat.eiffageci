@@ -56,6 +56,57 @@
     </div>
 
 
+<!-- debut  -->
+
+
+    <div id="personnaliser_mail" class="modal fade in" aria-hidden="true" role="dialog" >
+        <div class="modal-dialog modal-lg">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Personnaliser l'E-mail</h4>
+                </div>
+
+                            <form action="{{route('send_it')}}" method="post">
+
+
+                                <div class="modal-body">
+                                    <div class="col-md-12">
+                                        <div class="card card-primary card-outline">
+
+                                            <!-- /.card-header -->
+                                            <div class="card-body">
+                                                <div class="form-group">
+                                                    <input id="To" class="form-control" placeholder="To:" readonly>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input class="form-control" placeholder="Subject:" value="TRANSMISSION DE BON DE COMMANDE" readonly>
+                                                </div>
+                                                <div class="form-group">
+                    <textarea id="compose-textarea" class="form-control" style="height: 300px"></textarea>
+                                                </div>
+
+                                            </div>
+
+                                            <!-- /.card-footer -->
+                                        </div>
+                                        <!-- /. box -->
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="float-right">
+                                        <button type="submit" class="btn btn-primary"> <i class="fa fa-file-pdf-o"></i> <i class="fa fa-envelope-o"></i> <i class="fa fa-paper-plane-o"></i></button>
+                                    </div>
+
+                                </div>
+                            </form>
+            </div>
+
+        </div>
+    </div>
+    <!-- fin -->
 
 
     <div id="confirm_email" class="modal fade in" aria-hidden="true" role="dialog" >
@@ -82,8 +133,9 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-
-                                    <button type="submit" class="btn btn-default"> <i class="fa fa-file-pdf-o"></i><i class="fa fa-paper-plane-o"></i></button>
+                                    <a href="" data-toggle="modal" data-target="#personnaliser_mail" class="btn btn-default" id="personnaliser">
+                                        <i class="fa fa-file-pdf-o"></i><i class="fa fa-paper-plane-o"></i> personnalisé le message avant de l'envoyer
+                                    </a><button type="submit" class="btn btn-default"> <i class="fa fa-file-pdf-o"></i><i class="fa fa-paper-plane-o"></i></button>
                                 </div>
                             </form>
             </div>
@@ -287,7 +339,27 @@ var le_selectionne="";
 
         });
 
+$('#personnaliser').click(function(){
+    $('#confirm_email').modal('hide');
+    $('#To').val(valeur.substring(1,valeur.length));
 
+    $.get("afficher_le_mail/"+valeur,
+            function (data) {
+                var resultat=JSON.parse(data);
+                console.log(valeur);
+                var chaine="";
+                $.each(resultat, function( indexi, value ) {
+
+                    chaine+="<option value='"+value.valeur_c+"'>"+value.valeur_c+"</option>";
+
+                });
+
+                $('#lesemails').empty();
+                $('#lesemails').append(chaine);
+                $('#lesemails').selectpicker('refresh');
+            }
+    );
+})
 
 
     </script>

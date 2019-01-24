@@ -72,6 +72,7 @@
     <tr>
         <th class="dt-head-center">slug</th>
         <th class="">Designation</th>
+        <th class="">Commentaire</th>
         <th class="">Code Analytique</th>
         <th class="">Quantité</th>
         <th class="">Unité</th>
@@ -92,7 +93,16 @@
         <tr>
             <td>{{$devi->id}}</td>
             <td>{{$devi->titre_ext}}</td>
-            <td><input type="text" value="{{$devi->codeRubrique}}" id="row_n_{{$devi->id}}_codeRubrique" name="row_n_{{$devi->id}}_codeRubrique" {{$bc->etat!=1?'readonly':''}} required/></td>
+            <td>{{$devi->commentaire}}</td>
+            <td><select class="form-control selectpicker" id="row_n_{{$devi->id}}_codeRubrique" name="row_n_{{$devi->id}}_codeRubrique" data-live-search="true" data-size="6" required>
+                    <option  value="">SELECTIONNER UN CODE ANALYTIQUE</option>
+                    @foreach($analytiques as $analytique)
+
+                        <option @if(isset($devi) && $analytique->codeRubrique==$devi->codeRubrique)
+                                {{'selected'}}
+                                @endif value="{{$analytique->codeRubrique}}">{{$analytique->codeRubrique}} -- {{$analytique->libelle}}</option>
+                    @endforeach
+                </select></td>
             <td>{{$devi->quantite}}</td>
             <td>
                 {{$devi->unite}}
@@ -197,7 +207,7 @@
 
                 // Total over all pages
                 total = api
-                        .column( 7 )
+                        .column( 8 )
                         .data()
                         .reduce( function (a, b) {
                             return intVal(ilisibilite_nombre(a)) + intVal(ilisibilite_nombre(b));
@@ -205,21 +215,21 @@
 
                 // Total over this page
                 pageTotal = api
-                        .column( 7, { page: 'current'} )
+                        .column( 8, { page: 'current'} )
                         .data()
                         .reduce( function (a, b) {
                             return intVal(ilisibilite_nombre(a)) + intVal(ilisibilite_nombre(b));
                         }, 0 );
                 // Total tva
                 TTva = api
-                        .column( 8, { page: 'current'} )
+                        .column( 9, { page: 'current'} )
                         .data()
                         .reduce( function (a, b) {
                             return intVal(ilisibilite_nombre(a)) + intVal(ilisibilite_nombre(b));
                         }, 0 );
 
                 // Update footer
-                $( api.column( 7 ).footer() ).html(
+                $( api.column( 8 ).footer() ).html(
                         '$'+pageTotal +' ( $'+ total +' total)'
                 );
                $('#tot').html(lisibilite_nombre(Math.round(pageTotal))+" {{$devise}}");
@@ -234,7 +244,7 @@
                 { responsivePriority: 5, targets: 0 },
                 { responsivePriority: 2, targets: -2 }
             ]
-        }).column(0).visible(false).column(10).visible(false);
+        }).column(0).visible(false).column(11).visible(false);
 
         $('.row_n__tva').click(function (e) {
 
@@ -247,16 +257,16 @@ var tva_prod=ilisibilite_nombre(($(this).closest('td').prev().prev().html())*18)
             if($(this).prop('checked') ){
 
                 $(this).closest('td').prev().html(lisibilite_nombre(tva_prod));
-                data[8] = lisibilite_nombre(tva_prod);
-                data[9] = 1;
+                data[9] = lisibilite_nombre(tva_prod);
+                data[10] = 1;
 
             }
             else {
 
 
-                data[9] = 0;
+                data[10] = 0;
                // var valeur=Math.round(ilisibilite_nombre(data[8])+Math.round(tva_prod));
-                data[8]=0;
+                data[9]=0;
                 $(this).closest('td').prev().html(0);
 
 
@@ -270,7 +280,7 @@ var tva_prod=ilisibilite_nombre(($(this).closest('td').prev().prev().html())*18)
             data.each(function (value, index) {
 //alert(value[8]);
 
-                    sumtva+=Math.round(ilisibilite_nombre(value[8]));
+                    sumtva+=Math.round(ilisibilite_nombre(value[9]));
 
 
             });
