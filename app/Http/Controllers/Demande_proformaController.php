@@ -206,7 +206,7 @@ return 1;
 
          $parameters = $request->except(['_token']);
 
-        $fourn= $parameters['fourn'];
+       // $fourn= $parameters['fourn'];
         $fournisseurs= explode(',',$parameters['fournisseur']);
         foreach($fournisseurs as $fournisseur):
             if($fournisseur!="" && strstr($fournisseur,'@')){
@@ -228,17 +228,36 @@ return 1;
             $rappel="";
         }
 
-        $corps='';
+        $corps= Array();
+
+        $images= Array();
+        $precisions= Array();
+$i=0;
 
         foreach($tab_listeSA as $laDA):
             $das=  DA::find($laDA);
 
-            if(isset($das->id)){
+            if(isset($das->id) && $das->id!=""){
                 $materiel=DB::table('materiel')
                     ->where('id', '=', $das->id_materiel)
-                    ->select('libelleMateriel')->distinct()->get();
-                $corps ="\n".$corps." ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelleMateriel." ;";
-        }
+                    ->select('libelleMateriel','image')->distinct()->get();
+
+
+                if($materiel[0]->image!==""){
+                    $images[$i]=$materiel[0]->image;
+                }else{
+                    $images[$i]="";
+                }
+                if($das->commentaire!=""){
+                    $precisions[$i]=$das->commentaire;
+                }else{
+                    $precisions[$i]="";
+
+                }
+                $corps[$i] =" - ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelleMateriel;
+            }
+            $i++;
+
 
 
         endforeach;
@@ -257,7 +276,7 @@ return 1;
         */
 $email=$em;
 if($rappel!="on"){
-    Mail::send('mail.mail',array('corps' =>$corps),function($message)use ($email ){
+    Mail::send('mail.mail',array('corps'=>$corps,'precisions'=>$precisions,'images'=>$images),function($message)use ($email ){
 
 
         $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->nom." ".\Illuminate\Support\Facades\Auth::user()->prenoms )

@@ -22,6 +22,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 use League\Flysystem\Exception;
 use PDF;
 use Spipu\Html2Pdf\Html2Pdf;
@@ -78,25 +79,52 @@ class BCController extends Controller
         $bc= DB::table('boncommande')
             ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
             ->where('boncommande.id','=',$bc_slug)
-            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','service_demandeur','contact')->first();
+            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','service_demandeur','contact')->get()->first();
 
 
-        $devis=DB::table('devis')
-            ->where('id_bc','=',$bc->id)
-            ->select('titre_ext','quantite','unite','prix_unitaire','remise','prix_tot','devis.codeRubrique','devise')->get();
 
 
 
         //$lignebesoins=Lignebesoin::where('id_bonCommande','=',$bc->id)->first();
-        $lignebesoins=DB::table('lignebesoin')->where('id_bonCommande','=',$bc->id)->get();
+        $lignebesoins=DB::table('lignebesoin')->where('id_bonCommande','=',$bc_slug)->get();
         //  $email=$bc->email;
+
+$corps= Array();
+
+        $images= Array();
+        $precisions= Array();
+        $i=0;
+        foreach($lignebesoins as $das):
+            if(isset($das->id)){
+                $materiel=DB::table('materiel')
+                    ->where('id', '=', $das->id_materiel)
+                    ->select('libelleMateriel','image')->distinct()->get();
+
+
+                if($materiel[0]->image!==""){
+                    $images[$i]=$materiel[0]->image;
+                }else{
+                    $images[$i]="";
+                }
+                if($das->commentaire!=""){
+                    $precisions[$i]=$das->commentaire;
+                }else{
+                    $precisions[$i]="";
+
+                }
+                $corps[$i] =" - ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelleMateriel;
+            }
+            $i++;
+
+        endforeach;
+
         $numBonCommande=$bc->numBonCommande;
         $tab=Array();
         foreach($lignebesoins as $lignebesoin){
             $tab[]=$lignebesoin->id_nature;
         }
 
-        $view = view('mail.mail_bc','tab','numBonCommande')->render();
+        $view = view('mail.mail_bc',compact('tab','numBonCommande','corps','precisions','images'))->render();
 
 return $view;
     }
@@ -140,19 +168,53 @@ return $view;
             $tab[]=$lignebesoin->id_nature;
         }
 
+        //constituer le mail
+
+        $corps= Array();
+
+        $images= Array();
+        $precisions= Array();
+        $i=0;
+        foreach($lignebesoins as $das):
+            if(isset($das->id)){
+                $materiel=DB::table('materiel')
+                    ->where('id', '=', $das->id_materiel)
+                    ->select('libelleMateriel','image')->distinct()->get();
+
+
+                if($materiel[0]->image!==""){
+                    $images[$i]=$materiel[0]->image;
+                }else{
+                    $images[$i]="";
+                }
+                if($das->commentaire!=""){
+                    $precisions[$i]=$das->commentaire;
+                }else{
+                    $precisions[$i]="";
+
+                }
+                $corps[$i] =" - ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelleMateriel;
+            }
+            $i++;
+
+        endforeach;
+
 foreach($contact as $conct):
 
     if($conct!=""){
 
         // If you want to store the generated pdf to the server then you can use the store function
         $pdf->save(storage_path('bon_commande').'\bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
-        Mail::send('mail.mail_bc',array('tab' =>$tab),function($message)use ($conct,$numBonCommande){
+        Mail::send('mail.mail_bc',array('tab' =>$tab,'corps'=>$corps,'precisions'=>$precisions,'images'=>$images),function($message)use ($conct,$numBonCommande,$images){
             $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->nom." ".\Illuminate\Support\Facades\Auth::user()->prenoms)
                 ->to($conct)
                 ->to(\Illuminate\Support\Facades\Auth::user()->email)
                 ->subject('TRANSMISSION DE BON DE COMMANDE')
                 ->attach( storage_path('bon_commande').'\bon_de_commande_n°'.$numBonCommande.'.pdf'  );
 
+            foreach($images as $img):
+                $message->attach(URL::asset('/uploads/'.$img));
+            endforeach;
         });
     }
 

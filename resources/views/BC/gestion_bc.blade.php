@@ -85,7 +85,7 @@
                                                     <input class="form-control" placeholder="Subject:" value="TRANSMISSION DE BON DE COMMANDE" readonly>
                                                 </div>
                                                 <div class="form-group">
-                    <textarea id="compose-textarea" class="form-control" style="height: 300px"></textarea>
+                    <div contentEditable="true" id="compose-textarea" class="form-control"  style="overflow-y: scroll;max-height: 300px;min-height: 300px;"></div>
                                                 </div>
 
                                             </div>
@@ -135,7 +135,8 @@
                                 <div class="modal-footer">
                                     <a href="" data-toggle="modal" data-target="#personnaliser_mail" class="btn btn-default" id="personnaliser">
                                         <i class="fa fa-file-pdf-o"></i><i class="fa fa-paper-plane-o"></i> personnalisé le message avant de l'envoyer
-                                    </a>  <button type="submit" class="btn btn-default"> <i class="fa fa-file-pdf-o"></i><i class="fa fa-paper-plane-o"></i></button>
+                                    </a>
+                                    <button type="submit" class="btn btn-default"> <i class="fa fa-file-pdf-o"></i><i class="fa fa-paper-plane-o"></i></button>
                                 </div>
                             </form>
             </div>
@@ -340,13 +341,16 @@ var le_selectionne="";
         });
 
 $('#personnaliser').click(function(){
-    event.preventDefault();
+    $('#To').empty();
+    $("#compose-textarea").empty();
     $('#confirm_email').modal('hide');
     $('#To').val(valeur.substring(1,valeur.length));
 
-    $.get("afficher_le_mail/003fff0507012019024223",
+    $.get("afficher_le_mail/9",
             function (data) {
-alert(data);
+            var    html = $.parseHTML( data ),nodeNames = [];
+                console.log(html);
+                $("#compose-textarea").append(html[0]);
             }
     );
 })

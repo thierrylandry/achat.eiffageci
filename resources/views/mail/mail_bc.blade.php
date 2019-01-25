@@ -3,9 +3,22 @@
 
     <p>Bonjour,</p>
 
-    <p>Ci-joint un  bon de commande.</br>
+    <p>Ci-joint un  bon de commande concernant les produits ou services suivant:</br>
+
+        @for($i=0;$i<sizeof($corps);$i++)
+
+            <br> <strong>{{$corps[$i]}}</strong>
+            </br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{isset($precisions[$i]) && $precisions[$i]!=""?" Précision : ".$precisions[$i]:''}}</br>
+    @if(isset($images[$i]) && $images[$i]!="")
+                <img src={{ URL::asset('/uploads/'.$images[$i])}} width="100" alt="{{$images[$i]}}" />
+        @endif
 
 
+
+    @endfor
+
+<p></p><br>
 
             <?php         if(in_array('3',$tab)){
                echo "MERCI ET BONNE RECEPTION";
