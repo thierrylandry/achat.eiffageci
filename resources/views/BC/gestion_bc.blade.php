@@ -135,7 +135,7 @@
                                 <div class="modal-footer">
                                     <a href="" data-toggle="modal" data-target="#personnaliser_mail" class="btn btn-default" id="personnaliser">
                                         <i class="fa fa-file-pdf-o"></i><i class="fa fa-paper-plane-o"></i> personnalisé le message avant de l'envoyer
-                                    </a><button type="submit" class="btn btn-default"> <i class="fa fa-file-pdf-o"></i><i class="fa fa-paper-plane-o"></i></button>
+                                    </a>  <button type="submit" class="btn btn-default"> <i class="fa fa-file-pdf-o"></i><i class="fa fa-paper-plane-o"></i></button>
                                 </div>
                             </form>
             </div>
@@ -340,23 +340,13 @@ var le_selectionne="";
         });
 
 $('#personnaliser').click(function(){
+    event.preventDefault();
     $('#confirm_email').modal('hide');
     $('#To').val(valeur.substring(1,valeur.length));
 
-    $.get("afficher_le_mail/"+valeur,
+    $.get("afficher_le_mail/003fff0507012019024223",
             function (data) {
-                var resultat=JSON.parse(data);
-                console.log(valeur);
-                var chaine="";
-                $.each(resultat, function( indexi, value ) {
-
-                    chaine+="<option value='"+value.valeur_c+"'>"+value.valeur_c+"</option>";
-
-                });
-
-                $('#lesemails').empty();
-                $('#lesemails').append(chaine);
-                $('#lesemails').selectpicker('refresh');
+alert(data);
             }
     );
 })

@@ -74,12 +74,7 @@ class BCController extends Controller
 
     }
     public function afficher_le_mail($bc_slug){
-        $parameters=$request->except(['_token']);
 
-
-        $contact=explode(',',$parameters['contact']);
-
-        // $les_id_devis=explode(',',$parameters['les_id_devis']);
         $bc= DB::table('boncommande')
             ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
             ->where('boncommande.id','=',$bc_slug)
@@ -90,10 +85,7 @@ class BCController extends Controller
             ->where('id_bc','=',$bc->id)
             ->select('titre_ext','quantite','unite','prix_unitaire','remise','prix_tot','devis.codeRubrique','devise')->get();
 
-        $tothtax = 0;
-        $taille=sizeof($devis);
-        // Send data to the view using loadView function of PDF facade
-        $pdf = PDF::loadView('BC.bon-commande', compact('bc','devis','tothtax','taille'));
+
 
         //$lignebesoins=Lignebesoin::where('id_bonCommande','=',$bc->id)->first();
         $lignebesoins=DB::table('lignebesoin')->where('id_bonCommande','=',$bc->id)->get();
@@ -103,22 +95,10 @@ class BCController extends Controller
         foreach($lignebesoins as $lignebesoin){
             $tab[]=$lignebesoin->id_nature;
         }
-        foreach($contact as $conct):
 
-            if($conct!=""){
+        $view = view('mail.mail_bc','tab','numBonCommande')->render();
 
-
-                Mail::send('mail.mail_bc',array('tab' =>$tab),function($message)use ($conct,$numBonCommande){
-                    $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->nom." ".\Illuminate\Support\Facades\Auth::user()->prenoms)
-                        ->to($conct)
-                        ->to(\Illuminate\Support\Facades\Auth::user()->email)
-                        ->subject('TRANSMISSION DE BON DE COMMANDE')
-                        ->attach( storage_path('bon_commande').'\bon_de_commande_n°'.$numBonCommande.'.pdf'  );
-
-                });
-            }
-
-        endforeach;
+return $view;
     }
     public function send_it(Request $request){
 
