@@ -128,6 +128,104 @@ $corps= Array();
 
 return $view;
     }
+    public function send_it_personnalisé(Request $request){
+        $parameters=$request->except(['_token']);
+        $To=$parameters['To'];
+        $msg_contenu=$parameters['compose-textarea'];
+        $bc_slug=$parameters['bc'];
+        $contact=explode(',',$To);
+        $bc= DB::table('boncommande')
+            ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
+            ->where('boncommande.id','=',$bc_slug)
+            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','service_demandeur','contact')->first();
+        $devis=DB::table('devis')
+            ->where('id_bc','=',$bc->id)
+            ->select('titre_ext','quantite','unite','prix_unitaire','remise','prix_tot','devis.codeRubrique','devise')->get();
+        $taille=sizeof($devis);
+        // Send data to the view using loadView function of PDF facade
+        $pdf = PDF::loadView('BC.bon-commande', compact('bc','devis','tothtax','taille'));
+
+        //$lignebesoins=Lignebesoin::where('id_bonCommande','=',$bc->id)->first();
+        $lignebesoins=DB::table('lignebesoin')->where('id_bonCommande','=',$bc->id)->get();
+        //  $email=$bc->email;
+
+        /*
+        $contact=\GuzzleHttp\json_decode($bc->contact);
+        if(isset($contact[0])){
+            $interlocuteur=$contact[0]->valeur_c;
+
+        }
+*/
+        $numBonCommande=$bc->numBonCommande;
+        $tab=Array();
+        foreach($lignebesoins as $lignebesoin){
+            $tab[]=$lignebesoin->id_nature;
+        }
+
+        //constituer le mail
+
+        $corps= Array();
+
+        $images= Array();
+        $precisions= Array();
+        $i=0;
+        foreach($lignebesoins as $das):
+            if(isset($das->id)){
+                $materiel=DB::table('materiel')
+                    ->where('id', '=', $das->id_materiel)
+                    ->select('libelleMateriel','image')->distinct()->get();
+
+
+                if($materiel[0]->image!==""){
+                    $images[$i]=$materiel[0]->image;
+                }else{
+                    $images[$i]="";
+                }
+                if($das->commentaire!=""){
+                    $precisions[$i]=$das->commentaire;
+                }else{
+                    $precisions[$i]="";
+
+                }
+                $corps[$i] =" - ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelleMateriel;
+            }
+            $i++;
+
+        endforeach;
+
+        foreach($contact as $conct):
+
+            if($conct!=""){
+
+                // If you want to store the generated pdf to the server then you can use the store function
+                $pdf->save(storage_path('bon_commande').'\bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
+                Mail::send('empty_mail.mail_bc',array("msg_contenu"=>$msg_contenu),function($message)use ($conct,$numBonCommande,$images){
+                    $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->nom." ".\Illuminate\Support\Facades\Auth::user()->prenoms)
+                        ->to($conct)
+                        ->to(\Illuminate\Support\Facades\Auth::user()->email)
+                        ->subject('TRANSMISSION DE BON DE COMMANDE')
+                        ->attach( storage_path('bon_commande').'\bon_de_commande_n°'.$numBonCommande.'.pdf'  );
+
+                    foreach($images as $img):
+                        $message->attach(URL::asset('/uploads/'.$img));
+                    endforeach;
+                });
+            }
+
+        endforeach;
+        //  return redirect()->route('gestion_bc')->with('success', "Envoie d'email reussi");
+
+        $boncom=Boncommande::where('id','=',$bc->id)->first();
+        $boncom->etat=3;
+        $boncom->save();
+        $lignebesoin=Lignebesoin::where('id_bonCommande','=',$bc->id)->first();
+        $lignebesoin->etat=3;
+        $lignebesoin->save();
+        // Finally, you can download the file using download function
+        $pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
+        return redirect()->route('gestion_bc')->with('success', "Envoie d'email reussi");
+
+    }
     public function send_it(Request $request){
 
         $parameters=$request->except(['_token']);

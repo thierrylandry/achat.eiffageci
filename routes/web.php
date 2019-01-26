@@ -588,6 +588,12 @@ Route::get('/afficher_le_mail/{slug}',[
     'uses'=>'BCController@afficher_le_mail'
 
 ])->middleware('auth');
+Route::post('/send_it_personnalisé',[
+    'as'=>'send_it_personnalisé',
+    'uses'=>'BCController@send_it_personnalisé'
+
+])->middleware('auth');
+
 Route::post('/send_it',[
     'as'=>'send_it',
     'uses'=>'BCController@send_it'

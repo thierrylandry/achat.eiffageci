@@ -69,13 +69,14 @@
                     <h4 class="modal-title">Personnaliser l'E-mail</h4>
                 </div>
 
-                            <form action="{{route('send_it')}}" method="post">
+                            <form action="{{route('send_it_personnalisé')}}" method="post">
 
-
+                                @csrf
                                 <div class="modal-body">
                                     <div class="col-md-12">
                                         <div class="card card-primary card-outline">
 
+                                            <input type="" name="bc" />
                                             <!-- /.card-header -->
                                             <div class="card-body">
                                                 <div class="form-group">
@@ -346,11 +347,12 @@ $('#personnaliser').click(function(){
     $('#confirm_email').modal('hide');
     $('#To').val(valeur.substring(1,valeur.length));
 
-    $.get("afficher_le_mail/9",
+    $.get("afficher_le_mail/"+$("#bc_slug").val(),
             function (data) {
             var    html = $.parseHTML( data ),nodeNames = [];
                 console.log(html);
                 $("#compose-textarea").append(html[0]);
+
             }
     );
 })

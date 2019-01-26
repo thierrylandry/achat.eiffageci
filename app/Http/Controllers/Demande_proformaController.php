@@ -255,8 +255,9 @@ $i=0;
 
                 }
                 $corps[$i] =" - ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelleMateriel;
+                $i++;
             }
-            $i++;
+
 
 
 
@@ -276,12 +277,15 @@ $i=0;
         */
 $email=$em;
 if($rappel!="on"){
-    Mail::send('mail.mail',array('corps'=>$corps,'precisions'=>$precisions,'images'=>$images),function($message)use ($email ){
+    Mail::send('mail.mail',array('corps'=>$corps,'precisions'=>$precisions,'images'=>$images),function($message)use ($email,$images ){
 
 
         $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->nom." ".\Illuminate\Support\Facades\Auth::user()->prenoms )
             ->to($email)
             ->subject('Demande de devis');
+        foreach($images as $img):
+            $message->attach(URL::asset('/uploads/'.$img));
+        endforeach;
 
     });
 }else{
