@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use phpDocumentor\Reflection\Types\Array_;
@@ -305,7 +306,7 @@ if($rappel!="on"){
             $Trace_mail->id_fournisseur=$fournisseur->id;
             $Trace_mail->rappel=$rappel;
             $Trace_mail->email=$email;
-            $Trace_mail->das=$corps;
+            $Trace_mail->das=implode(',',$corps);
             $Trace_mail->save();
      //   dd(Mail::failures());
         endforeach;

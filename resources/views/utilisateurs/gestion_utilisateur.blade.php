@@ -66,11 +66,11 @@
                 <select class="form-control selectpicker" id="id_service" name="id_service" data-live-search="true" data-size="6" noneSelectedText="SELECTIONNER UN SERVICE">
                     <option value="">SELECTIONNER UN SERVICE</option>
 
-                    <option {{isset($utilisateur)&&$utilisateur->service=="Service matériel"? "selected":''}} value="Service matériel">Service matériel</option>
+                    <option {{isset($utilisateur)&&$utilisateur->service=="Service materiel"? "selected":''}} value="Service materiel">Service matériel</option>
                     <option  {{isset($utilisateur)&&$utilisateur->service=="Direction"? "selected":''}} value="Direction">Direction</option>
-                    <option {{isset($utilisateur)&&$utilisateur->service=="Secrétariat"? "selected":''}} value="Secrétariat">Secrétariat</option>
+                    <option {{isset($utilisateur)&&$utilisateur->service=="Secretariat"? "selected":''}} value="Secrétariat">Secrétariat</option>
                     <option  {{isset($utilisateur)&&$utilisateur->service=="Service travaux"? "selected":''}}value="Service travaux">Service travaux </option>
-                    <option {{isset($utilisateur)&&$utilisateur->service=="Service méthodes"? "selected":''}} value="Service méthodes">Service méthodes </option>
+                    <option {{isset($utilisateur)&&$utilisateur->service=="Service methodes"? "selected":''}} value="Service methodes">Service méthodes </option>
                     <option {{isset($utilisateur)&&$utilisateur->service=="Service informatique"? "selected":''}} value="Service informatique">Service informatique </option>
                 </select>
             </div>

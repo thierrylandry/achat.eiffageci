@@ -47,10 +47,11 @@ class BCController extends Controller
             ->where('boncommande.slug','=',$slug)
             ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','service_demandeur')->first();
 
-        $devis=DB::table('devis')
-            ->where('id_bc','=',$bc->id)
-            ->select('titre_ext','quantite','unite','prix_unitaire','remise','prix_tot','devis.codeRubrique','devise')->get();
 
+        $devis=DB::table('devis')
+            ->join('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
+            ->where('id_bc','=',$bc->id)
+            ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.devise','commentaire')->get();
 
         $taille=sizeof($devis);
         // Send data to the view using loadView function of PDF facade
@@ -130,18 +131,22 @@ return $view;
     }
     public function send_it_personnalisé(Request $request){
         $parameters=$request->except(['_token']);
-        $To=$parameters['To'];
+
         $msg_contenu=$parameters['compose-textarea'];
-        $bc_slug=$parameters['bc'];
-        $contact=explode(',',$To);
+
+        $bc_slug=$parameters['bcc'];
+
+        $contact=explode(',',$parameters['To']);
         $bc= DB::table('boncommande')
             ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
             ->where('boncommande.id','=',$bc_slug)
             ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','service_demandeur','contact')->first();
         $devis=DB::table('devis')
+            ->join('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
             ->where('id_bc','=',$bc->id)
-            ->select('titre_ext','quantite','unite','prix_unitaire','remise','prix_tot','devis.codeRubrique','devise')->get();
+            ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.devise','commentaire')->get();
         $taille=sizeof($devis);
+        $tothtax = 0;
         // Send data to the view using loadView function of PDF facade
         $pdf = PDF::loadView('BC.bon-commande', compact('bc','devis','tothtax','taille'));
 
@@ -199,7 +204,7 @@ return $view;
 
                 // If you want to store the generated pdf to the server then you can use the store function
                 $pdf->save(storage_path('bon_commande').'\bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
-                Mail::send('empty_mail.mail_bc',array("msg_contenu"=>$msg_contenu),function($message)use ($conct,$numBonCommande,$images){
+                Mail::send('mail.empty_mail',array("msg_contenu"=>$msg_contenu),function($message)use ($conct,$numBonCommande,$images){
                     $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->nom." ".\Illuminate\Support\Facades\Auth::user()->prenoms)
                         ->to($conct)
                         ->to(\Illuminate\Support\Facades\Auth::user()->email)
@@ -223,6 +228,7 @@ return $view;
         $lignebesoin->save();
         // Finally, you can download the file using download function
         $pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
+        $tothtax = 0;
         return redirect()->route('gestion_bc')->with('success', "Envoie d'email reussi");
 
     }
@@ -241,8 +247,10 @@ return $view;
 
 
         $devis=DB::table('devis')
+            ->join('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
             ->where('id_bc','=',$bc->id)
-            ->select('titre_ext','quantite','unite','prix_unitaire','remise','prix_tot','devis.codeRubrique','devise')->get();
+            ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.devise','commentaire')->get();
+
 
         $tothtax = 0;
         $taille=sizeof($devis);

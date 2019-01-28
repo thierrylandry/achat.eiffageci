@@ -35,11 +35,11 @@
                     <select class="form-control selectpicker" id="id_service" name="id_service" data-live-search="true" data-size="6" noneSelectedText="SELECTIONNER UN SERVICE" {{$bc->etat!=1?'disabled':''}}  required >
                         <option value="">SELECTIONNER UN SERVICE</option>
 
-                        <option {{isset($bc->service_demandeur)&&$bc->service_demandeur=="Service matériel"? "selected":''}} value="Service matériel">Service matériel</option>
+                        <option {{isset($bc->service_demandeur)&&$bc->service_demandeur=="Service materiel"? "selected":''}} value="Service materiel">Service matériel</option>
                         <option  {{isset($bc->service_demandeur)&&$bc->service_demandeur=="Direction"? "selected":''}} value="Direction">Direction</option>
-                        <option {{isset($bc->service_demandeur)&&$bc->service_demandeur=="Secrétariat"? "selected":''}} value="Secrétariat">Secrétariat</option>
+                        <option {{isset($bc->service_demandeur)&&$bc->service_demandeur=="Secretariat"? "selected":''}} value="Secretariat">Secrétariat</option>
                         <option  {{isset($bc->service_demandeur)&&$bc->service_demandeur=="Service travaux"? "selected":''}}value="Service travaux">Service travaux </option>
-                        <option {{isset($bc->service_demandeur)&&$bc->service_demandeur=="Service méthodes"? "selected":''}} value="Service méthodes">Service méthodes </option>
+                        <option {{isset($bc->service_demandeur)&&$bc->service_demandeur=="Service methodes"? "selected":''}} value="Service methodes">Service méthodes </option>
                         <option {{isset($bc->service_demandeur)&&$bc->service_demandeur=="Service informatique"? "selected":''}} value="Service informatique">Service informatique </option>
                     </select>
                 </div>

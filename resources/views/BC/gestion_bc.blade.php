@@ -76,17 +76,20 @@
                                     <div class="col-md-12">
                                         <div class="card card-primary card-outline">
 
-                                            <input type="" name="bc" />
+
                                             <!-- /.card-header -->
                                             <div class="card-body">
                                                 <div class="form-group">
-                                                    <input id="To" class="form-control" placeholder="To:" readonly>
+                                                    <input id="To" name="To" class="form-control" placeholder="To:" readonly>
+                                                    <input  name="bcc" id="bcc" class="form-control" style="visibility: hidden"/>
                                                 </div>
                                                 <div class="form-group">
                                                     <input class="form-control" placeholder="Subject:" value="TRANSMISSION DE BON DE COMMANDE" readonly>
                                                 </div>
                                                 <div class="form-group">
-                    <div contentEditable="true" id="compose-textarea" class="form-control"  style="overflow-y: scroll;max-height: 300px;min-height: 300px;"></div>
+
+                    <textarea  id="compose-textarea" name="compose-textarea" class="form-control"  style="overflow-y: scroll;max-height: 300px;min-height: 300px;"></textarea>
+
                                                 </div>
 
                                             </div>
@@ -98,7 +101,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <div class="float-right">
-                                        <button type="submit" class="btn btn-primary"> <i class="fa fa-file-pdf-o"></i> <i class="fa fa-envelope-o"></i> <i class="fa fa-paper-plane-o"></i></button>
+                                        <button type="submit" id="send_it_personnalisé" class="btn btn-primary"> <i class="fa fa-file-pdf-o"></i> <i class="fa fa-envelope-o"></i> <i class="fa fa-paper-plane-o"></i></button>
                                     </div>
 
                                 </div>
@@ -341,21 +344,32 @@ var le_selectionne="";
 
         });
 
+        $('#compose-textarea').change(function(){
+            $('#msg').empty();
+            var valeur=$("#compose-textarea").html();
+            $('#msg').append(valeur);
+        });
 $('#personnaliser').click(function(){
     $('#To').empty();
     $("#compose-textarea").empty();
     $('#confirm_email').modal('hide');
     $('#To').val(valeur.substring(1,valeur.length));
 
-    $.get("afficher_le_mail/"+$("#bc_slug").val(),
+    var bc_slug="";
+    bc_slug=$('#bc_slug').val();
+
+
+
+    $.get("afficher_le_mail/"+bc_slug,
             function (data) {
             var    html = $.parseHTML( data ),nodeNames = [];
                 console.log(html);
-                $("#compose-textarea").append(html[0]);
-
+             //   $("#compose-textarea").val(html[0].innerText);
+                $('#bcc').val(bc_slug);
             }
     );
 })
+
 
 
     </script>
