@@ -17,8 +17,8 @@
 
 
                         <form role="form" id="FormRegister" class="" method="post" action="{{route('Validdas')}}">
-                            <div class="col-sm-2"><img id="image"  width="200px" height="200px" onclick="voir(this)"/></div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-2 " ><img id="image"  width="200px" height="200px" onclick="voir(this)"/></div>
+                            <div class="col-sm-4 col-sm-offset-1">
 
                             @csrf<div class="form-group">
                                 <label for="libelle" class="control-label">Produit et service</label>
@@ -138,7 +138,7 @@
                 "13">Commentaire</a>
             </div>
             </br>
-            <table name ="tableDA" id="tableDA" class='table table-bordered table-striped  no-wrap responsive '>
+            <table name ="tableDA" id="tableDA" class='table table-bordered table-striped  no-wrap responsive ' style="width: 40%">
 
                 <thead>
 

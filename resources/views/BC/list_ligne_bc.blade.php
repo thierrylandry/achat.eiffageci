@@ -129,9 +129,12 @@
     </tfooter>
 </table>
 
-<div class="row">
+<div class="row"  style="width: 90%">
     <div class="col-sm-1 pull-right">
         <a href="{{route('valider_commande',['id'=>$bc->slug])}}" class="btn btn-info" {{$bc->etat!=1?'disabled':''}} >VALIDER LE BON</a>
+
+    </div>
+    <div class="col-sm-1 pull-right">
 
     </div>
     <div class="col-sm-1 pull-right">

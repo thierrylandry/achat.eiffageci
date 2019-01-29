@@ -14,17 +14,17 @@
         </tr>
         </thead>
         <tbody>
-        @if($taille<=9)
+        @if($taille<=6)
 
-            @if($taille==9)
+            @if($taille==6)
                 @else
 
             @endif
             @foreach($devis as $dev)
-                @if($loop->index + 1!=9)
+                @if($loop->index + 1!=6)
                 <tr>
                     <td  style="border-bottom-color: white">{{$loop->index + 1}}</td>
-                    <td  style="border-bottom-color: white">{{$dev->titre_ext }}</br> {{$dev->commentaire }}commentaire</td>
+                    <td  style="border-bottom-color: white">{{$dev->titre_ext }}<br> {{$dev->commentaire }}commentaire</td>
                     <td style=" text-align: center;border-bottom-color: white">{{$dev->codeRubrique}}</td>
                     <td style=" text-align: center;border-bottom-color: white">{{$dev->quantite}}</td>
                     <td style="border-bottom-color: white">{{$dev->unite}}</td>
@@ -50,7 +50,7 @@
                 @endif
             @endforeach
 
-        @for($i=0;$i<$val=9-$taille;$i++)
+        @for($i=0;$i<$val=6-$taille;$i++)
             @if($i==$val-1)
                 <tr>
                     <td >&nbsp;&nbsp;&nbsp;</td>
@@ -77,7 +77,7 @@
                 </tr>
             @endif
         @endfor
-            @elseif( $taille>9)
+            @elseif( $taille>6)
         @foreach($devis as $dev)
 <<<<<<< HEAD
         <tr>

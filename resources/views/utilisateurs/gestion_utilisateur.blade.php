@@ -68,7 +68,7 @@
 
                     <option {{isset($utilisateur)&&$utilisateur->service=="Service materiel"? "selected":''}} value="Service materiel">Service matériel</option>
                     <option  {{isset($utilisateur)&&$utilisateur->service=="Direction"? "selected":''}} value="Direction">Direction</option>
-                    <option {{isset($utilisateur)&&$utilisateur->service=="Secretariat"? "selected":''}} value="Secrétariat">Secrétariat</option>
+                    <option {{isset($utilisateur)&&$utilisateur->service=="Secretariat"? "selected":''}} value="Secretariat">Secrétariat</option>
                     <option  {{isset($utilisateur)&&$utilisateur->service=="Service travaux"? "selected":''}}value="Service travaux">Service travaux </option>
                     <option {{isset($utilisateur)&&$utilisateur->service=="Service methodes"? "selected":''}} value="Service methodes">Service méthodes </option>
                     <option {{isset($utilisateur)&&$utilisateur->service=="Service informatique"? "selected":''}} value="Service informatique">Service informatique </option>
@@ -101,7 +101,9 @@
                 </fieldset>
         </div>
         </form>
-
+</br>
+</br>
+</br>
         <div class="row">
             <div class="col-sm-12 col-xr-12">
                 @include('utilisateurs/list_utilisateur')
