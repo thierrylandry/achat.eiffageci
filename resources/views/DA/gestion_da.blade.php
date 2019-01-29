@@ -23,7 +23,7 @@
                                             @endif
                                 @endforeach
                                     </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-4 col-sm-offset-1">
 
                                 @csrf<div class="form-group">
                                     <label for="libelle" class="control-label">Produit et service</label>
@@ -96,7 +96,7 @@
                                     <input type="date" class="form-control" id="DateBesoin" name="DateBesoin" placeholder="DateBesoin" value="{{isset($da)? $da->DateBesoin:''}}" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="commentaire">Commentaire</label>
+                                    <label for="commentaire">Commentaire (Attention ceci figurera sur le bon de commande)</label>
                                     <textarea id="commentaire" name="commentaire" class="form-control col-sm-8" style="height: 100px">{{isset($da)? $da->commentaire:''}}</textarea>
                                 </div>
                                 <input type="hidden" class="form-control" id="slug" name="slug" placeholder="" value="{{isset($da)? $da->slug:''}}">

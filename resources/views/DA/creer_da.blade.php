@@ -94,13 +94,15 @@
                                     <input type="date" class="form-control" id="DateBesoin" name="DateBesoin" placeholder="DateBesoin" value="{{isset($da)? $da->DateBesoin:''}}" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="commentaire">Commentaire</label>
-                                    <textarea id="commentaire" name="commentaire" class="form-control col-sm-8" style="height: 100px">{{isset($da)? $da->motif:''}}</textarea>
+                                    <label for="commentaire">Commentaire (Attention ceci figurera sur le bon de commande) </label>
+                                    <textarea id="commentaire" name="commentaire" class="form-control col-sm-8" style="height: 100px" maxlength="60">{{isset($da)? $da->motif:''}}</textarea>
                                 </div>
 
                                 <input type="hidden" class="form-control" id="slug" name="slug" placeholder="" value="{{isset($da)? $da->slug:''}}">
                                 <input type="hidden" class="form-control" id="id_user" name="id_user" placeholder="" value="{{ Auth::user()->id }}">
                                 <br>
+                                <br>
+                                <br>                                <br>
                                 <br>
                                 <br>
                                 <div class="form-group col-sm-4 col-sm-push-8" >
@@ -173,18 +175,18 @@
                         <td>
 
                             @if($da->etat==1)
-                                <i class="fa fa-circle "  style="color: #f0ad4e"></i>
+                                <i class="fa fa-circle "  style="color: red"></i>
 
                             @elseif($da->etat==2)
                                 <i class="fa fa-circle" style="color: mediumspringgreen"></i>
                             @elseif($da->etat==3)
-                                <i class="fa fa-circle" style="color: black"></i>
+                                <i class="fa fa-circle" style="color: #f0ad4e"></i>
                             @elseif($da->etat==0)
-                                <i class="fa fa-circle" style="color: red"></i>
+                                <i class="fa fa-circle" style="color: black"></i>
                             @elseif($da->etat==4)
-                                <i class="fa fa-hourglass-end"></i>
+                                <i class="fa fa-circle" style="color:#00ffff"></i>
                             @elseif($da->etat==11)
-                                <i class="fa fa-circle" style="color: red"></i>
+                                <i class="fa fa-circle" style="color: violet"></i>
                             @endif
                         </td>
                         <td>
@@ -262,9 +264,7 @@
                                 <a href="{{route('confirmer_da',['slug'=>$da->slug])}} "id="btnconfirmerda2" data-toggle="modal" class="btn btn-success">
                                     <i class=" fa fa-check-circle" style="size: 40px"> Accepter ?</i>
                                 </a>
-                                <a href="" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" id="btnconfirmerda2" data-toggle="modal" class="btn btn-danger btn_refuser">
-                                    <i class=" fa fa-check-circle" style="size: 40px"> Refuser ?</i>
-                                </a>
+
                                 <div class="btn-group " >
                                     <button type="button" class="btn btn-default btn-flat ">Autres</button>
                                     <button type="button" class="btn btn-default btn-flat dropdown-toggle" data-toggle="dropdown">
@@ -285,9 +285,6 @@
                             @elseif($da->etat==2)
                                 <a href="{{route('suspendre_da',['slug'=>$da->slug])}} "id="btnconfirmerda12" data-toggle="modal" class="btn btn-warning ">
                                     <i class=" fa fa-pause" style="size: 40px"> Suspendre ?</i>
-                                </a>
-                                <a href="" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" id="btnconfirmerda2" data-toggle="modal" class="btn btn-danger btn_refuser">
-                                    <i class=" fa fa-check-circle" style="size: 40px"> Refuser ?</i>
                                 </a>
                             @elseif($da->etat==0)
                                 <a href="{{route('confirmer_da',['slug'=>$da->slug])}} " id="btnconfirmerda2" data-toggle="modal" class="btn btn-success ">
@@ -428,7 +425,15 @@
 
 
             });
+
         })(jQuery);
+
+    </script>
+    <script type="application/javascript">
+        function compte(){
+            var text=  document.getElementById('commentaire').innerHTML;
+            document.getElementById('carac').innerHTML=text.lenght;
+        }
 
     </script>
 @endsection

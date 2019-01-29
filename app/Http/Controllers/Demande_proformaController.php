@@ -350,11 +350,21 @@ if($rappel!="on"){
 
     public function les_das_fournisseurs_funct($domaine)
     {
-        $valeur = array($domaine);
+
+
+
         $types = DB::table('fournisseur')
-            ->whereIn('domaine', $valeur)
-            ->distinct()->get();
-        return response()->json($types);
+                    ->distinct()->get();
+        $tableau = Array();
+
+        foreach($types as $type):
+            $tab = explode(',',$type->domaine);
+
+            if(in_array($domaine,$tab)){
+                $tableau[]=$type;
+            }
+        endforeach;
+        return response()->json($tableau);
 
     }
 

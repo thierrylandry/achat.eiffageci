@@ -112,7 +112,7 @@
                                                 <td><select class="form-control" id="row_n_{{$da->id}}_fournisseur" name="row_n_{{$da->id}}_fournisseur">
                                                         <option value="">SELECTIONNER UN  FOURNISSEUR</option>
                                                         @foreach($fournisseurs as $fournisseur)
-                                                            @if($fournisseur->domaine==$da->type)
+                                                            @if(in_array($da->type,explode(',',$fournisseur->domaine)))
                                                                 <option  @if( isset($tab_proposition[$da->id]) && $fournisseur->id==$tab_proposition[$da->id]->id_fournisseur)
                                                                          {{'selected'}}
                                                                          @endif  value="{{$fournisseur->id}}">{{$fournisseur->libelle}}</option>
@@ -230,7 +230,7 @@
                                                         @foreach($fournisseurs as $fournisseur)
                                                             @foreach($materiels as $materiel)
                                                                 @if($devi->id_materiel==$materiel->id)
-                                                                    @if($fournisseur->domaine==$materiel->type)
+                                                                    @if(in_array($materiel->type,explode(',',$fournisseur->domaine)))
                                                                         @if($fournisseur->id==$devi->id_fournisseur)
                                                                             <option value="{{$fournisseur->id}}" selected>{{$fournisseur->libelle}}</option>
                                                                             @else

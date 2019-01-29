@@ -19,23 +19,23 @@
         <tr>
             <td>{{$bc->id}}</td>
             <td>                        @if($bc->etat==1)
-                    <i class="fa fa-circle "  style="color: #f0ad4e"><p style="visibility: hidden">1</p></i>
+                    <i class="fa fa-circle "  style="color:  red"><p style="visibility: hidden">1</p></i>
 
                 @elseif($bc->etat==2)
                     <i class="fa fa-circle" style="color: mediumspringgreen"><p style="visibility: hidden">2</p></i>
                 @elseif($bc->etat==3)
-                    <i class="fa fa-circle" style="color: black"><p style="visibility: hidden">3</p></i>
+                    <i class="fa fa-circle" style="color: #f0ad4e"><p style="visibility: hidden">3</p></i>
                 @elseif($bc->etat==4)
                  <a href="" data-toggle="modal" class="">
-                        <i class="fa fa-hourglass-end"></i> Terminé
+                     <i class="fa fa-circle" style="color: #00ffff"><p style="visibility: hidden">4</p></i>
                     </a>
                 @elseif($bc->etat==11)
                     <a href="" data-toggle="modal" class="">
-                        <i class="fa fa-arrow-circle-right"></i> Retourné
+                        <i class="fa fa-circle" style="color: violet"><p style="visibility: hidden">11</p></i>
                     </a>
 
                 @elseif($bc->etat==0)
-                    <i class="fa fa-circle" style="color: red"><p style="visibility: hidden">0</p></i>
+                    <i class="fa fa-circle" style="color: black"><p style="visibility: hidden">0</p></i>
                 @endif
 
             </td>

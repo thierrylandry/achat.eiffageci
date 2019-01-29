@@ -24,7 +24,7 @@
                 @if($loop->index + 1!=6)
                 <tr>
                     <td  style="border-bottom-color: white">{{$loop->index + 1}}</td>
-                    <td  style="border-bottom-color: white">{{$dev->titre_ext }}<br> {{$dev->commentaire }}commentaire</td>
+                    <td  style="border-bottom-color: white">{{$dev->titre_ext }}<br> {{$dev->commentaire }}</td>
                     <td style=" text-align: center;border-bottom-color: white">{{$dev->codeRubrique}}</td>
                     <td style=" text-align: center;border-bottom-color: white">{{$dev->quantite}}</td>
                     <td style="border-bottom-color: white">{{$dev->unite}}</td>
@@ -37,7 +37,7 @@
                     @else
                     <tr>
                         <td  style="">{{$loop->index + 1}}</td>
-                        <td  style="border-bottom-color: white">{{$dev->titre_ext }}</br> {{$dev->commentaire }}commentaire</td>
+                        <td  style="border-bottom-color: white">{{$dev->titre_ext }}</br> {{$dev->commentaire }}</td>
                         <td style=" text-align: center;">{{$dev->codeRubrique}}</td>
                         <td style=" text-align: center;">{{$dev->quantite}}</td>
                         <td style="">{{$dev->unite_ligne}}</td>
@@ -82,7 +82,7 @@
 <<<<<<< HEAD
         <tr>
             <td>{{$loop->index + 1}}</td>
-            <td  style="border-bottom-color: white">{{$dev->titre_ext }}</br> {{$dev->commentaire }}commentaire</td>
+            <td  style="border-bottom-color: white">{{$dev->titre_ext }}</br> {{$dev->commentaire }}</td>
             <td style=" text-align: center;">{{$dev->codeRubrique}}</td>
             <td style=" text-align: center;">{{$dev->quantite}}</td>
             <td>{{$dev->unite_ligne}}</td>
@@ -95,7 +95,7 @@
 =======
             <tr >
                 <td style="border-bottom-color: white">{{$loop->index + 1}} </td>
-                <td  style="border-bottom-color: white">{{$dev->titre_ext }}</br> {{$dev->commentaire }}commentaire</td>
+                <td  style="border-bottom-color: white">{{$dev->titre_ext }}</br> {{$dev->commentaire }}</td>
                 <td style=" text-align: center;border-bottom-color: white">{{$dev->codeRubrique}}</td>
                 <td style=" text-align: center;border-bottom-color: white">{{$dev->quantite}}</td>
                 <td style="border-bottom-color: white">{{$dev->unite_ligne}}</td>
