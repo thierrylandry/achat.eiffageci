@@ -16,7 +16,7 @@
     <div class="row">
 
 
-                        <form role="form" id="FormRegister" class="" method="post" action="{{route('Validdas')}}">
+                        <form role="form" id="FormRegister" class="" method="post" action="{{route('Validdas')}}" onsubmit="return confirm('Voulez vous enregistrer?');">
                             <div class="col-sm-2 " ><img id="image"  width="200px" height="200px" onclick="voir(this)"/></div>
                             <div class="col-sm-4 col-sm-offset-1">
 
@@ -261,7 +261,7 @@
 
 
                             @if($da->etat==1)
-                                <a href="{{route('confirmer_da',['slug'=>$da->slug])}} "id="btnconfirmerda2" data-toggle="modal" class="btn btn-success">
+                                <a href="{{route('confirmer_da',['slug'=>$da->slug])}} "  id="btnconfirmerda2" data-toggle="modal" class="btn btn-success confirmons">
                                     <i class=" fa fa-check-circle" style="size: 40px"> Accepter ?</i>
                                 </a>
 
@@ -287,7 +287,7 @@
                                     <i class=" fa fa-pause" style="size: 40px"> Suspendre ?</i>
                                 </a>
                             @elseif($da->etat==0)
-                                <a href="{{route('confirmer_da',['slug'=>$da->slug])}} " id="btnconfirmerda2" data-toggle="modal" class="btn btn-success ">
+                                <a href="{{route('confirmer_da',['slug'=>$da->slug])}} " id="btnconfirmerda2" onclick="" data-toggle="modal" class="btn btn-success confirmons ">
                                     <i class=" fa fa-check-circle" > </i>Accepter ?
                                 </a>
 
@@ -402,8 +402,9 @@
                 }
             } );
 
-            $('#button').click( function () {
+            $('.confirmons').click( function (e) {
                 //   table.row('.selected').remove().draw( false );
+                if(confirm('Voulez vous confirmer la D.A.?')){}else{e.preventDefault(); e.returnValue = false; return false; }
             } );
 
 
@@ -434,6 +435,15 @@
             var text=  document.getElementById('commentaire').innerHTML;
             document.getElementById('carac').innerHTML=text.lenght;
         }
+        function confirmation(e){
+            if(confirm('Voulez vous confirmer la D.A.?')){
+
+            }else{
+                e.preventDefault(); e.returnValue = false; return false;
+            }}
+        $('#btnconfirmerda2').click(function(e){
+           event.preventDefault;
+        });
 
     </script>
 @endsection

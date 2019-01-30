@@ -28,7 +28,7 @@
         <br>
                 <div class="col-sm-4">
 
-                                    <form role="form" id="FormRegister" class="bucket-form" method="post" action="{{route('envoies')}}">
+                                    <form role="form" id="FormRegister" class="bucket-form" method="post" action="{{route('envoies')}}" onsubmit="return confirm('Voulez vous envoyer le(s) email(s)?');">
                         @csrf
 
                                         <div class="form-group">

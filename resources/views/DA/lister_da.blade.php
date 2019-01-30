@@ -37,7 +37,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-danger">refuser</button>
+                    <button type="submit" class="btn btn-danger btn_refuse">refuser</button>
                 </div>
                 </form>
             </div>
@@ -183,7 +183,7 @@
 
 
                             @if($da->etat==1)
-                                <a href="{{route('confirmer_da',['slug'=>$da->slug])}} "id="btnconfirmerda2" data-toggle="modal" class="btn btn-success">
+                                <a href="{{route('confirmer_da',['slug'=>$da->slug])}} "id="btnconfirmerda2" data-toggle="modal" class="btn btn-success confirmons">
                                     <i class=" fa fa-check-circle" style="size: 40px"> Accepter ?</i>
                                 </a>
                                 <a href="" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" id="btnconfirmerda2" data-toggle="modal" class="btn btn-danger btn_refuser">
@@ -214,7 +214,7 @@
                                     <i class=" fa fa-check-circle" style="size: 40px"> Refuser ?</i>
                                 </a>
                             @elseif($da->etat==0)
-                                <a href="{{route('confirmer_da',['slug'=>$da->slug])}} " id="btnconfirmerda2" data-toggle="modal" class="btn btn-success ">
+                                <a href="{{route('confirmer_da',['slug'=>$da->slug])}} " id="btnconfirmerda2" data-toggle="modal" class="btn btn-success confirmons">
                                     <i class=" fa fa-check-circle" > </i>Accepter ?
                                 </a>
 
@@ -309,6 +309,14 @@
 
 
             });
+            $('.confirmons').click( function (e) {
+                //   table.row('.selected').remove().draw( false );
+                if(confirm('Voulez vous confirmer la D.A.?')){}else{e.preventDefault(); e.returnValue = false; return false; }
+            } );
+            $('.btn_refuse').click( function (e) {
+                //   table.row('.selected').remove().draw( false );
+                if(confirm('Voulez vous refuser la D.A.?')){}else{e.preventDefault(); e.returnValue = false; return false; }
+            } );
         })(jQuery);
 
     </script>

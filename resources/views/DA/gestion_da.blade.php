@@ -102,6 +102,10 @@
                                 <input type="hidden" class="form-control" id="slug" name="slug" placeholder="" value="{{isset($da)? $da->slug:''}}">
                                 <input type="hidden" class="form-control" id="id_user" name="id_user" placeholder="" value="{{ Auth::user()->id }}">
                                 <br>
+                                <br>
+                                <br>                                <br>
+                                <br>
+                                <br>
                                 <div class="form-group col-sm-4 col-sm-push-8" >
                                     <button type="submit"  id="btnvalider"class="btn btn-success form-control">{{isset($da)? 'Modifier':'Ajouter'}}</button>
                                 </div>
@@ -135,7 +139,7 @@
             "13">Commentaire</a>
         </div>
         </br>
-        <table name ="tableDA" id="tableDA" class='table table-bordered table-striped  no-wrap responsive '>
+        <table name ="tableDA" id="tableDA" class='table table-bordered table-striped  no-wrap responsive ' style="width: 40%">
 
             <thead>
 
@@ -170,18 +174,18 @@
                     <td>
 
                         @if($da->etat==1)
-                            <i class="fa fa-circle "  style="color: #f0ad4e"></i>
+                            <i class="fa fa-circle "  style="color: red"></i>
 
                         @elseif($da->etat==2)
                             <i class="fa fa-circle" style="color: mediumspringgreen"></i>
                         @elseif($da->etat==3)
-                            <i class="fa fa-circle" style="color: black"></i>
+                            <i class="fa fa-circle" style="color: #f0ad4e"></i>
                         @elseif($da->etat==0)
-                            <i class="fa fa-circle" style="color: red"></i>
+                            <i class="fa fa-circle" style="color: black"></i>
                         @elseif($da->etat==4)
-                            <i class="fa fa-hourglass-end"></i>
+                            <i class="fa fa-circle" style="color:#00ffff"></i>
                         @elseif($da->etat==11)
-                            <i class="fa fa-circle" style="color: red"></i>
+                            <i class="fa fa-circle" style="color: violet"></i>
                         @endif
                     </td>
                     <td>
@@ -256,12 +260,10 @@
 
 
                         @if($da->etat==1)
-                            <a href="{{route('confirmer_da',['slug'=>$da->slug])}} "id="btnconfirmerda2" data-toggle="modal" class="btn btn-success">
+                            <a href="{{route('confirmer_da',['slug'=>$da->slug])}} "  id="btnconfirmerda2" data-toggle="modal" class="btn btn-success confirmons">
                                 <i class=" fa fa-check-circle" style="size: 40px"> Accepter ?</i>
                             </a>
-                            <a href="" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" id="btnconfirmerda2" data-toggle="modal" class="btn btn-danger btn_refuser">
-                                <i class=" fa fa-check-circle" style="size: 40px"> Refuser ?</i>
-                            </a>
+
                             <div class="btn-group " >
                                 <button type="button" class="btn btn-default btn-flat ">Autres</button>
                                 <button type="button" class="btn btn-default btn-flat dropdown-toggle" data-toggle="dropdown">
@@ -283,11 +285,8 @@
                             <a href="{{route('suspendre_da',['slug'=>$da->slug])}} "id="btnconfirmerda12" data-toggle="modal" class="btn btn-warning ">
                                 <i class=" fa fa-pause" style="size: 40px"> Suspendre ?</i>
                             </a>
-                            <a href="" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" id="btnconfirmerda2" data-toggle="modal" class="btn btn-danger btn_refuser">
-                                <i class=" fa fa-check-circle" style="size: 40px"> Refuser ?</i>
-                            </a>
                         @elseif($da->etat==0)
-                            <a href="{{route('confirmer_da',['slug'=>$da->slug])}} " id="btnconfirmerda2" data-toggle="modal" class="btn btn-success ">
+                            <a href="{{route('confirmer_da',['slug'=>$da->slug])}} " id="btnconfirmerda2" onclick="" data-toggle="modal" class="btn btn-success confirmons ">
                                 <i class=" fa fa-check-circle" > </i>Accepter ?
                             </a>
 
@@ -330,7 +329,7 @@
                 language: {
                     url: "js/French.json"
                 },
-                "ordering":true,
+                "ordering":false,
                 "createdRow": function( row, data, dataIndex){
 
                 },
@@ -365,6 +364,10 @@
                         }
                 );
             });
+            $('.confirmons').click( function (e) {
+                //   table.row('.selected').remove().draw( false );
+                if(confirm('Voulez vous confirmer la D.A.?')){}else{e.preventDefault(); e.returnValue = false; return false; }
+            } );
         </script>
     </div>
 @endsection

@@ -78,7 +78,7 @@ class DAController
     }
     public function voir_da($slug)
     {
-        $das = DA::all();
+        $das=  DA::where('id_user','=',\Illuminate\Support\Facades\Auth::user()->id)->orderBy('created_at', 'DESC')->get();
         $da = DA::where('slug', '=', $slug)->first();
         $domaines=  DB::table('domaines')->get();
         $fournisseurs=Fournisseur::all();

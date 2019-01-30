@@ -70,15 +70,15 @@
                             </button>
                             <div class="dropdown-menu" role="menu">
 
-                                <a href="{{route('valider_commande',['id'=>$bc->slug])}}" data-toggle="modal" class="">
+                                <a href="{{route('valider_commande',['id'=>$bc->slug])}}" data-toggle="modal" class="validercom">
                                     <i class=" fa fa-check-square-o"></i> Valider le bon
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a href="{{route('refuser_commande',['id'=>$bc->slug])}}" data-toggle="modal" class="">
+                                <a href="{{route('refuser_commande',['id'=>$bc->slug])}}" data-toggle="modal" class="reject">
                                     <i class="fa fa-ban"></i> Rejeter le bon
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a href="{{route('supprimer_bc',['slug'=>$bc->slug])}}" data-toggle="modal" class="">
+                                <a href="{{route('supprimer_bc',['slug'=>$bc->slug])}}" data-toggle="modal" class="sup">
                                     <i class=" fa fa-trash"></i>Supprimer
                                 </a>
                                 <div class="dropdown-divider"></div>
@@ -108,11 +108,11 @@
                         </button>
                         <div class="dropdown-menu" role="menu">
 
-                            <a href="{{route('valider_commande',['id'=>$bc->slug])}}" data-toggle="modal" class="">
+                            <a href="{{route('valider_commande',['id'=>$bc->slug])}}" data-toggle="modal" class="validercom">
                                 <i class=" fa fa-check-square-o"></i> Valider le bon
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a href="{{route('supprimer_bc',['slug'=>$bc->slug])}}" data-toggle="modal" class="">
+                            <a href="{{route('supprimer_bc',['slug'=>$bc->slug])}}" data-toggle="modal" class="sup">
                                 <i class=" fa fa-trash"></i>Supprimer
                             </a>
                             <div class="dropdown-divider"></div>
@@ -138,7 +138,7 @@
                         <i class="fa fa-file-pdf-o"></i>
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a href="{{route('supprimer_bc',['slug'=>$bc->slug])}}" data-toggle="modal" class="">
+                    <a href="{{route('supprimer_bc',['slug'=>$bc->slug])}}" data-toggle="modal" class="sup">
                         <i class=" fa fa-trash"></i>Supprimer
                     </a>
                 @endif
@@ -182,7 +182,19 @@
 
 </script>
 <script>
+    $('.validercom').click( function (e) {
+        //   table.row('.selected').remove().draw( false );
+        if(confirm('Voulez vous valide le Bon de commande ?')){}else{e.preventDefault(); e.returnValue = false; return false; }
+    } );
+    $('.reject').click( function (e) {
+        //   table.row('.selected').remove().draw( false );
+        if(confirm('Voulez vous rejeter Bon de commande ?')){}else{e.preventDefault(); e.returnValue = false; return false; }
+    } );
 
+    $('.sup').click( function (e) {
+        //   table.row('.selected').remove().draw( false );
+        if(confirm('Voulez vous supprimer Bon de commande ?')){}else{e.preventDefault(); e.returnValue = false; return false; }
+    } );
     var table= $('#bonCommandes').DataTable({
         language: {
             url: "js/French.json"
