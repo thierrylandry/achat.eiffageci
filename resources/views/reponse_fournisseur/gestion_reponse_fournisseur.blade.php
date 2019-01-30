@@ -301,65 +301,71 @@
 
 
             $('#soumettre').click( function() {
-                var data = table1.rows().data();
-                var lesId;
-                var lesIdmat;
-                console.log(data);
-                data.each(function (value, index) {
-                   // var valeur=parseInt(value);
-                    var valeur=value+'';
-                    var  text=valeur.split(",");
-                    if(typeof(valeur)!=="undefined"){
-                        lesId=lesId+','+text[0];
-                        lesIdmat=lesIdmat+','+text[1];
-                    }
 
-
-                });
-                var res= Array();
-                res.push(table1.$('input, select').serialize()) ;
-
-             //   console.log(data);
-                $.get("enregistrer_devis/"+res+"/"+lesId+"/"+lesIdmat,
-                        function (data) {
-            if(data==1){
-                location.reload();
-                    }
+                if( confirm('Voulez vous soumettre le(s) devis?')){
+                    var data = table1.rows().data();
+                    var lesId;
+                    var lesIdmat;
+                    console.log(data);
+                    data.each(function (value, index) {
+                        // var valeur=parseInt(value);
+                        var valeur=value+'';
+                        var  text=valeur.split(",");
+                        if(typeof(valeur)!=="undefined"){
+                            lesId=lesId+','+text[0];
+                            lesIdmat=lesIdmat+','+text[1];
                         }
-                );
-                return false;
+
+
+                    });
+                    var res= Array();
+                    res.push(table1.$('input, select').serialize()) ;
+
+                    //   console.log(data);
+                    $.get("enregistrer_devis/"+res+"/"+lesId+"/"+lesIdmat,
+                            function (data) {
+                                if(data==1){
+                                    location.reload();
+                                }
+                            }
+                    );
+                    return false;
+                }
+
             } );
             $('#soumettre1').click( function() {
-                var data = table2.rows().data();
-                var lesId;
-                var lesIdmat;
-                data.each(function (value, index) {
-                    // var valeur=parseInt(value);
-                    var valeur=value+'';
+                if( confirm('Voulez vous modifier le(s) devis?')) {
+                    var data = table2.rows().data();
+                    var lesId;
+                    var lesIdmat;
+                    data.each(function (value, index) {
+                        // var valeur=parseInt(value);
+                        var valeur = value + '';
 
-                    var  text=valeur.split(",");
+                        var text = valeur.split(",");
 
-                    if(typeof(valeur)!=="undefined"){
-                        lesId=lesId+','+text[0];
-                    }
-
-
-                });
-                var res= Array();
-                res.push(table2.$('input, select').serialize()) ;
-                //   console.log(data);
-
-                $.get("modifier_devis/"+res+"/"+lesId,
-                        function (data) {
-                            if(data==1){
-                                location.reload();
-                            }else{
-                                alert("Désolé la requette à déjà été traitée il est donc impossible de mofifier");
-                                location.reload();
-                            }
+                        if (typeof(valeur) !== "undefined") {
+                            lesId = lesId + ',' + text[0];
                         }
-                );
-                return false;
+
+
+                    });
+                    var res = Array();
+                    res.push(table2.$('input, select').serialize());
+                    //   console.log(data);
+
+                    $.get("modifier_devis/" + res + "/" + lesId,
+                            function (data) {
+                                if (data == 1) {
+                                    location.reload();
+                                } else {
+                                    alert("Désolé la requette à déjà été traitée il est donc impossible de mofifier");
+                                    location.reload();
+                                }
+                            }
+                    );
+                    return false;
+                }
             } );
             $('#fourn').selectpicker({
 

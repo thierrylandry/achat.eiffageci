@@ -395,6 +395,7 @@ $analytiques= Analytique::all();
         $parameters=$request->except(['_token']);
 
         $les_id_devis=explode(',',$parameters['les_id_devis']);
+        $commentaire=$parameters['commentaire'];
 
         $date= new \DateTime(null);
 
@@ -454,6 +455,7 @@ $analytiques= Analytique::all();
 
         $boncommande->date=$parameters['date_livraison'];
         $boncommande->service_demandeur=$parameters['id_service'];
+        $boncommande->commentaire_general=$commentaire;
 
       //  $sumligne=ligne_bc::where('id_bonCommande','=',$boncommande->id)->sum('prix_tot');
 

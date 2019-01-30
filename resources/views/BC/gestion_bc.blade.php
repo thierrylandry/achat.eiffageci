@@ -69,7 +69,7 @@
                     <h4 class="modal-title">Personnaliser l'E-mail</h4>
                 </div>
 
-                            <form action="{{route('send_it_personnalisé')}}" method="post">
+                            <form action="{{route('send_it_personnalisé')}}" onsubmit="return confirm('Voulez vous envoyé?');"  method="post">
 
                                 @csrf
                                 <div class="modal-body">
@@ -125,7 +125,7 @@
                 @if(isset($devis))
                     <form  action="{{route('update_ligne_bc')}}" method="post">
                         @else
-                            <form action="{{route('send_it')}}" method="post">
+                            <form action="{{route('send_it')}}" onsubmit="return confirm('Voulez vous envoyer?');" method="post">
                                 @endif
                                 @csrf
 

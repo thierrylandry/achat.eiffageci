@@ -5,11 +5,23 @@
 @endsection
 
 @section('content')
+<script> function validate(form) {
 
+        // validation code here ...
+
+
+        if(!valid) {
+            alert('SVP choisissez obligatoirement une date de livraison et un service demandeur!');
+            return false;
+        }
+        else {
+            return confirm('Voulez vous enregistrer??');
+        }
+    }</script>
 
     <h2>LISTE DES COMMANDES - N° BC : {{$bc->numBonCommande}} <a href="{{route('gestion_bc')}}" class="btn btn-default pull-right"><i class="fa fa-list" aria-hidden="true"></i> Lister</a></h2>
     <br>
-    <form method="post" action="{{route('save_ligne_bc')}}">
+    <form method="post" action="{{route('save_ligne_bc')}}" onsubmit="return confirm('Voulez vous enregistrer?');">
         @csrf
         <input type="hidden" name="id_bc" value="{{$bc->id}}"/>
         <input type="hidden" name="les_id_devis" value="{{$id_devi}}"/>
@@ -61,10 +73,21 @@
 
 
         </div>
-
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="col-sm-6 col-sm-offset-2">
+            <label for="commentaire">Commentaire général </label><br>
+            <br>
+            <textarea id="commentaire" name="commentaire" class="form-control col-sm-8" style="height: 100px" maxlength="80">{{isset($bc)? $bc->commentaire_general:''}}</textarea>
+        </div>
 
     </div>
-
+        <br>
+        <br>
 <table name ="ligneCommandes" id="ligneCommandes" class='table table-bordered table-striped  no-wrap display nowrap'>
 
     <thead>
@@ -131,14 +154,14 @@
 
 <div class="row"  style="width: 90%">
     <div class="col-sm-1 pull-right">
-        <a href="{{route('valider_commande',['id'=>$bc->slug])}}" class="btn btn-info" {{$bc->etat!=1?'disabled':''}} >VALIDER LE BON</a>
+        <a href="{{route('valider_commande',['id'=>$bc->slug])}}" class="btn btn-info" {{$bc->etat!=1?'disabled':''}} onclick="return confirm('Voulez vous enregistrer?');">VALIDER LE BON</a>
 
     </div>
     <div class="col-sm-1 pull-right">
 
     </div>
     <div class="col-sm-1 pull-right">
-        <button type="submit" class="btn btn-success" {{$bc->etat!=1?'disabled':''}} >ENREGISTRER</button>
+        <button type="submit" onclick="" class="btn btn-success" {{$bc->etat!=1?'disabled':''}} >ENREGISTRER</button>
 
     </div>
 
@@ -298,6 +321,7 @@ var tva_prod=ilisibilite_nombre(($(this).closest('td').prev().prev().html())*18)
             $('#ttc_serv').val(Math.round(ttc));
 
         })
+
     })(jQuery);
 </script>
 @endsection
