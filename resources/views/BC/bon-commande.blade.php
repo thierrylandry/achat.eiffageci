@@ -40,7 +40,7 @@
                         <td  style="border-bottom-color: white">{{$dev->titre_ext }}</br> {{$dev->commentaire }}</td>
                         <td style=" text-align: center;">{{$dev->codeRubrique}}</td>
                         <td style=" text-align: center;">{{$dev->quantite}}</td>
-                        <td style="">{{$dev->unite_ligne}}</td>
+                        <td style="">{{$dev->unite}}</td>
                         <td style=" text-align: right;">{{$dev->prix_unitaire}}</td>
                         <td style=" text-align: center;">{{$dev->remise}}</td>
                         <td style=" text-align: right;">{{$dev->prix_tot}}
@@ -100,7 +100,7 @@
             <td  style="border-bottom-color: white">{{$dev->titre_ext }}</br> {{$dev->commentaire }}</td>
             <td style=" text-align: center;">{{$dev->codeRubrique}}</td>
             <td style=" text-align: center;">{{$dev->quantite}}</td>
-            <td>{{$dev->unite_ligne}}</td>
+            <td>{{$dev->unite}}</td>
             <td style=" text-align: right;">{{$dev->prix_unitaire}}</td>
             <td style=" text-align: center;">{{$dev->remise}}</td>
             <td style=" text-align: right;">{{$dev->prix_tot}}
@@ -113,7 +113,7 @@
                 <td  style="border-bottom-color: white">{{$dev->titre_ext }}</br> {{$dev->commentaire }}</td>
                 <td style=" text-align: center;border-bottom-color: white">{{$dev->codeRubrique}}</td>
                 <td style=" text-align: center;border-bottom-color: white">{{$dev->quantite}}</td>
-                <td style="border-bottom-color: white">{{$dev->unite_ligne}}</td>
+                <td style="border-bottom-color: white">{{$dev->unite}}</td>
                 <td style=" text-align: right;border-bottom-color: white">{{$dev->prix_unitaire}}</td>
                 <td style=" text-align: center;border-bottom-color: white">{{$dev->remise}}</td>
                 <td style=" text-align: right;border-bottom-color: white">{{$dev->prix_tot}}

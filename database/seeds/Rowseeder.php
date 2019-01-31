@@ -22,6 +22,8 @@ class Rowseeder extends Seeder
         $role_da->description="GESTION DES D.A";
         $role_da->save();
 
+
+
         $role_confirm_da = new Role();
         $role_confirm_da->name="Valideur_DA";
         $role_confirm_da->description="VALIDATION DES D.A";

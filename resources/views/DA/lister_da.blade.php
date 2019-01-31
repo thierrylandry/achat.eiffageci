@@ -141,7 +141,7 @@
                                 @endif
                             @endforeach</td>
 
-                        <td>{{$da->quantite}}</td>
+                        <td>{{$da->quantite}} {{$da->unite}}</td>
                         <td>{{$da->DateBesoin}}</td>
                         <td>{{$da->demandeur}}</td>
                         <td>@foreach($users as $user )

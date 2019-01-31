@@ -128,7 +128,7 @@
     txtnom.addEventListener('keydown', function (e) {génère_mail()});
 
     $(document).ready(function (e) {
-        génère_mail();
+      //  génère_mail();
     });
 
     var table= $('#fournisseurs').DataTable({

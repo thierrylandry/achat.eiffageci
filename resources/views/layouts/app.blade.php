@@ -356,7 +356,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <span>Les D.A.</span>
                         </a>
                         <ul class="sub">
+                            @if(Auth::user() != null && Auth::user()->hasAnyRole(['Valideur_DA']))
                             <li @yield('lister_da')><a href="{{route('lister_da')}}">Lister les D.A.</a></li>
+                            @endif
                             <li  @yield('creer_da')><a href="{{route('creer_da')}}">Creer une  D.A.</a></li>
 
                         </ul>
