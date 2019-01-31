@@ -362,10 +362,15 @@ endforeach;
             ->join('reponse_fournisseur', 'fournisseur.id', '=', 'reponse_fournisseur.id_fournisseur')
 
             ->where('lignebesoin.etat', '=', 2)
-            ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();*/
+            ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
         $fournisseurs=DB::table('fournisseur')
             ->join('domaines', 'domaines.id', '=', 'fournisseur.domaine')
             ->select('libelle','libelleDomainne','fournisseur.id','fournisseur.domaine')->distinct()->get();
+        */
+        $fournisseurs= DB::table('fournisseur')
+            ->join('devis', 'fournisseur.id', '=', 'devis.id_fournisseur')
+            ->where('devis.etat', '=', 1)
+            ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
 
 $analytiques= Analytique::all();
         return view('BC/gestion_bc',compact('bcs','fournisseurs','utilisateurs','analytiques'));

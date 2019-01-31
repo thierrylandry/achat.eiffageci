@@ -1,4 +1,17 @@
 
+<div class="alert alert-warning ">
+    <span class="alert-icon"><i class="fa fa-bell-o"></i></span>
+    <div class="notification-info">
+        <ul class="clearfix notification-meta">
+            <li class="pull-left notification-sender">Vous avez  <b style="font-size: 24px">{{sizeof($fournisseurs)}}</b>  Bon de commande(s)en attente de création</li>
+
+        </ul>
+        <p>
+            ...
+        </p>
+    </div>
+</div>
+<br>
 <table name ="bonCommandes" id="bonCommandes" class='table table-bordered table-striped  no-wrap '>
 
     <thead>
