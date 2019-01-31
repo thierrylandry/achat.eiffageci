@@ -14,14 +14,24 @@
         </tr>
         </thead>
         <tbody>
-        @if($taille<=6)
+        @if($taille<=$taille_minim)
 
-            @if($taille==6)
-                @else
+            @if($bc->commentaire_general!="")
 
+                <tr>
+                    <td style="border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style="border-bottom-color: white; font-weight:bold; ">{{$bc->commentaire_general!=""?$bc->commentaire_general:''}}</td>
+                    <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style="border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style=" text-align: right;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style=" text-align: right;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</span>
+                    </td>
+                </tr>
             @endif
             @foreach($devis as $dev)
-                @if($loop->index + 1!=6)
+                @if($loop->index + 1!=$taille_minim)
                 <tr>
                     <td  style="border-bottom-color: white">{{$loop->index + 1}}</td>
                     <td  style="border-bottom-color: white">{{$dev->titre_ext }}<br> {{$dev->commentaire }}</td>
@@ -37,7 +47,7 @@
                     @else
                     <tr>
                         <td  style="">{{$loop->index + 1}}</td>
-                        <td  style="border-bottom-color: white">{{$dev->titre_ext }}</br> {{$dev->commentaire }}</td>
+                        <td  style="">{{$dev->titre_ext }}</br> {{$dev->commentaire }}</td>
                         <td style=" text-align: center;">{{$dev->codeRubrique}}</td>
                         <td style=" text-align: center;">{{$dev->quantite}}</td>
                         <td style="">{{$dev->unite}}</td>
@@ -50,20 +60,8 @@
                 @endif
             @endforeach
 
-            @if($bc->commentaire_general!="")
-                <tr>
-                    <td style="border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
-                    <td style="border-bottom-color: white">{{$bc->commentaire_general!=""?$bc->commentaire_general:''}}</td>
-                    <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
-                    <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
-                    <td style="border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
-                    <td style=" text-align: right;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
-                    <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
-                    <td style=" text-align: right;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</span>
-                    </td>
-                </tr>
-                @endif
-        @for($i=0;$i<$val=6-$taille;$i++)
+
+        @for($i=0;$i<$val=$taille_minim-$taille;$i++)
             @if($i==$val-1)
                 <tr>
                     <td >&nbsp;&nbsp;&nbsp;</td>
@@ -92,22 +90,24 @@
         @endfor
 
 
-            @elseif( $taille>6)
+            @elseif( $taille>$taille_minim)
+            @if($bc->commentaire_general!="")
+
+                <tr>
+                    <td style="border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style="border-bottom-color: white; font-weight:bold; ">{{$bc->commentaire_general!=""?$bc->commentaire_general:''}}</td>
+                    <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style="border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style=" text-align: right;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style=" text-align: right;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</span>
+                    </td>
+                </tr>
+            @endif
         @foreach($devis as $dev)
-<<<<<<< HEAD
-        <tr>
-            <td>{{$loop->index + 1}}</td>
-            <td  style="border-bottom-color: white">{{$dev->titre_ext }}</br> {{$dev->commentaire }}</td>
-            <td style=" text-align: center;">{{$dev->codeRubrique}}</td>
-            <td style=" text-align: center;">{{$dev->quantite}}</td>
-            <td>{{$dev->unite}}</td>
-            <td style=" text-align: right;">{{$dev->prix_unitaire}}</td>
-            <td style=" text-align: center;">{{$dev->remise}}</td>
-            <td style=" text-align: right;">{{$dev->prix_tot}}
-                <span style="display: none;">{{ $tothtax +=  intval(str_replace(" ","",$dev->prix_tot)) }}</span>
-            </td>
-        </tr>
-=======
+
+
             <tr >
                 <td style="border-bottom-color: white">{{$loop->index + 1}} </td>
                 <td  style="border-bottom-color: white">{{$dev->titre_ext }}</br> {{$dev->commentaire }}</td>
@@ -121,9 +121,8 @@
                 </td>
             </tr>
 
->>>>>>> c33f50ea4cecb6a3eef53b8e2530a4c7ef4c8cc6
         @endforeach
-        @for($i=0;$i<$val=38-$taille;$i++)
+        @for($i=0;$i<$val=30-$taille;$i++)
             @if($i==$val-1)
                 <tr>
                     <td >&nbsp;&nbsp;&nbsp;</td>
@@ -158,7 +157,7 @@
                 <p align="center"><b>Adresse de livraison</b></p>
                 <div class="rubrique">
                     <p style="border-bottom: none;"><b>Chantier : PONT FELIX HOUPHOUET BOIGNY</b></p>
-                    <p>SITE INSTALATION DU CHANTIER, LAGUNE EBRIE RIVE SUD, TREICHVILLE, AVENUE CHRISTIANI</p>
+                    <p style="font-size: 10px">SITE INSTALATION DU CHANTIER, LAGUNE EBRIE RIVE SUD, TREICHVILLE, AVENUE CHRISTIANI</p>
                 </div>
                 <br/>
                 <div class="rubrique">
@@ -167,12 +166,12 @@
                 </div>
                 <p align="center"><b>Condition de paiement</b></p>
                 <div class="rubrique">
-                    <p><b>RIB à mentionner sur la facture</b> <br/>
+                    <p style="font-size: 10px"><b>RIB à mentionner sur la facture</b> <br/>
                     Par virement ou chèque 30 jours fin de mois <br/>
                     date de réception de facture.</p>
                 </div>
             </th>
-            <th colspan="6" valign="top" style="margin: 0; padding: 0;">
+            <th colspan="6" valign="top" style="margin: 0; padding: 0; ">
                 <table class="ssfacture" style="margin: 0; padding: 0;">
                     <tr>
                         <td width="61.8%" style="text-align:right"><b>Total Hors Taxes en FCFA</b> </td>

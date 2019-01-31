@@ -54,13 +54,23 @@ class BCController extends Controller
             ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.devise','commentaire')->get();
 
         $taille=sizeof($devis);
+
+        if($bc->commentaire_general==''){
+            $taille_minim=6;
+            $taille_maxim=38;
+        }else{
+            $taille_minim=5;
+            $taille_maxim=37;
+        }
+
+
         // Send data to the view using loadView function of PDF facade
         $commandes='';
 
         //$pdf = PDF::loadView('BC.bon_commande_file', compact('bc','ligne_bcs'));
         $tothtax = 0;
         //return view('BC.bon-commande', compact('bc','ligne_bcs','tothtax'));
-        $pdf = PDF::loadView('BC.bon-commande', compact('bc','devis','tothtax','taille'));
+        $pdf = PDF::loadView('BC.bon-commande', compact('bc','devis','tothtax','taille','taille_minim','taille_maxim'));
 
         // If you want to store the generated pdf to the server then you can use the store function
        // $pdf->save(storage_path().'_filename.pdf');
@@ -147,8 +157,15 @@ return $view;
             ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.devise','commentaire')->get();
         $taille=sizeof($devis);
         $tothtax = 0;
+        if($bc->commentaire_general==''){
+            $taille_minim=6;
+            $taille_maxim=38;
+        }else{
+            $taille_minim=5;
+            $taille_maxim=37;
+        }
         // Send data to the view using loadView function of PDF facade
-        $pdf = PDF::loadView('BC.bon-commande', compact('bc','devis','tothtax','taille'));
+        $pdf = PDF::loadView('BC.bon-commande', compact('bc','devis','tothtax','taille','taille_minim','taille_maxim'));
 
         //$lignebesoins=Lignebesoin::where('id_bonCommande','=',$bc->id)->first();
         $lignebesoins=DB::table('lignebesoin')->where('id_bonCommande','=',$bc->id)->get();
@@ -254,8 +271,15 @@ return $view;
 
         $tothtax = 0;
         $taille=sizeof($devis);
+        if($bc->commentaire_general==''){
+            $taille_minim=6;
+            $taille_maxim=0;
+        }else{
+            $taille_minim=5;
+            $taille_maxim=0;
+        }
         // Send data to the view using loadView function of PDF facade
-        $pdf = PDF::loadView('BC.bon-commande', compact('bc','devis','tothtax','taille'));
+        $pdf = PDF::loadView('BC.bon-commande', compact('bc','devis','tothtax','taille','taille_minim','taille_maxim'));
 
         //$lignebesoins=Lignebesoin::where('id_bonCommande','=',$bc->id)->first();
         $lignebesoins=DB::table('lignebesoin')->where('id_bonCommande','=',$bc->id)->get();
