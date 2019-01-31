@@ -66,7 +66,7 @@
                                 <div class="form-group col-sm-3">
                                     <label for="type">Unité</label>
                                     <select class="form-control selectpicker col-sm-4" id="unite" name="unite" data-live-search="true" data-size="6">
-                                        <option value="U">U</option>
+                                        <option value="u">u</option>
 
                                         <optgroup label="La longeur">
                                             <option value="Km"> Km</option>
@@ -95,7 +95,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="commentaire">Commentaire (Attention ceci figurera sur le bon de commande) </label>
-                                    <textarea id="commentaire" name="commentaire" class="form-control col-sm-8" style="height: 100px" maxlength="60">{{isset($da)? $da->motif:''}}</textarea>
+                                    <textarea id="commentaire" name="commentaire" class="form-control col-sm-8" style="height: 100px" maxlength="60">{{isset($da)? $da->commentaire:''}}</textarea>
                                 </div>
 
                                 <input type="hidden" class="form-control" id="slug" name="slug" placeholder="" value="{{isset($da)? $da->slug:''}}">

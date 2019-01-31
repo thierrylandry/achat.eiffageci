@@ -85,7 +85,7 @@
                                                 <td> <input min="0" type="number" value="{{$da->quantite}}" class="form-control" id="row_n_{{$da->id}}_quantite" name="row_n_{{$da->id}}_quantite">
 
                                                         <select class="form-control selectpicker col-sm-4" id="row_n_{{$da->id}}_unite" name="row_n_{{$da->id}}_unite" data-live-search="true" data-size="6">
-                                                            <option value="U" {{"U"==$da->unite?"selected":''}}>U</option>
+                                                            <option value="u" {{"u"==$da->unite?"selected":''}}>u</option>
 
                                                             <optgroup label="La longeur">
                                                                 <option {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite=="Km" || "Km"==$da->unite ?"selected":''}} value="Km"> Km</option>
@@ -202,7 +202,7 @@
 
                                                 <td> <input min="0" type="number" value="{{$devi->quantite}}" class="form-control" id="row_n_{{$devi->id}}_quantite" name="row_n_{{$devi->id}}_quantite">
                                                     <select class="form-control selectpicker col-sm-4" id="row_n_{{$devi->id}}_unite" name="row_n_{{$devi->id}}_unite" data-live-search="true" data-size="6">
-                                                        <option value="U" {{"U"==$devi->unite?"selected":''}}>U</option>
+                                                        <option value="u" {{"u"==$devi->unite?"selected":''}}>u</option>
 
                                                         <optgroup label="La longeur">
                                                             <option value="Km" {{"Km"==$devi->unite?"selected":''}}> Km</option>

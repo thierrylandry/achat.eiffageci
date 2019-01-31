@@ -50,6 +50,19 @@
                 @endif
             @endforeach
 
+            @if($bc->commentaire_general!="")
+                <tr>
+                    <td style="border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style="border-bottom-color: white">{{$bc->commentaire_general!=""?$bc->commentaire_general:''}}</td>
+                    <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style="border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style=" text-align: right;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style=" text-align: right;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</span>
+                    </td>
+                </tr>
+                @endif
         @for($i=0;$i<$val=6-$taille;$i++)
             @if($i==$val-1)
                 <tr>
@@ -77,6 +90,8 @@
                 </tr>
             @endif
         @endfor
+
+
             @elseif( $taille>6)
         @foreach($devis as $dev)
 <<<<<<< HEAD

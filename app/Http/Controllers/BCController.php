@@ -45,7 +45,7 @@ class BCController extends Controller
         $bc= DB::table('boncommande')
             ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
             ->where('boncommande.slug','=',$slug)
-            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','service_demandeur')->first();
+            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','service_demandeur','commentaire_general')->first();
 
 
         $devis=DB::table('devis')
@@ -140,7 +140,7 @@ return $view;
         $bc= DB::table('boncommande')
             ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
             ->where('boncommande.id','=',$bc_slug)
-            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','service_demandeur','contact')->first();
+            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','service_demandeur','contact','commentaire_general')->first();
         $devis=DB::table('devis')
             ->join('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
             ->where('id_bc','=',$bc->id)
@@ -243,7 +243,7 @@ return $view;
         $bc= DB::table('boncommande')
             ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
             ->where('boncommande.id','=',$bc_slug)
-            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','service_demandeur','contact')->first();
+            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','service_demandeur','contact','commentaire_general')->first();
 
 
         $devis=DB::table('devis')
