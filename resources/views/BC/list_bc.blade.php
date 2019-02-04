@@ -54,7 +54,7 @@
             </td>
             <td>{{$bc->numBonCommande}}</td>
             <td>
-                @foreach($fournisseurs as $fournisseur)
+                @foreach($fournisseurss as $fournisseur)
                     @if($fournisseur->id==$bc->id_fournisseur)
                         {{$fournisseur->libelle}}
                     @endif

@@ -395,9 +395,12 @@ endforeach;
             ->join('devis', 'fournisseur.id', '=', 'devis.id_fournisseur')
             ->where('devis.etat', '=', 1)
             ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
+        $fournisseurss= DB::table('fournisseur')
+
+            ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
 
 $analytiques= Analytique::all();
-        return view('BC/gestion_bc',compact('bcs','fournisseurs','utilisateurs','analytiques'));
+        return view('BC/gestion_bc',compact('bcs','fournisseurs','utilisateurs','analytiques','fournisseurss'));
     }
 
     public function modifier_ligne_bc($slug)
@@ -645,9 +648,12 @@ $analytiques= Analytique::all();
             ->join('devis', 'fournisseur.id', '=', 'devis.id_fournisseur')
             ->where('devis.etat', '=', 1)
             ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
+        $fournisseurss= DB::table('fournisseur')
+
+            ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
         $ajouter='vrai';
         $analytiques= Analytique::all();
-        return view('BC/gestion_bc',compact('bcs','fournisseurs','utilisateurs','ajouter','analytiques'));
+        return view('BC/gestion_bc',compact('bcs','fournisseurs','utilisateurs','ajouter','analytiques','fournisseurss'));
     }
     public function detail_rep_fournisseur($id){
 

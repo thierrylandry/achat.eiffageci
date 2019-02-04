@@ -357,6 +357,9 @@ var nom="";
                     }
             );
         });
+        $('#rappel').click(function(e){
+  
+        });
 
     })(jQuery);
 </script>
