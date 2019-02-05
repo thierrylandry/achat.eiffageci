@@ -31,7 +31,8 @@ class UtilisateurController
         // Fournisseur::create($parameters);
         $date = new \DateTime(null);
         $utilisateur = new User();
-        $utilisateur->name = $parameters['name'];
+        $utilisateur->nom = $parameters['nom'];
+        $utilisateur->prenoms = $parameters['prenoms'];
         $utilisateur->abréviation = $parameters['abréviation'];
         $utilisateur->function = $parameters['function'];
         $utilisateur->email = $parameters['email'];

@@ -491,7 +491,8 @@ $analytiques= Analytique::all();
 
       //  $sumligne=ligne_bc::where('id_bonCommande','=',$boncommande->id)->sum('prix_tot');
 
-        $tot_ttc=$parameters['tot_serv'];
+        $tot_ttc=$parameters['ttc_serv'];
+
 
         $boncommande->total_ttc=$tot_ttc;
         $boncommande->save();

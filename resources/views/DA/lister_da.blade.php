@@ -57,7 +57,7 @@
         "10">Confirmer/infirmer</a>- <a class="toggle-vis" data-column=
         "11">Etat</a>- <a class="toggle-vis" data-column=
         "12">Usage</a>- <a class="toggle-vis" data-column=
-        "13">Commentaire</a>
+        "13">Description</a>
     </div>
     </br>
     <div class="row">
@@ -80,7 +80,7 @@
                     <th class="dt-head-center">Confirmer/infirmer</th>
                     <th class="dt-head-center">Etat</th>
                     <th class="dt-head-center">Usage</th>
-                    <th class="dt-head-center">Commentaire</th>
+                    <th class="dt-head-center">Description</th>
                     <th class="dt-head-center">Action</th>
 
                 </tr>

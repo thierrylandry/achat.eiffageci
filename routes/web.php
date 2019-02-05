@@ -460,7 +460,7 @@ Route::get('/gestion_bc',[
     'as'=>'gestion_bc',
     'uses'=>'BCController@gestion_bc',
     'middleware' => 'roles',
-    'roles' => ['Gestionnaire_BC']
+    'roles' => ['Gestionnaire_BC','Valideur_BC']
 
 ])->middleware('auth');
 Route::post('/save_bc',[
@@ -525,7 +525,7 @@ Route::get('/lister_commande/{slug}',[
     'as'=>'lister_commande',
     'uses'=>'BCController@lister_commande',
     'middleware' => 'roles',
-    'roles' => ['Gestionnaire_BC']
+    'roles' => ['Gestionnaire_BC','Valideur_BC']
 
 ])->middleware('auth');
 Route::get('/modifier_ligne_bc/{slug}',[
@@ -554,14 +554,14 @@ Route::get('/valider_commande/{slug}',[
     'as'=>'valider_commande',
     'uses'=>'BCController@valider_commande',
     'middleware' => 'roles',
-    'roles' => ['Gestionnaire_BC']
+    'roles' => ['Valideur_BC']
 
 ])->middleware('auth');
 Route::get('/annuler_commande/{slug}',[
     'as'=>'annuler_commande',
     'uses'=>'BCController@annuler_commande',
     'middleware' => 'roles',
-    'roles' => ['Gestionnaire_BC']
+    'roles' => ['Valideur_BC']
 
 ])->middleware('auth');
 
@@ -569,7 +569,7 @@ Route::get('/refuser_commande/{slug}',[
     'as'=>'refuser_commande',
     'uses'=>'BCController@refuser_commande',
     'middleware' => 'roles',
-    'roles' => ['Gestionnaire_BC']
+    'roles' => ['Valideur_BC']
 
 ])->middleware('auth');
 Route::get('/bon_commande_file/{slug}',[
@@ -590,13 +590,15 @@ Route::get('/afficher_le_mail/{slug}',[
 ])->middleware('auth');
 Route::post('/send_it_personnalisé',[
     'as'=>'send_it_personnalisé',
-    'uses'=>'BCController@send_it_personnalisé'
+    'uses'=>'BCController@send_it_personnalisé',
+    'roles' => ['Gestionnaire_BC']
 
 ])->middleware('auth');
 
 Route::post('/send_it',[
     'as'=>'send_it',
-    'uses'=>'BCController@send_it'
+    'uses'=>'BCController@send_it',
+    'roles' => ['Gestionnaire_BC']
 
 ])->middleware('auth');
 

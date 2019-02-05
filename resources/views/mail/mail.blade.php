@@ -8,10 +8,10 @@
         @for($i=0;$i<sizeof($corps);$i++)
 
             <br> <strong>{{$corps[$i]}}</strong>
-            </br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{isset($precisions[$i]) && $precisions[$i]!=""?" Précision : ".$precisions[$i]:''}}</br>
+
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{isset($precisions[$i]) && $precisions[$i]!=""?" ".$precisions[$i]:''}}
             @if(isset($images[$i]) && $images[$i]!="")
-                <img src={{ URL::asset('/uploads/'.$images[$i])}} width="100" alt="{{$images[$i]}}" />
+                voir piece jointe : {{$images[$i]}}
     @endif
 
 

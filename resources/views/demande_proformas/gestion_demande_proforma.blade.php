@@ -358,7 +358,13 @@ var nom="";
             );
         });
         $('#rappel').click(function(e){
-  
+            var checkbox = document.getElementById('rappel');
+            if (checkbox.checked != true){
+                $('#listeDA').val("");
+            }else{
+
+                $('#listeDA').val("test");
+            }
         });
 
     })(jQuery);

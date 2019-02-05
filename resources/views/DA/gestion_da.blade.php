@@ -96,7 +96,7 @@
                                     <input type="date" class="form-control" id="DateBesoin" name="DateBesoin" placeholder="DateBesoin" value="{{isset($da)? $da->DateBesoin:''}}" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="commentaire">Commentaire (Attention ceci figurera sur le bon de commande)</label>
+                                    <label for="commentaire">Description (Attention ceci figurera sur le bon de commande)</label>
                                     <textarea id="commentaire" name="commentaire" class="form-control col-sm-8" style="height: 100px" maxlength="60">{{isset($da)? $da->commentaire:''}}</textarea>
                                 </div>
                                 <input type="hidden" class="form-control" id="slug" name="slug" placeholder="" value="{{isset($da)? $da->slug:''}}">
@@ -136,7 +136,7 @@
             "10">Confirmer/infirmer</a>- <a class="toggle-vis" data-column=
             "11">Etat</a>- <a class="toggle-vis" data-column=
             "12">Usage</a>- <a class="toggle-vis" data-column=
-            "13">Commentaire</a>
+            "13">Description</a>
         </div>
         </br>
         <table name ="tableDA" id="tableDA" class='table table-bordered table-striped  no-wrap responsive ' style="width: 40%">
@@ -157,7 +157,7 @@
                 <th class="dt-head-center">Confirmer/infirmer</th>
                 <th class="dt-head-center">Etat</th>
                 <th class="dt-head-center">Usage</th>
-                <th class="dt-head-center">Commentaire</th>
+                <th class="dt-head-center">Description</th>
                 <th class="dt-head-center">Action</th>
 
             </tr>
