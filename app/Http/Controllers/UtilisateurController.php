@@ -83,8 +83,13 @@ class UtilisateurController
         $utilisateur->email = $parameters['email'];
         $utilisateur->contact =$parameters['contact'];
         $utilisateur->service = $parameters['id_service'];
-        if (Hash::needsRehash($parameters['password'])) {
-            $utilisateur->password =Hash::make( $parameters['password']);
+
+        //Hash::needsRehash($parameters['password'])
+
+
+        if(Hash::check($parameters['password'],$utilisateur->password)){
+            //dd("ancien ".$utilisateur->password." nouveau :".$parameters['password']." Qaund on hash sa donne ceci".Hash::needsRehash("zzzz"));
+            $utilisateur->password =Hash::make($parameters['password']);
         }
 
         $utilisateur->slug = Str::slug($parameters['email'] . $date->format('dmYhis'));
