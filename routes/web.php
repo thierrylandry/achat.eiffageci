@@ -609,7 +609,11 @@ Route::get('/mettre_ajour',[
 ])->middleware('auth');
 
 
+Route::get('/notificateur',[
+    'as'=>'notificateur',
+    'uses'=>'InfoController@notificateur'
 
+]);
 
 
 
