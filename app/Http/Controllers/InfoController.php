@@ -8,7 +8,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Analytique;
 use App\Boncommande;
 use App\DA;
@@ -43,17 +42,81 @@ class InfoController extends Controller
 
     public function notificateur(){
 
-$user=DB::table('users')
-    ->join('user_role', 'user_role.user_id', '=', 'users.id')
-    ->join('roles', 'roles.id', '=', 'user_role.role_id')
-
-    ->select('users.id','users.email','roles.name')->get();
+    $users=DB::table('users')
+    ->select('users.id','users.email')->get();
 
 
-        dd($user);
+        foreach($users as $user):
+          $mes_droits=  $this->dit_moi_qui_tu_es_je_te_dirai_tes_droits($user->id);
+            $this->je_connais_tes_droits_je_te_notifie_de_linformation_qui_te_concerne($mes_droits,$user->email);
+        endforeach;
 
         return "notifier";
     }
+
+    /**
+     * @param $id_users
+     * @return array
+     */
+    public function dit_moi_qui_tu_es_je_te_dirai_tes_droits($id_users){
+
+        $roles=DB::table('user_role')
+            ->join('roles', 'roles.id', '=', 'user_role.role_id')
+            ->where('user_role.user_id','=',$id_users)
+            ->select('roles.name')->get();
+        return $roles->toArray();
+    }
+
+    public function je_connais_tes_droits_je_te_notifie_de_linformation_qui_te_concerne($les_droits,$email){
+
+
+        if(in_array('Valideur_DA',$les_droits)){
+            $this->notification_sur_les_D_A($email);
+        }
+        if(in_array('Valideur_BC',$les_droits)){
+            $this->notification_sur_les_B_C($email);
+        }
+
+    }
+    public function notification_sur_les_D_A($email){
+
+        $das=  DA::where('etat','=',1);
+
+        $Nbdas=sizeof($das);
+        if($Nbdas>0){
+            Mail::send('mail.notif_mail',array('nb' =>$Nbdas." demande(s) d'achat(s)"),function($message)use ($email,$Nbdas ){
+
+
+                $message->from("admin@eiffage.com" ,"Robot PRO-ACHAT" )
+                    ->to($email)
+                    ->subject('Vous avez '.$Nbdas." demande(s) d'achat(s)");
+
+
+            });
+
+        }
+
+    }
+    public function notification_sur_les_B_C($email){
+
+        $das=  DA::where('etat','=',1);
+
+        $Nbdas=sizeof($das);
+        if($Nbdas>0){
+            Mail::send('mail.notif_mail',array('nb' =>$Nbdas." demande(s) d'achat(s)"),function($message)use ($email,$Nbdas ){
+
+
+                $message->from("admin@eiffage.com" ,"Robot PRO-ACHAT" )
+                    ->to($email)
+                    ->subject('Vous avez '.$Nbdas." demande(s) d'achat(s)");
+
+
+            });
+
+        }
+
+    }
+
 
     ////
 
