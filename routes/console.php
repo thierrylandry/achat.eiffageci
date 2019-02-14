@@ -20,3 +20,6 @@ Artisan::command('inspire', function () {
 Artisan::command('cool', function () {
    //décirs ton action
 })->describe('Display an inspiring quote');
+Artisan::command('notificateur', function () {
+    echo (new \App\Http\Controllers\InfoController())->notificateur();
+})->describe('Notifier les utilisateurs sur les activités en attente de traitement. Ex: Demande d achat à valider, bon de commande à signer');
