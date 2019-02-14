@@ -86,6 +86,69 @@
         </div>
 
     </div>
+        <br> <br>
+        @if($bc->etat<4)
+        <div class="alert alert-warning ">
+            <span class="alert-icon"><i class="fa fa-bell-o"></i></span>
+            <div class="notification-info">
+                <ul class="clearfix notification-meta">
+                    <li class="pull-left notification-sender">Vous avez  <b style="font-size: 24px">{{sizeof($new_devis)}}</b>  Demande(s) d'achat qui peuvent etre integrée(s) à ce bon de commande <button type="button" onclick="myFunction()"> détail</button></li>
+
+                </ul>
+                <p>
+                    ...
+                </p>
+                <div id="myDIV" style="display:none">
+                <table name ="ligneCommandes_a_ajouter" id="ligneCommandes_a_ajouter" class='table table-bordered table-striped  no-wrap display nowrap'>
+
+                    <thead>
+
+                    <tr>
+                        <th class="dt-head-center">slug</th>
+                        <th class="">Designation</th>
+                        <th class="">Commentaire</th>
+                        <th class="">Quantité</th>
+                        <th class="">Unité</th>
+                        <th class="">Pu HT</th>
+                        <th class="">remise %</th>
+                        <th class="">Total  HT</th>
+                        <th class="">TVA /produit</th>
+                        <th class="">Action</th>
+
+                    </tr>
+                    </thead>
+                    <tbody name ="contenu_tableau_entite" id="contenu_tableau_entite">
+
+                    @if(isset($new_devis))
+                        @foreach($new_devis as $new_devi )
+
+                            <tr>
+                                <td>{{$new_devi->id}}</td>
+                                <td>{{$new_devi->titre_ext}}</td>
+                                <td>{{$new_devi->commentaire}}</td>
+                                <td>{{$new_devi->quantite}}</td>
+                                <td>
+                                    {{$new_devi->unite}}
+                                </td>
+                                <td>  {{$new_devi->prix_unitaire}}</td>
+                                <td>  {{$new_devi->remise}}</td>
+                                <td>  {{($THT=($new_devi->prix_unitaire*$new_devi->quantite)-(($new_devi->remise/100*($new_devi->prix_unitaire*$new_devi->quantite))))}}</td>
+                                <td> @if(1==$new_devi->hastva)
+                                        {{number_format(intval(($THT*18)/100), 0,".", " ")}}
+                                    @else
+                                        {{0}}
+
+                                    @endif </td>
+                            <td><a</td>
+                            </tr>
+                        @endforeach
+                    @endif
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+        @endif
         <br>
         <br>
 <table name ="ligneCommandes" id="ligneCommandes" class='table table-bordered table-striped  no-wrap display nowrap'>
@@ -168,6 +231,14 @@
 </div>
     </form>
 <script>
+    function myFunction() {
+        var x = document.getElementById("myDIV");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
     (function($) {
         function ilisibilite_nombre(valeur){
 
@@ -209,6 +280,24 @@
             return retour;
 
         }
+        var table1= $('#ligneCommandes_a_ajouter').DataTable({
+            language: {
+                url: '../js/French.json'
+            },
+            "ordering":true,
+            "responsive": false,
+            "createdRow": function( row, data, dataIndex){
+
+            },
+            "paging": false,
+
+            responsive: true,
+            columnDefs: [
+                { responsivePriority: 5, targets: 0 },
+                { responsivePriority: 2, targets: -2 }
+            ]
+        }).column(0).visible(false);
+
         var table= $('#ligneCommandes').DataTable({
             language: {
                 url: '../js/French.json'

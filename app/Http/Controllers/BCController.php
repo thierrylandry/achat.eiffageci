@@ -611,6 +611,15 @@ $analytiques= Analytique::all();
             ->where('devis.id_bc', '=', $id)
             ->select('devis.id','devis.titre_ext','id_bc','devis.codeRubrique','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.devise','devis.hastva','DateBesoin','users.service','lignebesoin.commentaire')->distinct()->get();
 
+
+        $new_devis=DB::table('devis')
+            ->leftJoin('lignebesoin', 'lignebesoin.id', '=', 'devis.id_da')
+            ->leftJoin('users', 'lignebesoin.id_user', '=', 'users.id')
+            ->where('devis.etat', '=', 1)
+            ->where('devis.id_bc', '=', null)
+            ->where('devis.id_fournisseur', '=', $bc->id_fournisseur)
+            ->select('devis.id','devis.titre_ext','id_bc','devis.codeRubrique','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.devise','devis.hastva','DateBesoin','users.service','lignebesoin.commentaire')->distinct()->get();
+
         $date_propose= Array();
         $service= Array();
         foreach($devis as $dev){
@@ -639,7 +648,7 @@ $analytiques= Analytique::all();
             ->select('titre_ext','quantite_ligne_bc','unite_ligne_bc','prix_unitaire_ligne_bc','remise_ligne_bc','prix_tot','ligne_bc.slug','analytique.codeRubrique')->get();*/
         $listerbc='';
         $analytiques= Analytique::all();
-        return view('BC/list_ligne_bc',compact('bc','fournisseur','utilisateurs','listerbc','devis','slugbc','analytiques','devise','id_devi','date_propose','service'));
+        return view('BC/list_ligne_bc',compact('bc','fournisseur','utilisateurs','listerbc','devis','slugbc','analytiques','devise','id_devi','date_propose','service','new_devis'));
     }
     public function gestion_bc_ajouter()
     {
