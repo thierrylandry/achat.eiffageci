@@ -528,6 +528,20 @@ Route::get('/lister_commande/{slug}',[
     'roles' => ['Gestionnaire_BC','Valideur_BC']
 
 ])->middleware('auth');
+Route::get('/add_new_da_to_bc/{id}/{id_bc}',[
+    'as'=>'add_new_da_to_bc',
+    'uses'=>'BCController@add_new_da_to_bc',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_BC','Valideur_BC']
+
+])->middleware('auth');
+Route::get('/retirer_da_to_bc/{id}/{id_bc}',[
+    'as'=>'retirer_da_to_bc',
+    'uses'=>'BCController@retirer_da_to_bc',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_BC','Valideur_BC']
+
+])->middleware('auth');
 Route::get('/modifier_ligne_bc/{slug}',[
     'as'=>'modifier_ligne_bc',
     'uses'=>'BCController@modifier_ligne_bc',

@@ -552,6 +552,35 @@ $analytiques= Analytique::all();
 
         return redirect()->route('gestion_bc')->with('success',"le bon de commande à été valider avec succès");
     }
+    public function add_new_da_to_bc($id,$id_bc)
+    {
+        $devi= Devis::find($id);
+
+
+
+            $devi->id_bc=$id_bc;
+            //pour dire que ce la sont lie a un bon de commande
+            $devi->etat=2;
+            $devi->save();
+
+
+
+        return "super";
+    }
+    public function retirer_da_to_bc($id,$id_bc)
+    {
+        $devi= Devis::find($id);
+
+
+            $devi->id_bc=null;
+            //pour dire que ce la sont lie a un bon de commande
+            $devi->etat=1;
+            $devi->save();
+
+
+
+        return \GuzzleHttp\json_encode($devi);
+    }
     public function traite_finalise($slug)
     {
         $date= new \DateTime(null);
@@ -612,6 +641,8 @@ $analytiques= Analytique::all();
             ->select('devis.id','devis.titre_ext','id_bc','devis.codeRubrique','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.devise','devis.hastva','DateBesoin','users.service','lignebesoin.commentaire')->distinct()->get();
 
 
+
+
         $new_devis=DB::table('devis')
             ->leftJoin('lignebesoin', 'lignebesoin.id', '=', 'devis.id_da')
             ->leftJoin('users', 'lignebesoin.id_user', '=', 'users.id')
@@ -633,9 +664,7 @@ $analytiques= Analytique::all();
         }
 
 
-
         $devise=$devis->first()->devise;
-
         $id_devi="";
         foreach($devis as $devi):
             $id_devi=$id_devi.$devi->id.",";

@@ -23,7 +23,7 @@
     <br>
     <form method="post" action="{{route('save_ligne_bc')}}" onsubmit="return confirm('Voulez vous enregistrer?');">
         @csrf
-        <input type="hidden" name="id_bc" value="{{$bc->id}}"/>
+        <input type="hidden" name="id_bc" id="id_bc" value="{{$bc->id}}"/>
         <input type="hidden" name="les_id_devis" value="{{$id_devi}}"/>
         <input type="hidden" name="tot_serv" id="tot_serv" value=""/>
         <input type="hidden" name="tva_serv" id="tva_serv" value=""/>
@@ -92,7 +92,7 @@
             <span class="alert-icon"><i class="fa fa-bell-o"></i></span>
             <div class="notification-info">
                 <ul class="clearfix notification-meta">
-                    <li class="pull-left notification-sender">Vous avez  <b style="font-size: 24px">{{sizeof($new_devis)}}</b>  Demande(s) d'achat qui peuvent etre integrée(s) à ce bon de commande <button type="button" onclick="myFunction()"> détail</button></li>
+                    <li class="pull-left notification-sender">Vous avez  <b style="font-size: 24px">{{sizeof($new_devis)}}</b>   demande(s) d'achat recente(s). Ajoutez aux bons de commande <button type="button" onclick="myFunction()"> détail</button></li>
 
                 </ul>
                 <p>
@@ -139,7 +139,7 @@
                                         {{0}}
 
                                     @endif </td>
-                            <td><a</td>
+                            <td><button type="button" class="btn_addbc">Ajouter</button></td>
                             </tr>
                         @endforeach
                     @endif
@@ -168,7 +168,7 @@
         <th class="">TVA /produit</th>
         <th class="">TVA</th>
         <th class="">statit tva</th>
-
+        <th class="">Action</th>
     </tr>
     </thead>
     <tbody name ="contenu_tableau_entite" id="contenu_tableau_entite">
@@ -204,6 +204,7 @@
             @endif </td>
             <td><input type="checkbox" id="row_n_{{$devi->id}}_tva" name="row_n_{{$devi->id}}_tva" class="row_n__tva" {{1==$devi->hastva?"checked='checked'":""}}/>   </td>
         <td>{{$devi->hastva}}</td>
+            <td><button type="button" class="btn_retirerbc">Retirer</button></td>
         </tr>
     @endforeach
         @endif
@@ -231,6 +232,7 @@
 </div>
     </form>
 <script>
+
     function myFunction() {
         var x = document.getElementById("myDIV");
         if (x.style.display === "none") {
@@ -240,6 +242,27 @@
         }
     }
     (function($) {
+
+        $(".btn_addbc").click(function (){
+            var data = table1.row($(this).parents('tr')).data();
+
+var id_bc= $("#id_bc").val();
+
+            $.get("../add_new_da_to_bc/"+data[0]+"/"+id_bc, function(data, status){
+             //   alert(data);
+                window.location.reload()
+            });
+
+        });
+        $(".btn_retirerbc").click(function (){
+            var data = table.row($(this).parents('tr')).data();
+            alert("slug = "+data[0]);
+            var id_bc= $("#id_bc").val();
+            $.get("../retirer_da_to_bc/"+data[0]+"/"+id_bc, function(data, status){
+                console.log(data);
+               window.location.reload()
+            });
+        });
         function ilisibilite_nombre(valeur){
 
             for(var i=valeur.length-1; i>=0; i-- ){valeur=valeur.toString().replace(' ','');
@@ -363,7 +386,7 @@
 
         $('.row_n__tva').click(function (e) {
 
-            $(this).closest('td').next().html(1);
+           // $(this).closest('td').next().next().html(1);
             var tva=0;
             var data = table.row($(this).parents('tr')).data();
             var num_row=$(this).parents('tr');
