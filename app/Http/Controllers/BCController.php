@@ -663,8 +663,12 @@ $analytiques= Analytique::all();
             }
         }
 
+if(isset($devis->first()->devise)){
+    $devise=$devis->first()->devise;
+}else{
+    $devise="";
+}
 
-        $devise=$devis->first()->devise;
         $id_devi="";
         foreach($devis as $devi):
             $id_devi=$id_devi.$devi->id.",";

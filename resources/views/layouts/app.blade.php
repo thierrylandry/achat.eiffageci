@@ -45,7 +45,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/dataTables.bootstrap4.min.css') }}"/>
     <script type="text/javascript" src="{{ URL::asset('js/jquery.dataTables.min.js') }}"></script>
     <script type="text/javascript" src="{{ URL::asset('js/notification.js') }}"></script>
-    <script type="text/javascript" src="{{ URL::asset('js/dataTables.responsive.min.js') }}"></script>
+
     <style>
 
         table.dataTable {
@@ -346,11 +346,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                     <li @yield('ajouter_fournisseur') ><a href="{{route('ajouter_fournisseur')}}"> Ajouter fournisseur </a></li>
 
                                 </ul></li>
-                            <li @yield('produits') ><a href="{{route('gestion_produit')}}">Produits et Services</a></li>
+
                         </ul>
                     </li>
                     @endif
                     @if(Auth::user() != null && Auth::user()->hasAnyRole(['Gestionnaire_DA','Valideur_DA']))
+                        <li @yield('produits') ><a href="{{route('gestion_produit')}}">Produits et Services</a></li>
                     <li >
                         <a  href="{{route('gestion_da')}}" @yield('das')>
                             <i class="fa fa-archive"></i>

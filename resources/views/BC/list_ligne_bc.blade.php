@@ -151,7 +151,7 @@
         @endif
         <br>
         <br>
-<table name ="ligneCommandes" id="ligneCommandes" class='table table-bordered table-striped  no-wrap display nowrap'>
+<table name ="ligneCommandes" id="ligneCommandes" class=''>
 
     <thead>
 
@@ -160,7 +160,7 @@
         <th class="">Designation</th>
         <th class="">Commentaire</th>
         <th class="">Code Analytique</th>
-        <th class="">Quantité</th>
+        <th class="" >QTE</th>
         <th class="">Unité</th>
         <th class="">Pu HT</th>
         <th class="">remise %</th>
@@ -181,12 +181,12 @@
             <td>{{$devi->titre_ext}}</td>
             <td>{{$devi->commentaire}}</td>
             <td><select class="form-control selectpicker" id="row_n_{{$devi->id}}_codeRubrique" name="row_n_{{$devi->id}}_codeRubrique" data-live-search="true" data-size="6" required>
-                    <option  value="">SELECTIONNER UN CODE ANALYTIQUE</option>
+                    <option  value="">SELECTIONNER</option>
                     @foreach($analytiques as $analytique)
 
                         <option @if(isset($devi) && $analytique->codeRubrique==$devi->codeRubrique)
                                 {{'selected'}}
-                                @endif value="{{$analytique->codeRubrique}}">{{$analytique->codeRubrique}} -- {{$analytique->libelle}}</option>
+                                @endif value="{{$analytique->codeRubrique}}" data-subtext="{{$analytique->libelle}}">{{$analytique->codeRubrique}}</option>
                     @endforeach
                 </select></td>
             <td>{{$devi->quantite}}</td>
@@ -256,7 +256,6 @@ var id_bc= $("#id_bc").val();
         });
         $(".btn_retirerbc").click(function (){
             var data = table.row($(this).parents('tr')).data();
-            alert("slug = "+data[0]);
             var id_bc= $("#id_bc").val();
             $.get("../retirer_da_to_bc/"+data[0]+"/"+id_bc, function(data, status){
                 console.log(data);
@@ -308,13 +307,10 @@ var id_bc= $("#id_bc").val();
                 url: '../js/French.json'
             },
             "ordering":true,
-            "responsive": false,
             "createdRow": function( row, data, dataIndex){
 
             },
             "paging": false,
-
-            responsive: true,
             columnDefs: [
                 { responsivePriority: 5, targets: 0 },
                 { responsivePriority: 2, targets: -2 }
@@ -326,10 +322,6 @@ var id_bc= $("#id_bc").val();
                 url: '../js/French.json'
             },
             "ordering":true,
-            "responsive": false,
-            "createdRow": function( row, data, dataIndex){
-
-            },
             "paging": false,
 
             "footerCallback": function ( row, data, start, end, display ) {

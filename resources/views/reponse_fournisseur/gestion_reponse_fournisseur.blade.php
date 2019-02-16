@@ -61,13 +61,13 @@
                                                     @endforeach
                                                 </td>
                                                 <td><div class="form-group">
-                                                        <select class="form-control selectpicker" id="row_n_{{$da->id}}_codeRubrique" name="row_n_{{$da->id}}_codeRubrique" data-live-search="true" data-size="6" required>
-                                                            <option  value="">SELECTIONNER UN CODE ANALYTIQUE</option>
+                                                        <select class="form-control selectpicker" id="row_n_{{$da->id}}_codeRubrique" name="row_n_{{$da->id}}_codeRubrique" data-live-search="true" data-size="6" >
+                                                            <option  value="">SELECTIONNER</option>
                                                             @foreach($analytiques as $analytique)
 
                                                                 <option @if(isset($da->code_analytique) && $analytique->codeRubrique==$da->code_analytique)
                                                                         {{'selected'}}
-                                                                        @endif value="{{$analytique->codeRubrique}}">{{$analytique->codeRubrique}} -- {{$analytique->libelle}}</option>
+                                                                        @endif value="{{$analytique->codeRubrique}}" data-subtext="{{$analytique->libelle}}">{{$analytique->codeRubrique}}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -118,7 +118,7 @@
                                                                          @endif  value="{{$fournisseur->id}}">{{$fournisseur->libelle}}</option>
                                                             @endif
                                                         @endforeach</select></td>
-                                                <td><input class="form-control"  type="number" min="0" id="row_n_{{$da->id}}_prix_unitaire" name="row_n_{{$da->id}}_prix_unitaire" value="{{isset($tab_proposition[$da->id])?$tab_proposition[$da->id]->prix_unitaire:''}}" /></td>
+                                                <td><input class="form-control" style="min-width: 150px;"  type="number" min="0" id="row_n_{{$da->id}}_prix_unitaire" name="row_n_{{$da->id}}_prix_unitaire" value="{{isset($tab_proposition[$da->id])?$tab_proposition[$da->id]->prix_unitaire:''}}" /></td>
                                                 <td><input class="form-control"  type="number" min="0" id="row_n_{{$da->id}}_remise" name="row_n_{{$da->id}}_remise" value="0" value="{{isset($tab_proposition[$da->id])?$tab_proposition[$da->id]->remise:''}}" /></td>
                                                 <td><select class="form-control" style="width: 100px;" id="row_n_{{$da->id}}_devise" name="row_n_{{$da->id}}_devise"><option  @if( isset($tab_proposition[$da->id]) && "FCFA"==$tab_proposition[$da->id]->devise)
                                                                                                                                                                               {{'selected'}}
@@ -183,12 +183,12 @@
                                                 </td>
                                                 <td> <div class="form-group">
                                                         <select class="form-control selectpicker" id="row_n_{{$devi->id}}_codeRubrique" name="row_n_{{$devi->id}}_codeRubrique" data-live-search="true" data-size="6" required>
-                                                            <option  value="">SELECTIONNER UN CODE ANALYTIQUE</option>
+                                                            <option  value="">SELECTIONNER</option>
                                                             @foreach($analytiques as $analytique)
 
                                                                 <option @if(isset($devi) && $analytique->codeRubrique==$devi->codeRubrique)
                                                                         {{'selected'}}
-                                                                        @endif value="{{$analytique->codeRubrique}}">{{$analytique->codeRubrique}} -- {{$analytique->libelle}}</option>
+                                                                        @endif value="{{$analytique->codeRubrique}}" data-subtext="{{$analytique->libelle}}">{{$analytique->codeRubrique}}</option>
                                                             @endforeach
                                                         </select>
                                                     </div></td>
