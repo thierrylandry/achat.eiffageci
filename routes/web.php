@@ -100,34 +100,34 @@ Route::get('/gestion_produit',[
     'as'=>'gestion_produit',
     'uses'=>'ProduitController@produits',
     'middleware' => 'roles',
-    'roles' => ['Parametrage']
+    'roles' => ['Gestionnaire_DA']
 
 ])->middleware('auth');
 Route::post('/Validproduits', [
     'as'=>'Validproduits',
     'uses'=>'ProduitController@Validproduits',
     'middleware' => 'roles',
-    'roles' => ['Parametrage']
+    'roles' => ['Gestionnaire_DA']
 ])->middleware('auth');
 Route::get('/voir_produit/{slug}',[
     'as'=>'voir_produit',
     'uses'=>'ProduitController@voir_produit',
     'middleware' => 'roles',
-    'roles' => ['Parametrage']
+    'roles' => ['Gestionnaire_DA']
 
 ])->middleware('auth');
 Route::get('/supprimer_produit/{slug}',[
     'as'=>'supprimer_produit',
     'uses'=>'ProduitController@supprimer_produit',
     'middleware' => 'roles',
-    'roles' => ['Parametrage']
+    'roles' => ['Gestionnaire_DA']
 
 ])->middleware('auth');
 Route::post('/modifier_produit}',[
     'as'=>'modifier_produit',
     'uses'=>'ProduitController@modifier_produit',
     'middleware' => 'roles',
-    'roles' => ['Parametrage']
+    'roles' => ['Gestionnaire_DA']
 
 ])->middleware('auth');
 

@@ -85,10 +85,11 @@ class UtilisateurController
         $utilisateur->service = $parameters['id_service'];
 
         //Hash::needsRehash($parameters['password'])
+        //dd("ancien ".$utilisateur->password." nouveau :".$parameters['password']." Qaund on hash sa donne ceci".Hash::check($parameters['password'],$parameters['password']));
+          //  dd(Hash::needsRehash($parameters['password']));
 
+        if(Hash::needsRehash($parameters['password'])){
 
-        if(Hash::check($parameters['password'],$utilisateur->password)){
-            //dd("ancien ".$utilisateur->password." nouveau :".$parameters['password']." Qaund on hash sa donne ceci".Hash::needsRehash("zzzz"));
             $utilisateur->password =Hash::make($parameters['password']);
         }
 

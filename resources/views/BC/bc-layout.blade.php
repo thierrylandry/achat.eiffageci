@@ -167,7 +167,7 @@
 </main>
 
 
-<main class="page" style="font-size:7pt;page-break-inside: avoid;page-break-before: always; text-align: justify">
+<main class="page" style="font-size:6.9pt;page-break-inside: avoid;page-break-before: always; text-align: justify">
     @include('BC.charte')
 </main>
 </body>
