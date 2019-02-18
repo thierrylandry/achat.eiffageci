@@ -29,8 +29,6 @@ class AddPrixTotValeurTvaToDevis extends Migration
     {
         Schema::table('devis', function (Blueprint $table) {
             //
-            $table->removeCollumn('prix_tot');
-            $table->removeCollumn('valeur_tva');
         });
     }
 }

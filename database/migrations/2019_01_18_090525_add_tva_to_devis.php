@@ -28,7 +28,7 @@ class AddTvaToDevis extends Migration
     {
         Schema::table('devis', function (Blueprint $table) {
             //
-            $table->removeCollumn('hastva');
+
         });
     }
 }
