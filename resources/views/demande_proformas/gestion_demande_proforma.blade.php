@@ -17,7 +17,7 @@
             <span class="alert-icon"><i class="fa fa-bell-o"></i></span>
             <div class="notification-info">
                 <ul class="clearfix notification-meta">
-                    <li class="pull-left notification-sender">Vous avez  <b style="font-size: 24px">{{sizeof($types)}}</b>  domaine(s) d'activité qui ont fait  l'objet de demande d'achat</li>
+                    <li class="pull-left notification-sender">Vous avez  <b style="font-size: 24px">{{sizeof($types)}}</b>  domaine(s) d'activité en attente de traitement</li>
 
                 </ul>
                 <p>
