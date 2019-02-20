@@ -63,7 +63,11 @@ if(isset($_FILES['image']['name'])){
     public function supprimer_produit($slug)
     {
         $produit = Materiel::where('slug', '=', $slug)->first();
-        unlink('uploads/'.$produit->image);
+        if(file_exists('uploads/'.$produit->image)){
+         //   unlink('uploads/'.$produit->image);
+        }else{
+
+        }
 
         $produit->delete();
         return redirect()->route('gestion_produit')->with('success', "le produit a été supprimé");
@@ -83,7 +87,11 @@ if(isset($_FILES['image']['name'])){
 
             chmod('uploads',777);
             try{
-                unlink('uploads/'.$produit->image);
+                if(file_exists('uploads/'.$produit->image)){
+             //   unlink('uploads/'.$produit->image);
+                }else{
+
+                }
             }catch (Exception $Ex){
 
             }
