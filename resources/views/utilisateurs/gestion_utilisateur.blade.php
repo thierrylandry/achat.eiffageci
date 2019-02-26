@@ -133,7 +133,7 @@
 
     var table= $('#fournisseurs').DataTable({
         language: {
-            url: "public/js/French.json"
+            url: "js/French.json"
         },
         "ordering":true,
         "responsive": true,
