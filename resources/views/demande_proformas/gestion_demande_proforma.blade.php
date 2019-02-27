@@ -51,7 +51,7 @@
 
                                         <div style="">
                                             <div class="form-group">
-                                                <label> Les fournisseur concerné</label>
+                                                <label> Les fournisseurs concernés</label>
                                                 <input type="text" id="fournisseur" name="fournisseur"   value="" required style="visibility: hidden"/>
 
                                             </div>
