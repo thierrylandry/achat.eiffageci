@@ -422,7 +422,7 @@ if($rappel!="on"){
         $domaines=  DB::table('domaines')->get();
         $devis = Devis::where('etat','=',1)->get();
         $analytiques=  DB::table('analytique')->distinct()->get(['codeRubrique','libelle']);
-        return view('reponse_fournisseur/gestion_reponse_fournisseur',compact('analytiques','das','fournisseurs','materiels','natures','users','types','domaines','devis','tab_proposition'));
+        return view('reponse_fournisseur/gestion_reponse_fournisseur',compact('analytiques','das','fournisseurs','materiels','natures','users','domaines','devis','tab_proposition'));
 
 
     }
