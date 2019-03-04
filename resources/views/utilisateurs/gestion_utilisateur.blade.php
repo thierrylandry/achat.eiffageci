@@ -66,6 +66,7 @@
                 <select class="form-control selectpicker" id="id_service" name="id_service" data-live-search="true" data-size="6" noneSelectedText="SELECTIONNER UN SERVICE">
                     <option value="">SELECTIONNER UN SERVICE</option>
 
+                    <option {{isset($utilisateur)&& $utilisateur->service=="Service achat"? "selected":''}} value="Service achat">Service achat</option>
                     <option {{isset($utilisateur)&& $utilisateur->service=="Service materiel"? "selected":''}} value="Service materiel">Service matériel</option>
                     <option  {{isset($utilisateur)&& $utilisateur->service=="Direction"? "selected":''}} value="Direction">Direction</option>
                     <option {{isset($utilisateur)&& $utilisateur->service=="Secretariat"? "selected":''}} value="Secretariat">Secrétariat</option>
