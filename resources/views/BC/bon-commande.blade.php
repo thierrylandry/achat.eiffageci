@@ -167,8 +167,7 @@
                 <p align="center"><b>Condition de paiement</b></p>
                 <div class="rubrique">
                     <p style="font-size: 10px"><b>RIB à mentionner sur la facture</b> <br/>
-                    Par virement ou chèque 30 jours fin de mois <br/>
-                    date de réception de facture.</p>
+                    {{$bc->conditionPaiement}}</p>
                 </div>
             </th>
             <th colspan="6" valign="top" style="margin: 0; padding: 0; ">

@@ -130,10 +130,10 @@
                                 <td>
                                     {{$new_devi->unite}}
                                 </td>
-                                <td>  {{$new_devi->prix_unitaire}}</td>
+                                <td style="text-align: right">  {{$new_devi->prix_unitaire}}</td>
                                 <td>  {{$new_devi->remise}}</td>
-                                <td>  {{($THT=($new_devi->prix_unitaire*$new_devi->quantite)-(($new_devi->remise/100*($new_devi->prix_unitaire*$new_devi->quantite))))}}</td>
-                                <td> @if(1==$new_devi->hastva)
+                                <td style="text-align: right">  {{($THT=($new_devi->prix_unitaire*$new_devi->quantite)-(($new_devi->remise/100*($new_devi->prix_unitaire*$new_devi->quantite))))}}</td>
+                                <td > @if(1==$new_devi->hastva)
                                         {{number_format(intval(($THT*18)/100), 0,".", " ")}}
                                     @else
                                         {{0}}
@@ -193,9 +193,9 @@
             <td>
                 {{$devi->unite}}
             </td>
-            <td>  {{$devi->prix_unitaire}}</td>
+            <td style="text-align: right">  {{$devi->prix_unitaire}}</td>
             <td>  {{$devi->remise}}</td>
-            <td>  {{($THT=($devi->prix_unitaire*$devi->quantite)-(($devi->remise/100*($devi->prix_unitaire*$devi->quantite))))}}</td>
+            <td style="text-align: right">  {{($THT=($devi->prix_unitaire*$devi->quantite)-(($devi->remise/100*($devi->prix_unitaire*$devi->quantite))))}}</td>
             <td> @if(1==$devi->hastva)
                     {{number_format(intval(($THT*18)/100), 0,".", " ")}}
             @else
@@ -210,9 +210,9 @@
         @endif
     </tbody>
     <tfooter>
-        <tr> <th colspan="6" style="text-align:right" >TOTAL HORS TAXES :</th> <th id="tot"></th> </tr>
-        <tr> <th colspan="6" style="text-align:right" >TVA :</th> <th id="tva"></th> </tr>
-        <tr> <th colspan="6" style="text-align:right" >TOTAL TTC :</th> <th id="ttc"></th> </tr>
+        <tr> <th colspan="7" style="text-align:right" >TOTAL HORS TAXES :</th> <th id="tot" style="text-align: right"></th> </tr>
+        <tr> <th colspan="7" style="text-align:right" >TVA :</th> <th id="tva" style="text-align: right"></th> </tr>
+        <tr> <th colspan="7" style="text-align:right" >TOTAL TTC :</th> <th id="ttc" style="text-align: right"></th> </tr>
     </tfooter>
 </table>
 
@@ -225,7 +225,7 @@
 
     </div>
     <div class="col-sm-1 pull-right">
-        <button type="submit" onclick="" class="btn btn-success" {{$bc->etat!=1?'disabled':''}} >ENREGISTRER</button>
+        <button type="submit" onclick="" class="btn btn-success" {{$bc->etat!=1?'disabled':''}} >METTRE EN MEMOIRE</button>
 
     </div>
 
