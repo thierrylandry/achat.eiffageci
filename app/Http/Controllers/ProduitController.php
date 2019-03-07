@@ -44,7 +44,7 @@ class ProduitController
 
 
 
-if(isset($_FILES['image']['name'])){
+if(isset($_FILES['image']['name']) && $_FILES['image']['name']!="" ){
     $image->move(public_path('uploads'),$imageName);
 }
 
