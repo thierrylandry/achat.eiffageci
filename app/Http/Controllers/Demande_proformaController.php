@@ -221,6 +221,7 @@ return 1;
             endforeach;
      //   dd($recup_email);
         $listeDA = $parameters['listeDA'];
+        dd($listeDA);
         $tab_listeSA = explode(",", $listeDA);
 
         if(isset($parameters['rappel'])){
@@ -264,7 +265,7 @@ $i=0;
 
         endforeach;
         $email='';
-        dd($recup_email);
+     //   dd($recup_email);
         foreach($recup_email as $em):
 
          //   $fournisseur= Fournisseur::where('slug','=',$slug)->first();
