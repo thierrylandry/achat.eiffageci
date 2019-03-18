@@ -278,7 +278,7 @@ $i=0;
                 $interlocuteur=$fournisseur->responsable;
             }
         */
-        dd($precisions);
+     //   dd($precisions);
 $email=$em;
 if($rappel!="on"){
     Mail::send('mail.mail',array('corps'=>$corps,'precisions'=>$precisions,'images'=>$images),function($message)use ($email,$images ){
@@ -288,7 +288,7 @@ if($rappel!="on"){
             ->to($email)
             ->subject('Demande de devis');
         foreach($images as $img):
-            $message->attach(URL::asset('/uploads/'.$img));
+        //    $message->attach(URL::asset('/uploads/'.$img));
         endforeach;
 
     });
