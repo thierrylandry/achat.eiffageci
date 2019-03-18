@@ -221,7 +221,7 @@ return 1;
             endforeach;
      //   dd($recup_email);
         $listeDA = $parameters['listeDA'];
-        dd($listeDA);
+       // dd($listeDA);
         $tab_listeSA = explode(",", $listeDA);
 
         if(isset($parameters['rappel'])){
@@ -278,6 +278,7 @@ $i=0;
                 $interlocuteur=$fournisseur->responsable;
             }
         */
+        dd("le corp du mail :".$corps." les précision".$precisions." les images".$images);
 $email=$em;
 if($rappel!="on"){
     Mail::send('mail.mail',array('corps'=>$corps,'precisions'=>$precisions,'images'=>$images),function($message)use ($email,$images ){
