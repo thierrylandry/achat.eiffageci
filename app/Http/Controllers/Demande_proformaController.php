@@ -278,7 +278,7 @@ $i=0;
                 $interlocuteur=$fournisseur->responsable;
             }
         */
-    //    dd("le corp du mail :".$corps." les précision".$precisions." les images".$images);
+        dd($precisions);
 $email=$em;
 if($rappel!="on"){
     Mail::send('mail.mail',array('corps'=>$corps,'precisions'=>$precisions,'images'=>$images),function($message)use ($email,$images ){
