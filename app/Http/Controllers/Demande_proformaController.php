@@ -264,6 +264,7 @@ $i=0;
 
         endforeach;
         $email='';
+        dd($recup_email);
         foreach($recup_email as $em):
 
          //   $fournisseur= Fournisseur::where('slug','=',$slug)->first();
