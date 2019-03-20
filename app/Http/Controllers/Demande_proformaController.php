@@ -293,7 +293,11 @@ if($rappel!="on"){
             }
 
         endforeach;
-
+if (strtoupper($email)=="MARINA.OULAI@EIFFAGE.COM" ){
+    $message->cc("Claudiane.COSTECALDE@eiffage.com");
+}else{
+    $message->cc("Marina.OULAI@eiffage.com");
+}
     });
 }else{
     Mail::send('mail.rappel_mail',array('corps' =>$corps),function($message)use ($email ){
@@ -302,7 +306,11 @@ if($rappel!="on"){
         $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->nom." ".\Illuminate\Support\Facades\Auth::user()->prenoms )
             ->to($email)
             ->subject('Rappel de demande de devis');
-
+        if (strtoupper($email)=="MARINA.OULAI@EIFFAGE.COM" ){
+            $message->cc("Claudiane.COSTECALDE@eiffage.com");
+        }else{
+            $message->cc("Marina.OULAI@eiffage.com");
+        }
 
     });
 
