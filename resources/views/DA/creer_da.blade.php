@@ -84,6 +84,9 @@
                                             <option value="L"> L</option>
                                             <option value="ml">ml</option>
                                         </optgroup>
+                                        <optgroup label="Le volume">
+                                            <option value="m3"> m<SUP>3</SUP></option>
+                                        </optgroup>
                                         <optgroup label="La surface">
                                             <option value="m²"> m²</option>
                                         </optgroup>
@@ -91,7 +94,7 @@
                                 </div>
                                 <div class="form-group col-sm-6">
                                     <label for="type">Pour le?</label>
-                                    <input type="date" class="form-control" id="DateBesoin" name="DateBesoin" placeholder="DateBesoin" value="{{isset($da)? $da->DateBesoin:''}}" required>
+                                    <input type="date" class="form-control" id="DateBesoin" name="DateBesoin" placeholder="DateBesoin" value="{{isset($da)? $da->DateBesoin:date('Y-m-d',strtotime(date('Y-m-d'). ' + 7 days'))}}"  required>
                                 </div>
                                 <div class="form-group">
                                     <label for="commentaire">Description (Attention ceci figurera sur le bon de commande) </label>

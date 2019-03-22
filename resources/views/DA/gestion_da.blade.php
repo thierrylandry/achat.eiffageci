@@ -86,6 +86,9 @@
                                             <option value="L"> L</option>
                                             <option value="ml">ml</option>
                                         </optgroup>
+                                        <optgroup label="Le volume">
+                                            <option value="m3"> m<SUP>3</SUP></option>
+                                        </optgroup>
                                         <optgroup label="La surface">
                                             <option value="m²"> m²</option>
                                         </optgroup>

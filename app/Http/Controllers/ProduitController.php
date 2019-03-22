@@ -85,7 +85,7 @@ if(isset($_FILES['image']['name']) && $_FILES['image']['name']!="" ){
         $imageName =  $_FILES['image']['name'];
         if($imageName!=""){
 
-            chmod('uploads',777);
+         //   chmod('uploads',777);
             try{
                 if(file_exists('uploads/'.$produit->image)){
              //   unlink('uploads/'.$produit->image);
