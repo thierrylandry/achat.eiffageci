@@ -289,7 +289,7 @@ if($rappel!="on"){
             ->subject('Demande de devis');
         foreach($images as $img):
             if($img!=""){
-                $message->attach(URL::asset('/uploads/'.$img));
+                $message->attach(URL::asset('uploads/'.$img));
             }
 
         endforeach;
