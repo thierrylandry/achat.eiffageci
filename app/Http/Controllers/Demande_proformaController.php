@@ -248,7 +248,7 @@ $i=0;
                 if($materiel[0]->image!==""){
                     $images[$i]=$materiel[0]->image;
                 }else{
-                    $images[$i]="";
+                    $images[$i]="vide";
                 }
                 if($das->commentaire!=""){
                     $precisions[$i]=$das->commentaire;
@@ -288,9 +288,11 @@ if($rappel!="on"){
             ->to($email)
             ->subject('Demande de devis');
         foreach($images as $img):
-            if($img!=""){
-                $message->attach(URL::asset('uploads/'.$img));
-            }
+            if($img!="vide"){
+                $message->attach(URL::asset('/uploads/'.$img));
+            }else{
+
+        }
 
         endforeach;
 if (strtoupper($email)=="MARINA.OULAI@EIFFAGE.COM" ){
