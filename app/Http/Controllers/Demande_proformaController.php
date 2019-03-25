@@ -295,6 +295,7 @@ if($rappel!="on"){
         }
 
         endforeach;
+        dd($message);
 if (strtoupper($email)=="MARINA.OULAI@EIFFAGE.COM" ){
     $message->cc("Claudiane.COSTECALDE@eiffage.com");
 }else{
