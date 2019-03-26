@@ -265,7 +265,7 @@ $i=0;
 
         endforeach;
         $email='';
-     //   dd($recup_email);
+     //   dd($images);
         foreach($recup_email as $em):
 
          //   $fournisseur= Fournisseur::where('slug','=',$slug)->first();
@@ -295,7 +295,6 @@ if($rappel!="on"){
         }
 
         endforeach;
-        dd($message);
 if (strtoupper($email)=="MARINA.OULAI@EIFFAGE.COM" ){
     $message->cc("Claudiane.COSTECALDE@eiffage.com");
 }else{
