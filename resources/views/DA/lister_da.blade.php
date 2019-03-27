@@ -254,9 +254,17 @@
         (function($) {
             var table= $('#tableDA').DataTable({
                 language: {
-                    url: "js/French.json"
+                    url: "{{ URL::asset('public/js/French.json') }}"
                 },
-                "ordering":false,
+                buttons: [
+                    {
+                        extend:    'pdfHtml5',
+                        text:      '<i class="fa fa-file-pdf-o"></i>',
+                        titleAttr: 'PDF'
+                    }
+                ],
+                "order": [[ 0, 'desc' ]],
+                "ordering":true,
                 "createdRow": function( row, data, dataIndex){
 
                 },
