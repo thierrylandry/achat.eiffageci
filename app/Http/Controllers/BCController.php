@@ -14,6 +14,8 @@ use App\Boncommande;
 use App\DA;
 use App\Devis;
 use App\fournisseur;
+use App\Jobs\EnvoiBcFournisseur;
+use App\Jobs\EnvoiBcFournisseurPersonnalise;
 use App\ligne_bc;
 use App\Lignebesoin;
 use App\Reponse_fournisseur;
@@ -215,26 +217,8 @@ return $view;
 
         endforeach;
 
-        foreach($contact as $conct):
+        $this->dispatch(new EnvoiBcFournisseurPersonnalise($contact,$pdf,$bc,$images,$msg_contenu) );
 
-            if($conct!=""){
-
-                // If you want to store the generated pdf to the server then you can use the store function
-                $pdf->save(storage_path('bon_commande').'\bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
-                Mail::send('mail.empty_mail',array("msg_contenu"=>$msg_contenu),function($message)use ($conct,$numBonCommande,$images){
-                    $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->nom." ".\Illuminate\Support\Facades\Auth::user()->prenoms)
-                        ->to($conct)
-                        ->to(\Illuminate\Support\Facades\Auth::user()->email)
-                        ->subject('TRANSMISSION DE BON DE COMMANDE')
-                        ->attach( storage_path('bon_commande').'\bon_de_commande_n°'.$numBonCommande.'.pdf'  );
-
-                    foreach($images as $img):
-                        $message->attach(URL::asset('/uploads/'.$img));
-                    endforeach;
-                });
-            }
-
-        endforeach;
         //  return redirect()->route('gestion_bc')->with('success', "Envoie d'email reussi");
 
         $boncom=Boncommande::where('id','=',$bc->id)->first();
@@ -329,26 +313,7 @@ return $view;
 
         endforeach;
 
-foreach($contact as $conct):
-
-    if($conct!=""){
-
-        // If you want to store the generated pdf to the server then you can use the store function
-        $pdf->save(storage_path('bon_commande').'\bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
-        Mail::send('mail.mail_bc',array('tab' =>$tab,'corps'=>$corps,'precisions'=>$precisions,'images'=>$images),function($message)use ($conct,$numBonCommande,$images){
-            $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->nom." ".\Illuminate\Support\Facades\Auth::user()->prenoms)
-                ->to($conct)
-                ->to(\Illuminate\Support\Facades\Auth::user()->email)
-                ->subject('TRANSMISSION DE BON DE COMMANDE')
-                ->attach( storage_path('bon_commande').'\bon_de_commande_n°'.$numBonCommande.'.pdf'  );
-
-            foreach($images as $img):
-                $message->attach(URL::asset('/uploads/'.$img));
-            endforeach;
-        });
-    }
-
-endforeach;
+        $this->dispatch(new EnvoiBcFournisseur($contact,$pdf,$tab,$corps,$bc,$precisions,$images) );
       //  return redirect()->route('gestion_bc')->with('success', "Envoie d'email reussi");
 
         $boncom=Boncommande::where('id','=',$bc->id)->first();

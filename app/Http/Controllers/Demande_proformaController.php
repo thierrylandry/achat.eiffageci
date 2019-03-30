@@ -12,6 +12,8 @@ namespace App\Http\Controllers;
 
 use App\DA;
 use App\Devis;
+use App\Jobs\EnvoiMailFournisseur;
+use App\Jobs\EnvoiRappelFournisseur;
 use App\Lignebesoin;
 use App\Mail\Demande_proforma_mail;
 use App\mailclass;
@@ -31,7 +33,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use phpDocumentor\Reflection\Types\Array_;
 
-class Demande_proformaController
+class Demande_proformaController extends Controller
 {
 
     public function demande_proformas()
@@ -280,42 +282,12 @@ $i=0;
         */
      //   dd($precisions);
 $email=$em;
+
 if($rappel!="on"){
-    Mail::send('mail.mail',array('corps'=>$corps,'precisions'=>$precisions,'images'=>$images),function($message)use ($email,$images ){
-
-
-        $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->nom." ".\Illuminate\Support\Facades\Auth::user()->prenoms )
-            ->to($email)
-            ->subject('Demande de devis');
-        foreach($images as $img):
-            if($img!="vide"){
-                $message->attach(URL::asset('/uploads/'.$img));
-            }else{
-
-        }
-
-        endforeach;
-if (strtoupper($email)=="MARINA.OULAI@EIFFAGE.COM" ){
-    $message->cc("Claudiane.COSTECALDE@eiffage.com");
+    $this->dispatch(new EnvoiMailFournisseur($corps, $precisions, $images, $email) );
 }else{
-    $message->cc("Marina.OULAI@eiffage.com");
-}
-    });
-}else{
-    Mail::send('mail.rappel_mail',array('corps' =>$corps),function($message)use ($email ){
 
-
-        $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->nom." ".\Illuminate\Support\Facades\Auth::user()->prenoms )
-            ->to($email)
-            ->subject('Rappel de demande de devis');
-        if (strtoupper($email)=="MARINA.OULAI@EIFFAGE.COM" ){
-            $message->cc("Claudiane.COSTECALDE@eiffage.com");
-        }else{
-            $message->cc("Marina.OULAI@eiffage.com");
-        }
-
-    });
-
+    $this->dispatch(new EnvoiRappelFournisseur($corps,$email) );
 }
             $fournisseur= Fournisseur::where('contact','LIKE', '%'.$email.'%')->first();
             $Trace_mail= new Tracemail();

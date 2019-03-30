@@ -256,6 +256,7 @@
                 language: {
                     url: "{{ URL::asset('public/js/French.json') }}"
                 },
+                dom: 'Bfrtip',
                 buttons: [
                     {
                         extend:    'pdfHtml5',

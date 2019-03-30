@@ -13,6 +13,7 @@ use App\Boncommande;
 use App\DA;
 use App\Devis;
 use App\fournisseur;
+use App\Jobs\EnvoiNotificationUtilisateur;
 use App\ligne_bc;
 use App\Lignebesoin;
 use App\Reponse_fournisseur;
@@ -87,18 +88,9 @@ class InfoController extends Controller
 
         $das=  DA::where('etat','=',1)->get();
 
-        $Nbdas=sizeof($das);
-        if($Nbdas>0){
-            Mail::send('mail.notif_mail',array('nb' =>$Nbdas." demande(s) d'achat(s)"),function($message)use ($email,$Nbdas ){
-
-
-                $message->from("noreply@eiffage.com" ,"PRO-ACHAT" )
-                    ->to($email)
-                    ->subject('Vous avez '.$Nbdas." demande(s) d'achat(s)");
-
-
-            });
-
+        $Nb=sizeof($das);
+        if($Nb>0){
+            $this->dispatch(new EnvoiNotificationUtilisateur($Nb,$email,1) );
         }
 
     }
@@ -106,18 +98,10 @@ class InfoController extends Controller
 
         $das=  Boncommande::where('etat','=',1)->get();
 
-        $Nbdas=sizeof($das);
-        if($Nbdas>0){
-            Mail::send('mail.notif_mail',array('nb' =>$Nbdas." demande(s) d'achat(s)"),function($message)use ($email,$Nbdas ){
+        $Nb=sizeof($das);
+        if($Nb>0){
 
-
-                $message->from("noreply@eiffage.com" ,"PRO-ACHAT" )
-                    ->to($email)
-                    ->subject('Vous avez '.$Nbdas." demande(s) d'achat(s)");
-
-
-            });
-
+            $this->dispatch(new EnvoiNotificationUtilisateur($Nb,$email,2) );
         }
 
     }
