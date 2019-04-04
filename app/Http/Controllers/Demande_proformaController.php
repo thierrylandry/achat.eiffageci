@@ -62,8 +62,13 @@ $fournisseurs=Fournisseur::all();
         // a terminer
 dd($list_da);
     }
-    public function enregistrer_devis($res,$lesId,$lesIdmat)
+    public function enregistrer_devis(Request $request)
     {
+        $parameters = $request->except(['_token']);
+
+        $res=$parameters['res'];
+        $lesId=$parameters['lesId'];
+        $lesIdmat=$parameters['lesIdmat'];
         $lesId=explode(',',$lesId);
         $lesIdmat=explode(',',$lesIdmat);
         parse_str($res,$tab);
@@ -116,11 +121,15 @@ dd($list_da);
 return 1;
 
     }
-    public function modifier_devis($res,$lesId)
+    public function modifier_devis(Request $request)
     {
+        $parameters = $request->except(['_token']);
+
+        $res=$parameters['res'];
+        $lesId=$parameters['lesId'];
         $lesId=explode(',',$lesId);
+
         parse_str($res,$tab);
-//dd($lesId);
         $i=0;
         foreach($lesId as $id){
             if($id!=="undefined" && $tab["row_n_".$id."_titre_ext"]!="" && $tab["row_n_".$id."_fournisseur"]!="" && $tab["row_n_".$id."_prix_unitaire"]!="" && $tab["row_n_".$id."_quantite"]){
