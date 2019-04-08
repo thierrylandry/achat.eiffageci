@@ -256,14 +256,6 @@
                 language: {
                     url: "{{ URL::asset('public/js/French.json') }}"
                 },
-                dom: 'Bfrtip',
-                buttons: [
-                    {
-                        extend:    'pdfHtml5',
-                        text:      '<i class="fa fa-file-pdf-o"></i>',
-                        titleAttr: 'PDF'
-                    }
-                ],
                 "order": [[ 0, 'desc' ]],
                 "ordering":true,
                 "createdRow": function( row, data, dataIndex){
