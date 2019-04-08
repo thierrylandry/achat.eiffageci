@@ -675,7 +675,7 @@ if(isset($devis->first()->devise)){
 
         $date= new \DateTime(null);
         $Boncommande= new Boncommande();
-        $Boncommande->numBonCommande=$parameters['numbc'];
+        $Boncommande->numBonCommande="PHB-815140-".$parameters['numbc'];
        // $Boncommande->date=$parameters['date'];
         $Boncommande->id_fournisseur=$parameters['id_fournisseur'];
         $Boncommande->id_user=\Illuminate\Support\Facades\Auth::user()->id;
