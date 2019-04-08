@@ -42,7 +42,7 @@ private $Nb,$email,$action;
 
                 $message->from("noreply@eiffage.com" ,"PRO-ACHAT" )
                     ->to($email)
-                    ->subject('Vous avez '.$Nb." demande(s) d'achat(s)");
+                    ->subject('Vous avez '.$Nb." demande(s) d'achat(s) en attente de validation ");
 
 
             });
@@ -53,7 +53,7 @@ private $Nb,$email,$action;
 
                 $message->from("noreply@eiffage.com" ,"PRO-ACHAT" )
                     ->to($email)
-                    ->subject('Vous avez '.$Nb." demande(s) d'achat(s)");
+                    ->subject('Vous avez '.$Nb." bon(s) de commande(s) en attente de signature");
 
 
             });

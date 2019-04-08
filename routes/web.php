@@ -564,6 +564,14 @@ Route::get('/supprimer_ligne_bc/{slug}',[
     'roles' => ['Gestionnaire_BC']
 
 ])->middleware('auth');
+
+Route::get('/bc_express',[
+    'as'=>'bc_express',
+    'uses'=>'BCController@bc_express',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_BC']
+
+])->middleware('auth');
 Route::get('/valider_commande/{slug}',[
     'as'=>'valider_commande',
     'uses'=>'BCController@valider_commande',

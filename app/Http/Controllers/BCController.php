@@ -21,6 +21,7 @@ use App\Lignebesoin;
 use App\Reponse_fournisseur;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -648,6 +649,10 @@ if(isset($devis->first()->devise)){
         $analytiques= Analytique::all();
         return view('BC/list_ligne_bc',compact('bc','fournisseur','utilisateurs','listerbc','devis','analytiques','devise','id_devi','date_propose','service','new_devis'));
     }
+    public function bc_express(){
+        return view('BC/bcexpress');
+
+    }
     public function gestion_bc_ajouter()
     {
         $bcs=  Boncommande::all();
@@ -678,7 +683,7 @@ if(isset($devis->first()->devise)){
         $Boncommande->numBonCommande="PHB-815140-".$parameters['numbc'];
        // $Boncommande->date=$parameters['date'];
         $Boncommande->id_fournisseur=$parameters['id_fournisseur'];
-        $Boncommande->id_user=\Illuminate\Support\Facades\Auth::user()->id;
+        $Boncommande->id_user=Auth::user()->id;
 
         $Boncommande->slug=Str::slug($parameters['numbc'].$date->format('dmYhis'));
        // $Boncommande->save();

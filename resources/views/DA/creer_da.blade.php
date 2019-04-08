@@ -24,7 +24,7 @@
                                 <label for="libelle" class="control-label">Produit et service</label>
 
 
-                                <select class="form-control selectpicker col-sm-4" id="id_materiel" name="id_materiel" data-live-search="true" data-size="6" required>
+                                <a href="{{route('gestion_produit')}}" class="fa fa-plus-circle"></a><select class="form-control selectpicker col-sm-4" id="id_materiel" name="id_materiel" data-live-search="true" data-size="6" required>
                                     <option  value="">SELECTIONNER UN PRODUIT</option>
                                     @foreach($materiels as $materiel)
                                         <option @if(isset($da) and $materiel->id==$da->	id_materiel)

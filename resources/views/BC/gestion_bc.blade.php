@@ -148,9 +148,14 @@
         </div>
     </div>
 
+<div class="row">
+    <a href="{{route('gestion_bc_ajouter')}}" class="btn btn-success pull-right" id="Ajouter_pro" >Ajouter un bon de commande</a>
 
-    <a href="{{route('gestion_bc_ajouter')}}" class="btn btn-success pull-right" id="Ajouter_pro" >Ajouter un bon de commande</a>   <br>
-    <div class="row">
+</div><div class="row"><br>
+    <a href="{{route('bc_express')}}" class="btn btn-info pull-right" id="Ajouter_pro" >>>Express<<</a>
+
+</div>
+       <div class="row">
         <div class="col-sm-offset-2 col-sm-8" >    @include('BC/list_bc')</div>
     </div>
 
