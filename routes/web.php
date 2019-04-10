@@ -572,6 +572,15 @@ Route::get('/bc_express',[
     'roles' => ['Gestionnaire_BC']
 
 ])->middleware('auth');
+
+Route::get('/chercher_codeRubrique/{id}',[
+    'as'=>'chercher_codeRubrique',
+    'uses'=>'BCController@chercher_codeRubrique',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_BC']
+
+])->middleware('auth');
+
 Route::get('/valider_commande/{slug}',[
     'as'=>'valider_commande',
     'uses'=>'BCController@valider_commande',

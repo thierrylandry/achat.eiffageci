@@ -220,6 +220,9 @@
                                                             <option value="L" {{"L"==$devi->unite?"selected":''}}> L</option>
                                                             <option value="ml" {{"ml"==$devi->unite?"selected":''}}>ml</option>
                                                         </optgroup>
+                                                        <optgroup label="Le volume">
+                                                            <option value="m3"> m<SUP>3</SUP></option>
+                                                        </optgroup>
                                                         <optgroup label="La surface">
                                                             <option value="m²" {{"m²"==$devi->unite?"selected":''}}> m²</option>
                                                         </optgroup>

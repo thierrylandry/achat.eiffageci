@@ -18,6 +18,7 @@ use App\Jobs\EnvoiBcFournisseur;
 use App\Jobs\EnvoiBcFournisseurPersonnalise;
 use App\ligne_bc;
 use App\Lignebesoin;
+use App\Materiel;
 use App\Reponse_fournisseur;
 use App\User;
 use Illuminate\Http\Request;
@@ -533,6 +534,12 @@ $analytiques= Analytique::all();
 
         return "super";
     }
+    public function chercher_codeRubrique($id)
+    {
+        $materiel= Materiel::find($id);
+        return \GuzzleHttp\json_encode($materiel);
+    }
+
     public function retirer_da_to_bc($id,$id_bc)
     {
         $devi= Devis::find($id);
@@ -650,7 +657,9 @@ if(isset($devis->first()->devise)){
         return view('BC/list_ligne_bc',compact('bc','fournisseur','utilisateurs','listerbc','devis','analytiques','devise','id_devi','date_propose','service','new_devis'));
     }
     public function bc_express(){
-        return view('BC/bcexpress');
+        $analytiques =  Analytique::all();
+        $materiels =  Materiel::all();
+        return view('BC/bcexpress',compact('analytiques','materiels'));
 
     }
     public function gestion_bc_ajouter()
