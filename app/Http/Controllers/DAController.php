@@ -10,7 +10,9 @@ namespace App\Http\Controllers;
 
 
 
+use App\Boncommande;
 use App\DA;
+use App\Devis;
 use App\Materiel;
 use App\Fournisseur;
 use App\Nature;
@@ -98,7 +100,10 @@ class DAController
     public function supprimer_da($slug)
     {
         $da = DA::where('slug', '=', $slug)->first();
+     //   $devis=Devis::where('id_da',$da->id)->first();
         $da->delete();
+
+
         return redirect()->route('gestion_da')->with('success', "la demande d'approvisionnement a bien été supprimé");
     }
 

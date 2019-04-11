@@ -325,7 +325,8 @@ if($rappel!="on"){
             ->join('nature', 'nature.id', '=', 'lignebesoin.id_nature')
             ->leftJoin('users', 'users.id', '=', 'lignebesoin.id_valideur')
             ->where('lignebesoin.etat', '=', 2)
-            ->select('lignebesoin.id','lignebesoin.id_materiel','unite','DateBesoin','quantite','demandeur','users.nom','users.prenoms','libelleMateriel','libelleNature','lignebesoin.slug')
+            ->select('lignebesoin.id','lignebesoin.id_materiel','unite','DateBesoin','quantite','demandeur','users.nom','users.prenoms','libelleMateriel','libelleNature','lignebesoin.slug','lignebesoin.created_at')
+            ->orderBy('lignebesoin.id', 'desc')
             ->distinct()->get();
         $variable="";
         $status="<i class='fa fa-circle' style='color: mediumspringgreen'></i>";

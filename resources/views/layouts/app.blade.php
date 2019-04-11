@@ -44,11 +44,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- DataTables -->
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/dataTables.bootstrap4.min.css') }}"/>
     <script type="text/javascript" src="{{ URL::asset('js/jquery.dataTables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ URL::asset('js/jquery-dataformat.min.js') }}"></script>
     <script type="text/javascript" src="{{ URL::asset('js/dataTable.pdfmaker.js') }}"></script>
     <script type="text/javascript" src="{{ URL::asset('js/dataTable.editor.min.js') }}"></script>
     <script type="text/javascript" src="{{ URL::asset('js/vsf_font.js') }}"></script>
     <script type="text/javascript" src="{{ URL::asset('js/button.html5.min.js') }}"></script>
     <script type="text/javascript" src="{{ URL::asset('js/notification.js') }}"></script>
+    <script type="text/javascript" src="{{ URL::asset('js/dateFormat.js') }}"></script>
 
     <style>
 
@@ -362,7 +364,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <span>Les D.A.</span>
                         </a>
                         <ul class="sub">
-                            @if(Auth::user() != null && Auth::user()->hasAnyRole(['Valideur_DA']))
+                            @if(Auth::user() != null && Auth::user()->hasAnyRole(['Valideur_DA'])  || Auth::user()->hasAnyRole(['Gestionnaire_Pro_Forma']))
                             <li @yield('lister_da')><a href="{{route('lister_da')}}">Lister les D.A.</a></li>
                             @endif
                             <li  @yield('creer_da')><a href="{{route('creer_da')}}">Creer une  D.A.</a></li>

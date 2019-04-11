@@ -229,7 +229,7 @@ Route::get('/lister_da',[
     'as'=>'lister_da',
     'uses'=>'DAController@das',
     'middleware' => 'roles',
-    'roles' => ['Valideur_DA']
+    'roles' => ['Valideur_DA','Gestionnaire_Pro_Forma']
 
 ])->middleware('auth');
 

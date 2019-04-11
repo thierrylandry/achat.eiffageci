@@ -82,6 +82,7 @@
                             <th class="dt-head-center">Quantité</th>
                             <th class="dt-head-center">Pour le ?</th>
                             <th class="dt-head-center">Demandeur</th>
+                            <th class="dt-head-center">Date de la demande</th>
                             <th class="dt-head-center">Confirmer ou Infirmer par ?</th>
 
                         </tr>
@@ -212,7 +213,7 @@
             'select': {
                 'style': 'multi'
             },
-            'order': [[1, 'asc']],
+            'order': [[0, 'desc']],
             language: {
                 url: "js/French.json"
             },
@@ -284,6 +285,7 @@ var nom="";
                                     value.quantite+" "+ value.unite,
                                     value.DateBesoin,
                                     value.demandeur,
+                                    value.created_at ,
                                     nom
 
                                 ]);

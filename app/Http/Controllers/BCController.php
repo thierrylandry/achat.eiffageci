@@ -445,6 +445,10 @@ $analytiques= Analytique::all();
                 $Devis->valeur_tva=$Devis->prix_tot*0.18;
 
                 $Devis->save();
+                $lignebesoin=Lignebesoin::find($id);
+                $lignebesoin->id_bonCommande=$parameters['id_bc'];
+
+                $lignebesoin->save();
             }
 
             endforeach;
@@ -464,14 +468,7 @@ $analytiques= Analytique::all();
         $boncommande->total_ttc=$tot_ttc;
         $boncommande->save();
 
-        $Deviss= Devis::where('id_bc','=',$parameters['id_bc'])->get();
 
-        foreach($Deviss as $Devis):
-            $lignebesoin=Lignebesoin::find($Devis->id_da);
-
-            $lignebesoin->id_bonCommande=$boncommande->id;
-            $lignebesoin->save();
-        endforeach;
 
 
 
