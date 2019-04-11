@@ -79,7 +79,7 @@
         <br>
         <br>
         <br>
-        <button id="addRow" type="button">Ajouter ligne</button>
+
         <table name ="ligneCommandes" id="ligneCommandes" class=''>
 
             <thead>
@@ -180,6 +180,7 @@
                 x.style.display = "none";
             }
         }
+        var editor; // use a global for the submit and return data rendering in the examples
         (function($) {
 
             $(".btn_addbc").click(function (){
