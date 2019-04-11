@@ -100,7 +100,7 @@
                 <th class="">Action</th>
             </tr>
             </thead>
-            <tbody name ="contenu_tableau_entite" id="contenu_tableau_entite">
+            <tbody name ="contenu_tableau_ligne" id="contenu_tableau_ligne">
 
             @if(isset($devis))
                 @foreach($devis as $devi )
@@ -144,38 +144,16 @@
                 <tr> <th colspan="7" style="text-align:right" >TOTAL TTC :</th> <th id="ttc" style="text-align: right"></th> </tr>
             </tfooter>
         </table>
-        <div id="contacttemplate" class="row clearfix" style="display: none">
-            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4 form-control-label">
-                <label for="titre_c[]">Interlocuteur </label>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                <div class="form-group">
-                    <div class="form-line">
-                        <input type="text" name="titre_c[]" class="titre_c form-control" placeholder="Titre contact" value="{{ old('fullname_c[]') }}">
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-1 col-md-1 col-sm-3 col-xs-4 form-control-label">
-                <label for="observation_c[]">Adresse</label>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                <div class="form-group">
-                    <select type="text" name="type_c[]" class="type_c form-control input-field">
-                        @foreach(\App\Metier\Json\Contact::$typeListe as $key => $typeliste)
-                            <option value="{{ $key }}">{{ $typeliste }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-md-2 col-sm-7 col-xs-7">
-                <div class="form-group">
-                    <div class="form-line">
-                        <input type="text" name="valeur_c[]" class="valeur_c form-control" placeholder="Valeur" value="{{ old('valeur_c[]') }}">
-                    </div>
-                </div>
-            </div>
+        <div id="lignetemplate" class="row clearfix" style="display: none">
+            <tr>
+                <td><input type='text' id='designation_"+counter+".2' class='testdd'/></td>
+                <td><input type='text' id='commentaire_"+counter+".3'/></td>
+                <td><input type='text' id='codeAnalitique_"+counter+".4'/></td>
+                <td><input type='number' min='1' id='quantite"+counter+".5' style='width:100px;'/></td>
+                <td><select class='form-control unite selectpicker col-sm-4' id='unite_"+counter+".6' name='unite_"+counter+".6' data-live-search='true' data-size='6'><option value='U'>U</option> <optgroup label='La longeur'><option value='Km'> Km</option><option value='m'>m</option><option value='cm'>cm</option><option value='mm'>mm</option></optgroup><optgroup label='La masse'><option value='T'> T</option><option value='Kg'>Kg</option> <option value='g'>g</option><option value='mg'>mg</option></optgroup><optgroup label='Le litre'> <option value='L'> L</option><option value='ml'>ml</option></optgroup><optgroup label='Le volume'><option value='m3'> m<SUP>3</SUP></option></optgroup><optgroup label='La surface'><option value='m²'> m²</option></optgroup> </select></td>
+                <td><input type='number' min='1' id='prix_unitaire' class='prix_unitaire'/></td>
+                <td><input type='number' min='1' id='remise"+counter+".8' style='width:50px;'/></td>
+            </tr>
         </div>
         <div class="row"  style="width: 90%">
             <div class="col-sm-1 pull-right">
@@ -264,7 +242,33 @@
 
             }
 
+
             var table= $('#ligneCommandes').DataTable({
+                dom: "Bfrtip",
+                columns: [
+                    {
+                        data: null,
+                        defaultContent: '',
+                        className: 'select-checkbox',
+                        orderable: false
+                    },
+                    { data: "first_name" },
+                    { data: "last_name" },
+                    { data: "position" },
+                    { data: "office" },
+                    { data: "start_date" },
+                    { data: "salary", render: $.fn.dataTable.render.number( ',', '.', 0, '$' ) }
+                ],
+                order: [ 1, 'asc' ],
+                select: {
+                    style:    'os',
+                    selector: 'td:first-child'
+                },
+                buttons: [
+                    { extend: "create", editor: editor },
+                    { extend: "edit",   editor: editor },
+                    { extend: "remove", editor: editor }
+                ],
                 language: {
                     url: '../js/French.json'
                 },
@@ -322,7 +326,34 @@
                     { responsivePriority: 2, targets: -2 }
                 ]
             }).column(0).visible(false).column(11).visible(false);
-
+            editor = new table.Editor( {
+                ajax: "../php/staff.php",
+                table: "#example",
+                fields: [ {
+                    label: "First name:",
+                    name: "first_name"
+                }, {
+                    label: "Last name:",
+                    name: "last_name"
+                }, {
+                    label: "Position:",
+                    name: "position"
+                }, {
+                    label: "Office:",
+                    name: "office"
+                }, {
+                    label: "Extension:",
+                    name: "extn"
+                }, {
+                    label: "Start date:",
+                    name: "start_date",
+                    type: "datetime"
+                }, {
+                    label: "Salary:",
+                    name: "salary"
+                }
+                ]
+            } );
             $(".testdd").change(function (e){
                 console.log("test");
             });
@@ -376,6 +407,9 @@
 
             })
 
+            $("#addcontact").click(function (e) {
+                $($("#lignetemplate").html()).appendTo($("#contenu_tableau_ligne"));
+            });
             var counter = 1;
 
             $('#addRow').on( 'click', function () {
@@ -397,7 +431,6 @@
                 ] ).draw( false );
                 $('.unite').selectpicker('refresh');
                 counter++;
-                dom.refresh();
             } );
 
 
