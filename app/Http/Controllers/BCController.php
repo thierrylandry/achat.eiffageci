@@ -551,6 +551,22 @@ $analytiques= Analytique::all();
 
         return \GuzzleHttp\json_encode($devi);
     }
+    public function supprimer_def_da_to_bc($id,$id_bc)
+    {
+        $devi= Devis::find($id);
+        if(!empty($devi)){
+            $da= Lignebesoin::find($devi->id_da);
+            $da->delete();
+            $devi->delete();
+        }
+
+
+
+
+
+        return \GuzzleHttp\json_encode($devi);
+    }
+
     public function traite_finalise($slug)
     {
         $date= new \DateTime(null);

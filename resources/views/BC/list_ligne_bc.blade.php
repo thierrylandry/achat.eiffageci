@@ -204,7 +204,7 @@
             @endif </td>
             <td><input type="checkbox" id="row_n_{{$devi->id}}_tva" name="row_n_{{$devi->id}}_tva" class="row_n__tva" {{1==$devi->hastva?"checked='checked'":""}}/>   </td>
         <td>{{$devi->hastva}}</td>
-            <td><button type="button" class="btn_retirerbc">Retirer</button></td>
+            <td><button type="button" class="btn_retirerbc">Retirer</button>&nbsp;<button type="button" class="btn_supp btn btn-danger"><i class="fa fa-trash"></i></button></td>
         </tr>
     @endforeach
         @endif
@@ -261,6 +261,18 @@ var id_bc= $("#id_bc").val();
                 console.log(data);
                window.location.reload()
             });
+        });
+        $(".btn_supp").click(function (){
+            var data = table.row($(this).parents('tr')).data();
+            var id_bc= $("#id_bc").val();
+            if(confirm("Voulez vous supprimer définitivement cette ligne?")){
+                $.get("../supprimer_def_da_to_bc/"+data[0]+"/"+id_bc, function(data, status){
+                    console.log(data);
+                    window.location.reload()
+                });
+
+            }
+
         });
         function ilisibilite_nombre(valeur){
 

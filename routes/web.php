@@ -542,6 +542,13 @@ Route::get('/retirer_da_to_bc/{id}/{id_bc}',[
     'roles' => ['Gestionnaire_BC','Valideur_BC']
 
 ])->middleware('auth');
+Route::get('/supprimer_def_da_to_bc/{id}/{id_bc}',[
+    'as'=>'supprimer_def_da_to_bc',
+    'uses'=>'BCController@supprimer_def_da_to_bc',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_BC','Valideur_BC']
+
+])->middleware('auth');
 Route::get('/modifier_ligne_bc/{slug}',[
     'as'=>'modifier_ligne_bc',
     'uses'=>'BCController@modifier_ligne_bc',

@@ -66,30 +66,35 @@
                                 <div class="form-group col-sm-3">
                                     <label for="type">Unité</label>
                                     <select class="form-control selectpicker col-sm-4" id="unite" name="unite" data-live-search="true" data-size="6">
-                                        <option value="u">u</option>
+                                          @foreach($tab_unite['nothing'] as $unite)
+                                                <option value="{{$unite}}">{{$unite}}</option>
+                                            @endforeach
+                                                <optgroup label="La longeur">
+                                                    @foreach($tab_unite['La longueur'] as $unite)
+                                                        <option value="{{$unite}}">{{$unite}}</option>
+                                                    @endforeach
+                                                </optgroup>
 
-                                        <optgroup label="La longeur">
-                                            <option value="Km"> Km</option>
-                                            <option value="m">m</option>
-                                            <option value="cm">cm</option>
-                                            <option value="mm">mm</option>
-                                        </optgroup>
-                                        <optgroup label="La masse">
-                                            <option value="T"> T</option>
-                                            <option value="Kg">Kg</option>
-                                            <option value="g">g</option>
-                                            <option value="mg">mg</option>
-                                        </optgroup>
-                                        <optgroup label="Le litre">
-                                            <option value="L"> L</option>
-                                            <option value="ml">ml</option>
-                                        </optgroup>
-                                        <optgroup label="Le volume">
-                                            <option value="m3"> m<SUP>3</SUP></option>
-                                        </optgroup>
-                                        <optgroup label="La surface">
-                                            <option value="m²"> m²</option>
-                                        </optgroup>
+                                                <optgroup label="La masse">
+                                                    @foreach($tab_unite['La masse'] as $unite)
+                                                        <option value="{{$unite}}">{{$unite}}</option>
+                                                    @endforeach
+                                                </optgroup>
+
+
+
+                                                <optgroup label="Le volume">
+                                                    @foreach($tab_unite['Le volume'] as $unite)
+                                                        <option value="{{$unite}}">{{$unite}}</option>
+                                                    @endforeach
+                                                </optgroup>
+
+                                                <optgroup label="La surface">
+                                                    @foreach($tab_unite['La surface'] as $unite)
+                                                        <option value="{{$unite}}">{{$unite}}</option>
+                                                    @endforeach
+                                                </optgroup>
+
                                     </select>
                                 </div>
                                 <div class="form-group col-sm-6">

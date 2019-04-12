@@ -22,6 +22,7 @@ use App\Fournisseur;
 use App\Nature;
 use App\Reponse_fournisseur;
 use App\Tracemail;
+use App\Unites;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -420,7 +421,21 @@ if($rappel!="on"){
         $domaines=  DB::table('domaines')->get();
         $devis = Devis::where('etat','=',1)->get();
         $analytiques=  DB::table('analytique')->distinct()->get(['codeRubrique','libelle']);
-        return view('reponse_fournisseur/gestion_reponse_fournisseur',compact('analytiques','das','fournisseurs','materiels','natures','users','domaines','devis','tab_proposition'));
+        $unites=Unites::all();
+        foreach($unites as $unite):
+            if($unite->id==1){
+                $tab_unite['nothing'][]=$unite->libelle;
+            }elseif($unite->id>1 && $unite->id<=10 ){
+                $tab_unite['La longueur'][]= $unite->libelle;
+            }elseif ($unite->id>10 && $unite->id<=20){
+                $tab_unite['La masse'][]=$unite->libelle;
+            }elseif ($unite->id>20 && $unite->id<=30){
+                $tab_unite['Le volume'][]=$unite->libelle;
+            }elseif ($unite->id>30 && $unite->id<=40){
+                $tab_unite['La surface'][]=$unite->libelle;
+            }
+        endforeach;
+        return view('reponse_fournisseur/gestion_reponse_fournisseur',compact('analytiques','das','fournisseurs','materiels','natures','users','domaines','devis','tab_proposition','tab_unite'));
 
 
     }

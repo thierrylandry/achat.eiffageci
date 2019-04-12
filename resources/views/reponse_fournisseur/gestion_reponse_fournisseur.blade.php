@@ -85,30 +85,30 @@
                                                 <td> <input min="0" type="number" value="{{$da->quantite}}" class="form-control" id="row_n_{{$da->id}}_quantite" name="row_n_{{$da->id}}_quantite">
 
                                                         <select class="form-control selectpicker col-sm-4" id="row_n_{{$da->id}}_unite" name="row_n_{{$da->id}}_unite" data-live-search="true" data-size="6">
-                                                            <option value="u" {{"u"==$da->unite?"selected":''}}>u</option>
-
+                                                            @foreach($tab_unite['nothing'] as $unite)
+                                                                <option value="{{$unite}}" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite==$unite || $unite==$da->unite ?"selected":''}}>{{$unite}}</option>
+                                                            @endforeach
                                                             <optgroup label="La longeur">
-                                                                <option {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite=="Km" || "Km"==$da->unite ?"selected":''}} value="Km"> Km</option>
-                                                                <option value="m" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite=="m" || "m"==$da->unite ?"selected":''}}>m</option>
-                                                                <option value="cm" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite=="cm" || "cm"==$da->unite ?"selected":''}}>cm</option>
-                                                                <option value="mm" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite=="mm" || "mm"==$da->unite ?"selected":''}}>mm</option>
+                                                                @foreach($tab_unite['La longueur'] as $unite)
+                                                                    <option value="{{$unite}}" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite==$unite || $unite==$da->unite ?"selected":''}}>{{$unite}}</option>
+                                                                @endforeach
                                                             </optgroup>
+
                                                             <optgroup label="La masse">
-                                                                <option value="T" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite=="T" || "T"==$da->unite ?"selected":''}}> T</option>
-                                                                <option value="Kg" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite=="Kg" || "Kg"==$da->unite ?"selected":''}}>Kg</option>
-                                                                <option value="g" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite=="g" || "g"==$da->unite ?"selected":''}}>g</option>
-                                                                <option value="mg" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite=="mg" || "mg"==$da->unite ?"selected":''}}>mg</option>
-                                                            </optgroup>
-                                                            <optgroup label="Le litre">
-                                                                <option value="L" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite=="L" || "L"==$da->unite ?"selected":''}}> L</option>
-                                                                <option value="ml" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite=="ml" || "ml"==$da->unite ?"selected":''}}>ml</option>
+                                                                @foreach($tab_unite['La masse'] as $unite)
+                                                                    <option value="{{$unite}}" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite==$unite || $unite==$da->unite ?"selected":''}}>{{$unite}}</option>
+                                                                @endforeach
                                                             </optgroup>
                                                             <optgroup label="Le volume">
-                                                                <option value="m3"> m<SUP>3</SUP></option>
+                                                                @foreach($tab_unite['Le volume'] as $unite)
+                                                                    <option value="{{$unite}}" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite==$unite || $unite==$da->unite ?"selected":''}}>{{$unite}}</option>
+                                                                @endforeach
                                                             </optgroup>
+
                                                             <optgroup label="La surface">
-                                                                <option value="m²" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite=="m²" || "m²"==$da->unite ?"selected":''}}> m²</option>
-                                                            </optgroup>
+                                                                @foreach($tab_unite['La surface'] as $unite)
+                                                                    <option value="{{$unite}}" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite==$unite || $unite==$da->unite ?"selected":''}}>{{$unite}}</option>
+                                                                @endforeach
                                                         </select>
                                                     </td>
                                                 <td>{{$da->DateBesoin}}</td>
@@ -205,30 +205,30 @@
 
                                                 <td> <input min="0" type="number" value="{{$devi->quantite}}" class="form-control" id="row_n_{{$devi->id}}_quantite" name="row_n_{{$devi->id}}_quantite">
                                                     <select class="form-control selectpicker col-sm-4" id="row_n_{{$devi->id}}_unite" name="row_n_{{$devi->id}}_unite" data-live-search="true" data-size="6">
-                                                        <option value="u" {{"u"==$devi->unite?"selected":''}}>u</option>
-
+                                                        @foreach($tab_unite['nothing'] as $unite)
+                                                            <option value="{{$unite}}" {{$unite==$devi->unite?"selected":''}}>{{$unite}}</option>
+                                                        @endforeach
                                                         <optgroup label="La longeur">
-                                                            <option value="Km" {{"Km"==$devi->unite?"selected":''}}> Km</option>
-                                                            <option value="m" {{"m"==$devi->unite?"selected":''}}>m</option>
-                                                            <option value="cm" {{"cm"==$devi->unite?"selected":''}}>cm</option>
-                                                            <option value="mm" {{"mm"==$devi->unite?"selected":''}}>mm</option>
+                                                            @foreach($tab_unite['La longueur'] as $unite)
+                                                                <option value="{{$unite}}" {{$unite==$devi->unite?"selected":''}}>{{$unite}}</option>
+                                                            @endforeach
                                                         </optgroup>
+
                                                         <optgroup label="La masse">
-                                                            <option value="T" {{"T"==$devi->unite?"selected":''}}> T</option>
-                                                            <option value="Kg" {{"Kg"==$devi->unite?"selected":''}}>Kg</option>
-                                                            <option value="g" {{"g"==$devi->unite?"selected":''}}>g</option>
-                                                            <option value="mg" {{"mg"==$devi->unite?"selected":''}}>mg</option>
-                                                        </optgroup>
-                                                        <optgroup label="Le litre">
-                                                            <option value="L" {{"L"==$devi->unite?"selected":''}}> L</option>
-                                                            <option value="ml" {{"ml"==$devi->unite?"selected":''}}>ml</option>
+                                                            @foreach($tab_unite['La masse'] as $unite)
+                                                                <option value="{{$unite}}" {{$unite==$devi->unite?"selected":''}}>{{$unite}}</option>
+                                                            @endforeach
                                                         </optgroup>
                                                         <optgroup label="Le volume">
-                                                            <option value="m3"> m<SUP>3</SUP></option>
+                                                            @foreach($tab_unite['Le volume'] as $unite)
+                                                                <option value="{{$unite}}" {{$unite==$devi->unite?"selected":''}}>{{$unite}}</option>
+                                                            @endforeach
                                                         </optgroup>
+
                                                         <optgroup label="La surface">
-                                                            <option value="m²" {{"m²"==$devi->unite?"selected":''}}> m²</option>
-                                                        </optgroup>
+                                                            @foreach($tab_unite['La surface'] as $unite)
+                                                                <option value="{{$unite}}" {{$unite==$devi->unite?"selected":''}}>{{$unite}}</option>
+                                                            @endforeach
                                                     </select>
                                                 </td>
                                                 <td><select class="form-control" id="row_n_{{$devi->id}}_fournisseur" name="row_n_{{$devi->id}}_fournisseur">

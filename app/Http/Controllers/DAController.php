@@ -16,6 +16,7 @@ use App\Devis;
 use App\Materiel;
 use App\Fournisseur;
 use App\Nature;
+use App\Unites;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,6 +34,7 @@ class DAController
         $natures= Nature::all();
         $users= User::all();
         $domaines=  DB::table('domaines')->get();
+
         return view('DA/lister_da',compact('das','fournisseurs','materiels','natures','users','domaines'));
 
 
@@ -46,8 +48,21 @@ class DAController
         $natures= Nature::all();
         $users= User::all();
         $domaines=  DB::table('domaines')->get();
-
-        return view('DA/creer_da',compact('das','fournisseurs','materiels','natures','users','domaines'));
+        $unites=Unites::all();
+        foreach($unites as $unite):
+            if($unite->id==1){
+                $tab_unite['nothing'][]=$unite->libelle;
+            }elseif($unite->id>1 && $unite->id<=10 ){
+                $tab_unite['La longueur'][]= $unite->libelle;
+            }elseif ($unite->id>10 && $unite->id<=20){
+                $tab_unite['La masse'][]=$unite->libelle;
+            }elseif ($unite->id>20 && $unite->id<=30){
+                $tab_unite['Le volume'][]=$unite->libelle;
+            }elseif ($unite->id>30 && $unite->id<=40){
+                $tab_unite['La surface'][]=$unite->libelle;
+            }
+        endforeach;
+        return view('DA/creer_da',compact('das','fournisseurs','materiels','natures','users','domaines','tab_unite'));
 
 
     }
@@ -87,7 +102,21 @@ class DAController
         $materiels=Materiel::all();
         $users= User::all();
         $natures= Nature::all();
-        return view('DA/gestion_da',compact('das','fournisseurs','materiels','natures','da','users','domaines'));
+        $unites=Unites::all();
+        foreach($unites as $unite):
+            if($unite->id==1){
+                $tab_unite['nothing'][]=$unite->libelle;
+            }elseif($unite->id>1 && $unite->id<=10 ){
+                $tab_unite['La longueur'][]= $unite->libelle;
+            }elseif ($unite->id>10 && $unite->id<=20){
+                $tab_unite['La masse'][]=$unite->libelle;
+            }elseif ($unite->id>20 && $unite->id<=30){
+                $tab_unite['Le volume'][]=$unite->libelle;
+            }elseif ($unite->id>30 && $unite->id<=40){
+                $tab_unite['La surface'][]=$unite->libelle;
+            }
+        endforeach;
+        return view('DA/gestion_da',compact('das','fournisseurs','materiels','natures','da','users','domaines','tab_unite'));
     }
     public function afficher_image($id)
     {
