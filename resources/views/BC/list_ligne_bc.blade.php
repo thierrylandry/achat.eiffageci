@@ -204,7 +204,7 @@
             @endif </td>
             <td><input type="checkbox" id="row_n_{{$devi->id}}_tva" name="row_n_{{$devi->id}}_tva" class="row_n__tva" {{1==$devi->hastva?"checked='checked'":""}}/>   </td>
         <td>{{$devi->hastva}}</td>
-            <td><button type="button" class="btn_retirerbc">Retirer</button>&nbsp;<button type="button" class="btn_supp btn btn-danger"><i class="fa fa-trash"></i></button></td>
+            <td><div class="row"><div class="col-sm-6"><button type="button" class="btn_retirerbc">Retirer</button></div><div class="col-sm-6"><button type="button" class="btn_supp btn btn-danger"><i class="fa fa-trash"></i></button></div></div></td>
         </tr>
     @endforeach
         @endif
