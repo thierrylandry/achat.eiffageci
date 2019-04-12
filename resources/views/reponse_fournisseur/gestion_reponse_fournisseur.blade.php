@@ -103,6 +103,9 @@
                                                                 <option value="L" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite=="L" || "L"==$da->unite ?"selected":''}}> L</option>
                                                                 <option value="ml" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite=="ml" || "ml"==$da->unite ?"selected":''}}>ml</option>
                                                             </optgroup>
+                                                            <optgroup label="Le volume">
+                                                                <option value="m3"> m<SUP>3</SUP></option>
+                                                            </optgroup>
                                                             <optgroup label="La surface">
                                                                 <option value="m²" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite=="m²" || "m²"==$da->unite ?"selected":''}}> m²</option>
                                                             </optgroup>

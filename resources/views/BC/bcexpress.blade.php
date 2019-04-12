@@ -102,46 +102,11 @@
             </thead>
             <tbody name ="contenu_tableau_ligne" id="contenu_tableau_ligne">
 
-            @if(isset($devis))
-                @foreach($devis as $devi )
-
-                    <tr>
-                        <td>{{$devi->id}}</td>
-                        <td>{{$devi->titre_ext}}</td>
-                        <td>{{$devi->commentaire}}</td>
-                        <td><select class="form-control selectpicker" id="row_n_{{$devi->id}}_codeRubrique" name="row_n_{{$devi->id}}_codeRubrique" data-live-search="true" data-size="6" required>
-                                <option  value="">SELECTIONNER</option>
-                                @foreach($analytiques as $analytique)
-
-                                    <option @if(isset($devi) && $analytique->codeRubrique==$devi->codeRubrique)
-                                            {{'selected'}}
-                                            @endif value="{{$analytique->codeRubrique}}" data-subtext="{{$analytique->libelle}}">{{$analytique->codeRubrique}}</option>
-                                @endforeach
-                            </select></td>
-                        <td>{{$devi->quantite}}</td>
-                        <td>
-                            {{$devi->unite}}
-                        </td>
-                        <td style="text-align: right">  {{$devi->prix_unitaire}}</td>
-                        <td>  {{$devi->remise}}</td>
-                        <td style="text-align: right">  {{($THT=($devi->prix_unitaire*$devi->quantite)-(($devi->remise/100*($devi->prix_unitaire*$devi->quantite))))}}</td>
-                        <td> @if(1==$devi->hastva)
-                                {{number_format(intval(($THT*18)/100), 0,".", " ")}}
-                            @else
-                                {{0}}
-
-                            @endif </td>
-                        <td><input type="checkbox" id="row_n_{{$devi->id}}_tva" name="row_n_{{$devi->id}}_tva" class="row_n__tva" {{1==$devi->hastva?"checked='checked'":""}}/>   </td>
-                        <td>{{$devi->hastva}}</td>
-                        <td><button type="button" class="btn_retirerbc">Retirer</button></td>
-                    </tr>
-                @endforeach
-            @endif
             </tbody>
             <tfooter>
-                <tr> <th colspan="7" style="text-align:right" >TOTAL HORS TAXES :</th> <th id="tot" style="text-align: right"></th> </tr>
-                <tr> <th colspan="7" style="text-align:right" >TVA :</th> <th id="tva" style="text-align: right"></th> </tr>
-                <tr> <th colspan="7" style="text-align:right" >TOTAL TTC :</th> <th id="ttc" style="text-align: right"></th> </tr>
+                <tr> <th colspan="8" style="text-align:right" >TOTAL HORS TAXES :</th> <th id="tot" style="text-align: right"></th> </tr>
+                <tr> <th colspan="8" style="text-align:right" >TVA :</th> <th id="tva" style="text-align: right"></th> </tr>
+                <tr> <th colspan="8" style="text-align:right" >TOTAL TTC :</th> <th id="ttc" style="text-align: right"></th> </tr>
             </tfooter>
         </table>
         <div id="lignetemplate" class="row clearfix" style="display: none">
