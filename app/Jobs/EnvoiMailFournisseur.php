@@ -51,7 +51,7 @@ class EnvoiMailFournisseur implements ShouldQueue
                 ->subject('Demande de devis');
             foreach($images as $img):
                 if($img!="vide"){
-                    $message->attach(URL::asset('/uploads/'.$img));
+                    $message->attach(URL::asset('uploads/'.$img));
                 }else{
 
                 }
