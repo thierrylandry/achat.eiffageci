@@ -13,7 +13,7 @@ use App\Analytique;
 use App\Boncommande;
 use App\DA;
 use App\Devis;
-use App\fournisseur;
+use App\Fournisseur;
 use App\Jobs\EnvoiBcFournisseur;
 use App\Jobs\EnvoiBcFournisseurPersonnalise;
 use App\ligne_bc;
