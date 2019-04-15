@@ -165,9 +165,9 @@ class DAController
 */
         $da->etat=2;
 
-
-
+        $date = new \DateTime(null);
         $da->motif="";
+        $da->dateConfirmation=$date->format('Y-m-d H:i:s');
         $da->save();
 
         return redirect()->route('gestion_da')->with('success', "la demande d'approvisionnement a bien été confirmé");
@@ -188,6 +188,9 @@ class DAController
         }
         $da->etat=0;
         $da->motif=$parameters['motif'];
+
+        $date = new \DateTime(null);
+        $da->dateConfirmation=$date->format('Y-m-d h:m:s');
         $da->save();
         Mail::send('mail/mail_action_da',array('da' =>$da,'etat' =>$da->etat,'libelleMateriel'=>$daa->libelleMateriel),function($message)use ($user){
             $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->nom )
@@ -208,6 +211,13 @@ class DAController
 
         }
         $da->etat=1;
+
+
+
+        $date = new \DateTime(null);
+        $da->dateConfirmation=$date->format('Y-m-d h:m:s');
+
+
         $da->id_valideur="";
         $da->save();
         return redirect()->route('gestion_da')->with('success', "la demande d'approvisionnement a bien été suspendu");
@@ -235,7 +245,7 @@ class DAController
         $da->commentaire = $parameters['commentaire'];
         $da->usage = $parameters['usage'];
         $da->demandeur = $parameters['demandeur'];
-        $da->slug = Str::slug($parameters['id_materiel'] . $date->format('dmYhis'));
+        $da->slug = Str::slug($parameters['id_materiel'] . $date->format('Y-m-d h:m:s'));
         $da->save();
 
         return redirect()->route('creer_da')->with('success',"la demande d'approvisionnement a été mis à jour");

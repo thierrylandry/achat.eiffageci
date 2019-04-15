@@ -133,24 +133,25 @@
     <br>
     <div class="row">
         <div>
-            AFFICHER OU CACHER DES COLONNES: <a class="toggle-vis" data-column="1">Service</a> - <a class="toggle-vis" data-column="2">statut</a> - <a class="toggle-vis" data-column=
-            "3">Matériel et consultation</a> - <a class="toggle-vis" data-column="4">type</a> - <a class="toggle-vis" data-column="5">Nature</a> - <a class="toggle-vis" data-column=
-            "6">Quantité</a>- <a class="toggle-vis" data-column=
-            "7">Pour le ?</a>- <a class="toggle-vis" data-column=
-            "8">Demandeur</a>- <a class="toggle-vis" data-column=
-            "9">Auteur</a>- <a class="toggle-vis" data-column=
-            "10">Confirmer/infirmer</a>- <a class="toggle-vis" data-column=
-            "11">Etat</a>- <a class="toggle-vis" data-column=
-            "12">Usage</a>- <a class="toggle-vis" data-column=
-            "13">Description</a>
+            AFFICHER OU CACHER DES COLONNES: <a class="toggle-vis" data-column="2">Service</a> - <a class="toggle-vis" data-column="3">statut</a> - <a class="toggle-vis" data-column=
+            "4">Matériel et consultation</a> - <a class="toggle-vis" data-column="5">type</a> - <a class="toggle-vis" data-column="6">Nature</a> - <a class="toggle-vis" data-column=
+            "7">Quantité</a>- <a class="toggle-vis" data-column=
+            "8">Pour le ?</a>- <a class="toggle-vis" data-column=
+            "9">Demandeur</a>- <a class="toggle-vis" data-column=
+            "10">Auteur</a>- <a class="toggle-vis" data-column=
+            "11">Confirmer/infirmer</a>- <a class="toggle-vis" data-column=
+            "12">Etat</a>- <a class="toggle-vis" data-column=
+            "13">Usage</a>- <a class="toggle-vis" data-column=
+            "14">Description</a>
         </div>
         </br>
-        <table name ="tableDA" id="tableDA" class='table table-bordered table-striped  no-wrap responsive ' style="width: 40%">
+        <table name ="tableDA" id="tableDA" class='table table-bordered table-striped  no-wrap responsive ' style="width: 100%">
 
             <thead>
 
             <tr>
-                <th class="dt-head-center">id</th>
+                <th class="dt-head-center">N°D.A</th>
+                <th class="dt-head-center">date de demande</th>
                 <th class="dt-head-center">Service</th>
                 <th class="dt-head-center">statut</th>
                 <th class="dt-head-center">Matériel et consultation</th>
@@ -172,6 +173,7 @@
             @foreach($das as $da )
                 <tr>
                     <td>{{$da->id}}</td>
+                    <td>{{date_format($da->created_at,'d-m-Y h:m:s')}}</td>
                     <td>@foreach($users as $user )
                             @if($user->id==$da->id_user)
                                 <b style=" font-size: 15px; color:black ">{{$user->service}}</b>
@@ -225,7 +227,7 @@
                         @endforeach</td>
 
                     <td>{{$da->quantite}} {{$da->unite}}</td>
-                    <td>{{$da->DateBesoin}}</td>
+                    <td>{{\Carbon\Carbon::parse($da->DateBesoin)->format('d-m-Y')}}</td>
                     <td>{{$da->demandeur}}</td>
                     <td>@foreach($users as $user )
                             @if($user->id==$da->id_user)
@@ -333,7 +335,7 @@
         <script>
             var table= $('#tableDA').DataTable({
                 language: {
-                    url: "js/French.json"
+                    url: "{{ URL::asset('js/French.json') }}"
                 },
                 "ordering":false,
                 "createdRow": function( row, data, dataIndex){
@@ -344,7 +346,7 @@
                     { responsivePriority: 2, targets: 0 },
                     { responsivePriority: 1, targets: -1 }
                 ]
-            }).column(0).visible(false).column(4).visible(false).column(5).visible(false).column(9).visible(false).column(11).visible(false);
+            }).column(4).visible(false).column(5).visible(false).column(9).visible(false).column(11).visible(false);
             //table.DataTable().draw();
             $('a.toggle-vis').on( 'click', function (e) {
                 e.preventDefault();

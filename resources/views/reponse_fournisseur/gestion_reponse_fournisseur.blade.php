@@ -30,7 +30,7 @@
                                         <thead>
 
                                         <tr>
-                                            <th class="dt-head-center">id</th>
+                                            <th class="dt-head-center">N°D.A</th>
                                             <th class="dt-head-center">id_materiel</th>
                                             <th>Code Analytique</th>
                                             <th class="dt-head-center">Matériel et consultation</th>
@@ -158,6 +158,7 @@
                                         <tr>
                                             <th class="dt-head-center">id</th>
                                             <th class="dt-head-center">id_materiel</th>
+                                            <th class="dt-head-center">N°D.A</th>
                                             <th>Code Analytique</th>
                                             <th class="dt-head-center" width="20%">Matériel et consultation</th>
                                             <th class="dt-head-center" width="30px">Quantité</th>
@@ -184,6 +185,7 @@
                                                         @endif
                                                     @endforeach
                                                 </td>
+                                                <td>{{$devi->id_da}}</td>
                                                 <td> <div class="form-group">
                                                         <select class="form-control selectpicker" id="row_n_{{$devi->id}}_codeRubrique" name="row_n_{{$devi->id}}_codeRubrique" data-live-search="true" data-size="6" required>
                                                             <option  value="">SELECTIONNER</option>
@@ -288,7 +290,7 @@
                 "ordering":true,
                 "paging": false,
                 responsive: false,
-            }).column(0).visible(false).column(1).visible(false);
+            }).column(1).visible(false);
             var table2 = $('#gestion_reponse_fournisseur1').DataTable({
                 language: {
                     url: "js/French.json"

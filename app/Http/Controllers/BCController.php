@@ -677,7 +677,7 @@ if(isset($devis->first()->devise)){
     }
     public function gestion_bc_ajouter()
     {
-        $bcs=  Boncommande::all();
+        $bcs=  Boncommande::orderBy('created_at', 'DESC')->get();
         $utilisateurs=  User::all();
         $fournisseurs= DB::table('fournisseur')
             ->join('devis', 'fournisseur.id', '=', 'devis.id_fournisseur')
