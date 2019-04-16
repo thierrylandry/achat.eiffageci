@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 
 
 use App\Materiel;
+use Dompdf\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
@@ -43,7 +44,7 @@ class ProduitController
 
 
 
-if(isset($_FILES['image']['name'])){
+if(isset($_FILES['image']['name']) && $_FILES['image']['name']!="" ){
     $image->move(public_path('uploads'),$imageName);
 }
 
@@ -62,7 +63,11 @@ if(isset($_FILES['image']['name'])){
     public function supprimer_produit($slug)
     {
         $produit = Materiel::where('slug', '=', $slug)->first();
-        unlink('uploads/'.$produit->image);
+        if(file_exists('uploads/'.$produit->image)){
+         //   unlink('uploads/'.$produit->image);
+        }else{
+
+        }
 
         $produit->delete();
         return redirect()->route('gestion_produit')->with('success', "le produit a été supprimé");
@@ -80,8 +85,17 @@ if(isset($_FILES['image']['name'])){
         $imageName =  $_FILES['image']['name'];
         if($imageName!=""){
 
-            chmod('uploads',777);
-            unlink('uploads/'.$produit->image);
+         //   chmod('uploads',777);
+            try{
+                if(file_exists('uploads/'.$produit->image)){
+             //   unlink('uploads/'.$produit->image);
+                }else{
+
+                }
+            }catch (Exception $Ex){
+
+            }
+
             $produit->image=$imageName;
         }
         $produit->libelleMateriel = $parameters['libelleMateriel'];

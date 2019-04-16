@@ -84,7 +84,7 @@
                     <i class="fa fa-refresh fa-3x fa-spin  fa-fw" style="color: white"> </i>
                 </div>
                 <div class="col-md-8 market-update-left">
-                    <h4>B.C. en attente de confirmation</h4>
+                    <h4>B.C. en attente de signature</h4>
                     <h4 id="Boncommandeencours" title="B.C en attente de valisation">{{$Boncommandeencours}}/{{$Boncommandes}}</h4>
                 </div>
                 <div class="clearfix"> </div>

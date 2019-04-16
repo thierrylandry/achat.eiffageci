@@ -10,10 +10,13 @@ namespace App\Http\Controllers;
 
 
 
+use App\Boncommande;
 use App\DA;
+use App\Devis;
 use App\Materiel;
 use App\Fournisseur;
 use App\Nature;
+use App\Unites;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,19 +30,39 @@ class DAController
     {
         $fournisseurs=Fournisseur::all();
         $materiels=Materiel::all();
-        $das=  DA::all();
+        $das=  DA::orderBy('created_at', 'DESC')->get();
         $natures= Nature::all();
         $users= User::all();
         $domaines=  DB::table('domaines')->get();
+
         return view('DA/lister_da',compact('das','fournisseurs','materiels','natures','users','domaines'));
 
 
     }
     public function creer_da()
     {
+        //ici
+        $fournisseurs=Fournisseur::all();
         $materiels=Materiel::all();
+        $das=  DA::where('id_user','=',\Illuminate\Support\Facades\Auth::user()->id)->orderBy('created_at', 'DESC')->get();
         $natures= Nature::all();
-        return view('DA/creer_da')->with('materiels', $materiels)->with('natures', $natures);
+        $users= User::all();
+        $domaines=  DB::table('domaines')->get();
+        $unites=Unites::all();
+        foreach($unites as $unite):
+            if($unite->id==1){
+                $tab_unite['nothing'][]=$unite->libelle;
+            }elseif($unite->id>1 && $unite->id<=10 ){
+                $tab_unite['La longueur'][]= $unite->libelle;
+            }elseif ($unite->id>10 && $unite->id<=20){
+                $tab_unite['La masse'][]=$unite->libelle;
+            }elseif ($unite->id>20 && $unite->id<=30){
+                $tab_unite['Le volume'][]=$unite->libelle;
+            }elseif ($unite->id>30 && $unite->id<=40){
+                $tab_unite['La surface'][]=$unite->libelle;
+            }
+        endforeach;
+        return view('DA/creer_da',compact('das','fournisseurs','materiels','natures','users','domaines','tab_unite'));
 
 
     }
@@ -58,7 +81,8 @@ class DAController
 
         $da->id_nature = $parameters['id_nature'];
         $da->id_materiel = $parameters['id_materiel'];
-        //$da->id_bonommande = $parameters['id_bonommande'];
+        $da->commentaire = $parameters['commentaire'];
+        $da->usage = $parameters['usage'];
         $da->demandeur = $parameters['demandeur'];
         $da->slug = Str::slug($parameters['id_materiel'] . $date->format('dmYhis'));
         $da->save();
@@ -71,14 +95,28 @@ class DAController
     }
     public function voir_da($slug)
     {
-        $das = DA::all();
+        $das=  DA::where('id_user','=',\Illuminate\Support\Facades\Auth::user()->id)->orderBy('created_at', 'DESC')->get();
         $da = DA::where('slug', '=', $slug)->first();
         $domaines=  DB::table('domaines')->get();
         $fournisseurs=Fournisseur::all();
         $materiels=Materiel::all();
         $users= User::all();
         $natures= Nature::all();
-        return view('DA/gestion_da',compact('das','fournisseurs','materiels','natures','da','users','domaines'));
+        $unites=Unites::all();
+        foreach($unites as $unite):
+            if($unite->id==1){
+                $tab_unite['nothing'][]=$unite->libelle;
+            }elseif($unite->id>1 && $unite->id<=10 ){
+                $tab_unite['La longueur'][]= $unite->libelle;
+            }elseif ($unite->id>10 && $unite->id<=20){
+                $tab_unite['La masse'][]=$unite->libelle;
+            }elseif ($unite->id>20 && $unite->id<=30){
+                $tab_unite['Le volume'][]=$unite->libelle;
+            }elseif ($unite->id>30 && $unite->id<=40){
+                $tab_unite['La surface'][]=$unite->libelle;
+            }
+        endforeach;
+        return view('DA/gestion_da',compact('das','fournisseurs','materiels','natures','da','users','domaines','tab_unite'));
     }
     public function afficher_image($id)
     {
@@ -91,7 +129,10 @@ class DAController
     public function supprimer_da($slug)
     {
         $da = DA::where('slug', '=', $slug)->first();
+     //   $devis=Devis::where('id_da',$da->id)->first();
         $da->delete();
+
+
         return redirect()->route('gestion_da')->with('success', "la demande d'approvisionnement a bien été supprimé");
     }
 
@@ -124,9 +165,9 @@ class DAController
 */
         $da->etat=2;
 
-
-
+        $date = new \DateTime(null);
         $da->motif="";
+        $da->dateConfirmation=$date->format('Y-m-d H:i:s');
         $da->save();
 
         return redirect()->route('gestion_da')->with('success', "la demande d'approvisionnement a bien été confirmé");
@@ -147,6 +188,9 @@ class DAController
         }
         $da->etat=0;
         $da->motif=$parameters['motif'];
+
+        $date = new \DateTime(null);
+        $da->dateConfirmation=$date->format('Y-m-d h:m:s');
         $da->save();
         Mail::send('mail/mail_action_da',array('da' =>$da,'etat' =>$da->etat,'libelleMateriel'=>$daa->libelleMateriel),function($message)use ($user){
             $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->nom )
@@ -167,6 +211,13 @@ class DAController
 
         }
         $da->etat=1;
+
+
+
+        $date = new \DateTime(null);
+        $da->dateConfirmation=$date->format('Y-m-d h:m:s');
+
+
         $da->id_valideur="";
         $da->save();
         return redirect()->route('gestion_da')->with('success', "la demande d'approvisionnement a bien été suspendu");
@@ -191,12 +242,13 @@ class DAController
 
         $da->id_nature = $parameters['id_nature'];
         $da->id_materiel = $parameters['id_materiel'];
-        //$da->id_bonommande = $parameters['id_bonommande'];
+        $da->commentaire = $parameters['commentaire'];
+        $da->usage = $parameters['usage'];
         $da->demandeur = $parameters['demandeur'];
-        $da->slug = Str::slug($parameters['id_materiel'] . $date->format('dmYhis'));
+        $da->slug = Str::slug($parameters['id_materiel'] . $date->format('Y-m-d h:m:s'));
         $da->save();
 
-        return redirect()->route('gestion_da')->with('success',"la demande d'approvisionnement a été mis à jour");
+        return redirect()->route('creer_da')->with('success',"la demande d'approvisionnement a été mis à jour");
     }
     public function alljson(){
         $collections = [];

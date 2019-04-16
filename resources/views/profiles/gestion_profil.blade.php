@@ -125,12 +125,13 @@
         });
 $('#jstree').on("changed.jstree", function (e,data){
     selection=$('#jstree').jstree(true).get_top_selected(true);
-
+console.log(selection);
     valeur="";
         $.each(selection,function (index, value) {
             if (value != null)
                 valeur=valeur+ ','+value.id;
         });
+    alert(valeur.substr(1));
         $('#description').val(valeur.substr(1));
 
 

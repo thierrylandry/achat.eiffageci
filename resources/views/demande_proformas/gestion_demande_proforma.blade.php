@@ -12,10 +12,23 @@
 
     <h2>DEMANDER DES DEVIS AUX FOURNISSEURS </h2>
     <div class="row">
-        <br>        <br>
+        <br>
+        <div class="alert alert-warning ">
+            <span class="alert-icon"><i class="fa fa-bell-o"></i></span>
+            <div class="notification-info">
+                <ul class="clearfix notification-meta">
+                    <li class="pull-left notification-sender">Vous avez  <b style="font-size: 24px">{{sizeof($types)}}</b>  domaine(s) d'activité en attente de traitement</li>
+
+                </ul>
+                <p>
+                    ...
+                </p>
+            </div>
+        </div>
+        <br>
                 <div class="col-sm-4">
 
-                                    <form role="form" id="FormRegister" class="bucket-form" method="post" action="{{route('envoies')}}">
+                                    <form role="form" id="FormRegister" class="bucket-form" method="post" action="{{route('envoies')}}" onsubmit="return confirm('Voulez vous envoyer le(s) email(s)?');">
                         @csrf
 
                                         <div class="form-group">
@@ -29,18 +42,29 @@
                                                 @endforeach
                                             </select>
                                         </div>
+
+                        <input type="text" class="form-control" id="listeDA" name="listeDA" placeholder="" value="" style="visibility: hidden" required>
+                        <br>
                                         <div class="form-group">
-                                            <b><label for="libelle" class="control-label">Les fournisseur concerné</label></b>
-                                            <select class="form-control selectpicker" name="fourn[]"  id="fourn" data-live-search="true" data-size="6" multiple  required>
+                                      rappel :  <input type="checkbox" name="rappel" id="rappel"/>
+                                            </div>
 
-                                            </select>
+                                        <div style="">
+                                            <div class="form-group">
+                                                <label> Les fournisseurs concernés</label>
+                                                <input type="text" id="fournisseur" name="fournisseur"   value="" required style="visibility: hidden"/>
 
+                                            </div>
+                                            <div id="jstree" >
+
+                                            </div>
                                         </div>
 
-                        <input type="hidden" class="form-control" id="listeDA" name="listeDA" placeholder="" value="">
-                        <br>
+                                        </br>
+                                        </br>
+                                        </br>
                                         <div class="form-group" >
-                            <button type="submit" class="btn btn-success form-control">ENVOYER</button>
+                            <button type="submit" class="btn btn-success form-control"> ENVOYER MAIL</button>
                         </div>
 
                     </form>
@@ -58,6 +82,7 @@
                             <th class="dt-head-center">Quantité</th>
                             <th class="dt-head-center">Pour le ?</th>
                             <th class="dt-head-center">Demandeur</th>
+                            <th class="dt-head-center">Date de la demande</th>
                             <th class="dt-head-center">Confirmer ou Infirmer par ?</th>
 
                         </tr>
@@ -69,59 +94,89 @@
 
 
                 </div>
+    </div>
+    </br>
+    </br>
+    <div class="row col-sm-offset-0">
+        <div class="col-sm-12">
+            <h3 id="titre">Hisorique des envois de mail :</h3>
+            <table name ="historique" id="historique" class='table table-bordered table-striped  no-wrap display'>
 
-        <!-- Modal -->
-        <div id="ajouterrep" class="modal fade" role="dialog">
-            <div class="modal-dialog">
+                <thead>
 
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Ajouter la réponse d'un fournisseur</h4>
-                    </div>
-                    <form action="{{route('ajouter_reponse')}}" method="post">
-                        @csrf
-                    <div class="modal-body">
+                <tr>
+                    <th class="dt-head-center">id</th>
+                    <th class="dt-head-center">type de mail</th>
+                    <th class="dt-head-center">Destinataire</th>
+                    <th class="dt-head-center">email</th>
+                    <th class="dt-head-center">Produit et service </th>
+                    <th class="dt-head-center">Date et heure</th>
 
-                            <div class="form-group">
-                                <b><label for="libelle" class="control-label">Fournisseur</label></b>
-                                <input class="form-control" type="hidden"  name="id_lignebesoin" id="id_lignebesoin"/>
-                                <select class="form-control selectpicker" id="id_fournisseur" name="id_fournisseur" data-live-search="true" data-size="6" required>
-                                    <option value="" >SELECTIONNER UN FOURNISSEUR</option>
-                                </select>
-                            </div>
-                            <div class="form-group ">
-                                <b><label for="libelle" class="control-label">Titre externe du produit</label></b>
-                                <input class="form-control" type="text"  name="titre_ext" id="titre_ext"/>
-                            </div>
-</br>
-                        <div class="form-group col-sm-4">
-                            <b><label for="libelle" class="control-label ">Quantite</label></b>
-                            <input class="form-control" type="number"  name="quantite_reponse" id="quantite_reponse"/>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <b><label for="libelle" class="control-label">Unite</label></b>
-                            <input class="form-control" type="text"  name="unite_reponse" id="unite_reponse"/>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <b><label for="libelle" class="control-label">Prix</label></b>
-                            <input class="form-control" type="number"  name="prix_reponse" id="prix_reponse"/>
-                        </div>
+                </tr>
+                </thead>
+                <tbody name ="contenu_tableau_entite" id="contenu_tableau_entite">
+@foreach($trace_mails as $trace_mail)
+    <tr>
+        <td>
+            {{$trace_mail->id}}
+        </td>
+        <td>
+            @if($trace_mail->rappel=="on")
+            Rappel
+                @else
+              demande
+                @endif
+        </td>
+        <td>
+            {{$trace_mail->libelle}}
+        </td>
+        <td>
+            {{$trace_mail->email}}
+        </td>
+        <td>
+            {{$trace_mail->das}}
+        </td>
+        <td>
+            {{$trace_mail->created_at}}
+        </td>
+    </tr>
+    @endforeach
+                </tbody>
+            </table>
 
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-succes" >Ajouter</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-                    </div>
-                    </form>
-                </div>
-
-            </div>
         </div>
+    </div>
+    <script src="{{ URL::asset('js/jstree.min.js') }}"></script>
+    <script src="{{ URL::asset('js/jstree.checkbox.js') }}"></script>
+    <script>
+        selection= Array();
+        $('#jstree').jstree({
+            "core" : {
+                "themes" : {
+                    "variant" : "large"
+                }
+            },
+            "checkbox" : {
+                "keep_selected_style" : false
+            },
+            "plugins" : [ "wholerow", "checkbox" ]
+        });
+        $('#jstree').on("changed.jstree", function (e,data){
 
+            selection=$('#jstree').jstree(true).get_bottom_selected(true);
 
+            valeur="";
+            $.each(selection,function (index, value) {
+                if (value != null)
+                    valeur=valeur+ ','+value.id;
+            });
+            $('#fournisseur').val(valeur);
+
+            console.log(selection);
+
+        })
+
+    </script>
 <script>
 
     (function($) {
@@ -158,7 +213,7 @@
             'select': {
                 'style': 'multi'
             },
-            'order': [[1, 'asc']],
+            'order': [[0, 'desc']],
             language: {
                 url: "js/French.json"
             },
@@ -168,12 +223,11 @@
 
             }
         });
-        var table1 = $('#gestion_reponse_fournisseur').DataTable({
+        var table1 = $('#historique').DataTable({
             language: {
                 url: "js/French.json"
             },
-            "ordering":true,
-            "responsive": true,
+            "ordering":false,
             "createdRow": function( row, data, dataIndex){
 
             }
@@ -231,6 +285,7 @@ var nom="";
                                     value.quantite+" "+ value.unite,
                                     value.DateBesoin,
                                     value.demandeur,
+                                    value.created_at ,
                                     nom
 
                                 ]);
@@ -243,18 +298,43 @@ var nom="";
 
                 $.get("les_das_fournisseurs_funct/"+$domaine,
                         function (data) {
+                         //   $('#jstree').empty();
+                            var chaine= "<ul>";
+                            var le_selectionne="";
 
                             $.each(data, function( index, value ) {
 
 
                                 $('#fourn').append("<option value='"+value.slug+"'>"+value.libelle+"</option>");
 
-                                console.log(value.libelle);
 
+                                //chaine+="<li id='"+value.slug+"'>"+value.libelle+"</li>";
+
+                                var chaine_du_milieu="";
+                                var contact= JSON.parse(value.contact);
+
+                                le_selectionne=value.contact;
+                                $.each(contact, function( indexi, valeur ) {
+
+                                    chaine_du_milieu+="<li id='"+valeur.valeur_c+"'>"+valeur.valeur_c+"</li>";
+
+                                });
+                                chaine+="<li id='"+value.slug+"'>"+value.libelle;
+                                chaine+="<ul>"+chaine_du_milieu+"</ul></li>";
+                              //  console.log(value.libelle);
+                                console.log(value.contact);
                             });
+                            chaine+="</ul>";
 
+                           // $('#jstree').append(chaine);
+                            $('#jstree').jstree(true).settings.core.data = chaine;
+                            $('#jstree').jstree(true).refresh();
+
+                           var selec= data[0];
+                           var contact= JSON.parse(selec.contact);
+                            $('#jstree').jstree('select_node',contact[0].valeur_c);
                             $('#fourn').selectpicker('refresh');
-                            console.log(data);
+                            console.log(contact[0].valeur_c);
                         }
                 );
 
@@ -268,7 +348,28 @@ var nom="";
 
 
         });
+
+        $('#fourn').change(function(e){
+            $tab_fourn=$(this).val();
+            $list_da=$("#listeDA").val();
+            $.get("demande_ou_rappel/"+$tab_fourn+"/"+$list_da,
+                    function (data) {
+
+
+                    }
+            );
+        });
+        $('#rappel').click(function(e){
+            var checkbox = document.getElementById('rappel');
+            if (checkbox.checked != true){
+                $('#listeDA').val("");
+            }else{
+
+                $('#listeDA').val("test");
+            }
+        });
+
     })(jQuery);
 </script>
-    </div>
+
 @endsection

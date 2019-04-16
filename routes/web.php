@@ -100,34 +100,34 @@ Route::get('/gestion_produit',[
     'as'=>'gestion_produit',
     'uses'=>'ProduitController@produits',
     'middleware' => 'roles',
-    'roles' => ['Parametrage']
+    'roles' => ['Gestionnaire_DA']
 
 ])->middleware('auth');
 Route::post('/Validproduits', [
     'as'=>'Validproduits',
     'uses'=>'ProduitController@Validproduits',
     'middleware' => 'roles',
-    'roles' => ['Parametrage']
+    'roles' => ['Gestionnaire_DA']
 ])->middleware('auth');
 Route::get('/voir_produit/{slug}',[
     'as'=>'voir_produit',
     'uses'=>'ProduitController@voir_produit',
     'middleware' => 'roles',
-    'roles' => ['Parametrage']
+    'roles' => ['Gestionnaire_DA']
 
 ])->middleware('auth');
 Route::get('/supprimer_produit/{slug}',[
     'as'=>'supprimer_produit',
     'uses'=>'ProduitController@supprimer_produit',
     'middleware' => 'roles',
-    'roles' => ['Parametrage']
+    'roles' => ['Gestionnaire_DA']
 
 ])->middleware('auth');
 Route::post('/modifier_produit}',[
     'as'=>'modifier_produit',
     'uses'=>'ProduitController@modifier_produit',
     'middleware' => 'roles',
-    'roles' => ['Parametrage']
+    'roles' => ['Gestionnaire_DA']
 
 ])->middleware('auth');
 
@@ -229,7 +229,7 @@ Route::get('/lister_da',[
     'as'=>'lister_da',
     'uses'=>'DAController@das',
     'middleware' => 'roles',
-    'roles' => ['Gestionnaire_DA']
+    'roles' => ['Valideur_DA','Gestionnaire_Pro_Forma']
 
 ])->middleware('auth');
 
@@ -328,7 +328,17 @@ Route::get('/supprimer_prix/{slug}',[
 
 ])->middleware('auth');
 
+Route::get('/contact_fonction_du_fournisseur/{slug}',[
+    'as'=>'contact_fonction_du_fournisseur',
+    'uses'=>'Demande_proformaController@contact_fonction_du_fournisseur'
 
+])->middleware('auth');
+
+Route::get('/list_contact/{slug}',[
+    'as'=>'list_contact',
+    'uses'=>'BCController@list_contact'
+
+])->middleware('auth');
 
 
 
@@ -340,6 +350,15 @@ Route::get('/gestion_demande_proformas',[
     'roles' => ['Gestionnaire_Pro_Forma']
 
 ])->middleware('auth');
+
+Route::get('/demande_ou_rappel/{tab_fourn}/{list_da}',[
+    'as'=>'demande_ou_rappel',
+    'uses'=>'Demande_proformaController@demande_ou_rappel',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_Pro_Forma']
+
+])->middleware('auth');
+
 
 Route::get('/les_das_funct/{domaine}',[
     'as'=>'les_das_funct',
@@ -392,15 +411,15 @@ Route::get('/modifier_reponse_fournisseur/{slug}', [
     'middleware' => 'roles',
     'roles' => ['Gestionnaire_Pro_Forma']
 ])->middleware('auth');
-
-Route::get('/enregistrer_devis/{res}/{tab}/{lesIdmat}', [
+///enregistrer_devis/{res}/{tab}/{lesIdmat}
+Route::post('/enregistrer_devis', [
     'as'=>'enregistrer_devis',
     'uses'=>'Demande_proformaController@enregistrer_devis',
     'middleware' => 'roles',
     'roles' => ['Gestionnaire_Pro_Forma']
 ])->middleware('auth');
 
-Route::get('/modifier_devis/{res}/{tab}', [
+Route::post('/modifier_devis', [
     'as'=>'modifier_devis',
     'uses'=>'Demande_proformaController@modifier_devis',
     'middleware' => 'roles',
@@ -441,7 +460,7 @@ Route::get('/gestion_bc',[
     'as'=>'gestion_bc',
     'uses'=>'BCController@gestion_bc',
     'middleware' => 'roles',
-    'roles' => ['Gestionnaire_BC']
+    'roles' => ['Gestionnaire_BC','Valideur_BC']
 
 ])->middleware('auth');
 Route::post('/save_bc',[
@@ -506,7 +525,28 @@ Route::get('/lister_commande/{slug}',[
     'as'=>'lister_commande',
     'uses'=>'BCController@lister_commande',
     'middleware' => 'roles',
-    'roles' => ['Gestionnaire_BC']
+    'roles' => ['Gestionnaire_BC','Valideur_BC']
+
+])->middleware('auth');
+Route::get('/add_new_da_to_bc/{id}/{id_bc}',[
+    'as'=>'add_new_da_to_bc',
+    'uses'=>'BCController@add_new_da_to_bc',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_BC','Valideur_BC']
+
+])->middleware('auth');
+Route::get('/retirer_da_to_bc/{id}/{id_bc}',[
+    'as'=>'retirer_da_to_bc',
+    'uses'=>'BCController@retirer_da_to_bc',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_BC','Valideur_BC']
+
+])->middleware('auth');
+Route::get('/supprimer_def_da_to_bc/{id}/{id_bc}',[
+    'as'=>'supprimer_def_da_to_bc',
+    'uses'=>'BCController@supprimer_def_da_to_bc',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_BC','Valideur_BC']
 
 ])->middleware('auth');
 Route::get('/modifier_ligne_bc/{slug}',[
@@ -531,18 +571,35 @@ Route::get('/supprimer_ligne_bc/{slug}',[
     'roles' => ['Gestionnaire_BC']
 
 ])->middleware('auth');
+
+Route::get('/bc_express',[
+    'as'=>'bc_express',
+    'uses'=>'BCController@bc_express',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_BC']
+
+])->middleware('auth');
+
+Route::get('/chercher_codeRubrique/{id}',[
+    'as'=>'chercher_codeRubrique',
+    'uses'=>'BCController@chercher_codeRubrique',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_BC']
+
+])->middleware('auth');
+
 Route::get('/valider_commande/{slug}',[
     'as'=>'valider_commande',
     'uses'=>'BCController@valider_commande',
     'middleware' => 'roles',
-    'roles' => ['Gestionnaire_BC']
+    'roles' => ['Valideur_BC']
 
 ])->middleware('auth');
 Route::get('/annuler_commande/{slug}',[
     'as'=>'annuler_commande',
     'uses'=>'BCController@annuler_commande',
     'middleware' => 'roles',
-    'roles' => ['Gestionnaire_BC']
+    'roles' => ['Valideur_BC']
 
 ])->middleware('auth');
 
@@ -550,7 +607,7 @@ Route::get('/refuser_commande/{slug}',[
     'as'=>'refuser_commande',
     'uses'=>'BCController@refuser_commande',
     'middleware' => 'roles',
-    'roles' => ['Gestionnaire_BC']
+    'roles' => ['Valideur_BC']
 
 ])->middleware('auth');
 Route::get('/bon_commande_file/{slug}',[
@@ -563,9 +620,23 @@ Route::get('/bon_commande_file1/{slug}',[
     'uses'=>'BCController@bon_commande_file1'
 
 ])->middleware('auth');
-Route::get('/send_it/{slug}',[
+
+Route::get('/afficher_le_mail/{slug}',[
+    'as'=>'afficher_le_mail',
+    'uses'=>'BCController@afficher_le_mail'
+
+])->middleware('auth');
+Route::post('/send_it_personnalisé',[
+    'as'=>'send_it_personnalisé',
+    'uses'=>'BCController@send_it_personnalisé',
+    'roles' => ['Gestionnaire_BC']
+
+])->middleware('auth');
+
+Route::post('/send_it',[
     'as'=>'send_it',
-    'uses'=>'BCController@send_it'
+    'uses'=>'BCController@send_it',
+    'roles' => ['Gestionnaire_BC']
 
 ])->middleware('auth');
 
@@ -576,7 +647,11 @@ Route::get('/mettre_ajour',[
 ])->middleware('auth');
 
 
+Route::get('/notificateur',[
+    'as'=>'notificateur',
+    'uses'=>'InfoController@notificateur'
 
+]);
 
 
 

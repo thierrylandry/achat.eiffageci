@@ -54,7 +54,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
             <div class="form-group row">
                 <div class="col-md-12">
-                <input type="email"  name="email" id="email" required="" class="ggg form-control{{ $errors->has('email') ? 'is-invalid' : '' }}" value="{{ old('email') }}" placeholder="Nom d'utilisateur">
+                <input type="email"  name="email" id="email" required="" class="ggg form-control{{ $errors->has('email') ? 'is-invalid' : '' }}" value="{{ old('email') }}" placeholder="E-mail">
                 <!-- @if ($errors->has('email'))
                         <span class="invalid-feedback" role="alert">
                             <strong class="row-md-8">{{ $errors->first('email') }}</strong>

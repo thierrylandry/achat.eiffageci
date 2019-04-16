@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
+-- version 4.8.4
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  mar. 08 jan. 2019 à 15:09
--- Version du serveur :  5.7.23
--- Version de PHP :  7.2.10
+-- Généré le :  mar. 19 fév. 2019 à 11:25
+-- Version du serveur :  5.7.24
+-- Version de PHP :  7.2.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -30,20 +30,249 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `analytique`;
 CREATE TABLE IF NOT EXISTS `analytique` (
-  `id_analytique` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `codeRubrique` varchar(191) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id_analytique`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `libelle` varchar(191) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=741 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `analytique`
 --
 
-INSERT INTO `analytique` (`id_analytique`, `codeRubrique`, `created_at`, `updated_at`) VALUES
-(1, '22522', NULL, NULL),
-(2, '22523', NULL, NULL);
+INSERT INTO `analytique` (`id`, `codeRubrique`, `libelle`, `created_at`, `updated_at`) VALUES
+(511, '22525', 'Pieces d\'usure/rechange', '2019-01-09 15:54:51', '2019-01-09 15:54:51'),
+(512, '33235', 'MONTAGE CHILLER', '2019-01-09 15:54:51', '2019-01-09 15:54:51'),
+(513, '33208', 'Loc materiel de transport', '2019-01-09 15:54:51', '2019-01-09 15:54:51'),
+(514, '33232', 'Loc materiel associe 2', '2019-01-09 15:54:51', '2019-01-09 15:54:51'),
+(515, '22532', 'Pompes immergees', '2019-01-09 15:54:51', '2019-01-09 15:54:51'),
+(516, '66309', 'Autres prestations', '2019-01-09 15:54:51', '2019-01-09 15:54:51'),
+(517, '66302', 'Montage demontage installation', '2019-01-09 15:54:51', '2019-01-09 15:54:51'),
+(518, '33107', 'Loc int. mat traitement', '2019-01-09 15:54:51', '2019-01-09 15:54:51'),
+(519, '33214', 'Loc materiel divers', '2019-01-09 15:54:51', '2019-01-09 15:54:51'),
+(520, '44004', 'Fournitures  informatiques', '2019-01-09 15:54:51', '2019-01-09 15:54:51'),
+(521, '33301', 'Entretien reparations divers', '2019-01-09 15:54:51', '2019-01-09 15:54:51'),
+(522, '33302', 'Entretien mat de transport', '2019-01-09 15:54:51', '2019-01-09 15:54:51'),
+(523, '33115', 'Amts materiel chantier', '2019-01-09 15:54:51', '2019-01-09 15:54:51'),
+(524, '77202', 'Assurance decennale', '2019-01-09 15:54:51', '2019-01-09 15:54:51'),
+(525, '77203', 'Assurance multirisques rc', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(526, '11243', 'Frais divers de personnel enc.', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(527, '44002', 'Charges administ. diverses', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(528, '11244', 'Telephones portables', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(529, '11245', 'MOBILIER Villas Expatriés', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(530, '11241', 'Frais deplacement cadres/etam', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(531, '11241', 'Frais deplacement cadres/etam', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(532, '11243', 'Frais divers de personnel enc.', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(533, '44019', 'Frais postaux', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(534, '44020', 'Frais de telecommunication', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(535, '22516', 'Eau', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(536, '22515', 'Electricite', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(537, '66308', 'Mise decharge materiaux divers', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(538, '66301', 'Gardiennage chantier', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(539, '55108', 'Honoraires divers', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(540, '44016', 'Catalogues et imprimes', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(541, '44003', 'Fournitures de bureau', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(542, '11333', 'Medecine du travail', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(543, '11332', 'CONTRAT AMBULANCES', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(544, '44025', 'Frais de coll. seminaire', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(545, '22501', 'Bois', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(546, '22501', 'Bois', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(547, '22506', 'Gazole', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(548, '22507', 'Huiles & graisses', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(549, '22527', 'Peinture routiere', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(550, '22528', 'POUTRELLES ASCENSEUR', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(551, '22529', 'POUTRELLES SUR ENGINS', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(552, '22530', 'FOURNITURES GMA', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(553, '22531', 'TEFLON', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(554, '22208', 'Palplanches', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(555, '22208', 'Palplanches', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(556, '22208', 'Palplanches', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(557, '22535', 'LIERNES', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(558, '22519', 'Consommables  coffrages', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(559, '22508', 'Joints', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(560, '22508', 'Joints', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(561, '22537', 'ABOUT DE POUTRE', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(562, '22538', 'COFFRAGE SUR MESURE ABOUTS', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(563, '22539', 'OUTIL POUR TROTTOIRS', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(564, '22540', 'OUTIL PREDALLES GALERIE TECH.', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(565, '22419', 'Tuyaux pvc', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(566, '22541', 'INJECTEURS POUR FISSURES', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(567, '22542', 'EXTINCTEURS', '2019-01-09 15:54:52', '2019-01-09 15:54:52'),
+(568, '55202', 'CAISSES POUR ESSAIS BETON', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(569, '22522', 'Petit outillage', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(570, '11242', 'Missions - receptions', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(571, '22521', 'Materiel signalisation', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(572, '22521', 'Materiel signalisation', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(573, '22521', 'Materiel signalisation', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(574, '22526', 'Divers matieres consommables', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(575, '22523', 'Equip. Personnel & securite', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(576, '22523', 'Equip. Personnel & securite', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(577, '33121', 'LLD Materiel Divers', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(578, '55106', 'Frais de labo ext.', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(579, '22517', 'Autres fluides & gaz', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(580, '22423', 'Transport sur achats', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(581, '22423', 'Transport sur achats', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(582, '22423', 'Transport sur achats', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(583, '22423', 'Transport sur achats', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(584, '22423', 'Transport sur achats', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(585, '22423', 'Transport sur achats', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(586, '22424', 'Transport sur vente', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(587, '22425', 'TRSPT SABLE DE LAGUNE', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(588, '11211', 'Salaires cadres', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(589, '11246', 'VOYAGES EXPAT', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(590, '11243', 'Frais divers de personnel enc.', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(591, '11211', 'Salaires cadres', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(592, '11211', 'Salaires cadres', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(593, '11211', 'Salaires cadres', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(594, '11211', 'Salaires cadres', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(595, '11211', 'Salaires cadres', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(596, '11211', 'Salaires cadres', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(597, '11246', 'VOYAGES EXPAT', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(598, '11211', 'Salaires cadres', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(599, '11211', 'Salaires cadres', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(600, '11221', 'Encadrement pret associe 1', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(601, '11221', 'Encadrement pret associe 1', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(602, '11221', 'Encadrement pret associe 1', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(603, '11221', 'Encadrement pret associe 1', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(604, '11221', 'Encadrement pret associe 1', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(605, '11221', 'Encadrement pret associe 1', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(606, '11221', 'Encadrement pret associe 1', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(607, '11221', 'Encadrement pret associe 1', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(608, '11221', 'Encadrement pret associe 1', '2019-01-09 15:54:53', '2019-01-09 15:54:53'),
+(609, '11221', 'Encadrement pret associe 1', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(610, '11221', 'Encadrement pret associe 1', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(611, '11320', 'COUTS EXTERNES DE FORMATION', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(612, '55201', 'Frais de controle technique', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(613, '66321', 'BATHYMETRIE', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(614, '66320', 'PLONGEURS', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(615, '66322', 'CAMPAGNE RADAR', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(616, '66323', 'EPREUVES D\'OUVRAGE', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(617, '55105', 'Geometres & autres techniciens', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(618, '66324', 'SUIVI TOPO CHANTIER', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(619, '55105', 'Geometres & autres techniciens', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(620, '66325', 'INSTRUMENTATION', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(621, '66326', 'ETALONNAGE CENTRALE', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(622, '55103', 'Frais etudes externes', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(623, '55203', 'Controles obligatoires', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(624, '66319', 'POLYGONALE', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(625, '66321', 'BATHYMETRIE', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(626, '55110', 'Frais d\'etudes associe 1', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(627, '55111', 'Frais d\'etudes associe 2', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(628, '55109', 'Frais d\'actes et contentieux', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(629, '88101', 'Frais bancaires', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(630, '99006', 'Frais generaux de siege', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(631, '33115', 'Amts materiel chantier', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(632, '33115', 'Amts materiel chantier', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(633, '33115', 'Amts materiel chantier', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(634, '33115', 'Amts materiel chantier', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(635, '33115', 'Amts materiel chantier', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(636, '33115', 'Amts materiel chantier', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(637, '33115', 'Amts materiel chantier', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(638, '33115', 'Amts materiel chantier', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(639, '33115', 'Amts materiel chantier', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(640, '33115', 'Amts materiel chantier', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(641, '33115', 'Amts materiel chantier', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(642, '33115', 'Amts materiel chantier', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(643, '33115', 'Amts materiel chantier', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(644, '33115', 'Amts materiel chantier', '2019-01-09 15:54:54', '2019-01-09 15:54:54'),
+(645, '33115', 'Amts materiel chantier', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(646, '33115', 'Amts materiel chantier', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(647, '33115', 'Amts materiel chantier', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(648, '33115', 'Amts materiel chantier', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(649, '33115', 'Amts materiel chantier', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(650, '33115', 'Amts materiel chantier', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(651, '33115', 'Amts materiel chantier', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(652, '33115', 'Amts materiel chantier', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(653, '33115', 'Amts materiel chantier', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(654, '33115', 'Amts materiel chantier', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(655, '33115', 'Amts materiel chantier', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(656, '33115', 'Amts materiel chantier', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(657, '33115', 'Amts materiel chantier', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(658, '33115', 'Amts materiel chantier', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(659, '33115', 'Amts materiel chantier', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(660, '33115', 'Amts materiel chantier', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(661, '33115', 'Amts materiel chantier', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(662, '33115', 'Amts materiel chantier', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(663, '33115', 'Amts materiel chantier', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(664, '33115', 'Amts materiel chantier', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(665, '33115', 'Amts materiel chantier', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(666, '33115', 'Amts materiel chantier', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(667, '33115', 'Amts materiel chantier', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(668, '33115', 'Amts materiel chantier', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(669, '33115', 'Amts materiel chantier', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(670, '33115', 'Amts materiel chantier', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(671, '33115', 'Amts materiel chantier', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(672, '33115', 'Amts materiel chantier', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(673, '33115', 'Amts materiel chantier', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(674, '33115', 'Amts materiel chantier', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(675, '33115', 'Amts materiel chantier', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(676, '33115', 'Amts materiel chantier', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(677, '33115', 'Amts materiel chantier', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(678, '33115', 'Amts materiel chantier', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(679, '33233', 'Loc materiel associe 3', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(680, '33212', 'Loc mat.levage et manutent.', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(681, '33224', 'CREW BOAT CIC', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(682, '33211', 'Loc de chargeurs', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(683, '33231', 'Loc materiel associe 1', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(684, '33236', 'VIBRO-FONCEUR', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(685, '33233', 'Loc materiel associe 3', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(686, '33233', 'Loc materiel associe 3', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(687, '33233', 'Loc materiel associe 3', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(688, '33233', 'Loc materiel associe 3', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(689, '33233', 'Loc materiel associe 3', '2019-01-09 15:54:55', '2019-01-09 15:54:55'),
+(690, '33233', 'Loc materiel associe 3', '2019-01-09 15:54:56', '2019-01-09 15:54:56'),
+(691, '33234', 'Loc materiel associe 4', '2019-01-09 15:54:56', '2019-01-09 15:54:56'),
+(692, '11110', 'Salaires ouvriers', '2019-01-09 15:54:56', '2019-01-09 15:54:56'),
+(693, '11110', 'Salaires ouvriers', '2019-01-09 15:54:56', '2019-01-09 15:54:56'),
+(694, '11110', 'Salaires ouvriers', '2019-01-09 15:54:56', '2019-01-09 15:54:56'),
+(695, '11110', 'Salaires ouvriers', '2019-01-09 15:54:56', '2019-01-09 15:54:56'),
+(696, '11110', 'Salaires ouvriers', '2019-01-09 15:54:56', '2019-01-09 15:54:56'),
+(697, '11110', 'Salaires ouvriers', '2019-01-09 15:54:56', '2019-01-09 15:54:56'),
+(698, '11110', 'Salaires ouvriers', '2019-01-09 15:54:56', '2019-01-09 15:54:56'),
+(699, '11110', 'Salaires ouvriers', '2019-01-09 15:54:56', '2019-01-09 15:54:56'),
+(700, '11110', 'Salaires ouvriers', '2019-01-09 15:54:56', '2019-01-09 15:54:56'),
+(701, '11110', 'Salaires ouvriers', '2019-01-09 15:54:56', '2019-01-09 15:54:56'),
+(702, '11110', 'Salaires ouvriers', '2019-01-09 15:54:56', '2019-01-09 15:54:56'),
+(703, '11110', 'Salaires ouvriers', '2019-01-09 15:54:56', '2019-01-09 15:54:56'),
+(704, '11110', 'Salaires ouvriers', '2019-01-09 15:54:56', '2019-01-09 15:54:56'),
+(705, '11110', 'Salaires ouvriers', '2019-01-09 15:54:56', '2019-01-09 15:54:56'),
+(706, '11110', 'Salaires ouvriers', '2019-01-09 15:54:56', '2019-01-09 15:54:56'),
+(707, '11110', 'Salaires ouvriers', '2019-01-09 15:54:56', '2019-01-09 15:54:56'),
+(708, '11110', 'Salaires ouvriers', '2019-01-09 15:54:56', '2019-01-09 15:54:56'),
+(709, '11110', 'Salaires ouvriers', '2019-01-09 15:54:56', '2019-01-09 15:54:56'),
+(710, '11110', 'Salaires ouvriers', '2019-01-09 15:54:56', '2019-01-09 15:54:56'),
+(711, '11110', 'Salaires ouvriers', '2019-01-09 15:54:56', '2019-01-09 15:54:56'),
+(712, '11110', 'Salaires ouvriers', '2019-01-09 15:54:56', '2019-01-09 15:54:56'),
+(713, '22334', 'Sable Lagune', '2019-01-09 15:54:56', '2019-01-09 15:54:56'),
+(714, '22335', 'Sable carriere', '2019-01-09 15:54:56', '2019-01-09 15:54:56'),
+(715, '22301', 'Agregats', '2019-01-09 15:54:56', '2019-01-09 15:54:56'),
+(716, '22302', 'Asphalte', '2019-01-09 15:54:56', '2019-01-09 15:54:56'),
+(717, '22518', 'Adjuvants', '2019-01-09 15:54:56', '2019-01-09 15:54:56'),
+(718, '22407', 'Dallage pavage pierre', '2019-01-09 15:54:56', '2019-01-09 15:54:56'),
+(719, '22409', 'Materiaux divers', '2019-01-09 15:54:56', '2019-01-09 15:54:56'),
+(720, '22103', 'Ciments & mortiers', '2019-01-09 15:54:56', '2019-01-09 15:54:56'),
+(721, '22103', 'Ciments & mortiers', '2019-01-09 15:54:56', '2019-01-09 15:54:56'),
+(722, '22498', 'REVENTE BETON SPIE', '2019-01-09 15:54:56', '2019-01-09 15:54:56'),
+(723, '22201', 'Armatures faconnees', '2019-01-09 15:54:56', '2019-01-09 15:54:56'),
+(724, '22410', 'Materiaux maconnerie et vrd', '2019-01-09 15:54:57', '2019-01-09 15:54:57'),
+(725, '22104', 'CPJ Sac', '2019-01-09 15:54:57', '2019-01-09 15:54:57'),
+(726, '22411', 'Materiaux non traites', '2019-01-09 15:54:57', '2019-01-09 15:54:57'),
+(727, '22412', 'Materiaux recycles', '2019-01-09 15:54:57', '2019-01-09 15:54:57'),
+(728, '22413', 'GBA', '2019-01-09 15:54:57', '2019-01-09 15:54:57'),
+(729, '22414', 'Parpaings & briques', '2019-01-09 15:54:57', '2019-01-09 15:54:57'),
+(730, '22415', 'Produits reseaux divers', '2019-01-09 15:54:57', '2019-01-09 15:54:57'),
+(731, '22416', 'Traverses bois & beton', '2019-01-09 15:54:57', '2019-01-09 15:54:57'),
+(732, '22105', 'MORTIER DE RAGREAGE', '2019-01-09 15:54:57', '2019-01-09 15:54:57'),
+(733, '22106', 'INJECTION DE FISSURES', '2019-01-09 15:54:57', '2019-01-09 15:54:57'),
+(734, '22107', 'PROTECTION DES PAREMENTS', '2019-01-09 15:54:57', '2019-01-09 15:54:57'),
+(735, '22108', 'MORTIER DE REPARATION', '2019-01-09 15:54:57', '2019-01-09 15:54:57'),
+(736, '66101', 'Sous traitance tiers', '2019-01-09 15:54:57', '2019-01-09 15:54:57'),
+(737, '66105', 'CONSTRUCTION ATELIER', '2019-01-09 15:54:57', '2019-01-09 15:54:57'),
+(738, '66107', 'TERRASSEMENT PF PREFA', '2019-01-09 15:54:57', '2019-01-09 15:54:57'),
+(739, '66102', 'Sous traitance inter branche', '2019-01-09 15:54:57', '2019-01-09 15:54:57'),
+(740, '66108', 'QUAI D\'ACCOSTAGE', '2019-01-09 15:54:57', '2019-01-09 15:54:57');
 
 -- --------------------------------------------------------
 
@@ -64,17 +293,10 @@ CREATE TABLE IF NOT EXISTS `boncommande` (
   `id_fournisseur` int(11) NOT NULL,
   `total_ttc` int(11) DEFAULT NULL,
   `service_demandeur` varchar(191) DEFAULT NULL,
+  `commentaire_general` varchar(191) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `numBonCommande` (`numBonCommande`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `boncommande`
---
-
-INSERT INTO `boncommande` (`id`, `numBonCommande`, `id_user`, `created_at`, `updated_at`, `slug`, `date`, `etat`, `id_fournisseur`, `total_ttc`, `service_demandeur`) VALUES
-(5, '003FFF5', 13, '2019-01-07 14:50:31', '2019-01-08 08:35:11', '003fff507012019025031', '2019-01-23', 1, 1, 44840, 'Secrétariat'),
-(6, '003FFF6', 13, '2019-01-07 14:52:01', '2019-01-07 15:17:49', '003fff607012019025201', '2019-01-30', 1, 1, 5723, 'Secrétariat');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -99,17 +321,11 @@ CREATE TABLE IF NOT EXISTS `devis` (
   `codeRubrique` int(11) DEFAULT NULL,
   `id_da` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `unite` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `hastva` int(11) DEFAULT NULL,
+  `prix_tot` double(8,2) DEFAULT NULL,
+  `valeur_tva` double(8,2) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Déchargement des données de la table `devis`
---
-
-INSERT INTO `devis` (`id`, `id_materiel`, `id_fournisseur`, `quantite`, `prix_unitaire`, `titre_ext`, `devise`, `created_at`, `updated_at`, `etat`, `id_bc`, `remise`, `codeRubrique`, `id_da`, `unite`) VALUES
-(1, 33, 1, 3, 12000, 'Windows 10', 'FCFA', '2019-01-07 14:24:26', '2019-01-07 14:50:31', 2, 5, 5, 224522, '1', 'U'),
-(2, 34, 1, 2, 2000, 'office 365', 'FCFA', '2019-01-07 14:24:26', '2019-01-07 14:50:31', 2, 5, 5, 12345, '2', 'U'),
-(3, 33, 1, 1, 5000, 'Windows 10', 'FCFA', '2019-01-07 14:51:52', '2019-01-07 14:52:01', 2, 6, 3, 4785, '3', 'U');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -163,18 +379,19 @@ CREATE TABLE IF NOT EXISTS `fournisseur` (
   `slug` varchar(191) NOT NULL,
   `contact` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
 
 --
--- Déchargement des données de la table `fournisseur`
+-- Structure de la table `importer`
 --
 
-INSERT INTO `fournisseur` (`id`, `libelle`, `domaine`, `conditionPaiement`, `commentaire`, `adresseGeographique`, `responsable`, `interlocuteur`, `email`, `created_at`, `updated_at`, `slug`, `contact`) VALUES
-(1, 'EBURTIS', '5', NULL, NULL, 'Abidjan', 'konan', 'kone', 'cyriaquekodia@gmail.com', '2018-12-14 12:07:53', '2018-12-18 15:17:26', 'eburtis18122018031726', '[{\"titre_c\":\"kone\",\"type_c\":\"EMA\",\"valeur_c\":\"cyriaquekodia@gmail.com\"}]'),
-(5, 'sogelux', '4', NULL, NULL, 'Abidjan', 'konan', NULL, 'admin@eiffage.com', '2018-12-17 16:33:49', '2018-12-18 15:08:58', 'sogelux18122018030858', '[{\"titre_c\":\"youri\",\"type_c\":\"EMA\",\"valeur_c\":\"cyriaquekodia@gmail.com\"},{\"titre_c\":\"koffi\",\"type_c\":\"EMA\",\"valeur_c\":\"y@gmail.com\"},{\"titre_c\":\"francky\",\"type_c\":\"EMA\",\"valeur_c\":\"franck@gmail.com\"},{\"titre_c\":\"test\",\"type_c\":\"MOB\",\"valeur_c\":\"02336655\"]'),
-(6, 'test', '3', NULL, NULL, 'Abidjan', 'konan', NULL, 'cyriaquekodia@gmail.com', '2018-12-18 10:48:30', '2018-12-18 15:15:21', 'test18122018031521', '[{\"titre_c\":\"kone\",\"type_c\":\"MOB\",\"valeur_c\":\"cyriaquekodia@gmail.com\"},{\"titre_c\":\"youri\",\"type_c\":\"MOB\",\"valeur_c\":\"cyriaquekodia@gmail.com\"}]'),
-(7, 'InfoProGICIEL', '5', 'je suis la', NULL, 'test', 'konan', NULL, 'landrykoffi@gmail.com', '2019-01-04 09:32:40', '2019-01-04 09:32:40', 'infoprogiciel04012019093240', '[{\"titre_c\":\"kone\",\"type_c\":\"EMA\",\"valeur_c\":\"landrykoffi@gmail.com\"}]'),
-(8, 'Y Entretien', '7', 'test', NULL, 'Abidjan', 'konan', NULL, 'cyriaquekodia@gmail.com', '2019-01-04 16:28:42', '2019-01-04 16:28:42', 'y-entretien04012019042842', '[{\"titre_c\":\"kone\",\"type_c\":\"EMA\",\"valeur_c\":\"landrykoffi@gmail.com\"}]');
+DROP TABLE IF EXISTS `importer`;
+CREATE TABLE IF NOT EXISTS `importer` (
+  `codeRubrique` varchar(100) DEFAULT NULL,
+  `libelle` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -200,18 +417,11 @@ CREATE TABLE IF NOT EXISTS `lignebesoin` (
   `etat` varchar(191) NOT NULL DEFAULT '1',
   `id_valideur` varchar(191) DEFAULT NULL,
   `motif` varchar(191) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `lignebesoin`
---
-
-INSERT INTO `lignebesoin` (`id`, `unite`, `quantite`, `DateBesoin`, `id_user`, `id_reponse_fournisseur`, `id_nature`, `id_materiel`, `id_bonCommande`, `created_at`, `updated_at`, `demandeur`, `slug`, `etat`, `id_valideur`, `motif`) VALUES
-(1, 'U', 3.00, '2019-01-23', 13, NULL, 1, 33, 5, '2019-01-07 14:23:23', '2019-01-07 14:50:52', 'koffi', '3307012019022323', '3', '13', ''),
-(2, 'U', 2.00, '2019-01-31', 13, NULL, 1, 34, NULL, '2019-01-07 14:23:36', '2019-01-07 14:24:26', 'koffi', '3407012019022336', '3', '13', ''),
-(3, 'U', 1.00, '2019-01-30', 13, NULL, 1, 33, 6, '2019-01-07 14:51:26', '2019-01-07 15:16:13', 'koffi', '3307012019025126', '3', '13', ''),
-(4, 'U', 3.00, '2019-01-24', 13, NULL, 1, 33, NULL, '2019-01-08 14:20:13', '2019-01-08 14:20:20', 'koffi', '3308012019022013', '2', '13', '');
+  `usage` varchar(191) DEFAULT NULL,
+  `commentaire` text,
+  PRIMARY KEY (`id`),
+  KEY `id_user` (`id_user`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -233,17 +443,9 @@ CREATE TABLE IF NOT EXISTS `ligne_bc` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `slug` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `prix_tot` float DEFAULT NULL,
+  `hastva` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Déchargement des données de la table `ligne_bc`
---
-
-INSERT INTO `ligne_bc` (`id`, `codeRubrique`, `remise_ligne_bc`, `quantite_ligne_bc`, `unite_ligne_bc`, `prix_unitaire_ligne_bc`, `id_devis`, `id_bonCommande`, `created_at`, `updated_at`, `slug`, `prix_tot`) VALUES
-(4, '12345', '5', 2, 'U', 2000, 2, 5, '2019-01-07 14:50:52', '2019-01-07 14:50:52', '12345200007012019025052', 3800),
-(3, '224522', '5', 3, 'U', 12000, 1, 5, '2019-01-07 14:50:52', '2019-01-07 14:50:52', '2245221200007012019025052', 34200),
-(5, '4785', '3', 1, 'U', 5000, 3, 6, '2019-01-07 15:16:13', '2019-01-07 15:16:13', '4785500007012019031613', 4850);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -260,20 +462,9 @@ CREATE TABLE IF NOT EXISTS `materiel` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `slug` varchar(191) NOT NULL,
   `image` varchar(191) DEFAULT NULL,
+  `code_analytique` varchar(191) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `materiel`
---
-
-INSERT INTO `materiel` (`id`, `libelleMateriel`, `type`, `created_at`, `updated_at`, `slug`, `image`) VALUES
-(33, 'Windows 10', '5', '2018-12-27 09:37:22', '2018-12-27 09:37:22', 'windows-1027122018093722', 'microsoft_windows_10_pro_64.png'),
-(34, 'office 365', '5', '2018-12-27 09:40:20', '2018-12-27 09:40:20', 'office-36527122018094020', '617GjtWatCL._SL1500_.jpg'),
-(35, 'tuyaux à eaux', '3', '2018-12-27 09:40:47', '2018-12-27 09:40:47', 'tuyaux-a-eaux27122018094047', 'tuyaux-plat-diametre-75-equipe-raccord-symetrique-guillemin.jpg'),
-(36, 'tuyaux cylindrique', '3', '2018-12-27 09:41:26', '2018-12-27 10:05:58', 'tuyaux-cylindrique27122018100558', 'tuyaux-pvc-vert-epandage-diametre-40-mm.jpg'),
-(37, 'tuyaux d\'aspiration', '7', '2018-12-27 09:41:57', '2018-12-27 09:41:57', 'tuyaux-daspiration27122018094157', 'tuyaux-d-aspirateur-pour-aspirateur-ct-festool-ig-41836.jpg'),
-(38, 'novad', '3', '2018-12-27 10:00:06', '2018-12-27 10:00:06', 'novad27122018100006', '');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -287,7 +478,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(191) NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `migrations`
@@ -339,7 +530,16 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (43, '2019_01_04_140622_add_id_bc_to_devi', 30),
 (44, '2019_01_04_152830_add_remise_cod_rubrique_id_da_to_devis', 31),
 (45, '2019_01_04_163129_add_unite_to_devi', 32),
-(46, '2019_01_07_011431_add_service_demandeur_to_boncommende', 33);
+(46, '2019_01_07_011431_add_service_demandeur_to_boncommende', 33),
+(47, '2019_01_08_160019_add_libelle_to_analytique', 34),
+(48, '2019_01_09_112549_add_code_analytique_to_materiel', 35),
+(49, '2019_01_10_173726_add_usage_commentaire_to_lignebesoin', 36),
+(50, '2019_01_14_164744_create_trace_mail', 37),
+(51, '2019_01_15_154007_add_rappel_email_to_trace_mail', 38),
+(52, '2019_01_18_090525_add_tva_to_devis', 39),
+(53, '2019_01_18_175033_add_hastva_to_hastva_to', 40),
+(54, '2019_01_23_162055_add_prix_tot_valeur_tva_to_devis', 41),
+(55, '2019_01_29_164546_add_commentaire_general_to_bc', 42);
 
 -- --------------------------------------------------------
 
@@ -381,61 +581,6 @@ CREATE TABLE IF NOT EXISTS `password_resets` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `profil`
---
-
-DROP TABLE IF EXISTS `profil`;
-CREATE TABLE IF NOT EXISTS `profil` (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `libelleProfil` varchar(191) NOT NULL,
-  `descriptionProfil` text NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `slug` varchar(191) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `profil`
---
-
-INSERT INTO `profil` (`id`, `libelleProfil`, `descriptionProfil`, `created_at`, `updated_at`, `slug`) VALUES
-(1, 'Administrateur', '1000,2000,3000,4000,5000,6000,7000,8000', '2018-11-02 10:43:59', '2018-11-09 15:49:32', 'administrateur09112018034932');
-
--- --------------------------------------------------------
-
---
--- Structure de la table `reponse_fournisseur`
---
-
-DROP TABLE IF EXISTS `reponse_fournisseur`;
-CREATE TABLE IF NOT EXISTS `reponse_fournisseur` (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `id_fournisseur` int(11) NOT NULL,
-  `titre_ext` varchar(191) DEFAULT NULL,
-  `quantite` int(11) DEFAULT NULL,
-  `unite` text,
-  `prix` varchar(191) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `slug` varchar(191) NOT NULL,
-  `id_lignebesoin` int(11) NOT NULL,
-  `remise` int(11) DEFAULT NULL,
-  `date_precise` date DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `reponse_fournisseur`
---
-
-INSERT INTO `reponse_fournisseur` (`id`, `id_fournisseur`, `titre_ext`, `quantite`, `unite`, `prix`, `created_at`, `updated_at`, `slug`, `id_lignebesoin`, `remise`, `date_precise`) VALUES
-(1, 1, 'Microsoft office 360', 1, 'u', '12000', '2018-12-14 17:15:20', '2018-12-14 17:15:20', 'microsoft-office-360u14122018051520', 1, 10, '2018-12-14'),
-(2, 1, 'torsade', 2, 'u', '6500', '2018-12-17 08:55:39', '2018-12-17 08:55:39', 'torsadeu17122018085539', 1, 10, '2018-12-17');
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `roles`
 --
 
@@ -447,7 +592,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
   `name` varchar(191) NOT NULL,
   `description` varchar(191) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `roles`
@@ -459,13 +604,7 @@ INSERT INTO `roles` (`id`, `created_at`, `updated_at`, `name`, `description`) VA
 (81, '2018-11-23 13:23:55', '2018-11-23 13:23:55', 'Valideur_DA', 'VALIDATION DES D.A'),
 (82, '2018-11-23 13:23:55', '2018-11-23 13:23:55', 'Gestionnaire_Pro_Forma', 'GESTION DES PRO FORMA'),
 (83, '2018-11-23 13:23:55', '2018-11-23 13:23:55', 'Gestionnaire_BC', 'GESTION DES B.C'),
-(84, '2018-11-23 13:23:55', '2018-11-23 13:23:55', 'Valideur_BC', 'VALIDATION DES B.C'),
-(85, '2018-11-26 08:11:56', '2018-11-26 08:11:56', 'Parametrage', 'PARAMETRAGE'),
-(86, '2018-11-26 08:11:56', '2018-11-26 08:11:56', 'Gestionnaire_DA', 'GESTION DES D.A'),
-(87, '2018-11-26 08:11:56', '2018-11-26 08:11:56', 'Valideur_DA', 'VALIDATION DES D.A'),
-(88, '2018-11-26 08:11:56', '2018-11-26 08:11:56', 'Gestionnaire_Pro_Forma', 'GESTION DES PRO FORMA'),
-(89, '2018-11-26 08:11:56', '2018-11-26 08:11:56', 'Gestionnaire_BC', 'GESTION DES B.C'),
-(90, '2018-11-26 08:11:56', '2018-11-26 08:11:56', 'Valideur_BC', 'VALIDATION DES B.C');
+(84, '2018-11-23 13:23:55', '2018-11-23 13:23:55', 'Valideur_BC', 'VALIDATION DES B.C');
 
 -- --------------------------------------------------------
 
@@ -486,6 +625,24 @@ CREATE TABLE IF NOT EXISTS `tbprix` (
   `id_materiel` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `trace_mail`
+--
+
+DROP TABLE IF EXISTS `trace_mail`;
+CREATE TABLE IF NOT EXISTS `trace_mail` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id_fournisseur` int(11) NOT NULL,
+  `das` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `rappel` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -512,16 +669,14 @@ CREATE TABLE IF NOT EXISTS `users` (
   `prenoms` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `users`
 --
 
 INSERT INTO `users` (`id`, `nom`, `abréviation`, `service`, `function`, `contact`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `id_profil`, `slug`, `prenoms`) VALUES
-(13, 'administrateur', 'Admin', 'Secrétariat', 'Gestionnaire Application', '+XXX XX XX XX XX', 'admin@eiffage.com', NULL, '$2y$10$.k1X.RyevXjktAPrTIZ.Ze9.07DGbI.GNtmEsEJuKQOFa5GKNPWfG', 'QqRPYG5wvdICqoAT9T6b6qqdkh3JHD5YRVvoq2BgdtJuJxBv0765oXurZw47', '2018-11-26 08:11:56', '2018-12-28 10:40:14', NULL, 'admin-at-eiffagecom28122018104014', NULL),
-(16, 'kodia', NULL, 'Service informatique', NULL, NULL, 'Cyriaque.kodia@eiffage.com', NULL, '$2y$10$z1jF8bp8mSNCyS8pwhQLJeKxHxBFSCaXw3ZHAFeB6OjA6GHRlBNni', 'wZ10zB4gYv0Rvk219sdgT9HkeHJP7E1PWZvkTP0dMJuBdjgFE3cZfhkpByy0', '2018-12-14 11:34:42', '2018-12-28 10:39:17', NULL, 'cyriaquekodia-at-eiffagecom28122018103917', 'Cyriaque'),
-(22, 'koffi', 'CK', 'Direction', 'informaticien', '67988805', 'Thierry.koff@eiffage.com', NULL, '$2y$10$a.jb1Ooxu04TISYaGwO2ju2HFQhn6UW5h9oC8KpimJfUNDzilWKKW', 'FHlZ4isHlBo35ogLuuS5hZsggHdyBslbZi39BjCi1o0wv7vxrmqrKI7IKpV4', '2018-12-27 16:46:48', '2018-12-28 10:43:37', NULL, 'thierrykoff-at-eiffagecom28122018104337', 'Thierry');
+(13, 'administrateur', 'Admin', 'Secretariat', 'Gestionnaire Application', '+XXX XX XX XX XX', 'admin@eiffage.com', NULL, '$2y$10$8GZ5S6a5qqaTdRtc6/wYvOBuPH13yhpioX9mWd9QxwvJL1ejmpX2m', 'AT9bqWrqhSSeGozSVMZabHw2W9NwmXoBO81t8NdPmuWSgQ3RZrWF3TsJD0Z4', '2018-11-26 08:11:56', '2019-02-06 16:53:59', NULL, 'admin-at-eiffagecom06022019045359', NULL);
 
 -- --------------------------------------------------------
 
@@ -537,37 +692,19 @@ CREATE TABLE IF NOT EXISTS `user_role` (
   `user_id` int(11) NOT NULL,
   `role_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=206 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `user_role`
 --
 
 INSERT INTO `user_role` (`id`, `created_at`, `updated_at`, `user_id`, `role_id`) VALUES
-(23, NULL, NULL, 15, 80),
-(37, NULL, NULL, 17, 80),
-(38, NULL, NULL, 18, 80),
-(39, NULL, NULL, 19, 80),
-(40, NULL, NULL, 20, 80),
-(41, NULL, NULL, 21, 80),
-(65, NULL, NULL, 16, 80),
-(66, NULL, NULL, 16, 81),
-(67, NULL, NULL, 16, 80),
-(68, NULL, NULL, 16, 81),
-(69, NULL, NULL, 13, 79),
-(70, NULL, NULL, 13, 80),
-(71, NULL, NULL, 13, 81),
-(72, NULL, NULL, 13, 82),
-(73, NULL, NULL, 13, 83),
-(74, NULL, NULL, 13, 84),
-(75, NULL, NULL, 13, 79),
-(76, NULL, NULL, 13, 80),
-(77, NULL, NULL, 13, 81),
-(78, NULL, NULL, 13, 82),
-(79, NULL, NULL, 13, 83),
-(80, NULL, NULL, 13, 84),
-(81, NULL, NULL, 22, 80),
-(82, NULL, NULL, 22, 80);
+(166, NULL, NULL, 13, 79),
+(167, NULL, NULL, 13, 80),
+(168, NULL, NULL, 13, 81),
+(169, NULL, NULL, 13, 82),
+(170, NULL, NULL, 13, 83),
+(171, NULL, NULL, 13, 84);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

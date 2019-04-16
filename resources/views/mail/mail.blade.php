@@ -5,7 +5,20 @@
 
     <p>Veuillez nous adresser votre meilleure offre pour :
         <br>
-        <br><strong>{{$corps}}</strong><br/>
+        @for($i=0;$i<sizeof($corps);$i++)
+
+            <br> <strong>{{$corps[$i]}}</strong>
+
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{isset($precisions[$i]) && $precisions[$i]!=""?" ".$precisions[$i]:''}}
+            @if(isset($images[$i]) && $images[$i]!="")
+                voir piece jointe : {{$images[$i]}}
+    @endif
+
+
+
+    @endfor
+
+    <p></p><br>
         <p>Dans l’attente, et en vous remerciant,<br>
         <br>
         <p>

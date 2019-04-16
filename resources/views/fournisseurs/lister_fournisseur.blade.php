@@ -13,7 +13,7 @@
     <h2>LES FOURNISSEURS - LISTER FOURNISSEURS <a href="{{route('ajouter_fournisseur')}}" class="btn btn-default  pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i> Ajouter</a></h2>
 </br>
 </br>
-        <table name ="fournisseurs1" id="fournisseurs1" class='table table-bordered table-striped  no-wrap '>
+        <table name ="fournisseurs1" id="fournisseurs1" class='table table-bordered table-striped  no-wrap ' >
 
             <thead>
 
@@ -38,7 +38,7 @@
 
                         @foreach( $domaines as $domaine)
                             @if(in_array($domaine->id, explode(",",$fournisseur->domaine))!= false)
-                                {{$domaine->libelleDomainne." "}}
+                                {{$domaine->libelleDomainne." "}}</br>
                             @else
                             @endif
                         @endforeach

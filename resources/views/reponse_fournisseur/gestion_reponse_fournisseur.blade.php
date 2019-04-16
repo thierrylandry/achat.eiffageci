@@ -23,14 +23,14 @@
                         </h4>
                     </div>
                     <div id="collapse1" class="panel-collapse collapse in">
-                        <div class="panel-body"><form action="{{route('selection_de_la_reponse')}}" method="post"><div id="daencours">
+                        <div class="panel-body"><form action="" method="post"><div id="daencours">
 
                                     <table name ="gestion_reponse_fournisseur" id="gestion_reponse_fournisseur" class='table table-bordered table-striped  no-wrap '>
 
                                         <thead>
 
                                         <tr>
-                                            <th class="dt-head-center">id</th>
+                                            <th class="dt-head-center">N°D.A</th>
                                             <th class="dt-head-center">id_materiel</th>
                                             <th>Code Analytique</th>
                                             <th class="dt-head-center">Matériel et consultation</th>
@@ -40,8 +40,10 @@
                                             <th class="dt-head-center">Pu HT</th>
                                             <th class="dt-head-center" width="80px">Remise %</th>
                                             <th class="dt-head-center">Devise</th>
+                                            <th class="dt-head-center">TVA</th>
                                         </tr>
                                         </thead>
+
                                         <tbody name ="contenu_tableau_entite" id="contenu_tableau_entite">
 
                                         @foreach($das as $da )
@@ -59,14 +61,13 @@
                                                     @endforeach
                                                 </td>
                                                 <td><div class="form-group">
-                                                        <label for="type">Code analytique par defaut</label>
-                                                        <select class="form-control selectpicker" id="row_n_{{$da->id}}_codeRubrique" name="row_n_{{$da->id}}_codeRubrique" data-live-search="true" data-size="6" required>
-                                                            <option  value="">SELECTIONNER UN CODE ANALYTIQUE</option>
+                                                        <select class="form-control selectpicker" id="row_n_{{$da->id}}_codeRubrique" name="row_n_{{$da->id}}_codeRubrique" data-live-search="true" data-size="6" >
+                                                            <option  value="">SELECTIONNER</option>
                                                             @foreach($analytiques as $analytique)
 
                                                                 <option @if(isset($da->code_analytique) && $analytique->codeRubrique==$da->code_analytique)
                                                                         {{'selected'}}
-                                                                        @endif value="{{$analytique->codeRubrique}}">{{$analytique->codeRubrique}} -- {{$analytique->libelle}}</option>
+                                                                        @endif value="{{$analytique->codeRubrique}}" data-subtext="{{$analytique->libelle}}">{{$analytique->codeRubrique}}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -84,50 +85,54 @@
                                                 <td> <input min="0" type="number" value="{{$da->quantite}}" class="form-control" id="row_n_{{$da->id}}_quantite" name="row_n_{{$da->id}}_quantite">
 
                                                         <select class="form-control selectpicker col-sm-4" id="row_n_{{$da->id}}_unite" name="row_n_{{$da->id}}_unite" data-live-search="true" data-size="6">
-                                                            <option value="U" {{"U"==$da->unite?"selected":''}}>U</option>
-
+                                                            @foreach($tab_unite['nothing'] as $unite)
+                                                                <option value="{{$unite}}" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite==$unite || $unite==$da->unite ?"selected":''}}>{{$unite}}</option>
+                                                            @endforeach
                                                             <optgroup label="La longeur">
-                                                                <option {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite=="Km" || "Km"==$da->unite ?"selected":''}} value="Km"> Km</option>
-                                                                <option value="m" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite=="m" || "m"==$da->unite ?"selected":''}}>m</option>
-                                                                <option value="cm" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite=="cm" || "cm"==$da->unite ?"selected":''}}>cm</option>
-                                                                <option value="mm" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite=="mm" || "mm"==$da->unite ?"selected":''}}>mm</option>
+                                                                @foreach($tab_unite['La longueur'] as $unite)
+                                                                    <option value="{{$unite}}" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite==$unite || $unite==$da->unite ?"selected":''}}>{{$unite}}</option>
+                                                                @endforeach
                                                             </optgroup>
+
                                                             <optgroup label="La masse">
-                                                                <option value="T" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite=="T" || "T"==$da->unite ?"selected":''}}> T</option>
-                                                                <option value="Kg" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite=="Kg" || "Kg"==$da->unite ?"selected":''}}>Kg</option>
-                                                                <option value="g" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite=="g" || "g"==$da->unite ?"selected":''}}>g</option>
-                                                                <option value="mg" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite=="mg" || "mg"==$da->unite ?"selected":''}}>mg</option>
+                                                                @foreach($tab_unite['La masse'] as $unite)
+                                                                    <option value="{{$unite}}" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite==$unite || $unite==$da->unite ?"selected":''}}>{{$unite}}</option>
+                                                                @endforeach
                                                             </optgroup>
-                                                            <optgroup label="Le litre">
-                                                                <option value="L" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite=="L" || "L"==$da->unite ?"selected":''}}> L</option>
-                                                                <option value="ml" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite=="ml" || "ml"==$da->unite ?"selected":''}}>ml</option>
+                                                            <optgroup label="Le volume">
+                                                                @foreach($tab_unite['Le volume'] as $unite)
+                                                                    <option value="{{$unite}}" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite==$unite || $unite==$da->unite ?"selected":''}}>{{$unite}}</option>
+                                                                @endforeach
                                                             </optgroup>
+
                                                             <optgroup label="La surface">
-                                                                <option value="m²" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite=="m²" || "m²"==$da->unite ?"selected":''}}> m²</option>
-                                                            </optgroup>
+                                                                @foreach($tab_unite['La surface'] as $unite)
+                                                                    <option value="{{$unite}}" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite==$unite || $unite==$da->unite ?"selected":''}}>{{$unite}}</option>
+                                                                @endforeach
                                                         </select>
                                                     </td>
                                                 <td>{{$da->DateBesoin}}</td>
                                                 <td><select class="form-control" id="row_n_{{$da->id}}_fournisseur" name="row_n_{{$da->id}}_fournisseur">
                                                         <option value="">SELECTIONNER UN  FOURNISSEUR</option>
                                                         @foreach($fournisseurs as $fournisseur)
-                                                            @if($fournisseur->domaine==$da->type)
+                                                            @if(in_array($da->type,explode(',',$fournisseur->domaine)))
                                                                 <option  @if( isset($tab_proposition[$da->id]) && $fournisseur->id==$tab_proposition[$da->id]->id_fournisseur)
                                                                          {{'selected'}}
                                                                          @endif  value="{{$fournisseur->id}}">{{$fournisseur->libelle}}</option>
                                                             @endif
                                                         @endforeach</select></td>
-                                                <td><input class="form-control"  type="number" min="0" id="row_n_{{$da->id}}_prix_unitaire" name="row_n_{{$da->id}}_prix_unitaire" value="{{isset($tab_proposition[$da->id])?$tab_proposition[$da->id]->prix_unitaire:''}}" /></td>
+                                                <td><input class="form-control" style="min-width: 150px;"  type="number" min="0" id="row_n_{{$da->id}}_prix_unitaire" name="row_n_{{$da->id}}_prix_unitaire" value="{{isset($tab_proposition[$da->id])?$tab_proposition[$da->id]->prix_unitaire:''}}" /></td>
                                                 <td><input class="form-control"  type="number" min="0" id="row_n_{{$da->id}}_remise" name="row_n_{{$da->id}}_remise" value="0" value="{{isset($tab_proposition[$da->id])?$tab_proposition[$da->id]->remise:''}}" /></td>
                                                 <td><select class="form-control" style="width: 100px;" id="row_n_{{$da->id}}_devise" name="row_n_{{$da->id}}_devise"><option  @if( isset($tab_proposition[$da->id]) && "FCFA"==$tab_proposition[$da->id]->devise)
                                                                                                                                                                               {{'selected'}}
-                                                                                                                                                                              @endif value="FCFA">FCFA</option><option @if( isset($tab_proposition[$da->id]) && "EURO"==$tab_proposition[$da->id]->devise)
-                                                                                                                                                                                                                                                                                                                                                                                            {{'selected'}}
-                                                                                                                                                                                                                                                                                                                                                                                            @endif value="EURO">EURO</option></select></td>
+                                                                                                                                                                              @endif value="FCFA">FCFA</option><option @if( isset($tab_proposition[$da->id]) && "EURO"==$tab_proposition[$da->id]->devise) {{'selected'}}@endif value="EURO">EURO</option></select></td>
+                                                <td><input type="checkbox" value="1" id="row_n_{{$da->id}}_tva" name="row_n_{{$da->id}}_tva" checked/>   </td>
                                             </tr>
+
                                         @endforeach
 
                                         </tbody>
+
                                     </table>
 
                                     <input type="button" class="btn btn-success pull-right" id="soumettre" name="soumettre" value="Soumettre" />
@@ -153,6 +158,7 @@
                                         <tr>
                                             <th class="dt-head-center">id</th>
                                             <th class="dt-head-center">id_materiel</th>
+                                            <th class="dt-head-center">N°D.A</th>
                                             <th>Code Analytique</th>
                                             <th class="dt-head-center" width="20%">Matériel et consultation</th>
                                             <th class="dt-head-center" width="30px">Quantité</th>
@@ -160,6 +166,7 @@
                                             <th class="dt-head-center">Prix Unitaire</th>
                                             <th class="dt-head-center" width="80px">Remise %</th>
                                             <th class="dt-head-center">Devise</th>
+                                            <th class="dt-head-center">TVA</th>
                                         </tr>
                                         </thead>
                                         <tbody name ="contenu_tableau_entite" id="contenu_tableau_entite" onload="alert('jai chargé')">
@@ -178,7 +185,18 @@
                                                         @endif
                                                     @endforeach
                                                 </td>
-                                                <td><input type="text"  id="row_n_{{$devi->id}}_codeRubrique" name="row_n_{{$devi->id}}_codeRubrique" value="{{$devi->codeRubrique}}" /> </td>
+                                                <td>{{$devi->id_da}}</td>
+                                                <td> <div class="form-group">
+                                                        <select class="form-control selectpicker" id="row_n_{{$devi->id}}_codeRubrique" name="row_n_{{$devi->id}}_codeRubrique" data-live-search="true" data-size="6" required>
+                                                            <option  value="">SELECTIONNER</option>
+                                                            @foreach($analytiques as $analytique)
+
+                                                                <option @if(isset($devi) && $analytique->codeRubrique==$devi->codeRubrique)
+                                                                        {{'selected'}}
+                                                                        @endif value="{{$analytique->codeRubrique}}" data-subtext="{{$analytique->libelle}}">{{$analytique->codeRubrique}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div></td>
                                                 <td>
 
 
@@ -189,27 +207,30 @@
 
                                                 <td> <input min="0" type="number" value="{{$devi->quantite}}" class="form-control" id="row_n_{{$devi->id}}_quantite" name="row_n_{{$devi->id}}_quantite">
                                                     <select class="form-control selectpicker col-sm-4" id="row_n_{{$devi->id}}_unite" name="row_n_{{$devi->id}}_unite" data-live-search="true" data-size="6">
-                                                        <option value="U" {{"U"==$devi->unite?"selected":''}}>U</option>
-
+                                                        @foreach($tab_unite['nothing'] as $unite)
+                                                            <option value="{{$unite}}" {{$unite==$devi->unite?"selected":''}}>{{$unite}}</option>
+                                                        @endforeach
                                                         <optgroup label="La longeur">
-                                                            <option value="Km" {{"Km"==$devi->unite?"selected":''}}> Km</option>
-                                                            <option value="m" {{"m"==$devi->unite?"selected":''}}>m</option>
-                                                            <option value="cm" {{"cm"==$devi->unite?"selected":''}}>cm</option>
-                                                            <option value="mm" {{"mm"==$devi->unite?"selected":''}}>mm</option>
+                                                            @foreach($tab_unite['La longueur'] as $unite)
+                                                                <option value="{{$unite}}" {{$unite==$devi->unite?"selected":''}}>{{$unite}}</option>
+                                                            @endforeach
                                                         </optgroup>
+
                                                         <optgroup label="La masse">
-                                                            <option value="T" {{"T"==$devi->unite?"selected":''}}> T</option>
-                                                            <option value="Kg" {{"Kg"==$devi->unite?"selected":''}}>Kg</option>
-                                                            <option value="g" {{"g"==$devi->unite?"selected":''}}>g</option>
-                                                            <option value="mg" {{"mg"==$devi->unite?"selected":''}}>mg</option>
+                                                            @foreach($tab_unite['La masse'] as $unite)
+                                                                <option value="{{$unite}}" {{$unite==$devi->unite?"selected":''}}>{{$unite}}</option>
+                                                            @endforeach
                                                         </optgroup>
-                                                        <optgroup label="Le litre">
-                                                            <option value="L" {{"L"==$devi->unite?"selected":''}}> L</option>
-                                                            <option value="ml" {{"ml"==$devi->unite?"selected":''}}>ml</option>
+                                                        <optgroup label="Le volume">
+                                                            @foreach($tab_unite['Le volume'] as $unite)
+                                                                <option value="{{$unite}}" {{$unite==$devi->unite?"selected":''}}>{{$unite}}</option>
+                                                            @endforeach
                                                         </optgroup>
+
                                                         <optgroup label="La surface">
-                                                            <option value="m²" {{"m²"==$devi->unite?"selected":''}}> m²</option>
-                                                        </optgroup>
+                                                            @foreach($tab_unite['La surface'] as $unite)
+                                                                <option value="{{$unite}}" {{$unite==$devi->unite?"selected":''}}>{{$unite}}</option>
+                                                            @endforeach
                                                     </select>
                                                 </td>
                                                 <td><select class="form-control" id="row_n_{{$devi->id}}_fournisseur" name="row_n_{{$devi->id}}_fournisseur">
@@ -217,7 +238,7 @@
                                                         @foreach($fournisseurs as $fournisseur)
                                                             @foreach($materiels as $materiel)
                                                                 @if($devi->id_materiel==$materiel->id)
-                                                                    @if($fournisseur->domaine==$materiel->type)
+                                                                    @if(in_array($materiel->type,explode(',',$fournisseur->domaine)))
                                                                         @if($fournisseur->id==$devi->id_fournisseur)
                                                                             <option value="{{$fournisseur->id}}" selected>{{$fournisseur->libelle}}</option>
                                                                             @else
@@ -237,6 +258,7 @@
                                                         <option value="EURO" {{"EURO"==$devi->devise?"selected":''}}>EURO</option>
 
                                                     </select></td>
+                                                <td><input type="checkbox" value="1" id="row_n_{{$devi->id}}_tva" name="row_n_{{$devi->id}}_tva" {{1==$devi->hastva?"checked":''}}/>   </td>
                                             </tr>
                                         @endforeach
 
@@ -268,7 +290,7 @@
                 "ordering":true,
                 "paging": false,
                 responsive: false,
-            }).column(0).visible(false).column(1).visible(false);
+            }).column(1).visible(false);
             var table2 = $('#gestion_reponse_fournisseur1').DataTable({
                 language: {
                     url: "js/French.json"
@@ -287,64 +309,76 @@
 
 
             $('#soumettre').click( function() {
-                var data = table1.rows().data();
-                var lesId;
-                var lesIdmat;
-                data.each(function (value, index) {
-                   // var valeur=parseInt(value);
-                    var valeur=value+'';
-                    var  text=valeur.split(",");
-                    if(typeof(valeur)!=="undefined"){
-                        lesId=lesId+','+text[0];
-                        lesIdmat=lesIdmat+','+text[1];
-                    }
 
-
-                });
-                var res= Array();
-                res.push(table1.$('input, select').serialize()) ;
-
-             //   console.log(data);
-                $.get("enregistrer_devis/"+res+"/"+lesId+"/"+lesIdmat,
-                        function (data) {
-            if(data==1){
-                location.reload();
-                    }
+                if( confirm('Voulez vous soumettre le(s) devis?')){
+                    var data = table1.rows().data();
+                    var lesId;
+                    var lesIdmat;
+                    console.log(data);
+                    data.each(function (value, index) {
+                        // var valeur=parseInt(value);
+                        var valeur=value+'';
+                        var  text=valeur.split(",");
+                        if(typeof(valeur)!=="undefined"){
+                            lesId=lesId+','+text[0];
+                            lesIdmat=lesIdmat+','+text[1];
                         }
-                );
-                return false;
+
+
+                    });
+                    var res;
+                    console.log(lesId);
+                    res=table1.$('input, select').serialize();
+
+                    //   console.log(data);
+                    //enregistrer_devis/"+res+"/"+lesId+"/"+lesIdmat
+                    var csrf_token = $('meta[name="csrf-token"]').attr('content');
+                    $.post("enregistrer_devis",{res:res,lesId:lesId,lesIdmat:lesIdmat,_token: "{{ csrf_token() }}"},
+                            function (data) {
+                                if(data==1){
+                                    location.reload();
+                                }
+                            }
+                    );
+                    return false;
+                }
+
             } );
             $('#soumettre1').click( function() {
-                var data = table2.rows().data();
-                var lesId;
-                var lesIdmat;
-                data.each(function (value, index) {
-                    // var valeur=parseInt(value);
-                    var valeur=value+'';
+                if( confirm('Voulez vous modifier le(s) devis?')) {
+                    var data = table2.rows().data();
+                    var lesId;
+                    var lesIdmat;
+                    data.each(function (value, index) {
+                        // var valeur=parseInt(value);
+                        var valeur = value + '';
 
-                    var  text=valeur.split(",");
+                        var text = valeur.split(",");
 
-                    if(typeof(valeur)!=="undefined"){
-                        lesId=lesId+','+text[0];
-                    }
-
-
-                });
-                var res= Array();
-                res.push(table2.$('input, select').serialize()) ;
-                //   console.log(data);
-
-                $.get("modifier_devis/"+res+"/"+lesId,
-                        function (data) {
-                            if(data==1){
-                                location.reload();
-                            }else{
-                                alert("Désolé la requette à déjà été traitée il est donc impossible de mofifier");
-                                location.reload();
-                            }
+                        if (typeof(valeur) !== "undefined") {
+                            lesId = lesId + ',' + text[0];
                         }
-                );
-                return false;
+
+
+                    });
+                    var res ;
+                    res=table2.$('input, select').serialize();
+                       //console.log(res);
+                    var csrf_token = $('meta[name="csrf-token"]').attr('content');
+                    $.post("modifier_devis",{res:res,lesId:lesId,_token: "{{ csrf_token() }}"},
+                            function (data) {
+                                console.log(data);
+                                if (data == 1) {
+                                    location.reload();
+                                } else {
+                                    alert("Désolé la requette à déjà été traitée il est donc impossible de mofifier");
+                                    location.reload();
+                                }
+                            }
+                    );
+
+                    return false;
+                }
             } );
             $('#fourn').selectpicker({
 

@@ -14,43 +14,54 @@
         </tr>
         </thead>
         <tbody>
-        @if($taille<=9)
+        @if($taille<=$taille_minim)
 
-            @if($taille==9)
-                @else
+            @if($bc->commentaire_general!="")
 
+                <tr>
+                    <td style="border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style="border-bottom-color: white; font-weight:bold; ">{{$bc->commentaire_general!=""?$bc->commentaire_general:''}}</td>
+                    <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style="border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style=" text-align: right;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style=" text-align: right;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</span>
+                    </td>
+                </tr>
             @endif
-            @foreach($ligne_bcs as $ligne_bc)
-                @if($loop->index + 1!=9)
+            @foreach($devis as $dev)
+                @if($loop->index + 1!=$taille_minim)
                 <tr>
                     <td  style="border-bottom-color: white">{{$loop->index + 1}}</td>
-                    <td  style="border-bottom-color: white">{{$ligne_bc->titre_ext }}</td>
-                    <td style=" text-align: center;border-bottom-color: white">{{$ligne_bc->codeRubrique}}</td>
-                    <td style=" text-align: center;border-bottom-color: white">{{$ligne_bc->quantite_ligne_bc}}</td>
-                    <td style="border-bottom-color: white">{{$ligne_bc->unite_ligne_bc}}</td>
-                    <td style=" text-align: right;border-bottom-color: white">{{$ligne_bc->prix_unitaire_ligne_bc}}</td>
-                    <td style=" text-align: center;border-bottom-color: white">{{$ligne_bc->remise_ligne_bc}}</td>
-                    <td style=" text-align: right;border-bottom-color: white">{{$ligne_bc->prix_tot}}
-                        <span style="display: none;border-bottom-color: white">{{ $tothtax +=  $ligne_bc->prix_tot }}</span>
+                    <td  style="border-bottom-color: white">{{$dev->titre_ext }}<br> {{$dev->commentaire }}</td>
+                    <td style=" text-align: center;border-bottom-color: white">{{$dev->codeRubrique}}</td>
+                    <td style=" text-align: center;border-bottom-color: white">{{$dev->quantite}}</td>
+                    <td style="border-bottom-color: white">{{$dev->unite}}</td>
+                    <td style=" text-align: right;border-bottom-color: white">{{$dev->prix_unitaire}}</td>
+                    <td style=" text-align: center;border-bottom-color: white">{{$dev->remise}}</td>
+                    <td style=" text-align: right;border-bottom-color: white">{{$dev->prix_tot}}
+                        <span style="display: none;border-bottom-color: white">{{ $tothtax +=  $dev->prix_tot }}</span>
                     </td>
                 </tr>
                     @else
                     <tr>
                         <td  style="">{{$loop->index + 1}}</td>
-                        <td  style="">{{$ligne_bc->titre_ext }}</td>
-                        <td style=" text-align: center;">{{$ligne_bc->codeRubrique}}</td>
-                        <td style=" text-align: center;">{{$ligne_bc->quantite_ligne_bc}}</td>
-                        <td style="">{{$ligne_bc->unite_ligne_bc}}</td>
-                        <td style=" text-align: right;">{{$ligne_bc->prix_unitaire_ligne_bc}}</td>
-                        <td style=" text-align: center;">{{$ligne_bc->remise_ligne_bc}}</td>
-                        <td style=" text-align: right;">{{$ligne_bc->prix_tot}}
-                            <span style="display: none;">{{ $tothtax +=  $ligne_bc->prix_tot }}</span>
+                        <td  style="">{{$dev->titre_ext }}</br> {{$dev->commentaire }}</td>
+                        <td style=" text-align: center;">{{$dev->codeRubrique}}</td>
+                        <td style=" text-align: center;">{{$dev->quantite}}</td>
+                        <td style="">{{$dev->unite}}</td>
+                        <td style=" text-align: right;">{{$dev->prix_unitaire}}</td>
+                        <td style=" text-align: center;">{{$dev->remise}}</td>
+                        <td style=" text-align: right;">{{$dev->prix_tot}}
+                            <span style="display: none;">{{ $tothtax +=  $dev->prix_tot }}</span>
                         </td>
                     </tr>
                 @endif
             @endforeach
 
-        @for($i=0;$i<$val=9-$taille;$i++)
+
+        @for($i=0;$i<$val=$taille_minim-$taille;$i++)
             @if($i==$val-1)
                 <tr>
                     <td >&nbsp;&nbsp;&nbsp;</td>
@@ -77,38 +88,41 @@
                 </tr>
             @endif
         @endfor
-            @elseif( $taille>9)
-        @foreach($ligne_bcs as $ligne_bc)
-<<<<<<< HEAD
-        <tr>
-            <td>{{$loop->index + 1}}</td>
-            <td>{{$ligne_bc->titre_ext }}</td>
-            <td style=" text-align: center;">{{$ligne_bc->codeRubrique}}</td>
-            <td style=" text-align: center;">{{$ligne_bc->quantite_ligne_bc}}</td>
-            <td>{{$ligne_bc->unite_ligne_bc}}</td>
-            <td style=" text-align: right;">{{$ligne_bc->prix_unitaire_ligne_bc}}</td>
-            <td style=" text-align: center;">{{$ligne_bc->remise_ligne_bc}}</td>
-            <td style=" text-align: right;">{{$ligne_bc->prix_tot}}
-                <span style="display: none;">{{ $tothtax +=  intval(str_replace(" ","",$ligne_bc->prix_tot)) }}</span>
-            </td>
-        </tr>
-=======
+
+
+            @elseif( $taille>$taille_minim)
+            @if($bc->commentaire_general!="")
+
+                <tr>
+                    <td style="border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style="border-bottom-color: white; font-weight:bold; ">{{$bc->commentaire_general!=""?$bc->commentaire_general:''}}</td>
+                    <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style="border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style=" text-align: right;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style=" text-align: right;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</span>
+                    </td>
+                </tr>
+            @endif
+        @foreach($devis as $dev)
+
+
             <tr >
                 <td style="border-bottom-color: white">{{$loop->index + 1}} </td>
-                <td style="border-bottom-color: white">{{$ligne_bc->titre_ext }}</td>
-                <td style=" text-align: center;border-bottom-color: white">{{$ligne_bc->codeRubrique}}</td>
-                <td style=" text-align: center;border-bottom-color: white">{{$ligne_bc->quantite_ligne_bc}}</td>
-                <td style="border-bottom-color: white">{{$ligne_bc->unite_ligne_bc}}</td>
-                <td style=" text-align: right;border-bottom-color: white">{{$ligne_bc->prix_unitaire_ligne_bc}}</td>
-                <td style=" text-align: center;border-bottom-color: white">{{$ligne_bc->remise_ligne_bc}}</td>
-                <td style=" text-align: right;border-bottom-color: white">{{$ligne_bc->prix_tot}}
-                    <span style="display: none;border-bottom-color: white">{{ $tothtax +=  $ligne_bc->prix_tot }}</span>
+                <td  style="border-bottom-color: white">{{$dev->titre_ext }}</br> {{$dev->commentaire }}</td>
+                <td style=" text-align: center;border-bottom-color: white">{{$dev->codeRubrique}}</td>
+                <td style=" text-align: center;border-bottom-color: white">{{$dev->quantite}}</td>
+                <td style="border-bottom-color: white">{{$dev->unite}}</td>
+                <td style=" text-align: right;border-bottom-color: white">{{$dev->prix_unitaire}}</td>
+                <td style=" text-align: center;border-bottom-color: white">{{$dev->remise}}</td>
+                <td style=" text-align: right;border-bottom-color: white">{{$dev->prix_tot}}
+                    <span style="display: none;border-bottom-color: white">{{ $tothtax +=  $dev->prix_tot }}</span>
                 </td>
             </tr>
 
->>>>>>> c33f50ea4cecb6a3eef53b8e2530a4c7ef4c8cc6
         @endforeach
-        @for($i=0;$i<$val=38-$taille;$i++)
+        @for($i=0;$i<$val=30-$taille;$i++)
             @if($i==$val-1)
                 <tr>
                     <td >&nbsp;&nbsp;&nbsp;</td>
@@ -143,7 +157,7 @@
                 <p align="center"><b>Adresse de livraison</b></p>
                 <div class="rubrique">
                     <p style="border-bottom: none;"><b>Chantier : PONT FELIX HOUPHOUET BOIGNY</b></p>
-                    <p>SITE INSTALATION DU CHANTIER, LAGUNE EBRIE RIVE SUD, TREICHVILLE, AVENUE CHRISTIANI</p>
+                    <p style="font-size: 10px">SITE INSTALATION DU CHANTIER, LAGUNE EBRIE RIVE SUD, TREICHVILLE, AVENUE CHRISTIANI</p>
                 </div>
                 <br/>
                 <div class="rubrique">
@@ -152,24 +166,23 @@
                 </div>
                 <p align="center"><b>Condition de paiement</b></p>
                 <div class="rubrique">
-                    <p><b>RIB à mentionner sur la facture</b> <br/>
-                    Par virement ou chèque 30 jours fin de mois <br/>
-                    date de réception de facture.</p>
+                    <p style="font-size: 10px"><b>RIB à mentionner sur la facture</b> <br/>
+                    {{$bc->conditionPaiement}}</p>
                 </div>
             </th>
-            <th colspan="6" valign="top" style="margin: 0; padding: 0;">
+            <th colspan="6" valign="top" style="margin: 0; padding: 0; ">
                 <table class="ssfacture" style="margin: 0; padding: 0;">
                     <tr>
                         <td width="61.8%" style="text-align:right"><b>Total Hors Taxes en FCFA</b> </td>
-                        <td class="value">{{ number_format($tothtax, 0,".", " ")." ".$ligne_bcs[0]->devise  }}</td>
+                        <td class="value">{{ number_format($tothtax, 0,".", " ")." ".$devis[0]->devise  }}</td>
                     </tr>
                     <tr>
                         <td style="text-align:right" ><b>TVA </b></td>
-                        <td class="value">{{ number_format($tothtax*0.18, 0,".", " ")." ".$ligne_bcs[0]->devise }}</td>
+                        <td class="value">{{ number_format($tothtax*0.18, 0,".", " ")." ".$devis[0]->devise }}</td>
                     </tr>
                     <tr>
                         <td style="text-align:right" ><b>TOTAL TTC EN FCFA </b></td>
-                        <td class="value">{{ number_format($tothtax*1.18, 0,".", " ")." ".$ligne_bcs[0]->devise }}</td>
+                        <td class="value">{{ number_format($tothtax*1.18, 0,".", " ")." ".$devis[0]->devise }}</td>
                     </tr>
                 </table>
 
@@ -179,11 +192,14 @@
                         <th style="text-align:center; border-left: none;">{{strtoupper($bc->service_demandeur)}}</th>
                     </tr>
                     <tr>
-                        <th colspan="2" style="text-align:left;border-bottom-color: white" >
+
+                        <th colspan="2" style="text-align:left; border-bottom-color: white" >
                             SIGNATURE
-                            <br/><br/><br/><br/><br/><br/><br/><br/>
+
+
                         </th>
                     </tr>
+                    <tr><th colspan="2" style="padding-left: 100px"><img src="{{ asset("images/Signature.jpg") }}" width="225px" /></th> </tr>
                     <tr>
                         <th style="border-right: none;border-bottom-color: white "> Nom du Signataire Habilité : </th>
                         <th style="border-left: none;border-bottom-color: white" >NICOLAS DESCAMPS</th>

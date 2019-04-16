@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
 
-    <title>{{ config('name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -36,6 +36,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="{{ URL::asset('js/scripts.js') }}"></script>
     <script src="{{ URL::asset('js/jquery.slimscroll.js') }}"></script>
     <script src="{{ URL::asset('js/jquery.nicescroll.js') }}"></script>
+    <script src="{{ URL::asset('js/main.js') }}"></script>
     <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="{{ URL::asset('js/flot-chart/excanvas.min.js') }}"></script><![endif]-->
     <script src="{{ URL::asset('js/jquery.scrollTo.js') }}"></script>
     <script src="{{ URL::asset('js/bootstrap-select.js') }}"></script>
@@ -43,8 +44,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- DataTables -->
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/dataTables.bootstrap4.min.css') }}"/>
     <script type="text/javascript" src="{{ URL::asset('js/jquery.dataTables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ URL::asset('js/jquery-dateformat.min.js') }}"></script>
+    <script type="text/javascript" src="{{ URL::asset('js/dataTable.pdfmaker.js') }}"></script>
+    <script type="text/javascript" src="{{ URL::asset('js/dataTables.editor.min.js') }}"></script>
+    <script type="text/javascript" src="{{ URL::asset('js/vsf_font.js') }}"></script>
+    <script type="text/javascript" src="{{ URL::asset('js/button.html5.min.js') }}"></script>
     <script type="text/javascript" src="{{ URL::asset('js/notification.js') }}"></script>
-    <script type="text/javascript" src="{{ URL::asset('js/dataTables.responsive.min.js') }}"></script>
+    <script type="text/javascript" src="{{ URL::asset('js/dateFormat.js') }}"></script>
+
     <style>
 
         table.dataTable {
@@ -345,18 +352,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                     <li @yield('ajouter_fournisseur') ><a href="{{route('ajouter_fournisseur')}}"> Ajouter fournisseur </a></li>
 
                                 </ul></li>
-                            <li @yield('produits') ><a href="{{route('gestion_produit')}}">Produits et Services</a></li>
+
                         </ul>
                     </li>
                     @endif
                     @if(Auth::user() != null && Auth::user()->hasAnyRole(['Gestionnaire_DA','Valideur_DA']))
+                        <li @yield('produits') ><a href="{{route('gestion_produit')}}">Produits et Services</a></li>
                     <li >
                         <a  href="{{route('gestion_da')}}" @yield('das')>
                             <i class="fa fa-archive"></i>
                             <span>Les D.A.</span>
                         </a>
                         <ul class="sub">
+                            @if(Auth::user() != null && Auth::user()->hasAnyRole(['Valideur_DA'])  || Auth::user()->hasAnyRole(['Gestionnaire_Pro_Forma']))
                             <li @yield('lister_da')><a href="{{route('lister_da')}}">Lister les D.A.</a></li>
+                            @endif
                             <li  @yield('creer_da')><a href="{{route('creer_da')}}">Creer une  D.A.</a></li>
 
                         </ul>

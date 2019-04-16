@@ -56,78 +56,91 @@
     </div>
 
 
+<!-- debut  -->
 
 
-    <div id="ajoutercom" class="modal fade in" aria-hidden="true" role="dialog" >
+    <div id="personnaliser_mail" class="modal fade in" aria-hidden="true" role="dialog" >
+        <div class="modal-dialog modal-lg">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Personnaliser l'E-mail</h4>
+                </div>
+
+                            <form action="{{route('send_it_personnalisé')}}" onsubmit="return confirm('Voulez vous envoyé?');"  method="post">
+
+                                @csrf
+                                <div class="modal-body">
+                                    <div class="col-md-12">
+                                        <div class="card card-primary card-outline">
+
+
+                                            <!-- /.card-header -->
+                                            <div class="card-body">
+                                                <div class="form-group">
+                                                    <input id="To" name="To" class="form-control" placeholder="To:" readonly>
+                                                    <input  name="bcc" id="bcc" class="form-control" style="visibility: hidden"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input class="form-control" placeholder="Subject:" value="TRANSMISSION DE BON DE COMMANDE" readonly>
+                                                </div>
+                                                <div class="form-group">
+
+                    <textarea  id="compose-textarea" name="compose-textarea" class="form-control"  style="overflow-y: scroll;max-height: 300px;min-height: 300px;"></textarea>
+
+                                                </div>
+
+                                            </div>
+
+                                            <!-- /.card-footer -->
+                                        </div>
+                                        <!-- /. box -->
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="float-right">
+                                        <button type="submit" id="send_it_personnalisé" class="btn btn-primary"> <i class="fa fa-file-pdf-o"></i> <i class="fa fa-envelope-o"></i> <i class="fa fa-paper-plane-o"></i></button>
+                                    </div>
+
+                                </div>
+                            </form>
+            </div>
+
+        </div>
+    </div>
+    <!-- fin -->
+
+
+    <div id="confirm_email" class="modal fade in" aria-hidden="true" role="dialog" >
         <div class="modal-dialog modal-md">
 
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">fiche de Commande</h4>
+                    <h4 class="modal-title">Confirmer l'adresse email</h4>
                 </div>
                 @if(isset($devis))
                     <form  action="{{route('update_ligne_bc')}}" method="post">
                         @else
-                            <form action="{{route('save_ligne_bc')}}" method="post">
+                            <form action="{{route('send_it')}}" onsubmit="return confirm('Voulez vous envoyer?');" method="post">
                                 @endif
                                 @csrf
 
                                 <div class="modal-body">
+                                    <input type="text" name="bc_slug" id="bc_slug" style="visibility: hidden" required  />
+                                    <input type="text" name="contact" id="contact" style="visibility: hidden" required />
+                                    <div id="jstree" >
 
-                                    <input type="hidden" name="slugbc"  value="{{isset($slugbc)? $slugbc:''}}"/>
-                                    <input type="hidden" name="slugligne"  value="{{isset($ligne_bc) ?$ligne_bc->slug:''}}"/>
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-6" for="codeRubrique">Code analytique:</label>
-                                        <div class="">
-                                            <select class="form-control selectpicker " id="codeRubrique" name="codeRubrique" data-live-search="true" data-size="6" required>
-                                                <option value="" >SELECTIONNER UN CODE ANALYTIQUE</option>
-                                                @foreach($analytiques as $analytique)
-
-
-                                                    <option value="{{$analytique->id_analytique}}" {{isset($ligne_bc) && $ligne_bc->codeRubrique==$analytique->id_analytique  ?'selected':''}}> {{$analytique->codeRubrique}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
                                     </div>
-                                 <div class="row">
-                                    <div class="col-sm-6">
-                                        <label class="control-label " for="date">Remise %:</label>
-                                        <div class="">
-                                            <input type="number" min="0" max="100" class="form-control" id="remise" name="remise" value="{{isset($ligne_bc) ?$ligne_bc->remise_ligne_bc:''}}" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <label class="control-label col-sm-6" for="quantite">Quantité:</label>
-                                        <div class="">
-                                            <input type="number" min="0" max="100" class="form-control" id="quantite" name="quantite" value="{{isset($ligne_bc) ?$ligne_bc->quantite_ligne_bc:''}}" >
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <label class="control-label col-sm-6" for="Unite">Unité:</label>
-                                        <div class="">
-                                            <input type="text" class="form-control" id="Unite" name="Unite" value="{{isset($ligne_bc) ?$ligne_bc->unite_ligne_bc:''}}"  readonly>
-                                        </div>
-                                    </div>
-                                     <div class="col-sm-6">
-                                         <label class="control-label col-sm-6" for="Prix">Prix unitaire:</label>
-                                         <div class="">
-                                             <input type="text"  class="form-control" id="Prix_unitaire" name="Prix_unitaire" value="{{isset($ligne_bc) ?$ligne_bc->prix_unitaire_ligne_bc:''}}" readonly>
-                                         </div>
-                                     </div>
-                                    <div class="col-sm-6">
-                                        <label class="control-label col-sm-6" for="Prix">Prix total:</label>
-                                        <div class="">
-                                            <input type="text"  class="form-control" id="Prix" name="Prix" value="{{isset($ligne_bc) ?$ligne_bc->prix_tot-($ligne_bc->prix_tot*$ligne_bc->remise_ligne_bc)/100:''}}" readonly>
-                                        </div>
-                                    </div>
-                                 </div>
-
                                 </div>
                                 <div class="modal-footer">
-
-                                    <button type="submit" class="btn btn-default">{{isset($modifierlignebc)?'Modifier':'Enregistrer'}}</button>
+                                    <a href="" data-toggle="modal" data-target="#personnaliser_mail" class="btn btn-default" id="personnaliser">
+                                        <i class="fa fa-file-pdf-o"></i><i class="fa fa-paper-plane-o"></i> personnalisé le message avant de l'envoyer
+                                    </a>
+                                    <button type="submit" class="btn btn-default"> <i class="fa fa-file-pdf-o"></i><i class="fa fa-paper-plane-o"></i></button>
                                 </div>
                             </form>
             </div>
@@ -135,9 +148,14 @@
         </div>
     </div>
 
+<div class="row">
+    <a href="{{route('gestion_bc_ajouter')}}" class="btn btn-success pull-right" id="Ajouter_pro" >Ajouter un bon de commande</a>
 
-    <a href="{{route('gestion_bc_ajouter')}}" class="btn btn-success pull-right" id="Ajouter_pro" >Ajouter un bon de commande</a>   <br>
-    <div class="row">
+</div><div class="row"><br>
+    <a href="{{route('bc_express')}}" class="btn btn-info pull-right" id="Ajouter_pro" >>>Express<<</a>
+
+</div>
+       <div class="row">
         <div class="col-sm-offset-2 col-sm-8" >    @include('BC/list_bc')</div>
     </div>
 
@@ -252,7 +270,112 @@
         });
 
 
+
+
+            $('#id_fournisseur').change(function (e){
+                $('#lesemails').empty();
+                var valeur=$('#id_fournisseur').val();
+                $.get("les_das_fournisseurs_funct_da/"+valeur,
+                        function (data) {
+var resultat=JSON.parse(data);
+                            console.log(valeur);
+                            var chaine="";
+                            $.each(resultat, function( indexi, value ) {
+
+                                chaine+="<option value='"+value.valeur_c+"'>"+value.valeur_c+"</option>";
+
+                            });
+
+                            $('#lesemails').empty();
+                            $('#lesemails').append(chaine);
+                            $('#lesemails').selectpicker('refresh');
+                        }
+                );
+            });
+
+            $("body").on("click","#envoie_fourniseur",function(){
+var data=table.row($(this).closest('tr')).data();
+                var id=data[Object.keys(data)[0]];
+                $('#bc_slug').val(id);
+
+                $.get("list_contact/"+id,
+                        function (data) {
+                            //   $('#jstree').empty();
+                            var chaine= "<ul>";
+
+                            var resultat= JSON.parse(data);
+                            console.log(resultat);
+
+var le_selectionne="";
+                            $.each(resultat, function( indexi, valeur ) {
+                                if(le_selectionne==''){
+                                    le_selectionne=valeur.valeur_c;
+                                }
+
+                                chaine+="<li id='"+valeur.valeur_c+"'>"+valeur.valeur_c+"</li>";
+
+                            });
+
+                            chaine+="</ul>";
+                            // $('#jstree').append(chaine);
+                            $('#jstree').jstree(true).settings.core.data = chaine;
+                            $('#jstree').jstree(true).refresh();
+                            $('#jstree').jstree('select_node', le_selectionne);
+
+                           // $('#fourn').selectpicker('refresh');
+                            console.log(data);
+                        }
+                );
+
+            });
+
+            $('#jstree').on("changed.jstree", function (e,data){
+
+                selection=$('#jstree').jstree(true).get_bottom_selected(true);
+
+                valeur="";
+                $.each(selection,function (index, value) {
+
+
+                        valeur=valeur+ ','+value.id;
+                });
+                $('#contact').val(valeur);
+
+                console.log(selection);
+
+            });
+
+
+
         });
+
+        $('#compose-textarea').change(function(){
+            $('#msg').empty();
+            var valeur=$("#compose-textarea").html();
+            $('#msg').append(valeur);
+        });
+$('#personnaliser').click(function(){
+    $('#To').empty();
+    $("#compose-textarea").empty();
+    $('#confirm_email').modal('hide');
+    $('#To').val(valeur.substring(1,valeur.length));
+
+    var bc_slug="";
+    bc_slug=$('#bc_slug').val();
+
+
+
+    $.get("afficher_le_mail/"+bc_slug,
+            function (data) {
+            var    html = $.parseHTML( data ),nodeNames = [];
+                console.log(html);
+             //   $("#compose-textarea").val(html[0].innerText);
+                $('#bcc').val(bc_slug);
+            }
+    );
+})
+
+
 
     </script>
 @endsection

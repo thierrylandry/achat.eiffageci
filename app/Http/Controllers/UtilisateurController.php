@@ -31,7 +31,8 @@ class UtilisateurController
         // Fournisseur::create($parameters);
         $date = new \DateTime(null);
         $utilisateur = new User();
-        $utilisateur->name = $parameters['name'];
+        $utilisateur->nom = $parameters['nom'];
+        $utilisateur->prenoms = $parameters['prenoms'];
         $utilisateur->abréviation = $parameters['abréviation'];
         $utilisateur->function = $parameters['function'];
         $utilisateur->email = $parameters['email'];
@@ -82,8 +83,14 @@ class UtilisateurController
         $utilisateur->email = $parameters['email'];
         $utilisateur->contact =$parameters['contact'];
         $utilisateur->service = $parameters['id_service'];
-        if (Hash::needsRehash($parameters['password'])) {
-            $utilisateur->password =Hash::make( $parameters['password']);
+
+        //Hash::needsRehash($parameters['password'])
+        //dd("ancien ".$utilisateur->password." nouveau :".$parameters['password']." Qaund on hash sa donne ceci".Hash::check($parameters['password'],$parameters['password']));
+          //  dd(Hash::needsRehash($parameters['password']));
+
+        if(Hash::needsRehash($parameters['password'])){
+
+            $utilisateur->password =Hash::make($parameters['password']);
         }
 
         $utilisateur->slug = Str::slug($parameters['email'] . $date->format('dmYhis'));

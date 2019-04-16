@@ -25,12 +25,12 @@
 
             <div class="form-group">
                 <label for="prenoms">Prénoms</label>
-                <input type="prenoms" class="form-control" id="prenoms" name="prenoms" placeholder="Condition de Paiement" value="{{isset($utilisateur)? $utilisateur->prenoms:''}}">
+                <input type="text" class="form-control" id="prenoms" name="prenoms" placeholder="Condition de Paiement" value="{{isset($utilisateur)? $utilisateur->prenoms:''}}">
             </div>
 
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" class="form-control" id="email" name="email" value="{{old('mail')}}">
+                <input type="email" class="form-control" id="email" name="email" value="{{isset($utilisateur)? $utilisateur->email:''}}">
             </div>
 
             <input type="hidden" class="form-control" id="slug" name="slug" placeholder="" value="{{isset($utilisateur)? $utilisateur->slug:''}}"/>
@@ -66,12 +66,13 @@
                 <select class="form-control selectpicker" id="id_service" name="id_service" data-live-search="true" data-size="6" noneSelectedText="SELECTIONNER UN SERVICE">
                     <option value="">SELECTIONNER UN SERVICE</option>
 
-                    <option {{isset($utilisateur)&&$utilisateur->service=="Service matériel"? "selected":''}} value="Service matériel">Service matériel</option>
-                    <option  {{isset($utilisateur)&&$utilisateur->service=="Direction"? "selected":''}} value="Direction">Direction</option>
-                    <option {{isset($utilisateur)&&$utilisateur->service=="Secrétariat"? "selected":''}} value="Secrétariat">Secrétariat</option>
-                    <option  {{isset($utilisateur)&&$utilisateur->service=="Service travaux"? "selected":''}}value="Service travaux">Service travaux </option>
-                    <option {{isset($utilisateur)&&$utilisateur->service=="Service méthodes"? "selected":''}} value="Service méthodes">Service méthodes </option>
-                    <option {{isset($utilisateur)&&$utilisateur->service=="Service informatique"? "selected":''}} value="Service informatique">Service informatique </option>
+                    <option {{isset($utilisateur)&& $utilisateur->service=="Service achat"? "selected":''}} value="Service achat">Service achat </option>
+                    <option {{isset($utilisateur)&& $utilisateur->service=="Service materiel"? "selected":''}} value="Service materiel">Service matériel</option>
+                    <option  {{isset($utilisateur)&& $utilisateur->service=="Direction"? "selected":''}} value="Direction">Direction</option>
+                    <option {{isset($utilisateur)&& $utilisateur->service=="Secretariat"? "selected":''}} value="Secretariat">Secrétariat</option>
+                    <option  {{isset($utilisateur)&& $utilisateur->service=="Service travaux"? "selected":''}}value="Service travaux">Service travaux </option>
+                    <option {{isset($utilisateur)&& $utilisateur->service=="Service methodes"? "selected":''}} value="Service methodes">Service méthodes </option>
+                    <option {{isset($utilisateur)&& $utilisateur->service=="Service informatique"? "selected":''}} value="Service informatique">Service informatique </option>
                 </select>
             </div>
 
@@ -101,7 +102,9 @@
                 </fieldset>
         </div>
         </form>
-
+</br>
+</br>
+</br>
         <div class="row">
             <div class="col-sm-12 col-xr-12">
                 @include('utilisateurs/list_utilisateur')
@@ -126,7 +129,7 @@
     txtnom.addEventListener('keydown', function (e) {génère_mail()});
 
     $(document).ready(function (e) {
-        génère_mail();
+      //  génère_mail();
     });
 
     var table= $('#fournisseurs').DataTable({

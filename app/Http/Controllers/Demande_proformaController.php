@@ -12,6 +12,8 @@ namespace App\Http\Controllers;
 
 use App\DA;
 use App\Devis;
+use App\Jobs\EnvoiMailFournisseur;
+use App\Jobs\EnvoiRappelFournisseur;
 use App\Lignebesoin;
 use App\Mail\Demande_proforma_mail;
 use App\mailclass;
@@ -19,17 +21,20 @@ use App\Materiel;
 use App\Fournisseur;
 use App\Nature;
 use App\Reponse_fournisseur;
+use App\Tracemail;
+use App\Unites;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use phpDocumentor\Reflection\Types\Array_;
 
-class Demande_proformaController
+class Demande_proformaController extends Controller
 {
 
     public function demande_proformas()
@@ -45,16 +50,29 @@ $fournisseurs=Fournisseur::all();
         $das=  DA::all();
         $natures= Nature::all();
         $users= User::all();
-        return view('demande_proformas/gestion_demande_proforma',compact('das','fournisseurs','materiels','natures','users','types'));
+        $trace_mails= DB::table('trace_mail')
+            ->join('fournisseur', 'fournisseur.id', '=', 'trace_mail.id_fournisseur')
+            ->select('trace_mail.id','das','trace_mail.created_at','rappel','trace_mail.email','libelle')->orderBy('trace_mail.created_at', 'DESC')->get();
+
+
+        return view('demande_proformas/gestion_demande_proforma',compact('das','fournisseurs','materiels','natures','users','types','trace_mails'));
 
 
     }
-    public function enregistrer_devis($res,$lesId,$lesIdmat)
+    public function demande_ou_rappel($tab_slug,$list_da){
+        // a terminer
+dd($list_da);
+    }
+    public function enregistrer_devis(Request $request)
     {
+        $parameters = $request->except(['_token']);
+
+        $res=$parameters['res'];
+        $lesId=$parameters['lesId'];
+        $lesIdmat=$parameters['lesIdmat'];
         $lesId=explode(',',$lesId);
         $lesIdmat=explode(',',$lesIdmat);
         parse_str($res,$tab);
-//dd($lesId);
         $i=0;
         foreach($lesId as $id){
             if($id!=="undefined" && $tab["row_n_".$id."_titre_ext"]!="" && $tab["row_n_".$id."_fournisseur"]!="" && $tab["row_n_".$id."_prix_unitaire"]!=""){
@@ -63,6 +81,12 @@ $fournisseurs=Fournisseur::all();
                 $devis->id_materiel=$lesIdmat[$i];
                 $devis->id_fournisseur=$tab["row_n_".$id."_fournisseur"];
                 $devis->quantite=$tab["row_n_".$id."_quantite"];
+                if(isset($tab["row_n_".$id."_tva"]) && $tab["row_n_".$id."_tva"]!=""){
+                    $devis->hastva=$tab["row_n_".$id."_tva"];
+                }else{
+                    $devis->hastva=0;
+                }
+
                 $devis->id_da=$id;
                 if(isset($tab["row_n_".$id."_remise"]) && $tab["row_n_".$id."_remise"]!=""){
                     $devis->remise=$tab["row_n_".$id."_remise"];
@@ -98,11 +122,15 @@ $fournisseurs=Fournisseur::all();
 return 1;
 
     }
-    public function modifier_devis($res,$lesId)
+    public function modifier_devis(Request $request)
     {
+        $parameters = $request->except(['_token']);
+
+        $res=$parameters['res'];
+        $lesId=$parameters['lesId'];
         $lesId=explode(',',$lesId);
+
         parse_str($res,$tab);
-//dd($lesId);
         $i=0;
         foreach($lesId as $id){
             if($id!=="undefined" && $tab["row_n_".$id."_titre_ext"]!="" && $tab["row_n_".$id."_fournisseur"]!="" && $tab["row_n_".$id."_prix_unitaire"]!="" && $tab["row_n_".$id."_quantite"]){
@@ -114,6 +142,11 @@ return 1;
                     $devis->id_fournisseur=$tab["row_n_".$id."_fournisseur"];
                     $devis->quantite=$tab["row_n_".$id."_quantite"];
                     $devis->id_da=$id;
+                    if(isset($tab["row_n_".$id."_tva"]) && $tab["row_n_".$id."_tva"]!=""){
+                        $devis->hastva=$tab["row_n_".$id."_tva"];
+                    }else{
+                        $devis->hastva=0;
+                    }
                     //$devis->remise=$tab["row_n_".$id."_remise"];
                     $devis->unite=$tab["row_n_".$id."_unite"];
 
@@ -186,27 +219,69 @@ return 1;
 
          $parameters = $request->except(['_token']);
 
-        $fourn= $parameters['fourn'];
+       // $fourn= $parameters['fourn'];
+        $fournisseurs= explode(',',$parameters['fournisseur']);
+        foreach($fournisseurs as $fournisseur):
+            if($fournisseur!="" && strstr($fournisseur,'@')){
+                $recup_email[]=$fournisseur;
+            }elseif($fournisseur!="" && !strstr($fournisseur,'@')){
+                $recup_slug[]=$fournisseur;
+            }
+
+
+
+            endforeach;
+     //   dd($recup_email);
         $listeDA = $parameters['listeDA'];
+       // dd($listeDA);
         $tab_listeSA = explode(",", $listeDA);
-        $corps='';
-        $enteetab='<table><th>Produits et Service</th><th>Quantite</th><th>Prix</th>';
+
+        if(isset($parameters['rappel'])){
+            $rappel = $parameters['rappel'];
+        }else{
+            $rappel="";
+        }
+
+        $corps= Array();
+
+        $images= Array();
+        $precisions= Array();
+$i=0;
+
         foreach($tab_listeSA as $laDA):
             $das=  DA::find($laDA);
 
-            if(isset($das->id)){
+            if(isset($das->id) && $das->id!=""){
                 $materiel=DB::table('materiel')
                     ->where('id', '=', $das->id_materiel)
-                    ->select('libelleMateriel')->distinct()->get();
-                $corps ="\n".$corps." ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelleMateriel." ;";
-        }
+                    ->select('libelleMateriel','image')->distinct()->get();
+
+
+                if($materiel[0]->image!==""){
+                    $images[$i]=$materiel[0]->image;
+                }else{
+                    $images[$i]="vide";
+                }
+                if($das->commentaire!=""){
+                    $precisions[$i]=$das->commentaire;
+                }else{
+                    $precisions[$i]="";
+
+                }
+                $corps[$i] =" - ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelleMateriel;
+                $i++;
+            }
+
+
 
 
         endforeach;
         $email='';
-        foreach($fourn as $slug):
-            $fournisseur= Fournisseur::where('slug','=',$slug)->first();
-            $contact=\GuzzleHttp\json_decode($fournisseur->contact);
+     //   dd($images);
+        foreach($recup_email as $em):
+
+         //   $fournisseur= Fournisseur::where('slug','=',$slug)->first();
+        /*    $contact=\GuzzleHttp\json_decode($fournisseur->contact);
             if(isset($contact[0])){
                 $email=$contact[0]->valeur_c;
                 $interlocuteur=$contact[0]->titre_c;
@@ -214,22 +289,28 @@ return 1;
                 $email=$fournisseur->email;
                 $interlocuteur=$fournisseur->responsable;
             }
+        */
+     //   dd($precisions);
+$email=$em;
 
+if($rappel!="on"){
+    $this->dispatch(new EnvoiMailFournisseur($corps, $precisions, $images, $email) );
+}else{
 
-            Mail::send('mail.mail',array('corps' =>$corps),function($message)use ($email,$interlocuteur ){
-
-
-                $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->nom." ".\Illuminate\Support\Facades\Auth::user()->prenoms )
-                    ->to($email)
-                    ->subject('Demande de devis');
-
-            });
+    $this->dispatch(new EnvoiRappelFournisseur($corps,$email) );
+}
+            $fournisseur= Fournisseur::where('contact','LIKE', '%'.$email.'%')->first();
+            $Trace_mail= new Tracemail();
+            $Trace_mail->id_fournisseur=$fournisseur->id;
+            $Trace_mail->rappel=$rappel;
+            $Trace_mail->email=$email;
+            $Trace_mail->das=implode(',',$corps);
+            $Trace_mail->save();
+     //   dd(Mail::failures());
         endforeach;
 
-
-        return redirect()->route('gestion_demande_proformas')->with('success', "Envoie d'email reussi");
        // return view('mail.mail')->with('corps',$corps);
-
+            return redirect()->route('gestion_demande_proformas')->with('success', "Envoie d'email reussi");
     }
 
     /**
@@ -245,7 +326,8 @@ return 1;
             ->join('nature', 'nature.id', '=', 'lignebesoin.id_nature')
             ->leftJoin('users', 'users.id', '=', 'lignebesoin.id_valideur')
             ->where('lignebesoin.etat', '=', 2)
-            ->select('lignebesoin.id','lignebesoin.id_materiel','unite','DateBesoin','quantite','demandeur','users.nom','users.prenoms','libelleMateriel','libelleNature','lignebesoin.slug')
+            ->select('lignebesoin.id','lignebesoin.id_materiel','unite','DateBesoin','quantite','demandeur','users.nom','users.prenoms','libelleMateriel','libelleNature','lignebesoin.slug','lignebesoin.created_at')
+            ->orderBy('lignebesoin.id', 'desc')
             ->distinct()->get();
         $variable="";
         $status="<i class='fa fa-circle' style='color: mediumspringgreen'></i>";
@@ -255,24 +337,46 @@ return 1;
 
     }
 
-    public function les_das_fournisseurs_funct($domaine)
+
+    public function contact_fonction_du_fournisseur($slug)
     {
-        $valeur = array($domaine);
-        $types = DB::table('fournisseur')
-            ->whereIn('domaine', $valeur)
-            ->distinct()->get();
+
+
         return response()->json($types);
+        //    return response()->json($variable);
 
     }
 
-    public function les_das_fournisseurs_funct_da($id_lignebesoin){
+    public function les_das_fournisseurs_funct($domaine)
+    {
 
-        $sql = 'SELECT fournisseur.id , libelle FROM fournisseur,materiel,lignebesoin WHERE fournisseur.domaine in (materiel.type) and lignebesoin.id_materiel=materiel.id  and lignebesoin.id='.$id_lignebesoin;
 
 
-        $results = DB::select($sql);
+        $types = DB::table('fournisseur')
+                    ->distinct()->get();
+        $tableau = Array();
 
-        return response()->json($results);
+        foreach($types as $type):
+            $tab = explode(',',$type->domaine);
+
+            if(in_array($domaine,$tab)){
+                $tableau[]=$type;
+            }
+        endforeach;
+        return response()->json($tableau);
+
+    }
+
+    public function les_das_fournisseurs_funct_da($id_fournisseur){
+
+        $fournisseur= Fournisseur::find($id_fournisseur);
+       // dd($fournisseur);
+
+        $contact=$fournisseur->contact;
+
+
+
+        return response()->json($contact);
     }
 
     public function alljson(){
@@ -317,7 +421,21 @@ return 1;
         $domaines=  DB::table('domaines')->get();
         $devis = Devis::where('etat','=',1)->get();
         $analytiques=  DB::table('analytique')->distinct()->get(['codeRubrique','libelle']);
-        return view('reponse_fournisseur/gestion_reponse_fournisseur',compact('analytiques','das','fournisseurs','materiels','natures','users','types','domaines','devis','tab_proposition'));
+        $unites=Unites::all();
+        foreach($unites as $unite):
+            if($unite->id==1){
+                $tab_unite['nothing'][]=$unite->libelle;
+            }elseif($unite->id>1 && $unite->id<=10 ){
+                $tab_unite['La longueur'][]= $unite->libelle;
+            }elseif ($unite->id>10 && $unite->id<=20){
+                $tab_unite['La masse'][]=$unite->libelle;
+            }elseif ($unite->id>20 && $unite->id<=30){
+                $tab_unite['Le volume'][]=$unite->libelle;
+            }elseif ($unite->id>30 && $unite->id<=40){
+                $tab_unite['La surface'][]=$unite->libelle;
+            }
+        endforeach;
+        return view('reponse_fournisseur/gestion_reponse_fournisseur',compact('analytiques','das','fournisseurs','materiels','natures','users','domaines','devis','tab_proposition','tab_unite'));
 
 
     }

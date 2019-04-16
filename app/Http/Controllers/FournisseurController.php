@@ -57,7 +57,7 @@ class FournisseurController extends Controller
     {
         $fournisseur = Fournisseur::where('slug', '=', $slug)->first();
         $fournisseur->delete();
-        return redirect()->route('ajouter_fournisseur')->with('success', "le fournisseur a été supprimé");
+        return redirect()->route('lister_fournisseurs')->with('success', "le fournisseur a été supprimé");
     }
     public function update_fournisseur( Request $request)
     {
@@ -106,7 +106,7 @@ class FournisseurController extends Controller
 
         $contacts= json_decode($fournisseur->contact);
 
-        return redirect()->route('ajouter_fournisseur')->with('success',"le fournisseur à été mis à jour");
+        return redirect()->route('lister_fournisseurs')->with('success',"le fournisseur à été mis à jour");
     }
     public function Validfournisseur( Request $request)
     {
