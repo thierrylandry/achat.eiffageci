@@ -265,10 +265,12 @@
                 },
                 responsive: false,
                 columnDefs: [
-                    { responsivePriority: 2, targets: 0 },
-                    { responsivePriority: 1, targets: -1 }
+                    { responsivePriority: 1, targets: 0 },
+                    { responsivePriority: 2, targets: -1 },
+                    { responsivePriority: 1, targets: 4 },
+
                 ]
-            }).column(4).visible(false).column(5).visible(false).column(9).visible(false).column(11).visible(false).column(13).visible(false);
+            }).column(5).visible(false).column(6).visible(false).column(10).visible(false).column(12).visible(false).column(14).visible(false);
             //table.DataTable().draw();
             $('a.toggle-vis').on( 'click', function (e) {
                 e.preventDefault();
