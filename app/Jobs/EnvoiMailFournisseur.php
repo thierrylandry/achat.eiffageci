@@ -53,7 +53,7 @@ class EnvoiMailFournisseur implements ShouldQueue
             foreach($images as $img):
                 if($img!="vide"){
                     //$message->attach(URL::asset('public/uploads/'.$img));
-                    logger(fopen( Storage::disk('uploads')->get($img), 'rb' ));
+                    logger(fopen( storage_path('app/public/uploads/'.$img), 'rb' ));
                     $message->attach(Storage::disk('uploads')->get($img));
                 }else{
 
