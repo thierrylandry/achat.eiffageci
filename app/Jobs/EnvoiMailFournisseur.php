@@ -60,10 +60,10 @@ class EnvoiMailFournisseur implements ShouldQueue
                 }
 
             endforeach;
-            if (strtoupper($email)=="MARINA.OULAI@EIFFAGE.COM" ){
-                $message->cc("Claudiane.COSTECALDE@eiffage.com");
+            if (strtoupper($email)=="marina.oulai@eiffage.com" ){
+                $message->cc("claudiane.costecalde@eiffage.com");
             }else{
-                $message->cc("Marina.OULAI@eiffage.com");
+                $message->cc("marina.oulai@eiffage.com");
             }
         });
     }
