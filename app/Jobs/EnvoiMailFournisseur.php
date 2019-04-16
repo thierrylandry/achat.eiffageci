@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 
 class EnvoiMailFournisseur implements ShouldQueue
@@ -51,7 +52,9 @@ class EnvoiMailFournisseur implements ShouldQueue
                 ->subject('Demande de devis');
             foreach($images as $img):
                 if($img!="vide"){
-                    $message->attach(URL::asset('public/uploads/'.$img));
+                    //$message->attach(URL::asset('public/uploads/'.$img));
+                    logger(fopen( storage_path('app/public/uploads/'.$img), 'rb' ));
+                    $message->attach(Storage::disk('uploads')->get($img));
                 }else{
 
                 }

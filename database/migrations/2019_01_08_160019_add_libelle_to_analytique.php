@@ -15,7 +15,7 @@ class AddLibelleToAnalytique extends Migration
     {
         Schema::table('analytique', function (Blueprint $table) {
             //
-            $table->string("lebelle")->nullable();
+            $table->string("libelle")->nullable();
         });
     }
 
@@ -28,7 +28,7 @@ class AddLibelleToAnalytique extends Migration
     {
         Schema::table('analytique', function (Blueprint $table) {
             //
-            $table->removeColumn('lebelle');
+            $table->removeColumn('libelle');
         });
     }
 }
