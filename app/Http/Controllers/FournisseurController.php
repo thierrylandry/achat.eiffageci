@@ -9,7 +9,7 @@
 namespace App\Http\Controllers;
 
 
-use App\fournisseur;
+use App\Fournisseur;
 use App\Metier\Json\Contact;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
