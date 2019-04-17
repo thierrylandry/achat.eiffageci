@@ -96,7 +96,7 @@ class InfoController extends Controller
     }
     public function notification_sur_les_B_C($email){
 
-        $das=  Boncommande::where('etat','=',2)->get();
+        $das=  Boncommande::where('etat','=',1)->get();
 
         $Nb=sizeof($das);
         if($Nb>0){
