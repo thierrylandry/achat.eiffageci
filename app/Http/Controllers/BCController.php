@@ -20,6 +20,7 @@ use App\ligne_bc;
 use App\Lignebesoin;
 use App\Materiel;
 use App\Reponse_fournisseur;
+use App\Services;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -48,8 +49,9 @@ class BCController extends Controller
      // $bc=  Boncommande::where('slug','=',$slug)->first();
         $bc= DB::table('boncommande')
             ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
+            ->join('services', 'services.id', '=', 'boncommande.service_demandeur')
             ->where('boncommande.slug','=',$slug)
-            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','service_demandeur','commentaire_general','fournisseur.conditionPaiement')->first();
+            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','services.libelle as libelle_service','commentaire_general','fournisseur.conditionPaiement')->first();
 
 
         $devis=DB::table('devis')
@@ -93,8 +95,9 @@ class BCController extends Controller
 
         $bc= DB::table('boncommande')
             ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
+            ->join('services', 'services.id', '=', 'boncommande.service_demandeur')
             ->where('boncommande.id','=',$bc_slug)
-            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','service_demandeur','contact')->get()->first();
+            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','libelle_service','contact')->get()->first();
 
 
 
@@ -153,8 +156,9 @@ return $view;
         $contact=explode(',',$parameters['To']);
         $bc= DB::table('boncommande')
             ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
+            ->join('services', 'services.id', '=', 'boncommande.service_demandeur')
             ->where('boncommande.id','=',$bc_slug)
-            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','service_demandeur','contact','commentaire_general','fournisseur.conditionPaiement')->first();
+            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','libelle_service','contact','commentaire_general','fournisseur.conditionPaiement')->first();
         $devis=DB::table('devis')
             ->join('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
             ->where('id_bc','=',$bc->id)
@@ -245,8 +249,9 @@ return $view;
        // $les_id_devis=explode(',',$parameters['les_id_devis']);
         $bc= DB::table('boncommande')
             ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
+            ->join('services', 'services.id', '=', 'boncommande.service_demandeur')
             ->where('boncommande.id','=',$bc_slug)
-            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','service_demandeur','contact','commentaire_general','fournisseur.conditionPaiement')->first();
+            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','libelle_service','contact','commentaire_general','fournisseur.conditionPaiement')->first();
 
 
         $devis=DB::table('devis')
@@ -346,7 +351,8 @@ return $view;
 
     public function gestion_bc()
     {
-        $bcs=  Boncommande::orderBy('created_at', 'DESC')->get();
+        $bcs=  Boncommande::where('etat','!=',1)->orderBy('created_at', 'DESC')->get();
+        $bcs_en_attentes=  Boncommande::where('etat','=',1)->orderBy('created_at', 'DESC')->get();
         $utilisateurs=  User::all();
         /*
         $fournisseurs= DB::table('fournisseur')
@@ -367,7 +373,7 @@ return $view;
             ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
 
 $analytiques= Analytique::all();
-        return view('BC/gestion_bc',compact('bcs','fournisseurs','utilisateurs','analytiques','fournisseurss'));
+        return view('BC/gestion_bc',compact('bcs','bcs_en_attentes','fournisseurs','utilisateurs','analytiques','fournisseurss'));
     }
 
     public function modifier_ligne_bc($slug)
@@ -628,7 +634,7 @@ $analytiques= Analytique::all();
 
 
 
-
+    $services=Services::all();
         $new_devis=DB::table('devis')
             ->leftJoin('lignebesoin', 'lignebesoin.id', '=', 'devis.id_da')
             ->leftJoin('users', 'lignebesoin.id_user', '=', 'users.id')
@@ -638,17 +644,21 @@ $analytiques= Analytique::all();
             ->select('devis.id','devis.titre_ext','id_bc','devis.codeRubrique','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.devise','devis.hastva','DateBesoin','users.service','lignebesoin.commentaire')->distinct()->get();
 
         $date_propose= Array();
-        $service= Array();
+        $service_id= Array();
+        $service_libelle= Array();
+
         foreach($devis as $dev){
 
             if(!in_array($dev->DateBesoin, $date_propose)){
                 $date_propose[]=$dev->DateBesoin;
             }
-            if(!in_array($dev->service, $service)){
-                $service[]=$dev->service;
+            if(!in_array($dev->service,$service_id)){
+
+                $service_unique= Services::find($dev->service);
+                $service_id[]=$service_unique->id;
+                $service_libelle[]=$service_unique->libelle;
             }
         }
-
 if(isset($devis->first()->devise)){
     $devise=$devis->first()->devise;
 }else{
@@ -667,7 +677,7 @@ if(isset($devis->first()->devise)){
             ->select('titre_ext','quantite_ligne_bc','unite_ligne_bc','prix_unitaire_ligne_bc','remise_ligne_bc','prix_tot','ligne_bc.slug','analytique.codeRubrique')->get();*/
         $listerbc='';
         $analytiques= Analytique::all();
-        return view('BC/list_ligne_bc',compact('bc','fournisseur','utilisateurs','listerbc','devis','analytiques','devise','id_devi','date_propose','service','new_devis'));
+        return view('BC/list_ligne_bc',compact('bc','fournisseur','utilisateurs','listerbc','devis','analytiques','devise','id_devi','date_propose','service_id','service_libelle','new_devis','services'));
     }
     public function bc_express(){
         $analytiques =  Analytique::all();

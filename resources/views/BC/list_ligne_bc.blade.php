@@ -46,18 +46,14 @@
                 <div>
                     <select class="form-control selectpicker" id="id_service" name="id_service" data-live-search="true" data-size="6" noneSelectedText="SELECTIONNER UN SERVICE" {{$bc->etat!=1?'disabled':''}}  required >
                         <option value="">SELECTIONNER UN SERVICE</option>
-
-                        <option {{isset($bc->service_demandeur)&&$bc->service_demandeur=="Service materiel"? "selected":''}} value="Service materiel">Service matériel</option>
-                        <option  {{isset($bc->service_demandeur)&&$bc->service_demandeur=="Direction"? "selected":''}} value="Direction">Direction</option>
-                        <option {{isset($bc->service_demandeur)&&$bc->service_demandeur=="Secretariat"? "selected":''}} value="Secretariat">Secrétariat</option>
-                        <option  {{isset($bc->service_demandeur)&&$bc->service_demandeur=="Service travaux"? "selected":''}}value="Service travaux">Service travaux </option>
-                        <option {{isset($bc->service_demandeur)&&$bc->service_demandeur=="Service methodes"? "selected":''}} value="Service methodes">Service méthodes </option>
-                        <option {{isset($bc->service_demandeur)&&$bc->service_demandeur=="Service informatique"? "selected":''}} value="Service informatique">Service informatique </option>
+                        @foreach($services as $service)
+                            <option {{isset($bc)&& $bc->service_demandeur==$service->id? "selected":''}} value="{{$service->id}}">{{$service->libelle}}</option>
+                        @endforeach
                     </select>
                 </div>
-                <label>LISTE DES SERVICE PROPOSES: @foreach($service as $serve)
-                        <a  onclick="document.getElementById('id_service').value='{{$serve}}';$('#id_service').selectpicker('refresh')">  {{$serve}}</a>;
-                    @endforeach</label>
+                <label>LISTE DES SERVICES PROPOSES: @for($i=0;$i<count($service_id);$i++)
+                        <a  onclick="document.getElementById('id_service').value='{{$service_id[$i]}}';$('#id_service').selectpicker('refresh')">  {{$service_libelle[$i]}}</a>;
+                    @endfor</label>
             </div>
         </div>
         <div class="col-sm-6 col-sm-offset-2" style="border: double; text-align: center">

@@ -174,9 +174,9 @@
                 <tr>
                     <td>{{$da->id}}</td>
                     <td>{{date_format($da->created_at,'d-m-Y h:m:s')}}</td>
-                    <td>@foreach($users as $user )
-                            @if($user->id==$da->id_user)
-                                <b style=" font-size: 15px; color:black ">{{$user->service}}</b>
+                    <td>@foreach($service_users as $service_user )
+                            @if($service_user->id==$da->id_user)
+                                <b style=" font-size: 15px; color:black ">{{$service_user->libelle}}</b>
                             @endif
                         @endforeach</td>
                     <td>
@@ -229,17 +229,17 @@
                     <td>{{$da->quantite}} {{$da->unite}}</td>
                     <td>{{\Carbon\Carbon::parse($da->DateBesoin)->format('d-m-Y')}}</td>
                     <td>{{$da->demandeur}}</td>
-                    <td>@foreach($users as $user )
-                            @if($user->id==$da->id_user)
-                                {{$user->nom}}
-                                {{$user->prenom}}
+                    <td>@foreach($service_users as $service_user )
+                            @if($service_user->id==$da->id_user)
+                                {{$service_user->nom}}
+                                {{$service_user->prenoms}}
                             @endif
                         @endforeach</td>
                     <td>
-                        @foreach($users as $user )
-                            @if($user->id==$da->id_valideur)
-                                {{$user->nom}}
-                                {{$user->prenom}}
+                        @foreach($service_users as $service_user )
+                            @if($service_user->id==$da->id_valideur)
+                                Par  {{$service_user->nom}}
+                                {{$service_user->prenoms}} le le  {{\Carbon\Carbon::parse($da->dateConfirmation)->format('d-m-Y h:m:s')}}
                             @endif
                         @endforeach</td>
                     <td>

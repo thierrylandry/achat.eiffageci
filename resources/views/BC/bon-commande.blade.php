@@ -189,7 +189,7 @@
                 <table>
                     <tr>
                         <th style="text-align:left; border-right: none;">Demandeur :(Nom/Téléphone)</th>
-                        <th style="text-align:center; border-left: none;">{{strtoupper($bc->service_demandeur)}}</th>
+                        <th style="text-align:center; border-left: none;">{{strtoupper($bc->libelle_service)}}</th>
                     </tr>
                     <tr>
 

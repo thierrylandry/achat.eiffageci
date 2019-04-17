@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 
 
 use App\Role;
+use App\Services;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -21,8 +22,9 @@ class UtilisateurController
     public function utilisateurs()
     {
         $utilisateurs=  User::all();
+        $services= Services::all();
         $roles=  Role::all();
-        return view('utilisateurs/gestion_utilisateur',compact('utilisateurs','roles'));
+        return view('utilisateurs/gestion_utilisateur',compact('utilisateurs','roles','services'));
     }
     public function Validutilisateurs( Request $request)
     {
@@ -54,8 +56,8 @@ class UtilisateurController
         $utilisateurs = User::all();
         $utilisateur = User::where('slug', '=', $slug)->first();
         $roles=  Role::all();
-
-        return view('utilisateurs/gestion_utilisateur',compact('utilisateurs','utilisateur','roles'));
+        $services= Services::all();
+        return view('utilisateurs/gestion_utilisateur',compact('utilisateurs','utilisateur','roles','services'));
     }
     public function supprimer_utilisateur($slug)
     {

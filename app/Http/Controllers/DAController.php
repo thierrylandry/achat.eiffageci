@@ -32,10 +32,12 @@ class DAController
         $materiels=Materiel::all();
         $das=  DA::orderBy('created_at', 'DESC')->get();
         $natures= Nature::all();
-        $users= User::all();
-        $domaines=  DB::table('domaines')->get();
 
-        return view('DA/lister_da',compact('das','fournisseurs','materiels','natures','users','domaines'));
+        $service_users=DB::table('users')
+            ->leftJoin('services', 'services.id', '=', 'users.service')
+            ->select('users.id','nom','prenoms','services.libelle','users.service')->get();
+        $domaines=  DB::table('domaines')->get();
+        return view('DA/lister_da',compact('das','fournisseurs','materiels','natures','service_users','domaines'));
 
 
     }
@@ -46,7 +48,9 @@ class DAController
         $materiels=Materiel::all();
         $das=  DA::where('id_user','=',\Illuminate\Support\Facades\Auth::user()->id)->orderBy('created_at', 'DESC')->get();
         $natures= Nature::all();
-        $users= User::all();
+        $service_users=DB::table('users')
+            ->leftJoin('services', 'services.id', '=', 'users.service')
+            ->select('users.id','nom','prenoms','services.libelle','users.service')->get();
         $domaines=  DB::table('domaines')->get();
         $unites=Unites::all();
         foreach($unites as $unite):
@@ -62,7 +66,7 @@ class DAController
                 $tab_unite['La surface'][]=$unite->libelle;
             }
         endforeach;
-        return view('DA/creer_da',compact('das','fournisseurs','materiels','natures','users','domaines','tab_unite'));
+        return view('DA/creer_da',compact('das','fournisseurs','materiels','natures','service_users','domaines','tab_unite'));
 
 
     }
@@ -100,7 +104,9 @@ class DAController
         $domaines=  DB::table('domaines')->get();
         $fournisseurs=Fournisseur::all();
         $materiels=Materiel::all();
-        $users= User::all();
+        $service_users=DB::table('users')
+            ->leftJoin('services', 'services.id', '=', 'users.service')
+            ->select('users.id','nom','prenoms','services.libelle','users.service')->get();
         $natures= Nature::all();
         $unites=Unites::all();
         foreach($unites as $unite):
@@ -116,7 +122,7 @@ class DAController
                 $tab_unite['La surface'][]=$unite->libelle;
             }
         endforeach;
-        return view('DA/gestion_da',compact('das','fournisseurs','materiels','natures','da','users','domaines','tab_unite'));
+        return view('DA/gestion_da',compact('das','fournisseurs','materiels','natures','da','service_users','domaines','tab_unite'));
     }
     public function afficher_image($id)
     {
