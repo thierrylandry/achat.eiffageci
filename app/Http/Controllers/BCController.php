@@ -688,6 +688,7 @@ if(isset($devis->first()->devise)){
     public function gestion_bc_ajouter()
     {
         $bcs=  Boncommande::orderBy('created_at', 'DESC')->get();
+        $bcs_en_attentes=  Boncommande::where('etat','=',1)->orderBy('created_at', 'DESC')->get();
         $utilisateurs=  User::all();
         $fournisseurs= DB::table('fournisseur')
             ->join('devis', 'fournisseur.id', '=', 'devis.id_fournisseur')
@@ -698,7 +699,7 @@ if(isset($devis->first()->devise)){
             ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
         $ajouter='vrai';
         $analytiques= Analytique::all();
-        return view('BC/gestion_bc',compact('bcs','fournisseurs','utilisateurs','ajouter','analytiques','fournisseurss'));
+        return view('BC/gestion_bc',compact('bcs','bcs_en_attentes','fournisseurs','utilisateurs','ajouter','analytiques','fournisseurss'));
     }
     public function detail_rep_fournisseur($id){
 
