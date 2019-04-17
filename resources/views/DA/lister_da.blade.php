@@ -156,8 +156,8 @@
                         <td>
                             @foreach($service_users as $service_user )
                                 @if($service_user->id==$da->id_valideur)
-                                  Par  {{$service_user->nom}}
-                                    {{$service_user->prenoms}} le le  {{\Carbon\Carbon::parse($da->dateConfirmation)->format('d-m-Y h:m:s')}}
+                                    {{$service_user->nom}}
+                                    {{$service_user->prenoms}} le   {{\Carbon\Carbon::parse($da->dateConfirmation)->format('d-m-Y h:m:s')}}
                                 @endif
                             @endforeach</td>
                         <td>
