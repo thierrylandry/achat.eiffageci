@@ -49,7 +49,7 @@ class BCController extends Controller
      // $bc=  Boncommande::where('slug','=',$slug)->first();
         $bc= DB::table('boncommande')
             ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
-            ->join('services', 'services.id', '=', 'boncommande.service_demandeur')
+            ->leftJoin('services', 'services.id', '=', 'boncommande.service_demandeur')
             ->where('boncommande.slug','=',$slug)
             ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','services.libelle as libelle_service','commentaire_general','fournisseur.conditionPaiement')->first();
 
