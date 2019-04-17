@@ -48,13 +48,13 @@ class EnvoiBcFournisseurPersonnalise implements ShouldQueue
             if($conct!=""){
 
                 // If you want to store the generated pdf to the server then you can use the store function
-                $pdf->save(storage_path('bon_commande').'\bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
-                Mail::send('mail.empty_mail',array("msg_contenu"=>$msg_contenu),function($message)use ($conct,$numBonCommande,$images){
+                ;
+                Mail::send('mail.empty_mail',array("msg_contenu"=>$msg_contenu),function($message)use ($pdf,$bc, $conct,$numBonCommande,$images){
                     $message->from(Auth::user()->email ,Auth::user()->nom." ".Auth::user()->prenoms)
                         ->to($conct)
                         ->to(Auth::user()->email)
                         ->subject('TRANSMISSION DE BON DE COMMANDE')
-                        ->attach( storage_path('bon_commande').'\bon_de_commande_n°'.$numBonCommande.'.pdf'  );
+                        ->attach( $pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf'));
 
                     foreach($images as $img):
                         $message->attach('public/uploads/'.$img);
