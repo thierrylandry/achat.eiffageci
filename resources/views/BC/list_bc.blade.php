@@ -386,7 +386,7 @@
 <script>
     $('.validercom').click( function (e) {
         //   table.row('.selected').remove().draw( false );
-        if(confirm('Voulez vous valide le Bon de commande ?')){}else{e.preventDefault(); e.returnValue = false; return false; }
+       // if(confirm('Voulez vous valide le Bon de commande ?')){}else{e.preventDefault(); e.returnValue = false; return false; }
     } );
     $('.reject').click( function (e) {
         //   table.row('.selected').remove().draw( false );
