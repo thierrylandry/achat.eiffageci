@@ -60,7 +60,7 @@ class EnvoiBcFournisseur implements ShouldQueue
                     ->subject('TRANSMISSION DE BON DE COMMANDE')
                     ->attach( storage_path('bon_commande').'\bon_de_commande_n°'.$numBonCommande.'.pdf');
                 foreach($images as $img):
-                    $message->attach(URL::asset('public/uploads/'.$img));
+                    $message->attach('public/uploads/'.$img);
                 endforeach;
             });
             }

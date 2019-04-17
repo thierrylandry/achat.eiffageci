@@ -42,10 +42,10 @@ private $corps;
             $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->nom." ".\Illuminate\Support\Facades\Auth::user()->prenoms )
                 ->to($email)
                 ->subject('Rappel de demande de devis');
-            if (strtoupper($email)=="MARINA.OULAI@EIFFAGE.COM" ){
-                $message->cc("Claudiane.COSTECALDE@eiffage.com");
+            if ($email=="marina.oulai@eiffage.com" ){
+                $message->cc("claudiane.costecalde@eiffage.com");
             }else{
-                $message->cc("Marina.OULAI@eiffage.com");
+                $message->cc("marina.oulai@eiffage.com");
             }
 
         });

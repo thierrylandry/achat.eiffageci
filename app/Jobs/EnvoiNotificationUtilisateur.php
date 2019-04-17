@@ -49,7 +49,7 @@ private $Nb,$email,$action;
             });
         }else{
 
-            Mail::send('mail.notif_mail',array('nb' =>$Nb." demande(s) d'achat(s)"),function($message)use ($email,$Nb ){
+            Mail::send('mail.notif_mail',array('nb' =>$Nb." bon de commande(s) en attente de signature"),function($message)use ($email,$Nb ){
 
 
                 $message->from("noreply@eiffage.com" ,"PRO-ACHAT" )
