@@ -141,7 +141,7 @@ return 1;
                     $devis->titre_ext=$tab["row_n_".$id."_titre_ext"];
                     $devis->id_fournisseur=$tab["row_n_".$id."_fournisseur"];
                     $devis->quantite=$tab["row_n_".$id."_quantite"];
-                    $devis->id_da=$id;
+                   // $devis->id_da=$id;
                     if(isset($tab["row_n_".$id."_tva"]) && $tab["row_n_".$id."_tva"]!=""){
                         $devis->hastva=$tab["row_n_".$id."_tva"];
                     }else{

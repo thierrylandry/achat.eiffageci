@@ -88,9 +88,10 @@ class InfoController extends Controller
 
         $das=  DA::where('etat','=',1)->get();
 
-        $Nb=sizeof($das);
+        $Nb=sizeof($das);;
+        $adresse_da="http://172.20.73.3/achat.eiffageci/lister_da";
         if($Nb>0){
-            $this->dispatch(new EnvoiNotificationUtilisateur($Nb,$email,1) );
+            $this->dispatch(new EnvoiNotificationUtilisateur($Nb,$email,1,$adresse_da) );
         }
 
     }
@@ -99,9 +100,10 @@ class InfoController extends Controller
         $das=  Boncommande::where('etat','=',1)->get();
 
         $Nb=sizeof($das);
+        $adresse_bc="http://172.20.73.3/achat.eiffageci/gestion_bc";
         if($Nb>0){
 
-            $this->dispatch(new EnvoiNotificationUtilisateur($Nb,$email,2) );
+            $this->dispatch(new EnvoiNotificationUtilisateur($Nb,$email,2,$adresse_bc) );
         }
 
     }

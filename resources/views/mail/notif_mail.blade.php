@@ -3,9 +3,9 @@
 
     <p>Bonjour,</p>
 
-    <p>Vous avez : {{$nb}}  en attente de validation
+    <p>Vous avez : {{$nb}}
         <br>
-
+<p>Vous pouvez les consulter sur <a href="{{$adresse}}">cliquez ici</a></p>
     <p></p><br>
     <p>Dans l’attente, et en vous remerciant,<br>
         <br>
