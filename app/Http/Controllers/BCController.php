@@ -67,27 +67,10 @@ class BCController extends Controller
             $taille_minim=5;
             $taille_maxim=37;
         }
-
-
-        // Send data to the view using loadView function of PDF facade
-        $commandes='';
-
-        //$pdf = PDF::loadView('BC.bon_commande_file', compact('bc','ligne_bcs'));
         $tothtax = 0;
         //return view('BC.bon-commande', compact('bc','ligne_bcs','tothtax'));
         $pdf = PDF::loadView('BC.bon-commande', compact('bc','devis','tothtax','taille','taille_minim','taille_maxim'));
-
-        // If you want to store the generated pdf to the server then you can use the store function
-       // $pdf->save(storage_path().'_filename.pdf');
-        // Finally, you can download the file using download function
         return $pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
-      //  return $pdf->stream('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
-
-      /*  $html22 = View('BC.bcl.bon_commande_file')->with(array('bc' => $bc,'ligne_bcs' => $ligne_bcs))->render();
-        $html2pdf = new HTML2PDF('P', 'A4', 'en', true, 'UTF-8', array(0, 0, 0, 0));
-        $html2pdf->pdf->SetDisplayMode('fullpage');
-        $html2pdf->WriteHTML($html22);
-        return $html2pdf->Output('Invoice.pdf');*/
 
     }
     public function afficher_le_mail($bc_slug){
@@ -353,16 +336,7 @@ return $view;
         $bcs=  Boncommande::where('etat','!=',1)->orderBy('created_at', 'DESC')->get();
         $bcs_en_attentes=  Boncommande::where('etat','=',1)->orderBy('created_at', 'DESC')->get();
         $utilisateurs=  User::all();
-        /*
-        $fournisseurs= DB::table('fournisseur')
-            ->join('reponse_fournisseur', 'fournisseur.id', '=', 'reponse_fournisseur.id_fournisseur')
 
-            ->where('lignebesoin.etat', '=', 2)
-            ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
-        $fournisseurs=DB::table('fournisseur')
-            ->join('domaines', 'domaines.id', '=', 'fournisseur.domaine')
-            ->select('libelle','libelleDomainne','fournisseur.id','fournisseur.domaine')->distinct()->get();
-        */
         $fournisseurs= DB::table('fournisseur')
             ->join('devis', 'fournisseur.id', '=', 'devis.id_fournisseur')
             ->where('devis.etat', '=', 1)
@@ -416,26 +390,6 @@ $analytiques= Analytique::all();
 
                 }
 
-/*
-                $ligne_bc->id_bonCommande=$parameters['id_bc'];
-                $ligne_bc->codeRubrique=$parameters['row_n_'.$id.'_codeRubrique'];
-                $ligne_bc->remise_ligne_bc=$Devis->remise;
-                $ligne_bc->quantite_ligne_bc=$Devis->quantite;
-                $ligne_bc->unite_ligne_bc=$Devis->unite;
-                $ligne_bc->id_devis=$Devis->id;
-                if(isset($parameters['row_n_'.$id.'_tva']) && $parameters['row_n_'.$id.'_tva']=='on' ){
-                    $ligne_bc->hastva=1;
-                }else{
-                    $ligne_bc->hastva=0;
-
-                }
-                $ligne_bc->prix_unitaire_ligne_bc=$Devis->prix_unitaire;
-                $ligne_bc->prix_tot=$Devis->prix_unitaire*$Devis->quantite-($Devis->remise*($Devis->prix_unitaire*$Devis->quantite))/100;
-
-                $ligne_bc->slug=Str::slug($ligne_bc->id_bonCommand.$ligne_bc->codeRubrique.$ligne_bc->quantite_ligne_b.$ligne_bc->prix_unitaire_ligne_bc.$date->format('dmYhis'));
-                $ligne_bc->save();
-*/
-                //utiliser le devis
 
                 $Devis->id_bc=$parameters['id_bc'];
                 $Devis->codeRubrique=$parameters['row_n_'.$id.'_codeRubrique'];
@@ -669,11 +623,7 @@ if(isset($devis->first()->devise)){
             $id_devi=$id_devi.$devi->id.",";
             endforeach;
 
-        /*  $ligne_bcs=DB::table('ligne_bc')
-            ->join('reponse_fournisseur', 'reponse_fournisseur.id', '=', 'ligne_bc.id_reponse_fournisseur')
-            ->join('analytique', 'analytique.id_analytique', '=', 'ligne_bc.codeRubrique')
-            ->where('id_bonCommande','=',$id)
-            ->select('titre_ext','quantite_ligne_bc','unite_ligne_bc','prix_unitaire_ligne_bc','remise_ligne_bc','prix_tot','ligne_bc.slug','analytique.codeRubrique')->get();*/
+
         $listerbc='';
         $analytiques= Analytique::all();
         return view('BC/list_ligne_bc',compact('bc','fournisseur','utilisateurs','listerbc','devis','analytiques','devise','id_devi','date_propose','service_id','service_libelle','new_devis','services'));
@@ -745,12 +695,8 @@ if(isset($devis->first()->devise)){
         $slug=$parameters['slug'];
         $date= new \DateTime(null);
         $Boncommande= Boncommande::where('slug', '=', $slug)->first();
-       // $Boncommande->numBonCommande=$parameters['numbc'];
-        //$Boncommande->date=$parameters['date'];
-       // $Boncommande->id_fournisseur=$parameters['id_fournisseur'];
         $Boncommande->id_user=\Illuminate\Support\Facades\Auth::user()->id;
 
-       // $Boncommande->slug=Str::slug($parameters['numbc'].$date->format('dmYhis'));
         $Boncommande->save();
 
 
@@ -798,7 +744,6 @@ $bc= Boncommande::find($id);
 
 
         return response()->json($fournisseur->contact);
-        //    return response()->json($variable);
 
     }
 public function gestion_offre(){
