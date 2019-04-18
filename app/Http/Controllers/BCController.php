@@ -450,7 +450,7 @@ $analytiques= Analytique::all();
                 $Devis->valeur_tva=$Devis->prix_tot*0.18;
 
                 $Devis->save();
-                $lignebesoin=Lignebesoin::find($id);
+                $lignebesoin=Lignebesoin::find($Devis->id_da);
                 $lignebesoin->id_bonCommande=$parameters['id_bc'];
 
                 $lignebesoin->save();
