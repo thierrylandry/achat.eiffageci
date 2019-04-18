@@ -99,7 +99,7 @@
     </br>
     <div class="row col-sm-offset-0">
         <div class="col-sm-12">
-            <h3 id="titre">Hisorique des envois de mail :</h3>
+            <h3 id="titre">Historique des envois de mail :</h3>
             <table name ="historique" id="historique" class='table table-bordered table-striped  no-wrap display'>
 
                 <thead>
