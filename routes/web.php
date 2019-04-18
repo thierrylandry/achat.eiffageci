@@ -549,6 +549,22 @@ Route::get('/supprimer_def_da_to_bc/{id}/{id_bc}',[
     'roles' => ['Gestionnaire_BC','Valideur_BC']
 
 ])->middleware('auth');
+Route::get('/supprimer_def_devis/{id}',[
+    'as'=>'supprimer_def_devis',
+    'uses'=>'Demande_proformaController@supprimer_def_devis',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_Pro_Forma']
+
+])->middleware('auth');
+Route::get('/supprimer_def_devis2/{id}',[
+    'as'=>'supprimer_def_devis2',
+    'uses'=>'Demande_proformaController@supprimer_def_devis2',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_Pro_Forma']
+
+])->middleware('auth');
+
+
 Route::get('/modifier_ligne_bc/{slug}',[
     'as'=>'modifier_ligne_bc',
     'uses'=>'BCController@modifier_ligne_bc',

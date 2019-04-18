@@ -317,7 +317,29 @@ if($rappel!="on"){
      * @param $slug
      * @return \Illuminate\Http\RedirectResponse
      */
+    public function supprimer_def_devis2($id)
+    {
+        $devi= Devis::find($id);
+        if(!empty($devi)){
+            $da= Lignebesoin::find($devi->id_da);
+            $da->delete();
+            $devi->delete();
+        }
 
+
+
+
+
+        return 'ok';
+    }
+    public function supprimer_def_devis($id)
+    {
+        $da= Lignebesoin::find($id);
+        $da->delete();
+
+
+        return 'ok';
+    }
     public function les_das_funct($domaine)
     {
         $types = DB::table('materiel')
