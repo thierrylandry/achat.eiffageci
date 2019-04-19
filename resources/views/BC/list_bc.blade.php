@@ -384,9 +384,20 @@
 
 </script>
 <script>
+    $(".btn_supp").click(function (){
+        var data = table.row($(this).parents('tr')).data();
+        var id_bc= $("#id_bc").val();
+        $.get("../supprimer_def_da_to_bc/"+data[0]+"/"+id_bc, function(data, status){
+            console.log(data);
+            window.location.reload()
+        });
+
+
+
+    });
     $('.validercom').click( function (e) {
         //   table.row('.selected').remove().draw( false );
-       // if(confirm('Voulez vous valide le Bon de commande ?')){}else{e.preventDefault(); e.returnValue = false; return false; }
+        if(confirm('Voulez vous valide le Bon de commande ?')){}else{e.preventDefault(); e.returnValue = false; return false; }
     } );
     $('.reject').click( function (e) {
         //   table.row('.selected').remove().draw( false );

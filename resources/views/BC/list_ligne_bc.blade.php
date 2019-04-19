@@ -214,7 +214,7 @@
 
 <div class="row"  style="width: 90%">
     <div class="col-sm-1 pull-right">
-        <a href="{{route('valider_commande',['id'=>$bc->slug])}}" class="btn btn-info" {{$bc->etat!=1?'disabled':''}} onclick="return confirm('Voulez vous enregistrer?');">VALIDER LE BON</a>
+        <a href="{{route('valider_commande',['id'=>$bc->slug])}}" class="btn btn-info" {{$bc->etat!=1?'disabled':''}} onclick="">VALIDER LE BON</a>
 
     </div>
     <div class="col-sm-1 pull-right">
