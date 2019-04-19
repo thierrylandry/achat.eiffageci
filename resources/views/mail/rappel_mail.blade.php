@@ -15,6 +15,6 @@
         <br>
         <label>Mail : </label>{{ \Illuminate\Support\Facades\Auth::user()->email }}
         <br>
-        <img src="{{ URL::asset('images/logomail.png') }}"/>
+        <img src="http://172.20.73.3/achat.eiffageci/images/logomail.png"/>
     </p>
 @endsection

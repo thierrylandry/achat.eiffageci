@@ -20,6 +20,6 @@
         robot PRO-ACHAT
         <br>
         <strong>Eiffage Génie Civil Côte d’Ivoire</strong>
-        <img src="{{ URL::asset('images/logomail.png') }}"/>
+        <img src="http://172.20.73.3/achat.eiffageci/images/logomail.png"/>
     </p>
 @endsection
