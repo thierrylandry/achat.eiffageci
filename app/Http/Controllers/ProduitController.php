@@ -50,7 +50,7 @@ if(isset($_FILES['image']['name']) && $_FILES['image']['name']!="" ){
 
 
 
-        return redirect()->route('gestion_produit')->with('success', "le produit à été ajouté");
+        return redirect()->route('gestion_produit')->with('success', "Le produit a été ajouté");
     }
     public function voir_produit($slug)
     {
@@ -70,7 +70,7 @@ if(isset($_FILES['image']['name']) && $_FILES['image']['name']!="" ){
         }
 
         $produit->delete();
-        return redirect()->route('gestion_produit')->with('success', "le produit a été supprimé");
+        return redirect()->route('gestion_produit')->with('success', "Le produit a été supprimé");
     }
     public function modifier_produit( Request $request)
     {
@@ -111,7 +111,7 @@ if(isset($_FILES['image']['name']) && $_FILES['image']['name']!="" ){
         if(isset($_FILES['image']['name']) && $_FILES['image']['name']!=''){
             $image->move(public_path('uploads'),$imageName);
         }
-        return redirect()->route('gestion_produit')->with('success',"le produit à été mis à jour");
+        return redirect()->route('gestion_produit')->with('success',"Le produit a été mis à jour");
     }
     public function alljson(){
         $collections = [];

@@ -92,7 +92,7 @@ class DAController
         $da->save();
 
 
-        return redirect()->route('creer_da')->with('success', "la demande d'approvisionnement a été ajouté");
+        return redirect()->route('creer_da')->with('success', "La demande d'approvisionnement a été ajoutée");
 
 
 
@@ -139,7 +139,7 @@ class DAController
         $da->delete();
 
 
-        return redirect()->route('gestion_da')->with('success', "la demande d'approvisionnement a bien été supprimé");
+        return redirect()->route('gestion_da')->with('success', "La demande d'approvisionnement a bien été supprimée");
     }
 
     /**
@@ -176,7 +176,7 @@ class DAController
         $da->dateConfirmation=$date->format('Y-m-d H:i:s');
         $da->save();
 
-        return redirect()->route('gestion_da')->with('success', "la demande d'approvisionnement a bien été confirmé");
+        return redirect()->route('gestion_da')->with('success', "La demande d'approvisionnement a bien été confirmée");
 
     }
     public function refuser_da(Request $request)
@@ -204,7 +204,7 @@ class DAController
                 ->subject("Refus de la demande d'achat");
 
         });
-        return redirect()->route('gestion_da')->with('succes', "la demande d'approvisionnement a bien été refusé");
+        return redirect()->route('gestion_da')->with('succes', "La demande d'approvisionnement a bien été refusée");
 
     }
 
@@ -226,7 +226,7 @@ class DAController
 
         $da->id_valideur="";
         $da->save();
-        return redirect()->route('gestion_da')->with('success', "la demande d'approvisionnement a bien été suspendu");
+        return redirect()->route('gestion_da')->with('success', "la demande d'approvisionnement a bien été suspendue");
 
     }
     public function modifier_da( Request $request)
@@ -254,7 +254,7 @@ class DAController
         $da->slug = Str::slug($parameters['id_materiel'] . $date->format('Y-m-d h:m:s'));
         $da->save();
 
-        return redirect()->route('creer_da')->with('success',"la demande d'approvisionnement a été mis à jour");
+        return redirect()->route('creer_da')->with('success',"La demande d'approvisionnement a été mise à jour");
     }
     public function alljson(){
         $collections = [];

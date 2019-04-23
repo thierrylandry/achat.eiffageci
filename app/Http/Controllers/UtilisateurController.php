@@ -49,7 +49,7 @@ class UtilisateurController
             endforeach;
 
 
-        return redirect()->route('gestion_utilisateur')->with('success', "l'utilisateur à été ajouté");
+        return redirect()->route('gestion_utilisateur')->with('success', "L'utilisateur a été ajouté");
     }
     public function voir_utilisateur($slug)
     {
@@ -64,7 +64,7 @@ class UtilisateurController
         $utilisateur = User::where('slug', '=', $slug)->first();
         $utilisateur->roles()->detach();
         $utilisateur->delete();
-        return redirect()->route('gestion_utilisateur')->with('success', "l'utilisateur a été supprimé");
+        return redirect()->route('gestion_utilisateur')->with('success', "L'utilisateur a été supprimé");
     }
     public function modifier_utilisateur( Request $request)
     {
@@ -105,7 +105,7 @@ class UtilisateurController
             $utilisateur->roles()->attach(Role::where('name',$role)->first());
         endforeach;
 
-        return redirect()->route('gestion_utilisateur')->with('success',"l'utilisateur à été mis à jour");
+        return redirect()->route('gestion_utilisateur')->with('success',"L'utilisateur a été mis à jour");
     }
     public function alljson(){
         $collections = [];

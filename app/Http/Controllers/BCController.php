@@ -432,7 +432,7 @@ $analytiques= Analytique::all();
 
 
 
-        return redirect()->route('gestion_bc')->with('success',"la commande a été ajouté avec success");
+        return redirect()->route('gestion_bc')->with('success',"La commande a été ajoutée avec success");
     }
     public function update_ligne_bc(Request $request)
     {
@@ -458,7 +458,7 @@ $analytiques= Analytique::all();
         $tot_ttc=$parameters['tot_serv'];
         $boncommande->total_ttc=$tot_ttc;
         $boncommande->save();
-        return redirect()->route('gestion_bc')->with('success',"la ligne  a été mise à jour avec succes");
+        return redirect()->route('gestion_bc')->with('success',"La ligne  a été mise à jour avec succes");
     }
     public function valider_commande($slug)
     {
@@ -466,14 +466,14 @@ $analytiques= Analytique::all();
         $Boncommande= Boncommande::where('slug', '=', $slug)->first();
         $ligne_besoin= Lignebesoin::where('id_bonCommande', '=', $Boncommande->id)->first();
         if($Boncommande->date==null && $ligne_besoin==null){
-            return redirect()->route('gestion_bc')->with('error',"le bon de commande n'est pas rempli donc ne peut être validé");
+            return redirect()->route('gestion_bc')->with('error',"Le bon de commande n'est pas rempli donc ne peut être validé");
 
         }else{
             $Boncommande->etat=2;
             $Boncommande->save();
         }
 
-        return redirect()->route('gestion_bc')->with('success',"le bon de commande à été valider avec succès");
+        return redirect()->route('gestion_bc')->with('success',"Le bon de commande à été validé avec succès");
     }
     public function add_new_da_to_bc($id,$id_bc)
     {
@@ -562,7 +562,7 @@ $analytiques= Analytique::all();
         $Boncommande= Boncommande::where('slug', '=', $slug)->first();
         $Boncommande->etat=0;
         $Boncommande->save();
-        return redirect()->route('gestion_bc')->with('success',"le bon de commande à été valider avec succès");
+        return redirect()->route('gestion_bc')->with('success',"Le bon de commande à été validé avec succès");
     }
 
     public function annuler_commande($slug)
@@ -673,7 +673,7 @@ if(isset($devis->first()->devise)){
         }catch (\Illuminate\Database\QueryException $ex){
 
 
-            return redirect()->route('gestion_bc')->with('error',"le numero du bon de commande est déjà utilisé");
+            return redirect()->route('gestion_bc')->with('error',"Le numero du bon de commande est déjà utilisé");
         }
         $lesdevis= Devis::where('id_fournisseur','=',$Boncommande->id_fournisseur)
 
@@ -687,7 +687,7 @@ if(isset($devis->first()->devise)){
             $devi->save();
         endforeach;
 
-        return redirect()->route('gestion_bc')->with('success',"le bon de commande a été ajouté, Veuillez ajouter la listes des produits ou des services");
+        return redirect()->route('gestion_bc')->with('success',"Le bon de commande a été ajouté, Veuillez ajouter la listes des produits ou des services");
     }
     public function modifier_bc( Request $request)
     {
@@ -700,7 +700,7 @@ if(isset($devis->first()->devise)){
         $Boncommande->save();
 
 
-        return redirect()->route('gestion_bc')->with('success',"le bon de commande a été Modifier");
+        return redirect()->route('gestion_bc')->with('success',"Le bon de commande a été Modifié");
     }
 
     public function supprimer_bc($slug)
@@ -719,7 +719,7 @@ if(isset($devis->first()->devise)){
             endforeach;
         $fournisseur->delete();
 
-        return redirect()->route('gestion_bc')->with('success', "le Bon de commande a été supprimé   NB: la suppression d'un bon de commande, entraine la suppression en cascade des lignes de cet bon de commande ");
+        return redirect()->route('gestion_bc')->with('success', "Le Bon de commande a été supprimé   NB: la suppression d'un bon de commande, entraine la suppression en cascade des lignes de cet bon de commande ");
     }
     public function supprimer_ligne_bc($slug)
     {

@@ -212,7 +212,7 @@ return 1;
         $fournisseur->email=$parameters['email'];
         $fournisseur->slug=Str::slug($parameters['libelle'].$date->format('dmYhis'));
         $fournisseur->save();
-        return redirect()->route('ajouter_fournisseur')->with('success',"le fournisseur à été mis à jour");
+        return redirect()->route('ajouter_fournisseur')->with('success',"Le fournisseur à été mis à jour");
     }
     public function envoies(Request $request)
     {
