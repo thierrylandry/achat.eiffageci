@@ -137,7 +137,7 @@
             {{$trace_mail->das}}
         </td>
         <td>
-            {{$trace_mail->created_at}}
+            {{date_format(new DateTime($trace_mail->created_at),'d-m-Y H:i:s')}}
         </td>
     </tr>
     @endforeach
