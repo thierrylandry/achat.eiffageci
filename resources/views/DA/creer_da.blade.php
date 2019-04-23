@@ -176,7 +176,7 @@
                 @foreach($das as $da )
                     <tr>
                         <td>{{$da->id}}</td>
-                        <td>{{date_format($da->created_at,'d-m-Y h:m:s')}}</td>
+                        <td>{{date_format($da->created_at,'d-m-Y H:i:s')}}</td>
                         <td> @foreach($service_users as $service_user )
                                 @if($service_user->id==$da->id_user)
                                     <b style=" font-size: 15px; color:black ">{{$service_user->libelle}}</b>
@@ -241,7 +241,7 @@
                         <td>@foreach($service_users as $service_user )
                                 @if($service_user->id==$da->id_valideur)
                                     Par  {{$service_user->nom}}
-                                    {{$service_user->prenoms}} le le  {{\Carbon\Carbon::parse($da->dateConfirmation)->format('d-m-Y h:m:s')}}
+                                    {{$service_user->prenoms}} le le  {{\Carbon\Carbon::parse($da->dateConfirmation)->format('d-m-Y H:i:s')}}
                                 @endif
                             @endforeach</td>
                         <td>
