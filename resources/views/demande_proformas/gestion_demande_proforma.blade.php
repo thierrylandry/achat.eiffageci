@@ -128,7 +128,14 @@
                 @endif
         </td>
         <td>
-            {{$trace_mail->libelle}}
+            @foreach( explode(',',$trace_mail->id_fournisseur) as $id)
+
+                @foreach( $fournisseurs as $fourn)
+                    @if($fourn->id==$id)
+                        {{$fourn->libelle}}
+                        @endif
+                    @endforeach
+                @endforeach
         </td>
         <td>
             {{$trace_mail->email}}

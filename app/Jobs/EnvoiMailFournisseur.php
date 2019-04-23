@@ -48,8 +48,12 @@ class EnvoiMailFournisseur implements ShouldQueue
         Mail::send('mail.mail',compact('corps','precisions','images'),function($message)use ($email,$images )
         {
             $message->from(Auth::user()->email ,Auth::user()->nom." ".Auth::user()->prenoms )
-                ->to($email)
+               ->to("claudiane.costecalde@eiffage.com")
+                ->to("marina.oulai@eiffage.com")
                 ->subject('Demande de devis');
+            foreach($email as $em):
+                $message ->bcc($em);
+                endforeach;
             foreach($images as $img):
                 if($img!="vide"){
                     try{
@@ -60,11 +64,6 @@ class EnvoiMailFournisseur implements ShouldQueue
                 }
 
             endforeach;
-            if ($email=="marina.oulai@eiffage.com" ){
-                $message->cc("claudiane.costecalde@eiffage.com");
-            }else{
-                $message->cc("marina.oulai@eiffage.com");
-            }
         });
     }
 }
