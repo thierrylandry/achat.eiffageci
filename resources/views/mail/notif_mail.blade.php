@@ -6,7 +6,7 @@
     <p>Vous avez : {{$nb}}
         <br>
 <p>Vous pouvez les consulter sur <a href="{{$adresse}}">cliquez ici</a></p>
-    <p></p><br>
+ <br>
     <p>Dans l’attente, et en vous remerciant,<br>
         <br>
     <p>
@@ -17,7 +17,7 @@
     </p>
 
     <p>
-        robot PRO-ACHAT
+        ROBOT PRO-ACHAT
         <br>
         <strong>Eiffage Génie Civil Côte d’Ivoire</strong>
         <br>
