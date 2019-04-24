@@ -29,7 +29,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 use League\Flysystem\Exception;
-use PDF;
+use Barryvdh\DomPDF\Facade as PDF;
 use Spipu\Html2Pdf\Html2Pdf;
 class BCController extends Controller
 {
@@ -205,8 +205,11 @@ return $view;
 
         endforeach;
 
-        $this->dispatch(new EnvoiBcFournisseurPersonnalise($contact,$pdf,$bc,$images,$msg_contenu) );
-
+        $text="";
+      //  $contact,$pdf,$bc,$images,$msg_contenu
+        $pdf->save(storage_path('bon_commande').'\bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
+       // $pdf=$pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
+        $this->dispatch(new EnvoiBcFournisseurPersonnalise($contact,storage_path('bon_commande').'\bon_de_commande_n°'.$bc->numBonCommande.'.pdf',$bc,$images,$msg_contenu) );
         //  return redirect()->route('gestion_bc')->with('success', "Envoie d'email reussi");
 
         $boncom=Boncommande::where('id','=',$bc->id)->first();
@@ -216,7 +219,7 @@ return $view;
         $lignebesoin->etat=3;
         $lignebesoin->save();
         // Finally, you can download the file using download function
-        $pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
+        //$pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
         $tothtax = 0;
         return redirect()->route('gestion_bc')->with('success', "Envoie d'email reussi");
 
@@ -301,8 +304,8 @@ return $view;
             $i++;
 
         endforeach;
-
-        $this->dispatch(new EnvoiBcFournisseur($contact,$pdf,$tab,$corps,$bc,$precisions,$images) );
+        $pdf->save(storage_path('bon_commande').'\bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
+        $this->dispatch(new EnvoiBcFournisseur($contact,storage_path('bon_commande').'\bon_de_commande_n°'.$bc->numBonCommande.'.pdf',$tab,$corps,$bc,$precisions,$images) );
       //  return redirect()->route('gestion_bc')->with('success', "Envoie d'email reussi");
 
         $boncom=Boncommande::where('id','=',$bc->id)->first();

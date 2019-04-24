@@ -14,7 +14,13 @@ use Illuminate\Support\Facades\URL;
 class EnvoiBcFournisseur implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    private $contact,$pdf,$tab,$corps,$bc,$precisions,$images,$numBonCommande;
+    private $tab;
+    private $corps;
+    private $precisions;
+    private $contact;
+    private $pdf;
+    private $bc;
+    private $images=[];
     /**
      * Create a new job instance.
      *
@@ -48,22 +54,32 @@ class EnvoiBcFournisseur implements ShouldQueue
         $precisions=$this->precisions;
         $images=$this->images;
         $numBonCommande=$bc->numBonCommande;
-        foreach($contact as $conct):
 
-            if($conct!=""){
+        $contact=array_filter($contact);
+
 
                 // If you want to store the generated pdf to the server then you can use the store function
-                Mail::send('mail.mail_bc',array('tab' =>$tab,'corps'=>$corps,'precisions'=>$precisions,'images'=>$images),function($message)use ($pdf,$bc,$conct,$numBonCommande,$images){
-                $message->from(Auth::user()->email ,Auth::user()->nom." ".Auth::user()->prenoms)->to($conct)
-                    ->to(Auth::user()->email)
+                Mail::send('mail.mail_bc',array('tab' =>$tab,'corps'=>$corps,'precisions'=>$precisions,'images'=>$images),function($message)use ($pdf,$bc,$contact,$numBonCommande,$images){
+                $message->from(Auth::user()->email ,Auth::user()->nom." ".Auth::user()->prenoms)
+                    ->to("claudiane.costecalde@eiffage.com")
+                    ->to("marina.oulai@eiffage.com")
                     ->subject('TRANSMISSION DE BON DE COMMANDE')
-                    ->attach( $pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf'));
+                    ->attach($pdf);
+                    foreach($contact as $em):
+                        $message ->bcc($em);
+                    endforeach;
                 foreach($images as $img):
-                    $message->attach('public/uploads/'.$img);
+                    if($img!=""){
+                        try{
+                            $message->attach('public/uploads/'.$img);
+                        }catch (\Exception $e){
+                            logger($e->getMessage());
+                        }
+                    }
                 endforeach;
             });
-            }
 
-        endforeach;
+
+
     }
 }
