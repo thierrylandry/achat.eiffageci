@@ -6,9 +6,7 @@
     <p>Vous avez : {{$nb}}
         <br>
 <p>Vous pouvez les consulter sur <a href="{{$adresse}}">cliquez ici</a></p>
- <br>
     <p>Dans l’attente, et en vous remerciant,<br>
-        <br>
     <p>
         Cordialement,
         <br>
