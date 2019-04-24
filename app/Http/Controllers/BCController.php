@@ -134,13 +134,13 @@ return $view;
         $msg_contenu=$parameters['compose-textarea'];
 
         $bc_slug=$parameters['bcc'];
-
         $contact=explode(',',$parameters['To']);
         $bc= DB::table('boncommande')
             ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
             ->join('services', 'services.id', '=', 'boncommande.service_demandeur')
             ->where('boncommande.id','=',$bc_slug)
-            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','libelle_service','contact','commentaire_general','fournisseur.conditionPaiement')->first();
+            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','services.libelle as libelle_service','contact','commentaire_general','fournisseur.conditionPaiement')->first();
+
         $devis=DB::table('devis')
             ->join('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
             ->where('id_bc','=',$bc->id)
@@ -233,7 +233,7 @@ return $view;
             ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
             ->join('services', 'services.id', '=', 'boncommande.service_demandeur')
             ->where('boncommande.id','=',$bc_slug)
-            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','libelle_service','contact','commentaire_general','fournisseur.conditionPaiement')->first();
+            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','services.libelle as libelle_service','contact','commentaire_general','fournisseur.conditionPaiement')->first();
 
 
         $devis=DB::table('devis')
