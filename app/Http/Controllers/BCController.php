@@ -367,7 +367,27 @@ $analytiques= Analytique::all();
         $analytiques= Analytique::all();
         return view('BC/validation_bc',compact('bcs','bcs_en_attentes','fournisseurs','utilisateurs','analytiques','fournisseurss'));
     }
+    public function validation_bc_collective($id)
+    {
+        // dd($listeDA);
+        $tab_bc = explode(",", $id);
 
+     //   $ligne_besoin= Lignebesoin::where('id_bonCommande', '=', $Boncommande->id)->first();
+
+    foreach($tab_bc as $bc):
+        if($bc!=''){
+            $Boncommande= Boncommande::find($bc);
+            $Boncommande->etat=2;
+            $Boncommande->save();
+        }
+
+    endforeach;
+
+
+
+
+        return 'success';
+    }
     public function modifier_ligne_bc($slug)
     {
         $bcs=  Boncommande::all();

@@ -168,6 +168,7 @@
                     @endforeach
                     </tbody>
                 </table>
+                <button class="btn btn-success" id="valider_selectionner"> VALIDER LA SELECTION</button>
             </div>
         </div>
     </div>
@@ -345,10 +346,31 @@
 </div>
 <br>
 
-
 <script src="{{ URL::asset('js/jstree.min.js') }}"></script>
 <script src="{{ URL::asset('js/jstree.checkbox.js') }}"></script>
 <script>
+    $('#valider_selectionner').click(function (e) {
+        var rows_selected = table.column(0).checkboxes.selected();
+        console.log(rows_selected);
+        var mavariable="";
+        $.each(rows_selected, function(index, rowId){
+            // Create a hidden element
+            console.log(rowId);
+            mavariable=mavariable+','+rowId;
+
+        });
+if(mavariable==""){
+    alert("Veuillez selectionner au moins un élément");
+}else{
+        $.get('validation_bc_collective/'+mavariable,function (data) {
+                if(data=="success"){
+                    location.reload(true);
+                }else{
+                    alert("Echec de validation");
+                }
+        })
+}
+    });
     selection= Array();
     $('#jstree').jstree({
         "core" : {
@@ -403,6 +425,18 @@
         if(confirm('Voulez vous supprimer Bon de commande ?')){}else{e.preventDefault(); e.returnValue = false; return false; }
     } );
     var table= $('#bonCommandes').DataTable({
+        "columnDefs": [
+            {
+                'targets': 0,
+                'checkboxes': {
+                    'selectRow': true
+                }
+            }
+        ],
+        "select": {
+            'style': 'multi'
+        },
+        'order': [[0, 'desc']],
         language: {
             url: "{{ URL::asset('public/js/French.json') }}"
         },
@@ -411,7 +445,7 @@
         "createdRow": function( row, data, dataIndex){
 
         }
-    }).column(0).visible(false);
+    });
     var table1= $('#bonCommandes1').DataTable({
         language: {
             url: "{{ URL::asset('public/js/French.json') }}"

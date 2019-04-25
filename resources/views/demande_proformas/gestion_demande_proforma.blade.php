@@ -8,7 +8,7 @@
 @endsection
 @section('content')
 
-    <script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
+
 
     <h2>DEMANDER DES DEVIS AUX FOURNISSEURS </h2>
     <div class="row">

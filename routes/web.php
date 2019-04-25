@@ -672,7 +672,13 @@ Route::get('/validation_bc',[
 
 ])->middleware('auth');
 
+Route::get('/validation_bc_collective/{id}',[
+    'as'=>'validation_bc_collective',
+    'uses'=>'BCController@validation_bc_collective',
+    'middleware' => 'roles',
+    'roles' => ['Valideur_BC']
 
+])->middleware('auth');
 
 Route::get('/mettre_ajour',[
     'as'=>'mettre_ajour',

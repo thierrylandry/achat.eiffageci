@@ -24,6 +24,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <link rel="stylesheet" href="{{ URL::asset('css/bootstrap-select.css') }}" type="text/css"/>
     <link rel="stylesheet" href="{{ URL::asset('css/jquery.dataTables.min.css') }}" type="text/css"/>
     <link rel="stylesheet" href="{{ URL::asset('css/responsive.dataTables.min.css') }}" type="text/css"/>
+    <link rel="stylesheet" href="{{ URL::asset('css/dataTables.checkboxes.css') }}" type="text/css"/>
 
 
     <!-- //font-awesome icons -->
@@ -47,6 +48,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script type="text/javascript" src="{{ URL::asset('js/jquery-dateformat.min.js') }}"></script>
     <script type="text/javascript" src="{{ URL::asset('js/dataTable.pdfmaker.js') }}"></script>
     <script type="text/javascript" src="{{ URL::asset('js/dataTables.editor.min.js') }}"></script>
+    <script type="text/javascript" src="{{ URL::asset('js/dataTables.checkboxes.js') }}"></script>
     <script type="text/javascript" src="{{ URL::asset('js/vsf_font.js') }}"></script>
     <script type="text/javascript" src="{{ URL::asset('js/button.html5.min.js') }}"></script>
     <script type="text/javascript" src="{{ URL::asset('js/notification.js') }}"></script>
@@ -390,11 +392,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <i class="fa fa-archive"></i>
                             <span>Les  BCs</span>
                         </a>
+                        @if(Auth::user() != null && Auth::user()->hasAnyRole(['Valideur_BC']))
                         <ul class="sub">
                             <li  @yield('gestion_bc')><a href="{{route('gestion_bc')}}">Gestion B.C.</a></li>
                             <li @yield('validation_bc')><a href="{{route('validation_bc')}}">Validation B.C.</a></li>
                         </ul>
-
+                        @endif
                     </li>
                     @endif
 

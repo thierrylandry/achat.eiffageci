@@ -4,12 +4,11 @@
 @endsection
 
 @section('content')
-
     <h2>LES BONS DE COMMANDES - VALIDATION</h2>
 
 </br>
     <div class="row">
-        <div class="col-sm-offset-2 col-sm-8" >    @include('BC/list_bc_validation')</div>
+        <div class="col-sm-offset-1 col-sm-9" >    @include('BC/list_bc_validation')</div>
     </div>
 
     @if(isset($bc) || isset($ajouter))
