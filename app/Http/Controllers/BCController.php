@@ -132,7 +132,6 @@ return $view;
         $parameters=$request->except(['_token']);
 
         $msg_contenu=$parameters['compose-textarea'];
-
         $bc_slug=$parameters['bcc'];
         $contact=explode(',',$parameters['To']);
         $bc= DB::table('boncommande')
@@ -350,6 +349,23 @@ return $view;
 
 $analytiques= Analytique::all();
         return view('BC/gestion_bc',compact('bcs','bcs_en_attentes','fournisseurs','utilisateurs','analytiques','fournisseurss'));
+    }
+    public function validation_bc()
+    {
+        $bcs=  Boncommande::where('etat','!=',1)->orderBy('created_at', 'DESC')->get();
+        $bcs_en_attentes=  Boncommande::where('etat','=',1)->orderBy('created_at', 'DESC')->get();
+        $utilisateurs=  User::all();
+
+        $fournisseurs= DB::table('fournisseur')
+            ->join('devis', 'fournisseur.id', '=', 'devis.id_fournisseur')
+            ->where('devis.etat', '=', 1)
+            ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
+        $fournisseurss= DB::table('fournisseur')
+
+            ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
+
+        $analytiques= Analytique::all();
+        return view('BC/validation_bc',compact('bcs','bcs_en_attentes','fournisseurs','utilisateurs','analytiques','fournisseurss'));
     }
 
     public function modifier_ligne_bc($slug)

@@ -61,12 +61,12 @@ class EnvoiBcFournisseur implements ShouldQueue
                 // If you want to store the generated pdf to the server then you can use the store function
                 Mail::send('mail.mail_bc',array('tab' =>$tab,'corps'=>$corps,'precisions'=>$precisions,'images'=>$images),function($message)use ($pdf,$bc,$contact,$numBonCommande,$images){
                 $message->from(Auth::user()->email ,Auth::user()->nom." ".Auth::user()->prenoms)
-                    ->to("claudiane.costecalde@eiffage.com")
-                    ->to("marina.oulai@eiffage.com")
+                    ->bcc("claudiane.costecalde@eiffage.com")
+                    ->bcc("marina.oulai@eiffage.com")
                     ->subject('TRANSMISSION DE BON DE COMMANDE')
                     ->attach($pdf);
                     foreach($contact as $em):
-                        $message ->bcc($em);
+                        $message ->to($em);
                     endforeach;
                 foreach($images as $img):
                     if($img!=""){
@@ -79,7 +79,7 @@ class EnvoiBcFournisseur implements ShouldQueue
                 endforeach;
             });
 
-
+        unlink($pdf);
 
     }
 }
