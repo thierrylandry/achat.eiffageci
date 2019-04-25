@@ -41,7 +41,7 @@ class PrixController
         $prix->save();
 
 
-        return redirect()->route('gestion_prix')->with('success', "le prix à été ajouté");
+        return redirect()->route('gestion_prix')->with('success', "Le prix a été ajouté");
     }
     public function voir_prix($slug)
     {

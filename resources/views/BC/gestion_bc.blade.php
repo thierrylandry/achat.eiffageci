@@ -79,9 +79,10 @@
 
                                             <!-- /.card-header -->
                                             <div class="card-body">
+                                                <input  name="bcc" id="bcc" class="form-control" style="visibility: hidden"/>
                                                 <div class="form-group">
                                                     <input id="To" name="To" class="form-control" placeholder="To:" readonly>
-                                                    <input  name="bcc" id="bcc" class="form-control" style="visibility: hidden"/>
+
                                                 </div>
                                                 <div class="form-group">
                                                     <input class="form-control" placeholder="Subject:" value="TRANSMISSION DE BON DE COMMANDE" readonly>
@@ -294,9 +295,10 @@ var resultat=JSON.parse(data);
             });
 
             $("body").on("click","#envoie_fourniseur",function(){
-var data=table.row($(this).closest('tr')).data();
+var data=table1.row($(this).closest('tr')).data();
                 var id=data[Object.keys(data)[0]];
                 $('#bc_slug').val(id);
+                $('#bcc').val(id);
 
                 $.get("list_contact/"+id,
                         function (data) {
@@ -361,9 +363,8 @@ $('#personnaliser').click(function(){
     $('#To').val(valeur.substring(1,valeur.length));
 
     var bc_slug="";
+
     bc_slug=$('#bc_slug').val();
-
-
 
     $.get("afficher_le_mail/"+bc_slug,
             function (data) {

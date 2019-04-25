@@ -40,13 +40,12 @@ private $corps;
 
 
             $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->nom." ".\Illuminate\Support\Facades\Auth::user()->prenoms )
-                ->to($email)
+                ->to("claudiane.costecalde@eiffage.com")
+                ->to("marina.oulai@eiffage.com")
                 ->subject('Rappel de demande de devis');
-            if ($email=="marina.oulai@eiffage.com" ){
-                $message->cc("claudiane.costecalde@eiffage.com");
-            }else{
-                $message->cc("marina.oulai@eiffage.com");
-            }
+            foreach($email as $em):
+                $message ->bcc($em);
+            endforeach;
 
         });
     }

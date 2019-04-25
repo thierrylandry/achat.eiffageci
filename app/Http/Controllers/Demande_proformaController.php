@@ -51,8 +51,7 @@ $fournisseurs=Fournisseur::all();
         $natures= Nature::all();
         $users= User::all();
         $trace_mails= DB::table('trace_mail')
-            ->join('fournisseur', 'fournisseur.id', '=', 'trace_mail.id_fournisseur')
-            ->select('trace_mail.id','das','trace_mail.created_at','rappel','trace_mail.email','libelle')->orderBy('trace_mail.created_at', 'DESC')->get();
+            ->select('trace_mail.id','das','trace_mail.created_at','rappel','trace_mail.email','id_fournisseur')->orderBy('trace_mail.created_at', 'DESC')->get();
 
 
         return view('demande_proformas/gestion_demande_proforma',compact('das','fournisseurs','materiels','natures','users','types','trace_mails'));
@@ -141,7 +140,7 @@ return 1;
                     $devis->titre_ext=$tab["row_n_".$id."_titre_ext"];
                     $devis->id_fournisseur=$tab["row_n_".$id."_fournisseur"];
                     $devis->quantite=$tab["row_n_".$id."_quantite"];
-                    $devis->id_da=$id;
+                   // $devis->id_da=$id;
                     if(isset($tab["row_n_".$id."_tva"]) && $tab["row_n_".$id."_tva"]!=""){
                         $devis->hastva=$tab["row_n_".$id."_tva"];
                     }else{
@@ -212,7 +211,7 @@ return 1;
         $fournisseur->email=$parameters['email'];
         $fournisseur->slug=Str::slug($parameters['libelle'].$date->format('dmYhis'));
         $fournisseur->save();
-        return redirect()->route('ajouter_fournisseur')->with('success',"le fournisseur à été mis à jour");
+        return redirect()->route('ajouter_fournisseur')->with('success',"Le fournisseur à été mis à jour");
     }
     public function envoies(Request $request)
     {
@@ -277,37 +276,27 @@ $i=0;
 
         endforeach;
         $email='';
-     //   dd($images);
-        foreach($recup_email as $em):
+       // dd($recup_email);
+        if($rappel!="on"){
+            $this->dispatch(new EnvoiMailFournisseur($corps, $precisions, $images, $recup_email) );
+        }else{
 
-         //   $fournisseur= Fournisseur::where('slug','=',$slug)->first();
-        /*    $contact=\GuzzleHttp\json_decode($fournisseur->contact);
-            if(isset($contact[0])){
-                $email=$contact[0]->valeur_c;
-                $interlocuteur=$contact[0]->titre_c;
-            }else{
-                $email=$fournisseur->email;
-                $interlocuteur=$fournisseur->responsable;
-            }
-        */
-     //   dd($precisions);
-$email=$em;
+            $this->dispatch(new EnvoiRappelFournisseur($corps,$recup_email) );
+        }
+        $tab_fournisseur= Array();
+foreach ($recup_email as $email):
 
-if($rappel!="on"){
-    $this->dispatch(new EnvoiMailFournisseur($corps, $precisions, $images, $email) );
-}else{
+    $frn=Fournisseur::where('contact','LIKE', '%'.$email.'%')->first();
+    $tab_fournisseur[]=$frn->id;
 
-    $this->dispatch(new EnvoiRappelFournisseur($corps,$email) );
-}
-            $fournisseur= Fournisseur::where('contact','LIKE', '%'.$email.'%')->first();
-            $Trace_mail= new Tracemail();
-            $Trace_mail->id_fournisseur=$fournisseur->id;
-            $Trace_mail->rappel=$rappel;
-            $Trace_mail->email=$email;
-            $Trace_mail->das=implode(',',$corps);
-            $Trace_mail->save();
-     //   dd(Mail::failures());
-        endforeach;
+    endforeach;
+
+        $Trace_mail= new Tracemail();
+        $Trace_mail->id_fournisseur=implode(",", array_unique($tab_fournisseur));
+        $Trace_mail->rappel=$rappel;
+        $Trace_mail->email=implode(',',$recup_email);
+        $Trace_mail->das=implode(',',$corps);
+        $Trace_mail->save();
 
        // return view('mail.mail')->with('corps',$corps);
             return redirect()->route('gestion_demande_proformas')->with('success', "Envoie d'email reussi");
@@ -317,7 +306,29 @@ if($rappel!="on"){
      * @param $slug
      * @return \Illuminate\Http\RedirectResponse
      */
+    public function supprimer_def_devis2($id)
+    {
+        $devi= Devis::find($id);
+        if(!empty($devi)){
+            $da= Lignebesoin::find($devi->id_da);
+            $da->delete();
+            $devi->delete();
+        }
 
+
+
+
+
+        return 'ok';
+    }
+    public function supprimer_def_devis($id)
+    {
+        $da= Lignebesoin::find($id);
+        $da->delete();
+
+
+        return 'ok';
+    }
     public function les_das_funct($domaine)
     {
         $types = DB::table('materiel')

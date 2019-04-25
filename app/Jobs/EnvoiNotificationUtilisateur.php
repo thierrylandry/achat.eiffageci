@@ -12,18 +12,19 @@ use Illuminate\Support\Facades\Mail;
 class EnvoiNotificationUtilisateur implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-private $Nb,$email,$action;
+private $Nb,$email,$action,$adresse;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($Nb,$email,$action)
+    public function __construct($Nb,$email,$action,$adresse)
     {
         //
         $this->Nb=$Nb;
         $this->email=$email;
         $this->action=$action;
+        $this->adresse=$adresse;
     }
 
     /**
@@ -37,8 +38,10 @@ private $Nb,$email,$action;
         $Nb=$this->Nb;
         $email=$this->email;
         $action=$this->action;
+        $adresse=$this->adresse;
         if($action==1){
-            Mail::send('mail.notif_mail',array('nb' =>$Nb." demande(s) d'achat(s)"),function($message)use ($email,$Nb ){
+
+            Mail::send('mail.notif_mail',array('nb' =>$Nb." demande(s) d'achat(s) en attente de validation",'adresse'=>$adresse),function($message)use ($email,$Nb ){
 
 
                 $message->from("noreply@eiffage.com" ,"PRO-ACHAT" )
@@ -48,8 +51,7 @@ private $Nb,$email,$action;
 
             });
         }else{
-
-            Mail::send('mail.notif_mail',array('nb' =>$Nb." bon de commande(s) en attente de signature"),function($message)use ($email,$Nb ){
+            Mail::send('mail.notif_mail',array('nb' =>$Nb." bon de commande(s) en attente de signature",'adresse'=>$adresse),function($message)use ($email,$Nb ){
 
 
                 $message->from("noreply@eiffage.com" ,"PRO-ACHAT" )

@@ -452,9 +452,15 @@ Route::post('/selection_de_la_reponse',[
 
 ])->middleware('auth');
 
+//gestion de bon de commande
 
+Route::get('/gestion_bc',[
+    'as'=>'gestion_bc',
+    'uses'=>'BCController@gestion_bc',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_BC','Valideur_BC']
 
-
+])->middleware('auth');
 
 Route::get('/gestion_bc',[
     'as'=>'gestion_bc',
@@ -549,6 +555,22 @@ Route::get('/supprimer_def_da_to_bc/{id}/{id_bc}',[
     'roles' => ['Gestionnaire_BC','Valideur_BC']
 
 ])->middleware('auth');
+Route::get('/supprimer_def_devis/{id}',[
+    'as'=>'supprimer_def_devis',
+    'uses'=>'Demande_proformaController@supprimer_def_devis',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_Pro_Forma']
+
+])->middleware('auth');
+Route::get('/supprimer_def_devis2/{id}',[
+    'as'=>'supprimer_def_devis2',
+    'uses'=>'Demande_proformaController@supprimer_def_devis2',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_Pro_Forma']
+
+])->middleware('auth');
+
+
 Route::get('/modifier_ligne_bc/{slug}',[
     'as'=>'modifier_ligne_bc',
     'uses'=>'BCController@modifier_ligne_bc',
@@ -637,6 +659,24 @@ Route::post('/send_it',[
     'as'=>'send_it',
     'uses'=>'BCController@send_it',
     'roles' => ['Gestionnaire_BC']
+
+])->middleware('auth');
+
+//fin
+// validation de bon de commande
+Route::get('/validation_bc',[
+    'as'=>'validation_bc',
+    'uses'=>'BCController@validation_bc',
+    'middleware' => 'roles',
+    'roles' => ['Valideur_BC']
+
+])->middleware('auth');
+
+Route::get('/validation_bc_collective/{id}',[
+    'as'=>'validation_bc_collective',
+    'uses'=>'BCController@validation_bc_collective',
+    'middleware' => 'roles',
+    'roles' => ['Valideur_BC']
 
 ])->middleware('auth');
 

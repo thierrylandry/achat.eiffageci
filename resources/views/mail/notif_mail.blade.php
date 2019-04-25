@@ -3,12 +3,10 @@
 
     <p>Bonjour,</p>
 
-    <p>Vous avez : {{$nb}}  en attente de validation
+    <p>Vous avez : {{$nb}}
         <br>
-
-    <p></p><br>
+<p>Vous pouvez les consulter sur <a href="{{$adresse}}">cliquez ici</a></p>
     <p>Dans l’attente, et en vous remerciant,<br>
-        <br>
     <p>
         Cordialement,
         <br>
@@ -17,9 +15,10 @@
     </p>
 
     <p>
-        robot PRO-ACHAT
+        ROBOT PRO-ACHAT
         <br>
         <strong>Eiffage Génie Civil Côte d’Ivoire</strong>
-        <img src="{{ URL::asset('images/logomail.png') }}"/>
+        <br>
+        <img src="http://172.20.73.3/achat.eiffageci/images/logomail.png"/>
     </p>
 @endsection

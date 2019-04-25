@@ -19,7 +19,7 @@
         }
     }</script>
 
-    <h2>LISTE DES COMMANDES - N° BC : {{$bc->numBonCommande}} <a href="{{route('gestion_bc')}}" class="btn btn-default pull-right"><i class="fa fa-list" aria-hidden="true"></i> Lister</a></h2>
+    <h2>LISTE DES COMMANDES - N° BC : {{$bc->numBonCommande}} <a href="{{url()->previous()}}" class="btn btn-default pull-right"><i class="fa fa-list" aria-hidden="true"></i> Lister</a></h2>
     <br>
     <form method="post" action="{{route('save_ligne_bc')}}" onsubmit="return confirm('Voulez vous enregistrer?');">
         @csrf
@@ -56,15 +56,10 @@
                     @endfor</label>
             </div>
         </div>
-        <div class="col-sm-6 col-sm-offset-2" style="border: double; text-align: center">
-            <br>
+        <div class="col-sm-4 col-sm-offset-3" style="border: double; text-align: center; vertical-align: center; padding: 12px">
+
              <h1>{{$fournisseur->libelle}}</h1>
-<div>
 
-</div>
-            <div>
-
-            </div>
 
 
 
@@ -78,7 +73,7 @@
         <div class="col-sm-6 col-sm-offset-2">
             <label for="commentaire">Commentaire général </label><br>
             <br>
-            <textarea id="commentaire" name="commentaire" class="form-control col-sm-8" style="height: 100px" maxlength="70">{{isset($bc)? $bc->commentaire_general:''}}</textarea>
+            <textarea id="commentaire" name="commentaire" class="form-control col-sm-8" style="height: 100px" maxlength="300">{{isset($bc)? $bc->commentaire_general:''}}</textarea>
         </div>
 
     </div>
@@ -214,7 +209,7 @@
 
 <div class="row"  style="width: 90%">
     <div class="col-sm-1 pull-right">
-        <a href="{{route('valider_commande',['id'=>$bc->slug])}}" class="btn btn-info" {{$bc->etat!=1?'disabled':''}} onclick="return confirm('Voulez vous enregistrer?');">VALIDER LE BON</a>
+        <a href="{{route('valider_commande',['id'=>$bc->slug])}}" class="btn btn-info" {{$bc->etat!=1?'disabled':''}} onclick="">VALIDER LE BON</a>
 
     </div>
     <div class="col-sm-1 pull-right">

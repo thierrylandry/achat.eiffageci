@@ -41,6 +41,7 @@
                                             <th class="dt-head-center" width="80px">Remise %</th>
                                             <th class="dt-head-center">Devise</th>
                                             <th class="dt-head-center">TVA</th>
+                                            <th class="dt-head-center">Action</th>
                                         </tr>
                                         </thead>
 
@@ -127,6 +128,7 @@
                                                                                                                                                                               {{'selected'}}
                                                                                                                                                                               @endif value="FCFA">FCFA</option><option @if( isset($tab_proposition[$da->id]) && "EURO"==$tab_proposition[$da->id]->devise) {{'selected'}}@endif value="EURO">EURO</option></select></td>
                                                 <td><input type="checkbox" value="1" id="row_n_{{$da->id}}_tva" name="row_n_{{$da->id}}_tva" checked/>   </td>
+                                                <td><div class="row"><div class="col-sm-6"><button type="button" class="btn_supp btn btn-danger" title="SUPPRIMER"><i class="fa fa-trash"></i></button></div></div>   </td>
                                             </tr>
 
                                         @endforeach
@@ -167,6 +169,7 @@
                                             <th class="dt-head-center" width="80px">Remise %</th>
                                             <th class="dt-head-center">Devise</th>
                                             <th class="dt-head-center">TVA</th>
+                                            <th class="dt-head-center">Action</th>
                                         </tr>
                                         </thead>
                                         <tbody name ="contenu_tableau_entite" id="contenu_tableau_entite" onload="alert('jai chargé')">
@@ -259,6 +262,7 @@
 
                                                     </select></td>
                                                 <td><input type="checkbox" value="1" id="row_n_{{$devi->id}}_tva" name="row_n_{{$devi->id}}_tva" {{1==$devi->hastva?"checked":''}}/>   </td>
+                                                <td><div class="row"><div class="col-sm-6"><button type="button" class="btn_supp2 btn btn-danger" title="SUPPRIMER"><i class="fa fa-trash"></i></button></div></div>   </td>
                                             </tr>
                                         @endforeach
 
@@ -281,6 +285,30 @@
     <script>
 
         (function($) {
+            $(".btn_supp").click(function (){
+                var data = table1.row($(this).parents('tr')).data();
+              //  var id_bc= $("#id_bc").val();
+                if(confirm("Voulez vous supprimer définitivement cette ligne?")){
+                    $.get("supprimer_def_devis/"+data[0], function(data, status){
+                        console.log(data);
+                        window.location.reload()
+                    });
+
+                }
+
+            });
+            $(".btn_supp2").click(function (){
+                var data = table2.row($(this).parents('tr')).data();
+                //  var id_bc= $("#id_bc").val();
+                if(confirm("Voulez vous supprimer définitivement cette ligne?")){
+                    $.get("supprimer_def_devis2/"+data[0], function(data, status){
+                        console.log(data);
+                        window.location.reload()
+                    });
+
+                }
+
+            });
 
             //debut
             var table1 = $('#gestion_reponse_fournisseur').DataTable({

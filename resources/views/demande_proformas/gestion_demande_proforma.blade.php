@@ -8,7 +8,7 @@
 @endsection
 @section('content')
 
-    <script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
+
 
     <h2>DEMANDER DES DEVIS AUX FOURNISSEURS </h2>
     <div class="row">
@@ -99,7 +99,7 @@
     </br>
     <div class="row col-sm-offset-0">
         <div class="col-sm-12">
-            <h3 id="titre">Hisorique des envois de mail :</h3>
+            <h3 id="titre">Historique des envois de mail :</h3>
             <table name ="historique" id="historique" class='table table-bordered table-striped  no-wrap display'>
 
                 <thead>
@@ -128,7 +128,14 @@
                 @endif
         </td>
         <td>
-            {{$trace_mail->libelle}}
+            @foreach( explode(',',$trace_mail->id_fournisseur) as $id)
+
+                @foreach( $fournisseurs as $fourn)
+                    @if($fourn->id==$id)
+                        {{$fourn->libelle}}
+                        @endif
+                    @endforeach
+                @endforeach
         </td>
         <td>
             {{$trace_mail->email}}
@@ -137,7 +144,7 @@
             {{$trace_mail->das}}
         </td>
         <td>
-            {{$trace_mail->created_at}}
+            {{date_format(new DateTime($trace_mail->created_at),'d-m-Y H:i:s')}}
         </td>
     </tr>
     @endforeach
