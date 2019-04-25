@@ -56,15 +56,10 @@
                     @endfor</label>
             </div>
         </div>
-        <div class="col-sm-6 col-sm-offset-2" style="border: double; text-align: center">
-            <br>
+        <div class="col-sm-4 col-sm-offset-3" style="border: double; text-align: center; vertical-align: center; padding: 12px">
+
              <h1>{{$fournisseur->libelle}}</h1>
-<div>
 
-</div>
-            <div>
-
-            </div>
 
 
 
