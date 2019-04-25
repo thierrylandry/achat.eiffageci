@@ -452,9 +452,15 @@ Route::post('/selection_de_la_reponse',[
 
 ])->middleware('auth');
 
+//gestion de bon de commande
 
+Route::get('/gestion_bc',[
+    'as'=>'gestion_bc',
+    'uses'=>'BCController@gestion_bc',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_BC','Valideur_BC']
 
-
+])->middleware('auth');
 
 Route::get('/gestion_bc',[
     'as'=>'gestion_bc',
@@ -655,6 +661,18 @@ Route::post('/send_it',[
     'roles' => ['Gestionnaire_BC']
 
 ])->middleware('auth');
+
+//fin
+// validation de bon de commande
+Route::get('/validation_bc',[
+    'as'=>'validation_bc',
+    'uses'=>'BCController@validation_bc',
+    'middleware' => 'roles',
+    'roles' => ['Valideur_BC']
+
+])->middleware('auth');
+
+
 
 Route::get('/mettre_ajour',[
     'as'=>'mettre_ajour',

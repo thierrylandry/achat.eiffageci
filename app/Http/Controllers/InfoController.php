@@ -100,7 +100,7 @@ class InfoController extends Controller
         $das=  Boncommande::where('etat','=',1)->get();
 
         $Nb=sizeof($das);
-        $adresse_bc="http://172.20.73.3/achat.eiffageci/gestion_bc";
+        $adresse_bc="http://172.20.73.3/achat.eiffageci/validation_bc";
         if($Nb>0){
 
             $this->dispatch(new EnvoiNotificationUtilisateur($Nb,$email,2,$adresse_bc) );

@@ -353,7 +353,7 @@ $analytiques= Analytique::all();
     public function validation_bc()
     {
         $bcs=  Boncommande::where('etat','!=',1)->orderBy('created_at', 'DESC')->get();
-        $bcs_en_attentes=  Boncommande::where('etat','=',1)->orderBy('created_at', 'DESC')->get();
+        $bcs_en_attentes=  Boncommande::where([['etat', '=', 1],['date', '<>', null],['service_demandeur', '<>', null]])->orderBy('created_at', 'DESC')->get();
         $utilisateurs=  User::all();
 
         $fournisseurs= DB::table('fournisseur')

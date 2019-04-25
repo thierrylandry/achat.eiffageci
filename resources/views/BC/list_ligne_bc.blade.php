@@ -19,7 +19,7 @@
         }
     }</script>
 
-    <h2>LISTE DES COMMANDES - N° BC : {{$bc->numBonCommande}} <a href="{{route('gestion_bc')}}" class="btn btn-default pull-right"><i class="fa fa-list" aria-hidden="true"></i> Lister</a></h2>
+    <h2>LISTE DES COMMANDES - N° BC : {{$bc->numBonCommande}} <a href="{{url()->previous()}}" class="btn btn-default pull-right"><i class="fa fa-list" aria-hidden="true"></i> Lister</a></h2>
     <br>
     <form method="post" action="{{route('save_ligne_bc')}}" onsubmit="return confirm('Voulez vous enregistrer?');">
         @csrf
