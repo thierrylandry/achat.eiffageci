@@ -394,7 +394,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </a>
                         @if(Auth::user() != null && Auth::user()->hasAnyRole(['Valideur_BC']))
                         <ul class="sub">
+                            @if(Auth::user() != null && Auth::user()->hasAnyRole(['Gestionnaire_BC']))
                             <li  @yield('gestion_bc')><a href="{{route('gestion_bc')}}">Gestion B.C.</a></li>
+                            @endif
                             <li @yield('validation_bc')><a href="{{route('validation_bc')}}">Validation B.C.</a></li>
                         </ul>
                         @endif

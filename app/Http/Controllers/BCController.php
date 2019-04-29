@@ -511,8 +511,7 @@ $analytiques= Analytique::all();
             $Boncommande->etat=2;
             $Boncommande->save();
         }
-
-        return redirect()->route('gestion_bc')->with('success',"Le bon de commande à été validé avec succès");
+        return redirect()->route('validation_bc')->with('success',"Le bon de commande à été validé avec succès");
     }
     public function add_new_da_to_bc($id,$id_bc)
     {
@@ -601,7 +600,7 @@ $analytiques= Analytique::all();
         $Boncommande= Boncommande::where('slug', '=', $slug)->first();
         $Boncommande->etat=0;
         $Boncommande->save();
-        return redirect()->route('gestion_bc')->with('success',"Le bon de commande à été validé avec succès");
+        return redirect(url()->previous())->with('success',"Le bon de commande à été validé avec succès");
     }
 
     public function annuler_commande($slug)
@@ -610,7 +609,7 @@ $analytiques= Analytique::all();
         $Boncommande= Boncommande::where('slug', '=', $slug)->first();
         $Boncommande->etat=1;
         $Boncommande->save();
-        return redirect()->route('gestion_bc')->with('success',"le bon de commande à été annuler avec succès");
+        return redirect(url()->previous())->with('success',"le bon de commande à été annuler avec succès");
     }
     public function lister_commande($id)
     {
