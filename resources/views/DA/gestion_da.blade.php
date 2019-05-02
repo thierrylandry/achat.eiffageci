@@ -103,7 +103,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="commentaire">Description (Attention ceci figurera sur le bon de commande)</label>
-                                    <textarea id="commentaire" name="commentaire" class="form-control col-sm-8" style="height: 100px" maxlength="60">{{isset($da)? $da->commentaire:''}}</textarea>
+                                    <textarea id="commentaire" name="commentaire" class="form-control col-sm-8" style="height: 100px" maxlength="1000">{{isset($da)? $da->commentaire:''}}</textarea>
                                 </div>
                                 <input type="hidden" class="form-control" id="slug" name="slug" placeholder="" value="{{isset($da)? $da->slug:''}}">
                                 <input type="hidden" class="form-control" id="id_user" name="id_user" placeholder="" value="{{ Auth::user()->id }}">
