@@ -61,7 +61,7 @@
                                 </div>
                                 <div class="form-group col-sm-3 ">
                                     <label for="type">Quantité</label>
-                                    <input type="number" class="form-control " id="quantite" name="quantite" placeholder="quantite" value="{{isset($da)? $da->quantite:''}}" min="0" required>
+                                    <input type="number"  step="any" class="form-control " id="quantite" name="quantite" placeholder="quantite" value="{{isset($da)? $da->quantite:''}}" min="0" required>
                                 </div>
                                 <div class="form-group col-sm-3">
                                     <label for="type">Unité</label>

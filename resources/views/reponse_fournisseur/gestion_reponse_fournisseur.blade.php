@@ -83,7 +83,7 @@
                                                 </td>
 
 
-                                                <td> <input min="0" type="number" value="{{$da->quantite}}" class="form-control" id="row_n_{{$da->id}}_quantite" name="row_n_{{$da->id}}_quantite">
+                                                <td> <input min="0" type="number" step="any" value="{{$da->quantite}}" class="form-control" id="row_n_{{$da->id}}_quantite" name="row_n_{{$da->id}}_quantite">
 
                                                         <select class="form-control selectpicker col-sm-4" id="row_n_{{$da->id}}_unite" name="row_n_{{$da->id}}_unite" data-live-search="true" data-size="6">
                                                             @foreach($tab_unite['nothing'] as $unite)
@@ -208,7 +208,7 @@
                                                 </td>
 
 
-                                                <td> <input min="0" type="number" value="{{$devi->quantite}}" class="form-control" id="row_n_{{$devi->id}}_quantite" name="row_n_{{$devi->id}}_quantite">
+                                                <td> <input min="0" type="number" step="any" value="{{$devi->quantite}}" class="form-control" id="row_n_{{$devi->id}}_quantite" name="row_n_{{$devi->id}}_quantite">
                                                     <select class="form-control selectpicker col-sm-4" id="row_n_{{$devi->id}}_unite" name="row_n_{{$devi->id}}_unite" data-live-search="true" data-size="6">
                                                         @foreach($tab_unite['nothing'] as $unite)
                                                             <option value="{{$unite}}" {{$unite==$devi->unite?"selected":''}}>{{$unite}}</option>
