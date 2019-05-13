@@ -433,6 +433,14 @@ Route::get('/gestion_reponse_fournisseur',[
     'roles' => ['Gestionnaire_Pro_Forma']
 
 ])->middleware('auth');
+Route::post('/send_it_personnalisé_ddd',[
+    'as'=>'send_it_personnalisé_ddd',
+    'uses'=>'Demande_proformaController@send_it_personnalisé_ddd',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_Pro_Forma']
+
+])->middleware('auth');
+
 Route::get('/les_das_fournisseurs_funct_da/{id_da}',[
     'as'=>'les_das_fournisseurs_funct_da',
     'uses'=>'Demande_proformaController@les_das_fournisseurs_funct_da',

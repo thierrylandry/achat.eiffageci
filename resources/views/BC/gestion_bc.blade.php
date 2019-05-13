@@ -139,7 +139,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <a href="" data-toggle="modal" data-target="#personnaliser_mail" class="btn btn-default" id="personnaliser">
-                                        <i class="fa fa-file-pdf-o"></i><i class="fa fa-paper-plane-o"></i> personnalisé le message avant de l'envoyer
+                                        <i class="fa fa-file-pdf-o"></i><i class="fa fa-paper-plane-o"></i> personnaliser le message avant de l'envoyer
                                     </a>
                                     <button type="submit" class="btn btn-default"> <i class="fa fa-file-pdf-o"></i><i class="fa fa-paper-plane-o"></i></button>
                                 </div>

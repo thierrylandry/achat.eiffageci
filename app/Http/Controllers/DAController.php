@@ -182,12 +182,13 @@ class DAController
     public function refuser_da(Request $request)
     {
         $parameters = $request->except(['_token']);
-
+        $da = DA::where('id', '=', $parameters['id'])->first();
         $daa = DB::table('lignebesoin')
             ->join('materiel','materiel.id','=','lignebesoin.id_materiel')
+            ->where("lignebesoin.id",'=',$da->id)
             ->select('libelleMateriel','id_user')->get()->first();
-        $da = DA::where('id', '=', $parameters['id'])->first();
-     $user=User::where('id','=',$daa->id_user)->first();
+
+     $user=User::where('id','=',$da->id_user)->first();
         if (isset(Auth::user()->id)) {
             $da->id_valideur= Auth::user()->id ;
 
@@ -198,12 +199,15 @@ class DAController
         $date = new \DateTime(null);
         $da->dateConfirmation=$date->format('Y-m-d h:m:s');
         $da->save();
+        try{
         Mail::send('mail/mail_action_da',array('da' =>$da,'etat' =>$da->etat,'libelleMateriel'=>$daa->libelleMateriel),function($message)use ($user){
             $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->nom )
                 ->to($user->email)
-                ->subject("Refus de la demande d'achat");
+                ->subject(strtoupper("Refus de la demande d'achat"));
 
-        });
+        });}catch (\Exception $e){
+
+        }
         return redirect()->route('gestion_da')->with('succes', "La demande d'approvisionnement a bien été refusée");
 
     }

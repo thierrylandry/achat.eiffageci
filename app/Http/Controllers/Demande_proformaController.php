@@ -12,6 +12,7 @@ namespace App\Http\Controllers;
 
 use App\DA;
 use App\Devis;
+use App\domaines;
 use App\Jobs\EnvoiMailFournisseur;
 use App\Jobs\EnvoiRappelFournisseur;
 use App\Lignebesoin;
@@ -24,6 +25,7 @@ use App\Reponse_fournisseur;
 use App\Tracemail;
 use App\Unites;
 use App\User;
+use Faker\Provider\DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -213,6 +215,102 @@ return 1;
         $fournisseur->save();
         return redirect()->route('ajouter_fournisseur')->with('success',"Le fournisseur à été mis à jour");
     }
+    public function send_it_personnalisé_ddd(Request $request){
+        $parameters=$request->except(['_token']);
+
+        $msg_contenu=$parameters['compose-textarea'];
+        $bc_slug=$parameters['bcc'];
+        $contact=explode(',',$parameters['To']);
+        $bc= DB::table('boncommande')
+            ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
+            ->join('services', 'services.id', '=', 'boncommande.service_demandeur')
+            ->where('boncommande.id','=',$bc_slug)
+            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','services.libelle as libelle_service','contact','commentaire_general','fournisseur.conditionPaiement')->first();
+
+        $devis=DB::table('devis')
+            ->join('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
+            ->where('id_bc','=',$bc->id)
+            ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.devise','commentaire')->get();
+        $taille=sizeof($devis);
+        $tothtax = 0;
+        if($bc->commentaire_general==''){
+            $taille_minim=6;
+            $taille_maxim=38;
+        }else{
+            $taille_minim=5;
+            $taille_maxim=37;
+        }
+        // Send data to the view using loadView function of PDF facade
+        $pdf = PDF::loadView('BC.bon-commande', compact('bc','devis','tothtax','taille','taille_minim','taille_maxim'));
+
+        //$lignebesoins=Lignebesoin::where('id_bonCommande','=',$bc->id)->first();
+        $lignebesoins=DB::table('lignebesoin')->where('id_bonCommande','=',$bc->id)->get();
+        //  $email=$bc->email;
+
+        /*
+        $contact=\GuzzleHttp\json_decode($bc->contact);
+        if(isset($contact[0])){
+            $interlocuteur=$contact[0]->valeur_c;
+
+        }
+*/
+        $numBonCommande=$bc->numBonCommande;
+        $tab=Array();
+        foreach($lignebesoins as $lignebesoin){
+            $tab[]=$lignebesoin->id_nature;
+        }
+
+        //constituer le mail
+
+        $corps= Array();
+
+        $images= Array();
+        $precisions= Array();
+        $i=0;
+        foreach($lignebesoins as $das):
+            if(isset($das->id)){
+                $materiel=DB::table('materiel')
+                    ->where('id', '=', $das->id_materiel)
+                    ->select('libelleMateriel','image')->distinct()->get();
+
+
+                if($materiel[0]->image!==""){
+                    $images[$i]=$materiel[0]->image;
+                }else{
+                    $images[$i]="";
+                }
+                if($das->commentaire!=""){
+                    $precisions[$i]=$das->commentaire;
+                }else{
+                    $precisions[$i]="";
+
+                }
+                $corps[$i] =" - ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelleMateriel;
+            }
+            $i++;
+
+        endforeach;
+
+        $text="";
+        //  $contact,$pdf,$bc,$images,$msg_contenu
+        $pdf->save(storage_path('bon_commande').'\bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
+        // $pdf=$pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
+        $this->dispatch(new EnvoiBcFournisseurPersonnalise($contact,storage_path('bon_commande').'\bon_de_commande_n°'.$bc->numBonCommande.'.pdf',$bc,$images,$msg_contenu) );
+        //  return redirect()->route('gestion_bc')->with('success', "Envoie d'email reussi");
+
+        $boncom=Boncommande::where('id','=',$bc->id)->first();
+        $boncom->etat=3;
+        $boncom->save();
+        $lignebesoin=Lignebesoin::where('id_bonCommande','=',$bc->id)->first();
+        $lignebesoin->etat=3;
+        $lignebesoin->save();
+        // Finally, you can download the file using download function
+        //$pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
+        $tothtax = 0;
+        return redirect()->route('gestion_bc')->with('success', "Envoie d'email reussi");
+
+    }
+
     public function envoies(Request $request)
     {
 
@@ -232,6 +330,8 @@ return 1;
             endforeach;
      //   dd($recup_email);
         $listeDA = $parameters['listeDA'];
+        $domaine = $parameters['domaine'];
+        $domaine =  Domaines::find($domaine)->libelleDomainne;
        // dd($listeDA);
         $tab_listeSA = explode(",", $listeDA);
 
@@ -278,10 +378,14 @@ $i=0;
         $email='';
        // dd($recup_email);
         if($rappel!="on"){
-            $this->dispatch(new EnvoiMailFournisseur($corps, $precisions, $images, $recup_email) );
-        }else{
+            $date= new \DateTime(null);
+            $date= $date->format("d/m/Y");
 
-            $this->dispatch(new EnvoiRappelFournisseur($corps,$recup_email) );
+            $this->dispatch(new EnvoiMailFournisseur($corps, $precisions, $images, $recup_email,$domaine, $date) );
+        }else{
+            $date= new \DateTime(null);
+            $date= $date->format("d/m/Y");
+            $this->dispatch(new EnvoiRappelFournisseur($corps,$recup_email,$domaine,$date) );
         }
         $tab_fournisseur= Array();
 foreach ($recup_email as $email):

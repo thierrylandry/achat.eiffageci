@@ -8,7 +8,62 @@
 @endsection
 @section('content')
 
+    <!-- debut  -->
 
+
+    <div id="personnaliser_mail" class="modal fade in" aria-hidden="true" role="dialog" >
+        <div class="modal-dialog modal-lg">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Personnaliser l'E-mail</h4>
+                </div>
+
+                <form action="{{route('send_it_personnalisé_ddd')}}" onsubmit="return confirm('Voulez vous envoyé?');"  method="post">
+
+                    @csrf
+                    <div class="modal-body">
+                        <div class="col-md-12">
+                            <div class="card card-primary card-outline">
+
+
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <input  name="bcc" id="bcc" class="form-control" style="visibility: hidden"/>
+                                    <div class="form-group">
+                                        <input id="To" name="To" class="form-control" placeholder="To:" readonly>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" placeholder="Subject:" value="EGCCI-PHB/DEMANDE DE DEVIS/" >
+                                    </div>
+                                    <div class="form-group">
+
+                                        <textarea  id="compose-textarea" name="compose-textarea" class="form-control"  style="overflow-y: scroll;max-height: 300px;min-height: 300px;"></textarea>
+
+                                    </div>
+
+                                </div>
+
+                                <!-- /.card-footer -->
+                            </div>
+                            <!-- /. box -->
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="float-right">
+                            <button type="submit" id="send_it_personnalisé" class="btn btn-primary"> <i class="fa fa-file-pdf-o"></i> <i class="fa fa-envelope-o"></i> <i class="fa fa-paper-plane-o"></i></button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <!-- fin -->
 
     <h2>DEMANDER DES DEVIS AUX FOURNISSEURS </h2>
     <div class="row">
@@ -63,8 +118,12 @@
                                         </br>
                                         </br>
                                         </br>
-                                        <div class="form-group" >
-                            <button type="submit" class="btn btn-success form-control"> ENVOYER MAIL</button>
+                                        <div class="row" >
+                                            <div class="col-sm-5"> <button type="submit" class="btn btn-success form-control"> ENVOYER MAIL</button></div>
+                                            <div class="col-sm-3">  <a href="" data-toggle="modal" data-target="#personnaliser_mail" class="btn btn-success" id="personnaliser">
+                                                    <i class="fa fa-file-pdf-o"></i><i class="fa fa-paper-plane-o"></i> personnaliser le mail
+                                                </a></div>
+
                         </div>
 
                     </form>
@@ -261,6 +320,29 @@
             $('#listeDA').val(mavariable);
 
         });
+        $('#personnaliser').click(function(e){
+            var rows_selected = table.column(0).checkboxes.selected();
+           if( rows_selected.length>0){
+               console.log(rows_selected);
+               // Iterate over all selected checkboxes
+               var mavariable='';
+               $.each(rows_selected, function(index, rowId){
+                   // Create a hidden element
+                   console.log(rowId);
+                   mavariable=mavariable+','+rowId;
+
+               });
+               $('#compose-textarea').val(mavariable);
+           }else{
+               alert("Veuillez selectionner les D.A");
+               $('#compose-textarea').val("");
+               $('#personnaliser_mail').hide();
+
+           }
+
+
+        });
+
         $('#domaine').change(function(e){
             $domaine=$("#domaine").val();
 

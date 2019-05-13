@@ -14,16 +14,20 @@ class EnvoiRappelFournisseur implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 private $email;
 private $corps;
+private $domaine;
+private $date;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($corps,$email)
+    public function __construct($corps,$email,$domaine,$date)
     {
         //
         $this->email = $email;
         $this->corps = $corps;
+        $this->corps = $domaine;
+        $this->date = $date;
     }
 
     /**
@@ -36,13 +40,15 @@ private $corps;
         //
         $email = $this->email;
         $corps = $this->corps;
-        Mail::send('mail.rappel_mail',array('corps' =>$corps),function($message)use ($email ){
+        $domaine = $this->domaine;
+        $date = $this->date;
+        Mail::send('mail.rappel_mail',array('corps' =>$corps),function($message)use ($email,$domaine ,$date){
 
 
             $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->nom." ".\Illuminate\Support\Facades\Auth::user()->prenoms )
                 ->to("claudiane.costecalde@eiffage.com")
                 ->to("marina.oulai@eiffage.com")
-                ->subject('Rappel de demande de devis');
+                ->subject('EGCCI - PHB/RAPPEL DEMANDE DE DEVIS/'.$domaine.'/'.$date);
             foreach($email as $em):
                 $message ->bcc($em);
             endforeach;
