@@ -199,7 +199,7 @@
 
                         </th>
                     </tr>
-                    <tr><th colspan="2" style="padding-left: 100px"><img src="{{ asset("images/Signature.jpg") }}" width="225px" /></th> </tr>
+                    <tr><th colspan="2" style="padding-left: 100px"><img src="{{ asset("images/Signature_Nicolas.jpg") }}" width="225px" /></th> </tr>
                     <tr>
                         <th style="border-right: none;border-bottom-color: white "> Nom du Signataire Habilité : </th>
                         <th style="border-left: none;border-bottom-color: white" >NICOLAS DESCAMPS</th>
