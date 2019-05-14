@@ -359,7 +359,13 @@ Route::get('/demande_ou_rappel/{tab_fourn}/{list_da}',[
 
 ])->middleware('auth');
 
+Route::get('/nouveau_rappel/{id_tace_mail}',[
+    'as'=>'nouveau_rappel',
+    'uses'=>'Demande_proformaController@nouveau_rappel',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_Pro_Forma']
 
+])->middleware('auth');
 Route::get('/les_das_funct/{domaine}',[
     'as'=>'les_das_funct',
     'uses'=>'Demande_proformaController@les_das_funct'
@@ -444,6 +450,11 @@ Route::post('/send_it_personnalisé_ddd',[
 Route::get('/les_das_fournisseurs_funct_da/{id_da}',[
     'as'=>'les_das_fournisseurs_funct_da',
     'uses'=>'Demande_proformaController@les_das_fournisseurs_funct_da',
+
+])->middleware('auth');
+Route::get('/recup_infos_pour_envois_mail_perso/{listeDA}',[
+    'as'=>'recup_infos_pour_envois_mail_perso',
+    'uses'=>'Demande_proformaController@recup_infos_pour_envois_mail_perso',
 
 ])->middleware('auth');
 Route::get('/supprimer_reponse_fournisseur/{id_reponse}',[

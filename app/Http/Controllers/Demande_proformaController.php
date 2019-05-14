@@ -13,6 +13,7 @@ namespace App\Http\Controllers;
 use App\DA;
 use App\Devis;
 use App\domaines;
+use App\Jobs\EnvoieMailFournisseurPerso;
 use App\Jobs\EnvoiMailFournisseur;
 use App\Jobs\EnvoiRappelFournisseur;
 use App\Lignebesoin;
@@ -53,7 +54,7 @@ $fournisseurs=Fournisseur::all();
         $natures= Nature::all();
         $users= User::all();
         $trace_mails= DB::table('trace_mail')
-            ->select('trace_mail.id','das','trace_mail.created_at','rappel','trace_mail.email','id_fournisseur')->orderBy('trace_mail.created_at', 'DESC')->get();
+            ->select('trace_mail.id','das','trace_mail.created_at','rappel','trace_mail.email','id_fournisseur','msg_contenu','objet')->orderBy('trace_mail.created_at', 'DESC')->get();
 
 
         return view('demande_proformas/gestion_demande_proforma',compact('das','fournisseurs','materiels','natures','users','types','trace_mails'));
@@ -217,56 +218,18 @@ return 1;
     }
     public function send_it_personnalisé_ddd(Request $request){
         $parameters=$request->except(['_token']);
-
         $msg_contenu=$parameters['compose-textarea'];
-        $bc_slug=$parameters['bcc'];
+        $objet=$parameters['objet'];
+        $daas=explode(',',$parameters['daas']);
+
+
         $contact=explode(',',$parameters['To']);
-        $bc= DB::table('boncommande')
-            ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
-            ->join('services', 'services.id', '=', 'boncommande.service_demandeur')
-            ->where('boncommande.id','=',$bc_slug)
-            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','services.libelle as libelle_service','contact','commentaire_general','fournisseur.conditionPaiement')->first();
-
-        $devis=DB::table('devis')
-            ->join('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
-            ->where('id_bc','=',$bc->id)
-            ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.devise','commentaire')->get();
-        $taille=sizeof($devis);
-        $tothtax = 0;
-        if($bc->commentaire_general==''){
-            $taille_minim=6;
-            $taille_maxim=38;
-        }else{
-            $taille_minim=5;
-            $taille_maxim=37;
-        }
-        // Send data to the view using loadView function of PDF facade
-        $pdf = PDF::loadView('BC.bon-commande', compact('bc','devis','tothtax','taille','taille_minim','taille_maxim'));
-
-        //$lignebesoins=Lignebesoin::where('id_bonCommande','=',$bc->id)->first();
-        $lignebesoins=DB::table('lignebesoin')->where('id_bonCommande','=',$bc->id)->get();
-        //  $email=$bc->email;
-
-        /*
-        $contact=\GuzzleHttp\json_decode($bc->contact);
-        if(isset($contact[0])){
-            $interlocuteur=$contact[0]->valeur_c;
-
-        }
-*/
-        $numBonCommande=$bc->numBonCommande;
-        $tab=Array();
-        foreach($lignebesoins as $lignebesoin){
-            $tab[]=$lignebesoin->id_nature;
-        }
-
-        //constituer le mail
-
-        $corps= Array();
-
-        $images= Array();
-        $precisions= Array();
         $i=0;
+        foreach ($daas as $da):
+            $lignebesoins[]=Lignebesoin::find($da);
+            endforeach;
+
+
         foreach($lignebesoins as $das):
             if(isset($das->id)){
                 $materiel=DB::table('materiel')
@@ -277,7 +240,7 @@ return 1;
                 if($materiel[0]->image!==""){
                     $images[$i]=$materiel[0]->image;
                 }else{
-                    $images[$i]="";
+                    $images[$i]="vide";
                 }
                 if($das->commentaire!=""){
                     $precisions[$i]=$das->commentaire;
@@ -285,32 +248,121 @@ return 1;
                     $precisions[$i]="";
 
                 }
-                $corps[$i] =" - ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelleMateriel;
+
+               $corps[$i] =" - ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelleMateriel;
             }
             $i++;
 
         endforeach;
 
-        $text="";
-        //  $contact,$pdf,$bc,$images,$msg_contenu
-        $pdf->save(storage_path('bon_commande').'\bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
-        // $pdf=$pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
-        $this->dispatch(new EnvoiBcFournisseurPersonnalise($contact,storage_path('bon_commande').'\bon_de_commande_n°'.$bc->numBonCommande.'.pdf',$bc,$images,$msg_contenu) );
-        //  return redirect()->route('gestion_bc')->with('success', "Envoie d'email reussi");
+        $this->dispatch(new EnvoieMailFournisseurPerso($contact,$images,$objet,$msg_contenu) );
 
-        $boncom=Boncommande::where('id','=',$bc->id)->first();
-        $boncom->etat=3;
-        $boncom->save();
-        $lignebesoin=Lignebesoin::where('id_bonCommande','=',$bc->id)->first();
-        $lignebesoin->etat=3;
-        $lignebesoin->save();
-        // Finally, you can download the file using download function
-        //$pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
-        $tothtax = 0;
-        return redirect()->route('gestion_bc')->with('success', "Envoie d'email reussi");
+        $tab_fournisseur= Array();
+        foreach ($contact as $email):
+
+            $frn=Fournisseur::where('contact','LIKE', '%'.$email.'%')->first();
+            $tab_fournisseur[]=$frn->id;
+
+        endforeach;
+
+        $Trace_mail= new Tracemail();
+        $Trace_mail->id_fournisseur=implode(",", array_unique($tab_fournisseur));
+        $Trace_mail->email=implode(',',$contact);
+        $Trace_mail->objet=$objet;
+        $Trace_mail->msg_contenu=$msg_contenu;
+        $Trace_mail->das=implode(',',$daas);
+        $Trace_mail->save();
+
+        return redirect()->route('gestion_demande_proformas')->with('success', "Envoie d'email reussi");
 
     }
+    public function recup_infos_pour_envois_mail_perso($listeDA){
 
+        $listeDA = explode(',',$listeDA);
+        $i=0;
+        $images=Array();
+
+        $precisions=Array();
+        foreach($listeDA as $laDA):
+            $das=  DA::find($laDA);
+
+            if(isset($das->id) && $das->id!=""){
+                $materiel=DB::table('materiel')
+                    ->where('id', '=', $das->id_materiel)
+                    ->select('libelleMateriel','image')->distinct()->get();
+
+
+                if($materiel[0]->image!==""){
+                    $images[$i]=$materiel[0]->image;
+                }else{
+                    $images[$i]="vide";
+                }
+                if($das->commentaire!=""){
+                    $precisions[$i]=$das->commentaire;
+                }else{
+                    $precisions[$i]="";
+
+                }
+                if($images[$i]=="vide"){
+                    $corps[$i] =" - ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelleMateriel;
+                }else{
+                    $corps[$i] =" - ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelleMateriel." voir pièce jointe : ".$images[$i];
+                }
+
+                $i++;
+            }
+
+
+
+
+        endforeach;
+
+        $tab['precision']=$precisions;
+        $tab['corps']=$corps;
+
+        return $tab;
+    }
+
+
+public function nouveau_rappel($id_trace_mail){
+
+    $trace_mail= Tracemail::find($id_trace_mail);
+    $id_das=explode(',',$trace_mail->das);
+
+
+$i=0;
+    foreach ($id_das as $da):
+        $lignebesoins[]=Lignebesoin::find($da);
+    endforeach;
+    foreach($lignebesoins as $das):
+        if(isset($das->id)){
+            $materiel=DB::table('materiel')
+                ->where('id', '=', $das->id_materiel)
+                ->select('libelleMateriel','image')->distinct()->get();
+
+
+            if($materiel[0]->image!==""){
+                $images[$i]=$materiel[0]->image;
+            }else{
+                $images[$i]="vide";
+            }
+            if($das->commentaire!=""){
+                $precisions[$i]=$das->commentaire;
+            }else{
+                $precisions[$i]="";
+
+            }
+
+            $corps[$i] =" - ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelleMateriel;
+        }
+        $i++;
+
+    endforeach;
+    $this->dispatch(new EnvoieMailFournisseurPerso(explode(',',$trace_mail->email),$images,$trace_mail->objet,"POUR RAPPEL : \r\n".$trace_mail->msg_contenu) );
+
+    return redirect()->route('gestion_demande_proformas')->with('success', "Envoie d'email reussi");
+
+}
     public function envoies(Request $request)
     {
 
@@ -367,7 +419,7 @@ $i=0;
                     $precisions[$i]="";
 
                 }
-                $corps[$i] =" - ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelleMateriel;
+                $corps[$i] =" - ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelleMateriel." \r\n ";
                 $i++;
             }
 
@@ -395,11 +447,21 @@ foreach ($recup_email as $email):
 
     endforeach;
 
+//mettre le contenue de la vu dans une variablme
+        $debut_contenu="  Bonjour,\r\nVeuillez svp nous adresser votre meilleure offre pour :\r\n";
+
+        $fin_contenu="\r\n Dans l’attente, et en vous remerciant par avance,\r\n\r\n";
+        //fin contenue
+        $date= new \DateTime(null);
+        $date= $date->format("d/m/Y");
+        $objet='EGCCI-PHB/Demande de devis - '.$domaine.' - '.$date;
         $Trace_mail= new Tracemail();
         $Trace_mail->id_fournisseur=implode(",", array_unique($tab_fournisseur));
         $Trace_mail->rappel=$rappel;
         $Trace_mail->email=implode(',',$recup_email);
-        $Trace_mail->das=implode(',',$corps);
+        $Trace_mail->das=implode(',',$tab_listeSA);
+        $Trace_mail->objet=$objet;
+        $Trace_mail->msg_contenu=$debut_contenu.implode(' ',$corps).$fin_contenu;
         $Trace_mail->save();
 
        // return view('mail.mail')->with('corps',$corps);

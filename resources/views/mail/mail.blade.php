@@ -3,7 +3,7 @@
 
     <p>Bonjour,</p>
 
-    <p>Veuillez nous adresser votre meilleure offre pour :
+    <p>Veuillez svp nous adresser votre meilleure offre pour :
         <br>
         @for($i=0;$i<sizeof($corps);$i++)
 
@@ -19,7 +19,7 @@
     @endfor
 
     <p></p><br>
-        <p>Dans l’attente, et en vous remerciant,<br>
+        <p>Dans l’attente, et en vous remerciant par avance,<br>
         <br>
         <p>
         Cordialement,

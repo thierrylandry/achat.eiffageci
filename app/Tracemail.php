@@ -8,5 +8,5 @@ class Tracemail extends Model
 {
     //
     protected  $table="trace_mail";
-   protected  $fillable=['id','id_fournisseur','das','created_at','rappel','email'];
+   protected  $fillable=['id','id_fournisseur','das','objet','msg_contenu','created_at','rappel','email'];
 }

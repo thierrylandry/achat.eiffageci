@@ -40,7 +40,7 @@
                                 </div>
                                 <div class="form-group  ">
                                     <label for="type">Usage</label>
-                                    <input type="text" class="form-control " id="demandeur" name="usage" placeholder="usage" value="{{isset($da)? $da->usage:''}} " required>
+                                    <input type="text" class="form-control " id="usage" name="usage" placeholder="usage" value="{{isset($da)? $da->usage:''}}" required>
                                 </div>
 
 

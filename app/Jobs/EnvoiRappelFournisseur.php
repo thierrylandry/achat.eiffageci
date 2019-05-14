@@ -48,7 +48,7 @@ private $date;
             $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->nom." ".\Illuminate\Support\Facades\Auth::user()->prenoms )
                 ->to("claudiane.costecalde@eiffage.com")
                 ->to("marina.oulai@eiffage.com")
-                ->subject('EGCCI - PHB/RAPPEL DEMANDE DE DEVIS/'.$domaine.'/'.$date);
+                ->subject('EGCCI-PHB/ Rappel demande de devis - '.$domaine.' -'.$date);
             foreach($email as $em):
                 $message ->bcc($em);
             endforeach;

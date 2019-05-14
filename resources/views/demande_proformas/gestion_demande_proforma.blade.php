@@ -10,8 +10,8 @@
 
     <!-- debut  -->
 
-
-    <div id="personnaliser_mail" class="modal fade in" aria-hidden="true" role="dialog" >
+<style> .pour_modal{ display: none !important;}</style>
+    <div id="personnaliser_mail" class="modal fade in" aria-hidden="true" role="dialog"  >
         <div class="modal-dialog modal-lg">
 
             <!-- Modal content-->
@@ -31,13 +31,15 @@
 
                                 <!-- /.card-header -->
                                 <div class="card-body">
-                                    <input  name="bcc" id="bcc" class="form-control" style="visibility: hidden"/>
+                                    <input  name="daas" id="daas" class="form-control" style="visibility: hidden"/>
+                                    <label>cci :</label>
                                     <div class="form-group">
-                                        <input id="To" name="To" class="form-control" placeholder="To:" readonly>
+
+                                        <input id="To" name="To" class="form-control col-sm-9" placeholder="To:" readonly>
 
                                     </div>
                                     <div class="form-group">
-                                        <input class="form-control" placeholder="Subject:" value="EGCCI-PHB/DEMANDE DE DEVIS/" >
+                                        <input class="form-control" id="objet" name="objet" placeholder="Subject:" value="EGCCI-PHB/Demande de devis -" >
                                     </div>
                                     <div class="form-group">
 
@@ -165,11 +167,12 @@
 
                 <tr>
                     <th class="dt-head-center">id</th>
-                    <th class="dt-head-center">type de mail</th>
                     <th class="dt-head-center">Destinataire</th>
-                    <th class="dt-head-center">email</th>
-                    <th class="dt-head-center">Produit et service </th>
+                    <th class="dt-head-center">Email</th>
+                    <th class="dt-head-center">Objet</th>
+                    <th class="dt-head-center">Contenue du mail</th>
                     <th class="dt-head-center">Date et heure</th>
+                    <th class="dt-head-center">Action</th>
 
                 </tr>
                 </thead>
@@ -178,13 +181,6 @@
     <tr>
         <td>
             {{$trace_mail->id}}
-        </td>
-        <td>
-            @if($trace_mail->rappel=="on")
-            Rappel
-                @else
-              demande
-                @endif
         </td>
         <td>
             @foreach( explode(',',$trace_mail->id_fournisseur) as $id)
@@ -200,10 +196,16 @@
             {{$trace_mail->email}}
         </td>
         <td>
-            {{$trace_mail->das}}
+            {{$trace_mail->objet}}
+        </td>
+        <td>
+            {{$trace_mail->msg_contenu}}
         </td>
         <td>
             {{date_format(new DateTime($trace_mail->created_at),'d-m-Y H:i:s')}}
+        </td>
+        <td>
+            <a href="{{route("nouveau_rappel",$trace_mail->id)}}" type="btn btn-default">Rappel</a>
         </td>
     </tr>
     @endforeach
@@ -245,7 +247,11 @@
     </script>
 <script>
 
-    (function($) {
+
+(function($) {
+
+    // variable mail//
+    var mail="";
 
         //debut
 
@@ -320,28 +326,86 @@
             $('#listeDA').val(mavariable);
 
         });
-        $('#personnaliser').click(function(e){
-            var rows_selected = table.column(0).checkboxes.selected();
-           if( rows_selected.length>0){
-               console.log(rows_selected);
-               // Iterate over all selected checkboxes
-               var mavariable='';
-               $.each(rows_selected, function(index, rowId){
-                   // Create a hidden element
-                   console.log(rowId);
-                   mavariable=mavariable+','+rowId;
+    $('#personnaliser').click(function(e){
+        var rows_selected = table.column(0).checkboxes.selected();
+        var testselect=0;
+        var testrow=0;
 
-               });
-               $('#compose-textarea').val(mavariable);
-           }else{
-               alert("Veuillez selectionner les D.A");
-               $('#compose-textarea').val("");
-               $('#personnaliser_mail').hide();
-
-           }
-
+        $.each(selection, function(index, email){
+            // Create a hidden element
+            //   console.log(email);
+            testselect=testselect+1;
 
         });
+        $.each(rows_selected, function(index, email){
+            // Create a hidden element
+            console.log(email);
+            testrow=testrow+1;
+
+        });
+        console.log(testrow+" "+testselect);
+        domaine=$("#domaine  option:selected").text();
+
+
+
+        if( testrow>0 && testselect>0){
+            console.log(rows_selected);
+            // Iterate over all selected checkboxes
+            var variable2='';
+            $.each(selection, function(index, email){
+                // Create a hidden element
+                console.log(email);
+                if(email!=""){
+                    variable2=variable2+','+email.id;
+                }
+
+
+            });
+            variable2=variable2.substring(1,variable2.length)
+            $('#To').val(variable2);
+            var mavariable='';
+            $.each(rows_selected, function(index, rowId){
+                // Create a hidden element
+                console.log(rowId);
+                mavariable=mavariable+','+rowId;
+
+            });
+            //$("#compose-textarea").val(mail);
+            var date =new Date();
+            $("#objet").val("EGCCI-PHB/Demande de devis -"+domaine+"- "+date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear());
+            var corps= "";
+$('#daas').val(mavariable);
+            $.get("recup_infos_pour_envois_mail_perso/"+mavariable,
+                    function (data) {
+
+
+                        $.each(data['corps'],function (index, value) {
+                            corps=corps +value+"\r\n";
+                        });
+                        var debumail="\r\nBonjour,\r\nVeuillez svp nous adresser votre meilleure offre pour :\r\n";
+
+                        var precision="";
+
+                        $.each(data['precision'],function (index, value) {
+                            if(value!=""){
+                                precision=+"\r\n"+precision +value;
+                            }
+
+                        });
+
+                        var finmail="Dans l’attente, et en vous remerciant par avance. \r\n";
+                        $('#compose-textarea').val(debumail+corps+precision+finmail);
+                    });
+
+
+        }else{
+            alert("Veuillez selectionner les D.A et les fournisseurs");
+
+            $('#compose-textarea').val("");
+            $('#personnaliser_mail').modal(false);
+
+        }
+    });
 
         $('#domaine').change(function(e){
             $domaine=$("#domaine").val();
