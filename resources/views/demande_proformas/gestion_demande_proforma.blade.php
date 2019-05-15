@@ -205,7 +205,7 @@
             {{date_format(new DateTime($trace_mail->created_at),'d-m-Y H:i:s')}}
         </td>
         <td>
-            <a href="{{route("nouveau_rappel",$trace_mail->id)}}" type="btn btn-default">Rappel</a>
+            <a href="{{route("nouveau_rappel",$trace_mail->id)}}" class="btn btn-primary">Rappel</a>
         </td>
     </tr>
     @endforeach
