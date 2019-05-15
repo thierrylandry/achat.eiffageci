@@ -24,6 +24,7 @@ use App\Services;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -129,8 +130,9 @@ $corps= Array();
 return $view;
     }
     public function send_it_personnalisé(Request $request){
-        $parameters=$request->except(['_token']);
 
+        $parameters=$request->except(['_token']);
+        $objet=$parameters['objet'];
         $msg_contenu=$parameters['compose-textarea'];
         $bc_slug=$parameters['bcc'];
         $contact=explode(',',$parameters['To']);
@@ -138,7 +140,7 @@ return $view;
             ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
             ->join('services', 'services.id', '=', 'boncommande.service_demandeur')
             ->where('boncommande.id','=',$bc_slug)
-            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','services.libelle as libelle_service','contact','commentaire_general','fournisseur.conditionPaiement')->first();
+            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','services.libelle as libelle_service','contact','commentaire_general','fournisseur.conditionPaiement','boncommande.id_fournisseur')->first();
 
         $devis=DB::table('devis')
             ->join('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
@@ -152,6 +154,15 @@ return $view;
         }else{
             $taille_minim=5;
             $taille_maxim=37;
+        }
+        $pj="";
+        if($request->file('pj')){
+            //dd($request->file('pj'));
+            $pj=$request->file('pj')->getClientOriginalName();
+
+            $path = Storage::putFileAs(
+               'pj' , $request->file('pj'),$request->file('pj')->getClientOriginalName()
+            );
         }
         // Send data to the view using loadView function of PDF facade
         $pdf = PDF::loadView('BC.bon-commande', compact('bc','devis','tothtax','taille','taille_minim','taille_maxim'));
@@ -208,7 +219,7 @@ return $view;
       //  $contact,$pdf,$bc,$images,$msg_contenu
         $pdf->save(storage_path('bon_commande').'\bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
        // $pdf=$pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
-        $this->dispatch(new EnvoiBcFournisseurPersonnalise($contact,storage_path('bon_commande').'\bon_de_commande_n°'.$bc->numBonCommande.'.pdf',$bc,$images,$msg_contenu) );
+        $this->dispatch(new EnvoiBcFournisseurPersonnalise($contact,storage_path('bon_commande').'\bon_de_commande_n°'.$bc->numBonCommande.'.pdf',$bc,$images,$msg_contenu,$objet,$pj) );
         //  return redirect()->route('gestion_bc')->with('success', "Envoie d'email reussi");
 
         $boncom=Boncommande::where('id','=',$bc->id)->first();
@@ -235,7 +246,7 @@ return $view;
             ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
             ->join('services', 'services.id', '=', 'boncommande.service_demandeur')
             ->where('boncommande.id','=',$bc_slug)
-            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','services.libelle as libelle_service','contact','commentaire_general','fournisseur.conditionPaiement')->first();
+            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','services.libelle as libelle_service','contact','commentaire_general','fournisseur.conditionPaiement','boncommande.id_fournisseur')->first();
 
 
         $devis=DB::table('devis')

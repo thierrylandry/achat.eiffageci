@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Fournisseur;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -57,13 +58,14 @@ class EnvoiBcFournisseur implements ShouldQueue
 
         $contact=array_filter($contact);
 
-
+$fournisseur= Fournisseur::find($bc->id_fournisseur);
+      //  dd($fournisseur);
                 // If you want to store the generated pdf to the server then you can use the store function
-                Mail::send('mail.mail_bc',array('tab' =>$tab,'corps'=>$corps,'precisions'=>$precisions,'images'=>$images),function($message)use ($pdf,$bc,$contact,$numBonCommande,$images){
+                Mail::send('mail.mail_bc',array('tab' =>$tab,'corps'=>$corps,'precisions'=>$precisions,'images'=>$images),function($message)use ($pdf,$bc,$contact,$numBonCommande,$images,$fournisseur){
                 $message->from(Auth::user()->email ,Auth::user()->nom." ".Auth::user()->prenoms)
-                    ->bcc("claudiane.costecalde@eiffage.com")
-                    ->bcc("marina.oulai@eiffage.com")
-                    ->subject('TRANSMISSION DE BON DE COMMANDE')
+                   // ->bcc("claudiane.costecalde@eiffage.com")
+                    //->bcc("marina.oulai@eiffage.com")
+                    ->subject($fournisseur->libelle."/BC N°".str_replace("PHB-815140-",'',$numBonCommande).'/EGC-CI EIFFAGE')
                     ->attach($pdf);
                     foreach($contact as $em):
                         $message ->to($em);

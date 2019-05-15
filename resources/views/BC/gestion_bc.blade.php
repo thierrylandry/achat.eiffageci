@@ -69,7 +69,7 @@
                     <h4 class="modal-title">Personnaliser l'E-mail</h4>
                 </div>
 
-                            <form action="{{route('send_it_personnalisé')}}" onsubmit="return confirm('Voulez vous envoyé?');"  method="post">
+                            <form action="{{route('send_it_personnalisé')}}" onsubmit="return confirm('Voulez vous envoyé?');"  method="post" enctype="multipart/form-data">>
 
                                 @csrf
                                 <div class="modal-body">
@@ -85,12 +85,15 @@
 
                                                 </div>
                                                 <div class="form-group">
-                                                    <input class="form-control" placeholder="Subject:" value="TRANSMISSION DE BON DE COMMANDE" readonly>
+                                                    <input class="form-control" placeholder="Subject:" name="objet" id="objet" value="" >
                                                 </div>
                                                 <div class="form-group">
 
                     <textarea  id="compose-textarea" name="compose-textarea" class="form-control"  style="overflow-y: scroll;max-height: 300px;min-height: 300px;"></textarea>
 
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="file" class="form-control" name="pj" id="pj" value="" >
                                                 </div>
 
                                             </div>
@@ -236,6 +239,14 @@
         }
 
         $(document).ready(function () {
+            $('#personnaliser').click(function(e){
+                var rows_selected = table.column(0).checkboxes.selected();
+                var testselect=0;
+                var testrow=0;
+
+            });
+
+
             $('#id_reponse_fournisseur').change(function (e) {
                 var proforma=$("#id_reponse_fournisseur").val();
                 if(proforma!=''){
@@ -297,8 +308,11 @@ var resultat=JSON.parse(data);
             $("body").on("click","#envoie_fourniseur",function(){
 var data=table1.row($(this).closest('tr')).data();
                 var id=data[Object.keys(data)[0]];
+                var fournisseur=data[Object.keys(data)[3]];
+                var numbbc=data[Object.keys(data)[2]];
                 $('#bc_slug').val(id);
                 $('#bcc').val(id);
+                $('#objet').val(fournisseur+"/BC N°"+numbbc.replace("PHB-815140-","")+"/EGC-CI EIFFAGE");
 
                 $.get("list_contact/"+id,
                         function (data) {

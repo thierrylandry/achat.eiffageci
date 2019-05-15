@@ -95,6 +95,44 @@ class InfoController extends Controller
         }
 
     }
+    public function notificateur2(){
+
+        $users=DB::table('users')
+            ->select('users.id','users.email')->get();
+
+
+        foreach($users as $user):
+            $mes_droits =  $this->dit_moi_qui_tu_es_je_te_dirai_tes_droits($user->id);
+            if(in_array('Gestionnaire_Pro_Forma',$mes_droits)){
+                $this->notification_sur_les_D_A_valider($user->email);
+                $this->notification_sur_les_B_C_valider($user->email);
+            }
+        endforeach;
+
+        return "notifier";
+    }
+    public function notification_sur_les_D_A_valider($email){
+
+        $das=  DA::where('etat','=',2)->get();
+
+        $Nb=sizeof($das);
+        $adresse_da="http://172.20.73.3/achat.eiffageci/gestion_demande_proformas";
+        if($Nb>0){
+            $this->dispatch(new EnvoiNotificationUtilisateur($Nb,$email,3,$adresse_da) );
+        }
+
+    }
+    public function notification_sur_les_B_C_valider($email){
+
+        $das=  Boncommande::where('etat','=',2)->get();
+
+        $Nb=sizeof($das);
+        $adresse_da="http://172.20.73.3/achat.eiffageci/gestion_bc";
+        if($Nb>0){
+            $this->dispatch(new EnvoiNotificationUtilisateur($Nb,$email,4,$adresse_da) );
+        }
+
+    }
     public function notification_sur_les_B_C($email){
 
         $das=  Boncommande::where('etat','=',1)->get();

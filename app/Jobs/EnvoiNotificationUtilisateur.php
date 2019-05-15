@@ -50,6 +50,30 @@ private $Nb,$email,$action,$adresse;
 
 
             });
+        }elseif($action==3){
+            //envoie de notification aux utilisateurs qui doivent soumettre les D.A aux fournisseur
+            Mail::send('mail.notif_mail',array('nb' =>$Nb." demande(s) d'achat(s) validée(s)",'adresse'=>$adresse),function($message)use ($email,$Nb ){
+
+
+                $message->from("noreply@eiffage.com" ,"PRO-ACHAT" )
+                    ->to($email)
+                    ->subject('Vous avez '.$Nb." demande(s) d'achat(s) validée(s ");
+
+
+            });
+
+        }elseif($action==4){
+            //envoie de notification aux utilisateurs pour les informer que les BC on été confirmé
+            Mail::send('mail.notif_mail',array('nb' =>$Nb." Bon de commande(s) validé(s)",'adresse'=>$adresse),function($message)use ($email,$Nb ){
+
+
+                $message->from("noreply@eiffage.com" ,"PRO-ACHAT" )
+                    ->to($email)
+                    ->subject('Vous avez '.$Nb." Bon de commande(s) validé(s) ");
+
+
+            });
+
         }else{
             Mail::send('mail.notif_mail',array('nb' =>$Nb." bon de commande(s) en attente de signature",'adresse'=>$adresse),function($message)use ($email,$Nb ){
 

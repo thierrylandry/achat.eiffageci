@@ -108,7 +108,7 @@
                     </tr>
                     <tr>
                         <td width="50%" valign="center" align="right" >Date</td>
-                        <td valign="center" align="center" style="border: 0.3pt solid #000000;" >{{ \Illuminate\Support\Carbon::createFromFormat('Y-m-d',explode(' ',$bc->created_at)[0])->formatLocalized('%d %B %Y') }}</td>
+                        <td valign="center" align="center" style="border: 0.3pt solid #000000;" >{{ \Illuminate\Support\Carbon::createFromFormat('Y-m-d',explode(' ',$bc->created_at)[0])->formatLocalized('%d/%m/%Y') }}</td>
                     </tr>
                 </table>
             </td>
