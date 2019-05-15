@@ -167,7 +167,7 @@
 
                 <tr>
                     <th class="dt-head-center">id</th>
-                    <th class="dt-head-center">Destinataire</th>
+                    <th class="dt-head-center" >Destinataire</th>
                     <th class="dt-head-center">Email</th>
                     <th class="dt-head-center">Objet</th>
                     <th class="dt-head-center">Contenue du mail</th>
@@ -280,7 +280,8 @@
                     'checkboxes': {
                         'selectRow': true
                     }
-                }
+                },
+                { "width": "10%", "targets": 2 }
             ],
             'select': {
                 'style': 'multi'
@@ -300,6 +301,9 @@
                 url: "js/French.json"
             },
             "ordering":false,
+            'columnDefs': [
+                { "width": "5%", "targets": 2 }
+            ],
             "createdRow": function( row, data, dataIndex){
 
             }
