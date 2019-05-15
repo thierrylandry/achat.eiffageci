@@ -54,7 +54,7 @@ class DAController
         $domaines=  DB::table('domaines')->get();
         $unites=Unites::all();
         foreach($unites as $unite):
-            if($unite->id==1){
+            if($unite->id==1 || $unite->id>=41 && $unite->id<50 ){
                 $tab_unite['nothing'][]=$unite->libelle;
             }elseif($unite->id>1 && $unite->id<=10 ){
                 $tab_unite['La longueur'][]= $unite->libelle;
@@ -110,7 +110,7 @@ class DAController
         $natures= Nature::all();
         $unites=Unites::all();
         foreach($unites as $unite):
-            if($unite->id==1){
+            if($unite->id==1 || $unite->id>=41 && $unite->id<50 ){
                 $tab_unite['nothing'][]=$unite->libelle;
             }elseif($unite->id>1 && $unite->id<=10 ){
                 $tab_unite['La longueur'][]= $unite->libelle;
