@@ -187,7 +187,7 @@
 
                 @foreach( $fournisseurs as $fourn)
                     @if($fourn->id==$id)
-                        {{$fourn->libelle}}
+                        {{$fourn->libelle}}</br>
                         @endif
                     @endforeach
                 @endforeach
@@ -196,7 +196,7 @@
             @foreach( explode(',',$trace_mail->email) as $email)
 
                 {{$email}}</br>
-                
+
             @endforeach
 
         </td>
@@ -307,6 +307,7 @@
             },
             "ordering":false,
             "responsive": true,
+            "autoWidth": false,
             'columnDefs': [
                 { "width": "20%", "targets": 2 }
             ],
