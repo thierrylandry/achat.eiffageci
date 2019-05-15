@@ -193,7 +193,12 @@
                 @endforeach
         </td>
         <td>
-            {{$trace_mail->email}}
+            @foreach( explode(',',$trace_mail->email) as $email)
+
+                {{$email}}</br>
+                
+            @endforeach
+
         </td>
         <td>
             {{$trace_mail->objet}}
@@ -301,8 +306,9 @@
                 url: "js/French.json"
             },
             "ordering":false,
+            "responsive": true,
             'columnDefs': [
-                { "width": "5%", "targets": 2 }
+                { "width": "20%", "targets": 2 }
             ],
             "createdRow": function( row, data, dataIndex){
 
