@@ -680,6 +680,12 @@ Route::post('/send_it',[
     'roles' => ['Gestionnaire_BC']
 
 ])->middleware('auth');
+Route::post('/add_date_livraison',[
+    'as'=>'add_date_livraison',
+    'uses'=>'BCController@add_date_livraison',
+    'roles' => ['Gestionnaire_BC']
+
+])->middleware('auth');
 
 //fin
 // validation de bon de commande

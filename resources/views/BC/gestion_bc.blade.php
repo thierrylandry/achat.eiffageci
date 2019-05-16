@@ -124,6 +124,37 @@
 
         </div>
     </div>
+    <!-- test -->
+    <div id="date_livraison" class="modal fade in" aria-hidden="true" role="dialog" >
+        <div class="modal-dialog modal-md">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Date de livraison</h4>
+                </div>
+
+                    <form  action="{{route('add_date_livraison')}}" method="post">
+                                @csrf
+
+                                <div class="modal-body">
+                                    <input type="hidden" name="bc_slug" id="bc_slug_1" required  />
+
+                                    <input type="date" name="date_livraison" id="date_livraison" required />
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" id="enregistrer_date_livraison" >
+                                        <i class="fa fa-file-pdf-o"></i><i class="fa fa-paper-plane-o"></i> Enregistrer
+                                    </button>
+                                </div>
+                            </form>
+            </div>
+
+        </div>
+    </div>
+    <!-- fin -->
     <!-- fin -->
 
 
@@ -379,6 +410,11 @@ var le_selectionne="";
             $('#msg').empty();
             var valeur=$("#compose-textarea").html();
             $('#msg').append(valeur);
+        });
+        $("#btn_add_date_livraison").click(function (e) {
+            var data=table1.row($(this).closest('tr')).data();
+            var id=data[Object.keys(data)[0]];
+            $('#bc_slug_1').val(id);
         });
 $('#personnaliser').click(function(){
     $('#To').empty();

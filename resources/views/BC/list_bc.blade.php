@@ -144,6 +144,7 @@
                                     <a href="{{route('bon_commande_file',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
                                         <i class="fa fa-file-pdf-o"></i>
                                     </a>
+
                                 @elseif($bc->etat==11)
                                     <a href="{{route('bon_commande_file',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
                                         <i class="fa fa-file-pdf-o"></i>
@@ -202,6 +203,7 @@
                                     <a href="" data-toggle="modal" class="">
                                         <i class="fa fa-circle" style="color: #00ffff"><p style="visibility: hidden">4</p></i>
                                     </a>
+
                                 @elseif($bc->etat==11)
                                     <a href="" data-toggle="modal" class="">
                                         <i class="fa fa-circle" style="color: violet"><p style="visibility: hidden">11</p></i>
@@ -314,6 +316,10 @@
                                     <a href="{{route('bon_commande_file',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
                                         <i class="fa fa-file-pdf-o"></i>
                                     </a>
+                                    <a href="" data-toggle="modal" data-target="#date_livraison" class="btn btn-default" id="btn_add_date_livraison">
+                                        préciser date de livraison
+                                    </a></br>
+                                   date de livraison :  {{\Carbon\Carbon::parse($bc->date_livraison)->format('d-m-Y')}}
                                 @elseif($bc->etat==11)
                                     <a href="{{route('bon_commande_file',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
                                         <i class="fa fa-file-pdf-o"></i>

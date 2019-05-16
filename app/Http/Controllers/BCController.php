@@ -807,5 +807,17 @@ public function gestion_offre(){
 }
 
     ////
+    public function add_date_livraison(Request $request){
+        $parameters=$request->except(['_token']);
+        $id= $parameters['bc_slug'];
+        $date_livraison= $parameters['date_livraison'];
+
+        $boncommande=Boncommande::find($id);
+        $boncommande->date_livraison=$date_livraison;
+        $boncommande->save();
+
+        return redirect()->route('gestion_bc')->with('success', "Date de livraison ajoutée avec succès ");
+
+    }
 
 }
