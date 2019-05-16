@@ -252,10 +252,72 @@
 
         </div>
     </div>
-
+    <script src="{{ URL::asset("js/dataTables.buttons.min.js") }}"></script>
+    <script src="{{ URL::asset("js/buttons.flash.min.js") }}"></script>
+    <script src="{{ URL::asset("js/jszip.min.js") }}"></script>
+    <script src="{{ URL::asset("js/dataTable.pdfmaker.js") }}"></script>
+    <script src="{{ URL::asset("js/vfs_fonts.js") }}"></script>
+    <script src="{{ URL::asset("js/buttons.html5.min.js") }}"></script>
+    <script src="{{ URL::asset("js/buttons.print.min.js") }}"></script>
+    <script src="{{ URL::asset('js/jstree.min.js') }}"></script>
+    <script src="{{ URL::asset('js/jstree.checkbox.js') }}"></script>
+    <script src="{{ URL::asset('js/jstree.min.js') }}"></script>
+    <script src="{{ URL::asset('js/jstree.checkbox.js') }}"></script>
     <script>
         (function($) {
+            var date =new Date();
+
             var table= $('#tableDA').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'copyHtml5',
+                        exportOptions: {
+                            columns: [ 1, 2, 5,6,7,8,9,10,11,12,13,14 ]
+                        },
+                        text:"Copier",
+                        filename: "Liste des D.A "+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
+                        className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
+                        messageTop: "Liste des D.A "+date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        exportOptions: {
+                            columns: [ 1, 2, 5,6,7,8,9,10,11,12,13,14 ]
+                        },
+                        text:"Excel",
+                        filename: "Liste des D.A "+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
+                        className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
+                        messageTop: "Liste des D.A "+date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                        orientation: 'landscape',
+
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        exportOptions: {
+                            columns: [ 1, 2, 5,6,7,8,9,10,11,12,13,14 ]
+                        },
+                        text:"PDF",
+                        filename: "Liste des D.A "+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
+                        className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
+                        messageTop: "Liste des D.A "+date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                        orientation: 'landscape',
+
+                    },
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            columns: [ 1, 2, 5,6,7,8,9,10,11,12,13,14 ]
+                        },
+                        text:"Imprimer",
+                        filename: "Liste des D.A"+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
+                        className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
+                        messageTop: "Liste des D.A "+date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                        orientation: 'landscape',
+
+                    }
+                ],
                 language: {
                     url: "{{ URL::asset('public/js/French.json') }}"
                 },

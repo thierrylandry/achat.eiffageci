@@ -219,6 +219,17 @@
 
         </div>
     </div>
+
+
+    <script src="{{ URL::asset("js/dataTables.buttons.min.js") }}"></script>
+    <script src="{{ URL::asset("js/buttons.flash.min.js") }}"></script>
+    <script src="{{ URL::asset("js/jszip.min.js") }}"></script>
+    <script src="{{ URL::asset("js/dataTable.pdfmaker.js") }}"></script>
+    <script src="{{ URL::asset("js/vfs_fonts.js") }}"></script>
+    <script src="{{ URL::asset("js/buttons.html5.min.js") }}"></script>
+    <script src="{{ URL::asset("js/buttons.print.min.js") }}"></script>
+    <script src="{{ URL::asset('js/jstree.min.js') }}"></script>
+    <script src="{{ URL::asset('js/jstree.checkbox.js') }}"></script>
     <script src="{{ URL::asset('js/jstree.min.js') }}"></script>
     <script src="{{ URL::asset('js/jstree.checkbox.js') }}"></script>
     <script>
@@ -276,9 +287,59 @@
             }
 
         });
+    function getExportFileName(){
+        $('#domaine').selectpicker('refresh');
+       return "Domaine :"+$('#domaine option:selected').text();
+    }
         var table = $('#gestion_demande_proforma').DataTable({
 
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'copyHtml5',
+                    exportOptions: {
+                        columns: [ 1, 2, 5,6,7 ]
+                    },
+                    text:"Copier",
+                    filename: function () { return getExportFileName();},
+                    className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
+                    messageTop: function () { return getExportFileName();}
 
+                },
+                {
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        columns: [ 1, 2, 5,6,7 ]
+                    },
+                    text:"Excel",
+                    filename: function () { return getExportFileName();},
+                    className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
+                    messageTop: function () { return getExportFileName();}
+
+                },
+                {
+                    extend: 'pdfHtml5',
+                    exportOptions: {
+                        columns: [ 1, 2, 5,6,7 ]
+                    },
+                    text:"PDF",
+                    filename: function () { return getExportFileName();},
+                    className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
+                    messageTop: function () { return getExportFileName();}
+
+                },
+                {
+                    extend: 'print',
+                    exportOptions: {
+                        columns: [ 1, 2, 5,6,7 ]
+                    },
+                    text:"Imprimer",
+                    filename: function () { return getExportFileName();},
+                    className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
+                    messageTop: function () { return getExportFileName();}
+
+                }
+                ],
             'columnDefs': [
                 {
                     'targets': 0,
@@ -293,7 +354,7 @@
             },
             'order': [[0, 'desc']],
             language: {
-                url: "js/French.json"
+                url: "{{ URL::asset('public/js/French.json') }}"
             },
             "ordering":true,
             "responsive": true,
@@ -301,9 +362,10 @@
 
             }
         });
+    console.log(table);
         var table1 = $('#historique').DataTable({
             language: {
-                url: "js/French.json"
+                url: "{{ URL::asset('public/js/French.json') }}"
             },
             "ordering":false,
             "responsive": true,
