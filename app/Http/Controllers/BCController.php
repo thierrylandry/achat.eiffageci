@@ -136,6 +136,12 @@ return $view;
         $msg_contenu=$parameters['compose-textarea'];
         $bc_slug=$parameters['bcc'];
         $contact=explode(',',$parameters['To']);
+        if(isset($parameters['cc'])){
+            $copi=explode(',',$parameters['cc']);
+        }else{
+            $copi= Array();
+        }
+
         $bc= DB::table('boncommande')
             ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
             ->join('services', 'services.id', '=', 'boncommande.service_demandeur')
@@ -219,7 +225,7 @@ return $view;
       //  $contact,$pdf,$bc,$images,$msg_contenu
         $pdf->save(storage_path('bon_commande').'\bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
        // $pdf=$pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
-        $this->dispatch(new EnvoiBcFournisseurPersonnalise($contact,storage_path('bon_commande').'\bon_de_commande_n°'.$bc->numBonCommande.'.pdf',$bc,$images,$msg_contenu,$objet,$pj) );
+        $this->dispatch(new EnvoiBcFournisseurPersonnalise($contact,storage_path('bon_commande').'\bon_de_commande_n°'.$bc->numBonCommande.'.pdf',$bc,$images,$msg_contenu,$objet,$pj,$copi) );
         //  return redirect()->route('gestion_bc')->with('success', "Envoie d'email reussi");
 
         $boncom=Boncommande::where('id','=',$bc->id)->first();
@@ -357,9 +363,10 @@ return $view;
         $fournisseurss= DB::table('fournisseur')
 
             ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
+        $users= User::all();
 
 $analytiques= Analytique::all();
-        return view('BC/gestion_bc',compact('bcs','bcs_en_attentes','fournisseurs','utilisateurs','analytiques','fournisseurss'));
+        return view('BC/gestion_bc',compact('bcs','bcs_en_attentes','fournisseurs','utilisateurs','analytiques','fournisseurss','users'));
     }
     public function validation_bc()
     {

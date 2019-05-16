@@ -69,7 +69,7 @@
                     <h4 class="modal-title">Personnaliser l'E-mail</h4>
                 </div>
 
-                            <form action="{{route('send_it_personnalisé')}}" onsubmit="return confirm('Voulez vous envoyé?');"  method="post" enctype="multipart/form-data">>
+                            <form action="{{route('send_it_personnalisé')}}" onsubmit="return confirm('Voulez vous envoyé?');"  method="post" enctype="multipart/form-data">
 
                                 @csrf
                                 <div class="modal-body">
@@ -82,6 +82,16 @@
                                                 <input  name="bcc" id="bcc" class="form-control" style="visibility: hidden"/>
                                                 <div class="form-group">
                                                     <input id="To" name="To" class="form-control" placeholder="To:" readonly>
+
+                                                </div>
+                                                <div class="form-group">
+                                                    <select class="form-control selectpicker " name="cc" id="cc" data-live-search="true" data-size="6" multiple data-none-selected-text="Mettre en copie" >
+
+                                                            @if(isset($users))  @foreach($users as $user)
+                                                                <option value="{{$user->email}}">{{$user->nom.' '.$user->prenoms }}</option>
+                                                            @endforeach
+                                                            @endif
+                                                        </select>
 
                                                 </div>
                                                 <div class="form-group">
