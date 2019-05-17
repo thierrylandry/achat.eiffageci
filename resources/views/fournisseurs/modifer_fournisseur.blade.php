@@ -61,7 +61,7 @@
 
                             <div class="form-group">
                                 <label for="domaine">Condition de paiement</label>
-                                <input id="conditionPaiement" name="conditionPaiement" class="form-control col-sm-8" value="{{isset($fournisseur)? $fournisseur->commentaire:''}}" />
+                                <input id="conditionPaiement" name="conditionPaiement" class="form-control col-sm-8" value="{{isset($fournisseur)? $fournisseur->conditionPaiement:''}}" />
                             </div>
 
 
