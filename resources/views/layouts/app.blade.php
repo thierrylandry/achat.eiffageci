@@ -404,7 +404,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         @endif
                     </li>
                         <li style="color: ghostwhite">
-                        <table border="bold"  style="color: ghostwhite">
+                        <table   style="color: ghostwhite;size:20pt">
                             <thead>
                                 <tr><th></th><th>D.A</th><th>B.C</th></tr>
                                 <tr><td><div style="background-color: #CC0000; width: 25px"> &nbsp;</div></td><td> En attente de validation </td><td>En attente de validation</td></tr>
