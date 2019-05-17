@@ -303,6 +303,7 @@
                                         </div>
                                     </div>
                                 @elseif($bc->etat==3)
+                                    
                                     <a href="{{route('traite_finalise',['id'=>$bc->slug])}}" data-toggle="modal" class="">
                                         <i class="fa fa-hourglass-end"></i> traité et finalisé?
                                     </a>ou
@@ -319,7 +320,7 @@
                                     <a href="" data-toggle="modal" data-target="#date_livraison" class="btn btn-default" id="btn_add_date_livraison">
                                         préciser date de livraison
                                     </a></br>
-                                   date de livraison éffective :  {{\Carbon\Carbon::parse($bc->date_livraison)->format('d-m-Y')}}
+                                    @if($bc->date_livraison!=null) date de livraison éffective :  {{\Carbon\Carbon::parse($bc->date_livraison)->format('d-m-Y')}} @endif
                                 @elseif($bc->etat==11)
                                     <a href="{{route('bon_commande_file',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
                                         <i class="fa fa-file-pdf-o"></i>
