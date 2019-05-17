@@ -50,9 +50,13 @@
                     <label>LISTE DES SERVICE PROPOSES: </label>
                 </div>
             </div>
-            <div class="col-sm-6 col-sm-offset-2" style="border: double; text-align: center">
+            <div class="col-sm-6 col-sm-offset-2" style="border: double; text-align: center; vertical-align: center; padding: 12px">
                 <br>
-                <h1><select></select></h1>
+                <h1><select class="form-control selectpicker" title="SELECTIONNER FOURNISSEUR"  data-live-search="true">
+                        @foreach($fournisseurs as $fournisseur)
+                            <option value="{{$fournisseur->id}}">{{$fournisseur->libelle}}</option>
+                            @endforeach
+                    </select></h1>
                 <div>
 
                 </div>
@@ -79,13 +83,13 @@
         <br>
         <br>
         <br>
-
+        <input type="number"  />
         <table name ="ligneCommandes" id="ligneCommandes" class=''>
 
             <thead>
 
             <tr>
-                <th class="dt-head-center">slug</th>
+                <th class="dt-head-center">id_produit</th>
                 <th class="">Designation</th>
                 <th class="">Commentaire</th>
                 <th class="">Code Analytique</th>
@@ -101,7 +105,566 @@
             </tr>
             </thead>
             <tbody name ="contenu_tableau_ligne" id="contenu_tableau_ligne">
+<tr>
+    <td class="dt-head-center"></td>
+    <td class=""><select class="selectpicker form-control" data-live-search="true"><option  value="">SELECTIONNER UN PRODUIT</option>
+            @foreach($materiels as $materiel)
+                <option @if(isset($da) and $materiel->id==$da->	id_materiel)
+                        {{'selected'}}
+                        @endif value="{{$materiel->id}}">{{$materiel->libelleMateriel}}</option>
+            @endforeach</select></td>
+    <td class=""><input type="text" name="commentaire1" id="commentaire1" class="form-control"/></td>
+    <td class=""><select class="form-control selectpicker" id="codeRubrique1" name="codeRubrique1" data-live-search="true" data-size="6" required>
+            <option  value="">SELECTIONNER</option>
+            @foreach($analytiques as $analytique)
 
+                <option value="{{$analytique->codeRubrique}}" data-subtext="{{$analytique->libelle}}">{{$analytique->codeRubrique}}</option>
+            @endforeach
+        </select></td>
+    <td class="" ><input type="number"  step="any" min="0" name="quantite1" id="quantite1" class="form-control  col-sm-4" /> </td>
+    <td class="">     <select class="form-control selectpicker col-sm-4" id="unite" name="unite" data-live-search="true" data-size="6">
+            @foreach($tab_unite['nothing'] as $unite)
+                <option value="{{$unite}}">{{$unite}}</option>
+            @endforeach
+            <optgroup label="La longeur">
+                @foreach($tab_unite['La longueur'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+            <optgroup label="La masse">
+                @foreach($tab_unite['La masse'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+
+
+            <optgroup label="Le volume">
+                @foreach($tab_unite['Le volume'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+            <optgroup label="La surface">
+                @foreach($tab_unite['La surface'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+        </select></td>
+    <td class=""><input type="number" class="form-control" min="0" name="pu" id="pu"/> </td>
+    <td class=""><input type="number" class="form-control" min="0" name="remise" id="remise"/></td>
+    <td class=""></td>
+    <td class=""></td>
+    <td class=""></td>
+    <td class=""></td>
+    <td class="">Action</td>
+</tr>
+<tr>
+    <td class="dt-head-center"></td>
+    <td class=""><select class="selectpicker form-control" data-live-search="true"><option  value="">SELECTIONNER UN PRODUIT</option>
+            @foreach($materiels as $materiel)
+                <option @if(isset($da) and $materiel->id==$da->	id_materiel)
+                        {{'selected'}}
+                        @endif value="{{$materiel->id}}">{{$materiel->libelleMateriel}}</option>
+            @endforeach</select></td>
+    <td class=""><input type="text" name="commentaire1" id="commentaire1" class="form-control"/></td>
+    <td class=""><select class="form-control selectpicker" id="codeRubrique1" name="codeRubrique1" data-live-search="true" data-size="6" required>
+            <option  value="">SELECTIONNER</option>
+            @foreach($analytiques as $analytique)
+
+                <option value="{{$analytique->codeRubrique}}" data-subtext="{{$analytique->libelle}}">{{$analytique->codeRubrique}}</option>
+            @endforeach
+        </select></td>
+    <td class="" ><input type="number"  step="any" min="0" name="quantite1" id="quantite1" class="form-control  col-sm-4" /> </td>
+    <td class="">     <select class="form-control selectpicker col-sm-4" id="unite" name="unite" data-live-search="true" data-size="6">
+            @foreach($tab_unite['nothing'] as $unite)
+                <option value="{{$unite}}">{{$unite}}</option>
+            @endforeach
+            <optgroup label="La longeur">
+                @foreach($tab_unite['La longueur'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+            <optgroup label="La masse">
+                @foreach($tab_unite['La masse'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+
+
+            <optgroup label="Le volume">
+                @foreach($tab_unite['Le volume'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+            <optgroup label="La surface">
+                @foreach($tab_unite['La surface'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+        </select></td>
+    <td class=""><input type="number" class="form-control" min="0" name="pu" id="pu"/> </td>
+    <td class=""><input type="number" class="form-control" min="0" name="remise" id="remise"/></td>
+    <td class=""></td>
+    <td class=""></td>
+    <td class=""></td>
+    <td class=""></td>
+    <td class="">Action</td>
+</tr>
+<tr>
+    <td class="dt-head-center"></td>
+    <td class=""><select class="selectpicker form-control" data-live-search="true"><option  value="">SELECTIONNER UN PRODUIT</option>
+            @foreach($materiels as $materiel)
+                <option @if(isset($da) and $materiel->id==$da->	id_materiel)
+                        {{'selected'}}
+                        @endif value="{{$materiel->id}}">{{$materiel->libelleMateriel}}</option>
+            @endforeach</select></td>
+    <td class=""><input type="text" name="commentaire1" id="commentaire1" class="form-control"/></td>
+    <td class=""><select class="form-control selectpicker" id="codeRubrique1" name="codeRubrique1" data-live-search="true" data-size="6" required>
+            <option  value="">SELECTIONNER</option>
+            @foreach($analytiques as $analytique)
+
+                <option value="{{$analytique->codeRubrique}}" data-subtext="{{$analytique->libelle}}">{{$analytique->codeRubrique}}</option>
+            @endforeach
+        </select></td>
+    <td class="" ><input type="number"  step="any" min="0" name="quantite1" id="quantite1" class="form-control  col-sm-4" /> </td>
+    <td class="">     <select class="form-control selectpicker col-sm-4" id="unite" name="unite" data-live-search="true" data-size="6">
+            @foreach($tab_unite['nothing'] as $unite)
+                <option value="{{$unite}}">{{$unite}}</option>
+            @endforeach
+            <optgroup label="La longeur">
+                @foreach($tab_unite['La longueur'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+            <optgroup label="La masse">
+                @foreach($tab_unite['La masse'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+
+
+            <optgroup label="Le volume">
+                @foreach($tab_unite['Le volume'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+            <optgroup label="La surface">
+                @foreach($tab_unite['La surface'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+        </select></td>
+    <td class=""><input type="number" class="form-control" min="0" name="pu" id="pu"/> </td>
+    <td class=""><input type="number" class="form-control" min="0" name="remise" id="remise"/></td>
+    <td class=""></td>
+    <td class=""></td>
+    <td class=""></td>
+    <td class=""></td>
+    <td class="">Action</td>
+</tr>
+<tr>
+    <td class="dt-head-center"></td>
+    <td class=""><select class="selectpicker form-control" data-live-search="true"><option  value="">SELECTIONNER UN PRODUIT</option>
+            @foreach($materiels as $materiel)
+                <option @if(isset($da) and $materiel->id==$da->	id_materiel)
+                        {{'selected'}}
+                        @endif value="{{$materiel->id}}">{{$materiel->libelleMateriel}}</option>
+            @endforeach</select></td>
+    <td class=""><input type="text" name="commentaire1" id="commentaire1" class="form-control"/></td>
+    <td class=""><select class="form-control selectpicker" id="codeRubrique1" name="codeRubrique1" data-live-search="true" data-size="6" required>
+            <option  value="">SELECTIONNER</option>
+            @foreach($analytiques as $analytique)
+
+                <option value="{{$analytique->codeRubrique}}" data-subtext="{{$analytique->libelle}}">{{$analytique->codeRubrique}}</option>
+            @endforeach
+        </select></td>
+    <td class="" ><input type="number"  step="any" min="0" name="quantite1" id="quantite1" class="form-control  col-sm-4" /> </td>
+    <td class="">     <select class="form-control selectpicker col-sm-4" id="unite" name="unite" data-live-search="true" data-size="6">
+            @foreach($tab_unite['nothing'] as $unite)
+                <option value="{{$unite}}">{{$unite}}</option>
+            @endforeach
+            <optgroup label="La longeur">
+                @foreach($tab_unite['La longueur'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+            <optgroup label="La masse">
+                @foreach($tab_unite['La masse'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+
+
+            <optgroup label="Le volume">
+                @foreach($tab_unite['Le volume'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+            <optgroup label="La surface">
+                @foreach($tab_unite['La surface'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+        </select></td>
+    <td class=""><input type="number" class="form-control" min="0" name="pu" id="pu"/> </td>
+    <td class=""><input type="number" class="form-control" min="0" name="remise" id="remise"/></td>
+    <td class=""></td>
+    <td class=""></td>
+    <td class=""></td>
+    <td class=""></td>
+    <td class="">Action</td>
+</tr>
+<tr>
+    <td class="dt-head-center"></td>
+    <td class=""><select class="selectpicker form-control" data-live-search="true"><option  value="">SELECTIONNER UN PRODUIT</option>
+            @foreach($materiels as $materiel)
+                <option @if(isset($da) and $materiel->id==$da->	id_materiel)
+                        {{'selected'}}
+                        @endif value="{{$materiel->id}}">{{$materiel->libelleMateriel}}</option>
+            @endforeach</select></td>
+    <td class=""><input type="text" name="commentaire1" id="commentaire1" class="form-control"/></td>
+    <td class=""><select class="form-control selectpicker" id="codeRubrique1" name="codeRubrique1" data-live-search="true" data-size="6" required>
+            <option  value="">SELECTIONNER</option>
+            @foreach($analytiques as $analytique)
+
+                <option value="{{$analytique->codeRubrique}}" data-subtext="{{$analytique->libelle}}">{{$analytique->codeRubrique}}</option>
+            @endforeach
+        </select></td>
+    <td class="" ><input type="number"  step="any" min="0" name="quantite1" id="quantite1" class="form-control  col-sm-4" /> </td>
+    <td class="">     <select class="form-control selectpicker col-sm-4" id="unite" name="unite" data-live-search="true" data-size="6">
+            @foreach($tab_unite['nothing'] as $unite)
+                <option value="{{$unite}}">{{$unite}}</option>
+            @endforeach
+            <optgroup label="La longeur">
+                @foreach($tab_unite['La longueur'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+            <optgroup label="La masse">
+                @foreach($tab_unite['La masse'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+
+
+            <optgroup label="Le volume">
+                @foreach($tab_unite['Le volume'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+            <optgroup label="La surface">
+                @foreach($tab_unite['La surface'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+        </select></td>
+    <td class=""><input type="number" class="form-control" min="0" name="pu" id="pu"/> </td>
+    <td class=""><input type="number" class="form-control" min="0" name="remise" id="remise"/></td>
+    <td class=""></td>
+    <td class=""></td>
+    <td class=""></td>
+    <td class=""></td>
+    <td class="">Action</td>
+</tr>
+<tr>
+    <td class="dt-head-center"></td>
+    <td class=""><select class="selectpicker form-control" data-live-search="true"><option  value="">SELECTIONNER UN PRODUIT</option>
+            @foreach($materiels as $materiel)
+                <option @if(isset($da) and $materiel->id==$da->	id_materiel)
+                        {{'selected'}}
+                        @endif value="{{$materiel->id}}">{{$materiel->libelleMateriel}}</option>
+            @endforeach</select></td>
+    <td class=""><input type="text" name="commentaire1" id="commentaire1" class="form-control"/></td>
+    <td class=""><select class="form-control selectpicker" id="codeRubrique1" name="codeRubrique1" data-live-search="true" data-size="6" required>
+            <option  value="">SELECTIONNER</option>
+            @foreach($analytiques as $analytique)
+
+                <option value="{{$analytique->codeRubrique}}" data-subtext="{{$analytique->libelle}}">{{$analytique->codeRubrique}}</option>
+            @endforeach
+        </select></td>
+    <td class="" ><input type="number"  step="any" min="0" name="quantite1" id="quantite1" class="form-control  col-sm-4" /> </td>
+    <td class="">     <select class="form-control selectpicker col-sm-4" id="unite" name="unite" data-live-search="true" data-size="6">
+            @foreach($tab_unite['nothing'] as $unite)
+                <option value="{{$unite}}">{{$unite}}</option>
+            @endforeach
+            <optgroup label="La longeur">
+                @foreach($tab_unite['La longueur'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+            <optgroup label="La masse">
+                @foreach($tab_unite['La masse'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+
+
+            <optgroup label="Le volume">
+                @foreach($tab_unite['Le volume'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+            <optgroup label="La surface">
+                @foreach($tab_unite['La surface'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+        </select></td>
+    <td class=""><input type="number" class="form-control" min="0" name="pu" id="pu"/> </td>
+    <td class=""><input type="number" class="form-control" min="0" name="remise" id="remise"/></td>
+    <td class=""></td>
+    <td class=""></td>
+    <td class=""></td>
+    <td class=""></td>
+    <td class="">Action</td>
+</tr>
+<tr>
+    <td class="dt-head-center"></td>
+    <td class=""><select class="selectpicker form-control" data-live-search="true"><option  value="">SELECTIONNER UN PRODUIT</option>
+            @foreach($materiels as $materiel)
+                <option @if(isset($da) and $materiel->id==$da->	id_materiel)
+                        {{'selected'}}
+                        @endif value="{{$materiel->id}}">{{$materiel->libelleMateriel}}</option>
+            @endforeach</select></td>
+    <td class=""><input type="text" name="commentaire1" id="commentaire1" class="form-control"/></td>
+    <td class=""><select class="form-control selectpicker" id="codeRubrique1" name="codeRubrique1" data-live-search="true" data-size="6" required>
+            <option  value="">SELECTIONNER</option>
+            @foreach($analytiques as $analytique)
+
+                <option value="{{$analytique->codeRubrique}}" data-subtext="{{$analytique->libelle}}">{{$analytique->codeRubrique}}</option>
+            @endforeach
+        </select></td>
+    <td class="" ><input type="number"  step="any" min="0" name="quantite1" id="quantite1" class="form-control  col-sm-4" /> </td>
+    <td class="">     <select class="form-control selectpicker col-sm-4" id="unite" name="unite" data-live-search="true" data-size="6">
+            @foreach($tab_unite['nothing'] as $unite)
+                <option value="{{$unite}}">{{$unite}}</option>
+            @endforeach
+            <optgroup label="La longeur">
+                @foreach($tab_unite['La longueur'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+            <optgroup label="La masse">
+                @foreach($tab_unite['La masse'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+
+
+            <optgroup label="Le volume">
+                @foreach($tab_unite['Le volume'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+            <optgroup label="La surface">
+                @foreach($tab_unite['La surface'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+        </select></td>
+    <td class=""><input type="number" class="form-control" min="0" name="pu" id="pu"/> </td>
+    <td class=""><input type="number" class="form-control" min="0" name="remise" id="remise"/></td>
+    <td class=""></td>
+    <td class=""></td>
+    <td class=""></td>
+    <td class=""></td>
+    <td class="">Action</td>
+</tr>
+<tr>
+    <td class="dt-head-center"></td>
+    <td class=""><select class="selectpicker form-control" data-live-search="true"><option  value="">SELECTIONNER UN PRODUIT</option>
+            @foreach($materiels as $materiel)
+                <option @if(isset($da) and $materiel->id==$da->	id_materiel)
+                        {{'selected'}}
+                        @endif value="{{$materiel->id}}">{{$materiel->libelleMateriel}}</option>
+            @endforeach</select></td>
+    <td class=""><input type="text" name="commentaire1" id="commentaire1" class="form-control"/></td>
+    <td class=""><select class="form-control selectpicker" id="codeRubrique1" name="codeRubrique1" data-live-search="true" data-size="6" required>
+            <option  value="">SELECTIONNER</option>
+            @foreach($analytiques as $analytique)
+
+                <option value="{{$analytique->codeRubrique}}" data-subtext="{{$analytique->libelle}}">{{$analytique->codeRubrique}}</option>
+            @endforeach
+        </select></td>
+    <td class="" ><input type="number"  step="any" min="0" name="quantite1" id="quantite1" class="form-control  col-sm-4" /> </td>
+    <td class="">     <select class="form-control selectpicker col-sm-4" id="unite" name="unite" data-live-search="true" data-size="6">
+            @foreach($tab_unite['nothing'] as $unite)
+                <option value="{{$unite}}">{{$unite}}</option>
+            @endforeach
+            <optgroup label="La longeur">
+                @foreach($tab_unite['La longueur'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+            <optgroup label="La masse">
+                @foreach($tab_unite['La masse'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+
+
+            <optgroup label="Le volume">
+                @foreach($tab_unite['Le volume'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+            <optgroup label="La surface">
+                @foreach($tab_unite['La surface'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+        </select></td>
+    <td class=""><input type="number" class="form-control" min="0" name="pu" id="pu"/> </td>
+    <td class=""><input type="number" class="form-control" min="0" name="remise" id="remise"/></td>
+    <td class=""></td>
+    <td class=""></td>
+    <td class=""></td>
+    <td class=""></td>
+    <td class="">Action</td>
+</tr>
+<tr>
+    <td class="dt-head-center"></td>
+    <td class=""><select class="selectpicker form-control" data-live-search="true"><option  value="">SELECTIONNER UN PRODUIT</option>
+            @foreach($materiels as $materiel)
+                <option @if(isset($da) and $materiel->id==$da->	id_materiel)
+                        {{'selected'}}
+                        @endif value="{{$materiel->id}}">{{$materiel->libelleMateriel}}</option>
+            @endforeach</select></td>
+    <td class=""><input type="text" name="commentaire1" id="commentaire1" class="form-control"/></td>
+    <td class=""><select class="form-control selectpicker" id="codeRubrique1" name="codeRubrique1" data-live-search="true" data-size="6" required>
+            <option  value="">SELECTIONNER</option>
+            @foreach($analytiques as $analytique)
+
+                <option value="{{$analytique->codeRubrique}}" data-subtext="{{$analytique->libelle}}">{{$analytique->codeRubrique}}</option>
+            @endforeach
+        </select></td>
+    <td class="" ><input type="number"  step="any" min="0" name="quantite1" id="quantite1" class="form-control  col-sm-4" /> </td>
+    <td class="">     <select class="form-control selectpicker col-sm-4" id="unite" name="unite" data-live-search="true" data-size="6">
+            @foreach($tab_unite['nothing'] as $unite)
+                <option value="{{$unite}}">{{$unite}}</option>
+            @endforeach
+            <optgroup label="La longeur">
+                @foreach($tab_unite['La longueur'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+            <optgroup label="La masse">
+                @foreach($tab_unite['La masse'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+
+
+            <optgroup label="Le volume">
+                @foreach($tab_unite['Le volume'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+            <optgroup label="La surface">
+                @foreach($tab_unite['La surface'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+        </select></td>
+    <td class=""><input type="number" class="form-control" min="0" name="pu" id="pu"/> </td>
+    <td class=""><input type="number" class="form-control" min="0" name="remise" id="remise"/></td>
+    <td class=""></td>
+    <td class=""></td>
+    <td class=""></td>
+    <td class=""></td>
+    <td class="">Action</td>
+</tr>
+<tr>
+    <td class="dt-head-center"></td>
+    <td class=""><select class="selectpicker form-control" data-live-search="true"><option  value="">SELECTIONNER UN PRODUIT</option>
+            @foreach($materiels as $materiel)
+                <option @if(isset($da) and $materiel->id==$da->	id_materiel)
+                        {{'selected'}}
+                        @endif value="{{$materiel->id}}">{{$materiel->libelleMateriel}}</option>
+            @endforeach</select></td>
+    <td class=""><input type="text" name="commentaire1" id="commentaire1" class="form-control"/></td>
+    <td class=""><select class="form-control selectpicker" id="codeRubrique1" name="codeRubrique1" data-live-search="true" data-size="6" required>
+            <option  value="">SELECTIONNER</option>
+            @foreach($analytiques as $analytique)
+
+                <option value="{{$analytique->codeRubrique}}" data-subtext="{{$analytique->libelle}}">{{$analytique->codeRubrique}}</option>
+            @endforeach
+        </select></td>
+    <td class="" ><input type="number"  step="any" min="0" name="quantite1" id="quantite1" class="form-control  col-sm-4" /> </td>
+    <td class="">     <select class="form-control selectpicker col-sm-4" id="unite" name="unite" data-live-search="true" data-size="6">
+            @foreach($tab_unite['nothing'] as $unite)
+                <option value="{{$unite}}">{{$unite}}</option>
+            @endforeach
+            <optgroup label="La longeur">
+                @foreach($tab_unite['La longueur'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+            <optgroup label="La masse">
+                @foreach($tab_unite['La masse'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+
+
+            <optgroup label="Le volume">
+                @foreach($tab_unite['Le volume'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+            <optgroup label="La surface">
+                @foreach($tab_unite['La surface'] as $unite)
+                    <option value="{{$unite}}">{{$unite}}</option>
+                @endforeach
+            </optgroup>
+
+        </select></td>
+    <td class=""><input type="number" class="form-control" min="0" name="pu" id="pu"/> </td>
+    <td class=""><input type="number" class="form-control" min="0" name="remise" id="remise"/></td>
+    <td class=""></td>
+    <td class=""></td>
+    <td class=""></td>
+    <td class=""></td>
+    <td class="">Action</td>
+</tr>
             </tbody>
             <tfooter>
                 <tr> <th colspan="8" style="text-align:right" >TOTAL HORS TAXES :</th> <th id="tot" style="text-align: right"></th> </tr>
@@ -109,17 +672,6 @@
                 <tr> <th colspan="8" style="text-align:right" >TOTAL TTC :</th> <th id="ttc" style="text-align: right"></th> </tr>
             </tfooter>
         </table>
-        <div id="lignetemplate" class="row clearfix" style="display: none">
-            <tr>
-                <td><input type='text' id='designation_"+counter+".2' class='testdd'/></td>
-                <td><input type='text' id='commentaire_"+counter+".3'/></td>
-                <td><input type='text' id='codeAnalitique_"+counter+".4'/></td>
-                <td><input type='number' min='1' id='quantite"+counter+".5' style='width:100px;'/></td>
-                <td><select class='form-control unite selectpicker col-sm-4' id='unite_"+counter+".6' name='unite_"+counter+".6' data-live-search='true' data-size='6'><option value='U'>U</option> <optgroup label='La longeur'><option value='Km'> Km</option><option value='m'>m</option><option value='cm'>cm</option><option value='mm'>mm</option></optgroup><optgroup label='La masse'><option value='T'> T</option><option value='Kg'>Kg</option> <option value='g'>g</option><option value='mg'>mg</option></optgroup><optgroup label='Le litre'> <option value='L'> L</option><option value='ml'>ml</option></optgroup><optgroup label='Le volume'><option value='m3'> m<SUP>3</SUP></option></optgroup><optgroup label='La surface'><option value='m²'> m²</option></optgroup> </select></td>
-                <td><input type='number' min='1' id='prix_unitaire' class='prix_unitaire'/></td>
-                <td><input type='number' min='1' id='remise"+counter+".8' style='width:50px;'/></td>
-            </tr>
-        </div>
         <div class="row"  style="width: 90%">
             <div class="col-sm-1 pull-right">
                 <a href="{{route('valider_commande',['id'=>1994])}}" class="btn btn-info" onclick="return confirm('Voulez vous enregistrer?');">VALIDER LE BON</a>
@@ -135,6 +687,64 @@
 
         </div>
     </form>
+    <div id="lignetemplate" class="row clearfix" style="display: none">
+        <tr>
+            <td class="dt-head-center"></td>
+            <td class=""><select class="selectpicker form-control" data-live-search="true"><option  value="">SELECTIONNER UN PRODUIT</option>
+                    @foreach($materiels as $materiel)
+                        <option @if(isset($da) and $materiel->id==$da->	id_materiel)
+                                {{'selected'}}
+                                @endif value="{{$materiel->id}}">{{$materiel->libelleMateriel}}</option>
+                    @endforeach</select></td>
+            <td class=""><input type="text" name="commentaire1" id="commentaire1" class="form-control"/></td>
+            <td class=""><select class="form-control selectpicker" id="codeRubrique1" name="codeRubrique1" data-live-search="true" data-size="6" required>
+                    <option  value="">SELECTIONNER</option>
+                    @foreach($analytiques as $analytique)
+
+                        <option value="{{$analytique->codeRubrique}}" data-subtext="{{$analytique->libelle}}">{{$analytique->codeRubrique}}</option>
+                    @endforeach
+                </select></td>
+            <td class="" ><input type="number"  step="any" min="0" name="quantite1" id="quantite1" class="form-control  col-sm-4" /> </td>
+            <td class="">     <select class="form-control selectpicker col-sm-4" id="unite" name="unite" data-live-search="true" data-size="6">
+                    @foreach($tab_unite['nothing'] as $unite)
+                        <option value="{{$unite}}">{{$unite}}</option>
+                    @endforeach
+                    <optgroup label="La longeur">
+                        @foreach($tab_unite['La longueur'] as $unite)
+                            <option value="{{$unite}}">{{$unite}}</option>
+                        @endforeach
+                    </optgroup>
+
+                    <optgroup label="La masse">
+                        @foreach($tab_unite['La masse'] as $unite)
+                            <option value="{{$unite}}">{{$unite}}</option>
+                        @endforeach
+                    </optgroup>
+
+
+
+                    <optgroup label="Le volume">
+                        @foreach($tab_unite['Le volume'] as $unite)
+                            <option value="{{$unite}}">{{$unite}}</option>
+                        @endforeach
+                    </optgroup>
+
+                    <optgroup label="La surface">
+                        @foreach($tab_unite['La surface'] as $unite)
+                            <option value="{{$unite}}">{{$unite}}</option>
+                        @endforeach
+                    </optgroup>
+
+                </select></td>
+            <td class=""><input type="number" class="form-control" min="0" name="pu" id="pu"/> </td>
+            <td class=""><input type="number" class="form-control" min="0" name="remise" id="remise"/></td>
+            <td class=""></td>
+            <td class=""></td>
+            <td class=""></td>
+            <td class=""></td>
+            <td class="">Action</td>
+        </tr>
+    </div>
     <script>
 
         function myFunction() {
@@ -145,7 +755,6 @@
                 x.style.display = "none";
             }
         }
-        var editor; // use a global for the submit and return data rendering in the examples
         (function($) {
 
             $(".btn_addbc").click(function (){
@@ -211,30 +820,12 @@
 
             var table= $('#ligneCommandes').DataTable({
                 dom: "Bfrtip",
-                columns: [
-                    {
-                        data: null,
-                        defaultContent: '',
-                        className: 'select-checkbox',
-                        orderable: false
-                    },
-                    { data: "first_name" },
-                    { data: "last_name" },
-                    { data: "position" },
-                    { data: "office" },
-                    { data: "start_date" },
-                    { data: "salary", render: $.fn.dataTable.render.number( ',', '.', 0, '$' ) }
-                ],
                 order: [ 1, 'asc' ],
                 select: {
                     style:    'os',
                     selector: 'td:first-child'
                 },
-                buttons: [
-                    { extend: "create", editor: editor },
-                    { extend: "edit",   editor: editor },
-                    { extend: "remove", editor: editor }
-                ],
+
                 language: {
                     url: '../js/French.json'
                 },
@@ -276,7 +867,7 @@
                             }, 0 );
 
                     // Update footer
-                    $( api.column( 8 ).footer() ).html(
+                    $( api.column( 0 ).footer() ).html(
                             '$'+pageTotal +' ( $'+ total +' total)'
                     );
                     $('#tot').html(lisibilite_nombre(Math.round(pageTotal))+" {{ "" }}");
@@ -291,35 +882,7 @@
                     { responsivePriority: 5, targets: 0 },
                     { responsivePriority: 2, targets: -2 }
                 ]
-            }).column(0).visible(false).column(11).visible(false);
-            editor = new table.Editor( {
-                ajax: "../php/staff.php",
-                table: "#example",
-                fields: [ {
-                    label: "First name:",
-                    name: "first_name"
-                }, {
-                    label: "Last name:",
-                    name: "last_name"
-                }, {
-                    label: "Position:",
-                    name: "position"
-                }, {
-                    label: "Office:",
-                    name: "office"
-                }, {
-                    label: "Extension:",
-                    name: "extn"
-                }, {
-                    label: "Start date:",
-                    name: "start_date",
-                    type: "datetime"
-                }, {
-                    label: "Salary:",
-                    name: "salary"
-                }
-                ]
-            } );
+            }).column(0).visible(false);
             $(".testdd").change(function (e){
                 console.log("test");
             });
@@ -403,5 +966,10 @@
             // Automatically add a first row of data
             $('#addRow').click();
         })(jQuery);
+    </script>
+    <script type="application/javascript">
+        $("#addligne").click(function (e) {
+            $($("#lignetemplate").html()).appendTo($("#contenu_tableau_ligne"));
+        });
     </script>
 @endsection

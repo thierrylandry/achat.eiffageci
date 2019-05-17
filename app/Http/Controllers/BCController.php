@@ -21,6 +21,7 @@ use App\Lignebesoin;
 use App\Materiel;
 use App\Reponse_fournisseur;
 use App\Services;
+use App\Unites;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -687,7 +688,22 @@ if(isset($devis->first()->devise)){
     public function bc_express(){
         $analytiques =  Analytique::all();
         $materiels =  Materiel::all();
-        return view('BC/bcexpress',compact('analytiques','materiels'));
+        $fournisseurs =  Fournisseur::all();
+        $unites=Unites::all();
+        foreach($unites as $unite):
+            if($unite->id==1 || $unite->id>=41 && $unite->id<50 ){
+                $tab_unite['nothing'][]=$unite->libelle;
+            }elseif($unite->id>1 && $unite->id<=10 ){
+                $tab_unite['La longueur'][]= $unite->libelle;
+            }elseif ($unite->id>10 && $unite->id<=20){
+                $tab_unite['La masse'][]=$unite->libelle;
+            }elseif ($unite->id>20 && $unite->id<=30){
+                $tab_unite['Le volume'][]=$unite->libelle;
+            }elseif ($unite->id>30 && $unite->id<=40){
+                $tab_unite['La surface'][]=$unite->libelle;
+            }
+        endforeach;
+        return view('BC/bcexpress',compact('analytiques','materiels','fournisseurs','tab_unite'));
 
     }
     public function gestion_bc_ajouter()
