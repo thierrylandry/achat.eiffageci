@@ -286,6 +286,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <!--search & user info start-->
             <ul class="nav pull-right top-menu">
                 <li>
+                   <a href="{{env('APP_URL')}}/public/uploads/guide utilisateur.pdf" target="_blank"> &nbsp; <i class="fa fa-file-pdf-o"></i> Guide Utilisateur</a>
+                </li><li>
                     <input type="text" class="form-control search" placeholder=" Search">
                 </li>
                 <!-- user login dropdown start-->
@@ -401,6 +403,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </ul>
                         @endif
                     </li>
+                        <li style="color: ghostwhite">
+                        <table border="bold"  style="color: ghostwhite">
+                            <thead>
+                                <tr><th></th><th>D.A</th><th>B.C</th></tr>
+                                <tr><td><div style="background-color: #CC0000; width: 25px"> &nbsp;</div></td><td> En attente de validation </td><td>En attente de validation</td></tr>
+                            <tr><td><div style="background-color: #00AA00; width: 25px"> &nbsp;</div></td><td>Validée </td><td>Validé</td></tr>
+                            <tr><td><div style="background-color: #e0a800; width: 25px"> &nbsp;</div></td><td>Encours de traitement </td><td>Transmis</td></tr>
+                            <tr><td><div style="background-color: #00AAFF; width: 25px"> &nbsp;</div></td><td> Traitée et terminée </td><td>Traité, transmis et terminé</td></tr>
+                            <tr><td><div style="background-color: #4F52BA; width: 25px"> &nbsp;</div></td><td> Traitée et retournée </td><td> Traité, transmis et retourné</td></tr>
+                            </thead>
+
+                        </table></li>
                     @endif
 
 
