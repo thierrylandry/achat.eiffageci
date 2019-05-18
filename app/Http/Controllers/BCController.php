@@ -835,5 +835,66 @@ public function gestion_offre(){
         return redirect()->route('gestion_bc')->with('success', "Date de livraison ajoutée avec succès ");
 
     }
+    public function list_materiel_produit(){
+        $codes= Analytique::all();
+        $materiels = Materiel::all();
+$optcode="";$optmateriel="";$optunite="";
+        foreach ($codes as $code):
+$optcode.=" <option value='".$code->codeRubrique."' data-subtext='".$code->libelle."'>".$code->codeRubrique."</option>";
+            endforeach;
+        foreach ($materiels as $materiel):
+            $optmateriel.="<option value='".$materiel->id."'>".$materiel->libelleMateriel."</option>";
+        endforeach;
+
+        $unites=Unites::all();
+        foreach($unites as $unite):
+            if($unite->id==1 || $unite->id>=41 && $unite->id<50 ){
+                $tab_unite['nothing'][]=$unite->libelle;
+            }elseif($unite->id>1 && $unite->id<=10 ){
+                $tab_unite['La longueur'][]= $unite->libelle;
+            }elseif ($unite->id>10 && $unite->id<=20){
+                $tab_unite['La masse'][]=$unite->libelle;
+            }elseif ($unite->id>20 && $unite->id<=30){
+                $tab_unite['Le volume'][]=$unite->libelle;
+            }elseif ($unite->id>30 && $unite->id<=40){
+                $tab_unite['La surface'][]=$unite->libelle;
+            }
+        endforeach;
+        foreach($tab_unite['nothing'] as $unite):
+            $optunite.="<option value='".$unite."'>".$unite."</option>";
+        endforeach;
+        $optunite.="<optgroup label='La longeur'>";
+        foreach($tab_unite['La longueur'] as $unite):
+            $optunite.="<option value=".$unite.">".$unite."</option>";
+        endforeach;
+                   $optunite.="</optgroup>";
+
+        $optunite.=" <optgroup label='La masse'>";
+            foreach($tab_unite['La masse'] as $unite):
+                $optunite.="<option value='".$unite."'>".$unite."</option>";
+        endforeach;
+        $optunite.="</optgroup>";
+
+
+
+        $optunite.="<optgroup label='Le volume'>";
+            foreach($tab_unite['Le volume'] as $unite):
+                $optunite.="<option value=".$unite.">".$unite."</option>";
+        endforeach;
+        $optunite.="</optgroup>";
+
+        $optunite.="<optgroup label='La surface'>";
+            foreach($tab_unite['La surface'] as $unite):
+                $optunite.="<option value=".$unite.">{{$unite}}</option>";
+        endforeach;
+        $optunite.="</optgroup>";
+
+        $tab['optcode']=$optcode;
+        $tab['optmateriel']=$optmateriel;
+        $tab['optunite']=$optunite;
+
+        return $tab;
+
+    }
 
 }
