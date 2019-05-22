@@ -642,7 +642,7 @@ $analytiques= Analytique::all();
             ->where('devis.id_bc', '=', $id)
             ->select('devis.id','devis.titre_ext','id_bc','devis.codeRubrique','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.devise','devis.hastva','DateBesoin','users.service','lignebesoin.commentaire')->distinct()->get();
 
-
+        dd($devis);
 
     $services=Services::all();
         $new_devis=DB::table('devis')
@@ -664,7 +664,7 @@ $analytiques= Analytique::all();
             }
             if(!in_array($dev->service,$service_id)){
 
-                dd($dev->service);
+
                 $service_unique= Services::find($dev->service);
                 $service_id[]=$service_unique->id;
                 $service_libelle[]=$service_unique->libelle;
