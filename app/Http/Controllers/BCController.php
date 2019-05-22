@@ -664,6 +664,7 @@ $analytiques= Analytique::all();
             }
             if(!in_array($dev->service,$service_id)){
 
+                dd($dev->service);
                 $service_unique= Services::find($dev->service);
                 $service_id[]=$service_unique->id;
                 $service_libelle[]=$service_unique->libelle;
