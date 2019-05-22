@@ -885,7 +885,7 @@ $optcode.=" <option value='".$code->codeRubrique."' data-subtext='".$code->libel
 
         $optunite.="<optgroup label='La surface'>";
             foreach($tab_unite['La surface'] as $unite):
-                $optunite.="<option value=".$unite.">{{$unite}}</option>";
+                $optunite.="<option value=".$unite.">".$unite."</option>";
         endforeach;
         $optunite.="</optgroup>";
 

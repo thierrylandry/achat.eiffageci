@@ -85,7 +85,7 @@
         <br>
         <h4>lignes</h4>
         Ajouter une ligne
-        <button type="button" class="btn bg-teal btn-circle waves-effect waves-circle waves-float" id="addRow">
+        <button type="button" class="btn bg-teal btn-circle waves-effect waves-circle waves-float" id="addligne">
             <i class="fa fa-plus-circle" aria-hidden="true"></i>
         </button>
         <table name ="ligneCommandes" id="ligneCommandes" class=''>
@@ -109,62 +109,60 @@
             </tr>
             </thead>
             <tbody name ="contenu_tableau_ligne" id="contenu_tableau_ligne">
-<tr>
-    <td class="dt-head-center"></td>
-    <td class=""><select class="selectpicker form-control" data-live-search="true"><option  value="">SELECTIONNER UN PRODUIT</option>
-            @foreach($materiels as $materiel)
-                <option @if(isset($da) and $materiel->id==$da->	id_materiel)
-                        {{'selected'}}
-                        @endif value="{{$materiel->id}}">{{$materiel->libelleMateriel}}</option>
-            @endforeach</select></td>
-    <td class=""><input type="text" name="commentaire1" id="commentaire1" class="form-control"/></td>
-    <td class=""><select class="form-control selectpicker" id="codeRubrique1" name="codeRubrique1" data-live-search="true" data-size="6" required>
-            <option  value="">SELECTIONNER</option>
-            @foreach($analytiques as $analytique)
+            <tr>
+                <td class="dt-head-center"></td>
+                <td class=""><select class="selectpicker form-control" data-live-search="true" ><option  value="">SELECTIONNER UN PRODUIT</option>
+                        @foreach($materiels as $materiel)
+                            <option value="{{$materiel->id}}">{{$materiel->libelleMateriel}}</option>
+                        @endforeach</select></td>
+                <td class=""><input type="text" name="commentaire1" id="commentaire1" class="form-control"/></td>
+                <td class=""><select class="form-control selectpicker" id="codeRubrique1" name="codeRubrique1" data-live-search="true" data-size="6" required>
+                        <option  value="">SELECTIONNER</option>
+                        @foreach($analytiques as $analytique)
 
-                <option value="{{$analytique->codeRubrique}}" data-subtext="{{$analytique->libelle}}">{{$analytique->codeRubrique}}</option>
-            @endforeach
-        </select></td>
-    <td class="" ><input type="number"  step="any" min="0" name="quantite1" id="quantite1" class="form-control  col-sm-4" /> </td>
-    <td class="">     <select class="form-control selectpicker col-sm-4" id="unite" name="unite" data-live-search="true" data-size="6">
-            @foreach($tab_unite['nothing'] as $unite)
-                <option value="{{$unite}}">{{$unite}}</option>
-            @endforeach
-            <optgroup label="La longeur">
-                @foreach($tab_unite['La longueur'] as $unite)
-                    <option value="{{$unite}}">{{$unite}}</option>
-                @endforeach
-            </optgroup>
+                            <option value="{{$analytique->codeRubrique}}" data-subtext="{{$analytique->libelle}}">{{$analytique->codeRubrique}}</option>
+                        @endforeach
+                    </select></td>
+                <td class="" ><input type="number"  step="any" min="0" name="quantite1" id="quantite1" class="form-control quantite  col-sm-4" onclick="calcule_au_click_sur_la_quantie(this)" /> </td>
+                <td class="">     <select class="form-control selectpicker col-sm-4" id="unite" name="unite" data-live-search="true" data-size="6">
+                        @foreach($tab_unite['nothing'] as $unite)
+                            <option value="{{$unite}}">{{$unite}}</option>
+                        @endforeach
+                        <optgroup label="La longeur">
+                            @foreach($tab_unite['La longueur'] as $unite)
+                                <option value="{{$unite}}">{{$unite}}</option>
+                            @endforeach
+                        </optgroup>
 
-            <optgroup label="La masse">
-                @foreach($tab_unite['La masse'] as $unite)
-                    <option value="{{$unite}}">{{$unite}}</option>
-                @endforeach
-            </optgroup>
+                        <optgroup label="La masse">
+                            @foreach($tab_unite['La masse'] as $unite)
+                                <option value="{{$unite}}">{{$unite}}</option>
+                            @endforeach
+                        </optgroup>
 
 
 
-            <optgroup label="Le volume">
-                @foreach($tab_unite['Le volume'] as $unite)
-                    <option value="{{$unite}}">{{$unite}}</option>
-                @endforeach
-            </optgroup>
+                        <optgroup label="Le volume">
+                            @foreach($tab_unite['Le volume'] as $unite)
+                                <option value="{{$unite}}">{{$unite}}</option>
+                            @endforeach
+                        </optgroup>
 
-            <optgroup label="La surface">
-                @foreach($tab_unite['La surface'] as $unite)
-                    <option value="{{$unite}}">{{$unite}}</option>
-                @endforeach
-            </optgroup>
+                        <optgroup label="La surface">
+                            @foreach($tab_unite['La surface'] as $unite)
+                                <option value="{{$unite}}">{{$unite}}</option>
+                            @endforeach
+                        </optgroup>
 
-        </select></td>
-    <td class=""><input type="number" class="form-control" min="0" name="pu" id="pu"/> </td>
-    <td class=""><input type="number" class="form-control" min="0" name="remise" id="remise"/></td>
-    <td class=""></td>
-    <td class=""></td>
-    <td class=""></td>
-    <td class=""></td>
-    <td class="">Action</td>
-</tr>
+                    </select></td>
+                <td class=""><input type="number" class="form-control row_n__tva" min="0" name="pu" id="pu" value="1"/> </td>
+                <td class=""><input type="number" class="form-control row_n__tva" min="0" name="remise" id="remise"/></td>
+                <td class=""></td>
+                <td class=""></td>
+                <td class=""></td>
+                <td class=""></td>
+                <td class="">Action</td>
+            </tr>
 
             </tbody>
             <tfooter>
@@ -205,7 +203,7 @@
                         <option value="{{$analytique->codeRubrique}}" data-subtext="{{$analytique->libelle}}">{{$analytique->codeRubrique}}</option>
                     @endforeach
                 </select></td>
-            <td class="" ><input type="number"  step="any" min="0" name="quantite1" id="quantite1" class="form-control  col-sm-4" /> </td>
+            <td class="" ><input type="number"  step="any" min="0" name="quantite1" id="quantite1" class="form-control  col-sm-4" onclick="calcule_au_click_sur_la_quantie()" /> </td>
             <td class="">     <select class="form-control selectpicker col-sm-4" id="unite" name="unite" data-live-search="true" data-size="6">
                     @foreach($tab_unite['nothing'] as $unite)
                         <option value="{{$unite}}">{{$unite}}</option>
@@ -247,7 +245,126 @@
         </tr>
     </div>
     <script>
+        function ilisibilite_nombre(valeur){
 
+            for(var i=valeur.length-1; i>=0; i-- ){valeur=valeur.toString().replace(' ','');
+
+            }
+
+            return valeur;
+
+        }
+        function lisibilite_nombre(nbr) {
+
+            var nombre = ''+nbr;
+
+            var retour = '';
+
+            var count=0;
+
+            for(var i=nombre.length-1 ; i>=0 ; i--)
+
+            {
+
+                if(count!=0 && count % 3 == 0)
+
+                    retour = nombre[i]+' '+retour ;
+
+                else
+
+                    retour = nombre[i]+retour ;
+
+                count++;
+
+            }
+
+            //          alert('nb : '+nbr+' => '+retour);
+
+            return retour;
+
+        }
+        var table= $('#ligneCommandes').DataTable({
+            dom: "Bfrtip",
+            order: [ 1, 'asc' ],
+            select: {
+                style:    'os',
+                selector: 'td:first-child'
+            },
+
+            language: {
+                url: '../js/French.json'
+            },
+            "ordering":true,
+            "paging": false,
+
+            "footerCallback": function ( row, data, start, end, display ) {
+                var api = this.api(), data;
+
+                // Remove the formatting to get integer data for summation
+                var intVal = function ( i ) {
+                    return typeof i === 'string' ?
+                    i.replace(/[\$,]/g, '')*1 :
+                            typeof i === 'number' ?
+                                    i : 0;
+                };
+
+                // Total over all pages
+                total = api
+                        .column( 8 )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(ilisibilite_nombre(a)) + intVal(ilisibilite_nombre(b));
+                        }, 0 );
+
+                // Total over this page
+                pageTotal = api
+                        .column( 8, { page: 'current'} )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(ilisibilite_nombre(a)) + intVal(ilisibilite_nombre(b));
+                        }, 0 );
+                // Total tva
+                TTva = api
+                        .column( 9, { page: 'current'} )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(ilisibilite_nombre(a)) + intVal(ilisibilite_nombre(b));
+                        }, 0 );
+
+                // Update footer
+                $( api.column( 0 ).footer() ).html(
+                        '$'+pageTotal +' ( $'+ total +' total)'
+                );
+                $('#tot').html(lisibilite_nombre(Math.round(pageTotal))+" {{ "" }}");
+                $('#tot_serv').val(Math.round(pageTotal));
+                $('#tva').html(lisibilite_nombre(TTva)+" {{""}}");
+                $('#tva_serv').val(Math.round(TTva));
+                $('#ttc').html(lisibilite_nombre(Math.round(pageTotal*1.18)) +" {{""}}");
+                $('#ttc_serv').val(Math.round(pageTotal*1.18));
+            },
+            responsive: true,
+            columnDefs: [
+                { responsivePriority: 5, targets: 0 },
+                { responsivePriority: 2, targets: -2 }
+            ]
+        }).column(0).visible(false);
+
+        function calcule_au_click_sur_la_quantie(t){
+          // console.log(t);
+            var data = table.row($(t).parents('tr')).data();
+            var tva=0;
+            var data = table.row($(t).parents('tr')).data();
+            //  console.log(data);
+            var num_row=$(t).parents('tr');
+            var pu=ilisibilite_nombre(($(t).closest('td').next().next().html())*18)/100;
+            var tva_prod=ilisibilite_nombre(($(t).closest('td').prev().prev().html())*18)/100;
+            var tht=$(t).val()*$(t).closest('td').next().next()['0'].children['0'].value;
+            var remise=$(t).val()*$(t).closest('td').next().next().next()['0'].children['0'].value;
+           // tht=remise-
+            alert(tht);
+            console.log($(t).closest('td').next().next()['0'].children['0'].value);
+
+        }
         function myFunction() {
             var x = document.getElementById("myDIV");
             if (x.style.display === "none") {
@@ -256,16 +373,9 @@
                 x.style.display = "none";
             }
         }
-        $( document ).ready(function() {
-            var listecode="";
-            var listmaeriel="";
-            $.get("../list_materiel_produit/", function(data, status){
 
-                console.log(data);
-            });
-
-        });
         (function($) {
+
 
 
             $(".btn_addbc").click(function (){
@@ -287,124 +397,27 @@
                     window.location.reload()
                 });
             });
-            function ilisibilite_nombre(valeur){
-
-                for(var i=valeur.length-1; i>=0; i-- ){valeur=valeur.toString().replace(' ','');
-
-                }
-
-                return valeur;
-
-            }
-            function lisibilite_nombre(nbr)
-
-            {
-
-                var nombre = ''+nbr;
-
-                var retour = '';
-
-                var count=0;
-
-                for(var i=nombre.length-1 ; i>=0 ; i--)
-
-                {
-
-                    if(count!=0 && count % 3 == 0)
-
-                        retour = nombre[i]+' '+retour ;
-
-                    else
-
-                        retour = nombre[i]+retour ;
-
-                    count++;
-
-                }
-
-                //          alert('nb : '+nbr+' => '+retour);
-
-                return retour;
-
-            }
 
 
-            var table= $('#ligneCommandes').DataTable({
-                dom: "Bfrtip",
-                order: [ 1, 'asc' ],
-                select: {
-                    style:    'os',
-                    selector: 'td:first-child'
-                },
 
-                language: {
-                    url: '../js/French.json'
-                },
-                "ordering":true,
-                "paging": false,
 
-                "footerCallback": function ( row, data, start, end, display ) {
-                    var api = this.api(), data;
-
-                    // Remove the formatting to get integer data for summation
-                    var intVal = function ( i ) {
-                        return typeof i === 'string' ?
-                        i.replace(/[\$,]/g, '')*1 :
-                                typeof i === 'number' ?
-                                        i : 0;
-                    };
-
-                    // Total over all pages
-                    total = api
-                            .column( 8 )
-                            .data()
-                            .reduce( function (a, b) {
-                                return intVal(ilisibilite_nombre(a)) + intVal(ilisibilite_nombre(b));
-                            }, 0 );
-
-                    // Total over this page
-                    pageTotal = api
-                            .column( 8, { page: 'current'} )
-                            .data()
-                            .reduce( function (a, b) {
-                                return intVal(ilisibilite_nombre(a)) + intVal(ilisibilite_nombre(b));
-                            }, 0 );
-                    // Total tva
-                    TTva = api
-                            .column( 9, { page: 'current'} )
-                            .data()
-                            .reduce( function (a, b) {
-                                return intVal(ilisibilite_nombre(a)) + intVal(ilisibilite_nombre(b));
-                            }, 0 );
-
-                    // Update footer
-                    $( api.column( 0 ).footer() ).html(
-                            '$'+pageTotal +' ( $'+ total +' total)'
-                    );
-                    $('#tot').html(lisibilite_nombre(Math.round(pageTotal))+" {{ "" }}");
-                    $('#tot_serv').val(Math.round(pageTotal));
-                    $('#tva').html(lisibilite_nombre(TTva)+" {{""}}");
-                    $('#tva_serv').val(Math.round(TTva));
-                    $('#ttc').html(lisibilite_nombre(Math.round(pageTotal*1.18)) +" {{""}}");
-                    $('#ttc_serv').val(Math.round(pageTotal*1.18));
-                },
-                responsive: true,
-                columnDefs: [
-                    { responsivePriority: 5, targets: 0 },
-                    { responsivePriority: 2, targets: -2 }
-                ]
-            }).column(0).visible(false);
             $(".testdd").change(function (e){
                 console.log("test");
             });
-            $('.row_n__tva').click(function (e) {
 
+            $('.quantite3222').click(function (e) {
                 // $(this).closest('td').next().next().html(1);
                 var tva=0;
                 var data = table.row($(this).parents('tr')).data();
+              //  console.log(data);
                 var num_row=$(this).parents('tr');
+                var pu=ilisibilite_nombre(($(this).closest('td').next().next().html())*18)/100;
                 var tva_prod=ilisibilite_nombre(($(this).closest('td').prev().prev().html())*18)/100;
-
+                alert($(this).closest('td').next().next().html().value);
+               // console.log($(this).closest('td').next().next());
+                console.log($(this).closest('td').next().next()['0'].children['0'].value);
+               // console.log($('#'+$(this).closest('td').next().next().0.context.id).val());
+/*
                 if($(this).prop('checked') ){
 
                     $(this).closest('td').prev().html(lisibilite_nombre(tva_prod));
@@ -425,7 +438,7 @@
 
 
                 }
-
+*/
                 var data = table.rows().data();
                 var sumtva=0;
                 data.each(function (value, index) {
@@ -447,19 +460,27 @@
 
             })
 
-            $("#addcontact").click(function (e) {
-                $($("#lignetemplate").html()).appendTo($("#contenu_tableau_ligne"));
-            });
             var counter = 1;
+            // ici
+            var listecode="";
+            var listeoptmateriel="";
+            var listeoptunite="";
+            $.get("list_materiel_produit/", function(data, status){
 
-            $('#addRow').on( 'click', function () {
+                listecode=data["optcode"];
+                listeoptmateriel=data["optmateriel"];
+                listeoptunite=data["optunite"];
+
+            });
+
+            $('#addligne').on( 'click', function () {
                 table.row.add( [
                     counter +'.1',
-                   "<input type='text' id='designation_"+counter+".2' class='testdd'/>",
+                   "<select class='form-control'>"+"<option>SELECTIONNER UN PRODUIT</opton>"+listeoptmateriel+"</select>",
                     "<input type='text' id='commentaire_"+counter+".3'/>",
-                    "<input type='text' id='codeAnalitique_"+counter+".4'/>",
-                    "<input type='number' min='1' id='quantite"+counter+".5' style='width:100px;'/>",
-                    "<select class='form-control unite selectpicker col-sm-4' id='unite_"+counter+".6' name='unite_"+counter+".6' data-live-search='true' data-size='6'><option value='U'>U</option> <optgroup label='La longeur'><option value='Km'> Km</option><option value='m'>m</option><option value='cm'>cm</option><option value='mm'>mm</option></optgroup><optgroup label='La masse'><option value='T'> T</option><option value='Kg'>Kg</option> <option value='g'>g</option><option value='mg'>mg</option></optgroup><optgroup label='Le litre'> <option value='L'> L</option><option value='ml'>ml</option></optgroup><optgroup label='Le volume'><option value='m3'> m<SUP>3</SUP></option></optgroup><optgroup label='La surface'><option value='m²'> m²</option></optgroup> </select>",
+                    "<select class='form-control' class='codeRubrique'>"+"<option>SELECTIONNER</opton>"+listecode+"</select>",
+                    "<input type='number' min='1' step='any' min='0' onclick='calcule_au_click_sur_la_quantie(this)' class=' form-control quantite' id='quantite"+counter+".5' style='width:100px;'/>",
+                    "<select class='form-control unite selectpicker col-sm-4' id='unite_"+counter+".6' name='unite_"+counter+".6' data-live-search='true' data-size='6'>"+listeoptunite+"</select>",
                     "<input type='number' min='1' id='prix_unitaire' class='prix_unitaire'/>",
                     "<input type='number' min='1' id='remise"+counter+".8' style='width:50px;'/>",
                     "",
@@ -468,18 +489,21 @@
                     counter +'.12',
                     counter +'.13',
                     counter +'.14',
-                ] ).draw( false );
+                ] ).draw( true );
                 $('.unite').selectpicker('refresh');
+                $('.quantite').selectpicker('refresh');
+                $('.codeRubrique').selectpicker('refresh');
                 counter++;
             } );
 
-
+$('.quantite').click(function (e){
+ //   alert('dd');
+});
             // Automatically add a first row of data
-            $('#addRow').click();
         })(jQuery);
     </script>
     <script type="application/javascript">
-        $("#addligne").click(function (e) {
+        $("#addrow").click(function (e) {
             $($("#lignetemplate").html()).appendTo($("#contenu_tableau_ligne"));
         });
     </script>
