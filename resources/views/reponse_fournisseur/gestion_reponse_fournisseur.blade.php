@@ -155,7 +155,7 @@
                             <form action="{{route('selection_de_la_reponse')}}" method="post">
                                 <div id="daencours">
 
-                                    <table name ="gestion_reponse_fournisseur1" id="" class='table table-bordered table-striped  no-wrap col-lg-push-3' >
+                                    <table name ="gestion_reponse_fournisseur1" id="gestion_reponse_fournisseur1" class='table table-bordered table-striped  no-wrap col-lg-push-3' >
 
                                         <thead>
 
