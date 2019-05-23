@@ -598,7 +598,9 @@ foreach ($recup_email as $email):
         $natures= Nature::all();
         $users= User::all();
         $domaines=  DB::table('domaines')->get();
-        $devis = Devis::where('etat','=',1)->get();
+        $devis = DB::table('devis')
+                ->join('materiel', 'materiel.id', '=', 'devis.id_materiel')
+                ->where('etat','=',1)->get();
 
         $analytiques=  DB::table('analytique')->distinct()->get(['codeRubrique','libelle']);
         $unites=Unites::all();

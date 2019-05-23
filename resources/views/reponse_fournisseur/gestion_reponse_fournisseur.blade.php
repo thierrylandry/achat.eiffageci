@@ -172,13 +172,7 @@
 
                                             <tr>
                                                 <td>{{$devi->id}}</td>
-                                                <td>
-                                                    @foreach($materiels as $materiel )
-                                                        @if($materiel->id==$devi->id_materiel)
-                                                            {{$materiel->id}}
-                                                        @endif
-                                                    @endforeach
-                                                </td>
+                                                <td>{{ $devi->libelleMateriel}}</td>
                                                 <td>{{$devi->id_da}}</td>
                                                 <td> <div class="form-group">
                                                         <select class="form-control selectpicker" id="row_n_{{$devi->id}}_codeRubrique" name="row_n_{{$devi->id}}_codeRubrique" data-live-search="true" data-size="6" required>
@@ -228,17 +222,15 @@
                                                 <td><select class="form-control" id="row_n_{{$devi->id}}_fournisseur" name="row_n_{{$devi->id}}_fournisseur">
                                                         <option value="">SELECTIONNER UN  FOURNISSEUR</option>
                                                         @foreach($fournisseurs as $fournisseur)
-                                                            @foreach($materiels as $materiel)
-                                                                @if($devi->id_materiel==$materiel->id)
-                                                                    @if(in_array($materiel->type,explode(',',$fournisseur->domaine)))
+
+                                                                    @if(in_array($devi->type,explode(',',$fournisseur->domaine)))
                                                                         @if($fournisseur->id==$devi->id_fournisseur)
                                                                             <option value="{{$fournisseur->id}}" selected>{{$fournisseur->libelle}}</option>
                                                                         @else
                                                                             <option value="{{$fournisseur->id}}">{{$fournisseur->libelle}}</option>
                                                                         @endif
                                                                     @endif
-                                                                @endif
-                                                            @endforeach
+                                                            
 
                                                         @endforeach</select></td>
                                                 <td><input class="form-control"  type="number" min="0" id="row_n_{{$devi->id}}_prix_unitaire" name="row_n_{{$devi->id}}_prix_unitaire" value="{{$devi->prix_unitaire}}" /></td>
