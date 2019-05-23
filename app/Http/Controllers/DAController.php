@@ -46,7 +46,7 @@ class DAController
         //ici
         $fournisseurs=Fournisseur::all();
         $materiels=Materiel::all();
-        $das=  DA::where('id_user','=',\Illuminate\Support\Facades\Auth::user()->id)->orderBy('created_at', 'DESC')->limit(100)->get();
+        $das=  DA::where('id_user','=',\Illuminate\Support\Facades\Auth::user()->id)->orderBy('created_at', 'DESC')->limit(50)->get();
         $natures= Nature::all();
         $service_users=DB::table('users')
             ->leftJoin('services', 'services.id', '=', 'users.service')
