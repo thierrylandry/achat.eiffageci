@@ -54,13 +54,7 @@
 
                                             <tr>
                                                 <td>{{$da->id}}</td>
-                                                <td>
-                                                    @foreach($materiels as $materiel )
-                                                        @if($materiel->id==$da->id_materiel)
-                                                            {{$materiel->id}}
-                                                        @endif
-                                                    @endforeach
-                                                </td>
+                                                <td>{{$da->id_materiel}}</td>
                                                 <td><div class="form-group">
                                                         <select class="form-control selectpicker" id="row_n_{{$da->id}}_codeRubrique" name="row_n_{{$da->id}}_codeRubrique" data-live-search="true" data-size="6" >
                                                             <option  value="">SELECTIONNER</option>
