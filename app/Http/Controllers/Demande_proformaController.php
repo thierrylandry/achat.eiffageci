@@ -597,7 +597,7 @@ foreach ($recup_email as $email):
         $users= User::all();
         $domaines=  DB::table('domaines')->get();
         $devis = Devis::where('etat','=',1)->get();
-        dd($devis);
+
         $analytiques=  DB::table('analytique')->distinct()->get(['codeRubrique','libelle']);
         $unites=Unites::all();
         foreach($unites as $unite):

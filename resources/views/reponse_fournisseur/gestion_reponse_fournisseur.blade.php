@@ -155,7 +155,7 @@
                             <form action="{{route('selection_de_la_reponse')}}" method="post">
                                 <div id="daencours">
 
-                                    <table name ="gestion_reponse_fournisseur1" id="gestion_reponse_fournisseur1" class='table table-bordered table-striped  no-wrap col-lg-push-3' >
+                                    <table name ="gestion_reponse_fournisseur1" id="" class='table table-bordered table-striped  no-wrap col-lg-push-3' >
 
                                         <thead>
 
@@ -208,8 +208,6 @@
                                                     <input type="text" value="{{$devi->titre_ext}}" id="row_n_{{$devi->id}}_titre_ext" name="row_n_{{$devi->id}}_titre_ext"/>
 
                                                 </td>
-
-
                                                 <td> <input min="0" type="number" step="any" value="{{$devi->quantite}}" class="form-control" id="row_n_{{$devi->id}}_quantite" name="row_n_{{$devi->id}}_quantite">
                                                     <select class="form-control selectpicker col-sm-4" id="row_n_{{$devi->id}}_unite" name="row_n_{{$devi->id}}_unite" data-live-search="true" data-size="6">
                                                         @foreach($tab_unite['nothing'] as $unite)
