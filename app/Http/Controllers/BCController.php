@@ -547,6 +547,12 @@ $analytiques= Analytique::all();
 
         return "super";
     }
+    public function detail_list_devis($id_bc)
+    {
+        $devis= Devis::where('id_bc','=',$id_bc)->get();
+        return \GuzzleHttp\json_encode($devis);
+    }
+
     public function chercher_codeRubrique($id)
     {
         $materiel= Materiel::find($id);

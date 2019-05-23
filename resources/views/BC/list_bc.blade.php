@@ -310,8 +310,8 @@
                                     <a href="{{route('traite_retourne',['id'=>$bc->slug])}}" data-toggle="modal" class="">
                                         <i class="fa fa-arrow-circle-right"></i> traité et retourné?
                                     </a>
-                                    <a href="{{route('bon_commande_file',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
-                                        <i class="fa fa-list"></i>
+                                    <a href="#" data-toggle="modal" data-target="#list_devis" class="btn btn-default preciser_livraison">
+                                        <i class="fa fa-list"></i><i class="fa fa-calendar-check-o"></i>
                                     </a>
                                     <a href="{{route('bon_commande_file',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
                                         <i class="fa fa-file-pdf-o"></i>
@@ -424,6 +424,16 @@
 
         }
     }).column(0).visible(false);
+    var table3= $('#contenu_devis').DataTable({
+        language: {
+            url: "{{ URL::asset('public/js/French.json') }}"
+        },
+        "ordering":false,
+        "responsive": false,
+        "createdRow": function( row, data, dataIndex){
+
+        }
+    }).column(0).visible(false);
     //table.DataTable().draw();
     function addRow(tableID) {
 
@@ -494,5 +504,25 @@
             // do something
         }
     }
+
+    $(".preciser_livraison").click( function (e){
+        var data = table1.row($(this).parents('tr')).data();
+        $('#numbcc').val(data[2]);
+
+        $.get("detail_list_devis/"+data[0], function(data){
+
+          var tabobj=   data= JSON.parse(data);
+
+            $.each(tabobj,function (index,value) {
+                $('.date_livr_def').val("");
+                table3.row.add( [
+                    value.id,
+                    value.titre_ext,
+                    value.quantite,
+                       "<input type='date' class='form-control date_livr_def ' name='date_livr_def' />"
+                        ]).draw();
+            });
+        });
+    });
 
 </script>

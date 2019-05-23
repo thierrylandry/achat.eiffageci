@@ -156,7 +156,43 @@
     </div>
     <!-- fin -->
     <!-- fin -->
+    <div id="list_devis" class="modal fade in" aria-hidden="true" role="dialog" >
+        <div class="modal-dialog modal-md">
 
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">BC N°  <input type="text" readonly id="numbcc" value="" />   </h4>
+                </div>
+
+                <div class="modal-body" >
+                    <h4>Liste des lignes de commandes</h4>
+                    <table id="contenu_devis" class='table table-bordered table-striped  no-wrap '>
+                        <thead>
+                        <tr>
+                            <td>id_devis</td>
+                            <td>titre_ext</td>
+                            <td>quantite</td>
+                            <td>date de livraison effective</td>
+                        </tr>
+
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+
+                </div>
+                                <div class="modal-footer">
+
+                                    <button type="button" class="btn btn-default"> <i class="fa fa-calendar-check-o"></i>Enregistrer</button>
+                                </div>
+
+            </div>
+
+        </div>
+    </div>
 
     <div id="confirm_email" class="modal fade in" aria-hidden="true" role="dialog" >
         <div class="modal-dialog modal-md">

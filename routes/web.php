@@ -560,6 +560,13 @@ Route::get('/add_new_da_to_bc/{id}/{id_bc}',[
     'roles' => ['Gestionnaire_BC','Valideur_BC']
 
 ])->middleware('auth');
+Route::get('/detail_list_devis/{id_bc}',[
+    'as'=>'detail_list_devis',
+    'uses'=>'BCController@detail_list_devis',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_BC','Valideur_BC']
+
+])->middleware('auth');
 Route::get('/retirer_da_to_bc/{id}/{id_bc}',[
     'as'=>'retirer_da_to_bc',
     'uses'=>'BCController@retirer_da_to_bc',
