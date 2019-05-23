@@ -583,16 +583,18 @@ foreach ($recup_email as $email):
         $das= DB::table('materiel')
             ->join('lignebesoin', 'materiel.id', '=', 'lignebesoin.id_materiel')
             ->where('etat', '=', 2)
-            ->select('lignebesoin.id', 'lignebesoin.unite', 'lignebesoin.quantite', 'DateBesoin','id_user', 'id_reponse_fournisseur','id_nature', 'lignebesoin.id_materiel', 'id_bonCommande','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','code_analytique','type')->distinct()->limit(5)->get();
+            ->select('lignebesoin.id', 'lignebesoin.unite', 'lignebesoin.quantite', 'DateBesoin','id_user', 'id_reponse_fournisseur','id_nature', 'lignebesoin.id_materiel', 'id_bonCommande','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','code_analytique','type')->distinct()->limit(20)->get();
 
         $tab_proposition= Array();
         foreach ($das as $d):
-            $dev = Devis::where('id_materiel','=',$d->id_materiel)->orderByRaw('devis.id DESC')->get()->first();
+            $dev = DB::table('devis')
+                    ->join('materiel', 'materiel.id', '=', 'devis.id_materiel')
+                    ->where('id_materiel','=',$d->id_materiel)->orderByRaw('devis.id DESC')->get()->first();
             if($dev!=null){
                 $tab_proposition[$d->id]=$dev;
             }
-
         endforeach;
+
         $natures= Nature::all();
         $users= User::all();
         $domaines=  DB::table('domaines')->get();
