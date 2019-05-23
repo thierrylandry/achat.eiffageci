@@ -68,12 +68,7 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    @foreach($materiels as $materiel )
-                                                        @if($materiel->id==$da->id_materiel)
-
-                                                            <input type="text" value="{{isset($tab_proposition[$da->id]->titre_ext)?$tab_proposition[$da->id]->titre_ext:$materiel->libelleMateriel}}" id="row_n_{{$da->id}}_titre_ext" name="row_n_{{$da->id}}_titre_ext"/>
-                                                        @endif
-                                                    @endforeach
+                                                            <input type="text" value="{{isset($tab_proposition[$da->id]->titre_ext)?$tab_proposition[$da->id]->titre_ext:$da->libelleMateriel}}" id="row_n_{{$da->id}}_titre_ext" name="row_n_{{$da->id}}_titre_ext"/>
                                                 </td>
 
 

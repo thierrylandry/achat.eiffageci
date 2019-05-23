@@ -579,11 +579,11 @@ foreach ($recup_email as $email):
         $fournisseurs=DB::table('fournisseur')
             ->join('domaines', 'domaines.id', '=', 'fournisseur.domaine')
             ->select('libelle','libelleDomainne','fournisseur.id','fournisseur.domaine')->distinct()->get();
-        $materiels=Materiel::all();
+       // $materiels=Materiel::all();
         $das= DB::table('materiel')
             ->join('lignebesoin', 'materiel.id', '=', 'lignebesoin.id_materiel')
             ->where('etat', '=', 2)
-            ->select('lignebesoin.id', 'lignebesoin.unite', 'lignebesoin.quantite', 'DateBesoin','id_user', 'id_reponse_fournisseur','id_nature', 'lignebesoin.id_materiel', 'id_bonCommande','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','code_analytique','type')->distinct()->limit(20)->get();
+            ->select('libelleMateriel','lignebesoin.id', 'lignebesoin.unite', 'lignebesoin.quantite', 'DateBesoin','id_user', 'id_reponse_fournisseur','id_nature', 'lignebesoin.id_materiel', 'id_bonCommande','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','code_analytique','type')->distinct()->limit(20)->get();
 
         $tab_proposition= Array();
         foreach ($das as $d):
@@ -615,7 +615,7 @@ foreach ($recup_email as $email):
                 $tab_unite['La surface'][]=$unite->libelle;
             }
         endforeach;
-        return view('reponse_fournisseur/gestion_reponse_fournisseur',compact('analytiques','das','fournisseurs','materiels','natures','users','domaines','devis','tab_proposition','tab_unite'));
+        return view('reponse_fournisseur/gestion_reponse_fournisseur',compact('analytiques','das','fournisseurs','natures','users','domaines','devis','tab_proposition','tab_unite'));
 
 
     }
