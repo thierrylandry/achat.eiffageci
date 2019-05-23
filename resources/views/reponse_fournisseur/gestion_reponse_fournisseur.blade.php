@@ -295,7 +295,7 @@
             //debut
             var table1 = $('#gestion_reponse_fournisseur').DataTable({
                 language: {
-                    url: "js/French.json"
+                    url: "public/js/French.json"
                 },
                 "ordering":true,
                 "paging": false,
@@ -303,7 +303,7 @@
             }).column(1).visible(false);
             var table2 = $('#gestion_reponse_fournisseur1').DataTable({
                 language: {
-                    url: "js/French.json"
+                    url: "public/js/French.json"
                 },
                 "ordering":true,
                 "paging": false,
