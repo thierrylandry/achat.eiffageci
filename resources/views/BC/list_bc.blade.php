@@ -311,6 +311,9 @@
                                         <i class="fa fa-arrow-circle-right"></i> traité et retourné?
                                     </a>
                                     <a href="{{route('bon_commande_file',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
+                                        <i class="fa fa-list"></i>
+                                    </a>
+                                    <a href="{{route('bon_commande_file',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
                                         <i class="fa fa-file-pdf-o"></i>
                                     </a>
                                 @elseif($bc->etat==4)

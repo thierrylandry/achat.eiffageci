@@ -30,7 +30,7 @@ class DAController
     {
         $fournisseurs=Fournisseur::all();
         $materiels=Materiel::all();
-        $das=  DA::orderBy('created_at', 'DESC')->limit(100)->get();
+        $das=  DA::orderBy('created_at', 'DESC')->limit(50)->get();
         $natures= Nature::all();
 
         $service_users=DB::table('users')
@@ -99,7 +99,7 @@ class DAController
     }
     public function voir_da($slug)
     {
-        $das=  DA::where('id_user','=',\Illuminate\Support\Facades\Auth::user()->id)->limit(100)->orderBy('created_at', 'DESC')->get();
+        $das=  DA::where('id_user','=',\Illuminate\Support\Facades\Auth::user()->id)->limit(50)->orderBy('created_at', 'DESC')->get();
         $da = DA::where('slug', '=', $slug)->first();
         $domaines=  DB::table('domaines')->get();
         $fournisseurs=Fournisseur::all();
