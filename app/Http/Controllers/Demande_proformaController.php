@@ -586,13 +586,7 @@ foreach ($recup_email as $email):
             ->select('lignebesoin.id', 'lignebesoin.unite', 'lignebesoin.quantite', 'DateBesoin','id_user', 'id_reponse_fournisseur','id_nature', 'lignebesoin.id_materiel', 'id_bonCommande','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','code_analytique','type')->distinct()->limit(10)->get();
 
         $tab_proposition= Array();
-        foreach ($das as $d):
-            $dev = Devis::where('id_materiel','=',$d->id_materiel)->orderByRaw('devis.id DESC')->get()->first();
-            if($dev!=null){
-                $tab_proposition[$d->id]=$dev;
-            }
-
-        endforeach;
+       
         $natures= Nature::all();
         $users= User::all();
         $domaines=  DB::table('domaines')->get();
