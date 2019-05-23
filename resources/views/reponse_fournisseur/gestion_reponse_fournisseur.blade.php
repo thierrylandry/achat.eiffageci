@@ -139,7 +139,7 @@
 
                                     <input type="button" class="btn btn-success pull-right" id="soumettre" name="soumettre" value="Soumettre" />
 
-
+                                </div>
                             </form></div>
                     </div>
                 </div>
@@ -151,7 +151,9 @@
                         </h4>
                     </div>
                     <div id="collapse2" class="panel-collapse collapse" >
-                        <div class="panel-body" ><form action="{{route('selection_de_la_reponse')}}" method="post"><div id="daencours">
+                        <div class="panel-body" >
+                            <form action="{{route('selection_de_la_reponse')}}" method="post">
+                                <div id="daencours">
 
                                     <table name ="gestion_reponse_fournisseur1" id="gestion_reponse_fournisseur1" class='table table-bordered table-striped  no-wrap col-lg-push-3' >
 
@@ -203,7 +205,7 @@
                                                 <td>
 
 
-                                                            <input type="text" value="{{$devi->titre_ext}}" id="row_n_{{$devi->id}}_titre_ext" name="row_n_{{$devi->id}}_titre_ext"/>
+                                                    <input type="text" value="{{$devi->titre_ext}}" id="row_n_{{$devi->id}}_titre_ext" name="row_n_{{$devi->id}}_titre_ext"/>
 
                                                 </td>
 
@@ -233,7 +235,7 @@
                                                         <optgroup label="La surface">
                                                             @foreach($tab_unite['La surface'] as $unite)
                                                                 <option value="{{$unite}}" {{$unite==$devi->unite?"selected":''}}>{{$unite}}</option>
-                                                            @endforeach
+                                                        @endforeach
                                                     </select>
                                                 </td>
                                                 <td><select class="form-control" id="row_n_{{$devi->id}}_fournisseur" name="row_n_{{$devi->id}}_fournisseur">
@@ -244,12 +246,12 @@
                                                                     @if(in_array($materiel->type,explode(',',$fournisseur->domaine)))
                                                                         @if($fournisseur->id==$devi->id_fournisseur)
                                                                             <option value="{{$fournisseur->id}}" selected>{{$fournisseur->libelle}}</option>
-                                                                            @else
+                                                                        @else
                                                                             <option value="{{$fournisseur->id}}">{{$fournisseur->libelle}}</option>
                                                                         @endif
                                                                     @endif
                                                                 @endif
-                                                                @endforeach
+                                                            @endforeach
 
                                                         @endforeach</select></td>
                                                 <td><input class="form-control"  type="number" min="0" id="row_n_{{$devi->id}}_prix_unitaire" name="row_n_{{$devi->id}}_prix_unitaire" value="{{$devi->prix_unitaire}}" /></td>
@@ -271,8 +273,9 @@
 
                                     <input type="button" class="btn btn-success pull-right" id="soumettre1" name="soumettre1" value="Modifier" />
 
-
-                            </form></div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
 
