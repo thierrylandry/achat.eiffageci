@@ -230,7 +230,7 @@
                                                                             <option value="{{$fournisseur->id}}">{{$fournisseur->libelle}}</option>
                                                                         @endif
                                                                     @endif
-                                                            
+
 
                                                         @endforeach</select></td>
                                                 <td><input class="form-control"  type="number" min="0" id="row_n_{{$devi->id}}_prix_unitaire" name="row_n_{{$devi->id}}_prix_unitaire" value="{{$devi->prix_unitaire}}" /></td>
