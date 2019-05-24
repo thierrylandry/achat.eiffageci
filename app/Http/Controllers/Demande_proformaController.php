@@ -599,8 +599,10 @@ foreach ($recup_email as $email):
         $users= User::all();
         $domaines=  DB::table('domaines')->get();
         $devis = DB::table('devis')
-                ->join('materiel', 'materiel.id', '=', 'devis.id_materiel')
-                ->where('etat','=',1)->get();
+            ->join('materiel', 'materiel.id', '=', 'devis.id_materiel')
+            ->select('libelleMateriel','devis.id','devis.id_da','titre_ext','type','devise', 'devis.unite', 'devis.quantite','id_fournisseur','prix_unitaire','remise','devis.codeRubrique','hastva')
+
+        ->where('etat','=',1)->get();
 
         $analytiques=  DB::table('analytique')->distinct()->get(['codeRubrique','libelle']);
         $unites=Unites::all();

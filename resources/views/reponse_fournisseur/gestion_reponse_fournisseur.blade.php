@@ -282,6 +282,7 @@
             $(".btn_supp2").click(function (){
                 var data = table2.row($(this).parents('tr')).data();
                 //  var id_bc= $("#id_bc").val();
+                console.log(data);
                 if(confirm("Voulez vous supprimer définitivement cette ligne?")){
                     $.get("supprimer_def_devis2/"+data[0], function(data, status){
                         console.log(data);
