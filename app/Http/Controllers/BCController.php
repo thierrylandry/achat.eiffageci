@@ -549,8 +549,59 @@ $analytiques= Analytique::all();
     }
     public function detail_list_devis($id_bc)
     {
-        $devis= Devis::where('id_bc','=',$id_bc)->get();
+        $devis= DB::table('devis')
+            ->join('lignebesoin', 'lignebesoin.id','=','devis.id_da')
+            ->where('id_bc','=',$id_bc)
+            ->select('devis.id','devis.quantite','devis.titre_ext','date_livraison_eff')->get();
         return \GuzzleHttp\json_encode($devis);
+    }
+    public function preciser_les_date_de_livraison(Request $request)
+    {
+        $parameters=$request->except(['_token']);
+
+        $lesidd=explode(',',$parameters['lesidd']);
+        $nb=0;
+        $count=0;
+        foreach($lesidd as $id):
+        if ($id!=""){
+            $devis= Devis::find($id);
+            $lignebesoin = Lignebesoin::find($devis->id_da);
+
+            if($parameters[$id.'date_livr_def']!=""){
+                $count++;
+                $lignebesoin->etat=4;
+            }
+            $dates[]=$parameters[$id.'date_livr_def'];
+            $lignebesoin->date_livraison_eff=$parameters[$id.'date_livr_def'];
+
+            $lignebesoin->save();
+            $nb++;
+        }
+            endforeach;
+        $devis= Devis::find($lesidd[1]);
+        $bondecommande= Boncommande::find($devis->id_bc);
+        if($count==$nb){
+
+         
+            $mostRecent= 0;
+            foreach($dates as $date){
+                $curDate = strtotime($date);
+                if ($curDate > $mostRecent) {
+                    $mostRecent = date("Y-m-d",$curDate);
+                }
+            }
+
+            $bondecommande->date_livraison=$mostRecent;
+            $bondecommande->etat=4;
+            $bondecommande->save();
+        }else{
+            if($bondecommande->etat==4){
+                $bondecommande->etat=3;
+                $bondecommande->save();
+            }
+        }
+        return redirect()->route('gestion_bc')->with('success',"a date de livraison a été précisé");
+
     }
 
     public function chercher_codeRubrique($id)
@@ -592,12 +643,15 @@ $analytiques= Analytique::all();
     public function traite_finalise($slug)
     {
         $date= new \DateTime(null);
+        $today = $date->format("Y-m-d");
         $Boncommande= Boncommande::where('slug', '=', $slug)->first();
         $Boncommande->etat=4;
+        $Boncommande->date_livraison=$today;
         $Boncommande->save();
         $lignebesoins=Lignebesoin::where('id_bonCommande','=',$Boncommande->id)->get();
         foreach( $lignebesoins as $lignebesoin):
             $lignebesoin->etat=4;
+            $lignebesoin->date_livraison_eff=$today;
             $lignebesoin->save();
             endforeach;
 

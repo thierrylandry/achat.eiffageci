@@ -699,6 +699,13 @@ Route::get('/list_materiel_produit',[
     'roles' => ['Gestionnaire_BC']
 
 ])->middleware('auth');
+Route::post('/preciser_les_date_de_livraison',[
+    'as'=>'preciser_les_date_de_livraison',
+    'uses'=>'BCController@preciser_les_date_de_livraison',
+    'roles' => ['Gestionnaire_BC']
+
+])->middleware('auth');
+
 //fin
 // validation de bon de commande
 Route::get('/validation_bc',[

@@ -268,6 +268,9 @@
                                     <a href="{{route('bon_commande_file',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
                                         <i class="fa fa-file-pdf-o"></i>
                                     </a>
+                                    <a href="#" data-toggle="modal" data-target="#list_devis" class="btn btn-default preciser_livraison">
+                                        <i class="fa fa-list"></i><i class="fa fa-calendar-check-o"></i>
+                                    </a>
                                     @if(Auth::user() != null && Auth::user()->hasAnyRole(['Gestionnaire_BC']))
                                         <a href="" data-toggle="modal" data-target="#confirm_email" class="btn btn-default" id="envoie_fourniseur">
                                             <i class="fa fa-file-pdf-o"></i><i class="fa fa-paper-plane-o"></i> envoyer au fournisseur
@@ -279,9 +282,13 @@
                                             <i class="fa fa-arrow-circle-right"></i> traité et retourné?
                                         </a>
                                     @endif
+
                                 @elseif($bc->etat==0)
                                     <a href="{{route('lister_commande',['slug'=>$bc->id])}}" data-toggle="modal" class="">
                                         <i class=" fa fa-list "></i> plus d'info
+                                    </a>
+                                    <a href="#" data-toggle="modal" data-target="#list_devis" class="btn btn-default preciser_livraison">
+                                        <i class="fa fa-list"></i><i class="fa fa-calendar-check-o"></i>
                                     </a>
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-info">Action</button>
@@ -310,19 +317,17 @@
                                     <a href="{{route('traite_retourne',['id'=>$bc->slug])}}" data-toggle="modal" class="">
                                         <i class="fa fa-arrow-circle-right"></i> traité et retourné?
                                     </a>
-                                    <a href="#" data-toggle="modal" data-target="#list_devis" class="btn btn-default preciser_livraison">
-                                        <i class="fa fa-list"></i><i class="fa fa-calendar-check-o"></i>
-                                    </a>
                                     <a href="{{route('bon_commande_file',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
                                         <i class="fa fa-file-pdf-o"></i>
+                                    </a>
+                                    <a href="#" data-toggle="modal" data-target="#list_devis" class="btn btn-default preciser_livraison">
+                                        <i class="fa fa-list"></i><i class="fa fa-calendar-check-o"></i>
                                     </a>
                                 @elseif($bc->etat==4)
                                     <a href="{{route('bon_commande_file',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
                                         <i class="fa fa-file-pdf-o"></i>
                                     </a>
-                                    <a href="" data-toggle="modal" data-target="#date_livraison" class="btn btn-default" id="btn_add_date_livraison">
-                                        préciser date de livraison
-                                    </a></br>
+                                  </br>
                                     @if($bc->date_livraison!=null) date de livraison éffective :  {{\Carbon\Carbon::parse($bc->date_livraison)->format('d-m-Y')}} @endif
                                 @elseif($bc->etat==11)
                                     <a href="{{route('bon_commande_file',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
@@ -505,23 +510,37 @@
         }
     }
 
+    $("#btn_enregistrer_date_livraison").click(function(){
+        var data = table3.rows().data();
+
+       var lesinput= table3.$('input').serialize();
+        console.log(lesinput);
+        $.get("preciser_les_date_de_livraison/"+lesinput, function(data){
+
+        });
+    });
     $(".preciser_livraison").click( function (e){
+        table3.clear().draw();
         var data = table1.row($(this).parents('tr')).data();
         $('#numbcc').val(data[2]);
 
+        $('.date_livr_def').val("");
         $.get("detail_list_devis/"+data[0], function(data){
 
           var tabobj=   data= JSON.parse(data);
-
+            var les_id="";
             $.each(tabobj,function (index,value) {
-                $('.date_livr_def').val("");
+
+                les_id= les_id+","+value.id;
+console.log(value.date_livraison_eff);
                 table3.row.add( [
                     value.id,
                     value.titre_ext,
                     value.quantite,
-                       "<input type='date' class='form-control date_livr_def ' name='date_livr_def' />"
+                    " <input type='date' class='form-control date_livr_def ' name='"+value.id+"date_livr_def' id='"+value.id+"date_livr_def' value='"+value.date_livraison_eff+"'  />"
                         ]).draw();
             });
+            $("#lesidd").val(les_id);
         });
     });
 

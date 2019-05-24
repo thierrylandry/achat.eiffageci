@@ -165,7 +165,9 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">BC N°  <input type="text" readonly id="numbcc" value="" />   </h4>
                 </div>
-
+<form method="post" action="{{route('preciser_les_date_de_livraison')}}">
+    @csrf
+    <input type="hidden" name="lesidd" id="lesidd" value=""/>
                 <div class="modal-body" >
                     <h4>Liste des lignes de commandes</h4>
                     <table id="contenu_devis" class='table table-bordered table-striped  no-wrap '>
@@ -186,9 +188,9 @@
                 </div>
                                 <div class="modal-footer">
 
-                                    <button type="button" class="btn btn-default"> <i class="fa fa-calendar-check-o"></i>Enregistrer</button>
+                                    <button type="submit" class="btn btn-default" id="btn_enregistrer_date_livraison1"> <i class="fa fa-calendar-check-o"></i>Enregistrer</button>
                                 </div>
-
+</form>
             </div>
 
         </div>
