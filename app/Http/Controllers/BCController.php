@@ -581,8 +581,6 @@ $analytiques= Analytique::all();
         $devis= Devis::find($lesidd[1]);
         $bondecommande= Boncommande::find($devis->id_bc);
         if($count==$nb){
-
-         
             $mostRecent= 0;
             foreach($dates as $date){
                 $curDate = strtotime($date);
