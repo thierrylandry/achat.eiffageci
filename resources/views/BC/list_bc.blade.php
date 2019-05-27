@@ -309,6 +309,9 @@
 
                                         </div>
                                     </div>
+                                    <a href="{{route('annuler_commande',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default ">
+                                        <i class="fa fa-ban"></i> Annuler
+                                    </a>
                                 @elseif($bc->etat==3)
                                     
                                     <a href="{{route('traite_finalise',['id'=>$bc->slug])}}" data-toggle="modal" class="">
@@ -322,6 +325,9 @@
                                     </a>
                                     <a href="#" data-toggle="modal" data-target="#list_devis" class="btn btn-default preciser_livraison">
                                         <i class="fa fa-list"></i><i class="fa fa-calendar-check-o"></i>
+                                    </a>
+                                    <a href="{{route('annuler_commande',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default ">
+                                        <i class="fa fa-ban"></i> Annuler
                                     </a>
                                 @elseif($bc->etat==4)
                                     <a href="{{route('bon_commande_file',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
