@@ -333,6 +333,9 @@
                                     <a href="{{route('bon_commande_file',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
                                         <i class="fa fa-file-pdf-o"></i>
                                     </a>
+                                    <a href="{{route('annuler_commande',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default ">
+                                        <i class="fa fa-ban"></i> Annuler
+                                    </a>
                                   </br>
                                     @if($bc->date_livraison!=null) date de livraison éffective :  {{\Carbon\Carbon::parse($bc->date_livraison)->format('d-m-Y')}} @endif
                                 @elseif($bc->etat==11)
