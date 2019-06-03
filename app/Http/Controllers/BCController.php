@@ -440,13 +440,6 @@ $analytiques= Analytique::all();
 
 
                 $Devis= Devis::find($id);
-                $ligne_bc= ligne_bc::where('id_devis','=',$id)->first();
-                if(isset($ligne_bc->id)){
-
-                }else{
-                    $ligne_bc= new ligne_bc();
-
-                }
 
 
                 $Devis->id_bc=$parameters['id_bc'];
