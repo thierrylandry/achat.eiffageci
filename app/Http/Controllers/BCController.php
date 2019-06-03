@@ -836,19 +836,16 @@ if(isset($devis->first()->devise)){
 
     public function supprimer_bc($slug)
     {
-        $fournisseur = Boncommande::where('slug', '=', $slug)->first();
+        $bon_de_commande = Boncommande::where('slug', '=', $slug)->first();
 
-        $devis = Devis::where('id_bc','=',$fournisseur->id)->get();
+        $devis = Devis::where('id_bc','=',$bon_de_commande->id)->get();
        foreach ($devis as $devi):
         $devi->etat=1;
         $devi->id_bc=null;
         $devi->save();
         endforeach;
-        $ligne_bcs= ligne_bc::where('id_bonCommande','=',$fournisseur->id)->get();
-        foreach ($ligne_bcs as $ligne_bc):
-            $ligne_bc->delete();
-            endforeach;
-        $fournisseur->delete();
+
+        $bon_de_commande->delete();
 
         return redirect()->route('gestion_bc')->with('success', "Le Bon de commande a été supprimé   NB: la suppression d'un bon de commande, entraine la suppression en cascade des lignes de cet bon de commande ");
     }
