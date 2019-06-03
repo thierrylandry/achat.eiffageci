@@ -147,7 +147,8 @@
 
                         <td>{{$da->quantite}} {{$da->unite}}</td>
                         <td>{{\Carbon\Carbon::parse($da->DateBesoin)->format('d-m-Y')}}</td>
-                        <td>{{\Carbon\Carbon::parse($da->date_livraison_eff)->format('d-m-Y')}}</td>
+                        <td> {{$da->date_livraison_eff!=""?\Carbon\Carbon::parse($da->date_livraison_eff)->format('d-m-Y'):''}}
+                            </td>
                         <td>{{$da->demandeur}}</td>
                         <td>
                             @foreach($service_users as $service_user )
