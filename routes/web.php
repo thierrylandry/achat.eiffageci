@@ -647,7 +647,7 @@ Route::get('/annuler_commande/{slug}',[
     'as'=>'annuler_commande',
     'uses'=>'BCController@annuler_commande',
     'middleware' => 'roles',
-    'roles' => ['Valideur_BC']
+    'roles' => ['Gestionnaire_BC']
 
 ])->middleware('auth');
 
