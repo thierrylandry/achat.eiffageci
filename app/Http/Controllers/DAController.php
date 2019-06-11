@@ -46,7 +46,11 @@ class DAController
         //ici
         $fournisseurs=Fournisseur::all();
         $materiels=Materiel::all();
-        $das=  DA::where('id_user','=',\Illuminate\Support\Facades\Auth::user()->id)->orderBy('created_at', 'DESC')->limit(50)->get();
+       // $das=  DA::where('id_user','=',\Illuminate\Support\Facades\Auth::user()->id)->orderBy('created_at', 'DESC')->paginate(50);
+        $das=  DB::table('Lignebesoin')
+                ->Join('users','users.id','=','lignebesoin.id_user')
+                ->where('users.service','=',\Illuminate\Support\Facades\Auth::user()->service)->orderBy('Lignebesoin.created_at', 'DESC')
+            ->select('Lignebesoin.id','unite','quantite','DateBesoin','id_user','id_nature','id_materiel','Lignebesoin.created_at','demandeur','Lignebesoin.slug','etat','id_valideur','motif','usage','commentaire','dateConfirmation','date_livraison_eff')->paginate(50);
         $natures= Nature::all();
         $service_users=DB::table('users')
             ->leftJoin('services', 'services.id', '=', 'users.service')
@@ -99,7 +103,12 @@ class DAController
     }
     public function voir_da($slug)
     {
-        $das=  DA::where('id_user','=',\Illuminate\Support\Facades\Auth::user()->id)->limit(10)->orderBy('created_at', 'DESC')->get();
+        //$das=  DA::where('id_user','=',\Illuminate\Support\Facades\Auth::user()->id)->orderBy('created_at', 'DESC')->paginate(50);
+        $das=  DB::table('Lignebesoin')
+            ->Join('users','users.id','=','lignebesoin.id_user')
+            ->where('users.service','=',\Illuminate\Support\Facades\Auth::user()->service)->orderBy('Lignebesoin.created_at', 'DESC')
+            ->select('Lignebesoin.id','unite','quantite','DateBesoin','id_user','id_nature','id_materiel','Lignebesoin.created_at','demandeur','Lignebesoin.slug','etat','id_valideur','motif','usage','commentaire','dateConfirmation','date_livraison_eff')->paginate(50);
+
         $da = DA::where('slug', '=', $slug)->first();
         $domaines=  DB::table('domaines')->get();
         $fournisseurs=Fournisseur::all();
