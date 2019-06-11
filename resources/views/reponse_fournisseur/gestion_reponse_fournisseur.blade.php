@@ -24,7 +24,7 @@
                     </div>
                     <div id="collapse1" class="panel-collapse collapse in">
                         <div class="panel-body"><form action="" method="post"><div id="daencours">
-
+                                    {{ $das->links() }}
                                     <table name ="gestion_reponse_fournisseur" id="gestion_reponse_fournisseur" class='table table-bordered table-striped  no-wrap '>
 
                                         <thead>
@@ -48,10 +48,6 @@
                                         <tbody name ="contenu_tableau_entite" id="contenu_tableau_entite">
 
                                         @foreach($das as $da )
-
-
-
-
                                             <tr>
                                                 <td>{{$da->id}}</td>
                                                 <td>{{$da->id_materiel}}</td>
@@ -119,7 +115,6 @@
                                                 <td><input type="checkbox" value="1" id="row_n_{{$da->id}}_tva" name="row_n_{{$da->id}}_tva" checked/>   </td>
                                                 <td><div class="row"><div class="col-sm-6"><button type="button" class="btn_supp btn btn-danger" title="SUPPRIMER"><i class="fa fa-trash"></i></button></div></div>   </td>
                                             </tr>
-
                                         @endforeach
 
                                         </tbody>
@@ -141,6 +136,7 @@
                     </div>
                     <div id="collapse2" class="panel-collapse collapse" >
                         <div class="panel-body" >
+                            {{ $devis->links() }}
                             <form action="{{route('selection_de_la_reponse')}}" method="post">
                                 <div id="daencours">
 

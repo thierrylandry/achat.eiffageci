@@ -583,7 +583,7 @@ foreach ($recup_email as $email):
         $das= DB::table('materiel')
             ->join('lignebesoin', 'materiel.id', '=', 'lignebesoin.id_materiel')
             ->where('etat', '=', 2)
-            ->select('libelleMateriel','lignebesoin.id', 'lignebesoin.unite', 'lignebesoin.quantite', 'DateBesoin','id_user', 'id_reponse_fournisseur','id_nature', 'lignebesoin.id_materiel', 'id_bonCommande','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','code_analytique','type')->distinct()->get();
+            ->select('libelleMateriel','lignebesoin.id', 'lignebesoin.unite', 'lignebesoin.quantite', 'DateBesoin','id_user', 'id_reponse_fournisseur','id_nature', 'lignebesoin.id_materiel', 'id_bonCommande','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','code_analytique','type')->distinct()->paginate(30);
 
         $tab_proposition= Array();
         foreach ($das as $d):
@@ -602,7 +602,7 @@ foreach ($recup_email as $email):
             ->join('materiel', 'materiel.id', '=', 'devis.id_materiel')
             ->select('libelleMateriel','devis.id','devis.id_da','titre_ext','type','devise', 'devis.unite', 'devis.quantite','id_fournisseur','prix_unitaire','remise','devis.codeRubrique','hastva')
 
-        ->where('etat','=',1)->get();
+        ->where('etat','=',1)->paginate(30);
 
         $analytiques=  DB::table('analytique')->distinct()->get(['codeRubrique','libelle']);
         $unites=Unites::all();
