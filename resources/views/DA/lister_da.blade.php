@@ -63,6 +63,7 @@
     </br>
     <div class="row">
         <div class="col-sm-12">
+            {{ $das->links() }}
             <table name ="tableDA" id="tableDA" class='table table-bordered table-striped  no-wrap responsive ' style="width: 100%">
 
                 <thead>

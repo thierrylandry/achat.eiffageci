@@ -30,7 +30,7 @@ class DAController
     {
         $fournisseurs=Fournisseur::all();
         $materiels=Materiel::all();
-        $das=  DA::orderBy('created_at', 'DESC')->get();
+        $das=  DA::orderBy('created_at', 'DESC')->paginate(100);
         $natures= Nature::all();
 
         $service_users=DB::table('users')
