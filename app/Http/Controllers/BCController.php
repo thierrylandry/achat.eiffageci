@@ -560,14 +560,17 @@ $analytiques= Analytique::all();
             $devis= Devis::find($id);
             $lignebesoin = Lignebesoin::find($devis->id_da);
 
-            if($parameters[$id.'date_livr_def']!=""){
-                $count++;
-                $lignebesoin->etat=4;
-            }
-            $dates[]=$parameters[$id.'date_livr_def'];
-            $lignebesoin->date_livraison_eff=$parameters[$id.'date_livr_def'];
+            if(isset($parameters[$id.'date_livr_def'])){
+                if($parameters[$id.'date_livr_def']!=""){
+                    $count++;
+                    $lignebesoin->etat=4;
+                }
+                $dates[]=$parameters[$id.'date_livr_def'];
+                $lignebesoin->date_livraison_eff=$parameters[$id.'date_livr_def'];
 
-            $lignebesoin->save();
+                $lignebesoin->save();
+            }
+
             $nb++;
         }
             endforeach;
@@ -717,8 +720,11 @@ $analytiques= Analytique::all();
 
 
                 $service_unique= Services::find($dev->service);
-                $service_id[]=$service_unique->id;
-                $service_libelle[]=$service_unique->libelle;
+                if(isset($service_unique)){
+                    $service_id[]=$service_unique->id;
+                    $service_libelle[]=$service_unique->libelle;
+                }
+
             }
         }
 if(isset($devis->first()->devise)){
