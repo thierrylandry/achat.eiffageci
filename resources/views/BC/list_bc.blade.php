@@ -22,7 +22,7 @@
         </div>
         <div id="collapse1" class="panel-collapse collapse in">
             <div class="panel-body">
-                {{ $bcs->links() }}
+
                 <table name ="bonCommandes" id="bonCommandes" class='table table-bordered table-striped  no-wrap '>
 
                     <thead>
@@ -174,6 +174,7 @@
         </div>
         <div id="collapse2" class="panel-collapse collapse" >
             <div class="panel-body" >
+                {{ $bcs->links() }}
                 <table name ="bonCommandes1" id="bonCommandes1" class='table table-bordered table-striped  no-wrap '>
 
                     <thead>
