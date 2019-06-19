@@ -353,7 +353,7 @@ return $view;
 
     public function gestion_bc()
     {
-        $bcs=  Boncommande::where('etat','!=',1)->orderBy('created_at', 'DESC')->get();
+        $bcs=  Boncommande::where('etat','!=',1)->orderBy('created_at', 'DESC')->paginate(10);
         $bcs_en_attentes=  Boncommande::where('etat','=',1)->orderBy('created_at', 'DESC')->get();
         $utilisateurs=  User::all();
 
