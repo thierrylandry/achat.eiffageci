@@ -239,6 +239,7 @@
 
 </div>
        <div class="row">
+           {{ $bcs->links() }}
         <div class="col-sm-offset-2 col-sm-8" >    @include('BC/list_bc')</div>
     </div>
 
