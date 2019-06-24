@@ -110,13 +110,29 @@
                                                         <option value="">SELECTIONNER UN  FOURNISSEUR</option>
                                                         @foreach($fournisseurs as $fournisseur)
                                                             @if(in_array($da->type,explode(',',$fournisseur->domaine)))
-                                                                <option  @if( isset($tab_proposition[$da->id]) && $fournisseur->id==$tab_proposition[$da->id]->id_fournisseur)
-                                                                         {{'selected'}}
-                                                                         @endif  value="{{$fournisseur->id}}">{{$fournisseur->libelle}}</option>
+                                                                <option    value="{{$fournisseur->id}}">{{$fournisseur->libelle}}</option>
                                                             @endif
-                                                        @endforeach</select></td>
-                                                <td><input class="form-control" style="min-width: 150px;"  type="number" min="0" id="row_n_{{$da->id}}_prix_unitaire" name="row_n_{{$da->id}}_prix_unitaire" value="{{isset($tab_proposition[$da->id])?$tab_proposition[$da->id]->prix_unitaire:''}}" /></td>
-                                                <td><input class="form-control"  type="number" min="0" id="row_n_{{$da->id}}_remise" name="row_n_{{$da->id}}_remise" value="0" value="{{isset($tab_proposition[$da->id])?$tab_proposition[$da->id]->remise:''}}" /></td>
+                                                        @endforeach</select>
+                                                    <label>PROPOSITION:
+                                                        <a  onclick="document.getElementById('row_n_{{$da->id}}_fournisseur').value='{{isset($tab_proposition[$da->id])?$tab_proposition[$da->id]->id_fournisseur:''}}';$('#row_n_{{$da->id}}_fournisseur').selectpicker('refresh')">  @foreach($fournisseurs as $fournisseur)
+                                                                @if(in_array($da->type,explode(',',$fournisseur->domaine)))
+                                                                      @if( isset($tab_proposition[$da->id]) && $fournisseur->id==$tab_proposition[$da->id]->id_fournisseur)
+                                                                             {{$fournisseur->libelle}}
+                                                                             @endif
+                                                                @endif
+                                                            @endforeach</a>;
+                                                    </label>
+                                                </td>
+                                                <td><input class="form-control" style="min-width: 150px;"  type="number" min="0" id="row_n_{{$da->id}}_prix_unitaire" name="row_n_{{$da->id}}_prix_unitaire" value="" />
+                                                    <label>PROPOSITION:
+                                                            <a  onclick="document.getElementById('row_n_{{$da->id}}_prix_unitaire').value='{{isset($tab_proposition[$da->id])?$tab_proposition[$da->id]->prix_unitaire:''}}';$('#row_n_{{$da->id}}_prix_unitaire').selectpicker('refresh')">  {{isset($tab_proposition[$da->id])?$tab_proposition[$da->id]->prix_unitaire:''}}</a>;
+                                                        </label>
+                                                </td>
+                                                <td><input class="form-control"  type="number" min="0" id="row_n_{{$da->id}}_remise" name="row_n_{{$da->id}}_remise" value="0" value="" />
+                                                    <label>PROPOSITION:
+                                                        <a  onclick="document.getElementById('row_n_{{$da->id}}_remise').value='{{isset($tab_proposition[$da->id])?$tab_proposition[$da->id]->remise:''}}';$('row_n_{{$da->id}}_remise').selectpicker('refresh')">  {{isset($tab_proposition[$da->id])?$tab_proposition[$da->id]->remise:''}}</a>;
+                                                    </label>
+                                                </td>
                                                 <td><select class="form-control" style="width: 100px;" id="row_n_{{$da->id}}_devise" name="row_n_{{$da->id}}_devise"><option  @if( isset($tab_proposition[$da->id]) && "FCFA"==$tab_proposition[$da->id]->devise)
                                                                                                                                                                               {{'selected'}}
                                                                                                                                                                               @endif value="FCFA">FCFA</option><option @if( isset($tab_proposition[$da->id]) && "EURO"==$tab_proposition[$da->id]->devise) {{'selected'}}@endif value="EURO">EURO</option></select></td>
