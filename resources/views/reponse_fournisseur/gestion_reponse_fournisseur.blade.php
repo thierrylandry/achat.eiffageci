@@ -71,30 +71,38 @@
                                                 <td> <input min="0" type="number" step="any" value="{{$da->quantite}}" class="form-control" id="row_n_{{$da->id}}_quantite" name="row_n_{{$da->id}}_quantite">
 
                                                         <select class="form-control selectpicker col-sm-4" id="row_n_{{$da->id}}_unite" name="row_n_{{$da->id}}_unite" data-live-search="true" data-size="6">
+
                                                             @foreach($tab_unite['nothing'] as $unite)
                                                                 <option value="{{$unite}}" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite==$unite || $unite==$da->unite ?"selected":''}}>{{$unite}}</option>
                                                             @endforeach
+                                                                @if(isset($tab_unite['La longueur']))
                                                             <optgroup label="La longeur">
                                                                 @foreach($tab_unite['La longueur'] as $unite)
                                                                     <option value="{{$unite}}" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite==$unite || $unite==$da->unite ?"selected":''}}>{{$unite}}</option>
                                                                 @endforeach
+                                                                @endif
                                                             </optgroup>
 
                                                             <optgroup label="La masse">
+                                                                @if(isset($tab_unite['La masse']))
                                                                 @foreach($tab_unite['La masse'] as $unite)
                                                                     <option value="{{$unite}}" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite==$unite || $unite==$da->unite ?"selected":''}}>{{$unite}}</option>
                                                                 @endforeach
+                                                                    @endif
                                                             </optgroup>
                                                             <optgroup label="Le volume">
+                                                                @if(isset($tab_unite['Le volume']))
                                                                 @foreach($tab_unite['Le volume'] as $unite)
                                                                     <option value="{{$unite}}" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite==$unite || $unite==$da->unite ?"selected":''}}>{{$unite}}</option>
                                                                 @endforeach
+                                                                    @endif
                                                             </optgroup>
-
+                                                                    @if(isset($tab_unite['La surface']))
                                                             <optgroup label="La surface">
                                                                 @foreach($tab_unite['La surface'] as $unite)
                                                                     <option value="{{$unite}}" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite==$unite || $unite==$da->unite ?"selected":''}}>{{$unite}}</option>
                                                                 @endforeach
+                                                                    @endif
                                                         </select>
                                                     </td>
                                                 <td>{{$da->DateBesoin}}</td>
@@ -192,27 +200,33 @@
                                                         @foreach($tab_unite['nothing'] as $unite)
                                                             <option value="{{$unite}}" {{$unite==$devi->unite?"selected":''}}>{{$unite}}</option>
                                                         @endforeach
+                                                        @if(isset($tab_unite['La longueur']))
                                                         <optgroup label="La longeur">
                                                             @foreach($tab_unite['La longueur'] as $unite)
                                                                 <option value="{{$unite}}" {{$unite==$devi->unite?"selected":''}}>{{$unite}}</option>
                                                             @endforeach
                                                         </optgroup>
-
+                                                            @endif
+                                                            @if(isset($tab_unite['La masse']))
                                                         <optgroup label="La masse">
                                                             @foreach($tab_unite['La masse'] as $unite)
                                                                 <option value="{{$unite}}" {{$unite==$devi->unite?"selected":''}}>{{$unite}}</option>
                                                             @endforeach
                                                         </optgroup>
+                                                            @endif
+                                                            @if(isset($tab_unite['Le volume']))
                                                         <optgroup label="Le volume">
                                                             @foreach($tab_unite['Le volume'] as $unite)
                                                                 <option value="{{$unite}}" {{$unite==$devi->unite?"selected":''}}>{{$unite}}</option>
                                                             @endforeach
                                                         </optgroup>
-
+                                                            @endif
+                                                            @if(isset($tab_unite['La surface']))
                                                         <optgroup label="La surface">
                                                             @foreach($tab_unite['La surface'] as $unite)
                                                                 <option value="{{$unite}}" {{$unite==$devi->unite?"selected":''}}>{{$unite}}</option>
                                                         @endforeach
+                                                                @endif
                                                     </select>
                                                 </td>
                                                 <td><select class="form-control" id="row_n_{{$devi->id}}_fournisseur" name="row_n_{{$devi->id}}_fournisseur">

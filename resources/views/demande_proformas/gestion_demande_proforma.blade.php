@@ -298,7 +298,7 @@
                 {
                     extend: 'copyHtml5',
                     exportOptions: {
-                        columns: [ 1, 2, 5,6,7 ]
+                        columns: [ 1, 2,3, 5,6,7 ]
                     },
                     text:"Copier",
                     filename: function () { return getExportFileName();},
@@ -309,7 +309,7 @@
                 {
                     extend: 'excelHtml5',
                     exportOptions: {
-                        columns: [ 1, 2, 5,6,7 ]
+                        columns: [ 1, 2,3, 5,6,7 ]
                     },
                     text:"Excel",
                     filename: function () { return getExportFileName();},
@@ -320,7 +320,7 @@
                 {
                     extend: 'pdfHtml5',
                     exportOptions: {
-                        columns: [ 1, 2, 5,6,7 ]
+                        columns: [ 1, 2,3, 5,6,7 ]
                     },
                     text:"PDF",
                     filename: function () { return getExportFileName();},
@@ -331,7 +331,7 @@
                 {
                     extend: 'print',
                     exportOptions: {
-                        columns: [ 1, 2, 5,6,7 ]
+                        columns: [ 1, 2,3, 5,6,7 ]
                     },
                     text:"Imprimer",
                     filename: function () { return getExportFileName();},

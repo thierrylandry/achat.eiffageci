@@ -70,33 +70,44 @@
                                                 <option value="{{$unite}}">{{$unite}}</option>
                                             @endforeach
                                                 <optgroup label="La longeur">
+                                                    @if(isset($tab_unite['La longueur']))
                                                     @foreach($tab_unite['La longueur'] as $unite)
                                                         <option value="{{$unite}}">{{$unite}}</option>
                                                     @endforeach
+                                                        @endif
                                                 </optgroup>
 
                                                 <optgroup label="La masse">
+                                                    @if(isset($tab_unite['La masse']))
                                                     @foreach($tab_unite['La masse'] as $unite)
                                                         <option value="{{$unite}}">{{$unite}}</option>
                                                     @endforeach
+                                                        @endif
                                                 </optgroup>
 
 
 
                                                 <optgroup label="Le volume">
+                                                    @if(isset($tab_unite['Le volume']))
                                                     @foreach($tab_unite['Le volume'] as $unite)
                                                         <option value="{{$unite}}">{{$unite}}</option>
                                                     @endforeach
+                                                        @endif
                                                 </optgroup>
 
                                                 <optgroup label="La surface">
+                                                    @if(isset($tab_unite['La surface']))
                                                     @foreach($tab_unite['La surface'] as $unite)
                                                         <option value="{{$unite}}">{{$unite}}</option>
                                                     @endforeach
+                                                        @endif
                                                 </optgroup>
 
                                     </select>
                                 </div>
+
+
+                                
                                 <div class="form-group col-sm-6">
                                     <label for="type">Pour le?</label>
                                     <input type="date" class="form-control" id="DateBesoin" name="DateBesoin" placeholder="DateBesoin" value="{{isset($da)? $da->DateBesoin:date('Y-m-d',strtotime(date('Y-m-d'). ' + 7 days'))}}"  required>
