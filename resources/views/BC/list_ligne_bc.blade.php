@@ -73,7 +73,7 @@
         <div class="col-sm-6 col-sm-offset-2">
             <label for="commentaire">Commentaire général </label><br>
             <br>
-            <textarea id="commentaire" name="commentaire" class="form-control col-sm-8" style="height: 100px" maxlength="300">{{isset($bc)? $bc->commentaire_general:''}}</textarea>
+            <textarea id="commentaire" name="commentaire" class="form-control col-sm-8" style="height: 100px" maxlength="1000">{{isset($bc)? $bc->commentaire_general:''}}</textarea>
         </div>
 
     </div>
