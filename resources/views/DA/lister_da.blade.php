@@ -48,21 +48,26 @@
     </br>
     </br>
     <div>
-        AFFICHER OU CACHER DES COLONNES: <a class="toggle-vis" data-column="2">Service</a> - <a class="toggle-vis" data-column="3">statut</a> - <a class="toggle-vis" data-column=
-        "4">Matériel et consultation</a> - <a class="toggle-vis" data-column="5">type</a> - <a class="toggle-vis" data-column="6">Nature</a> - <a class="toggle-vis" data-column=
-        "7">Quantité</a>- <a class="toggle-vis" data-column=
-        "8">Pour le ?</a>- <a class="toggle-vis" data-column=
-        "9">Date livraison effective</a>- <a class="toggle-vis" data-column=
-        "10">Demandeur</a>- <a class="toggle-vis" data-column=
-        "11">Auteur</a>- <a class="toggle-vis" data-column=
-        "12">Confirmer/infirmer</a>- <a class="toggle-vis" data-column=
-        "13">Etat</a>- <a class="toggle-vis" data-column=
-        "14">Usage</a>- <a class="toggle-vis" data-column=
-        "15">Description</a>
+        AFFICHER OU CACHER DES COLONNES: <a class="toggle-vis" data-column="1">Statut</a> - <a class="toggle-vis" data-column="2">date de demande</a> - <a class="toggle-vis" data-column=
+        "3">type</a> - <a class="toggle-vis" data-column="4">Nature</a> - <a class="toggle-vis" data-column="5">Matériel et consultation</a> - <a class="toggle-vis" data-column=
+        "6">Quantité</a>- <a class="toggle-vis" data-column=
+        "7">Pour le ?</a- <a class="toggle-vis" data-column=
+        "8">Usage</a>- <a class="toggle-vis" data-column=
+        "9">Demandeur</a>- <a class="toggle-vis" data-column=
+        "10">Auteur</a>- <a class="toggle-vis" data-column=
+        "11">Service</a>- <a class="toggle-vis" data-column=
+        "12">Code Analytique</a>- <a class="toggle-vis" data-column=
+        "13">Confirmer/infirmer</a>- <a class="toggle-vis" data-column=
+        "14">Consultation en cours</a>- <a class="toggle-vis" data-column=
+        "15">Fournisseur retenu</a>- <a class="toggle-vis" data-column=
+        "16">N° BC</a>- <a class="toggle-vis" data-column=
+        "17">Date du BC</a>- <a class="toggle-vis" data-column=
+        "18">Date livraison effective</a>- <a class="toggle-vis" data-column=
+        "19">Description</a>
     </div>
     </br>
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-12" style="overflow:auto;">
             {{ $das->links() }}
             <table name ="tableDA" id="tableDA" class='table table-bordered table-striped  no-wrap responsive ' style="width: 100%">
 
@@ -70,20 +75,24 @@
 
                 <tr>
                     <th class="dt-head-center">N°D.A</th>
-                    <th class="dt-head-center">date de demande</th>
-                    <th class="dt-head-center">Service</th>
                     <th class="dt-head-center">statut</th>
-                    <th class="dt-head-center">Matériel et consultation</th>
+                    <th class="dt-head-center">date de demande</th>
                     <th class="dt-head-center">type</th>
                     <th class="dt-head-center">Nature</th>
+                    <th class="dt-head-center">Matériel et consultation</th>
                     <th class="dt-head-center">Quantité</th>
                     <th class="dt-head-center">Pour le ?</th>
-                    <th class="dt-head-center">Date livraison effective</th>
+                    <th class="dt-head-center">Usage</th>
                     <th class="dt-head-center">Demandeur</th>
                     <th class="dt-head-center">Auteur</th>
+                    <th class="dt-head-center">Service</th>
+                    <th class="dt-head-center">Code Analytique</th>
                     <th class="dt-head-center">Confirmer/infirmer</th>
-                    <th class="dt-head-center">Etat</th>
-                    <th class="dt-head-center">Usage</th>
+                    <th class="dt-head-center">Consultation en cours</th>
+                    <th class="dt-head-center">Fournisseur retenu</th>
+                    <th class="dt-head-center">N° BC</th>
+                    <th class="dt-head-center">Date du BC</th>
+                    <th class="dt-head-center">Date livraison effective</th>
                     <th class="dt-head-center">Description</th>
                     <th class="dt-head-center">Action</th>
 
@@ -93,36 +102,29 @@
                 @foreach($das as $da )
                     <tr>
                         <td>{{$da->id}}</td>
-                        <td>{{date_format($da->created_at,'d-m-Y H:i:s')}}</td>
-                        <td> @foreach($service_users as $service_user )
-                                @if($service_user->id==$da->id_user)
-                                    <b style=" font-size: 15px; color:black ">{{$service_user->libelle}}</b>
-                                @endif
-                            @endforeach</td>
                         <td>
 
                             @if($da->etat==1)
                                 <i class="fa fa-circle "  style="color: red"></i>
-
+                                Suspendu
                             @elseif($da->etat==2)
                                 <i class="fa fa-circle" style="color: mediumspringgreen"></i>
+                                Acceptée
                             @elseif($da->etat==3)
                                 <i class="fa fa-circle" style="color: #f0ad4e"></i>
+                                En attente de reception
                             @elseif($da->etat==0)
                                 <i class="fa fa-circle" style="color: black"></i>
+                                Réfusée
                             @elseif($da->etat==4)
                                 <i class="fa fa-circle" style="color:#00ffff"></i>
+                                Achevée
                             @elseif($da->etat==11)
                                 <i class="fa fa-circle" style="color: violet"></i>
+                                Retournée
                             @endif
                         </td>
-                        <td>
-                            @foreach($materiels as $materiel )
-                                @if($materiel->id==$da->id_materiel)
-
-                                    {{$materiel->libelleMateriel}}
-                                @endif
-                            @endforeach</td>
+                        <td>{{date_format($da->created_at,'d-m-Y H:i:s')}}</td>
                         <td>
                             @foreach($materiels as $materiel )
                                 @if($materiel->id==$da->id_materiel)
@@ -145,11 +147,18 @@
                                     {{$nature->libelleNature}}
                                 @endif
                             @endforeach</td>
+                        <td>
+                            @foreach($materiels as $materiel )
+                                @if($materiel->id==$da->id_materiel)
 
+                                    {{$materiel->libelleMateriel}}
+                                @endif
+                            @endforeach</td>
                         <td>{{$da->quantite}} {{$da->unite}}</td>
                         <td>{{\Carbon\Carbon::parse($da->DateBesoin)->format('d-m-Y')}}</td>
-                        <td> {{$da->date_livraison_eff!=""?\Carbon\Carbon::parse($da->date_livraison_eff)->format('d-m-Y'):''}}
-                            </td>
+                        <td>
+                            {{$da->usage}}
+                        </td>
                         <td>{{$da->demandeur}}</td>
                         <td>
                             @foreach($service_users as $service_user )
@@ -158,6 +167,12 @@
                                     {{$service_user->prenoms}}
                                 @endif
                             @endforeach</td>
+                        <td> @foreach($service_users as $service_user )
+                                @if($service_user->id==$da->id_user)
+                                    <b style=" font-size: 15px; color:black ">{{$service_user->libelle}}</b>
+                                @endif
+                            @endforeach</td>
+                        <td>{{isset($da->devis->codeRubrique)?$da->devis->codeRubrique:''}}</td>
                         <td>
                             @foreach($service_users as $service_user )
                                 @if($service_user->id==$da->id_valideur)
@@ -166,26 +181,23 @@
                                 @endif
                             @endforeach</td>
                         <td>
-                            @if($da->etat==1)
-                                Suspendu
-                            @elseif($da->etat==2)
-                                Acceptée
-                            @elseif($da->etat==3)
-                                En attente de reception
-                            @elseif($da->etat==0)
-                                Réfusée
-                            @elseif($da->etat==4)
-                                Achevée
-                            @elseif($da->etat==11)
-                                Retournée
-                            @endif
+                            @foreach($tracemails as $tracemail )
+                                @foreach($fournisseurs as $fournisseur )
+                                     @if(strstr($tracemail->id_fournisseur,$fournisseur->id)!=false)
+                                              {{$fournisseur->libelle}} /
+
+                                     @endif
+                                @endforeach
+                            @endforeach
                         </td>
                         <td>
-                            {{$da->usage}}
+                            {{isset($da->bondecommande->fournisseur->libelle)?$da->bondecommande->fournisseur->libelle:''}}
                         </td>
-                        <td>
-                            {{$da->commentaire}}
+                        <th class="dt-head-center">{{isset($da->bondecommande->id)?$da->bondecommande->id:''}}</th>
+                        <th class="dt-head-center">{{isset($da->bondecommande->date)?$da->bondecommande->date:''}}</th>
+                        <td> {{$da->date_livraison_eff!=""?\Carbon\Carbon::parse($da->date_livraison_eff)->format('d-m-Y'):''}}
                         </td>
+                        <th class="dt-head-center">{{$da->commentaire}}</th>
                         <td>
 
 
@@ -338,7 +350,7 @@
                     { responsivePriority: 1, targets: 4 },
 
                 ]
-            }).column(5).visible(false).column(6).visible(false).column(10).visible(false).column(12).visible(false).column(14).visible(false);
+            }).column(5).visible(false).column(10).visible(false).column(12).visible(false).visible(false).column(14).visible(false).column(15).visible(false).column(16).visible(false).column(17).visible(false).column(18).visible(false).column(19).visible(false);
             //table.DataTable().draw();
             $('a.toggle-vis').on( 'click', function (e) {
                 e.preventDefault();

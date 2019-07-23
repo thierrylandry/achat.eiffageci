@@ -542,7 +542,7 @@ var nom="";
                                 le_selectionne=value.contact;
                                 $.each(contact, function( indexi, valeur ) {
 
-                                    if(valeur.type_c=="EMA"){
+                                    if(valeur.type_c=="EMA" || valeur.type_c=="EMAD"){
                                         chaine_du_milieu+="<li id='"+valeur.valeur_c+"'>"+valeur.valeur_c+"</li>";
                                     }
 

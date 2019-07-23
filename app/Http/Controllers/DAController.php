@@ -16,6 +16,7 @@ use App\Devis;
 use App\Materiel;
 use App\Fournisseur;
 use App\Nature;
+use App\Tracemail;
 use App\Unites;
 use App\User;
 use Illuminate\Http\Request;
@@ -32,12 +33,13 @@ class DAController
         $materiels=Materiel::all();
         $das=  DA::orderBy('created_at', 'DESC')->paginate(100);
         $natures= Nature::all();
-        //    dd($das->bondecommande);
+          //  dd($das[0]->bondecommande);
         $service_users=DB::table('users')
             ->leftJoin('services', 'services.id', '=', 'users.service')
             ->select('users.id','nom','prenoms','services.libelle','users.service')->get();
         $domaines=  DB::table('domaines')->get();
-        return view('DA/lister_da',compact('das','fournisseurs','materiels','natures','service_users','domaines'));
+        $tracemails= DB::table('trace_mail')->get();
+        return view('DA/lister_da',compact('das','fournisseurs','materiels','natures','service_users','domaines','tracemails'));
 
 
     }

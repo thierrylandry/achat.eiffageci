@@ -13,6 +13,10 @@ class DA extends Model
 
     public function bondecommande(){
 
-        return $this->belongsTo('App\Boncommande');
+        return $this->belongsTo('App\Boncommande','id_bonCommande');
+    }
+    public function devis()
+    {
+        return $this->belongsTo('App\Devis','id_da');
     }
 }

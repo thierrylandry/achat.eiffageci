@@ -34,11 +34,12 @@
     <p>
         Cordialement,
         <br>
+        <br>
         Best regards,
     </p></p><br>
 
 
-        Marina OULAÏ
+    <strong>Marina OULAÏ</strong>
         <br>
 
         <strong>Eiffage Génie Civil Côte d’Ivoire</strong>
