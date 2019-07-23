@@ -32,7 +32,7 @@ class DAController
         $materiels=Materiel::all();
         $das=  DA::orderBy('created_at', 'DESC')->paginate(100);
         $natures= Nature::all();
-
+        //    dd($das->bondecommande);
         $service_users=DB::table('users')
             ->leftJoin('services', 'services.id', '=', 'users.service')
             ->select('users.id','nom','prenoms','services.libelle','users.service')->get();

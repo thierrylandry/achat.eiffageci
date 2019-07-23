@@ -12,8 +12,9 @@ namespace App\Metier\Json;
 class Contact extends Serializable
 {
     public static $typeListe = [
-        "EMA" => "Email",
-        "MOB" => "Mobile",
+        "EMA" => "Pour devis & BC",
+        "EMAD" => "Pour devis",
+        "EMABC" => "Pour BC",
 
     ];
 

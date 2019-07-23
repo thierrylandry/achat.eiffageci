@@ -101,7 +101,7 @@
                                 </div>
 
                                 <div class="col-lg-1 col-md-1 col-sm-3 col-xs-4 form-control-label">
-                                    <label for="observation_c[]">Adresse</label>
+                                    <label for="observation_c[]">Mail </label>
                                 </div>
                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                     <div class="form-group">
@@ -140,7 +140,7 @@
                                 </div>
 
                                 <div class="col-lg-1 col-md-1 col-sm-3 col-xs-4 form-control-label">
-                                    <label for="observation_c[]">Adresse</label>
+                                    <label for="observation_c[]">Mail </label>
                                 </div>
                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                     <div class="form-group">

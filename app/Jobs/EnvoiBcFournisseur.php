@@ -62,7 +62,7 @@ $fournisseur= Fournisseur::find($bc->id_fournisseur);
       //  dd($fournisseur);
                 // If you want to store the generated pdf to the server then you can use the store function
                 Mail::send('mail.mail_bc',array('tab' =>$tab,'corps'=>$corps,'precisions'=>$precisions,'images'=>$images),function($message)use ($pdf,$bc,$contact,$numBonCommande,$images,$fournisseur){
-                $message->from(Auth::user()->email ,Auth::user()->nom." ".Auth::user()->prenoms)
+                $message->from("marina.oulai@eiffage.com" ," OULAI Marina")
                     ->bcc("claudiane.costecalde@eiffage.com")
                     ->bcc("marina.oulai@eiffage.com")
                     ->subject($fournisseur->libelle."/BC N°".str_replace("PHB-815140-",'',$numBonCommande).'/EGC-CI EIFFAGE')

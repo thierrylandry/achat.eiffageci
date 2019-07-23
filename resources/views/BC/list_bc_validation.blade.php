@@ -168,7 +168,7 @@
                     @endforeach
                     </tbody>
                 </table>
-                <button class="btn btn-success" id="valider_selectionner"> VALIDER LA SELECTION</button>
+                <button class="btn btn-success" id="valider_selectionner"> VALIDER & TRANSMETTRE LA SELECTION</button>
             </div>
         </div>
     </div>
