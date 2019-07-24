@@ -369,8 +369,8 @@ var id_bc= $("#id_bc").val();
                $('#tot_serv').val(Math.round(pageTotal));
                $('#tva').html(lisibilite_nombre(TTva)+" {{$devise}}");
                $('#tva_serv').val(Math.round(TTva));
-               $('#ttc').html(lisibilite_nombre(Math.round(pageTotal*1.18)) +" {{$devise}}");
-               $('#ttc_serv').val(Math.round(pageTotal*1.18));
+                $('#ttc').html(lisibilite_nombre(Math.round(pageTotal)+Math.round(TTva)) +" {{$devise}}");
+               $('#ttc_serv').val(Math.round(pageTotal)+Math.round(TTva));
             },
             responsive: true,
             columnDefs: [
