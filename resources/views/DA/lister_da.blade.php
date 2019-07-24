@@ -177,7 +177,7 @@
                         <td>
                             {{isset($da->bondecommande->fournisseur->libelle)?$da->bondecommande->fournisseur->libelle:''}}
                         </td>
-                        <th class="dt-head-center">{{isset($da->bondecommande->id)?$da->bondecommande->id:''}}</th>
+                        <th class="dt-head-center">{{isset($da->bondecommande->numBonCommande)?$da->bondecommande->numBonCommande:''}}</th>
                         <th class="dt-head-center">{{isset($da->bondecommande->date)?\Carbon\Carbon::parse($da->bondecommande->date)->format('d-m-Y'):''}}</th>
                         <td> {{$da->date_livraison_eff!=""?\Carbon\Carbon::parse($da->date_livraison_eff)->format('d-m-Y'):''}}
                         </td>
