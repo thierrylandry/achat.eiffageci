@@ -336,7 +336,7 @@
                 ],
                 "scrollY": 500,
                 "scrollX": true,
-            }).column(5).visible(false).column(10).visible(false).column(12).visible(false).visible(false).column(14).visible(false).column(15).visible(false).column(16).visible(false).column(17).visible(false).column(18).visible(false).column(19).visible(false);
+            });
             //table.DataTable().draw();
             $('a.toggle-vis').on( 'click', function (e) {
                 e.preventDefault();
