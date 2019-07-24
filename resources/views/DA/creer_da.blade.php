@@ -147,43 +147,32 @@
     <div class="row">
         <div class="col-sm-12">
             {{ $das->links() }}
-            <div>
-                AFFICHER OU CACHER DES COLONNES: <a class="toggle-vis" data-column="2">Service</a> - <a class="toggle-vis" data-column="3">statut</a> - <a class="toggle-vis" data-column=
-                "4">Matériel et consultation</a> - <a class="toggle-vis" data-column="5">type</a> - <a class="toggle-vis" data-column="6">Nature</a> - <a class="toggle-vis" data-column=
-                "7">Quantité</a>- <a class="toggle-vis" data-column=
-                "8">Pour le ?</a>- <a class="toggle-vis" data-column=
-                "9">Date livraison effective</a>-<a class="toggle-vis" data-column=
-                "10">Demandeur</a>- <a class="toggle-vis" data-column=
-                "11">Auteur</a>- <a class="toggle-vis" data-column=
-                "12">Confirmer/infirmer</a>- <a class="toggle-vis" data-column=
-                "13">Etat</a>- <a class="toggle-vis" data-column=
-                "14">Usage</a>- <a class="toggle-vis" data-column=
-                "15">Description</a>
-            </div>
-            </br>
-            <table name ="tableDA" id="tableDA" class='table table-bordered table-striped  no-wrap responsive ' style="width: 100%">
+            <table name ="tableDA" id="tableDA" class='table table-bordered table-striped  no-wrap responsive ' >
 
                 <thead>
 
                 <tr>
                     <th class="dt-head-center">N°D.A</th>
-                    <th class="dt-head-center">date de demande</th>
-                    <th class="dt-head-center">Service</th>
                     <th class="dt-head-center">statut</th>
-                    <th class="dt-head-center">Matériel et consultation</th>
+                    <th class="dt-head-center">date de demande</th>
                     <th class="dt-head-center">type</th>
                     <th class="dt-head-center">Nature</th>
+                    <th class="dt-head-center">Matériel et consultation</th>
                     <th class="dt-head-center">Quantité</th>
                     <th class="dt-head-center">Pour le ?</th>
-                    <th class="dt-head-center">Date livraison effective</th>
+                    <th class="dt-head-center">Usage</th>
                     <th class="dt-head-center">Demandeur</th>
                     <th class="dt-head-center">Auteur</th>
+                    <th class="dt-head-center">Service</th>
+                    <th class="dt-head-center">Code Analytique</th>
                     <th class="dt-head-center">Confirmer/infirmer</th>
-                    <th class="dt-head-center">Etat</th>
-                    <th class="dt-head-center">Usage</th>
+                    <th class="dt-head-center">Consultation en cours</th>
+                    <th class="dt-head-center">Fournisseur retenu</th>
+                    <th class="dt-head-center">N° BC</th>
+                    <th class="dt-head-center">Date du BC</th>
+                    <th class="dt-head-center">Date livraison effective</th>
                     <th class="dt-head-center">Description</th>
                     <th class="dt-head-center">Action</th>
-
 
                 </tr>
                 </thead>
@@ -191,36 +180,29 @@
                 @foreach($das as $da )
                     <tr>
                         <td>{{$da->id}}</td>
-                        <td>{{date_format(new DateTime($da->created_at),'d-m-Y H:i:s')}}</td>
-                        <td> @foreach($service_users as $service_user )
-                                @if($service_user->id==$da->id_user)
-                                    <b style=" font-size: 15px; color:black ">{{$service_user->libelle}}</b>
-                                @endif
-                            @endforeach</td>
                         <td>
 
                             @if($da->etat==1)
                                 <i class="fa fa-circle "  style="color: red"></i>
-
+                                Suspendu
                             @elseif($da->etat==2)
                                 <i class="fa fa-circle" style="color: mediumspringgreen"></i>
+                                Acceptée
                             @elseif($da->etat==3)
                                 <i class="fa fa-circle" style="color: #f0ad4e"></i>
+                                En cours de traitement
                             @elseif($da->etat==0)
                                 <i class="fa fa-circle" style="color: black"></i>
+                                Réfusée
                             @elseif($da->etat==4)
                                 <i class="fa fa-circle" style="color:#00ffff"></i>
+                                Traitée et terminée
                             @elseif($da->etat==11)
                                 <i class="fa fa-circle" style="color: violet"></i>
+                                Traitée et retournée
                             @endif
                         </td>
-                        <td>
-                            @foreach($materiels as $materiel )
-                                @if($materiel->id==$da->id_materiel)
-
-                                    {{$materiel->libelleMateriel}}
-                                @endif
-                            @endforeach</td>
+                        <td>{{date_format( new datetime($da->created_at),'d-m-Y H:i:s')}}</td>
                         <td>
                             @foreach($materiels as $materiel )
                                 @if($materiel->id==$da->id_materiel)
@@ -243,101 +225,121 @@
                                     {{$nature->libelleNature}}
                                 @endif
                             @endforeach</td>
+                        <td>
+                            @foreach($materiels as $materiel )
+                                @if($materiel->id==$da->id_materiel)
 
+                                    {{$materiel->libelleMateriel}}
+                                @endif
+                            @endforeach</td>
                         <td>{{$da->quantite}} {{$da->unite}}</td>
                         <td>{{\Carbon\Carbon::parse($da->DateBesoin)->format('d-m-Y')}}</td>
-                        <td>{{\Carbon\Carbon::parse($da->date_livraison_eff)->format('d-m-Y')}}</td>
+                        <td>
+                            {{$da->usage}}
+                        </td>
                         <td>{{$da->demandeur}}</td>
-                        <td>@foreach($service_users as $service_user )
+                        <td>
+                            @foreach($service_users as $service_user )
                                 @if($service_user->id==$da->id_user)
                                     {{$service_user->nom}}
                                     {{$service_user->prenoms}}
                                 @endif
                             @endforeach</td>
-                        <td>@foreach($service_users as $service_user )
+                        <td> @foreach($service_users as $service_user )
+                                @if($service_user->id==$da->id_user)
+                                    <b style=" font-size: 15px; color:black ">{{$service_user->libelle}}</b>
+                                @endif
+                            @endforeach</td>
+                        <td>{{isset($da->devis->codeRubrique)?$da->devis->codeRubrique:''}}</td>
+                        <td>
+                            @foreach($service_users as $service_user )
                                 @if($service_user->id==$da->id_valideur)
-                                    Par  {{$service_user->nom}}
-                                    {{$service_user->prenoms}} le le  {{\Carbon\Carbon::parse($da->dateConfirmation)->format('d-m-Y H:i:s')}}
+                                    {{$service_user->nom}}
+                                    {{$service_user->prenoms}} le   {{\Carbon\Carbon::parse($da->dateConfirmation)->format('d-m-Y H:i:s')}}
                                 @endif
                             @endforeach</td>
                         <td>
-                            @if($da->etat==1)
-                                Suspendu
-                            @elseif($da->etat==2)
-                                Acceptée
-                            @elseif($da->etat==3)
-                                En attente de reception
-                            @elseif($da->etat==0)
-                                Réfusée
-                            @elseif($da->etat==4)
-                                Achevée
-                            @elseif($da->etat==11)
-                                Retournée
-                            @endif
-                        </td>
-                        <td>
-                            {{$da->usage}}
-                        </td>
-                        <td>
-                            {{$da->commentaire}}
-                        </td>
-                        <td>
+                            @foreach($tracemails as $tracemail )
 
+                                @if(in_array($da->id,explode(',',$tracemail->das)))
+                                    @foreach($fournisseurs as $fournisseur )
+                                        @if(in_array($fournisseur->id,explode(',',$tracemail->id_fournisseur)))
+                                            {{$fournisseur->libelle}} /
+
+                                        @endif
+                                    @endforeach
+                                @endif
+                            @endforeach
+                        </td>
+                        <td>
+                            {{isset($da->bondecommande->fournisseur->libelle)?$da->bondecommande->fournisseur->libelle:''}}
+                        </td>
+                        <th class="dt-head-center">{{isset($da->bondecommande->id)?$da->bondecommande->id:''}}</th>
+                        <th class="dt-head-center">{{isset($da->bondecommande->date)?\Carbon\Carbon::parse($da->bondecommande->date)->format('d-m-Y'):''}}</th>
+                        <td> {{$da->date_livraison_eff!=""?\Carbon\Carbon::parse($da->date_livraison_eff)->format('d-m-Y'):''}}
+                        </td>
+                        <th class="dt-head-center">{{$da->commentaire}}</th>
+                        <td>
 
 
                             @if($da->id_user==\Illuminate\Support\Facades\Auth::user()->id)
-                                @if($da->etat==1)
-                                    <a href="{{route('confirmer_da',['slug'=>$da->slug])}} "  id="btnconfirmerda2" data-toggle="modal" class="btn btn-success confirmons">
-                                        <i class=" fa fa-check-circle" style="size: 40px"> Accepter ?</i>
-                                    </a>
+                            @if($da->etat==1)
+                                <a href="{{route('confirmer_da',['slug'=>$da->slug])}} "id="btnconfirmerda2" data-toggle="modal" class="btn btn-success confirmons">
+                                    <i class=" fa fa-check-circle" style="size: 40px"> Accepter ?</i>
+                                </a>
+                                <a href="" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" id="btnconfirmerda2" data-toggle="modal" class="btn btn-danger btn_refuser">
+                                    <i class=" fa fa-check-circle" style="size: 40px"> Refuser ?</i>
+                                </a>
+                                <div class="btn-group " >
+                                    <button type="button" class="btn btn-default btn-flat ">Autres</button>
+                                    <button type="button" class="btn btn-default btn-flat dropdown-toggle" data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                        <span class="sr-only">Toggle Dropdown</span>
+                                    </button>
+                                    <div class="dropdown-menu" role="menu">
 
-                                    <div class="btn-group " >
-                                        <button type="button" class="btn btn-default btn-flat ">Autres</button>
-                                        <button type="button" class="btn btn-default btn-flat dropdown-toggle" data-toggle="dropdown">
-                                            <span class="caret"></span>
-                                            <span class="sr-only">Toggle Dropdown</span>
-                                        </button>
-                                        <div class="dropdown-menu" role="menu">
-
-                                            <a href="{{route('voir_da',['slug'=>$da->slug])}}" data-toggle="modal">
-                                                <i class=" fa fa-pencil"> modifier</i>
-                                            </a>
-                                            <div class="dropdown-divider"></div>
-                                            <a href="{{route('supprimer_da',['slug'=>$da->slug])}}" data-toggle="modal" >
-                                                <i class=" fa fa-trash">Supprimer</i>
-                                            </a>
-                                        </div>
+                                        <a href="{{route('voir_da',['slug'=>$da->slug])}}" data-toggle="modal">
+                                            <i class=" fa fa-pencil"> modifier</i>
+                                        </a>
+                                        <div class="dropdown-divider"></div>
+                                        <a href="{{route('supprimer_da',['slug'=>$da->slug])}}" data-toggle="modal" >
+                                            <i class=" fa fa-trash">Supprimer</i>
+                                        </a>
                                     </div>
-                                @elseif($da->etat==2)
-                                    <a href="{{route('suspendre_da',['slug'=>$da->slug])}} "id="btnconfirmerda12" data-toggle="modal" class="btn btn-warning ">
-                                        <i class=" fa fa-pause" style="size: 40px"> Suspendre ?</i>
-                                    </a>
-                                @elseif($da->etat==0)
-                                    <a href="{{route('confirmer_da',['slug'=>$da->slug])}} " id="btnconfirmerda2" onclick="" data-toggle="modal" class="btn btn-success confirmons ">
-                                        <i class=" fa fa-check-circle" > </i>Accepter ?
-                                    </a>
+                                </div>
+                            @elseif($da->etat==2)
+                                <a href="{{route('suspendre_da',['slug'=>$da->slug])}} "id="btnconfirmerda12" data-toggle="modal" class="btn btn-warning ">
+                                    <i class=" fa fa-pause" style="size: 40px"> Suspendre ?</i>
+                                </a>
+                                <a href="" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" id="btnconfirmerda2" data-toggle="modal" class="btn btn-danger btn_refuser">
+                                    <i class=" fa fa-check-circle" style="size: 40px"> Refuser ?</i>
+                                </a>
+                            @elseif($da->etat==0)
+                                <a href="{{route('confirmer_da',['slug'=>$da->slug])}} " id="btnconfirmerda2" data-toggle="modal" class="btn btn-success confirmons">
+                                    <i class=" fa fa-check-circle" > </i>Accepter ?
+                                </a>
 
 
-                                    <div class="btn-group ">
-                                        <button type="button" class="btn btn-default btn-flat ">Autres</button>
-                                        <button type="button" class="btn btn-default btn-flat dropdown-toggle" data-toggle="dropdown">
-                                            <span class="caret"></span>
-                                            <span class="sr-only">Toggle Dropdown</span>
-                                        </button>
-                                        <div class="dropdown-menu" role="menu">
+                                <div class="btn-group ">
+                                    <button type="button" class="btn btn-default btn-flat ">Autres</button>
+                                    <button type="button" class="btn btn-default btn-flat dropdown-toggle" data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                        <span class="sr-only">Toggle Dropdown</span>
+                                    </button>
+                                    <div class="dropdown-menu" role="menu">
 
-                                            <a href="{{route('voir_da',['slug'=>$da->slug])}}" data-toggle="modal">
-                                                <i class=" fa fa-pencil"> modifier</i>
-                                            </a>
-                                            <div class="dropdown-divider"></div>
-                                            <a href="{{route('supprimer_da',['slug'=>$da->slug])}}" data-toggle="modal" >
-                                                <i class=" fa fa-trash">Supprimer</i>
-                                            </a>
-                                        </div>
+                                        <a href="{{route('voir_da',['slug'=>$da->slug])}}" data-toggle="modal">
+                                            <i class=" fa fa-pencil"> modifier</i>
+                                        </a>
+                                        <div class="dropdown-divider"></div>
+                                        <a href="{{route('supprimer_da',['slug'=>$da->slug])}}" data-toggle="modal" >
+                                            <i class=" fa fa-trash">Supprimer</i>
+                                        </a>
                                     </div>
-                                @elseif($da->etat==3)
+                                </div>
+                            @elseif($da->etat==3)
 
-                                @endif
+                            @endif
                             @endif
 
                         </td>
@@ -346,6 +348,7 @@
                 @endforeach
                 </tbody>
             </table>
+
         </div>
     </div>
     <script src="{{URL::asset('js/scriptperso.js')}}"> </script>
@@ -405,7 +408,9 @@
                 columnDefs: [
                     { responsivePriority: 2, targets: 0 },
                     { responsivePriority: 1, targets: -1 }
-                ]
+                ],
+                "scrollY": 500,
+                "scrollX": true,
             }).column(5).visible(false).column(6).visible(false).column(10).visible(false).column(12).visible(false);
             //table.DataTable().draw();
             $('a.toggle-vis').on( 'click', function (e) {

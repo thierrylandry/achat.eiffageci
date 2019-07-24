@@ -408,10 +408,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <thead>
                                 <tr><th></th><th>D.A</th><th>B.C</th></tr>
                                 <tr><td><div style="background-color: #CC0000; width: 25px"> &nbsp;</div></td><td> En attente de validation </td><td>En attente de validation</td></tr>
-                            <tr><td><div style="background-color: #00AA00; width: 25px"> &nbsp;</div></td><td>Validée </td><td>Validé</td></tr>
+                            <tr><td><div style="background-color: mediumspringgreen; width: 25px"> &nbsp;</div></td><td>Validée </td><td>Validé</td></tr>
                             <tr><td><div style="background-color: #e0a800; width: 25px"> &nbsp;</div></td><td>Encours de traitement </td><td>Transmis</td></tr>
-                            <tr><td><div style="background-color: #00AAFF; width: 25px"> &nbsp;</div></td><td> Traitée et terminée </td><td>Traité, transmis et terminé</td></tr>
-                            <tr><td><div style="background-color: #4F52BA; width: 25px"> &nbsp;</div></td><td> Traitée et retournée </td><td> Traité, transmis et retourné</td></tr>
+                            <tr><td><div style="background-color: #00ffff; width: 25px"> &nbsp;</div></td><td> Traitée et terminée </td><td>Traité, transmis et terminé</td></tr>
+                            <tr><td><div style="background-color: violet; width: 25px"> &nbsp;</div></td><td> Traitée et retournée </td><td> Traité, transmis et retourné</td></tr>
                             </thead>
 
                         </table></li>

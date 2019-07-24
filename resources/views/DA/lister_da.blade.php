@@ -46,30 +46,11 @@
 
     <h2>LES DEMANDES D'ACHATS - LISTER <a href="{{route('creer_da')}}" class="btn btn-default  pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i> Ajouter</a></h2>
     </br>
-    </br>
-    <div>
-        AFFICHER OU CACHER DES COLONNES: <a class="toggle-vis" data-column="1">Statut</a> - <a class="toggle-vis" data-column="2">date de demande</a> - <a class="toggle-vis" data-column=
-        "3">type</a> - <a class="toggle-vis" data-column="4">Nature</a> - <a class="toggle-vis" data-column="5">Matériel et consultation</a> - <a class="toggle-vis" data-column=
-        "6">Quantité</a>- <a class="toggle-vis" data-column=
-        "7">Pour le ?</a- <a class="toggle-vis" data-column=
-        "8">Usage</a>- <a class="toggle-vis" data-column=
-        "9">Demandeur</a>- <a class="toggle-vis" data-column=
-        "10">Auteur</a>- <a class="toggle-vis" data-column=
-        "11">Service</a>- <a class="toggle-vis" data-column=
-        "12">Code Analytique</a>- <a class="toggle-vis" data-column=
-        "13">Confirmer/infirmer</a>- <a class="toggle-vis" data-column=
-        "14">Consultation en cours</a>- <a class="toggle-vis" data-column=
-        "15">Fournisseur retenu</a>- <a class="toggle-vis" data-column=
-        "16">N° BC</a>- <a class="toggle-vis" data-column=
-        "17">Date du BC</a>- <a class="toggle-vis" data-column=
-        "18">Date livraison effective</a>- <a class="toggle-vis" data-column=
-        "19">Description</a>
-    </div>
-    </br>
+
     <div class="row">
-        <div class="col-sm-12" style="overflow:auto;">
+        <div class="col-sm-12">
             {{ $das->links() }}
-            <table name ="tableDA" id="tableDA" class='table table-bordered table-striped  no-wrap responsive ' style="width: 100%">
+            <table name ="tableDA" id="tableDA" class='table table-bordered table-striped  no-wrap responsive ' >
 
                 <thead>
 
@@ -112,16 +93,16 @@
                                 Acceptée
                             @elseif($da->etat==3)
                                 <i class="fa fa-circle" style="color: #f0ad4e"></i>
-                                En attente de reception
+                                En cours de traitement
                             @elseif($da->etat==0)
                                 <i class="fa fa-circle" style="color: black"></i>
                                 Réfusée
                             @elseif($da->etat==4)
                                 <i class="fa fa-circle" style="color:#00ffff"></i>
-                                Achevée
+                                Traitée et terminée
                             @elseif($da->etat==11)
                                 <i class="fa fa-circle" style="color: violet"></i>
-                                Retournée
+                                Traitée et retournée
                             @endif
                         </td>
                         <td>{{date_format($da->created_at,'d-m-Y H:i:s')}}</td>
@@ -182,19 +163,22 @@
                             @endforeach</td>
                         <td>
                             @foreach($tracemails as $tracemail )
-                                @foreach($fournisseurs as $fournisseur )
-                                     @if(strstr($tracemail->id_fournisseur,$fournisseur->id)!=false)
+
+                                @if(in_array($da->id,explode(',',$tracemail->das)))
+                                     @foreach($fournisseurs as $fournisseur )
+                                         @if(in_array($fournisseur->id,explode(',',$tracemail->id_fournisseur)))
                                               {{$fournisseur->libelle}} /
 
-                                     @endif
-                                @endforeach
+                                         @endif
+                                      @endforeach
+                                @endif
                             @endforeach
                         </td>
                         <td>
                             {{isset($da->bondecommande->fournisseur->libelle)?$da->bondecommande->fournisseur->libelle:''}}
                         </td>
                         <th class="dt-head-center">{{isset($da->bondecommande->id)?$da->bondecommande->id:''}}</th>
-                        <th class="dt-head-center">{{isset($da->bondecommande->date)?$da->bondecommande->date:''}}</th>
+                        <th class="dt-head-center">{{isset($da->bondecommande->date)?\Carbon\Carbon::parse($da->bondecommande->date)->format('d-m-Y'):''}}</th>
                         <td> {{$da->date_livraison_eff!=""?\Carbon\Carbon::parse($da->date_livraison_eff)->format('d-m-Y'):''}}
                         </td>
                         <th class="dt-head-center">{{$da->commentaire}}</th>
@@ -349,7 +333,9 @@
                     { responsivePriority: 2, targets: -1 },
                     { responsivePriority: 1, targets: 4 },
 
-                ]
+                ],
+                "scrollY": 500,
+                "scrollX": true,
             }).column(5).visible(false).column(10).visible(false).column(12).visible(false).visible(false).column(14).visible(false).column(15).visible(false).column(16).visible(false).column(17).visible(false).column(18).visible(false).column(19).visible(false);
             //table.DataTable().draw();
             $('a.toggle-vis').on( 'click', function (e) {

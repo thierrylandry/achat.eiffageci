@@ -72,7 +72,8 @@ class DAController
                 $tab_unite['La surface'][]=$unite->libelle;
             }
         endforeach;
-        return view('DA/creer_da',compact('das','fournisseurs','materiels','natures','service_users','domaines','tab_unite'));
+        $tracemails= DB::table('trace_mail')->get();
+        return view('DA/creer_da',compact('das','fournisseurs','materiels','natures','service_users','domaines','tab_unite','tracemails'));
 
 
     }
@@ -133,7 +134,8 @@ class DAController
                 $tab_unite['La surface'][]=$unite->libelle;
             }
         endforeach;
-        return view('DA/gestion_da',compact('das','fournisseurs','materiels','natures','da','service_users','domaines','tab_unite'));
+        $tracemails= DB::table('trace_mail')->get();
+        return view('DA/gestion_da',compact('das','fournisseurs','materiels','natures','da','service_users','domaines','tab_unite','tracemails'));
     }
     public function afficher_image($id)
     {
