@@ -164,124 +164,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         </div>
         <!--logo end-->
 
-        <div class="nav notify-row" id="top_menu">
-            <!--  notification start -->
-            <ul class="nav top-menu">
-                <!-- settings start -->
 
-                <li class="dropdown">
-
-                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                        <i class="fa fa-tasks"></i>
-                        <span class="badge bg-success" id="da">{{isset($daencours)?$daencours:''}}</span>
-                        <input type="hidden" class="badge bg-success" id="da1">
-                    </a>
-                    <ul class="dropdown-menu extended tasks-bar">
-                        <li>
-                            <p class="">You have 8 pending tasks</p>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <div class="task-info clearfix">
-                                    <div class="desc pull-left">
-                                        <h5>Target Sell</h5>
-                                        <p>25% , Deadline  12 June’13</p>
-                                    </div>
-                                    <span class="notification-pie-chart pull-right" data-percent="45">
-                            <span class="percent"></span>
-                            </span>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <div class="task-info clearfix">
-                                    <div class="desc pull-left">
-                                        <h5>Product Delivery</h5>
-                                        <p>45% , Deadline  12 June’13</p>
-                                    </div>
-                                    <span class="notification-pie-chart pull-right" data-percent="78">
-                            <span class="percent"></span>
-                            </span>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <div class="task-info clearfix">
-                                    <div class="desc pull-left">
-                                        <h5>Payment collection</h5>
-                                        <p>87% , Deadline  12 June’13</p>
-                                    </div>
-                                    <span class="notification-pie-chart pull-right" data-percent="60">
-                            <span class="percent"></span>
-                            </span>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <div class="task-info clearfix">
-                                    <div class="desc pull-left">
-                                        <h5>Target Sell</h5>
-                                        <p>33% , Deadline  12 June’13</p>
-                                    </div>
-                                    <span class="notification-pie-chart pull-right" data-percent="90">
-                            <span class="percent"></span>
-                            </span>
-                                </div>
-                            </a>
-                        </li>
-
-                        <li class="external">
-                            <a href="#">See All Tasks</a>
-                        </li>
-                    </ul>
-                </li>
-                <!-- inbox dropdown end -->
-                <!-- notification dropdown start-->
-                <li id="header_notification_bar" class="dropdown">
-                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-
-                        <i class="fa fa-bell-o"></i>
-                        <span class="badge bg-warning" id="bc">{{isset($Boncommandeencours)?$Boncommandeencours:''}}</span>
-                        <input type="hidden" class="badge bg-success" id="bc1">
-                    </a>
-                    <ul class="dropdown-menu extended notification">
-                        <li>
-                            <p>Notifications</p>
-                        </li>
-                        <li>
-                            <div class="alert alert-info clearfix">
-                                <span class="alert-icon"><i class="fa fa-bolt"></i></span>
-                                <div class="noti-info">
-                                    <a href="#"> Server #1 overloaded.</a>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="alert alert-danger clearfix">
-                                <span class="alert-icon"><i class="fa fa-bolt"></i></span>
-                                <div class="noti-info">
-                                    <a href="#"> Server #2 overloaded.</a>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="alert alert-success clearfix">
-                                <span class="alert-icon"><i class="fa fa-bolt"></i></span>
-                                <div class="noti-info">
-                                    <a href="#"> Server #3 overloaded.</a>
-                                </div>
-                            </div>
-                        </li>
-
-                    </ul>
-                </li>
-                <!-- notification dropdown end -->
-            </ul>
-            <!--  notification end -->
-        </div>
         <div class="top-nav clearfix">
             <!--search & user info start-->
             <ul class="nav pull-right top-menu">
@@ -303,7 +186,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 @else
                     <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <img alt="" src="images/2.png">
+                            <img alt="" src="images/user.png">
                             <span class="username">{{ Auth::user()->prenoms }} {{ Auth::user()->nom }}  </span>
                             <b class="caret"></b>
                         </a>
