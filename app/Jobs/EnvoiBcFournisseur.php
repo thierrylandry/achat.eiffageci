@@ -66,6 +66,7 @@ $fournisseur= Fournisseur::find($bc->id_fournisseur);
                     ->bcc("claudiane.costecalde@eiffage.com")
                     ->bcc("marina.oulai@eiffage.com")
                     ->bcc("sopie.ncho@eiffage.com")
+                    ->bcc("melaine.ekra@eiffage.com")
                     ->subject($fournisseur->libelle."/BC N°".str_replace("PHB-815140-",'',$numBonCommande).'/EGC-CI EIFFAGE')
                     ->attach($pdf);
                     foreach($contact as $em):
