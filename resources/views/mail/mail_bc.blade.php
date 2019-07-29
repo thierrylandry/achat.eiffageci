@@ -3,21 +3,7 @@
 
     <p>Bonjour,</p>
 
-    <p>Ci-joint un  bon de commande concernant les produits ou services suivant:</br>
-
-        @for($i=0;$i<sizeof($corps);$i++)
-
-            <br> <strong>{{$corps[$i]}}</strong>
-
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{isset($precisions[$i]) && $precisions[$i]!=""?" ".$precisions[$i]:''}}
-    @if(isset($images[$i]) && $images[$i]!="")
-                voir piece jointe : {{$images[$i]}}
-        @endif
-
-
-
-    @endfor
-
+    <p>Ci-joint un  bon de commande</br>
 <p></p><br>
 
             <?php         if(in_array('3',$tab)){

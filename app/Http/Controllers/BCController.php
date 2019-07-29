@@ -430,7 +430,12 @@ $analytiques= Analytique::all();
                 $taille_maxim=0;
             }
             // Send data to the view using loadView function of PDF facade
-            $bc=$Boncommande;
+          //  $bc=$Boncommande;
+            $bc=DB::table('boncommande')
+                ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
+                ->join('services', 'services.id', '=', 'boncommande.service_demandeur')
+                ->where('boncommande.id','=',$Boncommande->id)
+                ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','services.libelle as libelle_service','contact','commentaire_general','fournisseur.conditionPaiement','boncommande.id_fournisseur')->first();
             $pdf = PDF::loadView('BC.bon-commande', compact('bc','devis','tothtax','taille','taille_minim','taille_maxim'));
 
             //$lignebesoins=Lignebesoin::where('id_bonCommande','=',$bc->id)->first();
@@ -501,7 +506,8 @@ $analytiques= Analytique::all();
 
 
 
-        return redirect()->route('gestion_bc')->with('success', "Bon(s) de commande(s) validé(s) & Transmission aux fournisseurs");
+       // return redirect()->route('gestion_bc')->with('success', "Bon(s) de commande(s) validé(s) & Transmission aux fournisseurs");
+    return 'success';
     }
     public function modifier_ligne_bc($slug)
     {
@@ -647,7 +653,13 @@ $analytiques= Analytique::all();
                     $taille_maxim=0;
                 }
                 // Send data to the view using loadView function of PDF facade
-                $bc=$Boncommande;
+             //   $bc=$Boncommande;
+            $bc=DB::table('boncommande')
+                ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
+                ->join('services', 'services.id', '=', 'boncommande.service_demandeur')
+                ->where('boncommande.id','=',$Boncommande->id)
+                ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','services.libelle as libelle_service','contact','commentaire_general','fournisseur.conditionPaiement','boncommande.id_fournisseur')->first();
+            $pdf = PDF::loadView('BC.bon-commande', compact('bc','devis','tothtax','taille','taille_minim','taille_maxim'));
                 $pdf = PDF::loadView('BC.bon-commande', compact('bc','devis','tothtax','taille','taille_minim','taille_maxim'));
 
                 //$lignebesoins=Lignebesoin::where('id_bonCommande','=',$bc->id)->first();
