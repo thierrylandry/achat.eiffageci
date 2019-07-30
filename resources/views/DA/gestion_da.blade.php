@@ -267,7 +267,7 @@
                         <td>
 
 
-                            @if($da->id_user==\Illuminate\Support\Facades\Auth::user()->id)
+
                                 @if($da->etat==1)
                                     <a href="{{route('confirmer_da',['slug'=>$da->slug])}} "id="btnconfirmerda2" data-toggle="modal" class="btn btn-success confirmons">
                                         <i class=" fa fa-check-circle" style="size: 40px"> Accepter ?</i>
@@ -275,6 +275,7 @@
                                     <a href="" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" id="btnconfirmerda2" data-toggle="modal" class="btn btn-danger btn_refuser">
                                         <i class=" fa fa-check-circle" style="size: 40px"> Refuser ?</i>
                                     </a>
+                                @if($da->id_user==\Illuminate\Support\Facades\Auth::user()->id)
                                     <div class="btn-group " >
                                         <button type="button" class="btn btn-default btn-flat ">Autres</button>
                                         <button type="button" class="btn btn-default btn-flat dropdown-toggle" data-toggle="dropdown">
@@ -292,6 +293,7 @@
                                             </a>
                                         </div>
                                     </div>
+                                    @endif
                                 @elseif($da->etat==2)
                                     <a href="{{route('suspendre_da',['slug'=>$da->slug])}} "id="btnconfirmerda12" data-toggle="modal" class="btn btn-warning ">
                                         <i class=" fa fa-pause" style="size: 40px"> Suspendre ?</i>
@@ -304,6 +306,7 @@
                                         <i class=" fa fa-check-circle" > </i>Accepter ?
                                     </a>
 
+                                @if($da->id_user==\Illuminate\Support\Facades\Auth::user()->id)
 
                                     <div class="btn-group ">
                                         <button type="button" class="btn btn-default btn-flat ">Autres</button>
@@ -322,10 +325,11 @@
                                             </a>
                                         </div>
                                     </div>
+                                    @endif
                                 @elseif($da->etat==3)
 
                                 @endif
-                            @endif
+
 
                         </td>
 
