@@ -298,9 +298,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             </thead>
 
                         </table></li>
-                        <li>
-                            <img src="{{ URL::asset('public/images/landry.png') }}" width="200px" height="180px">
-                        </li>
                     @endif
 
 
