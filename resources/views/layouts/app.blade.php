@@ -271,26 +271,23 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </ul>
                     </li>
                     @endif
-                    @if(Auth::user() != null && Auth::user()->hasAnyRole(['Gestionnaire_BC','Valideur_BC']))
+                    @if(Auth::user() != null && Auth::user()->hasAnyRole(['Gestionnaire_BC']))
                     <li >
-                        <a  @yield('gestion_bc')  @yield('validation_bc') href="{{route('gestion_bc')}}">
+                        <a  @yield('gestion_bc') href="{{route('gestion_bc')}}">
                             <i class="fa fa-archive"></i>
-                            <span>Les  BCs</span>
+                            <span>Gestion des BCs</span>
                         </a>
-                        @if(Auth::user() != null && Auth::user()->hasAnyRole(['Valideur_BC']))
-                        <ul class="sub">
-                            @if(Auth::user() != null && Auth::user()->hasAnyRole(['Gestionnaire_BC']))
-                            <li  @yield('gestion_bc')><a href="{{route('gestion_bc')}}">Gestion B.C.</a></li>
-                            @endif
-                            <li @yield('validation_bc')><a href="{{route('validation_bc')}}">Validation B.C.</a></li>
-                        </ul>
-                        @endif
+
                     </li>
-                        <li style="color: ghostwhite">
+                    @endif
+                        @if(Auth::user() != null && Auth::user()->hasAnyRole(['Valideur_BC']))
+                        <li @yield('validation_bc')>  <a href="{{route('validation_bc')}}"><i class="fa fa-check"></i><span>Validation B.C.</span></a></li>
+                    @endif
+                    <li style="color: ghostwhite">
                         <table   style="color: ghostwhite;size:20pt">
                             <thead>
-                                <tr><th></th><th>D.A</th><th>B.C</th></tr>
-                                <tr><td><div style="background-color: #CC0000; width: 25px"> &nbsp;</div></td><td> En attente de validation </td><td>En attente de validation</td></tr>
+                            <tr><th></th><th>D.A</th><th>B.C</th></tr>
+                            <tr><td><div style="background-color: #CC0000; width: 25px"> &nbsp;</div></td><td> En attente de validation </td><td>En attente de validation</td></tr>
                             <tr><td><div style="background-color: mediumspringgreen; width: 25px"> &nbsp;</div></td><td>Validée </td><td>Validé</td></tr>
                             <tr><td><div style="background-color: #e0a800; width: 25px"> &nbsp;</div></td><td>Encours de traitement </td><td>Transmis</td></tr>
                             <tr><td><div style="background-color: #00ffff; width: 25px"> &nbsp;</div></td><td> Traitée et terminée </td><td>Traité, transmis et terminé</td></tr>
@@ -298,7 +295,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             </thead>
 
                         </table></li>
-                    @endif
 
 
                 </ul>            </div>
