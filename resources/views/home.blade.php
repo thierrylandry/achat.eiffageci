@@ -3,6 +3,10 @@
     class="active"
 @endsection
 @section('dashboard')
+    <link rel="stylesheet" href="{{URL::asset('css/morris.css')}}" type="text/css"/>
+    <script src="{{URL::asset('js/jquery2.0.3.min.js')}}"></script>
+    <script src="{{URL::asset('js/raphael-min.js')}}"></script>
+    <script src="{{URL::asset('js/morris.js')}}"></script>
     <style>
         ul li {
             margin-bottom:1.4rem;
@@ -116,7 +120,190 @@
         </div>
 
         <div class="clearfix"> </div>
+
     </div>
+    <div class="col-md-12  market-update-gd">
+        </br>
+        <!--agileinfo-grap-->
+        <div class="agileinfo-grap">
+            <div class="agileits-box">
+                <header class="agileits-box-header clearfix">
+                    <h3>Visitor Statistics</h3>
+                    <div class="toolbar">
+
+
+                    </div>
+                </header>
+                <div class="agileits-box-body clearfix">
+                    <div id="hero-area"></div>
+                </div>
+            </div>
+        </div>
+        <!--//agileinfo-grap-->
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 chart_agile_right">
+            </br>
+            </br>
+            <div class="chart_agile_top">
+                <div class="chart_agile_bottom" style="text-align: center">
+
+                    <div id="graph4"></div>
+                    <h3> Les fournisseurs les plus sollicités</h3>
+                    <script>
+
+                        var fournisseur_sollicie=[
+                            @foreach($fournisseur_sollicie as $res)
+                            {{"{value:".$res->y}} {{",label:"}} '{{$res->name}}' {{",formatted:"}} '{{$res->y.' Bon(s) de commande'}}'},
+                            @endforeach
+                        ];
+                        Morris.Donut({
+                            element: 'graph4',
+                            data: fournisseur_sollicie,
+                            formatter: function (x, data) { return data.formatted; }
+                        });
+                    </script>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 chart_agile_right">
+            </br>
+            </br>
+            <div class="chart_agile_top">
+                <div class="chart_agile_bottom" style="text-align: center">
+
+                    <div id="graphsecond"></div>
+                    <h3> Nombre de B.C. retourné / fournisseur</h3>
+                    <script>
+
+                        var fournisseur_sollicie=[
+                            @foreach($fournisseur_retour as $res)
+                            {{"{value:".$res->y}} {{",label:"}} '{{$res->name}}' {{",formatted:"}} '{{$res->y.' Bon(s) de commande retourné'}}'},
+                            @endforeach
+                        ];
+                        Morris.Donut({
+                            element: 'graphsecond',
+                            data: fournisseur_sollicie,
+                            formatter: function (x, data) { return data.formatted; }
+                        });
+                    </script>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 chart_agile_right">
+            </br>
+            </br>
+            <div class="chart_agile_top">
+                <div class="chart_agile_bottom" style="text-align: center">
+
+                    <div id="graphsretardfourn"></div>
+                    <h3>  Retard de livraison/fournisseur</h3>
+                    <script>
+
+                        var fournisseur_retard=[
+                            @foreach($fournisseur_retard as $res)
+                                    @if($res->y!=null)
+                                    {{"{value:".$res->y}} {{",label:"}} '{{$res->name}}' {{",formatted:"}} '{{$res->y.' jour de retard sur une livraison'}}'},
+                                    @endif
+                        @endforeach
+                        ];
+                        Morris.Donut({
+                            element: 'graphsretardfourn',
+                            data: fournisseur_retard,
+                            formatter: function (x, data) { return data.formatted; }
+                        });
+                    </script>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 floatcharts_w3layouts_left">
+            </br>
+            </br>
+            <div class="floatcharts_w3layouts_top">
+                <div class="floatcharts_w3layouts_bottom">
+                    <div id="graph8"></div>
+                    <script>
+
+                        var boncommande=[
+                            @foreach($boncommande as $res)
+                                    @if($res->y!=null)
+
+                            {"period":"{{$res->name}}", "total_ttc":{{$res->y}} },
+                        @endif
+                        @endforeach
+                        ];
+
+                        /* data stolen from http://howmanyleft.co.uk/vehicle/jaguar_'e'_type */
+
+                        Morris.Bar({
+                            element: 'graph8',
+                            data: boncommande,
+                            xkey: 'period',
+                            ykeys: ['total_ttc'],
+                            labels: ['Total ttc'],
+                            xLabelAngle: 60
+                        });
+                    </script>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            //BOX BUTTON SHOW AND CLOSE
+            jQuery('.small-graph-box').hover(function() {
+                jQuery(this).find('.box-button').fadeIn('fast');
+            }, function() {
+                jQuery(this).find('.box-button').fadeOut('fast');
+            });
+            jQuery('.small-graph-box .box-close').click(function() {
+                jQuery(this).closest('.small-graph-box').fadeOut(200);
+                return false;
+            });
+
+            //CHARTS
+            function gd(year, day, month) {
+                return new Date(year, month - 1, day).getTime();
+            }
+
+            var cumuleda=[@foreach($cumuleda as $res)
+                        @if($res->y!=null)
+                {{"{value:"}} '{{$res->name}}' {{",DA:"}} {{$res->y}} },
+        @endif
+        @endforeach];
+            graphArea2 = Morris.Area({
+                element: 'hero-area',
+                padding: 10,
+                behaveLikeLine: true,
+                gridEnabled: false,
+                gridLineColor: '#dddddd',
+                axes: true,
+                resize: true,
+                smooth:true,
+                pointSize: 0,
+                lineWidth: 0,
+                fillOpacity:0.85,
+                data: cumuleda,
+                lineColors:['#33FF00','#926383','#eb6f6f'],
+                xkey: 'value',
+                redraw: true,
+                ykeys: ['DA'],
+                labels: ["Demande d'achat"],
+                pointSize: 2,
+                hideHover: 'auto',
+                resize: true
+            });
+
+
+        });
+    </script>
 @endsection()
 @section('content')
     <div >
