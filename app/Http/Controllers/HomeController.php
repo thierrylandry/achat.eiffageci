@@ -99,10 +99,12 @@ $Boncommandes= Boncommande::all()->count();
         endforeach;
 
         $boncommande_tab = DB::table('boncommande')
-            ->groupBy('dat')
-            ->select(DB::raw("DATE_FORMAT (created_at,'%d-%b-%Y') as dat" ),DB::raw('sum(boncommande.total_ttc) as nb'))
+       //     ->groupBy('dat')
+            //->select(DB::raw("DATE_FORMAT (created_at,'%d-%b-%Y') as dat" ),DB::raw('sum(boncommande.total_ttc) as nb'))
+            ->select(DB::raw("DATE_FORMAT (created_at,'%d-%b-%Y') as dat" ),DB::raw('boncommande.total_ttc as nb'))
+            ->orderBy('created_at','desc')
             ->get();
-
+         //   dd($boncommande_tab);
         $boncommande= Array();
         foreach ($boncommande_tab as $group):
             $vardiag = New Vardiag();
