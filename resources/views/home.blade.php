@@ -128,7 +128,7 @@
         <div class="agileinfo-grap">
             <div class="agileits-box">
                 <header class="agileits-box-header clearfix">
-                    <h3>Visitor Statistics</h3>
+                    <h3>Flux des demandes d'achat</h3>
                     <div class="toolbar">
 
 
