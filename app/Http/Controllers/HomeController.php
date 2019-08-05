@@ -101,7 +101,7 @@ $Boncommandes= Boncommande::all()->count();
         $boncommande_tab = DB::table('boncommande')
             ->groupBy('dat')
             //->select(DB::raw("DATE_FORMAT (created_at,'%d-%b-%Y') as dat" ),DB::raw('sum(boncommande.total_ttc) as nb'))
-            ->select("created_at ,boncommande.total_ttc as nb")
+            ->select(DB::raw("DATE_FORMAT (created_at,'%d-%b-%Y') as dat" ),DB::raw('sum(boncommande.total_ttc) as nb'))
           //  ->orderBy('dat','ASC')
             ->get();
          //   dd($boncommande_tab);
