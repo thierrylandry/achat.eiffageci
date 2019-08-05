@@ -48,7 +48,7 @@ class DAController
     {
         $fournisseurs=Fournisseur::all();
         $materiels=Materiel::all();
-        $das=  DA::where('etat','=','2')
+        $das=  DA::where('etat','=','1')
 
             ->orderBy('created_at', 'DESC')->paginate(100);
         $natures= Nature::all();
