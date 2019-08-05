@@ -67,14 +67,6 @@
                     <th class="dt-head-center">Demandeur</th>
                     <th class="dt-head-center">Auteur</th>
                     <th class="dt-head-center">Service</th>
-                    <th class="dt-head-center">Code Analytique</th>
-                    <th class="dt-head-center">Confirmer/infirmer</th>
-                    <th class="dt-head-center">Consultation en cours</th>
-                    <th class="dt-head-center">Fournisseur retenu</th>
-                    <th class="dt-head-center">N° BC</th>
-                    <th class="dt-head-center">Date du BC</th>
-                    <th class="dt-head-center">Date livraison effective</th>
-                    <th class="dt-head-center">Description</th>
                     <th class="dt-head-center">Action</th>
 
                 </tr>
@@ -153,35 +145,6 @@
                                     <b style=" font-size: 15px; color:black ">{{$service_user->libelle}}</b>
                                 @endif
                             @endforeach</td>
-                        <td>{{isset($da->devis->codeRubrique)?$da->devis->codeRubrique:''}}</td>
-                        <td>
-                            @foreach($service_users as $service_user )
-                                @if($service_user->id==$da->id_valideur)
-                                    {{$service_user->nom}}
-                                    {{$service_user->prenoms}} le   {{\Carbon\Carbon::parse($da->dateConfirmation)->format('d-m-Y H:i:s')}}
-                                @endif
-                            @endforeach</td>
-                        <td>
-                            @foreach($tracemails as $tracemail )
-
-                                @if(in_array($da->id,explode(',',$tracemail->das)))
-                                    @foreach($fournisseurs as $fournisseur )
-                                        @if(in_array($fournisseur->id,explode(',',$tracemail->id_fournisseur)))
-                                            {{$fournisseur->libelle}} /
-
-                                        @endif
-                                    @endforeach
-                                @endif
-                            @endforeach
-                        </td>
-                        <td>
-                            {{isset($da->bondecommande->fournisseur->libelle)?$da->bondecommande->fournisseur->libelle:''}}
-                        </td>
-                        <th class="dt-head-center">{{isset($da->bondecommande->numBonCommande)?$da->bondecommande->numBonCommande:''}}</th>
-                        <th class="dt-head-center">{{isset($da->bondecommande->date)?\Carbon\Carbon::parse($da->bondecommande->date)->format('d-m-Y'):''}}</th>
-                        <td> {{$da->date_livraison_eff!=""?\Carbon\Carbon::parse($da->date_livraison_eff)->format('d-m-Y'):''}}
-                        </td>
-                        <th class="dt-head-center">{{$da->commentaire}}</th>
                         <td>
 
 
@@ -334,8 +297,7 @@
                     { responsivePriority: 1, targets: 4 },
 
                 ],
-                "scrollY": 500,
-                "scrollX": true,
+
             });
             //table.DataTable().draw();
             $('a.toggle-vis').on( 'click', function (e) {
