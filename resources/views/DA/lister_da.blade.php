@@ -324,6 +324,7 @@
                 },
                 "order": [[ 0, 'desc' ]],
                 "ordering":true,
+                "paging": false,
                 "createdRow": function( row, data, dataIndex){
 
                 },
