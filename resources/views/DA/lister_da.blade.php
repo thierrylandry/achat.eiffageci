@@ -49,7 +49,7 @@
 
     <div class="row">
         <div class="col-sm-12">
-            {{ $das->links() }}
+            {{ isset($das->links)?$das->links():''  }}
             <table name ="tableDA" id="tableDA" class='table table-bordered table-striped  no-wrap responsive ' >
 
                 <thead>
