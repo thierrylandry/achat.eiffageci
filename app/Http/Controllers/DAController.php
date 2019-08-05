@@ -31,7 +31,8 @@ class DAController
     {
         $fournisseurs=Fournisseur::all();
         $materiels=Materiel::all();
-        $das=  DA::orderBy('created_at', 'DESC')->paginate(100);
+      //  $das=  DA::orderBy('created_at', 'DESC')->paginate(100);
+        $das=  DA::orderBy('created_at', 'DESC')->get();
         $natures= Nature::all();
           //  dd($das[0]->bondecommande);
         $service_users=DB::table('users')
@@ -40,6 +41,24 @@ class DAController
         $domaines=  DB::table('domaines')->get();
         $tracemails= DB::table('trace_mail')->get();
         return view('DA/lister_da',compact('das','fournisseurs','materiels','natures','service_users','domaines','tracemails'));
+
+
+    }
+    public function encours_validation()
+    {
+        $fournisseurs=Fournisseur::all();
+        $materiels=Materiel::all();
+        $das=  DA::where('etat','=','2')
+
+            ->orderBy('created_at', 'DESC')->paginate(100);
+        $natures= Nature::all();
+          //  dd($das[0]->bondecommande);
+        $service_users=DB::table('users')
+            ->leftJoin('services', 'services.id', '=', 'users.service')
+            ->select('users.id','nom','prenoms','services.libelle','users.service')->get();
+        $domaines=  DB::table('domaines')->get();
+        $tracemails= DB::table('trace_mail')->get();
+        return view('DA/da_a_valider',compact('das','fournisseurs','materiels','natures','service_users','domaines','tracemails'));
 
 
     }

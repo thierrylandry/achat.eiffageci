@@ -232,6 +232,13 @@ Route::get('/lister_da',[
     'roles' => ['Valideur_DA','Gestionnaire_Pro_Forma']
 
 ])->middleware('auth');
+Route::get('/encours_validation',[
+    'as'=>'encours_validation',
+    'uses'=>'DAController@encours_validation',
+    'middleware' => 'roles',
+    'roles' => ['Valideur_DA','Gestionnaire_Pro_Forma']
+
+])->middleware('auth');
 
 Route::post('/Validdas', [
     'as'=>'Validdas',
