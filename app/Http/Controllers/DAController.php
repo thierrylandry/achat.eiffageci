@@ -32,7 +32,7 @@ class DAController
         $fournisseurs=Fournisseur::all();
         $materiels=Materiel::all();
       //  $das=  DA::orderBy('created_at', 'DESC')->paginate(100);
-        $das=  DA::orderBy('created_at', 'DESC')->get();
+        $das=  DA::orderBy('created_at', 'DESC')->paginate(500);
         $natures= Nature::all();
           //  dd($das[0]->bondecommande);
         $service_users=DB::table('users')
