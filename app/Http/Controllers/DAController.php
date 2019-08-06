@@ -208,9 +208,44 @@ class DAController
         $da->dateConfirmation=$date->format('Y-m-d H:i:s');
         $da->save();
 
-        return redirect()->route('gestion_da')->with('success', "La demande d'approvisionnement a bien été confirmée");
+        return redirect()->route('encours_validation')->with('success', "La demande d'approvisionnement a bien été confirmée");
 
     }
+
+    public function confirmer_da_depuis_creermodifier_da($slug)
+    {
+        $da = DA::where('slug', '=', $slug)->first();
+
+        if (isset(Auth::user()->id)) {
+            $da->id_valideur= Auth::user()->id ;
+
+        }
+        /*
+              $daa = DB::table('lignebesoin')
+                  ->join('materiel','materiel.id','=','lignebesoin.id_materiel')
+                  ->select('libelleMateriel','id_user')->get()->first();
+              $user=User::where('id','=',$daa->id_user)->first();
+              $da = DA::where('id', '=', $da->id)->first();
+              if($da->etat==0){
+                  Mail::send('mail/mail_action_da',array('da' =>$da,'etat' =>2,'libelleMateriel'=>$daa->libelleMateriel),function($message)use ($user){
+                      $message->from(\Illuminate\Support\Facades\Auth::user()->email ,\Illuminate\Support\Facades\Auth::user()->name )
+                          ->to($user->email)
+                          ->subject("Confirmation de la demande d'achat préalablement refusée");
+
+                  });
+              }
+      */
+        $da->etat=2;
+
+        $date = new \DateTime(null);
+        $da->motif="";
+        $da->dateConfirmation=$date->format('Y-m-d H:i:s');
+        $da->save();
+
+        return redirect()->route('creer_da')->with('success', "La demande d'approvisionnement a bien été confirmée");
+
+    }
+
     public function refuser_da(Request $request)
     {
         $parameters = $request->except(['_token']);

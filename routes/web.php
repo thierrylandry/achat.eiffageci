@@ -268,6 +268,13 @@ Route::get('/confirmer_da/{slug}',[
     'roles' => ['Valideur_DA']
 
 ])->middleware('auth');
+Route::get('/confirmer_da_depuis_creermodifier_da/{slug}',[
+    'as'=>'confirmer_da_depuis_creermodifier_da',
+    'uses'=>'DAController@confirmer_da_depuis_creermodifier_da',
+    'middleware' => 'roles',
+    'roles' => ['Valideur_DA']
+
+])->middleware('auth');
 Route::get('/suspendre_da/{slug}',[
     'as'=>'suspendre_da',
     'uses'=>'DAController@suspendre_da',
