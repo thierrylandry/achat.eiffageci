@@ -464,6 +464,7 @@ foreach ($recup_email as $email):
         $Trace_mail->msg_contenu=$debut_contenu.implode(' ',$corps).$fin_contenu;
         $Trace_mail->save();
 
+
        // return view('mail.mail')->with('corps',$corps);
             return redirect()->route('gestion_demande_proformas')->with('success', "Envoie d'email reussi");
     }
@@ -484,7 +485,14 @@ foreach ($recup_email as $email):
 
 
 
-
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Suppression du Devis et de la D.A N°'.$da->id, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
         return 'ok';
     }
     public function supprimer_def_devis($id)
@@ -492,7 +500,14 @@ foreach ($recup_email as $email):
         $da= Lignebesoin::find($id);
         $da->delete();
 
-
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Suppression  de la D.A N°'.$da->id, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
         return 'ok';
     }
     public function les_das_funct($domaine)

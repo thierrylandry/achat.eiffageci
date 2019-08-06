@@ -13,6 +13,7 @@ namespace App\Http\Controllers;
 use App\Materiel;
 use Dompdf\Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 class ProduitController
@@ -49,7 +50,14 @@ if(isset($_FILES['image']['name']) && $_FILES['image']['name']!="" ){
 }
 
 
-
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Ajout du produit '.$produit->libelleMateriel , ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
         return redirect()->route('gestion_produit')->with('success', "Le produit a été ajouté");
     }
     public function voir_produit($slug)
@@ -70,6 +78,16 @@ if(isset($_FILES['image']['name']) && $_FILES['image']['name']!="" ){
         }
 
         $produit->delete();
+
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Le  produit '.$produit->libelleMateriel , ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
+
         return redirect()->route('gestion_produit')->with('success', "Le produit a été supprimé");
     }
     public function modifier_produit( Request $request)
@@ -111,6 +129,14 @@ if(isset($_FILES['image']['name']) && $_FILES['image']['name']!="" ){
         if(isset($_FILES['image']['name']) && $_FILES['image']['name']!=''){
             $image->move(public_path('uploads'),$imageName);
         }
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.';le  produit a été modifié  id_produit:'.$produit->id.' '.$produit->libelleMateriel , ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
         return redirect()->route('gestion_produit')->with('success',"Le produit a été mis à jour");
     }
     public function alljson(){

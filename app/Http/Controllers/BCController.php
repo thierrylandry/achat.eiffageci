@@ -25,6 +25,7 @@ use App\Unites;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
@@ -72,6 +73,15 @@ class BCController extends Controller
         $tothtax = 0;
         //return view('BC.bon-commande', compact('bc','ligne_bcs','tothtax'));
         $pdf = PDF::loadView('BC.bon-commande', compact('bc','devis','tothtax','taille','taille_minim','taille_maxim'));
+
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; téléchargement du B.C N°'.$bc->numBonCommande.'  Adressé au fournisseur '.$bc->id_fournisseur, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
         return $pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
 
     }
@@ -333,6 +343,8 @@ return $view;
         $lignebesoin->save();
         // Finally, you can download the file using download function
           $pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
+
+
         return redirect()->route('gestion_bc')->with('success', "Envoie d'email reussi");
     }
     public function bon_commande_file1($slug){
@@ -505,8 +517,16 @@ $analytiques= Analytique::all();
     endforeach;
 
 
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; Validation et transmission collective des  B.Cs '.$id, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
 
-       // return redirect()->route('gestion_bc')->with('success', "Bon(s) de commande(s) validé(s) & Transmission aux fournisseurs");
+        // return redirect()->route('gestion_bc')->with('success', "Bon(s) de commande(s) validé(s) & Transmission aux fournisseurs");
     return 'success';
     }
     public function modifier_ligne_bc($slug)
@@ -584,7 +604,14 @@ $analytiques= Analytique::all();
 
 
 
-
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; Création du bon de commande Numero '.$boncommande->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
         return redirect()->route('gestion_bc')->with('success',"La commande a été ajoutée avec success");
     }
     public function update_ligne_bc(Request $request)
@@ -611,6 +638,16 @@ $analytiques= Analytique::all();
         $tot_ttc=$parameters['tot_serv'];
         $boncommande->total_ttc=$tot_ttc;
         $boncommande->save();
+
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; Modification du bon de commande Numero '.$boncommande->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
+
         return redirect()->route('gestion_bc')->with('success',"La ligne  a été mise à jour avec succes");
     }
     public function valider_commande($slug)
@@ -722,6 +759,14 @@ $analytiques= Analytique::all();
                 $pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
 
 
+            /*debut du traçages*/
+            $ip			= $_SERVER['REMOTE_ADDR'];
+            if (isset($_SERVER['REMOTE_HOST'])){
+                $nommachine = $_SERVER['REMOTE_HOST'];
+            }else{
+                $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+            }
+            Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; Bon de commande validé et transmit N° '.$Boncommande->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
                 //fin de l'utilisation de la fonction send_it
         }
         return redirect()->route('validation_bc')->with('success',"Bon de commande validé et transmit");
@@ -738,7 +783,14 @@ $analytiques= Analytique::all();
             $devi->save();
 
 
-
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Ajout du  Devis N° '.$devi->id.' du bon de commande id°'.$id_bc, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
         return "super";
     }
     public function detail_list_devis($id_bc)
@@ -809,19 +861,28 @@ $analytiques= Analytique::all();
     {
         $devi= Devis::find($id);
 
-
+       $bc= $devi->id_bc;
             $devi->id_bc=null;
             //pour dire que ce la sont lie a un bon de commande
             $devi->etat=1;
             $devi->save();
 
 
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Rétirer le Devis N° '.$devi->id.' du bon de commande id°'.$bc, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
 
         return \GuzzleHttp\json_encode($devi);
     }
     public function supprimer_def_da_to_bc($id,$id_bc)
     {
         $devi= Devis::find($id);
+        $bc=$devi->id_bc;
         if(!empty($devi)){
             $da= Lignebesoin::find($devi->id_da);
             $da->delete();
@@ -830,6 +891,14 @@ $analytiques= Analytique::all();
 
 
 
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Suppression définitive de la D.A et du devis le Devis N° '.$devi->id.' du bon de commande id°'.$bc, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
 
 
         return \GuzzleHttp\json_encode($devi);
@@ -852,6 +921,14 @@ $analytiques= Analytique::all();
 
 
 
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Bon de commande traité et finalisé N° '.$Boncommande->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
         return redirect()->route('gestion_bc')->with('success',"le bon de commande à été traité et finalisé");
     }
     public function traite_retourne($slug)
@@ -866,6 +943,14 @@ $analytiques= Analytique::all();
             $lignebesoin->etat=11;
             $lignebesoin->save();
         endforeach;
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Bon de commande traité et retourné N° '.$Boncommande->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
         return redirect()->route('gestion_bc')->with('success',"le bon de commande à été traité et finalisé");
     }
     public function refuser_commande($slug)
@@ -874,6 +959,14 @@ $analytiques= Analytique::all();
         $Boncommande= Boncommande::where('slug', '=', $slug)->first();
         $Boncommande->etat=0;
         $Boncommande->save();
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Bon de commande tréfusé N° '.$Boncommande->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
         return redirect(url()->previous())->with('success',"Le bon de commande à été validé avec succès");
     }
 
@@ -883,6 +976,15 @@ $analytiques= Analytique::all();
         $Boncommande= Boncommande::where('slug', '=', $slug)->first();
         $Boncommande->etat=1;
         $Boncommande->save();
+
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Annulation du Bon de commande N° '.$Boncommande->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
         return redirect(url()->previous())->with('success',"le bon de commande à été annuler avec succès");
     }
     public function lister_commande($id)
@@ -1018,6 +1120,14 @@ if(isset($devis->first()->devise)){
             $devi->save();
         endforeach;
 
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Création du Bon de commande N° '.$Boncommande->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
         return redirect()->route('gestion_bc')->with('success',"Le bon de commande a été ajouté, Veuillez ajouter la listes des produits ou des services");
     }
     public function modifier_bc( Request $request)
@@ -1030,7 +1140,14 @@ if(isset($devis->first()->devise)){
 
         $Boncommande->save();
 
-
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Modification du Bon de commande N° '.$Boncommande->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
         return redirect()->route('gestion_bc')->with('success',"Le bon de commande a été Modifié");
     }
 
@@ -1047,6 +1164,14 @@ if(isset($devis->first()->devise)){
 
         $bon_de_commande->delete();
 
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Suppression du Bon de commande N° '.$bon_de_commande->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
         return redirect()->route('gestion_bc')->with('success', "Le Bon de commande a été supprimé   NB: la suppression d'un bon de commande, entraine la suppression en cascade des lignes de cet bon de commande ");
     }
     public function supprimer_ligne_bc($slug)
@@ -1061,7 +1186,14 @@ if(isset($devis->first()->devise)){
         $boncommande->total_ttc=$tot_ttc;
         $boncommande->save();
 
-
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Suppression de la ligne du bon de commande  du Bon de commande N° '.$boncommande->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
         return redirect()->route('gestion_bc')->with('success', "La ligne du bon de commande a été supprimée avec succes ");
     }
 
@@ -1088,6 +1220,14 @@ public function gestion_offre(){
         $boncommande->date_livraison=$date_livraison;
         $boncommande->save();
 
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Date de livraison effective affecté sur le Bon de commande N° '.$boncommande->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
         return redirect()->route('gestion_bc')->with('success', "Date de livraison ajoutée avec succès ");
 
     }

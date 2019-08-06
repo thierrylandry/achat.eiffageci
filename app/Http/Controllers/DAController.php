@@ -21,9 +21,11 @@ use App\Unites;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+
 class DAController
 {
 
@@ -40,6 +42,19 @@ class DAController
             ->select('users.id','nom','prenoms','services.libelle','users.service')->get();
         $domaines=  DB::table('domaines')->get();
         $tracemails= DB::table('trace_mail')->get();
+
+
+
+        //trace
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; Lister les D.A par user.', ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
         return view('DA/lister_da',compact('das','fournisseurs','materiels','natures','service_users','domaines','tracemails'));
 
 
@@ -58,6 +73,19 @@ class DAController
             ->select('users.id','nom','prenoms','services.libelle','users.service')->get();
         $domaines=  DB::table('domaines')->get();
         $tracemails= DB::table('trace_mail')->get();
+
+
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; Lister les D.A en cours de validation.', ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
+
+
         return view('DA/da_a_valider',compact('das','fournisseurs','materiels','natures','service_users','domaines','tracemails'));
 
 
@@ -92,6 +120,17 @@ class DAController
             }
         endforeach;
         $tracemails= DB::table('trace_mail')->get();
+
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; affichage de la fenetre de création de D.A.', ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
+
         return view('DA/creer_da',compact('das','fournisseurs','materiels','natures','service_users','domaines','tab_unite','tracemails'));
 
 
@@ -117,7 +156,15 @@ class DAController
         $da->slug = Str::slug($parameters['id_materiel'] . $date->format('dmYhis'));
         $da->save();
 
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
 
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; fenetre de création de D.A.', ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
         return redirect()->route('creer_da')->with('success', "La demande d'approvisionnement a été ajoutée");
 
 
@@ -154,6 +201,16 @@ class DAController
             }
         endforeach;
         $tracemails= DB::table('trace_mail')->get();
+
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; Consultation de la D.A '.$da->id, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
         return view('DA/gestion_da',compact('das','fournisseurs','materiels','natures','da','service_users','domaines','tab_unite','tracemails'));
     }
     public function afficher_image($id)
@@ -167,10 +224,19 @@ class DAController
     public function supprimer_da($slug)
     {
         $da = DA::where('slug', '=', $slug)->first();
+        $idda=$da->id;
      //   $devis=Devis::where('id_da',$da->id)->first();
         $da->delete();
 
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
 
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; suppression de la D.A '.$idda, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
         return redirect()->route('gestion_da')->with('success', "La demande d'approvisionnement a bien été supprimée");
     }
 
@@ -208,6 +274,14 @@ class DAController
         $da->dateConfirmation=$date->format('Y-m-d H:i:s');
         $da->save();
 
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; confirmaion de la D.A '.$da->id, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
         return redirect()->route('encours_validation')->with('success', "La demande d'approvisionnement a bien été confirmée");
 
     }
@@ -242,6 +316,14 @@ class DAController
         $da->dateConfirmation=$date->format('Y-m-d H:i:s');
         $da->save();
 
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; confirmaion de la D.A '.$da->id, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
         return redirect()->route('creer_da')->with('success', "La demande d'approvisionnement a bien été confirmée");
 
     }
@@ -275,6 +357,15 @@ class DAController
         });}catch (\Exception $e){
 
         }
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; refus de la D.A '.$da->id, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
+
         return redirect()->route('gestion_da')->with('succes', "La demande d'approvisionnement a bien été refusée");
 
     }
@@ -297,6 +388,15 @@ class DAController
 
         $da->id_valideur="";
         $da->save();
+
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; suspension de la D.A '.$da->id, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
         return redirect()->route('gestion_da')->with('success', "la demande d'approvisionnement a bien été suspendue");
 
     }
@@ -325,6 +425,14 @@ class DAController
         $da->slug = Str::slug($parameters['id_materiel'] . $date->format('Y-m-d h:m:s'));
         $da->save();
 
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; Modification  de la D.A '.$da->id, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
         return redirect()->route('creer_da')->with('success',"La demande d'approvisionnement a été mise à jour");
     }
     public function alljson(){
