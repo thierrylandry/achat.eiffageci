@@ -164,7 +164,7 @@ class DAController
             $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         }
 
-        Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; fenetre de création de D.A.', ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; création  de la  D.A slug:'.$da->slug.' .', ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
         return redirect()->route('creer_da')->with('success', "La demande d'approvisionnement a été ajoutée");
 
 
