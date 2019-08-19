@@ -668,7 +668,7 @@ $analytiques= Analytique::all();
                 $contact = Array();
                 foreach ($contacts as $cont):
 
-                    if($cont->type_c=="EMABC"){
+                    if($cont->type_c=="EMABC" || $cont->type_c=="EMA"){
                         $contact[]=$cont->valeur_c;
                     }
                 endforeach;
