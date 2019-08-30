@@ -41,8 +41,8 @@ class FournisseurController extends Controller
     {
         $domaines=  DB::table('domaines')->get();
        // $fournisseurs = Fournisseur::all();
-        $fournisseur = Fournisseur::where('slug', '==', $slug)->first();
-        dd($fournisseur);
+        $fournisseur = Fournisseur::find($slug);
+       // dd($fournisseur);
         $contacts= json_decode($fournisseur->contact);
       //  dd($contacts);
         return view('fournisseurs/modifer_fournisseur',compact('fournisseur','domaines','contacts'));
@@ -86,7 +86,7 @@ class FournisseurController extends Controller
 
 
 
-        $fournisseur=  Fournisseur::where('slug','==',$parameters['slug'])->first();
+        $fournisseur=  Fournisseur::where('slug','=',$parameters['slug'])->first();
 
         // Fournisseur::create($parameters);
         $date= new \DateTime(null);
