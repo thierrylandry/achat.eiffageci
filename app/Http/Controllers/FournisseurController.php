@@ -85,7 +85,7 @@ class FournisseurController extends Controller
 
 
 
-        $fournisseur=  Fournisseur::where('slug','=',$parameters['slug'])->first();
+        $fournisseur=  Fournisseur::where('slug','==',$parameters['slug'])->first();
 
         // Fournisseur::create($parameters);
         $date= new \DateTime(null);
