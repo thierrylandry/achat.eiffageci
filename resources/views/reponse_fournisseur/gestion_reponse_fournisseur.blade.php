@@ -32,6 +32,7 @@
                                         <tr>
                                             <th class="dt-head-center">N°D.A</th>
                                             <th class="dt-head-center">id_materiel</th>
+                                            <th class="dt-head-center">nom produit</th>
                                             <th>Code Analytique</th>
                                             <th class="dt-head-center">Matériel et consultation</th>
                                             <th class="dt-head-center" width="5%">Quantité</th>
@@ -51,6 +52,7 @@
                                             <tr>
                                                 <td>{{$da->id}}</td>
                                                 <td>{{$da->id_materiel}}</td>
+                                                <td>{{$da->libelleMateriel}}</td>
                                                 <td><div class="form-group">
                                                         <select class="form-control selectpicker" id="row_n_{{$da->id}}_codeRubrique" name="row_n_{{$da->id}}_codeRubrique" data-live-search="true" data-size="6" >
                                                             <option  value="">SELECTIONNER</option>
