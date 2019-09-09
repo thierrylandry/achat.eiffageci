@@ -124,6 +124,7 @@
     </div>
     <div class="col-md-12  market-update-gd">
         </br>
+
         <!--agileinfo-grap-->
         <div class="agileinfo-grap">
             <div class="agileits-box">
@@ -134,9 +135,25 @@
 
                     </div>
                 </header>
-                <div class="agileits-box-body clearfix">
-                    <div id="hero-area"></div>
-                </div>
+                <div id="graph11"></div>
+                <script>
+                    var cumuleda=[@foreach($cumuleda as $res)
+                            @if($res->y!=null)
+                            {{"{period:"}} '{{$res->name}}' {{",DA:"}} {{$res->y}} },
+                    @endif
+                    @endforeach];
+
+                    /* data stolen from http://howmanyleft.co.uk/vehicle/jaguar_'e'_type */
+
+                    Morris.Bar({
+                        element: 'graph11',
+                        data: cumuleda,
+                        xkey: 'period',
+                        ykeys: ['DA'],
+                        labels: ["Demande d'Achats"],
+                        xLabelAngle: 60
+                    });
+                </script>
             </div>
         </div>
         <!--//agileinfo-grap-->
