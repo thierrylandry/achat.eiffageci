@@ -129,7 +129,7 @@
         <div class="agileinfo-grap">
             <div class="agileits-box">
                 <header class="agileits-box-header clearfix">
-                    <h3>Cumule mensuelle des Demandes d'achat</h3>
+                    <h3>Cumule mensuel des Demandes d'achat</h3>
                     <div class="toolbar">
 
 
