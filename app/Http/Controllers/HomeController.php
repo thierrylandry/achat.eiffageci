@@ -115,6 +115,11 @@ $Boncommandes= Boncommande::all()->count();
                     $vardiag->y=$group->nb+end($boncommande)->y;
 
                     $boncommande[sizeof($boncommande)-1]=$vardiag;
+                }else{
+                    $vardiag = New Vardiag();
+                    $vardiag->name=$group->dat;
+                    $vardiag->y=$group->nb;
+                    $boncommande[]=$vardiag;
                 }
 
             }else{
