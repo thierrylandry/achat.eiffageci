@@ -100,18 +100,33 @@ $Boncommandes= Boncommande::all()->count();
 
         $boncommande_tab = DB::table('boncommande')
             //->select(DB::raw("DATE_FORMAT (created_at,'%d-%b-%Y') as dat" ),DB::raw('sum(boncommande.total_ttc) as nb'))
-            ->select(DB::raw("DATE_FORMAT (created_at,'%d-%b-%Y') as dat" ),DB::raw('boncommande.total_ttc as nb'))
+            ->select(DB::raw("DATE_FORMAT (created_at,'%b-%Y') as dat" ),DB::raw('boncommande.total_ttc as nb'))
             ->orderBy('dat','DESC')
             ->get();
-         //   dd($boncommande_tab);
+
         $boncommande= Array();
         foreach ($boncommande_tab as $group):
-            $vardiag = New Vardiag();
-            $vardiag->name=$group->dat;
-            $vardiag->y=$group->nb;
+            if(!empty(end($boncommande))){
+//dd(end($boncommande)->name);
+                if($group->dat==end($boncommande)->name){
+                    $vardiag = New Vardiag();
+                    $vardiag->name=$group->dat;
+                    $vardiag->y=$group->nb+end($boncommande)->y;
 
-            $boncommande[]=$vardiag;
+                    $boncommande[sizeof($boncommande)-1]=$vardiag;
+                }
+
+            }else{
+                $vardiag = New Vardiag();
+                $vardiag->name=$group->dat;
+                $vardiag->y=$group->nb;
+                $boncommande[]=$vardiag;
+            }
+
+
+
         endforeach;
+      //  dd($boncommande);
         return view('home',compact('daencours','das','Boncommandeencours','Boncommandes','montant_bc','montant_bct','fournisseur_sollicie','fournisseur_sollicie','fournisseur_retour','fournisseur_retard','cumuleda','boncommande'));
     }
     public function profiles()
