@@ -102,7 +102,6 @@ $Boncommandes= Boncommande::all()->count();
             //->select(DB::raw("DATE_FORMAT (created_at,'%d-%b-%Y') as dat" ),DB::raw('sum(boncommande.total_ttc) as nb'))
           //  ->select(DB::raw("DATE_FORMAT (created_at,'%b-%Y') as dat" ),DB::raw('boncommande.total_ttc as nb'))
             ->select(DB::raw("DATE_FORMAT (created_at,'%b-%Y') as dat" ),'total_ttc as nb')
-            ->orderBy('dat','DESC')
             ->get();
 
         $boncommande= Array();
@@ -132,7 +131,7 @@ $Boncommandes= Boncommande::all()->count();
 
 
         endforeach;
-      //  dd($boncommande);
+        dd($boncommande);
         return view('home',compact('daencours','das','Boncommandeencours','Boncommandes','montant_bc','montant_bct','fournisseur_sollicie','fournisseur_sollicie','fournisseur_retour','fournisseur_retard','cumuleda','boncommande'));
     }
     public function profiles()
