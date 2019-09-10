@@ -131,7 +131,7 @@ $Boncommandes= Boncommande::all()->count();
 
 
         endforeach;
-        dd($boncommande);
+       // dd($boncommande);
         return view('home',compact('daencours','das','Boncommandeencours','Boncommandes','montant_bc','montant_bct','fournisseur_sollicie','fournisseur_sollicie','fournisseur_retour','fournisseur_retard','cumuleda','boncommande'));
     }
     public function profiles()
