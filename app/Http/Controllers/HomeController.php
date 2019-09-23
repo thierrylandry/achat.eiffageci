@@ -29,8 +29,7 @@ class HomeController extends Controller
     {
 $daencours= DB::table('lignebesoin')->where('etat','=','1')->count();
         $das= DB::table('lignebesoin')
-            ->where('etat','=','2')
-            ->orwhere('etat','=','1')->count();
+         ->count();
 $Boncommandeencours= Boncommande::where('etat','=','1')->where('date','<>','')->count();
 $montant_bc= DB::table('boncommande')
     ->where('boncommande.etat','=',4)
