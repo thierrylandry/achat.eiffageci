@@ -97,7 +97,7 @@
                                 Traitée et retournée
                             @endif
                         </td>
-                        <td>{{isset($da->created_at)?date_format( DateTime::createFromFormat('Y-m-d', $da->created_at),'d-m-Y H:i:s'):''}}</td>
+                        <td>{{isset($da->created_at)?DateTime::createFromFormat('d-m-Y H:i:s', $da->created_at):''}}</td>
                         <td>
                             @foreach($materiels as $materiel )
                                 @if($materiel->id==$da->id_materiel)
