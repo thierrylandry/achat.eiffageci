@@ -114,7 +114,7 @@
 
 
                             @endforeach</td>
-                        <td>{{$da->nature}}
+                        <td>
                             @foreach($natures as $nature )
                                 @if($nature->id==$da->id_nature)
                                     {{$nature->libelleNature}}
