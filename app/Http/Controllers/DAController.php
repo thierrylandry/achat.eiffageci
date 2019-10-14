@@ -65,7 +65,7 @@ class DAController
         $materiels=Materiel::all();
                     $das=  DB::table('lignebesoin')
                         ->Join('users','users.id','=','lignebesoin.id_user')
-                        ->where('users.service','=',\Illuminate\Support\Facades\Auth::user()->service)
+                    //    ->where('users.service','=',\Illuminate\Support\Facades\Auth::user()->service)
                         ->where('etat','=','1')
                         ->select('lignebesoin.id','unite','quantite','DateBesoin','id_user','id_nature','id_materiel','lignebesoin.created_at','demandeur','lignebesoin.slug','etat','id_valideur','motif','usage','commentaire','dateConfirmation','date_livraison_eff')
                         ->orderBy('created_at', 'DESC')->paginate(100);
