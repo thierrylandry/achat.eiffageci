@@ -7,7 +7,13 @@
     class='active'
 @endsection
 <style>
-
+    tr.odd td:first-child,
+    tr.even td:first-child {
+        padding-left: 4em;
+    }
+    tbody#contenu_tableau_entite>tr.dtrg-group .dtrg-start .dtgr-level-0{
+        background-color: black !important;
+    }
 </style>
 @section('content')
     <div id="list_facture" class="modal fade in" aria-hidden="true" role="dialog" >
@@ -125,6 +131,7 @@
                     <th class="dt-head-center">statut</th>
                     <th class="dt-head-center">date de demande</th>
                     <th class="dt-head-center">Date du BC</th>
+                    <th class="dt-head-center">Matériel et consultation</th>
                     <th class="dt-head-center">Quantité</th>
                     <th class="dt-head-center">Demandeur</th>
                     <th class="dt-head-center">Code Analytique</th>
@@ -164,6 +171,7 @@
                         </td>
                         <td> {{\Carbon\Carbon::parse($da->created_at)->format('d-m-Y H:i:s')}}</td>
                         <th class="dt-head-center">{{isset($da->bondecommande->date)?\Carbon\Carbon::parse($da->bondecommande->date)->format('d-m-Y'):''}}</th>
+                        <td>{{$da->libelleMateriel}}</td>
                         <td>{{$da->quantite}} {{$da->unite}}</td>
                         <td>{{$da->demandeur}}</td>
                         <td>{{isset($da->devis->codeRubrique)?$da->devis->codeRubrique:''}}</td>
@@ -196,6 +204,7 @@
         </div>
     </div>
     <script src="{{ URL::asset("js/dataTables.buttons.min.js") }}"></script>
+    <script src="{{ URL::asset("js/dataTables.rowGroup.min.js") }}"></script>
     <script src="{{ URL::asset("js/buttons.flash.min.js") }}"></script>
     <script src="{{ URL::asset("js/jszip.min.js") }}"></script>
     <script src="{{ URL::asset("js/dataTable.pdfmaker.js") }}"></script>
@@ -211,6 +220,7 @@
             var date =new Date();
 
             var table= $('#tableDA').DataTable({
+
                 dom: 'Bfrtip',
                 buttons: [
                     {
@@ -264,19 +274,55 @@
                 language: {
                     url: "{{ URL::asset('public/js/French.json') }}"
                 },
-                "order": [[ 0, 'desc' ]],
+
                 "ordering":true,
                 "paging": false,
                 "createdRow": function( row, data, dataIndex){
 
+                    if( data[0] ==  'someVal'){
+                        $(row).addClass('redClass');
+                    }
+                },
+                "drawCallback": function (settings){
+                    var api = this.api();
+
+                    // Zero-based index of the column containing names
+                    var col_name = 0;
+
+                    // If ordered by column containing names
+                    if (api.order()[0][0] === col_name) {
+                        var rows = api.rows({ page: 'current' }).nodes();
+                        var group_last = null;
+
+                        api.column(col_name, { page: 'current' }).data().each(function (name, index){
+                            var group = name;
+                            var data = api.row(rows[index]).data();
+
+                            if (group_last !== group) {
+                                $(rows[index]).before(
+                                        '<tr class="group" style="background-color:#1f0707;color:white"><td colspan="11"><b>Bon de commande : ' + group + '</b></td></tr>'
+                                );
+
+                                group_last = group;
+                            }
+                        });
+                    }
                 },
                 responsive: false,
-                columnDefs: [
-                    { responsivePriority: 1, targets: 0 },
-                    { responsivePriority: 2, targets: -1 },
-                    { responsivePriority: 1, targets: 4 },
+                order: [[0, 'desc']],
+                columnDefs: [ {
+                    targets: [ 1, 2 ],
+                    visible: false
+                } ],
+                rowGroup: {
+                    startRender: function ( rows, group ) {
+                     //   return group +' ('+rows.count()+')';
 
-                ],
+                    },
+                    endRender: null,
+
+                    dataSrc: [0]
+                },
                 "scrollY": 500,
                 "scrollX": true,
             });

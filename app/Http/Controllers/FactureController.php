@@ -25,7 +25,8 @@ class FactureController extends Controller
         //  $das=  DA::orderBy('created_at', 'DESC')->paginate(100);
         $das=  DB::table('lignebesoin')->where('lignebesoin.etat','=',4)
                 ->join('boncommande','boncommande.id','=','lignebesoin.id_bonCommande')
-               ->select('lignebesoin.id','unite','DateBesoin','lignebesoin.id_user','id_materiel','id_bonCommande','demandeur','lignebesoin.etat','id_valideur','motif','usage','commentaire','date_livraison_eff','lignebesoin.created_at','quantite','dateConfirmation','numBonCommande')
+                ->join('materiel','materiel.id','=','lignebesoin.id_materiel')
+               ->select('lignebesoin.id','unite','DateBesoin','lignebesoin.id_user','id_materiel','id_bonCommande','demandeur','lignebesoin.etat','id_valideur','motif','usage','commentaire','date_livraison_eff','lignebesoin.created_at','quantite','dateConfirmation','numBonCommande','materiel.libelleMateriel')
                ->groupBy('id_bonCommande','lignebesoin.id')
                ->orderBy('created_at', 'DESC')
             ->paginate(300);
