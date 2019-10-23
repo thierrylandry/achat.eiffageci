@@ -18,7 +18,7 @@ class MiseAJourTableTraceMail extends Migration
             if (!Schema::hasColumn('trace_mail','objet')) {
                 $table->string('objet')->nullable();
             }
-            if (!Schema::hasColumn('lignebesoin','msg_contenu')) {
+            if (!Schema::hasColumn('trace_mail','msg_contenu')) {
                 $table->text('msg_contenu')->nullable();
             }
         });
