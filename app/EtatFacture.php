@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class EtatFacture extends Model
 {
     //
-    protected  $table="etatfacture";
+    protected  $table="etatFacture";
     protected $fillable= ['*'];
 }
