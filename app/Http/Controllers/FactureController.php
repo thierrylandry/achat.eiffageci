@@ -24,7 +24,7 @@ class FactureController extends Controller
         $etatFactures =EtatFacture::all();
         //  $das=  DA::orderBy('created_at', 'DESC')->paginate(100);
         $das=  DB::table('lignebesoin')->where('etat','=',4)
-               ->select('id','unite','DateBesoin','id_user','id_materiel','id_bonCommande','demandeur','etat','id_valideur','motif','usage','commentaire','date_livraison_eff','created_at','quantite','dateConfirmation')
+               ->select('id','unite','DateBesoin','id_user','id_materiel','id_bonCommande','demandeur','etat','id_valideur','motif','usage','commentaire','date_livraison_eff','created_at','quantite','dateConfirmation','numBonCommande')
                ->groupBy('id_bonCommande','id')
                ->orderBy('created_at', 'DESC')
             ->paginate(300);
