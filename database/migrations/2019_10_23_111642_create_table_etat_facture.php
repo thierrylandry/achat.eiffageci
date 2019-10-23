@@ -13,11 +13,13 @@ class CreateTableEtatFacture extends Migration
      */
     public function up()
     {
-        Schema::create('etatFacture', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('libelle')->nullable();
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('etatFacture')) {
+            Schema::create('etatFacture', function (Blueprint $table) {
+                $table->increments('id');
+                $table->string('libelle')->nullable();
+                $table->timestamps();
+            });
+        }
     }
 
     /**

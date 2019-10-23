@@ -15,7 +15,9 @@ class AddAdteLivraisonEffToDa extends Migration
     {
         Schema::table('lignebesoin', function (Blueprint $table) {
             //
-            $table->date("date_livraison_eff")->nullable();
+            if (!Schema::hasColumn('lignebesoin','date_livraison_eff')) {
+                $table->date("date_livraison_eff")->nullable();
+            }
         });
     }
 
