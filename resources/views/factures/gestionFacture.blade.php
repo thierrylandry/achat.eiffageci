@@ -316,15 +316,13 @@
                 } ],
                 rowGroup: {
                     startRender: function ( rows, group ) {
-                     //   return group +' ('+rows.count()+')';
+                        return 'Nombre de ligne '+' ('+rows.count()+')';
 
                     },
                     endRender: null,
 
                     dataSrc: [0]
                 },
-                "scrollY": 500,
-                "scrollX": true,
             });
             var tablecontenu_facture= $('#contenu_facture').DataTable({
                 dom: 'Bfrtip',
