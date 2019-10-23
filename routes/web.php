@@ -738,6 +738,42 @@ Route::get('/validation_bc_collective/{id}',[
 
 ])->middleware('auth');
 
+Route::get('/Gestion_Facture',[
+    'as'=>'Gestion_Facture',
+    'uses'=>'FActureController@Gestion_Facture',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_Facture']
+
+])->middleware('auth');
+Route::post('/ajouterFacture',[
+    'as'=>'ajouterFacture',
+    'uses'=>'FActureController@ajouterFacture',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_Facture']
+
+])->middleware('auth');
+Route::get('/listfacture/{id}/',[
+    'as'=>'listfacture',
+    'uses'=>'FActureController@listfacture',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_Facture']
+
+])->middleware('auth');
+Route::get('/afficherfacture/{id}/',[
+    'as'=>'afficherfacture',
+    'uses'=>'FActureController@afficherfacture',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_Facture']
+
+])->middleware('auth');
+Route::get('/supprimerfacture/{id}/',[
+    'as'=>'supprimerfacture',
+    'uses'=>'FActureController@supprimerfacture',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_Facture']
+
+])->middleware('auth');
+
 Route::get('/mettre_ajour',[
     'as'=>'mettre_ajour',
     'uses'=>'NotificationController@mettre_ajour'

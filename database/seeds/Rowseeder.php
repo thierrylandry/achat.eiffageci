@@ -44,5 +44,10 @@ class Rowseeder extends Seeder
         $role_confirm_bc->description="VALIDATION DES B.C";
         $role_confirm_bc->save();
 
+        $role_BC = new Role();
+        $role_BC->name="Gestionnaire_Facture";
+        $role_BC->description="GESTION DES FACTURES";
+        $role_BC->save();
+
     }
 }
