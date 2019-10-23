@@ -138,7 +138,7 @@
                 <tbody name ="contenu_tableau_entite" id="contenu_tableau_entite">
                 @foreach($das as $da )
                     <tr>
-                        <th class="dt-head-center">{{isset($da->bondecommande->numBonCommande)?$da->bondecommande->numBonCommande:''}}</th>
+                        <th class="dt-head-center">{{isset($da->numBonCommande)?$da->numBonCommande:''}}</th>
                         <td>{{$da->id}}</td>
                         <td>
 
