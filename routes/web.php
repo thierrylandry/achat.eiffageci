@@ -740,7 +740,7 @@ Route::get('/validation_bc_collective/{id}',[
 
 Route::get('/Gestion_Facture',[
     'as'=>'Gestion_Facture',
-    'uses'=>'FActureController@Gestion_Facture',
+    'uses'=>'FactureController@Gestion_Facture',
     'middleware' => 'roles',
     'roles' => ['Gestionnaire_Facture']
 
@@ -754,21 +754,21 @@ Route::post('/ajouterFacture',[
 ])->middleware('auth');
 Route::get('/listfacture/{id}/',[
     'as'=>'listfacture',
-    'uses'=>'FActureController@listfacture',
+    'uses'=>'FactureController@listfacture',
     'middleware' => 'roles',
     'roles' => ['Gestionnaire_Facture']
 
 ])->middleware('auth');
 Route::get('/afficherfacture/{id}/',[
     'as'=>'afficherfacture',
-    'uses'=>'FActureController@afficherfacture',
+    'uses'=>'FactureController@afficherfacture',
     'middleware' => 'roles',
     'roles' => ['Gestionnaire_Facture']
 
 ])->middleware('auth');
 Route::get('/supprimerfacture/{id}/',[
     'as'=>'supprimerfacture',
-    'uses'=>'FActureController@supprimerfacture',
+    'uses'=>'FactureController@supprimerfacture',
     'middleware' => 'roles',
     'roles' => ['Gestionnaire_Facture']
 
