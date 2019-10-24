@@ -617,7 +617,7 @@ foreach ($recup_email as $email):
             ->join('materiel', 'materiel.id', '=', 'devis.id_materiel')
             ->select('libelleMateriel','devis.id','devis.id_da','titre_ext','type','devise', 'devis.unite', 'devis.quantite','id_fournisseur','prix_unitaire','remise','devis.codeRubrique','hastva')
 
-        ->where('etat','=',1)->paginate(30);
+        ->where('etat','=',1)->get();
 
         $analytiques=  DB::table('analytique')->distinct()->get(['codeRubrique','libelle']);
         $unites=Unites::all();

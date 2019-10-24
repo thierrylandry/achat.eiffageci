@@ -162,7 +162,7 @@
                     </div>
                     <div id="collapse2" class="panel-collapse collapse" >
                         <div class="panel-body" >
-                            {{ $devis->links() }}
+
                             <form action="{{route('selection_de_la_reponse')}}" method="post">
                                 <div id="daencours">
 
