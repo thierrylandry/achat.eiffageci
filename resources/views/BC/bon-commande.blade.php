@@ -157,7 +157,7 @@
                 <p align="center"><b>Adresse de livraison</b></p>
                 <div class="rubrique">
                     <p style="border-bottom: none;"><b>Chantier : PONT FELIX HOUPHOUET BOIGNY</b></p>
-                    <p style="font-size: 10px">SITE INSTALATION DU CHANTIER, LAGUNE EBRIE RIVE SUD, TREICHVILLE, AVENUE CHRISTIANI</p>
+                    <p style="font-size: 10px">SITE INSTALLATION DU CHANTIER, LAGUNE EBRIE RIVE SUD, TREICHVILLE, AVENUE CHRISTIANI</p>
                 </div>
                 <br/>
                 <div class="rubrique">
@@ -168,6 +168,8 @@
                 <div class="rubrique">
                     <p style="font-size: 10px"><b>RIB à mentionner sur la facture</b> <br/>
                     {{$bc->conditionPaiement}}</p>
+                </div>  <div class="rubrique">
+                    <p style="font-size: 10px"><b><p><t style="color:#761c19;">Port d’EPI</t>  obligatoire  (casque, chasuble, chaussures et gants) pour toute intervention sur le chantier et après autorisation d’un personnel HSE</p></b> <br/></p>
                 </div>
             </th>
             <th colspan="6" valign="top" style="margin: 0; padding: 0; ">
