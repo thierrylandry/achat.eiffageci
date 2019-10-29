@@ -59,7 +59,7 @@ class BCController extends Controller
         $devis=DB::table('devis')
             ->join('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
             ->where('id_bc','=',$bc->id)
-            ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.devise','commentaire')->get();
+            ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.devise','commentaire','hastva')->get();
 
         $taille=sizeof($devis);
 
@@ -162,7 +162,7 @@ return $view;
         $devis=DB::table('devis')
             ->join('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
             ->where('id_bc','=',$bc->id)
-            ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.devise','commentaire')->get();
+            ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.devise','commentaire','hastva')->get();
         $taille=sizeof($devis);
         $tothtax = 0;
         if($bc->commentaire_general==''){
@@ -429,7 +429,7 @@ $analytiques= Analytique::all();
             $devis=DB::table('devis')
                 ->join('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
                 ->where('id_bc','=',$Boncommande->id)
-                ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.devise','commentaire')->get();
+                ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.devise','commentaire','hastva')->get();
 
 
             $tothtax = 0;
@@ -677,7 +677,7 @@ $analytiques= Analytique::all();
                 $devis=DB::table('devis')
                     ->join('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
                     ->where('id_bc','=',$Boncommande->id)
-                    ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.devise','commentaire')->get();
+                    ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.devise','commentaire','hastva')->get();
 
 
                 $tothtax = 0;

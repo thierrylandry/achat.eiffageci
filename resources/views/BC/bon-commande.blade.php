@@ -180,11 +180,24 @@
                     </tr>
                     <tr>
                         <td style="text-align:right" ><b>TVA </b></td>
-                        <td class="value">{{ number_format($tothtax*0.18, 0,".", " ")." ".$devis[0]->devise }}</td>
+                        <td class="value">
+                            @if(1==$dev->hastva)
+                                {{ number_format($tothtax*0.18, 0,".", " ")." ".$devis[0]->devise }}
+                            @else
+                                {{0}}
+
+                            @endif
+                                </td>
                     </tr>
                     <tr>
                         <td style="text-align:right" ><b>TOTAL TTC EN FCFA </b></td>
-                        <td class="value">{{ number_format($tothtax*1.18, 0,".", " ")." ".$devis[0]->devise }}</td>
+                        <td class="value">
+                            @if(1==$dev->hastva)
+                                {{ number_format($tothtax*1.18, 0,".", " ")." ".$devis[0]->devise }}
+                            @else
+                                {{ number_format($tothtax, 0,".", " ")." ".$devis[0]->devise  }}
+
+                            @endif</td>
                     </tr>
                 </table>
 
