@@ -181,23 +181,26 @@
                     <tr>
                         <td style="text-align:right" ><b>TVA </b></td>
                         <td class="value">
-                            @if(1==$dev->hastva)
-                                {{ number_format($tothtax*0.18, 0,".", " ")." ".$devis[0]->devise }}
-                            @else
-                                {{0}}
+                            <?php
+                                    $tva=0;
+                                foreach($devis as $dev):
+                                    if(1==$dev->hastva){
+                                        $tva+=$dev->prix_tot*0.18;
+                                    }else{
+                                        $tva+=0;
+                                    }
 
-                            @endif
+                                    endforeach;
+                                    echo number_format($tva, 0,".", " ")." ".$devis[0]->devise;
+                            ?>
                                 </td>
                     </tr>
                     <tr>
                         <td style="text-align:right" ><b>TOTAL TTC EN FCFA </b></td>
                         <td class="value">
-                            @if(1==$dev->hastva)
-                                {{ number_format($tothtax*1.18, 0,".", " ")." ".$devis[0]->devise }}
-                            @else
-                                {{ number_format($tothtax, 0,".", " ")." ".$devis[0]->devise  }}
 
-                            @endif</td>
+                            {{number_format($tothtax+$tva,0,"."," ")." ".$devis[0]->devise}}
+                        </td>
                     </tr>
                 </table>
 

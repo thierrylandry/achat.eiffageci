@@ -143,7 +143,7 @@
                                             </tr>
                                         @endforeach
 
-                                        
+
                                         </tbody>
 
                                     </table>
