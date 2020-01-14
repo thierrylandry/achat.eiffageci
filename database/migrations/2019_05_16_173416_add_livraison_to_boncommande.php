@@ -15,7 +15,9 @@ class AddLivraisonToBoncommande extends Migration
     {
         Schema::table('boncommande', function (Blueprint $table) {
             //
-            $table->date("date_livraison")->nullable();
+            if (!Schema::hasColumn('boncommande','date_livraison')) {
+                $table->date("date_livraison")->nullable();
+            }
         });
     }
 

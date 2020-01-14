@@ -281,6 +281,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
                     </li>
                     @endif
+                    @if(Auth::user() != null && Auth::user()->hasAnyRole(['Gestionnaire_Facture']))
+                        <li >
+                            <a  @yield('gestion_Facture') href="{{route('Gestion_Facture')}}">
+                                <i class="fa fa-archive"></i>
+                                <span>Gestion des Factures</span>
+                            </a>
+
+                        </li>
+                    @endif
+
                         @if(Auth::user() != null && Auth::user()->hasAnyRole(['Valideur_BC']))
                         <li @yield('validation_bc')>  <a href="{{route('validation_bc')}}"><i class="fa fa-check"></i><span>Validation B.C.</span></a></li>
                     @endif

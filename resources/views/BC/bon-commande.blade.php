@@ -157,7 +157,7 @@
                 <p align="center"><b>Adresse de livraison</b></p>
                 <div class="rubrique">
                     <p style="border-bottom: none;"><b>Chantier : PONT FELIX HOUPHOUET BOIGNY</b></p>
-                    <p style="font-size: 10px">SITE INSTALATION DU CHANTIER, LAGUNE EBRIE RIVE SUD, TREICHVILLE, AVENUE CHRISTIANI</p>
+                    <p style="font-size: 10px">SITE INSTALLATION DU CHANTIER, LAGUNE EBRIE RIVE SUD, TREICHVILLE, AVENUE CHRISTIANI</p>
                 </div>
                 <br/>
                 <div class="rubrique">
@@ -168,6 +168,8 @@
                 <div class="rubrique">
                     <p style="font-size: 10px"><b>RIB à mentionner sur la facture</b> <br/>
                     {{$bc->conditionPaiement}}</p>
+                </div>  <div class="rubrique">
+                    <p style=""><b><p style="font-size: 7pt"><t style="color:#761c19;">Port d’EPI</t>  obligatoire  (casque, chasuble, chaussures et gants) pour toute intervention sur le chantier et après autorisation d’un personnel HSE</p></b> <br/></p>
                 </div>
             </th>
             <th colspan="6" valign="top" style="margin: 0; padding: 0; ">
@@ -178,11 +180,27 @@
                     </tr>
                     <tr>
                         <td style="text-align:right" ><b>TVA </b></td>
-                        <td class="value">{{ number_format($tothtax*0.18, 0,".", " ")." ".$devis[0]->devise }}</td>
+                        <td class="value">
+                            <?php
+                                    $tva=0;
+                                foreach($devis as $dev):
+                                    if(1==$dev->hastva){
+                                        $tva+=$dev->prix_tot*0.18;
+                                    }else{
+                                        $tva+=0;
+                                    }
+
+                                    endforeach;
+                                    echo number_format($tva, 0,".", " ")." ".$devis[0]->devise;
+                            ?>
+                                </td>
                     </tr>
                     <tr>
                         <td style="text-align:right" ><b>TOTAL TTC EN FCFA </b></td>
-                        <td class="value">{{ number_format($tothtax*1.18, 0,".", " ")." ".$devis[0]->devise }}</td>
+                        <td class="value">
+
+                            {{number_format($tothtax+$tva,0,"."," ")." ".$devis[0]->devise}}
+                        </td>
                     </tr>
                 </table>
 

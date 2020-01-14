@@ -13,11 +13,13 @@ class CreateUnites extends Migration
      */
     public function up()
     {
-        Schema::create('unites', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('libelle');
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('unites')) {
+            Schema::create('unites', function (Blueprint $table) {
+                $table->increments('id');
+                $table->string('libelle');
+                $table->timestamps();
+            });
+        }
     }
 
     /**

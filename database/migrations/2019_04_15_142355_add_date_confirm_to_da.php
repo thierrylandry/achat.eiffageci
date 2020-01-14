@@ -15,7 +15,9 @@ class AddDateConfirmToDa extends Migration
     {
         Schema::table('lignebesoin', function (Blueprint $table) {
             //
-            $table->dateTime('dateConfirmation')->nullable();
+            if (!Schema::hasColumn('lignebesoin','dateConfirmation')) {
+                $table->dateTime('dateConfirmation')->nullable();
+            }
         });
     }
 

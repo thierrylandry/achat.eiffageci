@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateServices extends Migration
+class CreateTableEtatFacture extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateServices extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('services')) {
-            Schema::create('services', function (Blueprint $table) {
+        if (!Schema::hasTable('etatFacture')) {
+            Schema::create('etatFacture', function (Blueprint $table) {
                 $table->increments('id');
-                $table->string('libelle');
+                $table->string('libelle')->nullable();
                 $table->timestamps();
             });
         }
@@ -29,6 +29,6 @@ class CreateServices extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('services');
+        Schema::dropIfExists('etatFacture');
     }
 }

@@ -15,8 +15,12 @@ class MiseAJourTableTraceMail extends Migration
     {
         Schema::table('trace_mail', function (Blueprint $table) {
             //
-            $table->string('objet')->nullable();
-            $table->text('msg_contenu')->nullable();
+            if (!Schema::hasColumn('trace_mail','objet')) {
+                $table->string('objet')->nullable();
+            }
+            if (!Schema::hasColumn('trace_mail','msg_contenu')) {
+                $table->text('msg_contenu')->nullable();
+            }
         });
     }
 
