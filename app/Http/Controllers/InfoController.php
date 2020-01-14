@@ -105,7 +105,7 @@ class InfoController extends Controller
             $mes_droits =  $this->dit_moi_qui_tu_es_je_te_dirai_tes_droits($user->id);
             if(in_array('Gestionnaire_Pro_Forma',$mes_droits)){
                 $this->notification_sur_les_D_A_valider($user->email);
-                $this->notification_sur_les_B_C_valider($user->email);
+               // $this->notification_sur_les_B_C_valider($user->email);
             }
         endforeach;
 
