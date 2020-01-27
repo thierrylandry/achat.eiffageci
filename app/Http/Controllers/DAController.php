@@ -101,8 +101,12 @@ class DAController
        // $das=  DA::where('id_user','=',\Illuminate\Support\Facades\Auth::user()->id)->orderBy('created_at', 'DESC')->paginate(50);
         $das=  DB::table('lignebesoin')
                 ->Join('users','users.id','=','lignebesoin.id_user')
+                ->leftJoin('materiel','materiel.id','=','lignebesoin.id_materiel')
+                ->leftJoin('devis','devis.id_da','=','lignebesoin.id')
+                ->leftJoin('fournisseur','fournisseur.id','=','devis.id_fournisseur')
+                ->leftJoin('boncommande','boncommande.id','=','lignebesoin.id_bonCommande')
                 ->where('users.service','=',\Illuminate\Support\Facades\Auth::user()->service)->orderBy('lignebesoin.created_at', 'DESC')
-            ->select('lignebesoin.id','unite','quantite','DateBesoin','id_user','id_nature','id_materiel','lignebesoin.created_at','demandeur','lignebesoin.slug','etat','id_valideur','motif','usage','commentaire','dateConfirmation','date_livraison_eff')->paginate(50);
+            ->select('lignebesoin.id','lignebesoin.unite','lignebesoin.quantite','DateBesoin','lignebesoin.id_user','id_nature','lignebesoin.id_materiel','lignebesoin.created_at','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','usage','lignebesoin.commentaire','dateConfirmation','date_livraison_eff','code_analytique','codeRubrique',DB::raw('fournisseur.libelle as libelle_fournisseur'),'numBonCommande','boncommande.date')->paginate(30);
         $natures= Nature::all();
         $service_users=DB::table('users')
             ->leftJoin('services', 'services.id', '=', 'users.service')
@@ -177,9 +181,13 @@ class DAController
     {
         //$das=  DA::where('id_user','=',\Illuminate\Support\Facades\Auth::user()->id)->orderBy('created_at', 'DESC')->paginate(50);
         $das=  DB::table('lignebesoin')
+            ->leftJoin('materiel','materiel.id','=','lignebesoin.id_materiel')
+            ->leftJoin('devis','devis.id_da','=','lignebesoin.id')
+            ->leftJoin('fournisseur','fournisseur.id','=','devis.id_fournisseur')
+            ->leftJoin('boncommande','boncommande.id','=','lignebesoin.id_bonCommande')
             ->Join('users','users.id','=','lignebesoin.id_user')
             ->where('users.service','=',\Illuminate\Support\Facades\Auth::user()->service)->orderBy('lignebesoin.created_at', 'DESC')
-            ->select('lignebesoin.id','unite','quantite','DateBesoin','id_user','id_nature','id_materiel','lignebesoin.created_at','demandeur','lignebesoin.slug','etat','id_valideur','motif','usage','commentaire','dateConfirmation','date_livraison_eff')->paginate(50);
+            ->select('lignebesoin.id','lignebesoin.unite','lignebesoin.quantite','DateBesoin','lignebesoin.id_user','id_nature','lignebesoin.id_materiel','lignebesoin.created_at','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','usage','lignebesoin.commentaire','dateConfirmation','date_livraison_eff','code_analytique','codeRubrique',DB::raw('fournisseur.libelle as libelle_fournisseur'),'numBonCommande','boncommande.date')->paginate(30);
 
         $da = DA::where('slug', '=', $slug)->first();
         $domaines=  DB::table('domaines')->get();
