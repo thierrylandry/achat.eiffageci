@@ -52,10 +52,13 @@ $Boncommandes= Boncommande::all()->count();
         $fournisseur_sollicie= Array();
         foreach ($fournisseur_sollicie_tab as $group):
             $vardiag = New Vardiag();
-            $vardiag->name=$group->libelle;
-            $vardiag->y=$group->nb;
+            if($group->nb>=50){
+                $vardiag->name=$group->libelle;
+                $vardiag->y=$group->nb;
 
-            $fournisseur_sollicie[]=$vardiag;
+                $fournisseur_sollicie[]=$vardiag;
+            }
+
         endforeach;
 
         $fournisseur_retour_tab = DB::table('boncommande')
@@ -68,10 +71,12 @@ $Boncommandes= Boncommande::all()->count();
         $fournisseur_retour= Array();
         foreach ($fournisseur_retour_tab as $group):
             $vardiag = New Vardiag();
-            $vardiag->name=$group->libelle;
-            $vardiag->y=$group->nb;
 
-            $fournisseur_retour[]=$vardiag;
+                $vardiag->name = $group->libelle;
+                $vardiag->y = $group->nb;
+
+                $fournisseur_retour[] = $vardiag;
+
         endforeach;
 
         $fournisseur_retard_tab = DB::table('differencedatebc')
@@ -79,11 +84,14 @@ $Boncommandes= Boncommande::all()->count();
 
         $fournisseur_retard= Array();
         foreach ($fournisseur_retard_tab as $group):
-            $vardiag = New Vardiag();
-            $vardiag->name=$group->libelle;
-            $vardiag->y=$group->nb;
 
-            $fournisseur_retard[]=$vardiag;
+            if($group->nb>=50) {
+                $vardiag = New Vardiag();
+                $vardiag->name = $group->libelle;
+                $vardiag->y = $group->nb;
+
+                $fournisseur_retard[] = $vardiag;
+            }
         endforeach;
 
         $cumuleda_tab = DB::table('cumuleda')
