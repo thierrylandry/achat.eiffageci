@@ -164,7 +164,7 @@
                     <th class="dt-head-center">Demandeur</th>
                     <th class="dt-head-center">Auteur</th>
                     <th class="dt-head-center">Service</th>
-                    <th class="dt-head-center">Code Analytique</th>
+                    <th class="dt-head-center">Code Analytique/<i style="color:#00AAFF" >Code spécifique</i></th>
                     <th class="dt-head-center">Confirmer/infirmer</th>
                     <th class="dt-head-center">Consultation en cours</th>
                     <th class="dt-head-center">Fournisseur retenu</th>
@@ -250,7 +250,7 @@
                                     <b style=" font-size: 15px; color:black ">{{$service_user->libelle}}</b>
                                 @endif
                             @endforeach</td>
-                        <td>{{isset($da->devis->codeRubrique)?$da->devis->codeRubrique:''}}</td>
+                        <td>{{isset($da->code_analytique)?$da->code_analytique:''}}/<i style="color: #00AAFF">{{isset($da->codeRubrique)?$da->codeRubrique:''}}</i></td>
                         <td>
                             @foreach($service_users as $service_user )
                                 @if($service_user->id==$da->id_valideur)
@@ -272,10 +272,10 @@
                             @endforeach
                         </td>
                         <td>
-                            {{isset($da->bondecommande->fournisseur->libelle)?$da->bondecommande->fournisseur->libelle:''}}
+                            {{isset($da->libelle_fournisseur)?$da->libelle_fournisseur:''}}
                         </td>
-                        <th class="dt-head-center">{{isset($da->bondecommande->numBonCommande)?$da->bondecommande->numBonCommande:''}}</th>
-                        <th class="dt-head-center">{{isset($da->bondecommande->date)?\Carbon\Carbon::parse($da->bondecommande->date)->format('d-m-Y'):''}}</th>
+                        <th class="dt-head-center">{{isset($da->numBonCommande)?$da->numBonCommande:''}}</th>
+                        <th class="dt-head-center">{{isset($da->date)?\Carbon\Carbon::parse($da->date)->format('d-m-Y'):''}}</th>
                         <td> {{$da->date_livraison_eff!=""?\Carbon\Carbon::parse($da->date_livraison_eff)->format('d-m-Y'):''}}
                         </td>
                         <th class="dt-head-center">{{$da->commentaire}}</th>
