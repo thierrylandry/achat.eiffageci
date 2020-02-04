@@ -96,7 +96,7 @@
 
                     <tr>
                         <th class="dt-head-center">slug</th>
-                        <th class="">Designation</th>
+                        <th class="">Designation (Ref fournisseur)</th>
                         <th class="">Commentaire</th>
                         <th class="">Quantité</th>
                         <th class="">Unité</th>
@@ -115,7 +115,7 @@
 
                             <tr>
                                 <td>{{$new_devi->id}}</td>
-                                <td>{{$new_devi->titre_ext}}</td>
+                                <td>{{$new_devi->titre_ext}} {{isset($devi->referenceFournisseur)?"(".$devi->referenceFournisseur.")":""}}</td>
                                 <td>{{$new_devi->commentaire}}</td>
                                 <td>{{$new_devi->quantite}}</td>
                                 <td>
@@ -148,7 +148,7 @@
 
     <tr>
         <th class="dt-head-center">slug</th>
-        <th class="">Designation</th>
+        <th class="">Designation(Ref fournisseur)</th>
         <th class="">Commentaire</th>
         <th class="">Code Analytique</th>
         <th class="" >QTE</th>
@@ -169,7 +169,7 @@
 
         <tr>
             <td>{{$devi->id}}</td>
-            <td>{{$devi->titre_ext}}</td>
+            <td>{{$devi->titre_ext}} {{isset($devi->referenceFournisseur)?"(".$devi->referenceFournisseur.")":""}}</td>
             <td>{{$devi->commentaire}}</td>
             <td><select class="form-control selectpicker" id="row_n_{{$devi->id}}_codeRubrique" name="row_n_{{$devi->id}}_codeRubrique" data-live-search="true" data-size="6" required>
                     <option  value="">SELECTIONNER</option>

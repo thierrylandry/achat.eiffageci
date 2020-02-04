@@ -4,7 +4,8 @@
         <thead>
         <tr class="head">
             <th width="1%">N°</th>
-            <th width="35%">DESIGNATION</th>
+            <th width="25%">DESIGNATION</th>
+            <th width="10%">REFERENCE FOURNISSEUR</th>
             <th width="10%">CODE ANALYTI<br/>QUE</th>
             <th width="7%">QUANTITE</th>
             <th width="8%">UNITE</th>
@@ -26,6 +27,7 @@
                     <td style="border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
                     <td style=" text-align: right;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
                     <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
                     <td style=" text-align: right;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</span>
                     </td>
                 </tr>
@@ -35,6 +37,7 @@
                 <tr>
                     <td  style="border-bottom-color: white">{{$loop->index + 1}}</td>
                     <td  style="border-bottom-color: white">{{$dev->titre_ext }}<br> {{$dev->commentaire }}</td>
+                    <td  style="border-bottom-color: white">{{$dev->referenceFournisseur }}</td>
                     <td style=" text-align: center;border-bottom-color: white">{{$dev->codeRubrique}}</td>
                     <td style=" text-align: center;border-bottom-color: white">{{$dev->quantite}}</td>
                     <td style="border-bottom-color: white">{{$dev->unite}}</td>
@@ -48,6 +51,7 @@
                     <tr>
                         <td  style="">{{$loop->index + 1}}</td>
                         <td  style="">{{$dev->titre_ext }}</br> {{$dev->commentaire }}</td>
+                        <td  style="border-bottom-color: white">{{$dev->referenceFournisseur }}</td>
                         <td style=" text-align: center;">{{$dev->codeRubrique}}</td>
                         <td style=" text-align: center;">{{$dev->quantite}}</td>
                         <td style="">{{$dev->unite}}</td>
@@ -71,6 +75,7 @@
                     <td >&nbsp;&nbsp;&nbsp;</td>
                     <td >&nbsp;&nbsp;&nbsp;</td>
                     <td >&nbsp;&nbsp;&nbsp;</td>
+                    <td >&nbsp;&nbsp;&nbsp;</td>
                     <td >&nbsp;&nbsp;&nbsp;</span>
                     </td>
                 </tr>
@@ -78,13 +83,13 @@
                 <tr>
                     <td style="border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
                     <td style="border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style="border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
                     <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
                     <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
                     <td style="border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
                     <td style=" text-align: right;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
                     <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
-                    <td style=" text-align: right;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</span>
-                    </td>
+                    <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
                 </tr>
             @endif
         @endfor
@@ -101,6 +106,7 @@
                     <td style="border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
                     <td style=" text-align: right;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
                     <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
                     <td style=" text-align: right;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</span>
                     </td>
                 </tr>
@@ -111,6 +117,7 @@
             <tr >
                 <td style="border-bottom-color: white">{{$loop->index + 1}} </td>
                 <td  style="border-bottom-color: white">{{$dev->titre_ext }}</br> {{$dev->commentaire }}</td>
+                <td  style="border-bottom-color: white">{{$dev->referenceFournisseur }}</td>
                 <td style=" text-align: center;border-bottom-color: white">{{$dev->codeRubrique}}</td>
                 <td style=" text-align: center;border-bottom-color: white">{{$dev->quantite}}</td>
                 <td style="border-bottom-color: white">{{$dev->unite}}</td>
@@ -132,6 +139,7 @@
                     <td >&nbsp;&nbsp;&nbsp;</td>
                     <td >&nbsp;&nbsp;&nbsp;</td>
                     <td >&nbsp;&nbsp;&nbsp;</td>
+                    <td >&nbsp;&nbsp;&nbsp;</td>
                     <td >&nbsp;&nbsp;&nbsp;</span>
                     </td>
                 </tr>
@@ -139,6 +147,7 @@
                 <tr>
                     <td style="border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
                     <td style="border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
                     <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
                     <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
                     <td style="border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
@@ -172,7 +181,7 @@
                     <p style=""><b><p style="font-size: 7pt"><t style="color:#761c19;">Port d’EPI</t>  obligatoire  (casque, chasuble, chaussures et gants) pour toute intervention sur le chantier et après autorisation d’un personnel HSE</p></b> <br/></p>
                 </div>
             </th>
-            <th colspan="6" valign="top" style="margin: 0; padding: 0; ">
+            <th colspan="7" valign="top" style="margin: 0; padding: 0; ">
                 <table class="ssfacture" style="margin: 0; padding: 0;">
                     <tr>
                         <td width="61.8%" style="text-align:right"><b>Total Hors Taxes en FCFA</b> </td>

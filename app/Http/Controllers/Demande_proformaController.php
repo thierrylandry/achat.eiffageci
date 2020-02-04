@@ -48,7 +48,7 @@ class Demande_proformaController extends Controller
             ->join('domaines', 'domaines.id', '=', 'materiel.type')
             ->where('etat', '=', 2)
             ->select('domaines.libelleDomainne','domaines.id')->distinct()->get();
-$fournisseurs=Fournisseur::all();
+        $fournisseurs=Fournisseur::all();
         $materiels=Materiel::all();
         $das=  DA::all();
         $natures= Nature::all();
@@ -69,6 +69,7 @@ dd($list_da);
     {
         $parameters = $request->except(['_token']);
 
+       // dd($parameters);
         $res=$parameters['res'];
         $lesId=$parameters['lesId'];
         $lesIdmat=$parameters['lesIdmat'];
@@ -83,6 +84,8 @@ dd($list_da);
                 $devis->id_materiel=$lesIdmat[$i];
                 $devis->id_fournisseur=$tab["row_n_".$id."_fournisseur"];
                 $devis->quantite=$tab["row_n_".$id."_quantite"];
+                //ajout de la réference fournisseur
+                $devis->referenceFournisseur=$tab["row_n_".$id."_ref"];
                 if(isset($tab["row_n_".$id."_tva"]) && $tab["row_n_".$id."_tva"]!=""){
                     $devis->hastva=$tab["row_n_".$id."_tva"];
                 }else{
@@ -143,6 +146,7 @@ return 1;
                     $devis->titre_ext=$tab["row_n_".$id."_titre_ext"];
                     $devis->id_fournisseur=$tab["row_n_".$id."_fournisseur"];
                     $devis->quantite=$tab["row_n_".$id."_quantite"];
+                    $devis->referenceFournisseur=$tab["row_n_".$id."_ref"];
                    // $devis->id_da=$id;
                     if(isset($tab["row_n_".$id."_tva"]) && $tab["row_n_".$id."_tva"]!=""){
                         $devis->hastva=$tab["row_n_".$id."_tva"];
@@ -609,13 +613,12 @@ foreach ($recup_email as $email):
                 $tab_proposition[$d->id]=$dev;
             }
         endforeach;
-
         $natures= Nature::all();
         $users= User::all();
         $domaines=  DB::table('domaines')->get();
         $devis = DB::table('devis')
             ->join('materiel', 'materiel.id', '=', 'devis.id_materiel')
-            ->select('libelleMateriel','devis.id','devis.id_da','titre_ext','type','devise', 'devis.unite', 'devis.quantite','id_fournisseur','prix_unitaire','remise','devis.codeRubrique','hastva')
+            ->select('libelleMateriel','devis.id','devis.id_da','titre_ext','type','devise', 'devis.unite', 'devis.quantite','id_fournisseur','prix_unitaire','remise','devis.codeRubrique','hastva','referenceFournisseur')
 
         ->where('etat','=',1)->get();
 

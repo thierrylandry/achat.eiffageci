@@ -59,7 +59,7 @@ class BCController extends Controller
         $devis=DB::table('devis')
             ->join('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
             ->where('id_bc','=',$bc->id)
-            ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.devise','commentaire','hastva')->get();
+            ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.devise','commentaire','hastva','referenceFournisseur')->get();
 
         $taille=sizeof($devis);
 
@@ -269,7 +269,7 @@ return $view;
         $devis=DB::table('devis')
             ->join('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
             ->where('id_bc','=',$bc->id)
-            ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.devise','commentaire')->get();
+            ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.devise','commentaire','referenceFournisseur')->get();
 
 
         $tothtax = 0;
@@ -358,7 +358,7 @@ return $view;
             ->join('reponse_fournisseur', 'reponse_fournisseur.id', '=', 'ligne_bc.id_reponse_fournisseur')
             ->join('analytique', 'analytique.id_analytique', '=', 'ligne_bc.codeRubrique')
             ->where('id_bonCommande','=',$bc->id)
-            ->select('titre_ext','quantite_ligne_bc','unite_ligne_bc','prix_unitaire_ligne_bc','remise_ligne_bc','prix_tot','ligne_bc.slug','analytique.codeRubrique')->get();
+            ->select('titre_ext','quantite_ligne_bc','unite_ligne_bc','prix_unitaire_ligne_bc','remise_ligne_bc','prix_tot','ligne_bc.slug','analytique.codeRubrique','referenceFournisseur')->get();
         $tothtax = 0;
         return view('BC.bon-commande',compact('bc','ligne_bcs','tothtax'));
     }
@@ -429,7 +429,7 @@ $analytiques= Analytique::all();
             $devis=DB::table('devis')
                 ->join('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
                 ->where('id_bc','=',$Boncommande->id)
-                ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.devise','commentaire','hastva')->get();
+                ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.devise','commentaire','hastva','referenceFournisseur')->get();
 
 
             $tothtax = 0;
@@ -677,7 +677,7 @@ $analytiques= Analytique::all();
                 $devis=DB::table('devis')
                     ->join('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
                     ->where('id_bc','=',$Boncommande->id)
-                    ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.devise','commentaire','hastva')->get();
+                    ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.devise','commentaire','hastva','referenceFournisseur')->get();
 
 
                 $tothtax = 0;
@@ -997,7 +997,7 @@ $analytiques= Analytique::all();
             ->leftJoin('users', 'lignebesoin.id_user', '=', 'users.id')
             ->where('devis.etat', '=', 2)
             ->where('devis.id_bc', '=', $id)
-            ->select('devis.id','devis.titre_ext','id_bc','devis.codeRubrique','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.devise','devis.hastva','DateBesoin','users.service','lignebesoin.commentaire')->distinct()->get();
+            ->select('devis.id','devis.titre_ext','id_bc','devis.codeRubrique','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.devise','devis.hastva','DateBesoin','users.service','lignebesoin.commentaire','referenceFournisseur')->distinct()->get();
 
 
 
@@ -1008,7 +1008,7 @@ $analytiques= Analytique::all();
             ->where('devis.etat', '=', 1)
             ->where('devis.id_bc', '=', null)
             ->where('devis.id_fournisseur', '=', $bc->id_fournisseur)
-            ->select('devis.id','devis.titre_ext','id_bc','devis.codeRubrique','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.devise','devis.hastva','DateBesoin','users.service','lignebesoin.commentaire')->distinct()->get();
+            ->select('devis.id','devis.titre_ext','id_bc','devis.codeRubrique','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.devise','devis.hastva','DateBesoin','users.service','lignebesoin.commentaire','referenceFournisseur')->distinct()->get();
 
         $date_propose= Array();
         $service_id= Array();

@@ -35,6 +35,7 @@
                                             <th class="dt-head-center">nom produit</th>
                                             <th>Code Analytique</th>
                                             <th class="dt-head-center">Matériel et consultation</th>
+                                            <th class="dt-head-center">Reference Fournisseur</th>
                                             <th class="dt-head-center" width="5%">Quantité</th>
                                             <th class="dt-head-center">Pour le ?</th>
                                             <th class="dt-head-center">Fournisseur</th>
@@ -67,6 +68,12 @@
                                                 </td>
                                                 <td>
                                                             <input type="text" value="{{isset($tab_proposition[$da->id]->titre_ext)?$tab_proposition[$da->id]->titre_ext:$da->libelleMateriel}}" id="row_n_{{$da->id}}_titre_ext" name="row_n_{{$da->id}}_titre_ext"/>
+                                                </td>
+                                                <td>
+                                                            <input type="text" value="" id="row_n_{{$da->id}}_ref" name="row_n_{{$da->id}}_ref"/>
+                                                    <label>PROPOSITION:</br>
+                                                        <a  onclick="document.getElementById('row_n_{{$da->id}}_ref').value='{{isset($tab_proposition[$da->id])?$tab_proposition[$da->id]->referenceFournisseur:''}}';$('#row_n_{{$da->id}}_ref').selectpicker('refresh')">  {{isset($tab_proposition[$da->id])?$tab_proposition[$da->id]->referenceFournisseur:''}}</a>;
+                                                    </label>
                                                 </td>
 
 
@@ -177,6 +184,7 @@
                                             <th class="dt-head-center">N°D.A</th>
                                             <th>Code Analytique</th>
                                             <th class="dt-head-center" width="20%">Matériel et consultation</th>
+                                            <th class="dt-head-center">Reference Fournisseur</th>
                                             <th class="dt-head-center" width="30px">Quantité</th>
                                             <th class="dt-head-center">Fournisseur</th>
                                             <th class="dt-head-center">Prix Unitaire</th>
@@ -213,6 +221,9 @@
 
                                                     <input type="text" value="{{$devi->titre_ext}}" id="row_n_{{$devi->id}}_titre_ext" name="row_n_{{$devi->id}}_titre_ext"/>
 
+                                                </td>
+                                                <td>
+                                                    <input type="text" value="{{$devi->referenceFournisseur}}" id="row_n_{{$devi->id}}_ref" name="row_n_{{$devi->id}}_ref"/>
                                                 </td>
                                                 <td> <input min="0" type="number" step="any" value="{{$devi->quantite}}" class="form-control" id="row_n_{{$devi->id}}_quantite" name="row_n_{{$devi->id}}_quantite">
                                                     <select class="form-control selectpicker col-sm-4" id="row_n_{{$devi->id}}_unite" name="row_n_{{$devi->id}}_unite" data-live-search="true" data-size="6">
@@ -367,14 +378,15 @@
 
                     });
                     var res;
-                    console.log(lesId);
+                    //console.log(lesId);
                     res=table1.$('input, select').serialize();
 
-                    //   console.log(data);
+                    //   console.log(res);
                     //enregistrer_devis/"+res+"/"+lesId+"/"+lesIdmat
                     var csrf_token = $('meta[name="csrf-token"]').attr('content');
                     $.post("enregistrer_devis",{res:res,lesId:lesId,lesIdmat:lesIdmat,_token: "{{ csrf_token() }}"},
                             function (data) {
+                                console.log(data);
                                 if(data==1){
                                     location.reload();
                                 }
