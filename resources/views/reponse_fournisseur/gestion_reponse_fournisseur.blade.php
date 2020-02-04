@@ -35,7 +35,7 @@
                                             <th class="dt-head-center">nom produit</th>
                                             <th>Code Analytique</th>
                                             <th class="dt-head-center">Matériel et consultation</th>
-                                            <th class="dt-head-center">Reference Fournisseur</th>
+                                            <th>Reference </br>Fournisseur</th>
                                             <th class="dt-head-center" width="5%">Quantité</th>
                                             <th class="dt-head-center">Pour le ?</th>
                                             <th class="dt-head-center">Fournisseur</th>
@@ -70,7 +70,7 @@
                                                             <input type="text" value="{{isset($tab_proposition[$da->id]->titre_ext)?$tab_proposition[$da->id]->titre_ext:$da->libelleMateriel}}" id="row_n_{{$da->id}}_titre_ext" name="row_n_{{$da->id}}_titre_ext"/>
                                                 </td>
                                                 <td>
-                                                            <input type="text" value="" id="row_n_{{$da->id}}_ref" name="row_n_{{$da->id}}_ref"/>
+                                                            <input type="text" class="col-sm-12" value="" id="row_n_{{$da->id}}_ref" name="row_n_{{$da->id}}_ref"/>
                                                     <label>PROPOSITION:</br>
                                                         <a  onclick="document.getElementById('row_n_{{$da->id}}_ref').value='{{isset($tab_proposition[$da->id])?$tab_proposition[$da->id]->referenceFournisseur:''}}';$('#row_n_{{$da->id}}_ref').selectpicker('refresh')">  {{isset($tab_proposition[$da->id])?$tab_proposition[$da->id]->referenceFournisseur:''}}</a>;
                                                     </label>
