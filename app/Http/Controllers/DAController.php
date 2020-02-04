@@ -44,7 +44,7 @@ class DAController
         $tracemails= DB::table('trace_mail')->get();
 
 
-dd($das);
+//dd($das);
         //trace
         /*debut du traçages*/
         $ip			= $_SERVER['REMOTE_ADDR'];
