@@ -285,7 +285,9 @@ return $view;
         $pdf = PDF::loadView('BC.bon-commande', compact('bc','devis','tothtax','taille','taille_minim','taille_maxim'));
 
         //$lignebesoins=Lignebesoin::where('id_bonCommande','=',$bc->id)->first();
-        $lignebesoins=DB::table('lignebesoin')->where('id_bonCommande','=',$bc->id)->get();
+        $lignebesoins=DB::table('lignebesoin')
+                ->join('users', 'lignebesoin.id_user', '=', 'users.id')
+            ->where('id_bonCommande','=',$bc->id)->get();
       //  $email=$bc->email;
 
         /*
@@ -304,12 +306,16 @@ return $view;
         //constituer le mail
 
         $corps= Array();
+        $contactDemandeur= Array();
 
         $images= Array();
         $precisions= Array();
         $i=0;
         foreach($lignebesoins as $das):
             if(isset($das->id)){
+
+
+                $contactDemandeur[]=$das->email;
                 $materiel=DB::table('materiel')
                     ->where('id', '=', $das->id_materiel)
                     ->select('libelleMateriel','image')->distinct()->get();
@@ -332,7 +338,7 @@ return $view;
 
         endforeach;
         $pdf->save(storage_path('bon_commande').'\bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
-        $this->dispatch(new EnvoiBcFournisseur($contact,storage_path('bon_commande').'\bon_de_commande_n°'.$bc->numBonCommande.'.pdf',$tab,$corps,$bc,$precisions,$images) );
+        $this->dispatch(new EnvoiBcFournisseur($contact,storage_path('bon_commande').'\bon_de_commande_n°'.$bc->numBonCommande.'.pdf',$tab,$corps,$contactDemandeur,$bc,$precisions,$images) );
       //  return redirect()->route('gestion_bc')->with('success', "Envoie d'email reussi");
 
         $boncom=Boncommande::where('id','=',$bc->id)->first();
@@ -451,7 +457,9 @@ $analytiques= Analytique::all();
             $pdf = PDF::loadView('BC.bon-commande', compact('bc','devis','tothtax','taille','taille_minim','taille_maxim'));
 
             //$lignebesoins=Lignebesoin::where('id_bonCommande','=',$bc->id)->first();
-            $lignebesoins=DB::table('lignebesoin')->where('id_bonCommande','=',$Boncommande->id)->get();
+            $lignebesoins=DB::table('lignebesoin')
+                ->join('users', 'lignebesoin.id_user', '=', 'users.id')
+                ->where('id_bonCommande','=',$Boncommande->id)->get();
             //  $email=$bc->email;
 
             /*
@@ -470,12 +478,14 @@ $analytiques= Analytique::all();
             //constituer le mail
 
             $corps= Array();
+            $contactDemandeur= Array();
 
             $images= Array();
             $precisions= Array();
             $i=0;
             foreach($lignebesoins as $das):
                 if(isset($das->id)){
+                    $contactDemandeur[]=$das->email;
                     $materiel=DB::table('materiel')
                         ->where('id', '=', $das->id_materiel)
                         ->select('libelleMateriel','image')->distinct()->get();
@@ -498,7 +508,7 @@ $analytiques= Analytique::all();
 
             endforeach;
             $pdf->save(storage_path('bon_commande').'\bon_de_commande_n°'.$Boncommande->numBonCommande.'.pdf');
-            $this->dispatch(new EnvoiBcFournisseur($contact,storage_path('bon_commande').'\bon_de_commande_n°'.$Boncommande->numBonCommande.'.pdf',$tab,$corps,$Boncommande,$precisions,$images) );
+            $this->dispatch(new EnvoiBcFournisseur($contact,storage_path('bon_commande').'\bon_de_commande_n°'.$Boncommande->numBonCommande.'.pdf',$tab,$corps,$contactDemandeur,$Boncommande,$precisions,$images) );
             //  return redirect()->route('gestion_bc')->with('success', "Envoie d'email reussi");
 
             $Boncommande->etat=3;
@@ -700,7 +710,8 @@ $analytiques= Analytique::all();
                 $pdf = PDF::loadView('BC.bon-commande', compact('bc','devis','tothtax','taille','taille_minim','taille_maxim'));
 
                 //$lignebesoins=Lignebesoin::where('id_bonCommande','=',$bc->id)->first();
-                $lignebesoins=DB::table('lignebesoin')->where('id_bonCommande','=',$Boncommande->id)->get();
+                $lignebesoins=DB::table('lignebesoin')
+                                  ->join('users', 'lignebesoin.id_user', '=', 'users.id')->where('id_bonCommande','=',$Boncommande->id)->get();
                 //  $email=$bc->email;
 
                 /*
@@ -719,12 +730,14 @@ $analytiques= Analytique::all();
                 //constituer le mail
 
                 $corps= Array();
+            $contactDemandeur= Array();
 
                 $images= Array();
                 $precisions= Array();
                 $i=0;
                 foreach($lignebesoins as $das):
                     if(isset($das->id)){
+                        $contactDemandeur[]=$das->email;
                         $materiel=DB::table('materiel')
                             ->where('id', '=', $das->id_materiel)
                             ->select('libelleMateriel','image')->distinct()->get();
@@ -747,7 +760,8 @@ $analytiques= Analytique::all();
 
                 endforeach;
                 $pdf->save(storage_path('bon_commande').'\bon_de_commande_n°'.$Boncommande->numBonCommande.'.pdf');
-                $this->dispatch(new EnvoiBcFournisseur($contact,storage_path('bon_commande').'\bon_de_commande_n°'.$Boncommande->numBonCommande.'.pdf',$tab,$corps,$Boncommande,$precisions,$images) );
+          //  dd($contactDemandeur);
+                $this->dispatch(new EnvoiBcFournisseur($contact,storage_path('bon_commande').'\bon_de_commande_n°'.$Boncommande->numBonCommande.'.pdf',$tab,$corps,$contactDemandeur,$Boncommande,$precisions,$images) );
                 //  return redirect()->route('gestion_bc')->with('success', "Envoie d'email reussi");
 
                 $Boncommande->etat=3;

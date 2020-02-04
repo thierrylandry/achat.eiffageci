@@ -17,6 +17,7 @@ class EnvoiBcFournisseur implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     private $tab;
     private $corps;
+    private $contactDemandeur;
     private $precisions;
     private $contact;
     private $pdf;
@@ -27,13 +28,14 @@ class EnvoiBcFournisseur implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($contact,$pdf,$tab,$corps,$bc,$precisions,$images)
+    public function __construct($contact,$pdf,$tab,$corps,$contactDemandeur,$bc,$precisions,$images)
     {
         //
         $this->contact=$contact;
         $this->pdf=$pdf;
         $this->tab=$tab;
         $this->corps=$corps;
+        $this->contactDemandeur=$contactDemandeur;
         $this->bc=$bc;
         $this->precisions=$precisions;
         $this->images=$images;
@@ -51,6 +53,7 @@ class EnvoiBcFournisseur implements ShouldQueue
         $pdf=$this->pdf;
         $tab=$this->tab;
         $corps=$this->corps;
+        $contactDemandeur=$this->contactDemandeur;
         $bc=$this->bc;
         $precisions=$this->precisions;
         $images=$this->images;
@@ -61,7 +64,7 @@ class EnvoiBcFournisseur implements ShouldQueue
 $fournisseur= Fournisseur::find($bc->id_fournisseur);
       //  dd($fournisseur);
                 // If you want to store the generated pdf to the server then you can use the store function
-                Mail::send('mail.mail_bc',array('tab' =>$tab),function($message)use ($pdf,$bc,$contact,$numBonCommande,$fournisseur){
+                Mail::send('mail.mail_bc',array('tab' =>$tab),function($message)use ($pdf,$bc,$contact,$contactDemandeur,$numBonCommande,$fournisseur){
                 $message->from("marina.oulai@eiffage.com" ," OULAI Marina")
                     ->bcc("claudiane.costecalde@eiffage.com")
                     ->bcc("marina.oulai@eiffage.com")
@@ -72,6 +75,9 @@ $fournisseur= Fournisseur::find($bc->id_fournisseur);
                     ->attach($pdf);
                     foreach($contact as $em):
                         $message ->to($em);
+                    endforeach;
+                    foreach($contactDemandeur as $em):
+                        $message ->cc($em);
                     endforeach;
             });
 
