@@ -34,7 +34,15 @@ class DAController
         $fournisseurs=Fournisseur::all();
         $materiels=Materiel::all();
       //  $das=  DA::orderBy('created_at', 'DESC')->paginate(100);
-        $das=  DA::orderBy('created_at', 'DESC')->paginate(300);
+       // $das=  DA::orderBy('created_at', 'DESC')->paginate(20);
+        $das=  DB::table('lignebesoin')
+            ->Join('users','users.id','=','lignebesoin.id_user')
+            ->leftJoin('materiel','materiel.id','=','lignebesoin.id_materiel')
+            ->leftJoin('devis','devis.id_da','=','lignebesoin.id')
+            ->leftJoin('fournisseur','fournisseur.id','=','devis.id_fournisseur')
+            ->leftJoin('boncommande','boncommande.id','=','lignebesoin.id_bonCommande')
+            //->where('users.service','=',\Illuminate\Support\Facades\Auth::user()->service)->orderBy('lignebesoin.created_at', 'DESC')
+            ->select('lignebesoin.id','lignebesoin.unite','lignebesoin.quantite','DateBesoin','lignebesoin.id_user','id_nature','lignebesoin.id_materiel','lignebesoin.created_at','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','usage','lignebesoin.commentaire','dateConfirmation','date_livraison_eff','code_analytique','codeRubrique',DB::raw('fournisseur.libelle as libelle_fournisseur'),'numBonCommande','boncommande.date')->paginate(300);
         $natures= Nature::all();
           //  dd($das[0]->bondecommande);
         $service_users=DB::table('users')

@@ -67,7 +67,7 @@
                     <th class="dt-head-center">Demandeur</th>
                     <th class="dt-head-center">Auteur</th>
                     <th class="dt-head-center">Service</th>
-                    <th class="dt-head-center">Code Analytique / <i style="color:#00AAFF" >Code spécifique</i></th>
+                    <th class="dt-head-center">Code Analytique/<i style="color:#00AAFF" >Code spécifique</i></th>
                     <th class="dt-head-center">Confirmer/infirmer</th>
                     <th class="dt-head-center">Consultation en cours</th>
                     <th class="dt-head-center">Fournisseur retenu</th>
@@ -105,7 +105,7 @@
                                 Traitée et retournée
                             @endif
                         </td>
-                        <td>{{date_format($da->created_at,'d-m-Y H:i:s')}}</td>
+                        <td>{{date_format( new datetime($da->created_at),'d-m-Y H:i:s')}}</td>
                         <td>
                             @foreach($materiels as $materiel )
                                 @if($materiel->id==$da->id_materiel)
@@ -122,7 +122,7 @@
 
 
                             @endforeach</td>
-                        <td>{{$da->nature}}
+                        <td>
                             @foreach($natures as $nature )
                                 @if($nature->id==$da->id_nature)
                                     {{$nature->libelleNature}}
@@ -153,7 +153,7 @@
                                     <b style=" font-size: 15px; color:black ">{{$service_user->libelle}}</b>
                                 @endif
                             @endforeach</td>
-                        <td>{{isset($da->devis->codeRubrique)?$da->devis->codeRubrique:''}}/<i style="color: #00AAFF">{{isset($da->codeRubrique)?$da->codeRubrique:''}}</i></td>
+                        <td>{{isset($da->code_analytique)?$da->code_analytique:''}}/<i style="color: #00AAFF">{{isset($da->codeRubrique)?$da->codeRubrique:''}}</i></td>
                         <td>
                             @foreach($service_users as $service_user )
                                 @if($service_user->id==$da->id_valideur)
@@ -165,51 +165,53 @@
                             @foreach($tracemails as $tracemail )
 
                                 @if(in_array($da->id,explode(',',$tracemail->das)))
-                                     @foreach($fournisseurs as $fournisseur )
-                                         @if(in_array($fournisseur->id,explode(',',$tracemail->id_fournisseur)))
-                                              {{$fournisseur->libelle}} /
+                                    @foreach($fournisseurs as $fournisseur )
+                                        @if(in_array($fournisseur->id,explode(',',$tracemail->id_fournisseur)))
+                                            {{$fournisseur->libelle}} /
 
-                                         @endif
-                                      @endforeach
+                                        @endif
+                                    @endforeach
                                 @endif
                             @endforeach
                         </td>
                         <td>
-                            {{isset($da->bondecommande->fournisseur->libelle)?$da->bondecommande->fournisseur->libelle:''}}
+                            {{isset($da->libelle_fournisseur)?$da->libelle_fournisseur:''}}
                         </td>
-                        <th class="dt-head-center">{{isset($da->bondecommande->numBonCommande)?$da->bondecommande->numBonCommande:''}}</th>
-                        <th class="dt-head-center">{{isset($da->bondecommande->date)?\Carbon\Carbon::parse($da->bondecommande->date)->format('d-m-Y'):''}}</th>
+                        <th class="dt-head-center">{{isset($da->numBonCommande)?$da->numBonCommande:''}}</th>
+                        <th class="dt-head-center">{{isset($da->date)?\Carbon\Carbon::parse($da->date)->format('d-m-Y'):''}}</th>
                         <td> {{$da->date_livraison_eff!=""?\Carbon\Carbon::parse($da->date_livraison_eff)->format('d-m-Y'):''}}
                         </td>
                         <th class="dt-head-center">{{$da->commentaire}}</th>
                         <td>
-
-
-
                             @if($da->etat==1)
-                                <a href="{{route('confirmer_da',['slug'=>$da->slug])}} "id="btnconfirmerda2" data-toggle="modal" class="btn btn-success confirmons">
+                                <a href="{{route('confirmer_da_depuis_creermodifier_da',['slug'=>$da->slug])}} "id="btnconfirmerda2" data-toggle="modal" class="btn btn-success confirmons">
                                     <i class=" fa fa-check-circle" style="size: 40px"> Accepter ?</i>
                                 </a>
                                 <a href="" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" id="btnconfirmerda2" data-toggle="modal" class="btn btn-danger btn_refuser">
                                     <i class=" fa fa-check-circle" style="size: 40px"> Refuser ?</i>
                                 </a>
-                                <div class="btn-group " >
-                                    <button type="button" class="btn btn-default btn-flat ">Autres</button>
-                                    <button type="button" class="btn btn-default btn-flat dropdown-toggle" data-toggle="dropdown">
-                                        <span class="caret"></span>
-                                        <span class="sr-only">Toggle Dropdown</span>
-                                    </button>
-                                    <div class="dropdown-menu" role="menu">
+                                @if($da->id_user==\Illuminate\Support\Facades\Auth::user()->id)
+                                    <div class="btn-group " >
+                                        <button type="button" class="btn btn-default btn-flat ">Autres</button>
+                                        <button type="button" class="btn btn-default btn-flat dropdown-toggle" data-toggle="dropdown">
+                                            <span class="caret"></span>
+                                            <span class="sr-only">Toggle Dropdown</span>
+                                        </button>
 
-                                        <a href="{{route('voir_da',['slug'=>$da->slug])}}" data-toggle="modal">
-                                            <i class=" fa fa-pencil"> modifier</i>
-                                        </a>
-                                        <div class="dropdown-divider"></div>
-                                        <a href="{{route('supprimer_da',['slug'=>$da->slug])}}" data-toggle="modal" >
-                                            <i class=" fa fa-trash">Supprimer</i>
-                                        </a>
+
+                                        <div class="dropdown-menu" role="menu">
+
+                                            <a href="{{route('voir_da',['slug'=>$da->slug])}}" data-toggle="modal">
+                                                <i class=" fa fa-pencil"> modifier</i>
+                                            </a>
+                                            <div class="dropdown-divider"></div>
+                                            <a href="{{route('supprimer_da',['slug'=>$da->slug])}}" data-toggle="modal" >
+                                                <i class=" fa fa-trash">Supprimer</i>
+                                            </a>
+                                        </div>
+
                                     </div>
-                                </div>
+                                @endif
                             @elseif($da->etat==2)
                                 <a href="{{route('suspendre_da',['slug'=>$da->slug])}} "id="btnconfirmerda12" data-toggle="modal" class="btn btn-warning ">
                                     <i class=" fa fa-pause" style="size: 40px"> Suspendre ?</i>
@@ -218,28 +220,29 @@
                                     <i class=" fa fa-check-circle" style="size: 40px"> Refuser ?</i>
                                 </a>
                             @elseif($da->etat==0)
-                                <a href="{{route('confirmer_da',['slug'=>$da->slug])}} " id="btnconfirmerda2" data-toggle="modal" class="btn btn-success confirmons">
+                                <a href="{{route('confirmer_da_depuis_creermodifier_da',['slug'=>$da->slug])}} " id="btnconfirmerda2" data-toggle="modal" class="btn btn-success confirmons">
                                     <i class=" fa fa-check-circle" > </i>Accepter ?
                                 </a>
 
+                                @if($da->id_user==\Illuminate\Support\Facades\Auth::user()->id)
+                                    <div class="btn-group ">
+                                        <button type="button" class="btn btn-default btn-flat ">Autres</button>
+                                        <button type="button" class="btn btn-default btn-flat dropdown-toggle" data-toggle="dropdown">
+                                            <span class="caret"></span>
+                                            <span class="sr-only">Toggle Dropdown</span>
+                                        </button>
+                                        <div class="dropdown-menu" role="menu">
 
-                                <div class="btn-group ">
-                                    <button type="button" class="btn btn-default btn-flat ">Autres</button>
-                                    <button type="button" class="btn btn-default btn-flat dropdown-toggle" data-toggle="dropdown">
-                                        <span class="caret"></span>
-                                        <span class="sr-only">Toggle Dropdown</span>
-                                    </button>
-                                    <div class="dropdown-menu" role="menu">
-
-                                        <a href="{{route('voir_da',['slug'=>$da->slug])}}" data-toggle="modal">
-                                            <i class=" fa fa-pencil"> modifier</i>
-                                        </a>
-                                        <div class="dropdown-divider"></div>
-                                        <a href="{{route('supprimer_da',['slug'=>$da->slug])}}" data-toggle="modal" >
-                                            <i class=" fa fa-trash">Supprimer</i>
-                                        </a>
+                                            <a href="{{route('voir_da',['slug'=>$da->slug])}}" data-toggle="modal">
+                                                <i class=" fa fa-pencil"> modifier</i>
+                                            </a>
+                                            <div class="dropdown-divider"></div>
+                                            <a href="{{route('supprimer_da',['slug'=>$da->slug])}}" data-toggle="modal" >
+                                                <i class=" fa fa-trash">Supprimer</i>
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
                             @elseif($da->etat==3)
 
                             @endif
