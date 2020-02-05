@@ -232,6 +232,20 @@ Route::get('/lister_da',[
     'roles' => ['Valideur_DA','Gestionnaire_Pro_Forma']
 
 ])->middleware('auth');
+Route::post('/recherche_da',[
+    'as'=>'recherche_da',
+    'uses'=>'DAController@recherche_da',
+    'middleware' => 'roles',
+    'roles' => ['Valideur_DA','Gestionnaire_Pro_Forma']
+
+])->middleware('auth');
+Route::get('/lister_da_recherche',[
+    'as'=>'lister_da_recherche',
+    'uses'=>'DAController@lister_da_recherche',
+    'middleware' => 'roles',
+    'roles' => ['Valideur_DA','Gestionnaire_Pro_Forma']
+
+])->middleware('auth');
 Route::get('/encours_validation',[
     'as'=>'encours_validation',
     'uses'=>'DAController@encours_validation',

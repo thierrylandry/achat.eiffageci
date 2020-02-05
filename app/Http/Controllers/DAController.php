@@ -19,12 +19,15 @@ use App\Nature;
 use App\Tracemail;
 use App\Unites;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use phpDocumentor\Reflection\Types\Array_;
 
 class DAController
 {
@@ -64,6 +67,169 @@ class DAController
 
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; Lister les D.A par user.', ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
         return view('DA/lister_da',compact('das','fournisseurs','materiels','natures','service_users','domaines','tracemails'));
+
+
+    }
+    public function lister_da_recherche()
+    {
+        $fournisseurs=Fournisseur::all();
+        $materiels=Materiel::all();
+      //  $das=  DA::orderBy('created_at', 'DESC')->paginate(100);
+       // $das=  DA::orderBy('created_at', 'DESC')->paginate(20);
+        $das= "";
+        $natures= Nature::all();
+          //  dd($das[0]->bondecommande);
+        $service_users=DB::table('users')
+            ->leftJoin('services', 'services.id', '=', 'users.service')
+            ->select('users.id','nom','prenoms','services.libelle','users.service')->get();
+        $domaines=  DB::table('domaines')->get();
+        $tracemails= DB::table('trace_mail')->get();
+
+        $unites=Unites::all();
+        foreach($unites as $unite):
+            if($unite->id==1 || $unite->id>=41 && $unite->id<50 ){
+                $tab_unite['nothing'][]=$unite->libelle;
+            }elseif($unite->id>1 && $unite->id<=10 ){
+                $tab_unite['La longueur'][]= $unite->libelle;
+            }elseif ($unite->id>10 && $unite->id<=20){
+                $tab_unite['La masse'][]=$unite->libelle;
+            }elseif ($unite->id>20 && $unite->id<=30){
+                $tab_unite['Le volume'][]=$unite->libelle;
+            }elseif ($unite->id>30 && $unite->id<=40){
+                $tab_unite['La surface'][]=$unite->libelle;
+            }
+        endforeach;
+//dd($das);
+        //trace
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; Lister les D.A par user.', ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
+        return view('DA/lister_da_recherche',compact('das','fournisseurs','materiels','natures','service_users','domaines','tracemails','tab_unite'));
+
+
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function recherche_da(Request $request)
+    {
+        $parameters = $request->except(['_token']);
+
+        $mot_cle = $parameters['mot_cle'];
+        $debut = $parameters['debut'];
+        $fin = $parameters['fin'];
+
+
+       // dd($finn);
+        $fournisseurs=Fournisseur::all();
+        $materiels=Materiel::all();
+      //  $das=  DA::orderBy('created_at', 'DESC')->paginate(100);
+       // $das=  DA::orderBy('created_at', 'DESC')->paginate(20);
+        $das=  DB::table('lignebesoin')
+            ->Join('users','users.id','=','lignebesoin.id_user')
+            ->leftJoin('materiel','materiel.id','=','lignebesoin.id_materiel')
+            ->leftJoin('devis','devis.id_da','=','lignebesoin.id')
+            ->leftJoin('fournisseur','fournisseur.id','=','devis.id_fournisseur')
+
+            ->leftJoin('boncommande','boncommande.id','=','lignebesoin.id_bonCommande')
+            ->select('lignebesoin.id','lignebesoin.unite','lignebesoin.quantite','DateBesoin','lignebesoin.id_user','id_nature','lignebesoin.id_materiel','materiel.libelleMateriel','lignebesoin.created_at','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','usage','lignebesoin.commentaire','dateConfirmation','date_livraison_eff','code_analytique','codeRubrique',DB::raw('fournisseur.libelle as libelle_fournisseur'),'numBonCommande','boncommande.date','lignebesoin.created_at')
+         //   ->WhereBetween('lignebesoin.created_at', [$debut, $fin])
+            ->orWhere('lignebesoin.demandeur', 'LIKE', "%{$mot_cle}%")
+            //  ->WhereBetween('lignebesoin.created_at', [$debutt, $finn])
+            ->orWhere('materiel.libelleMateriel', 'LIKE', "%{$mot_cle}%")
+            ->orWhere('fournisseur.libelle', 'LIKE', "%{$mot_cle}%")
+            ->orWhere('lignebesoin.demandeur', 'LIKE', "%{$mot_cle}%")
+            ->orWhere('boncommande.numBonCommande', 'LIKE', "%{$mot_cle}%")
+            ->orWhere('boncommande.date', 'LIKE', "%{$mot_cle}%")
+          ->paginate(15);
+
+
+
+/*
+        $das=  DB::table('lignebesoin')
+            ->Join('users','users.id','=','lignebesoin.id_user')
+            ->leftJoin('materiel','materiel.id','=','lignebesoin.id_materiel')
+            ->leftJoin('devis','devis.id_da','=','lignebesoin.id')
+            ->leftJoin('fournisseur','fournisseur.id','=','devis.id_fournisseur')
+            ->WhereBetween('lignebesoin.created_at', [$debutt, $finn])
+            ->leftJoin('boncommande','boncommande.id','=','lignebesoin.id_bonCommande')
+            ->select('lignebesoin.id','lignebesoin.unite','lignebesoin.quantite','DateBesoin','lignebesoin.id_user','id_nature','lignebesoin.id_materiel','materiel.libelleMateriel','lignebesoin.created_at','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','usage','lignebesoin.commentaire','dateConfirmation','date_livraison_eff','code_analytique','codeRubrique',DB::raw('fournisseur.libelle as libelle_fournisseur'),'numBonCommande','boncommande.date','lignebesoin.created_at')
+ ->orWhere('lignebesoin.demandeur', 'LIKE', "%{$mot_cle}%")
+            ->orWhere('materiel.libelleMateriel', 'LIKE', "%{$mot_cle}%")
+            ->orWhere('fournisseur.libelle', 'LIKE', "%{$mot_cle}%")
+            ->orWhere('lignebesoin.demandeur', 'LIKE', "%{$mot_cle}%")
+            ->orWhere('boncommande.numBonCommande', 'LIKE', "%{$mot_cle}%")
+            ->orWhere('boncommande.date', 'LIKE', "%{$mot_cle}%")
+            ->orWhere('lignebesoin.usage', 'LIKE', "%{$mot_cle}%")
+            ->paginate(50);
+            ->orWhere([
+                ['lignebesoin.demandeur', 'LIKE', "%{$mot_cle}%"],
+                ['materiel.libelleMateriel', 'LIKE', "%{$mot_cle}%"],
+                ['fournisseur.libelle', 'LIKE', "%{$mot_cle}%"],
+                ['lignebesoin.demandeur', 'LIKE', "%{$mot_cle}%"],
+                ['boncommande.numBonCommande', 'LIKE', "%{$mot_cle}%"],
+                ['boncommande.date', 'LIKE', "%{$mot_cle}%"],
+                ['lignebesoin.usage', 'LIKE', "%{$mot_cle}%"],
+            ])
+*/
+     /*   $das=  DB::select("select `lignebesoin`.`id`, `lignebesoin`.`unite`, `lignebesoin`.`quantite`, `DateBesoin`, `lignebesoin`.`id_user`, `id_nature`, `lignebesoin`.`id_materiel`, `materiel`.`libelleMateriel`, `lignebesoin`.`created_at`, `demandeur`, `lignebesoin`.`slug`, `lignebesoin`.`etat`, `id_valideur`, `motif`, `usage`, `lignebesoin`.`commentaire`, `dateConfirmation`, `date_livraison_eff`, `code_analytique`, `codeRubrique`, fournisseur.libelle as libelle_fournisseur, `numBonCommande`, `boncommande`.`date`, `lignebesoin`.`created_at`
+                           from `lignebesoin` inner join `users` on `users`.`id` = `lignebesoin`.`id_user` left join `materiel` on `materiel`.`id` = `lignebesoin`.`id_materiel` left join `devis` on `devis`.`id_da` = `lignebesoin`.`id` left join `fournisseur` on `fournisseur`.`id` = `devis`.`id_fournisseur` left join `boncommande` on `boncommande`.`id` = `lignebesoin`.`id_bonCommande` 
+                           where `lignebesoin`.`created_at` between ? and ? and (`lignebesoin`.`demandeur` LIKE ? or `materiel`.`libelleMateriel` LIKE ? or `fournisseur`.`libelle` LIKE ?  or `boncommande`.`numBonCommande` LIKE ? or `boncommande`.`date` LIKE ? or `lignebesoin`.`usage` LIKE ?)",[$debutt,$finn,'%'.$mot_cle.'%','%'.$mot_cle.'%','%'.$mot_cle.'%','%'.$mot_cle.'%','%'.$mot_cle.'%','%'.$mot_cle.'%',]);
+       */
+         // dd($das);
+           /*
+            ->orWhere('lignebesoin.demandeur', 'LIKE', "%{$mot_cle}%")
+            ->orWhere('materiel.libelleMateriel', 'LIKE', "%{$mot_cle}%")
+            ->orWhere('fournisseur.libelle', 'LIKE', "%{$mot_cle}%")
+            ->orWhere('lignebesoin.demandeur', 'LIKE', "%{$mot_cle}%")
+            ->orWhere('boncommande.numBonCommande', 'LIKE', "%{$mot_cle}%")
+            ->orWhere('boncommande.date', 'LIKE', "%{$mot_cle}%")
+            ->orWhere('lignebesoin.usage', 'LIKE', "%{$mot_cle}%")
+            ->paginate(50);*/
+
+        //dd($das);
+        $natures= Nature::all();
+          //  dd($das[0]->bondecommande);
+        $service_users=DB::table('users')
+            ->leftJoin('services', 'services.id', '=', 'users.service')
+            ->select('users.id','nom','prenoms','services.libelle','users.service')->get();
+        $domaines=  DB::table('domaines')->get();
+        $tracemails= DB::table('trace_mail')->get();
+
+        $unites=Unites::all();
+        foreach($unites as $unite):
+            if($unite->id==1 || $unite->id>=41 && $unite->id<50 ){
+                $tab_unite['nothing'][]=$unite->libelle;
+            }elseif($unite->id>1 && $unite->id<=10 ){
+                $tab_unite['La longueur'][]= $unite->libelle;
+            }elseif ($unite->id>10 && $unite->id<=20){
+                $tab_unite['La masse'][]=$unite->libelle;
+            }elseif ($unite->id>20 && $unite->id<=30){
+                $tab_unite['Le volume'][]=$unite->libelle;
+            }elseif ($unite->id>30 && $unite->id<=40){
+                $tab_unite['La surface'][]=$unite->libelle;
+            }
+        endforeach;
+//dd($das);
+        //trace
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; Lister les D.A par user.', ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
+        return view('DA/lister_da_recherche',compact('das','fournisseurs','materiels','natures','service_users','domaines','tracemails','tab_unite','mot_cle','debut','fin'));
 
 
     }
