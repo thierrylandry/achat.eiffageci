@@ -124,8 +124,8 @@ class DAController
         $parameters = $request->except(['_token']);
 
         $mot_cle = $parameters['mot_cle'];
-        $debut = $parameters['debut'];
-        $fin = $parameters['fin'];
+       // $debut = $parameters['debut'];
+        //$fin = $parameters['fin'];
 
 
        // dd($finn);
@@ -149,7 +149,7 @@ class DAController
             ->orWhere('lignebesoin.demandeur', 'LIKE', "%{$mot_cle}%")
             ->orWhere('boncommande.numBonCommande', 'LIKE', "%{$mot_cle}%")
             ->orWhere('boncommande.date', 'LIKE', "%{$mot_cle}%")
-          ->paginate(15);
+          ->paginate(100);
 
 
 
