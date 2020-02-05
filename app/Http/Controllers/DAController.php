@@ -229,7 +229,7 @@ class DAController
         }
 
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; Lister les D.A par user.', ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
-        return view('DA/lister_da_recherche',compact('das','fournisseurs','materiels','natures','service_users','domaines','tracemails','tab_unite','mot_cle','debut','fin'));
+        return view('DA/lister_da_recherche',compact('das','fournisseurs','materiels','natures','service_users','domaines','tracemails','tab_unite','mot_cle'));
 
 
     }
