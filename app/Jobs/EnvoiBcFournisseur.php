@@ -77,7 +77,7 @@ $fournisseur= Fournisseur::find($bc->id_fournisseur);
                         $message ->to($em);
                     endforeach;
                     foreach($contactDemandeur as $em):
-                        $message ->cc($em);
+                        $message ->bcc($em);
                     endforeach;
             });
 
