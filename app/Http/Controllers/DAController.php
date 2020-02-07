@@ -149,7 +149,7 @@ class DAController
             ->orWhere('lignebesoin.demandeur', 'LIKE', "%{$mot_cle}%")
             ->orWhere('boncommande.numBonCommande', 'LIKE', "%{$mot_cle}%")
             ->orWhere('boncommande.date', 'LIKE', "%{$mot_cle}%")
-          ->paginate(100);
+          ->get(100);
 
 
 

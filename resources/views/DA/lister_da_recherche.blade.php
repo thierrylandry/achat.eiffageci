@@ -83,9 +83,7 @@
     </div>
     <div class="row">
         <div class="col-sm-12">
-            @if(!empty($das))
-            {{$das->links()}}
-            @endif
+    
             <table name ="tableDA" id="tableDA" class='table table-bordered table-striped  no-wrap responsive ' >
 
                 <thead>
