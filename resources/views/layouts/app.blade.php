@@ -163,8 +163,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             </div>
         </div>
         <!--logo end-->
-
-
         <div class="top-nav clearfix">
             <!--search & user info start-->
             <ul class="nav pull-right top-menu">
@@ -335,7 +333,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <!-- footer -->
         <div class="footer">
             <div class="wthree-copyright">
-                <p>© 2017 Visitors. All rights reserved | Design by <a href="http://w3layouts.com">EIFFAGE</a></p>
+                <p>© 2017 Visitors. All rights reserved | Design by <a href="http://w3layouts.com">EIFFAGE</a></p>    <marquee><blink style="color: red;">JOYEUX ANNIVERSAIRE</blink>  <blink style="color: yellow;">PRO-ACHAT</blink>. <blink style="color: green;">DEJA UN AN QUE TU NOUS SIMPLIFIE LA VIE</blink></marquee>
             </div>
         </div>
         <!-- / footer -->
