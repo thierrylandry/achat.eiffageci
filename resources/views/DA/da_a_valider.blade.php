@@ -216,6 +216,7 @@
                 </tbody>
             </table>
             <button class="btn btn-success" id="valider_selectionner"> ACCEPTER LA SELECTION</button>
+            <button class="btn btn-danger" id="refuser_selectionner"> REFUSER LA SELECTION</button>
         </div>
     </div>
     <script src="{{ URL::asset("js/dataTables.buttons.min.js") }}"></script>
@@ -321,6 +322,28 @@
                     alert("Veuillez selectionner au moins un élément");
                 }else{
                     $.get('validation_da_collective/'+mavariable,function (data) {
+                        if(data=="success"){
+                            location.reload(true);
+                        }else{
+                            alert("Echec de validation");
+                        }
+                    })
+                }
+            });
+            $('#refuser_selectionner').click(function (e) {
+                var rows_selected = table.column(0).checkboxes.selected();
+                console.log(rows_selected);
+                var mavariable="";
+                $.each(rows_selected, function(index, rowId){
+                    // Create a hidden element
+                    console.log(rowId);
+                    mavariable=mavariable+','+rowId;
+
+                });
+                if(mavariable==""){
+                    alert("Veuillez selectionner au moins un élément");
+                }else{
+                    $.get('refus_da_collective/'+mavariable,function (data) {
                         if(data=="success"){
                             location.reload(true);
                         }else{

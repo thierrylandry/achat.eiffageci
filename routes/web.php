@@ -289,6 +289,13 @@ Route::get('/validation_da_collective/{id}',[
     'roles' => ['Valideur_DA']
 
 ])->middleware('auth');
+Route::get('/refus_da_collective/{id}',[
+    'as'=>'refus_da_collective',
+    'uses'=>'DAController@refus_da_collective',
+    'middleware' => 'roles',
+    'roles' => ['Valideur_DA']
+
+])->middleware('auth');
 Route::get('/confirmer_da_depuis_creermodifier_da/{slug}',[
     'as'=>'confirmer_da_depuis_creermodifier_da',
     'uses'=>'DAController@confirmer_da_depuis_creermodifier_da',
