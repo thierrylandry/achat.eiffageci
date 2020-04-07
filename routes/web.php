@@ -282,6 +282,13 @@ Route::get('/confirmer_da/{slug}',[
     'roles' => ['Valideur_DA']
 
 ])->middleware('auth');
+Route::get('/validation_da_collective/{id}',[
+    'as'=>'validation_da_collective',
+    'uses'=>'DAController@validation_da_collective',
+    'middleware' => 'roles',
+    'roles' => ['Valideur_DA']
+
+])->middleware('auth');
 Route::get('/confirmer_da_depuis_creermodifier_da/{slug}',[
     'as'=>'confirmer_da_depuis_creermodifier_da',
     'uses'=>'DAController@confirmer_da_depuis_creermodifier_da',
@@ -751,6 +758,8 @@ Route::get('/validation_bc_collective/{id}',[
     'roles' => ['Valideur_BC']
 
 ])->middleware('auth');
+
+
 
 Route::get('/Gestion_Facture',[
     'as'=>'Gestion_Facture',

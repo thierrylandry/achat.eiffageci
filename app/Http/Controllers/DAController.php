@@ -115,6 +115,36 @@ class DAController
 
     }
 
+    public function validation_da_collective($id)
+    {
+        // dd($listeDA);
+        $tab_da = explode(",", $id);
+
+        //   $ligne_besoin= Lignebesoin::where('id_bonCommande', '=', $Boncommande->id)->first();
+
+        foreach($tab_da as $da):
+            if($da!=''){
+                $lada= DA::find($da);
+                $lada->etat=2;
+                $lada->id_valideur= Auth::user()->id ;
+                $lada->save();
+            }
+
+        endforeach;
+
+
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; Validation et transmission collective des  B.Cs '.$id, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
+
+        // return redirect()->route('gestion_bc')->with('success', "Bon(s) de commande(s) validé(s) & Transmission aux fournisseurs");
+        return 'success';
+    }
     /**
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View

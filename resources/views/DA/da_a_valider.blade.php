@@ -55,6 +55,7 @@
                 <thead>
 
                 <tr>
+                    <th class="dt-head-center">case</th>
                     <th class="dt-head-center">N°D.A</th>
                     <th class="dt-head-center">statut</th>
                     <th class="dt-head-center">date de demande</th>
@@ -74,6 +75,7 @@
                 <tbody name ="contenu_tableau_entite" id="contenu_tableau_entite">
                 @foreach($das as $da )
                     <tr>
+                        <td>{{$da->id}}</td>
                         <td>{{$da->id}}</td>
                         <td>
 
@@ -213,7 +215,7 @@
                 @endforeach
                 </tbody>
             </table>
-
+            <button class="btn btn-success" id="valider_selectionner"> ACCEPTER LA SELECTION</button>
         </div>
     </div>
     <script src="{{ URL::asset("js/dataTables.buttons.min.js") }}"></script>
@@ -282,6 +284,17 @@
 
                     }
                 ],
+                "columnDefs": [
+                    {
+                        'targets': 0,
+                        'checkboxes': {
+                            'selectRow': true
+                        }
+                    }
+                ],
+                "select": {
+                    'style': 'multi'
+                },
                 language: {
                     url: "{{ URL::asset('public/js/French.json') }}"
                 },
@@ -291,13 +304,30 @@
 
                 },
                 responsive: false,
-                columnDefs: [
-                    { responsivePriority: 1, targets: 0 },
-                    { responsivePriority: 2, targets: -1 },
-                    { responsivePriority: 1, targets: 4 },
 
-                ],
 
+            });
+            $('#valider_selectionner').click(function (e) {
+                var rows_selected = table.column(0).checkboxes.selected();
+                console.log(rows_selected);
+                var mavariable="";
+                $.each(rows_selected, function(index, rowId){
+                    // Create a hidden element
+                    console.log(rowId);
+                    mavariable=mavariable+','+rowId;
+
+                });
+                if(mavariable==""){
+                    alert("Veuillez selectionner au moins un élément");
+                }else{
+                    $.get('validation_da_collective/'+mavariable,function (data) {
+                        if(data=="success"){
+                            location.reload(true);
+                        }else{
+                            alert("Echec de validation");
+                        }
+                    })
+                }
             });
             //table.DataTable().draw();
             $('a.toggle-vis').on( 'click', function (e) {
