@@ -54,7 +54,7 @@ class BCController extends Controller
             ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
             ->leftJoin('services', 'services.id', '=', 'boncommande.service_demandeur')
             ->where('boncommande.slug','=',$slug)
-            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','services.libelle as libelle_service','commentaire_general','fournisseur.conditionPaiement','boncommande.id_fournisseur')->first();
+            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','services.libelle as libelle_service','commentaire_general','fournisseur.conditionPaiement','boncommande.id_fournisseur','remise_excep')->first();
 
         $devis=DB::table('devis')
             ->join('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
@@ -600,6 +600,7 @@ $analytiques= Analytique::all();
 
         $boncommande->date=$parameters['date_livraison'];
         $boncommande->service_demandeur=$parameters['id_service'];
+        $boncommande->remise_excep=$parameters['remise_exc'];
         $boncommande->commentaire_general=$commentaire;
 
       //  $sumligne=ligne_bc::where('id_bonCommande','=',$boncommande->id)->sum('prix_tot');

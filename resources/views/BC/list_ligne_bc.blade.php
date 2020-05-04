@@ -203,6 +203,7 @@
     <tfooter>
         <tr> <th colspan="7" style="text-align:right" >TOTAL HORS TAXES :</th> <th id="tot" style="text-align: right"></th> </tr>
         <tr> <th colspan="7" style="text-align:right" >TVA :</th> <th id="tva" style="text-align: right"></th> </tr>
+        <tr> <th colspan="7" style="text-align:right" >REMISE EXCEP :</th> <th  style="text-align: right"><input type="number" id="remise_exc" name="remise_exc" style="width: 100px" value="{{isset($bc->remise_excep)?$bc->remise_excep:0}}" min="0"/> </th> </tr>
         <tr> <th colspan="7" style="text-align:right" >TOTAL TTC :</th> <th id="ttc" style="text-align: right"></th> </tr>
     </tfooter>
 </table>
@@ -365,12 +366,13 @@ var id_bc= $("#id_bc").val();
                 $( api.column( 8 ).footer() ).html(
                         '$'+pageTotal +' ( $'+ total +' total)'
                 );
+                remise_exc =$('#remise_exc').val();
                $('#tot').html(lisibilite_nombre(Math.round(pageTotal))+" {{$devise}}");
                $('#tot_serv').val(Math.round(pageTotal));
                $('#tva').html(lisibilite_nombre(TTva)+" {{$devise}}");
                $('#tva_serv').val(Math.round(TTva));
-                $('#ttc').html(lisibilite_nombre(Math.round(pageTotal)+Math.round(TTva)) +" {{$devise}}");
-               $('#ttc_serv').val(Math.round(pageTotal)+Math.round(TTva));
+                $('#ttc').html(lisibilite_nombre(Math.round(pageTotal)+Math.round(TTva) - remise_exc) +" {{$devise}}");
+               $('#ttc_serv').val(Math.round(pageTotal)+Math.round(TTva)-Math.round(remise_exc));
             },
             responsive: true,
             columnDefs: [
@@ -421,13 +423,23 @@ var tva_prod=ilisibilite_nombre(($(this).closest('td').prev().prev().html())*18)
             $('#tva').empty();
             $('#tva').html(lisibilite_nombre(sumtva)+" {{$devise}}");
             $('#tva_serv').val(Math.round(sumtva));
-
-            var ttc=Math.round(sumtva+Math.round($('#tot_serv').val()));
+            var remise_exc =$('#remise_exc').val();
+            var ttc=Math.round(sumtva+Math.round($('#tot_serv').val()) - remise_exc );
             $('#ttc').empty();
             $('#ttc').html(lisibilite_nombre(ttc) +" {{$devise}}");
             $('#ttc_serv').val(Math.round(ttc));
 
         })
+
+        $("#remise_exc").change(function (e){
+            remise_exc =$('#remise_exc').val();
+            $('#tot').html(lisibilite_nombre(Math.round(pageTotal))+" {{$devise}}");
+            $('#tot_serv').val(Math.round(pageTotal));
+            $('#tva').html(lisibilite_nombre(TTva)+" {{$devise}}");
+            $('#tva_serv').val(Math.round(TTva));
+            $('#ttc').html(lisibilite_nombre(Math.round(pageTotal)+Math.round(TTva) - remise_exc) +" {{$devise}}");
+            $('#ttc_serv').val(Math.round(pageTotal)+Math.round(TTva)-Math.round(remise_exc));
+        });
 
     })(jQuery);
 </script>

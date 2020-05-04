@@ -204,12 +204,29 @@
                             ?>
                                 </td>
                     </tr>
+                    @if($bc->remise_excep!=0)
                     <tr>
-                        <td style="text-align:right" ><b>TOTAL TTC EN FCFA </b></td>
+                        <td style="text-align:right" ><b>REMISE EXCEPTIONNELLE </b></td>
                         <td class="value">
 
-                            {{number_format($tothtax+$tva,0,"."," ")." ".$devis[0]->devise}}
+                            {{number_format($bc->remise_excep,0,"."," ")." ".$devis[0]->devise}}
                         </td>
+                    </tr>
+                    @endif
+                        <tr>
+                        <td style="text-align:right" ><b>TOTAL TTC EN FCFA </b></td>
+
+                            @if($bc->remise_excep!=0)
+                        <td class="value">
+
+                            {{number_format($tothtax+$tva-$bc->remise_excep,0,"."," ")." ".$devis[0]->devise}}
+                        </td>
+                                @else
+                                <td class="value">
+
+                                    {{number_format($tothtax+$tva,0,"."," ")." ".$devis[0]->devise}}
+                                </td>
+                                @endif
                     </tr>
                 </table>
 
