@@ -415,7 +415,7 @@ $analytiques= Analytique::all();
         if($bc!=''){
             $Boncommande= Boncommande::find($bc);
 
-dd($Boncommande);
+//dd($Boncommande);
 
             //utilisation de la fonction send_it
 
@@ -508,7 +508,7 @@ dd($Boncommande);
 
             endforeach;
             $pdf->save(storage_path('bon_commande').'\bon_de_commande_n°'.$Boncommande->numBonCommande.'.pdf');
-            $this->dispatch(new EnvoiBcFournisseur($contact,storage_path('bon_commande').'\bon_de_commande_n°'.$Boncommande->numBonCommande.'.pdf',$tab,$corps,$contactDemandeur,$Boncommande,$precisions,$images) );
+           // $this->dispatch(new EnvoiBcFournisseur($contact,storage_path('bon_commande').'\bon_de_commande_n°'.$Boncommande->numBonCommande.'.pdf',$tab,$corps,$contactDemandeur,$Boncommande,$precisions,$images) );
             //  return redirect()->route('gestion_bc')->with('success', "Envoie d'email reussi");
 
             $Boncommande->etat=3;
