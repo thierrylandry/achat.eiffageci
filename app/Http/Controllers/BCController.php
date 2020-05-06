@@ -415,7 +415,7 @@ $analytiques= Analytique::all();
         if($bc!=''){
             $Boncommande= Boncommande::find($bc);
 
-
+dd($Boncommande);
 
             //utilisation de la fonction send_it
 
