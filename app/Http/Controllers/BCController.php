@@ -263,7 +263,7 @@ return $view;
             ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
             ->join('services', 'services.id', '=', 'boncommande.service_demandeur')
             ->where('boncommande.id','=',$bc_slug)
-            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','services.libelle as libelle_service','contact','commentaire_general','fournisseur.conditionPaiement','boncommande.id_fournisseur')->first();
+            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','services.libelle as libelle_service','contact','commentaire_general','fournisseur.conditionPaiement','boncommande.id_fournisseur','remise_excep')->first();
 
 
         $devis=DB::table('devis')
@@ -358,7 +358,7 @@ return $view;
         $bc= DB::table('boncommande')
             ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
             ->where('boncommande.slug','=',$slug)
-            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date')->first();
+            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','remise_excep')->first();
 
         $ligne_bcs=DB::table('ligne_bc')
             ->join('reponse_fournisseur', 'reponse_fournisseur.id', '=', 'ligne_bc.id_reponse_fournisseur')
@@ -453,7 +453,7 @@ $analytiques= Analytique::all();
                 ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
                 ->join('services', 'services.id', '=', 'boncommande.service_demandeur')
                 ->where('boncommande.id','=',$Boncommande->id)
-                ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','services.libelle as libelle_service','contact','commentaire_general','fournisseur.conditionPaiement','boncommande.id_fournisseur')->first();
+                ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','services.libelle as libelle_service','contact','commentaire_general','fournisseur.conditionPaiement','boncommande.id_fournisseur','remise_excep')->first();
             $pdf = PDF::loadView('BC.bon-commande', compact('bc','devis','tothtax','taille','taille_minim','taille_maxim'));
 
             //$lignebesoins=Lignebesoin::where('id_bonCommande','=',$bc->id)->first();
