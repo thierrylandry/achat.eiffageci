@@ -68,6 +68,7 @@
                     <th class="dt-head-center">Auteur</th>
                     <th class="dt-head-center">Service</th>
                     <th class="dt-head-center">Code Analytique/<i style="color:#00AAFF" >Code spécifique</i></th>
+                    <th class="dt-head-center">Code gestion</th>
                     <th class="dt-head-center">Confirmer/infirmer</th>
                     <th class="dt-head-center">Consultation en cours</th>
                     <th class="dt-head-center">Fournisseur retenu</th>
@@ -154,6 +155,7 @@
                                 @endif
                             @endforeach</td>
                         <td>{{isset($da->code_analytique)?$da->code_analytique:''}}/<i style="color: #00AAFF">{{isset($da->codeRubrique)?$da->codeRubrique:''}}</i></td>
+                        <td>{{isset($da->codeGestion)?$da->codeGestion:''}}</td>
                         <td>
                             @foreach($service_users as $service_user )
                                 @if($service_user->id==$da->id_valideur)

@@ -33,6 +33,19 @@
                                     @endforeach
                                 </select>
                             </div>
+                                <div class="form-group">
+                                    <label for="libelle" class="control-label">Code gestion</label>
+
+
+                                    <select class="form-control selectpicker col-sm-4" id="id_codeGestion" name="id_codeGestion" data-live-search="true" data-size="6">
+                                       <option>SELECTIONNER UN CODE GESTION</option>
+                                        @foreach($gestions as $gestion)
+                                            <option @if(isset($da) and $gestion->id==$da->id_codeGestion)
+                                                    {{'selected'}}
+                                                    @endif value="{{$gestion->id}}" data-subtext="{{$gestion->description}}">{{$gestion->codeGestion}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
 
                                 <div class="form-group  ">
                                     <label for="type">Demandeur</label>
@@ -165,6 +178,7 @@
                     <th class="dt-head-center">Auteur</th>
                     <th class="dt-head-center">Service</th>
                     <th class="dt-head-center">Code Analytique/<i style="color:#00AAFF" >Code spécifique</i></th>
+                    <th class="dt-head-center">Code Gestion</th>
                     <th class="dt-head-center">Confirmer/infirmer</th>
                     <th class="dt-head-center">Consultation en cours</th>
                     <th class="dt-head-center">Fournisseur retenu</th>
@@ -251,6 +265,7 @@
                                 @endif
                             @endforeach</td>
                         <td>{{isset($da->code_analytique)?$da->code_analytique:''}}/<i style="color: #00AAFF">{{isset($da->codeRubrique)?$da->codeRubrique:''}}</i></td>
+                        <td>{{isset($da->codeGestion)?$da->codeGestion:''}}</td>
                         <td>
                             @foreach($service_users as $service_user )
                                 @if($service_user->id==$da->id_valideur)

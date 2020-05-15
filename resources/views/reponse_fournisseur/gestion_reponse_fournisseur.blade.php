@@ -34,6 +34,7 @@
                                             <th class="dt-head-center">id_materiel</th>
                                             <th class="dt-head-center">nom produit</th>
                                             <th>Code Analytique</th>
+                                            <th>Code Gestion</th>
                                             <th class="dt-head-center">Matériel et consultation</th>
                                             <th>Reference </br>Fournisseur</th>
                                             <th class="dt-head-center" width="5%">Quantité</th>
@@ -62,6 +63,18 @@
                                                                 <option @if(isset($da->code_analytique) && $analytique->codeRubrique==$da->code_analytique)
                                                                         {{'selected'}}
                                                                         @endif value="{{$analytique->codeRubrique}}" data-subtext="{{$analytique->libelle}}">{{$analytique->codeRubrique}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                                <td><div class="form-group">
+                                                        <select class="form-control selectpicker" id="row_n_{{$da->id}}_codeGestion" name="row_n_{{$da->id}}_codeGestion" data-live-search="true" data-size="6" >
+                                                            <option  value="">SELECTIONNER</option>
+                                                            @foreach($gestions as $gestion)
+
+                                                                <option @if(isset($da->id_codeGestion) && $gestion->id==$da->id_codeGestion)
+                                                                        {{'selected'}}
+                                                                        @endif value="{{$gestion->codeGestion}}" data-subtext="{{$gestion->description}}">{{$gestion->codeGestion}}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -183,6 +196,7 @@
                                             <th class="dt-head-center">id_materiel</th>
                                             <th class="dt-head-center">N°D.A</th>
                                             <th>Code Analytique</th>
+                                            <th>Code Gestion</th>
                                             <th class="dt-head-center" width="20%">Matériel et consultation</th>
                                             <th class="dt-head-center">Reference Fournisseur</th>
                                             <th class="dt-head-center" width="30px">Quantité</th>
@@ -215,7 +229,21 @@
                                                                         @endif value="{{$analytique->codeRubrique}}" data-subtext="{{$analytique->libelle}}">{{$analytique->codeRubrique}}</option>
                                                             @endforeach
                                                         </select>
-                                                    </div></td>
+                                                    </div>
+                                                </td>
+                                                <td><div class="form-group">
+                                                        <select class="form-control selectpicker" id="row_n_{{$devi->id}}_codeGestion" name="row_n_{{$devi->id}}_codeGestion" data-live-search="true" data-size="6" >
+                                                            <option  value="">SELECTIONNER</option>
+                                                            @foreach($gestions as $gestion)
+
+                                                                <option @if(isset($devi->codeGestion) && $gestion->codeGestion==$devi->codeGestion)
+                                                                        {{'selected'}}
+                                                                        @endif value="{{$gestion->codeGestion}}" data-subtext="{{$gestion->description}}">{{$gestion->codeGestion}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </td>
+
                                                 <td>
 
 

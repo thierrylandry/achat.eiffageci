@@ -10,4 +10,8 @@ class Materiel extends Model
     protected  $table="materiel";
     //
     protected $fillable= ['libelleMateriel','type','image'];
+    public function Domaine(){
+
+        return $this->belongsTo('App\Domaines','type');
+    }
 }

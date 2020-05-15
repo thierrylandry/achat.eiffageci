@@ -7,6 +7,7 @@
             <th width="25%">DESIGNATION</th>
             <th width="10%">REFERENCE FOURNISSEUR</th>
             <th width="10%">CODE ANALYTI<br/>QUE</th>
+            <th width="10%">CODE <br/>GESTION</th>
             <th width="7%">QUANTITE</th>
             <th width="8%">UNITE</th>
             <th width="10%">P.U HT</th>
@@ -39,6 +40,7 @@
                     <td  style="border-bottom-color: white">{{$dev->titre_ext }}<br> {{$dev->commentaire }}</td>
                     <td  style="border-bottom-color: white">{{$dev->referenceFournisseur }}</td>
                     <td style=" text-align: center;border-bottom-color: white">{{$dev->codeRubrique}}</td>
+                    <td style=" text-align: center;border-bottom-color: white">{{$dev->codeGestion}}</td>
                     <td style=" text-align: center;border-bottom-color: white">{{$dev->quantite}}</td>
                     <td style="border-bottom-color: white">{{$dev->unite}}</td>
                     <td style=" text-align: right;border-bottom-color: white">{{$dev->prix_unitaire}}</td>
@@ -53,6 +55,7 @@
                         <td  style="">{{$dev->titre_ext }}</br> {{$dev->commentaire }}</td>
                         <td  style="border-bottom-color: white">{{$dev->referenceFournisseur }}</td>
                         <td style=" text-align: center;">{{$dev->codeRubrique}}</td>
+                        <td style=" text-align: center;border-bottom-color: white">{{$dev->codeGestion}}</td>
                         <td style=" text-align: center;">{{$dev->quantite}}</td>
                         <td style="">{{$dev->unite}}</td>
                         <td style=" text-align: right;">{{$dev->prix_unitaire}}</td>
@@ -76,6 +79,7 @@
                     <td >&nbsp;&nbsp;&nbsp;</td>
                     <td >&nbsp;&nbsp;&nbsp;</td>
                     <td >&nbsp;&nbsp;&nbsp;</td>
+                    <td >&nbsp;&nbsp;&nbsp;</td>
                     <td >&nbsp;&nbsp;&nbsp;</span>
                     </td>
                 </tr>
@@ -84,6 +88,7 @@
                     <td style="border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
                     <td style="border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
                     <td style="border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
                     <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
                     <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
                     <td style="border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
@@ -104,6 +109,7 @@
                     <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
                     <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
                     <td style="border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style="border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
                     <td style=" text-align: right;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
                     <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
                     <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
@@ -119,6 +125,7 @@
                 <td  style="border-bottom-color: white">{{$dev->titre_ext }}</br> {{$dev->commentaire }}</td>
                 <td  style="border-bottom-color: white">{{$dev->referenceFournisseur }}</td>
                 <td style=" text-align: center;border-bottom-color: white">{{$dev->codeRubrique}}</td>
+                <td style=" text-align: center;border-bottom-color: white">{{$dev->codeGestion}}</td>
                 <td style=" text-align: center;border-bottom-color: white">{{$dev->quantite}}</td>
                 <td style="border-bottom-color: white">{{$dev->unite}}</td>
                 <td style=" text-align: right;border-bottom-color: white">{{$dev->prix_unitaire}}</td>
@@ -140,6 +147,7 @@
                     <td >&nbsp;&nbsp;&nbsp;</td>
                     <td >&nbsp;&nbsp;&nbsp;</td>
                     <td >&nbsp;&nbsp;&nbsp;</td>
+                    <td >&nbsp;&nbsp;&nbsp;</td>
                     <td >&nbsp;&nbsp;&nbsp;</span>
                     </td>
                 </tr>
@@ -147,6 +155,7 @@
                 <tr>
                     <td style="border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
                     <td style="border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
+                    <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
                     <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
                     <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
                     <td style=" text-align: center;border-bottom-color: white">&nbsp;&nbsp;&nbsp;</td>
@@ -181,11 +190,20 @@
                     <p style=""><b><p style="font-size: 7pt"><t style="color:#761c19;">Port d’EPI</t>  obligatoire  (casque, chasuble, chaussures et gants) pour toute intervention sur le chantier et après autorisation d’un personnel HSE</p></b> <br/></p>
                 </div>
             </th>
-            <th colspan="7" valign="top" style="margin: 0; padding: 0; ">
+            <th colspan="8" valign="top" style="margin: 0; padding: 0; ">
                 <table class="ssfacture" style="margin: 0; padding: 0;">
+                    @if($bc->remise_excep!=0)
+                        <tr>
+                            <td style="text-align:right" ><b>REMISE EXCEPTIONNELLE </b></td>
+                            <td class="value">
+
+                                {{number_format($bc->remise_excep,0,"."," ")." ".$devis[0]->devise}}
+                            </td>
+                        </tr>
+                    @endif
                     <tr>
                         <td width="61.8%" style="text-align:right"><b>Total Hors Taxes en FCFA</b> </td>
-                        <td class="value">{{ number_format($tothtax, 0,".", " ")." ".$devis[0]->devise  }}</td>
+                        <td class="value">{{ number_format($tothtax-$bc->remise_excep, 0,".", " ")." ".$devis[0]->devise  }}</td>
                     </tr>
                     <tr>
                         <td style="text-align:right" ><b>TVA </b></td>
@@ -200,19 +218,14 @@
                                     }
 
                                     endforeach;
+                                if($bc->remise_excep!=0){
+                                    $tva=$tva-($bc->remise_excep*0.18);
+                                }
+
                                     echo number_format($tva, 0,".", " ")." ".$devis[0]->devise;
                             ?>
                                 </td>
                     </tr>
-                    @if($bc->remise_excep!=0)
-                    <tr>
-                        <td style="text-align:right" ><b>REMISE EXCEPTIONNELLE </b></td>
-                        <td class="value">
-
-                            {{number_format($bc->remise_excep,0,"."," ")." ".$devis[0]->devise}}
-                        </td>
-                    </tr>
-                    @endif
                         <tr>
                         <td style="text-align:right" ><b>TOTAL TTC EN FCFA </b></td>
 

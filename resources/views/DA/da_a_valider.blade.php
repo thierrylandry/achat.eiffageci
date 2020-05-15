@@ -61,6 +61,8 @@
                     <th class="dt-head-center">date de demande</th>
                     <th class="dt-head-center">type</th>
                     <th class="dt-head-center">Nature</th>
+                    <th class="dt-head-center">Code Analytique</th>
+                    <th class="dt-head-center">Code Gestion</th>
                     <th class="dt-head-center">Matériel et consultation</th>
                     <th class="dt-head-center">Quantité</th>
                     <th class="dt-head-center">Pour le ?</th>
@@ -99,36 +101,20 @@
                                 Traitée et retournée
                             @endif
                         </td>
-                        <td>{{isset($da->created_at)?DateTime::createFromFormat('d-m-Y H:i:s', $da->created_at):''}}</td>
+                        <td><?php if(isset($da->created_at)){
+                                $date = new DateTime($da->created_at);
+
+                            echo $date->format('d-m-Y H:i:s');}?></td>
                         <td>
-                            @foreach($materiels as $materiel )
-                                @if($materiel->id==$da->id_materiel)
-
-
-                                    @foreach($domaines as $domaine )
-                                        @if($domaine->id==$materiel->type)
-                                            {{$domaine->libelleDomainne}}
-
-                                        @endif
-                                    @endforeach
-
-                                @endif
-
-
-                            @endforeach</td>
+                            {{isset($da->materiel->domaine->libelleDomainne)?$da->materiel->domaine->libelleDomainne:''}}
+                        </td>
                         <td>
-                            @foreach($natures as $nature )
-                                @if($nature->id==$da->id_nature)
-                                    {{$nature->libelleNature}}
-                                @endif
-                            @endforeach</td>
+                            {{isset($da->nature->libelleNature)?$da->nature->libelleNature:''}}</td>
+                        <td>{{isset($da->materiel->code_analytique)?$da->materiel->code_analytique:''}}</td>
+                        <td>{{isset($da->codeGestion->codeGestion)?$da->codeGestion->codeGestion:''}}</td>
                         <td>
-                            @foreach($materiels as $materiel )
-                                @if($materiel->id==$da->id_materiel)
-
-                                    {{$materiel->libelleMateriel}}
-                                @endif
-                            @endforeach</td>
+                            {{isset($da->materiel->libelleMateriel)?$da->materiel->libelleMateriel:''}}
+                          </td>
                         <td>{{$da->quantite}} {{$da->unite}}</td>
                         <td>{{\Carbon\Carbon::parse($da->DateBesoin)->format('d-m-Y')}}</td>
                         <td>
@@ -136,17 +122,12 @@
                         </td>
                         <td>{{$da->demandeur}}</td>
                         <td>
-                            @foreach($service_users as $service_user )
-                                @if($service_user->id==$da->id_user)
-                                    {{$service_user->nom}}
-                                    {{$service_user->prenoms}}
-                                @endif
-                            @endforeach</td>
-                        <td> @foreach($service_users as $service_user )
-                                @if($service_user->id==$da->id_user)
-                                    <b style=" font-size: 15px; color:black ">{{$service_user->libelle}}</b>
-                                @endif
-                            @endforeach</td>
+                            {{isset($da->user->nom)?$da->user->nom:''}}
+                            {{isset($da->user->prenoms)?$da->user->prenoms:''}}
+                           </td>
+                        <td>
+                            {{isset($da->user->leservice->libelle)?$da->user->leservice->libelle:''}}
+                            </td>
                         <td>
 
 

@@ -8,5 +8,5 @@ class Nature extends Model
 {
     //
     protected  $table="nature";
-    protected $fillable= ['libelleNature'];
+    protected $fillable= ['*'];
 }

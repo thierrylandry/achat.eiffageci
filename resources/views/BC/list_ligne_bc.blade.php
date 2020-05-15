@@ -125,7 +125,7 @@
                                 <td>  {{$new_devi->remise}}</td>
                                 <td style="text-align: right">  {{($THT=($new_devi->prix_unitaire*$new_devi->quantite)-(($new_devi->remise/100*($new_devi->prix_unitaire*$new_devi->quantite))))}}</td>
                                 <td > @if(1==$new_devi->hastva)
-                                        {{number_format(intval(($THT*18)/100), 0,".", " ")}}
+                                        {{number_format(floatval(($THT*18)/100), 2,".", " ")}}
                                     @else
                                         {{0}}
 
@@ -188,7 +188,7 @@
             <td>  {{$devi->remise}}</td>
             <td style="text-align: right">  {{($THT=($devi->prix_unitaire*$devi->quantite)-(($devi->remise/100*($devi->prix_unitaire*$devi->quantite))))}}</td>
             <td> @if(1==$devi->hastva)
-                    {{number_format(intval(($THT*18)/100), 0,".", " ")}}
+                    {{number_format(floatval(($THT*18)/100), 2,".", " ")}}
             @else
                     {{0}}
 
@@ -201,10 +201,10 @@
         @endif
     </tbody>
     <tfooter>
+        <tr> <th colspan="7" style="text-align:right" >REMISE EXCEP -:</th> <th  style="text-align: right"><input type="number" id="remise_exc" name="remise_exc" style="width: 100px" value="{{isset($bc->remise_excep)?$bc->remise_excep:0}}" min="0"/> </th> </tr>
         <tr> <th colspan="7" style="text-align:right" >TOTAL HORS TAXES :</th> <th id="tot" style="text-align: right"></th> </tr>
         <tr> <th colspan="7" style="text-align:right" >TVA :</th> <th id="tva" style="text-align: right"></th> </tr>
-        <tr> <th colspan="7" style="text-align:right" >REMISE EXCEP :</th> <th  style="text-align: right"><input type="number" id="remise_exc" name="remise_exc" style="width: 100px" value="{{isset($bc->remise_excep)?$bc->remise_excep:0}}" min="0"/> </th> </tr>
-        <tr> <th colspan="7" style="text-align:right" >TOTAL TTC :</th> <th id="ttc" style="text-align: right"></th> </tr>
+      <tr> <th colspan="7" style="text-align:right" >TOTAL TTC :</th> <th id="ttc" style="text-align: right"></th> </tr>
     </tfooter>
 </table>
 
@@ -367,12 +367,12 @@ var id_bc= $("#id_bc").val();
                         '$'+pageTotal +' ( $'+ total +' total)'
                 );
                 remise_exc =$('#remise_exc').val();
-               $('#tot').html(lisibilite_nombre(Math.round(pageTotal))+" {{$devise}}");
-               $('#tot_serv').val(Math.round(pageTotal));
-               $('#tva').html(lisibilite_nombre(TTva)+" {{$devise}}");
-               $('#tva_serv').val(Math.round(TTva));
-                $('#ttc').html(lisibilite_nombre(Math.round(pageTotal)+Math.round(TTva) - remise_exc) +" {{$devise}}");
-               $('#ttc_serv').val(Math.round(pageTotal)+Math.round(TTva)-Math.round(remise_exc));
+                $('#tot').html(lisibilite_nombre(Math.round(pageTotal-remise_exc))+" {{$devise}}");
+                $('#tot_serv').val(Math.round(pageTotal-remise_exc));
+                $('#tva').html(lisibilite_nombre(Math.round(TTva-remise_exc*0.18))+" {{$devise}}");
+                $('#tva_serv').val(Math.round(TTva-remise_exc*0.18));
+                $('#ttc').html(lisibilite_nombre(Math.round(pageTotal)+Math.round(TTva-remise_exc*0.18) - remise_exc) +" {{$devise}}");
+                $('#ttc_serv').val(Math.round(pageTotal)+Math.round(TTva-remise_exc*0.18)-Math.round(remise_exc));
             },
             responsive: true,
             columnDefs: [
@@ -388,7 +388,7 @@ var id_bc= $("#id_bc").val();
             var data = table.row($(this).parents('tr')).data();
             var num_row=$(this).parents('tr');
 var tva_prod=ilisibilite_nombre(($(this).closest('td').prev().prev().html())*18)/100;
-
+         var   remise_exc =$('#remise_exc').val();
             if($(this).prop('checked') ){
 
                 $(this).closest('td').prev().html(lisibilite_nombre(tva_prod));
@@ -419,6 +419,7 @@ var tva_prod=ilisibilite_nombre(($(this).closest('td').prev().prev().html())*18)
 
 
             });
+            sumtva=sumtva-remise_exc*0.18;
 
             $('#tva').empty();
             $('#tva').html(lisibilite_nombre(sumtva)+" {{$devise}}");
@@ -433,12 +434,12 @@ var tva_prod=ilisibilite_nombre(($(this).closest('td').prev().prev().html())*18)
 
         $("#remise_exc").change(function (e){
             remise_exc =$('#remise_exc').val();
-            $('#tot').html(lisibilite_nombre(Math.round(pageTotal))+" {{$devise}}");
-            $('#tot_serv').val(Math.round(pageTotal));
-            $('#tva').html(lisibilite_nombre(TTva)+" {{$devise}}");
-            $('#tva_serv').val(Math.round(TTva));
-            $('#ttc').html(lisibilite_nombre(Math.round(pageTotal)+Math.round(TTva) - remise_exc) +" {{$devise}}");
-            $('#ttc_serv').val(Math.round(pageTotal)+Math.round(TTva)-Math.round(remise_exc));
+            $('#tot').html(lisibilite_nombre(Math.round(pageTotal-remise_exc))+" {{$devise}}");
+            $('#tot_serv').val(Math.round(pageTotal-remise_exc));
+            $('#tva').html(lisibilite_nombre(Math.round(TTva-remise_exc*0.18))+" {{$devise}}");
+            $('#tva_serv').val(Math.round(TTva-remise_exc*0.18));
+            $('#ttc').html(lisibilite_nombre(Math.round(pageTotal)+Math.round(TTva-remise_exc*0.18) - remise_exc) +" {{$devise}}");
+            $('#ttc_serv').val(Math.round(pageTotal)+Math.round(TTva-remise_exc*0.18)-Math.round(remise_exc));
         });
 
     })(jQuery);

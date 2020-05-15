@@ -59,7 +59,7 @@ class BCController extends Controller
         $devis=DB::table('devis')
             ->join('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
             ->where('id_bc','=',$bc->id)
-            ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.devise','commentaire','hastva','referenceFournisseur')->get();
+            ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.devise','commentaire','hastva','referenceFournisseur','codeGestion')->get();
 
         $taille=sizeof($devis);
 

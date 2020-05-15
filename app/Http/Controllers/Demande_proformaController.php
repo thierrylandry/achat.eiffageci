@@ -13,6 +13,7 @@ namespace App\Http\Controllers;
 use App\DA;
 use App\Devis;
 use App\domaines;
+use App\Gestion;
 use App\Jobs\EnvoieMailFournisseurPerso;
 use App\Jobs\EnvoiMailFournisseur;
 use App\Jobs\EnvoiRappelFournisseur;
@@ -83,6 +84,7 @@ dd($list_da);
                 $devis->titre_ext=$tab["row_n_".$id."_titre_ext"];
                 $devis->id_materiel=$lesIdmat[$i];
                 $devis->id_fournisseur=$tab["row_n_".$id."_fournisseur"];
+                $devis->codeGestion=$tab["row_n_".$id."_codeGestion"];
                 $devis->quantite=$tab["row_n_".$id."_quantite"];
                 //ajout de la réference fournisseur
                 $devis->referenceFournisseur=$tab["row_n_".$id."_ref"];
@@ -145,6 +147,11 @@ return 1;
 
                     $devis->titre_ext=$tab["row_n_".$id."_titre_ext"];
                     $devis->id_fournisseur=$tab["row_n_".$id."_fournisseur"];
+                    if($tab["row_n_".$id."_codeGestion"]!=""){
+                        $devis->codeGestion=$tab["row_n_".$id."_codeGestion"];
+                    }
+
+
                     $devis->quantite=$tab["row_n_".$id."_quantite"];
                     $devis->referenceFournisseur=$tab["row_n_".$id."_ref"];
                    // $devis->id_da=$id;
@@ -595,6 +602,7 @@ foreach ($recup_email as $email):
 
     //reponse fournisseur iportant
     public function gestion_reponse_fournisseur(){
+        $gestions = Gestion::all();
         $fournisseurs=DB::table('fournisseur')
             ->join('domaines', 'domaines.id', '=', 'fournisseur.domaine')
             ->select('libelle','libelleDomainne','fournisseur.id','fournisseur.domaine')->distinct()->get();
@@ -618,7 +626,7 @@ foreach ($recup_email as $email):
         $domaines=  DB::table('domaines')->get();
         $devis = DB::table('devis')
             ->join('materiel', 'materiel.id', '=', 'devis.id_materiel')
-            ->select('libelleMateriel','devis.id','devis.id_da','titre_ext','type','devise', 'devis.unite', 'devis.quantite','id_fournisseur','prix_unitaire','remise','devis.codeRubrique','hastva','referenceFournisseur')
+            ->select('libelleMateriel','devis.id','devis.id_da','titre_ext','type','devise', 'devis.unite', 'devis.quantite','id_fournisseur','prix_unitaire','remise','devis.codeRubrique','hastva','referenceFournisseur','codeGestion')
 
         ->where('etat','=',1)->get();
 
@@ -637,7 +645,7 @@ foreach ($recup_email as $email):
                 $tab_unite['La surface'][]=$unite->libelle;
             }
         endforeach;
-        return view('reponse_fournisseur/gestion_reponse_fournisseur',compact('analytiques','das','fournisseurs','natures','users','domaines','devis','tab_proposition','tab_unite'));
+        return view('reponse_fournisseur/gestion_reponse_fournisseur',compact('analytiques','das','fournisseurs','natures','users','domaines','devis','tab_proposition','tab_unite','gestions'));
 
 
     }

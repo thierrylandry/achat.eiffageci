@@ -13,6 +13,7 @@ namespace App\Http\Controllers;
 use App\Boncommande;
 use App\DA;
 use App\Devis;
+use App\Gestion;
 use App\Materiel;
 use App\Fournisseur;
 use App\Nature;
@@ -44,8 +45,9 @@ class DAController
             ->leftJoin('devis','devis.id_da','=','lignebesoin.id')
             ->leftJoin('fournisseur','fournisseur.id','=','devis.id_fournisseur')
             ->leftJoin('boncommande','boncommande.id','=','lignebesoin.id_bonCommande')
+            ->leftJoin('gestion','gestion.id','=','lignebesoin.id_codeGestion')
             //->where('users.service','=',\Illuminate\Support\Facades\Auth::user()->service)->orderBy('lignebesoin.created_at', 'DESC')
-            ->select('lignebesoin.id','lignebesoin.unite','lignebesoin.quantite','DateBesoin','lignebesoin.id_user','id_nature','lignebesoin.id_materiel','lignebesoin.created_at','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','usage','lignebesoin.commentaire','dateConfirmation','date_livraison_eff','code_analytique','codeRubrique',DB::raw('fournisseur.libelle as libelle_fournisseur'),'numBonCommande','boncommande.date')->paginate(300);
+            ->select('lignebesoin.id','lignebesoin.unite','lignebesoin.quantite','DateBesoin','lignebesoin.id_user','id_nature','lignebesoin.id_materiel','lignebesoin.created_at','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','usage','lignebesoin.commentaire','dateConfirmation','date_livraison_eff','code_analytique','codeRubrique',DB::raw('fournisseur.libelle as libelle_fournisseur'),'numBonCommande','boncommande.date','gestion.codeGestion')->paginate(300);
         $natures= Nature::all();
           //  dd($das[0]->bondecommande);
         $service_users=DB::table('users')
@@ -211,9 +213,10 @@ class DAController
             ->leftJoin('materiel','materiel.id','=','lignebesoin.id_materiel')
             ->leftJoin('devis','devis.id_da','=','lignebesoin.id')
             ->leftJoin('fournisseur','fournisseur.id','=','devis.id_fournisseur')
+            ->leftJoin('gestion','gestion.id','=','lignebesoin.id_codeGestion')
 
             ->leftJoin('boncommande','boncommande.id','=','lignebesoin.id_bonCommande')
-            ->select('lignebesoin.id','lignebesoin.unite','lignebesoin.quantite','DateBesoin','lignebesoin.id_user','id_nature','lignebesoin.id_materiel','materiel.libelleMateriel','lignebesoin.created_at','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','usage','lignebesoin.commentaire','dateConfirmation','date_livraison_eff','code_analytique','codeRubrique',DB::raw('fournisseur.libelle as libelle_fournisseur'),'numBonCommande','boncommande.date','lignebesoin.created_at')
+            ->select('lignebesoin.id','lignebesoin.unite','lignebesoin.quantite','DateBesoin','lignebesoin.id_user','id_nature','lignebesoin.id_materiel','materiel.libelleMateriel','lignebesoin.created_at','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','usage','lignebesoin.commentaire','dateConfirmation','date_livraison_eff','code_analytique','codeRubrique',DB::raw('fournisseur.libelle as libelle_fournisseur'),'numBonCommande','boncommande.date','lignebesoin.created_at','gestion.codeGestion')
          //   ->WhereBetween('lignebesoin.created_at', [$debut, $fin])
             ->orWhere('lignebesoin.demandeur', 'LIKE', "%{$mot_cle}%")
             //  ->WhereBetween('lignebesoin.created_at', [$debutt, $finn])
@@ -221,6 +224,7 @@ class DAController
             ->orWhere('fournisseur.libelle', 'LIKE', "%{$mot_cle}%")
             ->orWhere('lignebesoin.demandeur', 'LIKE', "%{$mot_cle}%")
             ->orWhere('boncommande.numBonCommande', 'LIKE', "%{$mot_cle}%")
+            ->orWhere('codeGestion', 'LIKE', "%{$mot_cle}%")
             ->orWhere('boncommande.date', 'LIKE', "%{$mot_cle}%")
           ->get(100);
 
@@ -308,23 +312,8 @@ class DAController
     }
     public function encours_validation()
     {
-        $fournisseurs=Fournisseur::all();
-        $materiels=Materiel::all();
-                    $das=  DB::table('lignebesoin')
-                        ->Join('users','users.id','=','lignebesoin.id_user')
-                    //    ->where('users.service','=',\Illuminate\Support\Facades\Auth::user()->service)
-                        ->where('etat','=','1')
-                        ->select('lignebesoin.id','unite','quantite','DateBesoin','id_user','id_nature','id_materiel','lignebesoin.created_at','demandeur','lignebesoin.slug','etat','id_valideur','motif','usage','commentaire','dateConfirmation','date_livraison_eff')
-                        ->orderBy('created_at', 'DESC')->paginate(100);
-        $natures= Nature::all();
-          //  dd($das[0]->bondecommande);
-        $service_users=DB::table('users')
-            ->leftJoin('services', 'services.id', '=', 'users.service')
-            ->select('users.id','nom','prenoms','services.libelle','users.service')->get();
-        $domaines=  DB::table('domaines')->get();
+        $das = DA::where('etat','=',1)->paginate(100);
         $tracemails= DB::table('trace_mail')->get();
-
-
         /*debut du traçages*/
         $ip			= $_SERVER['REMOTE_ADDR'];
         if (isset($_SERVER['REMOTE_HOST'])){
@@ -336,13 +325,14 @@ class DAController
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; Lister les D.A en cours de validation.', ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
 
 
-        return view('DA/da_a_valider',compact('das','fournisseurs','materiels','natures','service_users','domaines','tracemails'));
+        return view('DA/da_a_valider',compact('das','tracemails'));
 
 
     }
     public function creer_da()
     {
         //ici
+        $gestions= Gestion::all();
         $fournisseurs=Fournisseur::all();
         $materiels=Materiel::all();
        // $das=  DA::where('id_user','=',\Illuminate\Support\Facades\Auth::user()->id)->orderBy('created_at', 'DESC')->paginate(50);
@@ -352,8 +342,9 @@ class DAController
                 ->leftJoin('devis','devis.id_da','=','lignebesoin.id')
                 ->leftJoin('fournisseur','fournisseur.id','=','devis.id_fournisseur')
                 ->leftJoin('boncommande','boncommande.id','=','lignebesoin.id_bonCommande')
+                ->leftJoin('gestion','gestion.id','=','lignebesoin.id_codeGestion')
                 ->where('users.service','=',\Illuminate\Support\Facades\Auth::user()->service)->orderBy('lignebesoin.created_at', 'DESC')
-            ->select('lignebesoin.id','lignebesoin.unite','lignebesoin.quantite','DateBesoin','lignebesoin.id_user','id_nature','lignebesoin.id_materiel','lignebesoin.created_at','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','usage','lignebesoin.commentaire','dateConfirmation','date_livraison_eff','code_analytique','codeRubrique',DB::raw('fournisseur.libelle as libelle_fournisseur'),'numBonCommande','boncommande.date')->paginate(30);
+            ->select('lignebesoin.id','lignebesoin.unite','lignebesoin.quantite','DateBesoin','lignebesoin.id_user','id_nature','lignebesoin.id_materiel','lignebesoin.created_at','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','usage','lignebesoin.commentaire','dateConfirmation','date_livraison_eff','code_analytique','codeRubrique',DB::raw('fournisseur.libelle as libelle_fournisseur'),'numBonCommande','boncommande.date','id_codeGestion','gestion.codeGestion')->paginate(30);
         $natures= Nature::all();
         $service_users=DB::table('users')
             ->leftJoin('services', 'services.id', '=', 'users.service')
@@ -385,7 +376,7 @@ class DAController
 
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; affichage de la fenetre de création de D.A.', ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
 
-        return view('DA/creer_da',compact('das','fournisseurs','materiels','natures','service_users','domaines','tab_unite','tracemails'));
+        return view('DA/creer_da',compact('das','fournisseurs','materiels','natures','service_users','domaines','tab_unite','tracemails','gestions'));
 
 
     }
@@ -401,7 +392,7 @@ class DAController
         $da->quantite = $parameters['quantite'];
         $da->DateBesoin = $parameters['DateBesoin'];
         $da->id_user = $parameters['id_user'];
-
+        $da->id_codeGestion = $parameters['id_codeGestion'];
         $da->id_nature = $parameters['id_nature'];
         $da->id_materiel = $parameters['id_materiel'];
         $da->commentaire = $parameters['commentaire'];
@@ -427,14 +418,16 @@ class DAController
     public function voir_da($slug)
     {
         //$das=  DA::where('id_user','=',\Illuminate\Support\Facades\Auth::user()->id)->orderBy('created_at', 'DESC')->paginate(50);
+        $gestions =Gestion::all();
         $das=  DB::table('lignebesoin')
             ->leftJoin('materiel','materiel.id','=','lignebesoin.id_materiel')
             ->leftJoin('devis','devis.id_da','=','lignebesoin.id')
             ->leftJoin('fournisseur','fournisseur.id','=','devis.id_fournisseur')
             ->leftJoin('boncommande','boncommande.id','=','lignebesoin.id_bonCommande')
+            ->leftJoin('gestion','gestion.id','=','lignebesoin.id_codeGestion')
             ->Join('users','users.id','=','lignebesoin.id_user')
             ->where('users.service','=',\Illuminate\Support\Facades\Auth::user()->service)->orderBy('lignebesoin.created_at', 'DESC')
-            ->select('lignebesoin.id','lignebesoin.unite','lignebesoin.quantite','DateBesoin','lignebesoin.id_user','id_nature','lignebesoin.id_materiel','lignebesoin.created_at','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','usage','lignebesoin.commentaire','dateConfirmation','date_livraison_eff','code_analytique','codeRubrique',DB::raw('fournisseur.libelle as libelle_fournisseur'),'numBonCommande','boncommande.date')->paginate(30);
+            ->select('lignebesoin.id','lignebesoin.unite','lignebesoin.quantite','DateBesoin','lignebesoin.id_user','id_nature','lignebesoin.id_materiel','lignebesoin.created_at','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','usage','lignebesoin.commentaire','dateConfirmation','date_livraison_eff','code_analytique','codeRubrique',DB::raw('fournisseur.libelle as libelle_fournisseur'),'numBonCommande','boncommande.date','id_codeGestion','gestion.codeGestion')->paginate(30);
 
         $da = DA::where('slug', '=', $slug)->first();
         $domaines=  DB::table('domaines')->get();
@@ -469,7 +462,7 @@ class DAController
         }
 
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; Consultation de la D.A '.$da->id, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
-        return view('DA/gestion_da',compact('das','fournisseurs','materiels','natures','da','service_users','domaines','tab_unite','tracemails'));
+        return view('DA/gestion_da',compact('das','fournisseurs','materiels','natures','da','service_users','domaines','tab_unite','tracemails','gestions'));
     }
     public function afficher_image($id)
     {
@@ -671,6 +664,7 @@ class DAController
 
 
         $da->unite = $parameters['unite'];
+        $da->id_codeGestion = $parameters['id_codeGestion'];
         $da->quantite = $parameters['quantite'];
         $da->DateBesoin = $parameters['DateBesoin'];
         $da->id_user = $parameters['id_user'];
