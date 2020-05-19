@@ -224,7 +224,7 @@ class DAController
             ->orWhere('fournisseur.libelle', 'LIKE', "%{$mot_cle}%")
             ->orWhere('lignebesoin.demandeur', 'LIKE', "%{$mot_cle}%")
             ->orWhere('boncommande.numBonCommande', 'LIKE', "%{$mot_cle}%")
-            ->orWhere('codeGestion', 'LIKE', "%{$mot_cle}%")
+            ->orWhere('gestion.codeGestion', 'LIKE', "%{$mot_cle}%")
             ->orWhere('boncommande.date', 'LIKE', "%{$mot_cle}%")
           ->get(100);
 
