@@ -344,7 +344,7 @@ class DAController
                 ->leftJoin('boncommande','boncommande.id','=','lignebesoin.id_bonCommande')
                 ->leftJoin('gestion','gestion.id','=','lignebesoin.id_codeGestion')
                 ->where('users.service','=',\Illuminate\Support\Facades\Auth::user()->service)->orderBy('lignebesoin.created_at', 'DESC')
-            ->select('lignebesoin.id','lignebesoin.unite','lignebesoin.quantite','DateBesoin','lignebesoin.id_user','id_nature','lignebesoin.id_materiel','lignebesoin.created_at','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','usage','lignebesoin.commentaire','dateConfirmation','date_livraison_eff','code_analytique','codeRubrique',DB::raw('fournisseur.libelle as libelle_fournisseur'),'numBonCommande','boncommande.date','id_codeGestion','gestion.codeGestion')->paginate(30);
+            ->select('lignebesoin.id','lignebesoin.unite','lignebesoin.quantite','DateBesoin','lignebesoin.id_user','id_nature','lignebesoin.id_materiel','lignebesoin.created_at','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','usage','lignebesoin.commentaire','dateConfirmation','date_livraison_eff','code_analytique','codeRubrique',DB::raw('fournisseur.libelle as libelle_fournisseur'),'numBonCommande','boncommande.date','lignebesoin.id_codeGestion','gestion.codeGestion')->paginate(30);
         $natures= Nature::all();
         $service_users=DB::table('users')
             ->leftJoin('services', 'services.id', '=', 'users.service')
@@ -401,6 +401,12 @@ class DAController
         $da->slug = Str::slug($parameters['id_materiel'] . $date->format('dmYhis'));
         $da->save();
 
+        $materiel = Materiel::find( $da->id_materiel);
+        if(isset($materiel) && $materiel->id_codeGestion==null){
+            $materiel->id_codeGestion=$da->id_codeGestion;
+            $materiel->save();
+        }
+
         /*debut du traçages*/
         $ip			= $_SERVER['REMOTE_ADDR'];
         if (isset($_SERVER['REMOTE_HOST'])){
@@ -427,7 +433,7 @@ class DAController
             ->leftJoin('gestion','gestion.id','=','lignebesoin.id_codeGestion')
             ->Join('users','users.id','=','lignebesoin.id_user')
             ->where('users.service','=',\Illuminate\Support\Facades\Auth::user()->service)->orderBy('lignebesoin.created_at', 'DESC')
-            ->select('lignebesoin.id','lignebesoin.unite','lignebesoin.quantite','DateBesoin','lignebesoin.id_user','id_nature','lignebesoin.id_materiel','lignebesoin.created_at','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','usage','lignebesoin.commentaire','dateConfirmation','date_livraison_eff','code_analytique','codeRubrique',DB::raw('fournisseur.libelle as libelle_fournisseur'),'numBonCommande','boncommande.date','id_codeGestion','gestion.codeGestion')->paginate(30);
+            ->select('lignebesoin.id','lignebesoin.unite','lignebesoin.quantite','DateBesoin','lignebesoin.id_user','id_nature','lignebesoin.id_materiel','lignebesoin.created_at','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','usage','lignebesoin.commentaire','dateConfirmation','date_livraison_eff','code_analytique','codeRubrique',DB::raw('fournisseur.libelle as libelle_fournisseur'),'numBonCommande','boncommande.date','lignebesoin.id_codeGestion','gestion.codeGestion')->paginate(30);
 
         $da = DA::where('slug', '=', $slug)->first();
         $domaines=  DB::table('domaines')->get();
@@ -470,6 +476,13 @@ class DAController
        $materiel=Materiel::where('id','=',$id)->first();
 
         return $materiel->image;
+    }
+    public function code_gestion_produit($id)
+    {
+
+       $materiel=Materiel::where('id','=',$id)->first();
+
+        return $materiel->id_codeGestion;
     }
 
     public function supprimer_da($slug)

@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 
 
 
+use App\Gestion;
 use App\Materiel;
 use Dompdf\Exception;
 use Illuminate\Http\Request;
@@ -25,7 +26,8 @@ class ProduitController
         $produits=  Materiel::all();
         $domaines=  DB::table('domaines')->get();
         $analytiques=  DB::table('analytique')->distinct()->get(['codeRubrique','libelle']);
-        return view('produits/gestion_produit',compact('produits','domaines','analytiques'));
+        $gestions=  Gestion::all();
+        return view('produits/gestion_produit',compact('produits','domaines','analytiques','gestions'));
     }
     public function Validproduits( Request $request)
     {
@@ -41,6 +43,7 @@ class ProduitController
         $produit->type = $parameters['type'];
         $produit->image = $imageName;
         $produit->code_analytique = $parameters['code_analytique'];
+        $produit->id_codeGestion = $parameters['id_codeGestion'];
         $produit->slug = Str::slug($parameters['libelleMateriel'] . $date->format('dmYhis'));
         $produit->save();
 
@@ -67,7 +70,8 @@ if(isset($_FILES['image']['name']) && $_FILES['image']['name']!="" ){
         $produits = Materiel::all();
         $produit = Materiel::where('slug', '=', $slug)->first();
         $analytiques=  DB::table('analytique')->distinct()->get(['codeRubrique','libelle']);
-      return  view('produits/gestion_produit',compact('produits','domaines','analytiques','produit'));
+        $gestions=  Gestion::all();
+      return  view('produits/gestion_produit',compact('produits','domaines','analytiques','produit','gestions'));
     }
     public function supprimer_produit($slug)
     {
@@ -120,6 +124,7 @@ if(isset($_FILES['image']['name']) && $_FILES['image']['name']!="" ){
         $produit->libelleMateriel = $parameters['libelleMateriel'];
         $produit->type = $parameters['type'];
         $produit->code_analytique = $parameters['code_analytique'];
+        $produit->id_codeGestion = $parameters['id_codeGestion'];
         $produit->slug = Str::slug($parameters['libelleMateriel'] . $date->format('dmYhis'));
         $image = $request->file('image');
 

@@ -85,6 +85,12 @@ dd($list_da);
                 $devis->id_materiel=$lesIdmat[$i];
                 $devis->id_fournisseur=$tab["row_n_".$id."_fournisseur"];
                 $devis->codeGestion=$tab["row_n_".$id."_codeGestion"];
+                $materiel = Materiel::find( $devis->id_materiel);
+                if(isset($materiel) && $materiel->id_codeGestion==null){
+                    $gestion =Gestion::where('codeGestion','=',$devis->codeGestion)->first();
+                    $materiel->id_codeGestion=$gestion->id;
+                    $materiel->save();
+                }
                 $devis->quantite=$tab["row_n_".$id."_quantite"];
                 //ajout de la réference fournisseur
                 $devis->referenceFournisseur=$tab["row_n_".$id."_ref"];

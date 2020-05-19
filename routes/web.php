@@ -273,6 +273,12 @@ Route::get('afficher_image/{id}',[
 
 
 ])->middleware('auth');
+Route::get('code_gestion_produit/{id}',[
+    'as'=>'code_gestion_produit',
+    'uses'=>'DAController@code_gestion_produit',
+
+
+])->middleware('auth');
 
 
 Route::get('/confirmer_da/{slug}',[
