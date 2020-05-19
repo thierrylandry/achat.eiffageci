@@ -391,7 +391,7 @@
 
 
 
-                if( confirm('Seule les devis avec le code de gestion, le fournisseur et le prix précisez seront soumis. Voulez vous soumettre le(s) devis?')){
+                if( confirm('Seule les devis avec le code de gestion, le fournisseur et le prix précisés seront soumis. Voulez vous soumettre le(s) devis?')){
                     var data = table1.rows().data();
                     var lesId;
                     var lesIdmat;
