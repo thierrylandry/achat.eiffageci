@@ -12,7 +12,7 @@ namespace App\Http\Controllers;
 
 use App\DA;
 use App\Devis;
-use App\domaines;
+use App\Domaines;
 use App\Gestion;
 use App\Jobs\EnvoieMailFournisseurPerso;
 use App\Jobs\EnvoiMailFournisseur;
