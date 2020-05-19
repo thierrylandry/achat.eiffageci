@@ -79,7 +79,7 @@ dd($list_da);
         parse_str($res,$tab);
         $i=0;
         foreach($lesId as $id){
-            if($id!=="undefined" && $tab["row_n_".$id."_titre_ext"]!="" && $tab["row_n_".$id."_fournisseur"]!="" && $tab["row_n_".$id."_prix_unitaire"]!=""){
+            if($id!=="undefined" && $tab["row_n_".$id."_titre_ext"]!="" && $tab["row_n_".$id."_fournisseur"]!="" && $tab["row_n_".$id."_prix_unitaire"]!="" && $tab["row_n_".$id."_codeGestion"]!="" ){
                 $devis = new Devis();
                 $devis->titre_ext=$tab["row_n_".$id."_titre_ext"];
                 $devis->id_materiel=$lesIdmat[$i];

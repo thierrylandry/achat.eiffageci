@@ -232,7 +232,7 @@
                                                     </div>
                                                 </td>
                                                 <td><div class="form-group">
-                                                        <select class="form-control selectpicker" id="row_n_{{$devi->id}}_codeGestion" name="row_n_{{$devi->id}}_codeGestion" data-live-search="true" data-size="6" >
+                                                        <select class="form-control selectpicker" id="row_n_{{$devi->id}}_codeGestion" name="row_n_{{$devi->id}}_codeGestion" data-live-search="true" data-size="6" required >
                                                             <option  value="">SELECTIONNER</option>
                                                             @foreach($gestions as $gestion)
 
@@ -389,7 +389,9 @@
 
             $('#soumettre').click( function() {
 
-                if( confirm('Voulez vous soumettre le(s) devis?')){
+
+
+                if( confirm('Seule les devis avec le code de gestion, le fournisseur et le prix précisez seront soumis. Voulez vous soumettre le(s) devis?')){
                     var data = table1.rows().data();
                     var lesId;
                     var lesIdmat;
