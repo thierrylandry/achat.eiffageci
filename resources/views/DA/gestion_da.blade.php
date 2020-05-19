@@ -391,12 +391,25 @@
                 if(this.value==""){
                     $('#image').attr('src',"../images/background2.jpg");
                 }
+                var route ="{{asset('')}}";
                 $.get("../afficher_image/" + this.value,
                         function (data) {
                             if(data!=""){
                                 $('#image').attr('src',"../uploads/"+data);
                             }else{
                                 $('#image').attr('src',"../images/background2.jpg");
+                            }
+
+                        }
+                );
+                $.get(route+"/code_gestion_produit/" + this.value,
+                        function (data) {
+                            if(data!=""){
+                                $('#id_codeGestion').val(data);
+                                $('#id_codeGestion').selectpicker('refresh');
+                            }else{
+                                $('#id_codeGestion').val('');
+                                $('#id_codeGestion').selectpicker('refresh');
                             }
 
                         }
