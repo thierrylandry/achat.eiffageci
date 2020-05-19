@@ -55,7 +55,7 @@
                                         <div class="form-group">
                                             <label for="type">Code gestion</label>
                                             <select class="form-control selectpicker" id="id_codeGestion" name="id_codeGestion" data-live-search="true" data-size="6" required>
-                                                <option  value="">SELECTIONNER UN CODE ANALYTIQUE</option>
+                                                <option  value="">SELECTIONNER UN CODE GESTION</option>
                                                 @foreach($gestions as $gestion)
                                                     <option @if(isset($produit->id_codeGestion) and $gestion->id==$produit->id_codeGestion)
                                                             {{'selected'}}
