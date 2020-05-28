@@ -616,7 +616,7 @@ foreach ($recup_email as $email):
         $das= DB::table('materiel')
             ->join('lignebesoin', 'materiel.id', '=', 'lignebesoin.id_materiel')
             ->where('etat', '=', 2)
-            ->select('libelleMateriel','lignebesoin.id', 'lignebesoin.unite', 'lignebesoin.quantite', 'DateBesoin','id_user', 'id_reponse_fournisseur','id_nature', 'lignebesoin.id_materiel', 'id_bonCommande','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','code_analytique','type')->distinct()->paginate(30);
+            ->select('libelleMateriel','lignebesoin.id', 'lignebesoin.unite', 'lignebesoin.quantite', 'DateBesoin','id_user', 'id_reponse_fournisseur','id_nature', 'lignebesoin.id_materiel', 'id_bonCommande','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','code_analytique','type','lignebesoin.id_codeGestion')->distinct()->paginate(30);
 
         $tab_proposition= Array();
         foreach ($das as $d):
