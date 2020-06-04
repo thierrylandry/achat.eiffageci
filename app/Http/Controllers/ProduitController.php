@@ -124,7 +124,7 @@ if(isset($_FILES['image']['name']) && $_FILES['image']['name']!="" ){
         $produit->libelleMateriel = $parameters['libelleMateriel'];
         $produit->type = $parameters['type'];
         $produit->code_analytique = $parameters['code_analytique'];
-        $produit->id_codeGestion = $parameters['id_codeGestion'];
+       // $produit->id_codeGestion = $parameters['id_codeGestion'];
         $produit->slug = Str::slug($parameters['libelleMateriel'] . $date->format('dmYhis'));
         $image = $request->file('image');
 
