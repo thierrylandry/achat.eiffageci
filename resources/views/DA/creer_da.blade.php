@@ -37,7 +37,7 @@
                                     <label for="libelle" class="control-label">Code gestion</label>
 
 
-                                    <select class="form-control selectpicker col-sm-4" id="id_codeGestion" name="id_codeGestion" data-live-search="true" data-size="6">
+                                    <select class="form-control selectpicker col-sm-4" id="id_codeGestion" name="id_codeGestion" data-live-search="true" data-size="6" required>
                                        <option value="">SELECTIONNER UN CODE GESTION</option>
                                         @foreach($gestions as $gestion)
                                             <option @if(isset($da) and $gestion->id==$da->id_codeGestion)
