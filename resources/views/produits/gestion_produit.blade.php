@@ -52,7 +52,7 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="form-group">
+                                    <!--    <div class="form-group">
                                             <label for="type">Code gestion</label>
                                             <select class="form-control selectpicker" id="id_codeGestion" name="id_codeGestion" data-live-search="true" data-size="6" required>
                                                 <option  value="">SELECTIONNER UN CODE GESTION</option>
@@ -62,7 +62,7 @@
                                                             @endif value="{{$gestion->id}}" data-subtext="{{$gestion->description}}">{{$gestion->codeGestion}}</option>
                                                 @endforeach
                                             </select>
-                                        </div>
+                                        </div>  -->
 
 
                                         <br>
