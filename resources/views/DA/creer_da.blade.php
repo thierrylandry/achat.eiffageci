@@ -385,7 +385,7 @@
 
                     }
             );
-            $.get(route+"/code_gestion_produit/" + this.value,
+        /*    $.get(route+"/code_gestion_produit/" + this.value,
                     function (data) {
                         if(data!=""){
                             $('#id_codeGestion').val(data);
@@ -396,7 +396,7 @@
                         }
 
                     }
-            );
+            );*/
         });
     </script>
     <script>
