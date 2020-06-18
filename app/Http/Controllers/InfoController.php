@@ -89,7 +89,7 @@ class InfoController extends Controller
         $das=  DA::where('etat','=',1)->get();
 
         $Nb=sizeof($das);;
-        $adresse_da="http://172.20.73.3/achat.eiffageci/lister_da";
+        $adresse_da="http://172.20.73.3/achat.eiffageci/encours_validation";
         if($Nb>0){
             $this->dispatch(new EnvoiNotificationUtilisateur($Nb,$email,1,$adresse_da) );
         }
