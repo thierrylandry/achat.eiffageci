@@ -85,12 +85,6 @@ dd($list_da);
                 $devis->id_materiel=$lesIdmat[$i];
                 $devis->id_fournisseur=$tab["row_n_".$id."_fournisseur"];
                 $devis->codeGestion=$tab["row_n_".$id."_codeGestion"];
-                $materiel = Materiel::find( $devis->id_materiel);
-                if(isset($materiel) && $materiel->id_codeGestion==null){
-                    $gestion =Gestion::where('codeGestion','=',$devis->codeGestion)->first();
-                    $materiel->id_codeGestion=$gestion->id;
-                    $materiel->save();
-                }
                 $devis->quantite=$tab["row_n_".$id."_quantite"];
                 //ajout de la réference fournisseur
                 $devis->referenceFournisseur=$tab["row_n_".$id."_ref"];
@@ -109,19 +103,18 @@ dd($list_da);
 
                 $devis->unite=$tab["row_n_".$id."_unite"];
 
-               if( $tab["row_n_".$id."_codeRubrique"]!=""){
-                   $devis->codeRubrique=$tab["row_n_".$id."_codeRubrique"];
-               }
-
                 $devis->prix_unitaire=$tab["row_n_".$id."_prix_unitaire"];
                 $devis->devise=$tab["row_n_".$id."_devise"];
                 $devis->etat=1;
 
-                $devis->save();
-                $lignebesoin= Lignebesoin::find($id);
 
+                $lignebesoin= Lignebesoin::find($id);
+                if(isset($lignebesoin->materiel->code_analytique)){
+                    $devis->codeRubrique=$lignebesoin->materiel->code_analytique;
+                }
                 $lignebesoin->etat=3;
                 $lignebesoin->save();
+                 $devis->save();
             }
             $i++;
         }
@@ -168,10 +161,6 @@ return 1;
                     }
                     //$devis->remise=$tab["row_n_".$id."_remise"];
                     $devis->unite=$tab["row_n_".$id."_unite"];
-
-                    if( $tab["row_n_".$id."_codeRubrique"]!=""){
-                        $devis->codeRubrique=$tab["row_n_".$id."_codeRubrique"];
-                    }
                     if(isset($tab["row_n_".$id."_remise"]) && $tab["row_n_".$id."_remise"]!=""){
                         $devis->remise=$tab["row_n_".$id."_remise"];
                     }else{

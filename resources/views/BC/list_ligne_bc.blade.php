@@ -150,7 +150,7 @@
         <th class="dt-head-center">slug</th>
         <th class="">Designation(Ref fournisseur)</th>
         <th class="">Commentaire</th>
-        <th class="">Code Analytique</th>
+        <th class="">Code gestion</th>
         <th class="" >QTE</th>
         <th class="">Unité</th>
         <th class="">Pu HT</th>
@@ -163,7 +163,6 @@
     </tr>
     </thead>
     <tbody name ="contenu_tableau_entite" id="contenu_tableau_entite">
-
     @if(isset($devis))
     @foreach($devis as $devi )
 
@@ -171,13 +170,13 @@
             <td>{{$devi->id}}</td>
             <td>{{$devi->titre_ext}} {{isset($devi->referenceFournisseur)?"(".$devi->referenceFournisseur.")":""}}</td>
             <td>{{$devi->commentaire}}</td>
-            <td><select class="form-control selectpicker" id="row_n_{{$devi->id}}_codeRubrique" name="row_n_{{$devi->id}}_codeRubrique" data-live-search="true" data-size="6" required>
+            <td><select class="form-control selectpicker" id="row_n_{{$devi->id}}_codeGestion" name="row_n_{{$devi->id}}_codeGestion" data-live-search="true" data-size="6" required>
                     <option  value="">SELECTIONNER</option>
-                    @foreach($analytiques as $analytique)
+                    @foreach($gestions as $gestion)
 
-                        <option @if(isset($devi) && $analytique->codeRubrique==$devi->codeRubrique)
+                        <option @if(isset($devi->codeGestion) && $gestion->codeGestion==$devi->codeGestion)
                                 {{'selected'}}
-                                @endif value="{{$analytique->codeRubrique}}" data-subtext="{{$analytique->libelle}}">{{$analytique->codeRubrique}}</option>
+                                @endif value="{{$gestion->codeGestion}}" data-subtext="{{$gestion->codeGestion}}">{{$gestion->codeGestion}}</option>
                     @endforeach
                 </select></td>
             <td>{{$devi->quantite}}</td>

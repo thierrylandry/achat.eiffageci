@@ -177,7 +177,7 @@
                     <th class="dt-head-center">Demandeur</th>
                     <th class="dt-head-center">Auteur</th>
                     <th class="dt-head-center">Service</th>
-                    <th class="dt-head-center">Code Analytique/<i style="color:#00AAFF" >Code spécifique</i></th>
+                    <th class="dt-head-center">Code Analytique</th>
                     <th class="dt-head-center">Code Gestion</th>
                     <th class="dt-head-center">Confirmer/infirmer</th>
                     <th class="dt-head-center">Consultation en cours</th>
@@ -264,7 +264,7 @@
                                     <b style=" font-size: 15px; color:black ">{{$service_user->libelle}}</b>
                                 @endif
                             @endforeach</td>
-                        <td>{{isset($da->code_analytique)?$da->code_analytique:''}}/<i style="color: #00AAFF">{{isset($da->codeRubrique)?$da->codeRubrique:''}}</i></td>
+                        <td>{{isset($da->code_analytique)?$da->code_analytique:''}}</td>
                         <td>{{isset($da->codeGestion)?$da->codeGestion:''}}</td>
                         <td>
                             @foreach($service_users as $service_user )

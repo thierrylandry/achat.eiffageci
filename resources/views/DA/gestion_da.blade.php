@@ -249,7 +249,7 @@
                                     <b style=" font-size: 15px; color:black ">{{$service_user->libelle}}</b>
                                 @endif
                             @endforeach</td>
-                        <td>{{isset($da->code_analytique)?$da->code_analytique:''}}/<i style="color: #00AAFF">{{isset($da->codeRubrique)?$da->codeRubrique:''}}</i></td>
+                        <td>{{isset($da->code_analytique)?$da->code_analytique:''}}</td>
                         <td>{{isset($da->codeGestion)?$da->codeGestion:''}}</td>
                         <td>
                             @foreach($service_users as $service_user )

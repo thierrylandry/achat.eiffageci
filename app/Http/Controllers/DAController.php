@@ -690,12 +690,6 @@ class DAController
         $da->slug = Str::slug($parameters['id_materiel'] . $date->format('Y-m-d h:m:s'));
         $da->save();
 
-        $materiel = Materiel::find( $da->id_materiel);
-        if(isset($materiel) && $materiel->id_codeGestion==null){
-            $materiel->id_codeGestion=$da->id_codeGestion;
-            $materiel->save();
-        }
-
         /*debut du traçages*/
         $ip			= $_SERVER['REMOTE_ADDR'];
         if (isset($_SERVER['REMOTE_HOST'])){

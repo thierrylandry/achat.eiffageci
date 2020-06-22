@@ -55,18 +55,7 @@
                                                 <td>{{$da->id}}</td>
                                                 <td>{{$da->id_materiel}}</td>
                                                 <td>{{$da->libelleMateriel}}</td>
-                                                <td><div class="form-group">
-                                                        <select class="form-control selectpicker" id="row_n_{{$da->id}}_codeRubrique" name="row_n_{{$da->id}}_codeRubrique" data-live-search="true" data-size="6" >
-                                                            <option  value="">SELECTIONNER</option>
-                                                            @foreach($analytiques as $analytique)
-
-                                                                <option @if(isset($da->code_analytique) && $analytique->codeRubrique==$da->code_analytique)
-                                                                        {{'selected'}}
-                                                                        @endif value="{{$analytique->codeRubrique}}" data-subtext="{{$analytique->libelle}}">{{$analytique->codeRubrique}}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </td>
+                                                <td>{{$da->code_analytique}}</td>
                                                 <td><div class="form-group">
                                                         <select class="form-control selectpicker" id="row_n_{{$da->id}}_codeGestion" name="row_n_{{$da->id}}_codeGestion" data-live-search="true" data-size="6" >
                                                             <option  value="">SELECTIONNER</option>

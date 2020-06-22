@@ -14,6 +14,7 @@ use App\Boncommande;
 use App\DA;
 use App\Devis;
 use App\Fournisseur;
+use App\Gestion;
 use App\Jobs\EnvoiBcFournisseur;
 use App\Jobs\EnvoiBcFournisseurPersonnalise;
 use App\ligne_bc;
@@ -575,7 +576,8 @@ $analytiques= Analytique::all();
 
 
                 $Devis->id_bc=$parameters['id_bc'];
-                $Devis->codeRubrique=$parameters['row_n_'.$id.'_codeRubrique'];
+                $Devis->codeGestion=$parameters['row_n_'.$id.'_codeGestion'];
+                $gestion =Gestion::where('codeGestion','=', $Devis->codeGestion)->first();
 
                 if(isset($parameters['row_n_'.$id.'_tva']) && $parameters['row_n_'.$id.'_tva']=='on' ){
                     $Devis->hastva=1;
@@ -589,6 +591,7 @@ $analytiques= Analytique::all();
                 $Devis->save();
                 $lignebesoin=Lignebesoin::find($Devis->id_da);
                 $lignebesoin->id_bonCommande=$parameters['id_bc'];
+                $lignebesoin->id_codeGestion=$gestion->id;
 
                 $lignebesoin->save();
             }
@@ -1012,7 +1015,7 @@ $analytiques= Analytique::all();
             ->leftJoin('users', 'lignebesoin.id_user', '=', 'users.id')
             ->where('devis.etat', '=', 2)
             ->where('devis.id_bc', '=', $id)
-            ->select('devis.id','devis.titre_ext','id_bc','devis.codeRubrique','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.devise','devis.hastva','DateBesoin','users.service','lignebesoin.commentaire','referenceFournisseur')->distinct()->get();
+            ->select('devis.id','devis.titre_ext','id_bc','devis.codeGestion','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.devise','devis.hastva','DateBesoin','users.service','lignebesoin.commentaire','referenceFournisseur')->distinct()->get();
 
 
 
@@ -1058,8 +1061,8 @@ if(isset($devis->first()->devise)){
 
 
         $listerbc='';
-        $analytiques= Analytique::all();
-        return view('BC/list_ligne_bc',compact('bc','fournisseur','utilisateurs','listerbc','devis','analytiques','devise','id_devi','date_propose','service_id','service_libelle','new_devis','services'));
+        $gestions= Gestion::all();
+        return view('BC/list_ligne_bc',compact('bc','fournisseur','utilisateurs','listerbc','devis','gestions','devise','id_devi','date_propose','service_id','service_libelle','new_devis','services'));
     }
     public function bc_express(){
         $analytiques =  Analytique::all();
