@@ -691,7 +691,7 @@ $analytiques= Analytique::all();
                 $devis=DB::table('devis')
                     ->join('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
                     ->where('id_bc','=',$Boncommande->id)
-                    ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.devise','commentaire','hastva','referenceFournisseur')->get();
+                    ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.codeGestion','devis.devise','commentaire','hastva','referenceFournisseur')->get();
 
 
                 $tothtax = 0;
@@ -709,7 +709,7 @@ $analytiques= Analytique::all();
                 ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
                 ->join('services', 'services.id', '=', 'boncommande.service_demandeur')
                 ->where('boncommande.id','=',$Boncommande->id)
-                ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','services.libelle as libelle_service','contact','commentaire_general','fournisseur.conditionPaiement','boncommande.id_fournisseur')->first();
+                ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','services.libelle as libelle_service','contact','commentaire_general','fournisseur.conditionPaiement','boncommande.id_fournisseur','boncommande.remise_excep')->first();
             $pdf = PDF::loadView('BC.bon-commande', compact('bc','devis','tothtax','taille','taille_minim','taille_maxim'));
                 $pdf = PDF::loadView('BC.bon-commande', compact('bc','devis','tothtax','taille','taille_minim','taille_maxim'));
 
