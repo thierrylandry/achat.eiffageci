@@ -418,7 +418,7 @@ class DAController
 
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; affichage de la fenetre de création de D.A.', ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
 
-        return view('DA/da_multiple',compact('das','fournisseurs','materiels','natures','service_users','domaines','tab_unite','tracemails','gestions'));
+        return view('DA/da_multiple',compact('fournisseurs','materiels','natures','service_users','domaines','tab_unite','tracemails','gestions'));
 
 
     }
