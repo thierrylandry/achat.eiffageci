@@ -255,6 +255,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <li @yield('encours_validation')><a href="{{route('encours_validation')}}">Lister les D.A. à valider</a></li>
                             @endif
                             <li  @yield('creer_da')><a href="{{route('creer_da')}}">Creer une  D.A.</a></li>
+                            <li  @yield('creer_da')><a href="{{route('da_multiple')}}">Creer plusieurs D.A.</a></li>
 
                         </ul>
                     </li>

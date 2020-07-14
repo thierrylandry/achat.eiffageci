@@ -380,6 +380,48 @@ class DAController
 
 
     }
+    public function da_multiple()
+    {
+        //ici
+        $gestions= Gestion::all();
+        $fournisseurs=Fournisseur::all();
+        $materiels=Materiel::all();
+       // $das=  DA::where('id_user','=',\Illuminate\Support\Facades\Auth::user()->id)->orderBy('created_at', 'DESC')->paginate(50);
+       $natures= Nature::all();
+        $service_users=DB::table('users')
+            ->leftJoin('services', 'services.id', '=', 'users.service')
+            ->select('users.id','nom','prenoms','services.libelle','users.service')->get();
+        $domaines=  DB::table('domaines')->get();
+        $unites=Unites::all();
+        foreach($unites as $unite):
+            if($unite->id==1 || $unite->id>=41 && $unite->id<50 ){
+                $tab_unite['nothing'][]=$unite->libelle;
+            }elseif($unite->id>1 && $unite->id<=10 ){
+                $tab_unite['La longueur'][]= $unite->libelle;
+            }elseif ($unite->id>10 && $unite->id<=20){
+                $tab_unite['La masse'][]=$unite->libelle;
+            }elseif ($unite->id>20 && $unite->id<=30){
+                $tab_unite['Le volume'][]=$unite->libelle;
+            }elseif ($unite->id>30 && $unite->id<=40){
+                $tab_unite['La surface'][]=$unite->libelle;
+            }
+        endforeach;
+        $tracemails= DB::table('trace_mail')->get();
+
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; affichage de la fenetre de création de D.A.', ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
+
+        return view('DA/da_multiple',compact('das','fournisseurs','materiels','natures','service_users','domaines','tab_unite','tracemails','gestions'));
+
+
+    }
     public function Validdas( Request $request)
     {
 
@@ -418,6 +460,41 @@ class DAController
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; création  de la  D.A slug:'.$da->slug.' .', ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
         return redirect()->route('creer_da')->with('success', "La demande d'approvisionnement a été ajoutée");
 
+
+
+    }
+    public function enregistrer_da_multiple(Request $request){
+
+        $parameters = $request->except(['_token']);
+        //dd($request->input("id_materiel"));
+        $date = new \DateTime(null);
+        for ($i=0;$i<sizeof($request->input("id_materiel"));$i++){
+           $da = new DA();
+
+            $da->id_materiel=$request->input("id_materiel")[$i];
+            $da->id_nature=$request->input("id_nature")[$i];
+            $da->DateBesoin =$request->input("DateBesoin")[$i];
+            $da->id_codeGestion=$request->input("id_codeGestion")[$i];
+            $da->id_codeGestion=$request->input("id_codeGestion")[$i];
+            $da->quantite=$request->input("quantite")[$i];
+            $da->demandeur=$request->input("demandeur")[$i];
+            $da->usage=$request->input("usage")[$i];
+            $da->unite=$request->input("unite")[$i];
+            $da->commentaire=$request->input("commentaire")[$i];
+            $da->id_user=$request->input("id_user")[$i];
+            $da->slug = Str::slug($request->input("id_materiel")[$i] . $date->format('dmYhis'));
+            $da->save();
+        }
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; création  de la  D.A multiple: .', ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
+        return redirect()->back()->with('success', "vos demandes d'approvisionnement ont été ajoutées");
 
 
     }

@@ -224,7 +224,20 @@ Route::get('/creer_da',[
     'roles' => ['Gestionnaire_DA']
 
 ])->middleware('auth');
+Route::get('/da_multiple',[
+    'as'=>'da_multiple',
+    'uses'=>'DAController@da_multiple',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_DA']
 
+])->middleware('auth');
+Route::post('/enregistrer_da_multiple',[
+    'as'=>'enregistrer_da_multiple',
+    'uses'=>'DAController@enregistrer_da_multiple',
+    'middleware' => 'roles',
+    'roles' => ['Valideur_DA','Gestionnaire_DA']
+
+])->middleware('auth');
 Route::get('/lister_da',[
     'as'=>'lister_da',
     'uses'=>'DAController@das',
