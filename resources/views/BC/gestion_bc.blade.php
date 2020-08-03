@@ -20,7 +20,7 @@
                 <div class="modal-body">
 <input type="hidden" name="slug"  value="{{isset($bc)? $bc->slug:''}}"/>
                     <div class="form-group">
-                        <b><label for="libelle" class="control-label col-sm-6">Fournisseur:</label></b>
+                        <b><label for="libelle" class="control-label col-sm-6">Projet:</label></b>
                         <div class="col-sm-6">
                             <select class="form-control selectpicker " id="id_projet" name="id_projet" data-live-search="true" data-size="6" required>
                                 <option value="" >SELECTIONNER UN PROJET</option>
