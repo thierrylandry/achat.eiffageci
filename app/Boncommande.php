@@ -9,7 +9,7 @@ class Boncommande extends Model
     //
     protected  $table="boncommande";
     //
-    protected $fillable= ['numBonCommande','id_user','service_demandeur','commentaire_general','created_at','date_livraison','remise_excep'];
+    protected $fillable= ['numBonCommande','id_user','service_demandeur','commentaire_general','created_at','date_livraison','remise_excep','id_projet'];
 
     public function fournisseur()
     {

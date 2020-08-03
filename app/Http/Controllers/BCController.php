@@ -20,6 +20,7 @@ use App\Jobs\EnvoiBcFournisseurPersonnalise;
 use App\ligne_bc;
 use App\Lignebesoin;
 use App\Materiel;
+use App\Projet;
 use App\Reponse_fournisseur;
 use App\Services;
 use App\Unites;
@@ -385,8 +386,9 @@ return $view;
             ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
         $users= User::all();
 
-$analytiques= Analytique::all();
-        return view('BC/gestion_bc',compact('bcs','bcs_en_attentes','fournisseurs','utilisateurs','analytiques','fournisseurss','users'));
+        $analytiques= Analytique::all();
+        $projets= Projet::all();
+        return view('BC/gestion_bc',compact('bcs','bcs_en_attentes','fournisseurs','utilisateurs','analytiques','fournisseurss','users','projets'));
     }
     public function validation_bc()
     {
@@ -1099,7 +1101,8 @@ if(isset($devis->first()->devise)){
             ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
         $ajouter='vrai';
         $analytiques= Analytique::all();
-        return view('BC/gestion_bc',compact('bcs','bcs_en_attentes','fournisseurs','utilisateurs','ajouter','analytiques','fournisseurss'));
+        $projets= Projet::all();
+        return view('BC/gestion_bc',compact('bcs','bcs_en_attentes','fournisseurs','utilisateurs','ajouter','analytiques','fournisseurss','projets'));
     }
     public function detail_rep_fournisseur($id){
 
@@ -1112,8 +1115,9 @@ if(isset($devis->first()->devise)){
         $parameters=$request->except(['_token']);
 
         $date= new \DateTime(null);
+        $projet= Projet::find($parameters['id_projet']);
         $Boncommande= new Boncommande();
-        $Boncommande->numBonCommande="PHB-815140-".$parameters['numbc'];
+        $Boncommande->numBonCommande=$projet->libelle."-".$parameters['numbc'];
        // $Boncommande->date=$parameters['date'];
         $Boncommande->id_fournisseur=$parameters['id_fournisseur'];
         $Boncommande->id_user=Auth::user()->id;

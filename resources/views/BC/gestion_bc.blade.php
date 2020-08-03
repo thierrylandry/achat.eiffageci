@@ -19,6 +19,23 @@
 @csrf
                 <div class="modal-body">
 <input type="hidden" name="slug"  value="{{isset($bc)? $bc->slug:''}}"/>
+                    <div class="form-group">
+                        <b><label for="libelle" class="control-label col-sm-6">Fournisseur:</label></b>
+                        <div class="col-sm-6">
+                            <select class="form-control selectpicker " id="id_projet" name="id_projet" data-live-search="true" data-size="6" required>
+                                <option value="" >SELECTIONNER UN PROJET</option>
+                                @foreach($projets as $projet)
+                                    @if(isset($bc) && $bc->id_projet==$projet->id)
+                                        {{$selec="selected"}}
+                                    @else
+                                        {{$selec=""}}
+                                    @endif
+
+                                    <option value="{{$projet->id}}" {{$selec}}>{{$projet->libelle}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                         <div class="form-group">
                             <label class="control-label col-sm-6" for="numbc">Bon de commande N°:</label>
                             <div class="col-sm-4">
