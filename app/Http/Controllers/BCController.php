@@ -1121,6 +1121,7 @@ if(isset($devis->first()->devise)){
        // $Boncommande->date=$parameters['date'];
         $Boncommande->id_fournisseur=$parameters['id_fournisseur'];
         $Boncommande->id_user=Auth::user()->id;
+        $Boncommande->id_projet=$projet->id;
 
         $Boncommande->slug=Str::slug($parameters['numbc'].$date->format('dmYhis'));
        // $Boncommande->save();
