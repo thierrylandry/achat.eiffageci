@@ -37,7 +37,7 @@
                         @foreach($gestions as $gestion)
                             <option @if(isset($da) and $gestion->id==$da->id_codeGestion)
                                     {{'selected'}}
-                                    @endif value="{{$gestion->id}}"  data-subtext="{{$gestion->description}}">{{$gestion->codeGestion}} </option>
+                                    @endif value="{{$gestion->id}}"  data-subtext="{{$gestion->description}}">{{$gestion->codeGestion}} {{$gestion->description}} </option>
                         @endforeach
                     </select>
                 </div>
@@ -143,7 +143,7 @@
                             @foreach($gestions as $gestion)
                                 <option @if(isset($da) and $gestion->id==$da->id_codeGestion)
                                         {{'selected'}}
-                                        @endif value="{{$gestion->id}}"  data-subtext="{{$gestion->description}}">{{$gestion->codeGestion}} </option>
+                                        @endif value="{{$gestion->id}}"  data-subtext="{{$gestion->description}}">{{$gestion->codeGestion}} {{$gestion->description}} </option>
                             @endforeach
                         </select>
                     </div>
