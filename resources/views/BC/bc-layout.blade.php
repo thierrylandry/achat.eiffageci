@@ -127,9 +127,7 @@
                     <tr>
                         <td width="30%"><b>Merci d'envoyer votre facture à</b></td>
                         <td width="70%"><b>EIFFAGE GENIE CIVIL COTE D'IVOIRE</b>
-                            <br/>3 éme étage Immeuble SIMO / FIDECA
-                            Bd Mamadou Konate - A coté de Foire de Chine
-                            01 BP 154 ABIDJAN 01
+                            <br/>Chantier du PONT FELIX HOUPHOUET BOIGNY - NON LOIN DU SIEGE DE BOLLORE - A TREICHVILLE AVENUE CHRISTIANI
                         </td>
                     </tr>
                     <tr>
