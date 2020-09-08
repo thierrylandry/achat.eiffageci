@@ -44,9 +44,9 @@
                     <td style=" text-align: center;border-bottom-color: white">{{$dev->codeGestion}}</td>
                     <td style=" text-align: center;border-bottom-color: white">{{$dev->quantite}}</td>
                     <td style="border-bottom-color: white">{{$dev->unite}}</td>
-                    <td style=" text-align: right;border-bottom-color: white">{{$dev->prix_unitaire}}</td>
+                    <td style=" text-align: right;border-bottom-color: white">{{number_format($dev->prix_unitaire, 0,".", " ")}}</td>
                     <td style=" text-align: center;border-bottom-color: white">{{$dev->remise}}</td>
-                    <td style=" text-align: right;border-bottom-color: white">{{$dev->prix_tot}}
+                    <td style=" text-align: right;border-bottom-color: white">{{number_format($dev->prix_tot, 0,".", " ")}}
                         <span style="display: none;border-bottom-color: white">{{ $tothtax +=  $dev->prix_tot }}</span>
                     </td>
                 </tr>
@@ -59,9 +59,9 @@
                         <td style=" text-align: center;border-bottom-color: white">{{$dev->codeGestion}}</td>
                         <td style=" text-align: center;">{{$dev->quantite}}</td>
                         <td style="">{{$dev->unite}}</td>
-                        <td style=" text-align: right;">{{$dev->prix_unitaire}}</td>
+                        <td style=" text-align: right;">{{number_format($dev->prix_unitaire, 0,".", " ")}}</td>
                         <td style=" text-align: center;">{{$dev->remise}}</td>
-                        <td style=" text-align: right;">{{$dev->prix_tot}}
+                        <td style=" text-align: right;">{{number_format($dev->prix_tot, 0,".", " ")}}
                             <span style="display: none;">{{ $tothtax +=  $dev->prix_tot }}</span>
                         </td>
                     </tr>
@@ -129,9 +129,9 @@
                 <td style=" text-align: center;border-bottom-color: white">{{$dev->codeGestion}}</td>
                 <td style=" text-align: center;border-bottom-color: white">{{$dev->quantite}}</td>
                 <td style="border-bottom-color: white">{{$dev->unite}}</td>
-                <td style=" text-align: right;border-bottom-color: white">{{$dev->prix_unitaire}}</td>
+                <td style=" text-align: right;border-bottom-color: white">{{number_format($dev->prix_unitaire, 0,".", " ")}}</td>
                 <td style=" text-align: center;border-bottom-color: white">{{$dev->remise}}</td>
-                <td style=" text-align: right;border-bottom-color: white">{{$dev->prix_tot}}
+                <td style=" text-align: right;border-bottom-color: white">{{number_format($dev->prix_tot, 0,".", " ")}}
                     <span style="display: none;border-bottom-color: white">{{ $tothtax +=  $dev->prix_tot }}</span>
                 </td>
             </tr>

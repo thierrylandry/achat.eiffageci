@@ -183,9 +183,9 @@
             <td>
                 {{$devi->unite}}
             </td>
-            <td style="text-align: right">  {{$devi->prix_unitaire}}</td>
+            <td style="text-align: right"> {{number_format($devi->prix_unitaire, 2,".", " ")}}</td>
             <td>  {{$devi->remise}}</td>
-            <td style="text-align: right">  {{($THT=($devi->prix_unitaire*$devi->quantite)-(($devi->remise/100*($devi->prix_unitaire*$devi->quantite))))}}</td>
+            <td style="text-align: right">  {{number_format($THT=($devi->prix_unitaire*$devi->quantite)-(($devi->remise/100*($devi->prix_unitaire*$devi->quantite))),2,"."," ")}}</td>
             <td> @if(1==$devi->hastva)
                     {{number_format(floatval(($THT*18)/100), 2,".", " ")}}
             @else
@@ -288,7 +288,7 @@ var id_bc= $("#id_bc").val();
 
             {
 
-                if(count!=0 && count % 3 == 0)
+                if(count!=0 && count % 3 == 0 && nombre[i+1]!='.')
 
                     retour = nombre[i]+' '+retour ;
 
@@ -386,12 +386,13 @@ var id_bc= $("#id_bc").val();
             var tva=0;
             var data = table.row($(this).parents('tr')).data();
             var num_row=$(this).parents('tr');
-var tva_prod=ilisibilite_nombre(($(this).closest('td').prev().prev().html())*18)/100;
+var tva_prod=ilisibilite_nombre(parseFloat(ilisibilite_nombre($(this).closest('td').prev().prev().html())).toFixed(2)*18)/100;
          var   remise_exc =$('#remise_exc').val();
             if($(this).prop('checked') ){
 
-                $(this).closest('td').prev().html(lisibilite_nombre(tva_prod));
-                data[9] = lisibilite_nombre(tva_prod);
+
+                $(this).closest('td').prev().html(lisibilite_nombre(tva_prod.toFixed(2)));
+                data[9] = tva_prod.toFixed(2);
                 data[10] = 1;
 
             }
