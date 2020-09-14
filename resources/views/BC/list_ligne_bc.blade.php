@@ -316,7 +316,8 @@ var id_bc= $("#id_bc").val();
             "paging": false,
             columnDefs: [
                 { responsivePriority: 5, targets: 0 },
-                { responsivePriority: 2, targets: -2 }
+                { responsivePriority: 2, targets: -2 },
+                { "type": "numeric-comma", targets: 6 }
             ]
         }).column(0).visible(false);
 

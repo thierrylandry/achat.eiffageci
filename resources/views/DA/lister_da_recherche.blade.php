@@ -312,7 +312,7 @@
                     {
                         extend: 'copyHtml5',
                         exportOptions: {
-                            columns: [ 1, 2, 5,6,7,8,9,10,11,12,13,14 ]
+                            columns: [ 0,1, 2, 5,6,7,8,9,10,11,12,13,14 ]
                         },
                         text:"Copier",
                         filename: "Liste des D.A "+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
@@ -323,7 +323,7 @@
                     {
                         extend: 'excelHtml5',
                         exportOptions: {
-                            columns: [ 1, 2, 5,6,7,8,9,10,11,12,13,14 ]
+                            columns: [ 0,1, 2, 5,6,7,8,9,10,11,12,13,14 ]
                         },
                         text:"Excel",
                         filename: "Liste des D.A "+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
@@ -335,7 +335,7 @@
                     {
                         extend: 'pdfHtml5',
                         exportOptions: {
-                            columns: [ 1, 2, 5,6,7,8,9,10,11,12,13,14 ]
+                            columns: [ 0,1, 2, 5,6,7,8,9,10,11,12,13,14 ]
                         },
                         text:"PDF",
                         filename: "Liste des D.A "+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
@@ -347,7 +347,7 @@
                     {
                         extend: 'print',
                         exportOptions: {
-                            columns: [ 1, 2, 5,6,7,8,9,10,11,12,13,14 ]
+                            columns: [ 0,1, 2, 5,6,7,8,9,10,11,12,13,14 ]
                         },
                         text:"Imprimer",
                         filename: "Liste des D.A"+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),

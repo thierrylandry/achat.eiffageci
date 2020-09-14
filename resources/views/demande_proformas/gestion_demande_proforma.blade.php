@@ -145,6 +145,7 @@
                             <th class="dt-head-center">Demandeur</th>
                             <th class="dt-head-center">Date de la demande</th>
                             <th class="dt-head-center">Confirmer ou Infirmer par ?</th>
+                            <th class="dt-head-center">Etat</th>
 
                         </tr>
                         </thead>
@@ -498,11 +499,15 @@ $('#daas').val(mavariable);
                                 var route='lister_reponse_fournisseur/'+value.slug;
                                 var route1='ajouter_reponse_fournisseur/'+value.slug;
 var nom="";
+                                var etat="";
                                 if(value.prenoms!=null){
                                     nom=value.nom+" "+value.prenoms;
                                 }else{
                                     nom=value.nom;
                                 }
+                                    if(value.etat==3){
+                                        etat="Un fournisseur déjà précisé dans reception de devis"
+                                    }
 
                                 $('#gestion_demande_proforma').DataTable().row.add([
                                     value.id,
@@ -512,7 +517,8 @@ var nom="";
                                     value.DateBesoin,
                                     value.demandeur,
                                     value.created_at ,
-                                    nom
+                                    nom,
+                                    etat
 
                                 ]);
 

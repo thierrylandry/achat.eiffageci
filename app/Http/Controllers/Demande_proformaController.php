@@ -523,8 +523,8 @@ foreach ($recup_email as $email):
             ->join('lignebesoin', 'materiel.id', '=', 'lignebesoin.id_materiel')
             ->join('nature', 'nature.id', '=', 'lignebesoin.id_nature')
             ->leftJoin('users', 'users.id', '=', 'lignebesoin.id_valideur')
-            ->where('lignebesoin.etat', '=', 2)
-            ->select('lignebesoin.id','lignebesoin.id_materiel','unite','DateBesoin','quantite','demandeur','users.nom','users.prenoms','libelleMateriel','libelleNature','lignebesoin.slug','lignebesoin.created_at')
+            ->whereIn('lignebesoin.etat', [2,3])
+            ->select('lignebesoin.id','lignebesoin.id_materiel','unite','DateBesoin','quantite','demandeur','users.nom','users.prenoms','libelleMateriel','libelleNature','lignebesoin.slug','lignebesoin.created_at','lignebesoin.etat')
             ->orderBy('lignebesoin.id', 'desc')
             ->distinct()->get();
         $variable="";
