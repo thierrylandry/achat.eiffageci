@@ -72,7 +72,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 </span>
             @endif
 
-            <span><input id="remember" type="checkbox" {{ old('remember') ? 'checked' : '' }} />Se souvenir de moi</span>
+            <span><input id="remember" name="remember" type="checkbox" {{ old('remember') ? 'checked' : '' }} />Se souvenir de moi</span>
             <h6>
                 <a class="btn btn-link" href="{{ route('password.request') }}">
                     {{ __('Mot de passe oublié?') }}
