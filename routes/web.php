@@ -134,6 +134,11 @@ Route::post('/modifier_produit}',[
 
 
 
+Route::get('/monprofile/{id}',[
+    'as'=>'monprofile',
+    'uses'=>'UtilisateurController@monprofile',
+
+])->middleware('auth');
 Route::get('/gestion_utilisateur',[
     'as'=>'gestion_utilisateur',
     'uses'=>'UtilisateurController@utilisateurs',
@@ -164,6 +169,11 @@ Route::get('/supprimer_utilisateur/{slug}',[
 Route::post('/modifier_utilisateur}',[
     'as'=>'modifier_utilisateur',
     'uses'=>'UtilisateurController@modifier_utilisateur'
+
+])->middleware('auth');
+Route::post('/modifier_profile}',[
+    'as'=>'modifier_profile',
+    'uses'=>'UtilisateurController@modifier_profile'
 
 ])->middleware('auth');
 

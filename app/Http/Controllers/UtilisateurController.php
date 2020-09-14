@@ -59,6 +59,14 @@ class UtilisateurController
         $services= Services::all();
         return view('utilisateurs/gestion_utilisateur',compact('utilisateurs','utilisateur','roles','services'));
     }
+
+    public function monprofile($slug)
+    {
+        $utilisateur = User::where('slug', '=', $slug)->first();
+        $roles=  Role::all();
+        $services= Services::all();
+        return view('utilisateurs/profile',compact('utilisateur','roles','services'));
+    }
     public function supprimer_utilisateur($slug)
     {
         $utilisateur = User::where('slug', '=', $slug)->first();
@@ -106,6 +114,39 @@ class UtilisateurController
         endforeach;
 
         return redirect()->route('gestion_utilisateur')->with('success',"L'utilisateur a été mis à jour");
+    }
+    public function modifier_profile( Request $request)
+    {
+        $parameters=$request->except(['_token']);
+
+
+
+        $utilisateur=  User::where('slug','=',$parameters['slug'])->first();
+
+        // Fournisseur::create($parameters);
+        $date= new \DateTime(null);
+
+
+        $utilisateur->nom = $parameters['nom'];
+        $utilisateur->prenoms = $parameters['prenoms'];
+        $utilisateur->abréviation = $parameters['abréviation'];
+        $utilisateur->function = $parameters['function'];
+        $utilisateur->contact =$parameters['contact'];
+
+        //Hash::needsRehash($parameters['password'])
+        //dd("ancien ".$utilisateur->password." nouveau :".$parameters['password']." Qaund on hash sa donne ceci".Hash::check($parameters['password'],$parameters['password']));
+          //  dd(Hash::needsRehash($parameters['password']));
+
+        if(Hash::needsRehash($parameters['password'])){
+
+            $utilisateur->password =Hash::make($parameters['password']);
+        }
+
+        $utilisateur->slug = Str::slug($parameters['email'] . $date->format('dmYhis'));
+        $utilisateur->save();
+
+
+        return redirect()->route('home')->with('success',"L'utilisateur a été mis à jour");
     }
     public function alljson(){
         $collections = [];
