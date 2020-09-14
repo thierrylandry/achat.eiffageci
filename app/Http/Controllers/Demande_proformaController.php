@@ -47,7 +47,7 @@ class Demande_proformaController extends Controller
         $types = DB::table('materiel')
             ->join('lignebesoin', 'materiel.id', '=', 'lignebesoin.id_materiel')
             ->join('domaines', 'domaines.id', '=', 'materiel.type')
-            ->where('etat', '=', 2)
+            ->whereIn('etat', '=', [2,3])
             ->select('domaines.libelleDomainne','domaines.id')->distinct()->get();
         $fournisseurs=Fournisseur::all();
         $materiels=Materiel::all();
