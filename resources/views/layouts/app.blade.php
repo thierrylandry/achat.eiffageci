@@ -49,6 +49,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script type="text/javascript" src="{{ URL::asset('js/dataTable.pdfmaker.js') }}"></script>
     <script type="text/javascript" src="{{ URL::asset('js/dataTables.editor.min.js') }}"></script>
     <script type="text/javascript" src="{{ URL::asset('js/dataTables.checkboxes.js') }}"></script>
+    <script type="text/javascript" src="{{ URL::asset('js/title-numerique.js') }}"></script>
     <script type="text/javascript" src="{{ URL::asset('js/vsf_font.js') }}"></script>
     <script type="text/javascript" src="{{ URL::asset('js/button.html5.min.js') }}"></script>
     <script type="text/javascript" src="{{ URL::asset('js/notification.js') }}"></script>

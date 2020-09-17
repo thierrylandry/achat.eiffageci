@@ -376,7 +376,9 @@ var id_bc= $("#id_bc").val();
             },
             responsive: true,
             columnDefs: [
-                { responsivePriority: 5, targets: 0 },
+                { type: 'formatted-num', targets: 6 },
+                { type: 'formatted-num', targets: 8 },
+                { type: 'formatted-num', targets: 9 },
                 { responsivePriority: 2, targets: -2 }
             ]
         }).column(0).visible(false).column(11).visible(false);
