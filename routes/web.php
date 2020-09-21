@@ -659,9 +659,23 @@ Route::get('/supprimer_def_devis/{id}',[
     'roles' => ['Gestionnaire_Pro_Forma']
 
 ])->middleware('auth');
+Route::post('/supprimer_def_devis_collectif',[
+    'as'=>'supprimer_def_devis_collectif',
+    'uses'=>'Demande_proformaController@supprimer_def_devis_collectif',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_Pro_Forma']
+
+])->middleware('auth');
 Route::get('/supprimer_def_devis2/{id}',[
     'as'=>'supprimer_def_devis2',
     'uses'=>'Demande_proformaController@supprimer_def_devis2',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_Pro_Forma']
+
+])->middleware('auth');
+Route::post('/supprimer_def_devis2_collectif',[
+    'as'=>'supprimer_def_devis2_collectif',
+    'uses'=>'Demande_proformaController@supprimer_def_devis2_collectif',
     'middleware' => 'roles',
     'roles' => ['Gestionnaire_Pro_Forma']
 

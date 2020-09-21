@@ -501,6 +501,37 @@ foreach ($recup_email as $email):
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Suppression du Devis et de la D.A N°'.$da->id, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
         return 'ok';
     }
+    public function supprimer_def_devis2_collectif(Request $request)
+    {
+        $parameters = $request->except(['_token']);
+        $lesid=$parameters['lesId'];
+        $tab_id = explode(",", $lesid);
+
+        foreach($tab_id as $id):
+
+            if($id!=""){
+        $devi= Devis::find($id);
+        if(!empty($devi)){
+            $da= Lignebesoin::find($devi->id_da);
+            $da->delete();
+            $devi->delete();
+        }
+
+
+
+
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Suppression du Devis et de la D.A N°'.$da->id, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
+            }
+        endforeach;
+                return 'ok';
+    }
     public function supprimer_def_devis($id)
     {
         $da= Lignebesoin::find($id);
@@ -515,6 +546,35 @@ foreach ($recup_email as $email):
         }
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Suppression  de la D.A N°'.$da->id, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
         return 'ok';
+    }
+    public function supprimer_def_devis_collectif(Request $request)
+    {
+
+             $parameters = $request->except(['_token']);
+        $lesid=$parameters['lesId'];
+        $tab_id = explode(",", $lesid);
+        foreach($tab_id as $id):
+
+            if($id!=""){
+
+
+
+        $da= Lignebesoin::find($id);
+        $da->delete();
+
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Suppression  de la D.A N°'.$da->id, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
+            }
+        endforeach;
+        return 'ok';
+
+
     }
     public function les_das_funct($domaine)
     {

@@ -31,6 +31,7 @@
 
                                         <tr>
                                             <th class="dt-head-center">N°D.A</th>
+                                            <th class="dt-head-center">N°D.A</th>
                                             <th class="dt-head-center">id_materiel</th>
                                             <th class="dt-head-center">nom produit</th>
                                             <th>Code Analytique</th>
@@ -53,12 +54,13 @@
                                         @foreach($das as $da )
                                             <tr>
                                                 <td>{{$da->id}}</td>
+                                                <td>{{$da->id}}</td>
                                                 <td>{{$da->id_materiel}}</td>
                                                 <td>{{$da->libelleMateriel}}</td>
                                                 <td>{{$da->code_analytique}}</td>
                                                 <td><div class="form-group">
-                                                        <select class="form-control selectpicker" id="row_n_{{$da->id}}_codeGestion" name="row_n_{{$da->id}}_codeGestion" data-live-search="true" data-size="6" >
-                                                            <option  value="">SELECTIONNER</option>
+                                                        <select style="width: 50px;" class="form-control selectpicker" id="row_n_{{$da->id}}_codeGestion" name="row_n_{{$da->id}}_codeGestion" data-live-search="true" data-size="6" >
+                                                            <option  value="">SELECT</option>
                                                             @foreach($gestions as $gestion)
 
                                                                 <option @if(isset($da->id_codeGestion) && $gestion->id==$da->id_codeGestion)
@@ -69,7 +71,7 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                            <input type="text" value="{{isset($tab_proposition[$da->id]->titre_ext)?$tab_proposition[$da->id]->titre_ext:$da->libelleMateriel}}" id="row_n_{{$da->id}}_titre_ext" name="row_n_{{$da->id}}_titre_ext"/>
+                                                            <input  type="text" value="{{isset($tab_proposition[$da->id]->titre_ext)?$tab_proposition[$da->id]->titre_ext:$da->libelleMateriel}}" id="row_n_{{$da->id}}_titre_ext" name="row_n_{{$da->id}}_titre_ext" />
                                                 </td>
                                                 <td>
                                                             <input type="text" class="col-sm-12" value="" id="row_n_{{$da->id}}_ref" name="row_n_{{$da->id}}_ref"/>
@@ -134,7 +136,7 @@
                                                             @endforeach</a>;
                                                     </label>
                                                 </td>
-                                                <td><input class="form-control" style="min-width: 150px;"  type="number" min="0" id="row_n_{{$da->id}}_prix_unitaire" name="row_n_{{$da->id}}_prix_unitaire" value="" />
+                                                <td><input class="form-control" style="min-width: 80px;"  type="number" min="0" id="row_n_{{$da->id}}_prix_unitaire" name="row_n_{{$da->id}}_prix_unitaire" value="" />
                                                     <label>PROPOSITION:
                                                             <a  onclick="document.getElementById('row_n_{{$da->id}}_prix_unitaire').value='{{isset($tab_proposition[$da->id])?$tab_proposition[$da->id]->prix_unitaire:''}}';$('#row_n_{{$da->id}}_prix_unitaire').selectpicker('refresh')">  {{isset($tab_proposition[$da->id])?$tab_proposition[$da->id]->prix_unitaire:''}}</a>;
                                                         </label>
@@ -144,7 +146,7 @@
                                                         <a  onclick="document.getElementById('row_n_{{$da->id}}_remise').value='{{isset($tab_proposition[$da->id])?$tab_proposition[$da->id]->remise:''}}';$('row_n_{{$da->id}}_remise').selectpicker('refresh')">  {{isset($tab_proposition[$da->id])?$tab_proposition[$da->id]->remise:''}}</a>;
                                                     </label>
                                                 </td>
-                                                <td><select class="form-control" style="width: 100px;" id="row_n_{{$da->id}}_devise" name="row_n_{{$da->id}}_devise"><option  @if( isset($tab_proposition[$da->id]) && "FCFA"==$tab_proposition[$da->id]->devise)
+                                                <td><select class="form-control" style="width: 80px;" id="row_n_{{$da->id}}_devise" name="row_n_{{$da->id}}_devise"><option  @if( isset($tab_proposition[$da->id]) && "FCFA"==$tab_proposition[$da->id]->devise)
                                                                                                                                                                               {{'selected'}}
                                                                                                                                                                               @endif value="FCFA">FCFA</option><option @if( isset($tab_proposition[$da->id]) && "EURO"==$tab_proposition[$da->id]->devise) {{'selected'}}@endif value="EURO">EURO</option></select></td>
                                                 <td><input type="checkbox" value="1" id="row_n_{{$da->id}}_tva" name="row_n_{{$da->id}}_tva" checked/>   </td>
@@ -158,6 +160,7 @@
                                     </table>
 
                                     <input type="button" class="btn btn-success pull-right" id="soumettre" name="soumettre" value="Soumettre" />
+                                    <input type="button" class="btn btn-danger pull-left" id="supprimer" name="supprimer" value="Suppression mutiple" />
 
                                 </div>
                             </form></div>
@@ -182,6 +185,7 @@
 
                                         <tr>
                                             <th class="dt-head-center">id</th>
+                                            <th class="dt-head-center">id</th>
                                             <th class="dt-head-center">id_materiel</th>
                                             <th class="dt-head-center">N°D.A</th>
                                             <th>Code Analytique</th>
@@ -205,6 +209,7 @@
 
 
                                             <tr>
+                                                <td>{{$devi->id}}</td>
                                                 <td>{{$devi->id}}</td>
                                                 <td>{{ $devi->libelleMateriel}}</td>
                                                 <td>{{$devi->id_da}}</td>
@@ -308,6 +313,7 @@
                                     </table>
 
                                     <input type="button" class="btn btn-success pull-right" id="soumettre1" name="soumettre1" value="Modifier" />
+                                    <input type="button" class="btn btn-danger pull-left" id="supprimer1" name="supprimer" value="Suppression mutiple" />
 
                                 </div>
                             </form>
@@ -328,7 +334,7 @@
                 var data = table1.row($(this).parents('tr')).data();
               //  var id_bc= $("#id_bc").val();
                 if(confirm("Voulez vous supprimer définitivement cette ligne?")){
-                    $.get("supprimer_def_devis/"+data[0], function(data, status){
+                    $.get("supprimer_def_devis/"+data[1], function(data, status){
                         console.log(data);
                         window.location.reload()
                     });
@@ -341,7 +347,7 @@
                 //  var id_bc= $("#id_bc").val();
                 console.log(data);
                 if(confirm("Voulez vous supprimer définitivement cette ligne?")){
-                    $.get("supprimer_def_devis2/"+data[0], function(data, status){
+                    $.get("supprimer_def_devis2/"+data[1], function(data, status){
                         console.log(data);
                         window.location.reload()
                     });
@@ -352,14 +358,30 @@
 
             //debut
             var table1 = $('#gestion_reponse_fournisseur').DataTable({
+                "columnDefs": [
+                    {
+                        'targets': 0,
+                        'checkboxes': {
+                            'selectRow': true
+                        }
+                    }
+                ],
                 language: {
                     url: "public/js/French.json"
                 },
                 "ordering":true,
                 "paging": false,
                 responsive: false,
-            }).column(1).visible(false);
+            }).column(2).visible(false);
             var table2 = $('#gestion_reponse_fournisseur1').DataTable({
+                "columnDefs": [
+                    {
+                        'targets': 0,
+                        'checkboxes': {
+                            'selectRow': true
+                        }
+                    }
+                ],
                 language: {
                     url: "public/js/French.json"
                 },
@@ -367,7 +389,7 @@
                 "paging": false,
                 responsive: false,
 
-            }).column(0).visible(false).column(1).visible(false);
+            }).column(1).visible(false).column(2).visible(false);
 
             $('#gestion_reponse_fournisseur').on( 'click', 'tr', function () {
 
@@ -390,8 +412,8 @@
                         var valeur=value+'';
                         var  text=valeur.split(",");
                         if(typeof(valeur)!=="undefined"){
-                            lesId=lesId+','+text[0];
-                            lesIdmat=lesIdmat+','+text[1];
+                            lesId=lesId+','+text[1];
+                            lesIdmat=lesIdmat+','+text[2];
                         }
 
 
@@ -407,6 +429,65 @@
                             function (data) {
                                 console.log(data);
                                 if(data==1){
+                                    location.reload();
+                                }
+                            }
+                    );
+                    return false;
+                }
+
+            } );
+
+            $('#supprimer').click( function() {
+
+
+
+                if( confirm(' Voulez vous supprimer le(s) devis?')){
+                    var rows_selected = table1.column(0).checkboxes.selected();
+                    console.log(rows_selected);
+                    var lesId="";
+                    $.each(rows_selected, function(index, rowId){
+                        // Create a hidden element
+                        lesId=lesId+','+rowId;
+
+                    });
+
+                       console.log(lesId);
+                    //enregistrer_devis/"+res+"/"+lesId+"/"+lesIdmat
+                    var csrf_token = $('meta[name="csrf-token"]').attr('content');
+                    $.post("supprimer_def_devis_collectif",{lesId:lesId,_token: "{{ csrf_token() }}"},
+                            function (data) {
+                                console.log(data);
+                                if(data=="ok"){
+                                    location.reload();
+                                }
+                            }
+                    );
+                    return false;
+                }
+
+            } );
+            $('#supprimer1').click( function() {
+
+
+
+                if( confirm(' Voulez vous supprimer le(s) devis?')){
+                    var rows_selected = table2.column(0).checkboxes.selected();
+                    console.log(rows_selected);
+                    var lesId="";
+                    $.each(rows_selected, function(index, rowId){
+                        // Create a hidden element
+                        lesId=lesId+','+rowId;
+
+                    });
+
+                    console.log(lesId);
+                    //enregistrer_devis/"+res+"/"+lesId+"/"+lesIdmat
+                    var csrf_token = $('meta[name="csrf-token"]').attr('content');
+                    $.post("supprimer_def_devis2_collectif",{lesId:lesId,_token: "{{ csrf_token() }}"},
+                            function (data) {
+                                console.log(data);
+                                if(data=="ok"){
                                     location.reload();
                                 }
                             }
