@@ -303,7 +303,12 @@ Route::get('code_gestion_produit/{id}',[
 
 ])->middleware('auth');
 
+Route::post('/changer_code_gestion',[
+    'as'=>'changer_code_gestion',
+    'uses'=>'DAController@changer_code_gestion',
+    'middleware' => 'roles',
 
+])->middleware('auth');
 Route::get('/confirmer_da/{slug}',[
     'as'=>'confirmer_da',
     'uses'=>'DAController@confirmer_da',
@@ -610,6 +615,7 @@ Route::post('/save_ligne_bc',[
     'roles' => ['Gestionnaire_BC']
 
 ])->middleware('auth');
+
 Route::get('/detail_rep_fournisseur/{slug}',[
     'as'=>'detail_rep_fournisseur',
     'uses'=>'BCController@detail_rep_fournisseur',

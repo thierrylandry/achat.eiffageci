@@ -258,7 +258,7 @@ class DAController
             ])
 */
      /*   $das=  DB::select("select `lignebesoin`.`id`, `lignebesoin`.`unite`, `lignebesoin`.`quantite`, `DateBesoin`, `lignebesoin`.`id_user`, `id_nature`, `lignebesoin`.`id_materiel`, `materiel`.`libelleMateriel`, `lignebesoin`.`created_at`, `demandeur`, `lignebesoin`.`slug`, `lignebesoin`.`etat`, `id_valideur`, `motif`, `usage`, `lignebesoin`.`commentaire`, `dateConfirmation`, `date_livraison_eff`, `code_analytique`, `codeRubrique`, fournisseur.libelle as libelle_fournisseur, `numBonCommande`, `boncommande`.`date`, `lignebesoin`.`created_at`
-                           from `lignebesoin` inner join `users` on `users`.`id` = `lignebesoin`.`id_user` left join `materiel` on `materiel`.`id` = `lignebesoin`.`id_materiel` left join `devis` on `devis`.`id_da` = `lignebesoin`.`id` left join `fournisseur` on `fournisseur`.`id` = `devis`.`id_fournisseur` left join `boncommande` on `boncommande`.`id` = `lignebesoin`.`id_bonCommande` 
+                           from `lignebesoin` inner join `users` on `users`.`id` = `lignebesoin`.`id_user` left join `materiel` on `materiel`.`id` = `lignebesoin`.`id_materiel` left join `devis` on `devis`.`id_da` = `lignebesoin`.`id` left join `fournisseur` on `fournisseur`.`id` = `devis`.`id_fournisseur` left join `boncommande` on `boncommande`.`id` = `lignebesoin`.`id_bonCommande`
                            where `lignebesoin`.`created_at` between ? and ? and (`lignebesoin`.`demandeur` LIKE ? or `materiel`.`libelleMateriel` LIKE ? or `fournisseur`.`libelle` LIKE ?  or `boncommande`.`numBonCommande` LIKE ? or `boncommande`.`date` LIKE ? or `lignebesoin`.`usage` LIKE ?)",[$debutt,$finn,'%'.$mot_cle.'%','%'.$mot_cle.'%','%'.$mot_cle.'%','%'.$mot_cle.'%','%'.$mot_cle.'%','%'.$mot_cle.'%',]);
        */
          // dd($das);
@@ -313,6 +313,7 @@ class DAController
     public function encours_validation()
     {
         $das = DA::where('etat','=',1)->paginate(100);
+        $gestions= Gestion::all();
         $tracemails= DB::table('trace_mail')->get();
         /*debut du traçages*/
         $ip			= $_SERVER['REMOTE_ADDR'];
@@ -325,7 +326,7 @@ class DAController
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; Lister les D.A en cours de validation.', ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
 
 
-        return view('DA/da_a_valider',compact('das','tracemails'));
+        return view('DA/da_a_valider',compact('das','tracemails','gestions'));
 
 
     }
@@ -459,6 +460,38 @@ class DAController
 
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; création  de la  D.A slug:'.$da->slug.' .', ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
         return redirect()->route('creer_da')->with('success', "La demande d'approvisionnement a été ajoutée");
+
+
+
+    }
+    public function changer_code_gestion( Request $request)
+    {
+
+        $parameters = $request->except(['_token']);
+
+        // Fournisseur::create($parameters);
+        $date = new \DateTime(null);
+        $id=$parameters['id'];
+        $da =  DA::find($id);
+        $da->id_codeGestion = $parameters['id_codeGestion'];
+        $da->save();
+
+        $materiel = Materiel::find( $da->id_materiel);
+        if(isset($materiel) && $materiel->id_codeGestion==null){
+            $materiel->id_codeGestion=$da->id_codeGestion;
+            $materiel->save();
+        }
+
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; Modification du code de gestion:'.$da->slug.' .', ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
+        return redirect()->back()->with('success', "La modification du code de gestion de la D.A n°".$da->id." a été faite");
 
 
 

@@ -44,6 +44,46 @@
         </div>
     </div>
 
+    <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">MODIFIER LE CODE DE GESTION</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{route('changer_code_gestion')}}" method="post">
+                    @csrf
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="id_pour_cg" name="id" >
+                        </div>
+                        <div class="form-group">
+                            <label for="libelle" class="control-label">Code gestion</label>
+
+
+                            <select class="form-control selectpicker col-sm-4" id="id_codeGestion" name="id_codeGestion" data-live-search="true" data-size="6" required>
+                                <option value="">SELECTIONNER UN CODE GESTION</option>
+                                @foreach($gestions as $gestion)
+                                    <option @if(isset($da) and $gestion->id==$da->id_codeGestion)
+                                            {{'selected'}}
+                                            @endif value="{{$gestion->id}}" data-subtext="{{$gestion->description}}">{{$gestion->codeGestion}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-info">Modifier</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <h2>LES DEMANDES D'ACHATS - EN COURS DE VALIDATION <a href="{{route('creer_da')}}" class="btn btn-default  pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i> Ajouter</a></h2>
     </br>
 
@@ -138,6 +178,9 @@
                                 </a>
                                 <a href="" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" id="btnconfirmerda2" data-toggle="modal" class="btn btn-danger btn_refuser">
                                     <i class=" fa fa-check-circle" style="size: 40px"> Refuser ?</i>
+                                </a>
+                                <a href="" data-toggle="modal" data-target="#exampleModal1" data-whatever="@mdo"   data-toggle="modal" class="btn btn-info btnupdate_cg">
+                                    <i class="fa fa-info-circle" style="size: 40px"> Code de gestion</i>
                                 </a>
                                 <div class="btn-group " >
                                     <button type="button" class="btn btn-default btn-flat ">Autres</button>
@@ -372,6 +415,26 @@
 
                 var data = table.row($(this).closest('tr')).data();
                 $('#id').val(data[Object.keys(data)[0]]);
+                console.log(data[Object.keys(data)[0]]);
+
+
+            });
+            $("body").on("click",".btnupdate_cg",function(){
+                //   var selec= this;
+
+
+                if ( $(this).parent().parent().parent().hasClass('selected') ) {
+                    $(this).parent().parent().removeClass('selected');
+                }
+                else {
+                    table.$('tr.selected').removeClass('selected');
+                    $(this).parent().parent().addClass('selected');
+                }
+
+                var data = table.row($(this).closest('tr')).data();
+                $('#id_pour_cg').val(data[Object.keys(data)[0]]);
+                $('#id_codeGestion').val("");
+                $('#id_codeGestion').selectpicker('refresh');
                 console.log(data[Object.keys(data)[0]]);
 
 
