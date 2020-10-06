@@ -216,7 +216,7 @@ class DAController
             ->leftJoin('gestion','gestion.id','=','lignebesoin.id_codeGestion')
 
             ->leftJoin('boncommande','boncommande.id','=','lignebesoin.id_bonCommande')
-            ->select('lignebesoin.id','lignebesoin.unite','lignebesoin.quantite','DateBesoin','lignebesoin.id_user','id_nature','lignebesoin.id_materiel','materiel.libelleMateriel','lignebesoin.created_at','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','usage','lignebesoin.commentaire','dateConfirmation','date_livraison_eff','code_analytique','codeRubrique',DB::raw('fournisseur.libelle as libelle_fournisseur'),'numBonCommande','boncommande.date','lignebesoin.created_at','gestion.codeGestion')
+            ->select('lignebesoin.id','lignebesoin.unite','lignebesoin.quantite','DateBesoin','lignebesoin.id_user','id_nature','lignebesoin.id_materiel','materiel.libelleMateriel','lignebesoin.created_at','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','usage','lignebesoin.commentaire','dateConfirmation','date_livraison_eff','code_analytique','codeRubrique',DB::raw('fournisseur.libelle as libelle_fournisseur'),'numBonCommande','boncommande.date','lignebesoin.created_at','gestion.codeGestion','devis.prix_unitaire')
          //   ->WhereBetween('lignebesoin.created_at', [$debut, $fin])
             ->orWhere('lignebesoin.demandeur', 'LIKE', "%{$mot_cle}%")
             //  ->WhereBetween('lignebesoin.created_at', [$debutt, $finn])

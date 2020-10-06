@@ -95,6 +95,7 @@
                     <th class="dt-head-center">Nature</th>
                     <th class="dt-head-center">Matériel et consultation</th>
                     <th class="dt-head-center">Quantité</th>
+                    <th class="dt-head-center">Pu HT</th>
                     <th class="dt-head-center">Pour le ?</th>
                     <th class="dt-head-center">Usage</th>
                     <th class="dt-head-center">Demandeur</th>
@@ -170,6 +171,7 @@
                                 @endif
                             @endforeach</td>
                         <td>{{$da->quantite}} {{$da->unite}}</td>
+                        <td>{{$da->prix_unitaire}}</td>
                         <td>{{\Carbon\Carbon::parse($da->DateBesoin)->format('d-m-Y')}}</td>
                         <td>
                             {{$da->usage}}
@@ -312,7 +314,7 @@
                     {
                         extend: 'copyHtml5',
                         exportOptions: {
-                            columns: [ 0,1, 2, 5,6,7,8,9,10,11,12,13,14,15,16,17,18,19 ]
+                            columns: [ 0,1, 2, 5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20 ]
                         },
                         text:"Copier",
                         filename: "Liste des D.A "+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
@@ -323,7 +325,7 @@
                     {
                         extend: 'excelHtml5',
                         exportOptions: {
-                            columns: [ 0,1, 2, 5,6,7,8,9,10,11,12,13,14,15,16,17,18,19 ]
+                            columns: [ 0,1, 2, 5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20 ]
                         },
                         text:"Excel",
                         filename: "Liste des D.A "+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
@@ -335,7 +337,7 @@
                     {
                         extend: 'pdfHtml5',
                         exportOptions: {
-                            columns: [ 0,1, 2, 5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]
+                            columns: [ 0,1, 2, 5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
                         },
                         text:"PDF",
                         filename: "Liste des D.A "+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
@@ -347,7 +349,7 @@
                     {
                         extend: 'print',
                         exportOptions: {
-                            columns: [ 0,1, 2, 5,6,7,8,9,10,11,12,13,14,15,16,17,18,19 ]
+                            columns: [ 0,1, 2, 5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20 ]
                         },
                         text:"Imprimer",
                         filename: "Liste des D.A"+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
