@@ -49,7 +49,7 @@
     <div class="row">
 
 
-        <form role="form" id="FormRegister" class="" method="post" action="{{route('recherche_da')}}" onsubmit="return confirm('Voulez vous Rechercher?');">
+        <form role="form" id="FormRegister" class="" method="post" action="{{route('recherche_da')}}">
 
             <div class="col-sm-4 col-sm-offset-1">
 
