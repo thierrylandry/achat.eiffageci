@@ -79,7 +79,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 </a>
             </h6>
             <div class="clearfix"></div>
-            <input type="submit" value="{{ __('Connexion') }}" name="login">
+            <input type="submit" id="login" value="{{ __('Connexion') }}" name="login">
         </form>
         <p>Vous n'avez pas de compte ?<a href="{{ route('register') }}">Créez-en un</a></p>
     </div>
@@ -91,5 +91,38 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <script src="js/jquery.nicescroll.js"></script>
 <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot-chart/excanvas.min.js"></script><![endif]-->
 <script src="js/jquery.scrollTo.js"></script>
+<script>
+    var data = [
+        {
+            key : "login",
+            message: "On clique ici pour se connecter"
+        },
+    ];
+    let tlCpt = 0;
+    function showToolTips(arg){
+        let currentElement = $("#"+arg[tlCpt].key)[0];
+        let coordX = currentElement.offsetTop+'px' ;
+        let coordY = currentElement.offsetLeft+'px';
+        let largeur = currentElement.offsetWidth+'px';
+        let hauteur = currentElement.offsetHeight+'px';
+        console.log(currentElement);
+        console.log('Coordonnée ',coordX,coordY,largeur,hauteur);
+
+        let shadow = $('<div id="tl-shadow" style="position: absolute;width: 100%;height: 100%;background-color: rgba(0,0,0,0.5); z-index: 9999;top:0;left:0;"></div>');
+
+        let box = $('<div id="tl-box" style="position: absolute; top:'+coordX+'; left:'+coordY+';  width:'+largeur+';  height:'+hauteur+'; "></div>');
+
+        let tooltip = $('<div style="position: relative; top: -100px;padding: 2px;border: solid #000000 1px; border-radius: 2px; background: #ffffff"> '+arg[tlCpt].message+'</div>');
+
+
+        box.append(tooltip);
+
+        shadow.html(box);
+        if(!$('#tl-shadow')){
+            $('body').append(shadow);
+        }
+    }
+  //  showToolTips(data);
+</script>
 </body>
 </html>

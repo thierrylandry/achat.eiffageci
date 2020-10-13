@@ -60,6 +60,23 @@
                             </select>
                             </div>
                         </div>
+                    <div class="form-group">
+                            <b><label for="libelle" class="control-label col-sm-6">Expéditeur:</label></b>
+                            <div class="col-sm-6">
+                            <select class="form-control selectpicker " id="id_expediteur" name="id_expediteur" data-live-search="true" data-size="6" required>
+                                <option value="" >SELECTIONNER L'EXPEDITEUR</option>
+                                @foreach($expediteurs as $expediteur)
+                                    @if( Auth::user()->id==$expediteur->id)
+                                       {{$selec="selected"}}
+                                    @else
+                                        {{$selec=""}}
+                                    @endif
+
+                                    <option value="{{$expediteur->id}}" {{$selec}}>{{$expediteur->nom}} ({{$expediteur->email}})</option>
+                                    @endforeach
+                            </select>
+                            </div>
+                        </div>
 
                 </div>
             <div class="modal-footer">

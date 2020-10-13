@@ -34,6 +34,7 @@
                         <th class="">Fournisseur</th>
                         <th class="">Date Livraison</th>
                         <th class="">Auteur</th>
+                        <th class="">Expéditeur</th>
                         <th class="">Action</th>
 
                     </tr>
@@ -79,6 +80,7 @@
                                         {{$utilisateur->nom}}
                                     @endif
                                 @endforeach</td>
+                            <td>{{$bc->expediteur->nom}} {{$bc->expediteur->prenoms}}  ({{$bc->expediteur->email}})</td>
                             <td>
                                 @if($bc->etat==1)
 
@@ -186,6 +188,7 @@
                         <th class="">Fournisseur</th>
                         <th class="">Date Livraison</th>
                         <th class="">Auteur</th>
+                        <th class="">Expéditeur</th>
                         <th class="">Action</th>
 
                     </tr>
@@ -227,11 +230,13 @@
                             <td>
                                 {{$bc->date	}}
                             </td>
+
                             <td>@foreach($utilisateurs as $utilisateur)
                                     @if($utilisateur->id==$bc->id_user)
                                         {{$utilisateur->nom}}
                                     @endif
                                 @endforeach</td>
+                            <td>{{$bc->expediteur->nom}} {{$bc->expediteur->prenoms}} ({{$bc->expediteur->email}})</td>
                             <td>
                                 @if($bc->etat==1)
 
@@ -315,7 +320,7 @@
                                         <i class="fa fa-ban"></i> Annuler
                                     </a>
                                 @elseif($bc->etat==3)
-                                    
+
                                     <a href="{{route('traite_finalise',['id'=>$bc->slug])}}" data-toggle="modal" class="">
                                         <i class="fa fa-hourglass-end"></i> traité et finalisé?
                                     </a>ou

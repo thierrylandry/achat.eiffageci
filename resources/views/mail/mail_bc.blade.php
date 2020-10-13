@@ -25,17 +25,17 @@
     </p></p><br>
 
 
-    <strong>Marina OULAÏ</strong>
+    <strong>{{isset($bc->expediteur->prenom)?ucwords($bc->expediteur->prenom):""}} {{isset($bc->expediteur->nom)?strtoupper($bc->expediteur->nom):""}}</strong>
         <br>
 
         <strong>Eiffage Génie Civil Côte d’Ivoire</strong>
         <br>
         <br>
-    Assistante Achats <br>
-    Purchases Assistant <br>
-        <label>Téléphone : </label>+225 87 47 11 25
+    {{isset($bc->expediteur->function)?$bc->expediteur->function:""}} <br>
+     <br>
+        <label>Téléphone : </label>{{isset($bc->expediteur->contact)?$bc->expediteur->contact:""}}
         <br>
-        <label>Mail : </label>marina.oulai@eiffage.com
+        <label>Mail : </label>{{isset($bc->expediteur->email)?$bc->expediteur->email:""}}
         <br>
         <img src="http://172.20.73.3/achat.eiffageci/images/logomail.png"/>
     </p>

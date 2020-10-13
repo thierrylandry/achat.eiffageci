@@ -63,7 +63,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 </a>
             </h6>
             <div class="clearfix"></div>
-            <input type="submit" value="{{ __('Connexion') }}" name="login">
+            <input type="submit"  value="{{ __('Connexion') }}" name="login">
         </form>
         <p>Vous n'avez pas de compte ?<a href="{{ route('register') }}">Créez-en un</a></p>
     </div>

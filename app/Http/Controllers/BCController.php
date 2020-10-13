@@ -388,7 +388,14 @@ return $view;
 
         $analytiques= Analytique::all();
         $projets= Projet::all();
-        return view('BC/gestion_bc',compact('bcs','bcs_en_attentes','fournisseurs','utilisateurs','analytiques','fournisseurss','users','projets'));
+        $expediteurs= array();
+        foreach($users as $user):
+            if($user->hasRole('Gestionnaire_Pro_Forma')){
+                $expediteurs[]=$user;
+            }
+            endforeach;
+
+        return view('BC/gestion_bc',compact('bcs','bcs_en_attentes','fournisseurs','utilisateurs','analytiques','fournisseurss','users','projets','expediteurs'));
     }
     public function validation_bc()
     {
@@ -1102,7 +1109,13 @@ if(isset($devis->first()->devise)){
         $ajouter='vrai';
         $analytiques= Analytique::all();
         $projets= Projet::all();
-        return view('BC/gestion_bc',compact('bcs','bcs_en_attentes','fournisseurs','utilisateurs','ajouter','analytiques','fournisseurss','projets'));
+        $expediteurs= array();
+        foreach($utilisateurs as $user):
+            if($user->hasRole('Gestionnaire_Pro_Forma')){
+                $expediteurs[]=$user;
+            }
+        endforeach;
+        return view('BC/gestion_bc',compact('bcs','bcs_en_attentes','fournisseurs','utilisateurs','ajouter','analytiques','fournisseurss','projets','expediteurs'));
     }
     public function detail_rep_fournisseur($id){
 
@@ -1122,6 +1135,7 @@ if(isset($devis->first()->devise)){
         $Boncommande->id_fournisseur=$parameters['id_fournisseur'];
         $Boncommande->id_user=Auth::user()->id;
         $Boncommande->id_projet=$projet->id;
+        $Boncommande->id_expediteur=$parameters['id_expediteur'];
 
         $Boncommande->slug=Str::slug($parameters['numbc'].$date->format('dmYhis'));
        // $Boncommande->save();
