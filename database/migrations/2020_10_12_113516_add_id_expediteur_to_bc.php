@@ -15,7 +15,7 @@ class AddIdExpediteurToBc extends Migration
     {
         Schema::table('boncommande', function (Blueprint $table) {
             //
-            $table->integer('id_expediteur')->default(18);
+            $table->integer('id_expediteur')->nullable();
         });
     }
 
