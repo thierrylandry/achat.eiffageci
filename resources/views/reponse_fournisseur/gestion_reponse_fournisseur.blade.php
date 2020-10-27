@@ -23,7 +23,7 @@
                         </h4>
                     </div>
                     <div id="collapse1" class="panel-collapse collapse in">
-                        <div class="panel-body"><form action="" method="post"><div id="daencours">
+                        <div class="panel-body"><form action="" method="post"><div id="daencours" style="overflow-x: scroll">
                                     {{ $das->links() }}
                                     <table name ="gestion_reponse_fournisseur" id="gestion_reponse_fournisseur" class='table table-bordered table-striped  no-wrap '>
 
@@ -71,10 +71,10 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                            <input  type="text" value="{{isset($tab_proposition[$da->id]->titre_ext)?$tab_proposition[$da->id]->titre_ext:$da->libelleMateriel}}" id="row_n_{{$da->id}}_titre_ext" name="row_n_{{$da->id}}_titre_ext" />
+                                                    <input  type="text" value="{{isset($tab_proposition[$da->id]->titre_ext)?$tab_proposition[$da->id]->titre_ext:$da->libelleMateriel}}" id="row_n_{{$da->id}}_titre_ext" name="row_n_{{$da->id}}_titre_ext" />
                                                 </td>
                                                 <td>
-                                                            <input type="text" class="col-sm-12" value="" id="row_n_{{$da->id}}_ref" name="row_n_{{$da->id}}_ref"/>
+                                                    <input type="text" class="col-sm-12" value="" id="row_n_{{$da->id}}_ref" name="row_n_{{$da->id}}_ref"/>
                                                     <label>PROPOSITION:</br>
                                                         <a  onclick="document.getElementById('row_n_{{$da->id}}_ref').value='{{isset($tab_proposition[$da->id])?$tab_proposition[$da->id]->referenceFournisseur:''}}';$('#row_n_{{$da->id}}_ref').selectpicker('refresh')">  {{isset($tab_proposition[$da->id])?$tab_proposition[$da->id]->referenceFournisseur:''}}</a>;
                                                     </label>
@@ -83,12 +83,12 @@
 
                                                 <td> <input min="0" type="number" step="any" value="{{$da->quantite}}" class="form-control" id="row_n_{{$da->id}}_quantite" name="row_n_{{$da->id}}_quantite">
 
-                                                        <select class="form-control selectpicker col-sm-4" id="row_n_{{$da->id}}_unite" name="row_n_{{$da->id}}_unite" data-live-search="true" data-size="6">
+                                                    <select class="form-control selectpicker col-sm-4" id="row_n_{{$da->id}}_unite" name="row_n_{{$da->id}}_unite" data-live-search="true" data-size="6">
 
-                                                            @foreach($tab_unite['nothing'] as $unite)
-                                                                <option value="{{$unite}}" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite==$unite || $unite==$da->unite ?"selected":''}}>{{$unite}}</option>
-                                                            @endforeach
-                                                                @if(isset($tab_unite['La longueur']))
+                                                        @foreach($tab_unite['nothing'] as $unite)
+                                                            <option value="{{$unite}}" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite==$unite || $unite==$da->unite ?"selected":''}}>{{$unite}}</option>
+                                                        @endforeach
+                                                        @if(isset($tab_unite['La longueur']))
                                                             <optgroup label="La longeur">
                                                                 @foreach($tab_unite['La longueur'] as $unite)
                                                                     <option value="{{$unite}}" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite==$unite || $unite==$da->unite ?"selected":''}}>{{$unite}}</option>
@@ -98,26 +98,26 @@
 
                                                             <optgroup label="La masse">
                                                                 @if(isset($tab_unite['La masse']))
-                                                                @foreach($tab_unite['La masse'] as $unite)
-                                                                    <option value="{{$unite}}" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite==$unite || $unite==$da->unite ?"selected":''}}>{{$unite}}</option>
-                                                                @endforeach
-                                                                    @endif
+                                                                    @foreach($tab_unite['La masse'] as $unite)
+                                                                        <option value="{{$unite}}" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite==$unite || $unite==$da->unite ?"selected":''}}>{{$unite}}</option>
+                                                                    @endforeach
+                                                                @endif
                                                             </optgroup>
                                                             <optgroup label="Le volume">
                                                                 @if(isset($tab_unite['Le volume']))
-                                                                @foreach($tab_unite['Le volume'] as $unite)
-                                                                    <option value="{{$unite}}" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite==$unite || $unite==$da->unite ?"selected":''}}>{{$unite}}</option>
-                                                                @endforeach
-                                                                    @endif
+                                                                    @foreach($tab_unite['Le volume'] as $unite)
+                                                                        <option value="{{$unite}}" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite==$unite || $unite==$da->unite ?"selected":''}}>{{$unite}}</option>
+                                                                    @endforeach
+                                                                @endif
                                                             </optgroup>
-                                                                    @if(isset($tab_unite['La surface']))
-                                                            <optgroup label="La surface">
-                                                                @foreach($tab_unite['La surface'] as $unite)
-                                                                    <option value="{{$unite}}" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite==$unite || $unite==$da->unite ?"selected":''}}>{{$unite}}</option>
+                                                            @if(isset($tab_unite['La surface']))
+                                                                <optgroup label="La surface">
+                                                                    @foreach($tab_unite['La surface'] as $unite)
+                                                                        <option value="{{$unite}}" {{isset($tab_proposition[$da->id]->unite) && $tab_proposition[$da->id]->unite==$unite || $unite==$da->unite ?"selected":''}}>{{$unite}}</option>
                                                                 @endforeach
-                                                                    @endif
-                                                        </select>
-                                                    </td>
+                                                            @endif
+                                                    </select>
+                                                </td>
                                                 <td>{{$da->DateBesoin}}</td>
                                                 <td><select class="form-control" id="row_n_{{$da->id}}_fournisseur" name="row_n_{{$da->id}}_fournisseur">
                                                         <option value="">SELECTIONNER UN  FOURNISSEUR</option>
@@ -129,17 +129,17 @@
                                                     <label>PROPOSITION:
                                                         <a  onclick="document.getElementById('row_n_{{$da->id}}_fournisseur').value='{{isset($tab_proposition[$da->id])?$tab_proposition[$da->id]->id_fournisseur:''}}';$('#row_n_{{$da->id}}_fournisseur').selectpicker('refresh')">  @foreach($fournisseurs as $fournisseur)
                                                                 @if(in_array($da->type,explode(',',$fournisseur->domaine)))
-                                                                      @if( isset($tab_proposition[$da->id]) && $fournisseur->id==$tab_proposition[$da->id]->id_fournisseur)
-                                                                             {{$fournisseur->libelle}}
-                                                                             @endif
+                                                                    @if( isset($tab_proposition[$da->id]) && $fournisseur->id==$tab_proposition[$da->id]->id_fournisseur)
+                                                                        {{$fournisseur->libelle}}
+                                                                    @endif
                                                                 @endif
                                                             @endforeach</a>;
                                                     </label>
                                                 </td>
                                                 <td><input class="form-control" style="min-width: 80px;"  type="number" min="0" id="row_n_{{$da->id}}_prix_unitaire" name="row_n_{{$da->id}}_prix_unitaire" value="" />
                                                     <label>PROPOSITION:
-                                                            <a  onclick="document.getElementById('row_n_{{$da->id}}_prix_unitaire').value='{{isset($tab_proposition[$da->id])?$tab_proposition[$da->id]->prix_unitaire:''}}';$('#row_n_{{$da->id}}_prix_unitaire').selectpicker('refresh')">  {{isset($tab_proposition[$da->id])?$tab_proposition[$da->id]->prix_unitaire:''}}</a>;
-                                                        </label>
+                                                        <a  onclick="document.getElementById('row_n_{{$da->id}}_prix_unitaire').value='{{isset($tab_proposition[$da->id])?$tab_proposition[$da->id]->prix_unitaire:''}}';$('#row_n_{{$da->id}}_prix_unitaire').selectpicker('refresh')">  {{isset($tab_proposition[$da->id])?$tab_proposition[$da->id]->prix_unitaire:''}}</a>;
+                                                    </label>
                                                 </td>
                                                 <td><input class="form-control"  type="number" min="0" id="row_n_{{$da->id}}_remise" name="row_n_{{$da->id}}_remise" value="0" value="" />
                                                     <label>PROPOSITION:
@@ -147,8 +147,8 @@
                                                     </label>
                                                 </td>
                                                 <td><select class="form-control" style="width: 80px;" id="row_n_{{$da->id}}_devise" name="row_n_{{$da->id}}_devise"><option  @if( isset($tab_proposition[$da->id]) && "FCFA"==$tab_proposition[$da->id]->devise)
-                                                                                                                                                                              {{'selected'}}
-                                                                                                                                                                              @endif value="FCFA">FCFA</option><option @if( isset($tab_proposition[$da->id]) && "EURO"==$tab_proposition[$da->id]->devise) {{'selected'}}@endif value="EURO">EURO</option></select></td>
+                                                                                                                                                                             {{'selected'}}
+                                                                                                                                                                             @endif value="FCFA">FCFA</option><option @if( isset($tab_proposition[$da->id]) && "EURO"==$tab_proposition[$da->id]->devise) {{'selected'}}@endif value="EURO">EURO</option></select></td>
                                                 <td><input type="checkbox" value="1" id="row_n_{{$da->id}}_tva" name="row_n_{{$da->id}}_tva" checked/>   </td>
                                                 <td><div class="row"><div class="col-sm-6"><button type="button" class="btn_supp btn btn-danger" title="SUPPRIMER"><i class="fa fa-trash"></i></button></div></div>   </td>
                                             </tr>
@@ -177,7 +177,7 @@
                         <div class="panel-body" >
 
                             <form action="{{route('selection_de_la_reponse')}}" method="post">
-                                <div id="daencours">
+                                <div id="daencours" style="overflow-x: scroll">
 
                                     <table name ="gestion_reponse_fournisseur1" id="gestion_reponse_fournisseur1" class='table table-bordered table-striped  no-wrap col-lg-push-3' >
 
@@ -190,12 +190,12 @@
                                             <th class="dt-head-center">N°D.A</th>
                                             <th>Code Analytique</th>
                                             <th>Code Gestion</th>
-                                            <th class="dt-head-center" width="20%">Matériel et consultation</th>
+                                            <th class="dt-head-center">Matériel et consultation</th>
                                             <th class="dt-head-center">Reference Fournisseur</th>
-                                            <th class="dt-head-center" width="30px">Quantité</th>
+                                            <th class="dt-head-center" >Quantité</th>
                                             <th class="dt-head-center">Fournisseur</th>
                                             <th class="dt-head-center">Prix Unitaire</th>
-                                            <th class="dt-head-center" width="80px">Remise %</th>
+                                            <th class="dt-head-center">Remise %</th>
                                             <th class="dt-head-center">Devise</th>
                                             <th class="dt-head-center">TVA</th>
                                             <th class="dt-head-center">Action</th>
@@ -247,56 +247,56 @@
                                                 <td>
                                                     <input type="text" value="{{$devi->referenceFournisseur}}" id="row_n_{{$devi->id}}_ref" name="row_n_{{$devi->id}}_ref"/>
                                                 </td>
-                                                <td> <input min="0" type="number" step="any" value="{{$devi->quantite}}" class="form-control" id="row_n_{{$devi->id}}_quantite" name="row_n_{{$devi->id}}_quantite">
+                                                <td> <input style="width: 150px;" min="0" type="number" step="any" value="{{$devi->quantite}}" class="form-control" id="row_n_{{$devi->id}}_quantite" name="row_n_{{$devi->id}}_quantite">
                                                     <select class="form-control selectpicker col-sm-4" id="row_n_{{$devi->id}}_unite" name="row_n_{{$devi->id}}_unite" data-live-search="true" data-size="6">
                                                         @foreach($tab_unite['nothing'] as $unite)
                                                             <option value="{{$unite}}" {{$unite==$devi->unite?"selected":''}}>{{$unite}}</option>
                                                         @endforeach
                                                         @if(isset($tab_unite['La longueur']))
-                                                        <optgroup label="La longeur">
-                                                            @foreach($tab_unite['La longueur'] as $unite)
-                                                                <option value="{{$unite}}" {{$unite==$devi->unite?"selected":''}}>{{$unite}}</option>
+                                                            <optgroup label="La longeur">
+                                                                @foreach($tab_unite['La longueur'] as $unite)
+                                                                    <option value="{{$unite}}" {{$unite==$devi->unite?"selected":''}}>{{$unite}}</option>
+                                                                @endforeach
+                                                            </optgroup>
+                                                        @endif
+                                                        @if(isset($tab_unite['La masse']))
+                                                            <optgroup label="La masse">
+                                                                @foreach($tab_unite['La masse'] as $unite)
+                                                                    <option value="{{$unite}}" {{$unite==$devi->unite?"selected":''}}>{{$unite}}</option>
+                                                                @endforeach
+                                                            </optgroup>
+                                                        @endif
+                                                        @if(isset($tab_unite['Le volume']))
+                                                            <optgroup label="Le volume">
+                                                                @foreach($tab_unite['Le volume'] as $unite)
+                                                                    <option value="{{$unite}}" {{$unite==$devi->unite?"selected":''}}>{{$unite}}</option>
+                                                                @endforeach
+                                                            </optgroup>
+                                                        @endif
+                                                        @if(isset($tab_unite['La surface']))
+                                                            <optgroup label="La surface">
+                                                                @foreach($tab_unite['La surface'] as $unite)
+                                                                    <option value="{{$unite}}" {{$unite==$devi->unite?"selected":''}}>{{$unite}}</option>
                                                             @endforeach
-                                                        </optgroup>
-                                                            @endif
-                                                            @if(isset($tab_unite['La masse']))
-                                                        <optgroup label="La masse">
-                                                            @foreach($tab_unite['La masse'] as $unite)
-                                                                <option value="{{$unite}}" {{$unite==$devi->unite?"selected":''}}>{{$unite}}</option>
-                                                            @endforeach
-                                                        </optgroup>
-                                                            @endif
-                                                            @if(isset($tab_unite['Le volume']))
-                                                        <optgroup label="Le volume">
-                                                            @foreach($tab_unite['Le volume'] as $unite)
-                                                                <option value="{{$unite}}" {{$unite==$devi->unite?"selected":''}}>{{$unite}}</option>
-                                                            @endforeach
-                                                        </optgroup>
-                                                            @endif
-                                                            @if(isset($tab_unite['La surface']))
-                                                        <optgroup label="La surface">
-                                                            @foreach($tab_unite['La surface'] as $unite)
-                                                                <option value="{{$unite}}" {{$unite==$devi->unite?"selected":''}}>{{$unite}}</option>
-                                                        @endforeach
-                                                                @endif
+                                                        @endif
                                                     </select>
                                                 </td>
-                                                <td><select class="form-control" id="row_n_{{$devi->id}}_fournisseur" name="row_n_{{$devi->id}}_fournisseur">
+                                                <td><select class="form-control" id="row_n_{{$devi->id}}_fournisseur" name="row_n_{{$devi->id}}_fournisseur" style="width: 150px;">
                                                         <option value="">SELECTIONNER UN  FOURNISSEUR</option>
                                                         @foreach($fournisseurs as $fournisseur)
 
-                                                                    @if(in_array($devi->type,explode(',',$fournisseur->domaine)))
-                                                                        @if($fournisseur->id==$devi->id_fournisseur)
-                                                                            <option value="{{$fournisseur->id}}" selected>{{$fournisseur->libelle}}</option>
-                                                                        @else
-                                                                            <option value="{{$fournisseur->id}}">{{$fournisseur->libelle}}</option>
-                                                                        @endif
-                                                                    @endif
+                                                            @if(in_array($devi->type,explode(',',$fournisseur->domaine)))
+                                                                @if($fournisseur->id==$devi->id_fournisseur)
+                                                                    <option value="{{$fournisseur->id}}" selected>{{$fournisseur->libelle}}</option>
+                                                                @else
+                                                                    <option value="{{$fournisseur->id}}">{{$fournisseur->libelle}}</option>
+                                                                @endif
+                                                            @endif
 
 
                                                         @endforeach</select></td>
-                                                <td><input class="form-control"  type="number" min="0" id="row_n_{{$devi->id}}_prix_unitaire" name="row_n_{{$devi->id}}_prix_unitaire" value="{{$devi->prix_unitaire}}" /></td>
-                                                <td><input class="form-control"  type="number" min="0" id="row_n_{{$devi->id}}_remise" name="row_n_{{$devi->id}}_remise" value="{{$devi->remise}}" /></td>
+                                                <td><input class="form-control" style="width: 100px;" type="number" min="0" id="row_n_{{$devi->id}}_prix_unitaire" name="row_n_{{$devi->id}}_prix_unitaire" value="{{$devi->prix_unitaire}}" /></td>
+                                                <td><input class="form-control" style="width: 100px;" type="number" min="0" id="row_n_{{$devi->id}}_remise" name="row_n_{{$devi->id}}_remise" value="{{$devi->remise}}" /></td>
                                                 <td><select class="form-control" style="width: 100px;" id="row_n_{{$devi->id}}_devise" name="row_n_{{$devi->id}}_devise">
 
 
@@ -332,7 +332,7 @@
         (function($) {
             $(".btn_supp").click(function (){
                 var data = table1.row($(this).parents('tr')).data();
-              //  var id_bc= $("#id_bc").val();
+                //  var id_bc= $("#id_bc").val();
                 if(confirm("Voulez vous supprimer définitivement cette ligne?")){
                     $.get("supprimer_def_devis/"+data[1], function(data, status){
                         console.log(data);
@@ -426,12 +426,12 @@
                     //enregistrer_devis/"+res+"/"+lesId+"/"+lesIdmat
                     var csrf_token = $('meta[name="csrf-token"]').attr('content');
                     $.post("enregistrer_devis",{res:res,lesId:lesId,lesIdmat:lesIdmat,_token: "{{ csrf_token() }}"},
-                            function (data) {
-                                console.log(data);
-                                if(data==1){
-                                    location.reload();
-                                }
+                        function (data) {
+                            console.log(data);
+                            if(data==1){
+                                location.reload();
                             }
+                        }
                     );
                     return false;
                 }
@@ -452,16 +452,16 @@
 
                     });
 
-                       console.log(lesId);
+                    console.log(lesId);
                     //enregistrer_devis/"+res+"/"+lesId+"/"+lesIdmat
                     var csrf_token = $('meta[name="csrf-token"]').attr('content');
                     $.post("supprimer_def_devis_collectif",{lesId:lesId,_token: "{{ csrf_token() }}"},
-                            function (data) {
-                                console.log(data);
-                                if(data=="ok"){
-                                    location.reload();
-                                }
+                        function (data) {
+                            console.log(data);
+                            if(data=="ok"){
+                                location.reload();
                             }
+                        }
                     );
                     return false;
                 }
@@ -485,12 +485,12 @@
                     //enregistrer_devis/"+res+"/"+lesId+"/"+lesIdmat
                     var csrf_token = $('meta[name="csrf-token"]').attr('content');
                     $.post("supprimer_def_devis2_collectif",{lesId:lesId,_token: "{{ csrf_token() }}"},
-                            function (data) {
-                                console.log(data);
-                                if(data=="ok"){
-                                    location.reload();
-                                }
+                        function (data) {
+                            console.log(data);
+                            if(data=="ok"){
+                                location.reload();
                             }
+                        }
                     );
                     return false;
                 }
@@ -515,18 +515,18 @@
                     });
                     var res ;
                     res=table2.$('input, select').serialize();
-                       //console.log(res);
+                    //console.log(res);
                     var csrf_token = $('meta[name="csrf-token"]').attr('content');
                     $.post("modifier_devis",{res:res,lesId:lesId,_token: "{{ csrf_token() }}"},
-                            function (data) {
-                                console.log(data);
-                                if (data == 1) {
-                                    location.reload();
-                                } else {
-                                    alert("Désolé la requette à déjà été traitée il est donc impossible de mofifier");
-                                    location.reload();
-                                }
+                        function (data) {
+                            console.log(data);
+                            if (data == 1) {
+                                location.reload();
+                            } else {
+                                alert("Désolé la requette à déjà été traitée il est donc impossible de mofifier");
+                                location.reload();
                             }
+                        }
                     );
 
                     return false;
@@ -552,19 +552,19 @@
                 var da=$("#id_lignebesoin").val();
                 $('#id_lignebesoin').val(da);
                 $.get("les_das_fournisseurs_funct_da/"+da,
-                        function (data) {
-                            $('#id_fournisseur').empty();
-                            $('#id_fournisseur').append("<option>SELECTIONNER UN FOURNISSEUR</option>");
-                            $.each(data, function( index, value ) {
+                    function (data) {
+                        $('#id_fournisseur').empty();
+                        $('#id_fournisseur').append("<option>SELECTIONNER UN FOURNISSEUR</option>");
+                        $.each(data, function( index, value ) {
 
 
-                                $('#id_fournisseur').append("<option value='"+value.id+"'>"+value.libelle+"</option>");
+                            $('#id_fournisseur').append("<option value='"+value.id+"'>"+value.libelle+"</option>");
 
-                            });
+                        });
 
-                            $('#id_fournisseur').selectpicker('refresh');
-                            console.log(data);
-                        }
+                        $('#id_fournisseur').selectpicker('refresh');
+                        console.log(data);
+                    }
                 );
 
 
