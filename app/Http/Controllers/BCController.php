@@ -524,8 +524,10 @@ return $view;
             $Boncommande->etat=3;
             $Boncommande->save();
             $lignebesoin=Lignebesoin::where('id_bonCommande','=',$Boncommande->id)->first();
-            $lignebesoin->etat=3;
-            $lignebesoin->save();
+            if(isset($lignebesoin)){
+                $lignebesoin->etat=3;
+                $lignebesoin->save();
+            }
             // Finally, you can download the file using download function
             $pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
 
@@ -779,8 +781,11 @@ return $view;
                 $Boncommande->etat=3;
                 $Boncommande->save();
                 $lignebesoin=Lignebesoin::where('id_bonCommande','=',$Boncommande->id)->first();
+            if(isset($lignebesoin)){
                 $lignebesoin->etat=3;
                 $lignebesoin->save();
+            }
+
                 // Finally, you can download the file using download function
                 $pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
 
