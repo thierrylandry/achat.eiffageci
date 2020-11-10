@@ -409,8 +409,11 @@
                     console.log(data);
                     data.each(function (value, index) {
                         // var valeur=parseInt(value);
+
                         var valeur=value+'';
                         var  text=valeur.split(",");
+                        var vvl=$('#row_n_'+text[1]+'_fournisseur').val();
+                        console.log(vvl);
                         if(typeof(valeur)!=="undefined"){
                             lesId=lesId+','+text[1];
                             lesIdmat=lesIdmat+','+text[2];
@@ -420,19 +423,19 @@
                     });
                     var res;
                     //console.log(lesId);
-                    res=table1.$('input, select').serialize();
+                    res=table1.$("input, select[value!='']").serialize();
 
-                    //   console.log(res);
+                       console.log(res);
                     //enregistrer_devis/"+res+"/"+lesId+"/"+lesIdmat
                     var csrf_token = $('meta[name="csrf-token"]').attr('content');
-                    $.post("enregistrer_devis",{res:res,lesId:lesId,lesIdmat:lesIdmat,_token: "{{ csrf_token() }}"},
+                   /* $.post("enregistrer_devis",{res:res,lesId:lesId,lesIdmat:lesIdmat,_token: "{{ csrf_token() }}"},
                         function (data) {
                             console.log(data);
                             if(data==1){
                                 location.reload();
                             }
                         }
-                    );
+                    );*/
                     return false;
                 }
 
