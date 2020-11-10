@@ -698,11 +698,11 @@ return $view;
 
                 // $les_id_devis=explode(',',$parameters['les_id_devis']);
                 $devis=DB::table('devis')
-                    ->join('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
+                    ->leftjoin('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
                     ->where('id_bc','=',$Boncommande->id)
                     ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.codeGestion','devis.devise','commentaire','hastva','referenceFournisseur')->get();
 
-dd($Boncommande->id);
+dd($$devis);
                 $tothtax = 0;
                 $taille=sizeof($devis);
                 if($Boncommande->commentaire_general==''){
