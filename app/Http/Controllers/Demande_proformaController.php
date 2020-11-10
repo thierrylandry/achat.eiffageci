@@ -112,8 +112,11 @@ dd($list_da);
                 if(isset($lignebesoin->materiel->code_analytique)){
                     $devis->codeRubrique=$lignebesoin->materiel->code_analytique;
                 }
-                $lignebesoin->etat=3;
-                $lignebesoin->save();
+                if(isset($lignebesoin)){
+                    $lignebesoin->etat=3;
+                    $lignebesoin->save();
+                }
+
                  $devis->save();
             }
             $i++;
