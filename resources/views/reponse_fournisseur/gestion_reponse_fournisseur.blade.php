@@ -428,14 +428,14 @@
                        console.log(res);
                     //enregistrer_devis/"+res+"/"+lesId+"/"+lesIdmat
                     var csrf_token = $('meta[name="csrf-token"]').attr('content');
-                   /* $.post("enregistrer_devis",{res:res,lesId:lesId,lesIdmat:lesIdmat,_token: "{{ csrf_token() }}"},
+                    $.post("enregistrer_devis",{res:res,lesId:lesId,lesIdmat:lesIdmat,_token: "{{ csrf_token() }}"},
                         function (data) {
                             console.log(data);
                             if(data==1){
                                 location.reload();
                             }
                         }
-                    );*/
+                    );
                     return false;
                 }
 
