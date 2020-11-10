@@ -59,7 +59,7 @@ class BCController extends Controller
             ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','services.libelle as libelle_service','commentaire_general','fournisseur.conditionPaiement','boncommande.id_fournisseur','remise_excep')->first();
 
         $devis=DB::table('devis')
-            ->join('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
+            ->leftjoin('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
             ->where('id_bc','=',$bc->id)
             ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.devise','commentaire','hastva','referenceFournisseur','codeGestion')->get();
 
@@ -443,7 +443,7 @@ return $view;
 
             // $les_id_devis=explode(',',$parameters['les_id_devis']);
             $devis=DB::table('devis')
-                ->join('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
+                ->leftjoin('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
                 ->where('id_bc','=',$Boncommande->id)
                 ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.devise','commentaire','hastva','referenceFournisseur','codeGestion')->get();
 
@@ -702,7 +702,6 @@ return $view;
                     ->where('id_bc','=',$Boncommande->id)
                     ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.codeGestion','devis.devise','commentaire','hastva','referenceFournisseur')->get();
 
-dd($devis);
                 $tothtax = 0;
                 $taille=sizeof($devis);
                 if($Boncommande->commentaire_general==''){
@@ -823,7 +822,7 @@ dd($devis);
     public function detail_list_devis($id_bc)
     {
         $devis= DB::table('devis')
-            ->join('lignebesoin', 'lignebesoin.id','=','devis.id_da')
+            ->leftjoin('lignebesoin', 'lignebesoin.id','=','devis.id_da')
             ->where('id_bc','=',$id_bc)
             ->select('devis.id','devis.quantite','devis.titre_ext','date_livraison_eff')->get();
         return \GuzzleHttp\json_encode($devis);
