@@ -702,7 +702,7 @@ return $view;
                     ->where('id_bc','=',$Boncommande->id)
                     ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.codeGestion','devis.devise','commentaire','hastva','referenceFournisseur')->get();
 
-
+dd($devis);
                 $tothtax = 0;
                 $taille=sizeof($devis);
                 if($Boncommande->commentaire_general==''){
