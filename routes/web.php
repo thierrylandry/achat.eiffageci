@@ -259,14 +259,12 @@ Route::post('/recherche_da',[
     'as'=>'recherche_da',
     'uses'=>'DAController@recherche_da',
     'middleware' => 'roles',
-    'roles' => ['Valideur_DA','Gestionnaire_Pro_Forma']
 
 ])->middleware('auth');
 Route::get('/lister_da_recherche',[
     'as'=>'lister_da_recherche',
     'uses'=>'DAController@lister_da_recherche',
     'middleware' => 'roles',
-    'roles' => ['Valideur_DA','Gestionnaire_Pro_Forma']
 
 ])->middleware('auth');
 Route::get('/encours_validation',[
@@ -712,6 +710,35 @@ Route::get('/supprimer_ligne_bc/{slug}',[
 ])->middleware('auth');
 
 Route::get('/bc_express',[
+    'as'=>'bc_express',
+    'uses'=>'BCController@bc_express',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_BC']
+
+])->middleware('auth');
+
+Route::get('/reception_commande',[
+    'as'=>'reception_commande',
+    'uses'=>'ReceptionController@reception_commande',
+
+])->middleware('auth');
+Route::post('/receptionner_commande',[
+    'as'=>'receptionner_commande',
+    'uses'=>'ReceptionController@receptionner_commande',
+
+])->middleware('auth');
+Route::match(['get', 'post'],'/reception_commande_numero',[
+    'as'=>'reception_commande_numero',
+    'uses'=>'ReceptionController@reception_commande_numero',
+
+])->middleware('auth');
+
+Route::get('/supprimer_livraison/{id}',[
+    'as'=>'supprimer_livraison',
+    'uses'=>'ReceptionController@supprimer_livraison',
+
+])->middleware('auth');
+Route::get('/bc_express/{nb}',[
     'as'=>'bc_express',
     'uses'=>'BCController@bc_express',
     'middleware' => 'roles',
