@@ -19,7 +19,7 @@
             }
         }</script>
 
-    <h2>LISTE DES COMMANDES - N° BC: PHB-815140-<input name="numbc" id="numbc" WIDTH="30%"  type="text"/> <a href="{{route('gestion_bc')}}" class="btn btn-default pull-right"><i class="fa fa-list" aria-hidden="true"></i> Lister</a></h2>
+    <h2>LISTE DES COMMANDES - N° BC: PHB-815140-<input name="numbc" id="numbc" WIDTH="30%"  type="text"/>  Nombre de ligne :<input name="nb" id="nb" WIDTH="30%"  type="number" value="{{$nb}}"/>  <a href="{{route('gestion_bc')}}" class="btn btn-default pull-right"><i class="fa fa-list" aria-hidden="true"></i> Lister</a></h2>
     <br>
     <form method="post" action="{{route('save_ligne_bc')}}" onsubmit="return confirm('Voulez vous enregistrer?');">
         @csrf
@@ -83,94 +83,52 @@
         <br>
         <br>
         <br>
-        <h4>lignes</h4>
-        Ajouter une ligne
-        <button type="button" class="btn bg-teal btn-circle waves-effect waves-circle waves-float" id="addligne">
-            <i class="fa fa-plus-circle" aria-hidden="true"></i>
-        </button>
-        <table name ="ligneCommandes" id="ligneCommandes" class=''>
+        <div class="">
 
-            <thead>
+            <div class="notification-info">
+                <div>
+                    <table name ="ligneCommandes" id="ligneCommandes" class='table table-bordered table-striped  no-wrap display nowrap'>
 
-            <tr>
-                <th class="dt-head-center">id_produit</th>
-                <th class="">Designation</th>
-                <th class="">Commentaire</th>
-                <th class="">Code Analytique</th>
-                <th class="" >QTE</th>
-                <th class="">Unité</th>
-                <th class="">Pu HT</th>
-                <th class="">remise %</th>
-                <th class="">Total  HT</th>
-                <th class="">TVA /produit</th>
-                <th class="">TVA</th>
-                <th class="">statit tva</th>
-                <th class="">Action</th>
-            </tr>
-            </thead>
-            <tbody name ="contenu_tableau_ligne" id="contenu_tableau_ligne">
-            <tr>
-                <td class="dt-head-center"></td>
-                <td class=""><select class="selectpicker form-control" data-live-search="true" ><option  value="">SELECTIONNER UN PRODUIT</option>
-                        @foreach($materiels as $materiel)
-                            <option value="{{$materiel->id}}">{{$materiel->libelleMateriel}}</option>
-                        @endforeach</select></td>
-                <td class=""><input type="text" name="commentaire1" id="commentaire1" class="form-control"/></td>
-                <td class=""><select class="form-control selectpicker" id="codeRubrique1" name="codeRubrique1" data-live-search="true" data-size="6" required>
-                        <option  value="">SELECTIONNER</option>
-                        @foreach($analytiques as $analytique)
+                        <thead>
 
-                            <option value="{{$analytique->codeRubrique}}" data-subtext="{{$analytique->libelle}}">{{$analytique->codeRubrique}}</option>
-                        @endforeach
-                    </select></td>
-                <td class="" ><input type="number"  step="any" min="0" name="quantite1" id="quantite1" class="form-control quantite  col-sm-4" onclick="calcule_au_click_sur_la_quantie(this)" /> </td>
-                <td class="">     <select class="form-control selectpicker col-sm-4" id="unite" name="unite" data-live-search="true" data-size="6">
-                        @foreach($tab_unite['nothing'] as $unite)
-                            <option value="{{$unite}}">{{$unite}}</option>
-                        @endforeach
-                        <optgroup label="La longeur">
-                            @foreach($tab_unite['La longueur'] as $unite)
-                                <option value="{{$unite}}">{{$unite}}</option>
-                            @endforeach
-                        </optgroup>
+                        <tr>
+                            <th class="dt-head-center">slug</th>
+                            <th class="">Designation (Ref fournisseur)</th>
+                            <th class="">Commentaire</th>
+                            <th class="">Quantité</th>
+                            <th class="">Unité</th>
+                            <th class="">Pu HT</th>
+                            <th class="">remise %</th>
+                            <th class="">Total  HT</th>
+                            <th class="">TVA /produit</th>
+                            <th class="">Action</th>
 
-                        <optgroup label="La masse">
-                            @foreach($tab_unite['La masse'] as $unite)
-                                <option value="{{$unite}}">{{$unite}}</option>
-                            @endforeach
-                        </optgroup>
+                        </tr>
+                        </thead>
+                        <tbody name ="contenu_tableau_entite" id="contenu_tableau_entite">
 
+                        @for($i=1;$i<=$nb;$i++)
 
-
-                        <optgroup label="Le volume">
-                            @foreach($tab_unite['Le volume'] as $unite)
-                                <option value="{{$unite}}">{{$unite}}</option>
-                            @endforeach
-                        </optgroup>
-
-                        <optgroup label="La surface">
-                            @foreach($tab_unite['La surface'] as $unite)
-                                <option value="{{$unite}}">{{$unite}}</option>
-                            @endforeach
-                        </optgroup>
-
-                    </select></td>
-                <td class=""><input type="number" class="form-control row_n__tva" min="0" name="pu" id="pu" value="1"/> </td>
-                <td class=""><input type="number" class="form-control row_n__tva" min="0" name="remise" id="remise"/></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class="">Action</td>
-            </tr>
-
-            </tbody>
-            <tfooter>
-                <tr> <th colspan="8" style="text-align:right" >TOTAL HORS TAXES :</th> <th id="tot" style="text-align: right"></th> </tr>
-                <tr> <th colspan="8" style="text-align:right" >TVA :</th> <th id="tva" style="text-align: right"></th> </tr>
-                <tr> <th colspan="8" style="text-align:right" >TOTAL TTC :</th> <th id="ttc" style="text-align: right"></th> </tr>
-            </tfooter>
-        </table>
+                                <tr>
+                                    <td></td>
+                                    <td><input type="text" name="designation" class="form-control" /> </td>
+                                    <td><input type="text" name="designation" class="form-control" /></td>
+                                    <td><input type="text" name="designation" class="form-control" /></td>
+                                    <td>
+                                        <input type="text" name="designation" class="form-control" />
+                                    </td>
+                                    <td style="text-align: right"> <input type="text" name="designation" class="form-control" /> </td>
+                                    <td> <input type="text" name="designation" class="form-control" /> </td>
+                                    <td style="text-align: right"> <input type="text" name="designation" class="form-control" /> </td>
+                                    <td > <input type="text" name="designation" class="form-control" /></td>
+                                    <td><input type="text" name="designation" class="form-control" /></td>
+                                </tr>
+                            @endfor
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
         <div class="row"  style="width: 90%">
             <div class="col-sm-1 pull-right">
                 <a href="{{route('valider_commande',['id'=>1994])}}" class="btn btn-info" onclick="return confirm('Voulez vous enregistrer?');">VALIDER LE BON</a>
@@ -186,64 +144,6 @@
 
         </div>
     </form>
-    <div id="lignetemplate" class="row clearfix" style="display: none">
-        <tr>
-            <td class="dt-head-center"></td>
-            <td class=""><select class="selectpicker form-control" data-live-search="true"><option  value="">SELECTIONNER UN PRODUIT</option>
-                    @foreach($materiels as $materiel)
-                        <option @if(isset($da) and $materiel->id==$da->	id_materiel)
-                                {{'selected'}}
-                                @endif value="{{$materiel->id}}">{{$materiel->libelleMateriel}}</option>
-                    @endforeach</select></td>
-            <td class=""><input type="text" name="commentaire1" id="commentaire1" class="form-control"/></td>
-            <td class=""><select class="form-control selectpicker" id="codeRubrique1" name="codeRubrique1" data-live-search="true" data-size="6" required>
-                    <option  value="">SELECTIONNER</option>
-                    @foreach($analytiques as $analytique)
-
-                        <option value="{{$analytique->codeRubrique}}" data-subtext="{{$analytique->libelle}}">{{$analytique->codeRubrique}}</option>
-                    @endforeach
-                </select></td>
-            <td class="" ><input type="number"  step="any" min="0" name="quantite1" id="quantite1" class="form-control  col-sm-4" onclick="calcule_au_click_sur_la_quantie()" /> </td>
-            <td class="">     <select class="form-control selectpicker col-sm-4" id="unite" name="unite" data-live-search="true" data-size="6">
-                    @foreach($tab_unite['nothing'] as $unite)
-                        <option value="{{$unite}}">{{$unite}}</option>
-                    @endforeach
-                    <optgroup label="La longeur">
-                        @foreach($tab_unite['La longueur'] as $unite)
-                            <option value="{{$unite}}">{{$unite}}</option>
-                        @endforeach
-                    </optgroup>
-
-                    <optgroup label="La masse">
-                        @foreach($tab_unite['La masse'] as $unite)
-                            <option value="{{$unite}}">{{$unite}}</option>
-                        @endforeach
-                    </optgroup>
-
-
-
-                    <optgroup label="Le volume">
-                        @foreach($tab_unite['Le volume'] as $unite)
-                            <option value="{{$unite}}">{{$unite}}</option>
-                        @endforeach
-                    </optgroup>
-
-                    <optgroup label="La surface">
-                        @foreach($tab_unite['La surface'] as $unite)
-                            <option value="{{$unite}}">{{$unite}}</option>
-                        @endforeach
-                    </optgroup>
-
-                </select></td>
-            <td class=""><input type="number" class="form-control" min="0" name="pu" id="pu"/> </td>
-            <td class=""><input type="number" class="form-control" min="0" name="remise" id="remise"/></td>
-            <td class=""></td>
-            <td class=""></td>
-            <td class=""></td>
-            <td class=""></td>
-            <td class="">Action</td>
-        </tr>
-    </div>
     <script>
         function ilisibilite_nombre(valeur){
 
@@ -361,7 +261,7 @@
             var tht=$(t).val()*$(t).closest('td').next().next()['0'].children['0'].value;
             var remise=$(t).val()*$(t).closest('td').next().next().next()['0'].children['0'].value;
            // tht=remise-
-            alert(tht);
+           // alert(tht);
             console.log($(t).closest('td').next().next()['0'].children['0'].value);
 
         }
@@ -413,7 +313,7 @@
                 var num_row=$(this).parents('tr');
                 var pu=ilisibilite_nombre(($(this).closest('td').next().next().html())*18)/100;
                 var tva_prod=ilisibilite_nombre(($(this).closest('td').prev().prev().html())*18)/100;
-                alert($(this).closest('td').next().next().html().value);
+               // alert($(this).closest('td').next().next().html().value);
                // console.log($(this).closest('td').next().next());
                 console.log($(this).closest('td').next().next()['0'].children['0'].value);
                // console.log($('#'+$(this).closest('td').next().next().0.context.id).val());

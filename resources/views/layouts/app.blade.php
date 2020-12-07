@@ -249,8 +249,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <span>Les D.A.</span>
                         </a>
                         <ul class="sub">
-                            @if(Auth::user() != null && Auth::user()->hasAnyRole(['Valideur_DA'])  || Auth::user()->hasAnyRole(['Gestionnaire_Pro_Forma']))
                             <li @yield('recherche_da')><a href="{{route('lister_da_recherche')}}">Rechercher une  D.A.</a></li>
+                            @if(Auth::user() != null && Auth::user()->hasAnyRole(['Valideur_DA'])  || Auth::user()->hasAnyRole(['Gestionnaire_Pro_Forma']))
+
                             <li @yield('lister_da')><a href="{{route('lister_da')}}">Lister les D.A.</a></li>
                             <li @yield('encours_validation')><a href="{{route('encours_validation')}}">Lister les D.A. à valider</a></li>
                             @endif
@@ -293,6 +294,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
                         @if(Auth::user() != null && Auth::user()->hasAnyRole(['Valideur_BC']))
                         <li @yield('validation_bc')>  <a href="{{route('validation_bc')}}"><i class="fa fa-check"></i><span>Validation B.C.</span></a></li>
+                    @endif
+                    @if(Auth::user() != null && Auth::user()->hasRole('Gestionnaire_Pro_Forma'))
+                        <li>
+                            <a  href="index.html" @yield('parent_reception_commande')>
+                                <i class="fa fa-archive"></i>
+                                <span>Reception de commande</span>
+                            </a>
+                            <ul class="sub">
+                                <li  @yield('reception_commande')><a href="{{route('reception_commande')}}"> Avec B.C</a></li>
+                                <li @yield('reponse_fournisseur')><a href="{{route('gestion_reponse_fournisseur')}}">Sans B.C</a></li>
+                            </ul>
+                        </li>
                     @endif
                     <li style="color: ghostwhite">
                         <table   style="color: ghostwhite;size:20pt">
