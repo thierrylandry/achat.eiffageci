@@ -25,10 +25,10 @@
                     <td>{{$utilisateur->abréviation}}</td>
                     <td>{{$utilisateur->function}}</td>
                     <td>{{$utilisateur->email}}</td>
-                    <td> <a href="{{route('voir_utilisateur',['slug'=>$utilisateur->slug])}}" data-toggle="modal" class="btn btn-info col-sm-4 pull-right">
+                    <td> <a href="{{route('voir_utilisateur',['locale'=>app()->getLocale(),'slug'=>$utilisateur->slug])}}" data-toggle="modal" class="btn btn-info col-sm-4 pull-right">
                             <i class=" fa fa-pencil"></i>
                         </a>
-                        <a href="{{route('supprimer_utilisateur',['slug'=>$utilisateur->slug])}}" data-toggle="modal" class="btn btn-danger col-sm-4 pull-right">
+                        <a href="{{route('supprimer_utilisateur',['locale'=>app()->getLocale(),'slug'=>$utilisateur->slug])}}" data-toggle="modal" class="btn btn-danger col-sm-4 pull-right">
                             <i class=" fa fa-trash"></i>
                         </a>
                     </td>

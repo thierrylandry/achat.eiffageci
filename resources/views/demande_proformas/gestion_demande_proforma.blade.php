@@ -511,7 +511,7 @@ var nom="";
 
                                 $('#gestion_demande_proforma').DataTable().row.add([
                                     value.id,
-                                    value.libelleMateriel,
+                                    value.libelle,
                                     value.libelleNature,
                                     value.quantite+" "+ value.unite,
                                     value.DateBesoin,

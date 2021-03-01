@@ -37,12 +37,13 @@ class FournisseurController extends Controller
         $fournisseurs=  Fournisseur::all();
         return view('fournisseurs/lister_fournisseur')->with('fournisseurs', $fournisseurs)->with('domaines',$domaines);
     }
-    public function modifier_fournisseur($slug)
+    public function modifier_fournisseur($locale,$slug)
     {
+      //  dd($slug);
         $domaines=  DB::table('domaines')->get();
        // $fournisseurs = Fournisseur::all();
         $fournisseur = Fournisseur::where('slug','=',$slug)->first();
-      //  dd($fournisseur);
+       // dd($fournisseur);
         $contacts= json_decode($fournisseur->contact);
       //  dd($contacts);
         return view('fournisseurs/modifer_fournisseur',compact('fournisseur','domaines','contacts'));
@@ -54,7 +55,7 @@ class FournisseurController extends Controller
         $fournisseurs=  Fournisseur::all();
         return view('fournisseurs/ajouter_fournisseur')->with('fournisseurs',$fournisseurs)->with('domaines',$domaines);
     }
-    public function supprimer_fournisseur($slug)
+    public function supprimer_fournisseur($locale,$slug)
     {
         $fournisseur = Fournisseur::where('slug', '=', $slug)->first();
         $fournisseur->delete();
@@ -99,7 +100,7 @@ class FournisseurController extends Controller
         $fournisseur->responsable=$parameters['responsable'];
         $fournisseur->email=$parameters['email'];
         $fournisseur->contact=$raw["contact"];
-        $fournisseur->slug=Str::slug($parameters['libelle'].$date->format('dmYhis'));
+      //  $fournisseur->slug=Str::slug($parameters['libelle'].$date->format('dmYhis'));
         $fournisseur->save();
 
         $domaines=  DB::table('domaines')->get();
@@ -107,7 +108,7 @@ class FournisseurController extends Controller
 
         $contacts= json_decode($fournisseur->contact);
 
-        return redirect()->route('lister_fournisseurs')->with('success',"Le fournisseur a été mis à jour");
+        return redirect()->back()->with('success',"Le fournisseur a été mis à jour");
     }
     public function Validfournisseur( Request $request)
     {

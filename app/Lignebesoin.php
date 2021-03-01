@@ -8,7 +8,7 @@ class Lignebesoin extends Model
 {
     //
     protected  $table="lignebesoin";
-    protected $fillable= ['id','unite','quantite','DateBesoin','id_user','id_nature','id_materiel','id_bonCommande','id_reponse_fournisseur','demandeur','etat','slug','id_valideur','usage','motif','dateConfirmation','date_livraison_eff','created_at','updated_at','id_codeGestion'];
+    protected $fillable= ['*'];
 
     public function codeGestion(){
 
@@ -17,5 +17,21 @@ class Lignebesoin extends Model
     public function materiel(){
 
         return $this->belongsTo('App\Materiel','id_materiel');
+    }
+    public function designation(){
+
+        return $this->belongsTo('App\Designation','id_materiel');
+    }
+    public function codetache(){
+
+        return $this->belongsTo('App\CodeTache','id_codeTache');
+    }
+    public function nature(){
+
+        return $this->belongsTo('App\Nature','id_nature');
+    }
+    public function gestion(){
+
+        return $this->belongsTo('App\Gestion','id_codeGestion');
     }
 }

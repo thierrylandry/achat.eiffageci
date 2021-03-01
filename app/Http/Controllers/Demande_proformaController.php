@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 
 
 use App\DA;
+use App\Designation;
 use App\Devis;
 use App\Domaines;
 use App\Gestion;
@@ -44,11 +45,13 @@ class Demande_proformaController extends Controller
     public function demande_proformas()
     {
 
-        $types = DB::table('materiel')
-            ->join('lignebesoin', 'materiel.id', '=', 'lignebesoin.id_materiel')
-            ->join('domaines', 'domaines.id', '=', 'materiel.type')
-            ->whereIn('etat',[2,3])
-            ->select('domaines.libelleDomainne','domaines.id')->distinct()->get();
+        $types = DB::table('designation')
+            ->join('lignebesoin', 'designation.id', '=', 'lignebesoin.id_materiel')
+            ->join('famille', 'famille.id', '=', 'designation.id_famille')
+            ->join('domaines', 'domaines.id', '=', 'famille.id_domaine')
+            ->whereIn('lignebesoin.etat',[2,3])
+            ->select('domaines.libelleDomainne','domaines.id','lignebesoin.etat')->distinct()->get();
+
         $fournisseurs=Fournisseur::all();
         $materiels=Materiel::all();
         $das=  DA::all();
@@ -109,8 +112,8 @@ dd($list_da);
 
 
                 $lignebesoin= Lignebesoin::find($id);
-                if(isset($lignebesoin->materiel->code_analytique)){
-                    $devis->codeRubrique=$lignebesoin->materiel->code_analytique;
+                if(isset($lignebesoin->designation->code_analytique)){
+                    $devis->codeRubrique=$lignebesoin->designation->code_analytique;
                 }
                 if(isset($lignebesoin)){
                     $lignebesoin->etat=3;
@@ -241,9 +244,9 @@ return 1;
 
         foreach($lignebesoins as $das):
             if(isset($das->id)){
-                $materiel=DB::table('materiel')
+                $materiel=DB::table('designation')
                     ->where('id', '=', $das->id_materiel)
-                    ->select('libelleMateriel','image')->distinct()->get();
+                    ->select('libelle','image')->distinct()->get();
 
 
                 if($materiel[0]->image!==""){
@@ -258,7 +261,7 @@ return 1;
 
                 }
 
-               $corps[$i] =" - ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelleMateriel;
+               $corps[$i] =" - ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelle;
             }
             $i++;
 
@@ -341,13 +344,16 @@ public function nouveau_rappel($id_trace_mail){
 
 $i=0;
     foreach ($id_das as $da):
-        $lignebesoins[]=Lignebesoin::find($da);
+        if(isset($da)){
+            $lignebesoins[]=Lignebesoin::find($da);
+        }
+
     endforeach;
     foreach($lignebesoins as $das):
         if(isset($das->id)){
-            $materiel=DB::table('materiel')
+            $materiel=DB::table('designation')
                 ->where('id', '=', $das->id_materiel)
-                ->select('libelleMateriel','image')->distinct()->get();
+                ->select('libelle','image')->distinct()->get();
 
 
             if($materiel[0]->image!==""){
@@ -362,7 +368,7 @@ $i=0;
 
             }
 
-            $corps[$i] =" - ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelleMateriel;
+            $corps[$i] =" - ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelle;
         }
         $i++;
 
@@ -412,9 +418,9 @@ $i=0;
             $das=  DA::find($laDA);
 
             if(isset($das->id) && $das->id!=""){
-                $materiel=DB::table('materiel')
+                $materiel=DB::table('designation')
                     ->where('id', '=', $das->id_materiel)
-                    ->select('libelleMateriel','image')->distinct()->get();
+                    ->select('libelle','image')->distinct()->get();
 
 
                 if($materiel[0]->image!==""){
@@ -428,7 +434,7 @@ $i=0;
                     $precisions[$i]="";
 
                 }
-                $corps[$i] =" - ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelleMateriel." \r\n ";
+                $corps[$i] =" - ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelle." \r\n ";
                 $i++;
             }
 
@@ -581,13 +587,14 @@ foreach ($recup_email as $email):
     }
     public function les_das_funct($domaine)
     {
-        $types = DB::table('materiel')
-            ->where('type', '=', $domaine)
-            ->join('lignebesoin', 'materiel.id', '=', 'lignebesoin.id_materiel')
+        $types = DB::table('designation')
+            ->where('famille.id_domaine', '=', $domaine)
+            ->join('famille', 'famille.id', '=', 'designation.id_famille')
+            ->join('lignebesoin', 'designation.id', '=', 'lignebesoin.id_materiel')
             ->join('nature', 'nature.id', '=', 'lignebesoin.id_nature')
             ->leftJoin('users', 'users.id', '=', 'lignebesoin.id_valideur')
             ->whereIn('lignebesoin.etat', [2,3])
-            ->select('lignebesoin.id','lignebesoin.id_materiel','unite','DateBesoin','quantite','demandeur','users.nom','users.prenoms','libelleMateriel','libelleNature','lignebesoin.slug','lignebesoin.created_at','lignebesoin.etat')
+            ->select('lignebesoin.id','lignebesoin.id_materiel','unite','DateBesoin','quantite','demandeur','users.nom','users.prenoms','designation.libelle','libelleNature','lignebesoin.slug','lignebesoin.created_at','lignebesoin.etat')
             ->orderBy('lignebesoin.id', 'desc')
             ->distinct()->get();
         $variable="";
@@ -665,16 +672,17 @@ foreach ($recup_email as $email):
             ->join('domaines', 'domaines.id', '=', 'fournisseur.domaine')
             ->select('libelle','libelleDomainne','fournisseur.id','fournisseur.domaine')->distinct()->get();
        // $materiels=Materiel::all();
-        $das= DB::table('materiel')
-            ->join('lignebesoin', 'materiel.id', '=', 'lignebesoin.id_materiel')
+        /*
+        $das= DB::table('designation')
+            ->join('lignebesoin', 'designation.id', '=', 'lignebesoin.id_materiel')
             ->where('etat', '=', 2)
-            ->select('libelleMateriel','lignebesoin.id', 'lignebesoin.unite', 'lignebesoin.quantite', 'DateBesoin','id_user', 'id_reponse_fournisseur','id_nature', 'lignebesoin.id_materiel', 'id_bonCommande','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','code_analytique','type','lignebesoin.id_codeGestion')->distinct()->paginate(30);
-
+            ->where('lignebesoin.created_at', '>', '2020-12-21 00:00:00')
+            ->select('libelle','lignebesoin.id', 'lignebesoin.unite', 'lignebesoin.quantite', 'DateBesoin','id_user', 'id_reponse_fournisseur','id_nature', 'lignebesoin.id_materiel', 'id_bonCommande','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','code_analytique','type','lignebesoin.id_codeGestion')->distinct()->paginate(30);
+*/
+        $das= Lignebesoin::where('etat','=',2)->distinct()->paginate(30);
         $tab_proposition= Array();
         foreach ($das as $d):
-            $dev = DB::table('devis')
-                    ->join('materiel', 'materiel.id', '=', 'devis.id_materiel')
-                    ->where('id_materiel','=',$d->id_materiel)->orderByRaw('devis.id DESC')->get()->first();
+            $dev = Devis::where('id_materiel','=',$d->id_materiel)->orderByRaw('devis.id DESC')->get()->first();
             if($dev!=null){
                 $tab_proposition[$d->id]=$dev;
             }
@@ -683,8 +691,9 @@ foreach ($recup_email as $email):
         $users= User::all();
         $domaines=  DB::table('domaines')->get();
         $devis = DB::table('devis')
-            ->join('materiel', 'materiel.id', '=', 'devis.id_materiel')
-            ->select('libelleMateriel','devis.id','devis.id_da','titre_ext','type','devise', 'devis.unite', 'devis.quantite','id_fournisseur','prix_unitaire','remise','devis.codeRubrique','hastva','referenceFournisseur','codeGestion')
+            ->join('designation', 'designation.id', '=', 'devis.id_materiel')
+            ->join('famille', 'famille.id', '=', 'designation.id_famille')
+            ->select('designation.libelle','devis.id','devis.id_da','titre_ext','famille.id_domaine','devise', 'devis.unite', 'devis.quantite','id_fournisseur','prix_unitaire','remise','devis.codeRubrique','hastva','referenceFournisseur','codeGestion')
 
         ->where('etat','=',1)->get();
 

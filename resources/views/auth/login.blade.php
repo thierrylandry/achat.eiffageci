@@ -13,19 +13,19 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <meta name="keywords" content="Visitors Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
     <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
     <!-- bootstrap-css -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" >
+    <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}" >
     <!-- //bootstrap-css -->
     <!-- Custom CSS -->
     <link rel="icon" href="{{ URL::asset('images/eiffagefavicon.png') }}" type="image/png" sizes="66x66">
-    <link href="css/style.css" rel='stylesheet' type='text/css' />
-    <link href="css/style-responsive.css" rel="stylesheet"/>
+    <link href="{{asset('css/style.css')}}" rel='stylesheet' type='text/css' />
+    <link href="{{asset('css/style-responsive.css')}}" rel="stylesheet"/>
     <!-- font CSS -->
     <link href='//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
     <!-- font-awesome icons -->
-    <link rel="stylesheet" href="css/font.css" type="text/css"/>
-    <link href="css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('css/font.css')}}" type="text/css"/>
+    <link href="{{asset('css/font-awesome.css')}}" rel="stylesheet">
     <!-- //font-awesome icons -->
-    <script src="js/jquery2.0.3.min.js"></script>
+    <script src="{{asset('js/jquery2.0.3.min.js')}}"></script>
 </head>
 <body>
 
@@ -35,13 +35,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
         <div class="row">
             <div class="col-sm-2"></div>
-            <img  src="images/Eiffage_2400_01_colour_RGB.png" class="col-sm-8"  alt="">
+            <img  src="{{asset('images/Eiffage_2400_01_colour_RGB.png')}}" class="col-sm-8"  alt="">
             <div class="col-sm-2"></div>
         </div>
         </br>
 
         <!-- <h2>{{ __('Connexion') }}</h2> -->
-        <div align="center" class="msg">Veuillez vous connecter pour démarrer votre session</div>
+        <div align="center" class="msg">{{ __('auth.instruction') }}</div>
         </br>
 
         @foreach($errors->all() as $e)
@@ -50,12 +50,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             </div>
         @endforeach
 
-        <form action="{{ route('login') }}" method="post">
+        <form action="{{ route('login', app()->getLocale()) }}" method="post">
             @csrf
 
             <div class="form-group row">
                 <div class="col-md-12">
-                <input type="email"  name="email" id="email" required="" class="ggg form-control{{ $errors->has('email') ? 'is-invalid' : '' }}" value="{{ old('email') }}" placeholder="E-mail">
+                <input type="email"  name="email" id="email" required="" class="ggg form-control{{ $errors->has('email') ? 'is-invalid' : '' }}" value="{{ old('email') }}" placeholder="{{ __('auth.email')}}">
                 <!-- @if ($errors->has('email'))
                         <span class="invalid-feedback" role="alert">
                             <strong class="row-md-8">{{ $errors->first('email') }}</strong>
@@ -72,25 +72,25 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 </span>
             @endif
 
-            <span><input id="remember" name="remember" type="checkbox" {{ old('remember') ? 'checked' : '' }} />Se souvenir de moi</span>
+            <span><input id="remember" name="remember" type="checkbox" {{ old('remember') ? 'checked' : '' }} />{{ __('auth.remember_me')}}</span>
             <h6>
-                <a class="btn btn-link" href="{{ route('password.request') }}">
-                    {{ __('Mot de passe oublié?') }}
+                <a class="btn btn-link" href="{{ route('password.request',app()->getLocale()) }}">
+                   {{ __('auth.forgot_password')}}
                 </a>
             </h6>
             <div class="clearfix"></div>
-            <input type="submit" id="login" value="{{ __('Connexion') }}" name="login">
+            <input type="submit" id="login" value="{{ __('auth.login') }}" name="login">
         </form>
-        <p>Vous n'avez pas de compte ?<a href="{{ route('register') }}">Créez-en un</a></p>
+        <p>{{ __('auth.instruction_signin') }}<a href="{{ route('register',app()->getLocale()) }}">{{ __('auth.signup')}}</a></p>
     </div>
 </div>
-<script src="js/bootstrap.js"></script>
-<script src="js/jquery.dcjqaccordion.2.7.js"></script>
-<script src="js/scripts.js"></script>
-<script src="js/jquery.slimscroll.js"></script>
-<script src="js/jquery.nicescroll.js"></script>
-<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot-chart/excanvas.min.js"></script><![endif]-->
-<script src="js/jquery.scrollTo.js"></script>
+<script src="{{asset('js/bootstrap.js')}}"></script>
+<script src="{{asset('js/jquery.dcjqaccordion.2.7.js')}}"></script>
+<script src="{{asset('js/scripts.js')}}"></script>
+<script src="{{asset('js/jquery.slimscroll.js')}}"></script>
+<script src="{{asset('js/jquery.nicescroll.js')}}"></script>
+<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="{{asset('js/flot-chart/excanvas.min.js')}}"></script><![endif]-->
+<script src="{{asset('js/jquery.scrollTo.js')}}"></script>
 <script>
     var data = [
         {

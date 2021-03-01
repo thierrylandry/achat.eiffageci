@@ -11,16 +11,24 @@ namespace App\Http\Controllers;
 
 
 use App\Boncommande;
+use App\CodeTache;
 use App\DA;
+use App\Designation;
 use App\Devis;
+use App\Domaines;
+use App\Famille;
 use App\Gestion;
+use App\ligne_bc;
+use App\Lignebesoin;
 use App\Materiel;
 use App\Fournisseur;
 use App\Nature;
+use App\Panier_demande;
 use App\Tracemail;
 use App\Unites;
 use App\User;
 use Carbon\Carbon;
+use Faker\Provider\DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
@@ -146,6 +154,144 @@ class DAController
 
         // return redirect()->route('gestion_bc')->with('success', "Bon(s) de commande(s) validé(s) & Transmission aux fournisseurs");
         return 'success';
+    }
+    public function donne_moi_le_nom_des_designations($id)
+    {
+        // dd($listeDA);
+        $ids = explode(",", $id);
+
+        //   $ligne_besoin= Lignebesoin::where('id_bonCommande', '=', $Boncommande->id)->first();
+
+        $res='<ol>';
+
+        foreach($ids as $id):
+            if($id!=''){
+               $designation = Designation::find($id);
+                $res=$res.'<li>'.$designation->libelle.'</li>';
+            }
+
+        endforeach;
+        $res=$res.'</ol>';
+        // return redirect()->route('gestion_bc')->with('success', "Bon(s) de commande(s) validé(s) & Transmission aux fournisseurs");
+        return $res;
+    }
+    public function creation_ajout_de_panier($locale,$id)
+    {
+        $res=1;
+
+        $ids = explode(",", $id);
+        $panier_demande=Panier_demande::where('etat','=',1)->where('id_user','=',Auth::user()->id)->first();
+
+        if(!isset($panier_demande)){
+
+            $panier_demande= new Panier_demande();
+
+            $panier_demande->id_user = Auth::user()->id;
+            $panier_demande->etat =1;
+            $panier_demande->save();
+
+
+        }
+        $date= new \DateTime(null);
+       // echo $date->format('Y-m-d');
+    //    dd($ids);
+        foreach($ids as $id):
+            $lignaexiste = Lignebesoin::where('id_materiel','=',$id)->where('id_user','=',Auth::user()->id)->where('etat','=',1)->first();
+//dd($lignaexiste);
+          if(!isset($lignaexiste->id)){
+              if($id!=''){
+                  $lignebesoin = new DA();
+                  $lignebesoin->id_materiel=$id;
+                  $lignebesoin->quantite=1;
+                  $lignebesoin->unite="u";
+                  // $lignebesoin->nature=1;
+                  $lignebesoin->DateBesoin=$date->format('Y-m-d');
+                  $lignebesoin->demandeur=Auth::user()->nom;
+                  $lignebesoin->id_user=Auth::user()->id;
+                  $lignebesoin->id_panier_demande=$panier_demande->id;
+                  $lignebesoin->slug= Str::slug($id . $date->format('Y-m-d h:m:s'));
+                  $lignebesoin->save();
+
+              }
+          }else{
+              $res=2;
+          }
+
+        endforeach;
+        return $res;
+    }
+    public function mise_ajour_info_da(Request $request)
+    {
+        $parameters = $request->except(['_token']);
+
+        // dd($parameters);
+        $res=$parameters['res'];
+        $lesId=$parameters['lesId'];
+        $lesId=explode(',',$lesId);
+        parse_str($res,$tab);
+        $i=0;
+        foreach($lesId as $id){
+            if($id!=="undefined" ){
+                $lignebesoin = Lignebesoin::find($id);
+                if($tab["id_codeGestion".$id]!=''){
+                    $lignebesoin->id_codeGestion=$tab["id_codeGestion".$id];
+                }
+                if($tab["id_codeTache".$id]!=''){
+                    $lignebesoin->id_codeTache=$tab["id_codeTache".$id];
+                }
+
+                $lignebesoin->demandeur=$tab["demandeur".$id];
+                $lignebesoin->usage=$tab["usage".$id];
+                $lignebesoin->id_nature=$tab["id_nature".$id];
+                $lignebesoin->quantite=$tab["quantite".$id];
+                $lignebesoin->unite=$tab["unite".$id];
+                $lignebesoin->DateBesoin=$tab["DateBesoin".$id];
+                $lignebesoin->commentaire=$tab["commentaire".$id];
+                $lignebesoin->save();
+            }
+            $i++;
+        }
+
+
+
+
+
+
+
+        return 1;
+
+    }
+    public function retirer_du_panier($id)
+    {
+
+        $ids = explode(",", $id);
+        $panier_demande=Panier_demande::where('etat','=',1)->where('id_user','=',Auth::user()->id)->first();
+
+        $date= new \DateTime(null);
+       // echo $date->format('Y-m-d');
+        foreach($panier_demande->lignebesoins()->get() as $lignebesoin):
+
+
+            if($id!='' && in_array($lignebesoin->id,$ids)){
+                $lignebesoin->delete();
+
+            }
+
+        endforeach;
+        return 1;
+    }
+    public function afficher_contenue_panier()
+    {
+        $panier_demande = Panier_demande::where('id_user','=',Auth::user()->id)->where('etat','=',1)->first();
+
+      //  dd($panier_demande);
+        $lignebesoins = $panier_demande->lignebesoins()->where('etat','<',2)->where('etat','<>',0)->get();
+
+        $res = array();
+        foreach($lignebesoins as $lignebesoin):
+            $res[]=$lignebesoin->designation->libelle;
+            endforeach;
+        return $res;
     }
 
     public function refus_da_collective($id)
@@ -312,7 +458,7 @@ class DAController
     }
     public function encours_validation()
     {
-        $das = DA::where('etat','=',1)->paginate(100);
+        $das = Lignebesoin::where('etat','=',1)->where('id_codeGestion','<>','')->where('usage','<>','')->paginate(100);
         $gestions= Gestion::all();
         $tracemails= DB::table('trace_mail')->get();
         /*debut du traçages*/
@@ -387,6 +533,67 @@ class DAController
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; affichage de la fenetre de création de D.A.', ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
 
         return view('DA/creer_da',compact('das','fournisseurs','materiels','natures','service_users','domaines','tab_unite','tracemails','gestions','mesdas'));
+
+
+    }
+    public function historique_achat()
+    {
+           $mesdas=  Lignebesoin::where('lignebesoin.created_at','<','2020-12-14 00:00:00')->where('lignebesoin.id_user','=',Auth::user()->id)->orderBy('lignebesoin.created_at', 'DESC')->get();
+           $mesdas_news=  Lignebesoin::where('lignebesoin.created_at','>','2020-12-14 00:00:00')->where('lignebesoin.id_user','=',Auth::user()->id)->orderBy('lignebesoin.created_at', 'DESC')->get();
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; affichage de la fenetre de création de D.A.', ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
+
+        return view('DA/historique_achat',compact('mesdas','mesdas_news'));
+
+
+    }
+    public function demande_achat()
+    {
+
+        $materiels=Designation::all();
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+
+        $panini ="panier";
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; affichage de la fenetre de création de D.A.', ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
+
+        return view('DA/demande_achat',compact('materiels','panini'));
+
+
+    }
+    public function mon_panier()
+    {
+        $panier_demande = Panier_demande::where('id_user','=',Auth::user()->id)->where('etat','=',1)->first();
+        $gestions = Gestion::all();
+        $natures = Nature::all();
+        $unites=Unites::all();
+        foreach($unites as $unite):
+            if($unite->id==1 || $unite->id>=41 && $unite->id<50 ){
+                $tab_unite['nothing'][]=$unite->libelle;
+            }elseif($unite->id>1 && $unite->id<=10 ){
+                $tab_unite['La longueur'][]= $unite->libelle;
+            }elseif ($unite->id>10 && $unite->id<=20){
+                $tab_unite['La masse'][]=$unite->libelle;
+            }elseif ($unite->id>20 && $unite->id<=30){
+                $tab_unite['Le volume'][]=$unite->libelle;
+            }elseif ($unite->id>30 && $unite->id<=40){
+                $tab_unite['La surface'][]=$unite->libelle;
+            }
+        endforeach;
+        $codetaches =CodeTache::all();
+        return view('DA/panier',compact('panier_demande','gestions','natures','tab_unite','codetaches'));
 
 
     }
@@ -611,6 +818,37 @@ class DAController
        $materiel=Materiel::where('id','=',$id)->first();
 
         return $materiel->id_codeGestion;
+    }
+    public function adapter()
+    {
+        /*
+        $familles = Famille::all();
+        $designations = Designation::all();
+
+
+        foreach($designations as $design):
+            $mafamille=Famille::where('libelle','=',$design->id_famille)->first();
+            if(isset($mafamille)){
+
+                $design->id_famille= $mafamille->id;
+                $design->save();
+            }
+
+        endforeach;
+        dd($designations);
+        */
+        $familles = Famille::all();
+
+        foreach($familles as $famille):
+            $mondomaine=Domaines::where('libelleDomainne','=',$famille->id_domaine)->first();
+            if(isset($mondomaine)){
+
+                $famille->id_domaine= $mondomaine->id;
+                $famille->save();
+            }
+
+        endforeach;
+        dd($familles);
     }
 
     public function supprimer_da($slug)

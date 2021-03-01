@@ -93,6 +93,12 @@ return [
 
     'fallback_locale' => 'fr',
 
+    'available_locales' => [
+        'en',
+        'de',
+        'fr'
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Faker Locale

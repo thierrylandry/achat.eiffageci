@@ -33,10 +33,10 @@
                                             <th class="dt-head-center">N°D.A</th>
                                             <th class="dt-head-center">N°D.A</th>
                                             <th class="dt-head-center">id_materiel</th>
-                                            <th class="dt-head-center">nom produit</th>
+                                            <th class="dt-head-center">Article</th>
                                             <th>Code Analytique</th>
                                             <th>Code Gestion</th>
-                                            <th class="dt-head-center">Matériel et consultation</th>
+                                            <th class="dt-head-center">Article (Fournisseur)</th>
                                             <th>Reference </br>Fournisseur</th>
                                             <th class="dt-head-center" width="5%">Quantité</th>
                                             <th class="dt-head-center">Pour le ?</th>
@@ -56,7 +56,7 @@
                                                 <td>{{$da->id}}</td>
                                                 <td>{{$da->id}}</td>
                                                 <td>{{$da->id_materiel}}</td>
-                                                <td>{{$da->libelleMateriel}}</td>
+                                                <td>{{$da->designation->libelle}}</td>
                                                 <td>{{$da->code_analytique}}</td>
                                                 <td><div class="form-group">
                                                         <select style="width: 50px;" class="form-control selectpicker" id="row_n_{{$da->id}}_codeGestion" name="row_n_{{$da->id}}_codeGestion" data-live-search="true" data-size="6" >
@@ -71,7 +71,7 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <input  type="text" value="{{isset($tab_proposition[$da->id]->titre_ext)?$tab_proposition[$da->id]->titre_ext:$da->libelleMateriel}}" id="row_n_{{$da->id}}_titre_ext" name="row_n_{{$da->id}}_titre_ext" />
+                                                    <input  type="text" value="{{isset($tab_proposition[$da->id]->titre_ext)?$tab_proposition[$da->id]->titre_ext:$da->designation->libelle}}" id="row_n_{{$da->id}}_titre_ext" name="row_n_{{$da->id}}_titre_ext" />
                                                 </td>
                                                 <td>
                                                     <input type="text" class="col-sm-12" value="" id="row_n_{{$da->id}}_ref" name="row_n_{{$da->id}}_ref"/>
@@ -119,16 +119,18 @@
                                                     </select>
                                                 </td>
                                                 <td>{{$da->DateBesoin}}</td>
-                                                <td><select class="form-control" id="row_n_{{$da->id}}_fournisseur" name="row_n_{{$da->id}}_fournisseur">
+                                                <td>  <select class="form-control" id="row_n_{{$da->id}}_fournisseur" name="row_n_{{$da->id}}_fournisseur">
                                                         <option value="">SELECTIONNER UN  FOURNISSEUR</option>
+
                                                         @foreach($fournisseurs as $fournisseur)
-                                                            @if(in_array($da->type,explode(',',$fournisseur->domaine)))
+                                                            <?php $var=explode(',',$fournisseur->domaine);?>
+                                                            @if(in_array($da->designation->famille->id_domaine,$var))
                                                                 <option    value="{{$fournisseur->id}}">{{$fournisseur->libelle}}</option>
                                                             @endif
                                                         @endforeach</select>
                                                     <label>PROPOSITION:
                                                         <a  onclick="document.getElementById('row_n_{{$da->id}}_fournisseur').value='{{isset($tab_proposition[$da->id])?$tab_proposition[$da->id]->id_fournisseur:''}}';$('#row_n_{{$da->id}}_fournisseur').selectpicker('refresh')">  @foreach($fournisseurs as $fournisseur)
-                                                                @if(in_array($da->type,explode(',',$fournisseur->domaine)))
+                                                                @if(in_array($da->designation->famille->id_domaine,explode(',',$fournisseur->domaine)))
                                                                     @if( isset($tab_proposition[$da->id]) && $fournisseur->id==$tab_proposition[$da->id]->id_fournisseur)
                                                                         {{$fournisseur->libelle}}
                                                                     @endif
@@ -190,7 +192,7 @@
                                             <th class="dt-head-center">N°D.A</th>
                                             <th>Code Analytique</th>
                                             <th>Code Gestion</th>
-                                            <th class="dt-head-center">Matériel et consultation</th>
+                                            <th class="dt-head-center">Article (Fournisseur)</th>
                                             <th class="dt-head-center">Reference Fournisseur</th>
                                             <th class="dt-head-center" >Quantité</th>
                                             <th class="dt-head-center">Fournisseur</th>
@@ -211,7 +213,7 @@
                                             <tr>
                                                 <td>{{$devi->id}}</td>
                                                 <td>{{$devi->id}}</td>
-                                                <td>{{ $devi->libelleMateriel}}</td>
+                                                <td>{{ $devi->libelle}}</td>
                                                 <td>{{$devi->id_da}}</td>
                                                 <td> <div class="form-group">
                                                         <select class="form-control selectpicker" id="row_n_{{$devi->id}}_codeRubrique" name="row_n_{{$devi->id}}_codeRubrique" data-live-search="true" data-size="6" required>
@@ -285,7 +287,7 @@
                                                         <option value="">SELECTIONNER UN  FOURNISSEUR</option>
                                                         @foreach($fournisseurs as $fournisseur)
 
-                                                            @if(in_array($devi->type,explode(',',$fournisseur->domaine)))
+                                                            @if(in_array($devi->id_domaine,explode(',',$fournisseur->domaine)))
                                                                 @if($fournisseur->id==$devi->id_fournisseur)
                                                                     <option value="{{$fournisseur->id}}" selected>{{$fournisseur->libelle}}</option>
                                                                 @else

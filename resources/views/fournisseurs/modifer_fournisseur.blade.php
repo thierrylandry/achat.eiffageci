@@ -9,7 +9,7 @@
 @section('modifier_fournisseur')
 @endsection
 @section('content')
-    <h2>LES FOURNISSEURS - {{isset($fournisseur)? 'MODIFIER FOURNISSEUR':'AJOUTER FOURNISSEUR'}}<a href="{{route('ajouter_fournisseur')}}" class="btn btn-default  pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i> Ajouter</a><a href="{{route('lister_fournisseurs')}}" class="btn btn-default pull-right"><i class="fa fa-list" aria-hidden="true"></i> Lister</a></h2>
+    <h2>LES FOURNISSEURS - {{isset($fournisseur)? 'MODIFIER FOURNISSEUR':'AJOUTER FOURNISSEUR'}}<a href="{{route('ajouter_fournisseur',app()->getLocale())}}" class="btn btn-default  pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i> Ajouter</a><a href="{{route('lister_fournisseurs',app()->getLocale())}}" class="btn btn-default pull-right"><i class="fa fa-list" aria-hidden="true"></i> Lister</a></h2>
     </br>
     </br>
     </br>

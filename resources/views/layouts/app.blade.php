@@ -41,6 +41,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="{{ URL::asset('js/flot-chart/excanvas.min.js') }}"></script><![endif]-->
     <script src="{{ URL::asset('js/jquery.scrollTo.js') }}"></script>
     <script src="{{ URL::asset('js/bootstrap-select.js') }}"></script>
+    <script src="{{ URL::asset('js/dataTables.buttons.min.js') }}"></script>
 
     <!-- DataTables -->
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/dataTables.bootstrap4.min.css') }}"/>
@@ -54,6 +55,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script type="text/javascript" src="{{ URL::asset('js/button.html5.min.js') }}"></script>
     <script type="text/javascript" src="{{ URL::asset('js/notification.js') }}"></script>
     <script type="text/javascript" src="{{ URL::asset('js/dateFormat.js') }}"></script>
+
 
     <style>
 
@@ -156,7 +158,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <!--logo start-->
         <div class="brand">
 
-            <a href="{{route('home')}}" class="logo">
+            <a href="{{route('home',app()->getLocale())}}" class="logo">
                 Pro-Achat
             </a>
             <div class="sidebar-toggle-box">
@@ -167,193 +169,230 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <div class="top-nav clearfix">
             <!--search & user info start-->
             <ul class="nav pull-right top-menu">
-                <li>
-                   <a href="{{env('APP_URL')}}/public/uploads/guide utilisateur.pdf" target="_blank"> &nbsp; <i class="fa fa-file-pdf-o"></i> Guide Utilisateur</a>
-                </li><li>
-                    <input type="text" class="form-control search" placeholder=" Search">
-                </li>
-                <!-- user login dropdown start-->
-                @guest
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                </li>
-                <li class="nav-item">
-                    @if (Route::has('register'))
-                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                    @endif
-                </li>
-                @else
-                    <li class="dropdown">
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <img alt="" src="images/user.png">
-                            <span class="username">{{ Auth::user()->prenoms }} {{ Auth::user()->nom }}  </span>
-                            <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu extended logout">
-                            <li><a href="{{route('monprofile',['$lug'=> \Illuminate\Support\Facades\Auth::user()->slug])}}"><i class=" fa fa-suitcase"></i>Mon profile </a></li>
-                            <li> <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-key"></i>{{ __('Se déconnecter') }}</a></li>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                @csrf
-                            </form>
-                        </ul>
-                    </li>
-                    @endguest
+@if(isset($panini) )
+<li class="dropdown">
+     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+       Mon panier  <i class="fa fa-shopping-basket"></i>
+         <span class="badge bg-success" id="nb_article">0</span>
+     </a>
+     <ul class="dropdown-menu extended tasks-bar" id="list_panier">
 
 
 
-            </ul>
-            <!--search & user info end-->
-        </div>
-    </header>
-    <!--header end-->
-    <!--sidebar start-->
-    <aside>
-        <div id="sidebar" class="nav-collapse">
-            <!-- sidebar menu start-->
-            <div class="leftside-navigation">
-                <ul class="sidebar-menu" id="nav-accordion">
-                    <li>
-                        <a @yield('tableau_de_bord') href="{{route('home')}}">
-                            <i class="fa fa-dashboard"></i>
-                            <span>Tableau de Bord</span>
-                        </a>
-                    </li>
-                    @if(Auth::user() != null && Auth::user()->hasRole('Parametrage'))
-                    <li>
-                        <a  href="index.html" @yield('parent_fournisseurs') >
-                            <i class="fa fa-gear">
+     </ul>
+ </li>
+ @endif
+ <li>
+    <a href="{{env('APP_URL')}}/public/uploads/guide utilisateur.pdf" target="_blank"> &nbsp; <i class="fa fa-file-pdf-o"></i> Guide Utilisateur</a>
+ </li><li>
+     <input type="text" class="form-control search" placeholder=" Search">
+ </li>
+ <!-- user login dropdown start-->
+ @guest
+ <li class="nav-item">
+     <a class="nav-link" href="{{ route('login', app()->getLocale()) }}">{{ __('Login') }}</a>
+ </li>
+ <li class="nav-item">
+     @if (Route::has('register', app()->getLocale()))
+         <a class="nav-link" href="{{ route('register',app()->getLocale()) }}">{{ __('Register') }}</a>
+     @endif
+ </li>
+ @else
+     <li class="dropdown">
+         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+             <img alt="" src="images/user.png">
+             <span class="username">{{ Auth::user()->prenoms }} {{ Auth::user()->nom }}  </span>
+             <b class="caret"></b>
+         </a>
+         <ul class="dropdown-menu extended logout">
+             <li><a href="{{route('monprofile',['$lug'=> \Illuminate\Support\Facades\Auth::user()->slug,'locale'=>app()->getLocale()])}}"><i class=" fa fa-suitcase"></i>Mon profile </a></li>
+             <li> <a class="dropdown-item" href="{{ route('logout', app()->getLocale()) }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-key"></i>{{ __('Se déconnecter') }}</a></li>
+             <form id="logout-form" action="{{ route('logout', app()->getLocale()) }}" method="POST" style="display: none;">
+                 @csrf
+             </form>
+         </ul>
+     </li>
+     @endguest
+</ul>
+<!--search & user info end-->
+</div>
+</header>
+<!--header end-->
+<!--sidebar start-->
+<aside>
+<div id="sidebar" class="nav-collapse">
+<!-- sidebar menu start-->
+<div class="leftside-navigation">
+ <ul class="sidebar-menu" id="nav-accordion">
+     <li>
+         <a @yield('tableau_de_bord') href="{{route('home',app()->getLocale())}}">
+             <i class="fa fa-dashboard"></i>
+             <span>Tableau de Bord</span>
+         </a>
+     </li>
+     <li>
+         <a  href="" @yield('rapport')>
+             <i class="fa fa-bar-chart"></i>
+             <span>Rapports</span>
+         </a>
+         <ul class="sub" >
 
-                            </i>
-                            <span>Paramétrage</span>
-                        </a>
-                        <ul class="sub" >
+             <li @yield('performance_fournisseur') ><a href="{{route('performance_fournisseur',app()->getLocale())}}" @yield('performance_fournisseur') > Performance fournisseur & relations </a></li>
+             <li @yield('rapport_stock') ><a href="{{route('rapport_stock',app()->getLocale())}}"> Stocks </a></li>
+             <li @yield('rapport_demande_achat') ><a href="{{route('rapport_demande_achat',app()->getLocale())}}"> Demande d'achat </a></li>
 
-                            <li @yield('utilisateurs')><a href="{{route('gestion_utilisateur')}}">Utilisateurs</a></li>
-                            <li @yield('fournisseurs') ><a href="{{route('lister_fournisseur')}}"> Fournisseurs </a>
+         </ul>
+     </li>
+     <li>
+         <a @yield('gestion_stock') href="{{route('gestion_stock',app()->getLocale())}}">
+             <i class="fa fa-houzz"></i>
+             <span>Gestion de stock</span>
+         </a>
+     </li>
+     @if(Auth::user() != null && Auth::user()->hasRole('Parametrage'))
+     <li>
+         <a  href="index.html" @yield('parent_fournisseurs') >
+             <i class="fa fa-gear">
 
-                                <ul class="sub" @yield('ul_fournisseur')>
+             </i>
+             <span>Paramétrage</span>
+         </a>
+         <ul class="sub" >
 
-                                    <li @yield('lister_fournisseurs') ><a href="{{route('lister_fournisseurs')}}" @yield('lister_fournisseurs') > Lister fournisseurs </a></li>
-                                    <li @yield('ajouter_fournisseur') ><a href="{{route('ajouter_fournisseur')}}"> Ajouter fournisseur </a></li>
+             <li @yield('utilisateurs')><a href="{{route('gestion_utilisateur',app()->getLocale())}}">Utilisateurs</a></li>
+             <li @yield('fournisseurs') ><a href="{{route('lister_fournisseur',app()->getLocale())}}"> Fournisseurs </a>
 
-                                </ul></li>
+                 <ul class="sub" @yield('ul_fournisseur')>
 
-                        </ul>
-                    </li>
-                    @endif
-                    @if(Auth::user() != null && Auth::user()->hasAnyRole(['Gestionnaire_DA','Valideur_DA']))
-                        <li @yield('produits') ><a href="{{route('gestion_produit')}}">Produits et Services</a></li>
-                    <li >
-                        <a  href="{{route('gestion_da')}}" @yield('das')>
-                            <i class="fa fa-archive"></i>
-                            <span>Les D.A.</span>
-                        </a>
-                        <ul class="sub">
-                            <li @yield('recherche_da')><a href="{{route('lister_da_recherche')}}">Rechercher une  D.A.</a></li>
-                            @if(Auth::user() != null && Auth::user()->hasAnyRole(['Valideur_DA'])  || Auth::user()->hasAnyRole(['Gestionnaire_Pro_Forma']))
+                     <li @yield('lister_fournisseurs') ><a href="{{route('lister_fournisseurs',app()->getLocale())}}" @yield('lister_fournisseurs') > Lister fournisseurs </a></li>
+                     <li @yield('ajouter_fournisseur') ><a href="{{route('ajouter_fournisseur',app()->getLocale())}}"> Ajouter fournisseur </a></li>
 
-                            <li @yield('lister_da')><a href="{{route('lister_da')}}">Lister les D.A.</a></li>
-                            <li @yield('encours_validation')><a href="{{route('encours_validation')}}">Lister les D.A. à valider</a></li>
-                            @endif
-                            <li  @yield('creer_da')><a href="{{route('creer_da')}}">Creer une  D.A.</a></li>
-                            <li  @yield('creer_da')><a href="{{route('da_multiple')}}">Creer plusieurs D.A.</a></li>
+                 </ul></li>
 
-                        </ul>
-                    </li>
-                    @endif
-                    @if(Auth::user() != null && Auth::user()->hasRole('Gestionnaire_Pro_Forma'))
-                    <li>
-                        <a  href="index.html" @yield('parent_demande_proformas')>
-                            <i class="fa fa-book"></i>
-                            <span>Les Dévis</span>
-                        </a>
-                        <ul class="sub">
-                            <li  @yield('demande_proformas')><a href="{{route('gestion_demande_proformas')}}">Demande de Dévis</a></li>
-                            <li @yield('reponse_fournisseur')><a href="{{route('gestion_reponse_fournisseur')}}">Reception de Dévis</a></li>
-                        </ul>
-                    </li>
-                    @endif
-                    @if(Auth::user() != null && Auth::user()->hasAnyRole(['Gestionnaire_BC']))
-                    <li >
-                        <a  @yield('gestion_bc') href="{{route('gestion_bc')}}">
-                            <i class="fa fa-archive"></i>
-                            <span>Gestion des BCs</span>
-                        </a>
+         </ul>
+     </li>
+     @endif
+     @if(Auth::user() != null && Auth::user()->hasAnyRole(['Gestionnaire_DA','Valideur_DA']))
+         <li @yield('menu_produit') ><a href="{{route('menu_produit',app()->getLocale())}}" @yield('menu_produit')>Produits et Services</a></li>
+     <li >
+         <a  href="{{route('gestion_da',app()->getLocale())}}" @yield('das')>
+             <i class="fa fa-archive"></i>
+             <span>Les D.A.</span>
+         </a>
+         <ul class="sub">
+             <li @yield('recherche_da')><a href="{{route('lister_da_recherche',app()->getLocale())}}">Rechercher une  D.A.</a></li>
+             @if(Auth::user() != null && Auth::user()->hasAnyRole(['Valideur_DA'])  || Auth::user()->hasAnyRole(['Gestionnaire_Pro_Forma']))
 
-                    </li>
-                    @endif
-                    @if(Auth::user() != null && Auth::user()->hasAnyRole(['Gestionnaire_Facture']))
-                        <li >
-                            <a  @yield('gestion_Facture') href="{{route('Gestion_Facture')}}">
-                                <i class="fa fa-archive"></i>
-                                <span>Gestion des Factures</span>
-                            </a>
+             <li @yield('lister_da')><a href="{{route('lister_da',app()->getLocale())}}">Lister les D.A.</a></li>
+             <li @yield('encours_validation')><a href="{{route('encours_validation',app()->getLocale())}}">Lister les D.A. à valider</a></li>
+             @endif
+             <li  @yield('demande_achat')><a href="{{route('demande_achat',app()->getLocale())}}">Demande d'achat</a></li>
+             <li  @yield('historique_achat')><a href="{{route('historique_achat',app()->getLocale())}}">Historique</a></li>
 
-                        </li>
-                    @endif
+         </ul>
+     </li>
+     @endif
+     @if(Auth::user() != null && Auth::user()->hasRole('Gestionnaire_Pro_Forma'))
+     <li>
+         <a  href="index.html" @yield('parent_demande_proformas')>
+             <i class="fa fa-book"></i>
+             <span>Les Dévis</span>
+         </a>
+         <ul class="sub">
+             <li  @yield('demande_proformas')><a href="{{route('gestion_demande_proformas',app()->getLocale())}}">Demande de Dévis</a></li>
+             <li @yield('reponse_fournisseur')><a href="{{route('gestion_reponse_fournisseur',app()->getLocale())}}">Reception de Dévis</a></li>
+         </ul>
+     </li>
+     @endif
+     @if(Auth::user() != null && Auth::user()->hasAnyRole(['Gestionnaire_BC']))
+     <li >
+         <a  @yield('gestion_bc') href="{{route('gestion_bc',app()->getLocale())}}">
+             <i class="fa fa-archive"></i>
+             <span>Gestion des BCs</span>
+         </a>
 
-                        @if(Auth::user() != null && Auth::user()->hasAnyRole(['Valideur_BC']))
-                        <li @yield('validation_bc')>  <a href="{{route('validation_bc')}}"><i class="fa fa-check"></i><span>Validation B.C.</span></a></li>
-                    @endif
-                    @if(Auth::user() != null && Auth::user()->hasRole('Gestionnaire_Pro_Forma'))
-                        <li>
-                            <a  href="index.html" @yield('parent_reception_commande')>
-                                <i class="fa fa-archive"></i>
-                                <span>Reception de commande</span>
-                            </a>
-                            <ul class="sub">
-                                <li  @yield('reception_commande')><a href="{{route('reception_commande')}}"> Avec B.C</a></li>
-                                <li @yield('reponse_fournisseur')><a href="{{route('gestion_reponse_fournisseur')}}">Sans B.C</a></li>
-                            </ul>
-                        </li>
-                    @endif
-                    <li style="color: ghostwhite">
-                        <table   style="color: ghostwhite;size:20pt">
-                            <thead>
-                            <tr><th></th><th>D.A</th><th>B.C</th></tr>
-                            <tr><td><div style="background-color: #CC0000; width: 25px"> &nbsp;</div></td><td> En attente de validation </td><td>En attente de validation</td></tr>
-                            <tr><td><div style="background-color: mediumspringgreen; width: 25px"> &nbsp;</div></td><td>Validée </td><td>Validé</td></tr>
-                            <tr><td><div style="background-color: #e0a800; width: 25px"> &nbsp;</div></td><td>Encours de traitement </td><td>Transmis</td></tr>
-                            <tr><td><div style="background-color: #00ffff; width: 25px"> &nbsp;</div></td><td> Traitée et terminée </td><td>Traité, transmis et terminé</td></tr>
-                            <tr><td><div style="background-color: violet; width: 25px"> &nbsp;</div></td><td> Traitée et retournée </td><td> Traité, transmis et retourné</td></tr>
-                            </thead>
+     </li>
+         <li >
+         <a  @yield('regularisation') href="{{route('regularisation',app()->getLocale())}}">
+             <i class="fa fa-archive"></i>
+             <span>Régularisation de BCs</span>
+         </a>
 
-                        </table></li>
+     </li>
+     @endif
+     @if(Auth::user() != null && Auth::user()->hasAnyRole(['Gestionnaire_Facture']))
+         <li >
+             <a  @yield('gestion_Facture') href="{{route('Gestion_Facture',app()->getLocale())}}">
+                 <i class="fa fa-archive"></i>
+                 <span>Gestion des Factures</span>
+             </a>
+
+         </li>
+     @endif
+
+         @if(Auth::user() != null && Auth::user()->hasAnyRole(['Valideur_BC']))
+         <li @yield('validation_bc')>  <a href="{{route('validation_bc',app()->getLocale())}}"><i class="fa fa-check"></i><span>Validation B.C.</span></a></li>
+     @endif
+     @if(Auth::user() != null && Auth::user()->hasRole('Gestionnaire_Pro_Forma'))
+         <li>
+             <a  href="index.html" @yield('parent_reception_commande')>
+                 <i class="fa fa-archive"></i>
+                 <span>Reception de commande</span>
+             </a>
+             <ul class="sub">
+                 <li  @yield('reception_commande')><a href="{{route('reception_commande',app()->getLocale())}}"> Avec B.C</a></li>
+                 <li @yield('reception_sans_commande')><a href="{{route('reception_commande_sans_bc',app()->getLocale())}}">Sans B.C</a></li>
+                 <li @yield('historique_bl')><a href="{{route('historique_bl',app()->getLocale())}}">Liste des bon de livraisons</a></li>
+             </ul>
+         </li>
+     @endif
+     <li style="color: ghostwhite">
+         <table   style="color: ghostwhite;size:20pt">
+             <thead>
+             <tr><th></th><th>D.A</th><th>B.C</th></tr>
+             <tr><td><div style="background-color: #CC0000; width: 25px"> &nbsp;</div></td><td> En attente de validation </td><td>En attente de validation</td></tr>
+             <tr><td><div style="background-color: mediumspringgreen; width: 25px"> &nbsp;</div></td><td>Validée </td><td>Validé</td></tr>
+             <tr><td><div style="background-color: #e0a800; width: 25px"> &nbsp;</div></td><td>Encours de traitement </td><td>Transmis</td></tr>
+             <tr><td><div style="background-color: #00ffff; width: 25px"> &nbsp;</div></td><td> Traitée et terminée </td><td>Traité, transmis et terminé</td></tr>
+             <tr><td><div style="background-color: violet; width: 25px"> &nbsp;</div></td><td> Traitée et retournée </td><td> Traité, transmis et retourné</td></tr>
+             </thead>
+
+         </table></li>
 
 
-                </ul>            </div>
+ </ul>            </div>
 
-            <!-- sidebar menu end-->
-        </div>
-    </aside>
-    <!--sidebar end-->
-    <!--main content start-->
-    <!--main content start-->
-    <section id="main-content">
-        <section class=" wrapper">
-            <!-- //market-->
-            @yield('dashboard')
-            <div class="agile-grid"  style="background-color: #FFFFFF;@yield('pour_register') margin: 5px">
+<!-- sidebar menu end-->
+</div>
+</aside>
+<!--sidebar end-->
+<!--main content start-->
+<!--main content start-->
+<section id="main-content">
+<section class=" wrapper">
+<!-- //market-->
+@yield('dashboard')
+<div class="agile-grid"  style="background-color: #FFFFFF;@yield('pour_register') margin: 5px">
 
-                @if(Session::has('success'))
-                    <div class="alert alert-success">{{Session::get('success')}}</div>
-                @endif()
-                @if(Session::has('error'))
-                    <div class="alert alert-danger">{{Session::get('error')}}</div>
-                @endif()
-                @yield('content')
-            </div>
-        </section>
-        <!-- footer -->
-        <div class="footer">
-            <div class="wthree-copyright">
-                <p>© 2017 Visitors. All rights reserved | Design by <a href="http://w3layouts.com">EIFFAGE</a></p>
-            </div>
-        </div>
-        <!-- / footer -->
-    </section>
+ @if(Session::has('success'))
+     <div class="alert alert-success">{{Session::get('success')}}</div>
+ @endif()
+ @if(Session::has('error'))
+     <div class="alert alert-danger">{{Session::get('error')}}</div>
+ @endif()
+ @yield('content')
+</div>
+</section>
+<!-- footer -->
+<div class="footer">
+<div class="wthree-copyright">
+ <p>© 2017 Visitors. All rights reserved | Design by <a href="http://w3layouts.com">EIFFAGE</a></p>
+</div>
+</div>
+<!-- / footer -->
+</section>
 
-    <!--main content end-->
+<!--main content end-->
 </section>
 
 

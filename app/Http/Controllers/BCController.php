@@ -12,12 +12,14 @@ namespace App\Http\Controllers;
 use App\Analytique;
 use App\Boncommande;
 use App\DA;
+use App\Designation;
 use App\Devis;
 use App\Fournisseur;
 use App\Gestion;
 use App\Jobs\EnvoiBcFournisseur;
 use App\Jobs\EnvoiBcFournisseurPersonnalise;
 use App\ligne_bc;
+use App\Ligne_bonlivraison;
 use App\Lignebesoin;
 use App\Materiel;
 use App\Projet;
@@ -110,9 +112,9 @@ $corps= Array();
         $i=0;
         foreach($lignebesoins as $das):
             if(isset($das->id)){
-                $materiel=DB::table('materiel')
+                $materiel=DB::table('designation')
                     ->where('id', '=', $das->id_materiel)
-                    ->select('libelleMateriel','image')->distinct()->get();
+                    ->select('libelle','image')->distinct()->get();
 
 
                 if($materiel[0]->image!==""){
@@ -126,7 +128,7 @@ $corps= Array();
                     $precisions[$i]="";
 
                 }
-                $corps[$i] =" - ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelleMateriel;
+                $corps[$i] =" - ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelle;
             }
             $i++;
 
@@ -212,9 +214,9 @@ return $view;
         $i=0;
         foreach($lignebesoins as $das):
             if(isset($das->id)){
-                $materiel=DB::table('materiel')
+                $materiel=DB::table('designation')
                     ->where('id', '=', $das->id_materiel)
-                    ->select('libelleMateriel','image')->distinct()->get();
+                    ->select('libelle','image')->distinct()->get();
 
 
                 if($materiel[0]->image!==""){
@@ -228,7 +230,7 @@ return $view;
                     $precisions[$i]="";
 
                 }
-                $corps[$i] =" - ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelleMateriel;
+                $corps[$i] =" - ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelle;
             }
             $i++;
 
@@ -318,9 +320,9 @@ return $view;
 
 
                 $contactDemandeur[]=$das->email;
-                $materiel=DB::table('materiel')
+                $materiel=DB::table('designation')
                     ->where('id', '=', $das->id_materiel)
-                    ->select('libelleMateriel','image')->distinct()->get();
+                    ->select('libelle','image')->distinct()->get();
 
 
                 if($materiel[0]->image!==""){
@@ -334,7 +336,7 @@ return $view;
                     $precisions[$i]="";
 
                 }
-                $corps[$i] =" - ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelleMateriel;
+                $corps[$i] =" - ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelle;
             }
             $i++;
 
@@ -396,6 +398,71 @@ return $view;
             endforeach;
 
         return view('BC/gestion_bc',compact('bcs','bcs_en_attentes','fournisseurs','utilisateurs','analytiques','fournisseurss','users','projets','expediteurs'));
+    }
+    public function regularisation(){
+
+        $receptions = DB::table('ligne_bonlivraison')
+            ->join('fournisseur', 'fournisseur.id', '=', 'ligne_bonlivraison.id_fournisseur')
+            ->where('ligne_bonlivraison.etat', '=', 0)
+            ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
+
+        return view('BC/regularisation',compact('receptions'));
+    }
+    public function detail_regularisation($id_fournisseur){
+        $fournisseur =Fournisseur::find($id_fournisseur);
+        $ligne_bonlivraisons = Ligne_bonlivraison::where('id_fournisseur','=',$id_fournisseur)->where('etat','=',0)->get();
+        $gestions =Gestion::all();
+        $devise = "FCFA";
+        return view('BC/bc_regularisation',compact('ligne_bonlivraisons','fournisseur','gestions','devise'));
+    }
+    public function generer_numero_bc(){
+        $bcs =Boncommande::where('id_projet','=',1)->get();
+        $project = Projet::find(1);
+        $tableau_numb= array();
+
+        foreach($bcs as $bc):
+            $tableau_numb[]= str_replace($project->libelle.'-test-',"",$bc->numBonCommande);
+
+            rsort($tableau_numb);
+            endforeach;
+        $val=0;
+        if(isset($tableau_numb[0])){
+            $val =intval($tableau_numb[0])+1;
+        }else{
+            $val=1;
+        }
+
+        return $project->libelle.'-test-'.$val;
+
+    }
+    public function regulariser($id_fournisseur){
+
+
+    }
+    public function action_regularisation(){
+
+        $date= new \DateTime(null);
+
+        $bc=  new Boncommande();
+
+        $bc->numBonCommande=$this->generer_numero_bc();
+        $bc->id_fournisseur=$id_fournisseur;
+        $bc->id_user=Auth::user()->id;
+        $bc->id_projet=1;
+        $bc->id_expediteur=Auth::user()->id;
+
+        $bc->slug=Str::slug($bc->numBonCommande.$date->format('dmYhis'));
+
+        $users= User::all();
+
+        $analytiques= Analytique::all();
+        $projets= Projet::all();
+        $expediteurs= array();
+        foreach($users as $user):
+            if($user->hasRole('Gestionnaire_Pro_Forma')){
+                $expediteurs[]=$user;
+            }
+        endforeach;
     }
     public function validation_bc()
     {
@@ -496,9 +563,9 @@ return $view;
             foreach($lignebesoins as $das):
                 if(isset($das->id)){
                     $contactDemandeur[]=$das->email;
-                    $materiel=DB::table('materiel')
+                    $materiel=DB::table('designation')
                         ->where('id', '=', $das->id_materiel)
-                        ->select('libelleMateriel','image')->distinct()->get();
+                        ->select('libelle','image')->distinct()->get();
 
 
                     if($materiel[0]->image!==""){
@@ -512,7 +579,7 @@ return $view;
                         $precisions[$i]="";
 
                     }
-                    $corps[$i] =" - ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelleMateriel;
+                    $corps[$i] =" - ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelle;
                 }
                 $i++;
 
@@ -522,6 +589,7 @@ return $view;
             //  return redirect()->route('gestion_bc')->with('success', "Envoie d'email reussi");
 
             $Boncommande->etat=3;
+            $Boncommande->date_validation=date("Y-m-d H:i:s");
             $Boncommande->save();
             $lignebesoin=Lignebesoin::where('id_bonCommande','=',$Boncommande->id)->first();
             if(isset($lignebesoin)){
@@ -562,9 +630,9 @@ return $view;
             ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
         $reponse_fournisseurs= DB::table('reponse_fournisseur')
             ->join('lignebesoin', 'reponse_fournisseur.id', '=', 'lignebesoin.id_reponse_fournisseur')
-            ->join('materiel', 'materiel.id', '=', 'lignebesoin.id_materiel')
+            ->join('designation', 'designation.id', '=', 'lignebesoin.id_materiel')
             ->where('lignebesoin.etat', '=', 2)
-            ->select('materiel.libelleMateriel','titre_ext','reponse_fournisseur.id')->distinct()->get();
+            ->select('designation.libelle','titre_ext','reponse_fournisseur.id')->distinct()->get();
         $modifierlignebc='';
         $analytiques= Analytique::all();
         $ligne_bc=Ligne_bc::where('slug','=',$slug)->first();
@@ -752,9 +820,9 @@ return $view;
                 foreach($lignebesoins as $das):
                     if(isset($das->id)){
                         $contactDemandeur[]=$das->email;
-                        $materiel=DB::table('materiel')
+                        $materiel=DB::table('designation')
                             ->where('id', '=', $das->id_materiel)
-                            ->select('libelleMateriel','image')->distinct()->get();
+                            ->select('libelle','image')->distinct()->get();
 
 
                         if($materiel[0]->image!==""){
@@ -768,7 +836,7 @@ return $view;
                             $precisions[$i]="";
 
                         }
-                        $corps[$i] =" - ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelleMateriel;
+                        $corps[$i] =" - ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelle;
                     }
                     $i++;
 
@@ -779,6 +847,7 @@ return $view;
                 //  return redirect()->route('gestion_bc')->with('success', "Envoie d'email reussi");
 
                 $Boncommande->etat=3;
+                 $Boncommande->date_validation=date("Y-m-d H:i:s");
                 $Boncommande->save();
                 $lignebesoin=Lignebesoin::where('id_bonCommande','=',$Boncommande->id)->first();
             if(isset($lignebesoin)){
@@ -1077,7 +1146,7 @@ if(isset($devis->first()->devise)){
         $gestions= Gestion::all();
         return view('BC/list_ligne_bc',compact('bc','fournisseur','utilisateurs','listerbc','devis','gestions','devise','id_devi','date_propose','service_id','service_libelle','new_devis','services'));
     }
-    public function bc_express(){
+    public function bc_express($nb){
         $analytiques =  Analytique::all();
         $materiels =  Materiel::all();
         $fournisseurs =  Fournisseur::all();
@@ -1095,7 +1164,7 @@ if(isset($devis->first()->devise)){
                 $tab_unite['La surface'][]=$unite->libelle;
             }
         endforeach;
-        return view('BC/bcexpress',compact('analytiques','materiels','fournisseurs','tab_unite'));
+        return view('BC/bcexpress',compact('analytiques','materiels','fournisseurs','tab_unite','nb'));
 
     }
     public function gestion_bc_ajouter()
@@ -1274,13 +1343,13 @@ public function gestion_offre(){
     }
     public function list_materiel_produit(){
         $codes= Analytique::all();
-        $materiels = Materiel::all();
+        $materiels = Designation::all();
 $optcode="";$optmateriel="";$optunite="";
         foreach ($codes as $code):
 $optcode.=" <option value='".$code->codeRubrique."' data-subtext='".$code->libelle."'>".$code->codeRubrique."</option>";
             endforeach;
         foreach ($materiels as $materiel):
-            $optmateriel.="<option value='".$materiel->id."'>".$materiel->libelleMateriel."</option>";
+            $optmateriel.="<option value='".$materiel->id."'>".$materiel->libelle."</option>";
         endforeach;
 
         $unites=Unites::all();

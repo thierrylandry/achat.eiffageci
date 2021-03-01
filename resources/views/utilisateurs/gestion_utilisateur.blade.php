@@ -92,7 +92,7 @@
                         <button type="submit" class="btn btn-success form-control " style="width: 200px;margin-right: 10px">{{isset($utilisateur)? 'Modifier':'Ajouter'}}</button>
                     </div>
                     @if(isset($utilisateur))
-                        <a href="{{route('gestion_utilisateur')}}">Ajouter un utilisateur</a>
+                        <a href="{{route('gestion_utilisateur',app()->getLocale())}}">Ajouter un utilisateur</a>
                     @endif
 
                 </fieldset>

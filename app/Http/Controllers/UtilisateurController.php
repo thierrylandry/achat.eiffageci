@@ -49,9 +49,9 @@ class UtilisateurController
             endforeach;
 
 
-        return redirect()->route('gestion_utilisateur')->with('success', "L'utilisateur a été ajouté");
+        return redirect()->back()->with('success', "L'utilisateur a été ajouté");
     }
-    public function voir_utilisateur($slug)
+    public function voir_utilisateur($locale,$slug)
     {
         $utilisateurs = User::all();
         $utilisateur = User::where('slug', '=', $slug)->first();
@@ -60,14 +60,14 @@ class UtilisateurController
         return view('utilisateurs/gestion_utilisateur',compact('utilisateurs','utilisateur','roles','services'));
     }
 
-    public function monprofile($slug)
+    public function monprofile($locale,$slug)
     {
         $utilisateur = User::where('slug', '=', $slug)->first();
         $roles=  Role::all();
         $services= Services::all();
         return view('utilisateurs/profile',compact('utilisateur','roles','services'));
     }
-    public function supprimer_utilisateur($slug)
+    public function supprimer_utilisateur($locale,$slug)
     {
         $utilisateur = User::where('slug', '=', $slug)->first();
         $utilisateur->roles()->detach();
@@ -113,13 +113,13 @@ class UtilisateurController
             $utilisateur->roles()->attach(Role::where('name',$role)->first());
         endforeach;
 
-        return redirect()->route('gestion_utilisateur')->with('success',"L'utilisateur a été mis à jour");
+        return redirect()->back()->with('success',"L'utilisateur a été mis à jour");
     }
     public function modifier_profile( Request $request)
     {
         $parameters=$request->except(['_token']);
 
-
+        dd($request);
 
         $utilisateur=  User::where('slug','=',$parameters['slug'])->first();
 
@@ -146,7 +146,7 @@ class UtilisateurController
         $utilisateur->save();
 
 
-        return redirect()->route('home')->with('success',"L'utilisateur a été mis à jour");
+        return redirect()->back()->with('success',"L'utilisateur a été mis à jour");
     }
     public function alljson(){
         $collections = [];

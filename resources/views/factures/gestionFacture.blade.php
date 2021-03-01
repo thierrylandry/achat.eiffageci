@@ -299,13 +299,13 @@
                             var data = api.row(rows[index]).data();
 
                             if (group_last !== group) {
-                                $(rows[index]).before(
-                                        '<tr class="group" style="background-color:#1f0707;color:white"><td colspan="11"><b>Bon de commande : ' + group + '</b></td></tr>'
-                                );
+                            $(rows[index]).before(
+                                    '<tr class="group" style="background-color:#1f0707;color:white"><td colspan="11"><b>Bon de commande : ' + group + '</b></td></tr>'
+                            );
 
-                                group_last = group;
-                            }
-                        });
+                            group_last = group;
+                        }
+                    });
                     }
                 },
                 responsive: false,

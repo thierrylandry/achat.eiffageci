@@ -44,7 +44,7 @@
         </div>
     </div>
 
-    <h2>LES DEMANDES D'ACHATS - LISTER <a href="{{route('creer_da')}}" class="btn btn-default  pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i> Ajouter</a></h2>
+    <h2>LES DEMANDES D'ACHATS - LISTER <a href="{{route('creer_da',app()->getLocale())}}" class="btn btn-default  pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i> Ajouter</a></h2>
     </br>
 
     <div class="row">

@@ -73,7 +73,7 @@
         <div class="col-md-3 market-update-gd">
             <div class="market-update-block clr-block-4">
                 <div class="col-md-4 market-update-right">
-                    <i class="fa fa-refresh fa-3x fa-spin  fa-fw" style="color: white"></i>
+                    <i class="fa fa-info fa-3x   fa-fw" style="color: white"></i>
                 </div>
                 <div class="col-md-8 market-update-left">
                     <h4>D.A. en attente de validation</h4>
@@ -85,7 +85,7 @@
         <div class="col-md-3 market-update-gd">
             <div class="market-update-block clr-block-2">
                 <div class="col-md-4 market-update-right">
-                    <i class="fa fa-refresh fa-3x fa-spin  fa-fw" style="color: white"> </i>
+                    <i class="fa fa-info fa-3x   fa-fw" style="color: white"> </i>
                 </div>
                 <div class="col-md-8 market-update-left">
                     <h4>B.C. en attente de signature</h4>
@@ -97,7 +97,7 @@
         <div class="col-md-3 market-update-gd">
             <div class="market-update-block clr-block-4">
                 <div class="col-md-4 market-update-right">
-                    <i class="fa fa-refresh fa-3x fa-spin  fa-fw" style="color: white"> </i>
+                    <i class="fa fa-info fa-3x   fa-fw" style="color: white"> </i>
                 </div>
                 <div class="col-md-8 market-update-left">
                     <h4>B.C. traités et finalisés</h4>
@@ -109,7 +109,7 @@
         <div class="col-md-3 market-update-gd">
             <div class="market-update-block clr-block-2">
                 <div class="col-md-4 market-update-right">
-                    <i class="fa fa-refresh fa-3x fa-spin  fa-fw" style="color: white"> </i>
+                    <i class="fa fa-info fa-3x   fa-fw" style="color: white"> </i>
                 </div>
                 <div class="col-md-8 market-update-left">
                     <h4>B.C. traités et retournés</h4>
@@ -327,7 +327,7 @@
         <div class="row justify-content-center m-auto text-center w-75">
 
             <div class="col-md-4 container-fluid bg-gradient p-5">
-                <a href="{{route('creer_da')}}">
+                <a href="{{route('demande_achat',app()->getLocale())}}">
                         <div class="col-4 princing-item red">
                             <div class="pricing-divider ">
                                 <h3 class="text-light" style="color: white">FAIRE UNE D.A.</h3>
@@ -343,7 +343,7 @@
         </svg>
                             </div>
                             <div class="card-body bg-white mt-0 shadow">
-                                <image src="images/da.jpg"  width="200px" height="200px"/>
+                                <image src="../images/da.jpg"  width="200px" height="200px"/>
                                 <button type="button" class="btn btn-lg btn-block  btn-custom "></button>
                             </div>
                         </div>
@@ -367,7 +367,7 @@
             </div>
             <div class="col-sm-4 container-fluid bg-gradient p-5">
 
-                <a href="{{route('gestion_reponse_fournisseur')}}">
+                <a href="{{route('gestion_reponse_fournisseur',app()->getLocale())}}">
 
                 <div class="col-4 princing-item blue">
                     <div class="pricing-divider ">
@@ -385,7 +385,7 @@
                     </div>
 
                     <div class="card-body bg-white mt-0 shadow">
-                        <image src="images/devis.jpg" width="200px" height="200px"/>
+                        <image src="../images/devis.jpg" width="200px" height="200px"/>
                         <button type="button" class="btn btn-lg btn-block  btn-custom "></button>
                     </div>
                 </div>
@@ -394,7 +394,7 @@
             <div class="col-sm-4 container-fluid bg-gradient p-5">
 
 
-                <a href="{{route('gestion_bc_ajouter')}}">
+                <a href="{{route('gestion_bc_ajouter',app()->getLocale())}}">
 
                 <div class="col-4 princing-item green">
                     <div class="pricing-divider ">
@@ -413,7 +413,7 @@
                     </div>
 
                     <div class="card-body bg-white mt-0 shadow">
-                      <image src="images/bc.png"  width="200px" height="200px"/>
+                      <image src="../images/bc.png"  width="200px" height="200px"/>
                         <button type="button" class="btn btn-lg btn-block  btn-custom "></button>
                     </div>
                 </div>

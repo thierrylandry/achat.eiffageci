@@ -10,7 +10,7 @@
     class='active'
 @endsection
 @section('content')
-    <h2>LES FOURNISSEURS - LISTER FOURNISSEURS <a href="{{route('ajouter_fournisseur')}}" class="btn btn-default  pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i> Ajouter</a></h2>
+    <h2>LES FOURNISSEURS - LISTER FOURNISSEURS <a href="{{route('ajouter_fournisseur',app()->getLocale())}}" class="btn btn-default  pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i> Ajouter</a></h2>
 </br>
 </br>
         <table name ="fournisseurs1" id="fournisseurs1" class='table table-bordered table-striped  no-wrap ' >
@@ -49,10 +49,10 @@
                     <td>{{$fournisseur->responsable}}</td>
                     <td>{{$fournisseur->interlocuteur}}</td>
                     <td>{{$fournisseur->email}}</td>
-                    <td> <a href="{{route('modifier_fournisseur',['slug'=>$fournisseur->slug])}}" data-toggle="modal" class="btn btn-info col-sm-4 pull-right">
+                    <td> <a href="{{route('modifier_fournisseur',['slug'=>$fournisseur->slug,'locale'=>app()->getLocale()])}}" data-toggle="modal" class="btn btn-info col-sm-4 pull-right">
                             <i class=" fa fa-pencil"></i>
                         </a>
-                        <a href="{{route('supprimer_fournisseur',['slug'=>$fournisseur->slug])}}" data-toggle="modal" class="btn btn-danger col-sm-4 pull-right">
+                        <a href="{{route('supprimer_fournisseur',['slug'=>$fournisseur->slug,'locale'=>app()->getLocale()])}}" data-toggle="modal" class="btn btn-danger col-sm-4 pull-right">
                             <i class=" fa fa-trash"></i>
                         </a>
                     </td>
