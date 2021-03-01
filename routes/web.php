@@ -913,7 +913,11 @@ Route::get('/notificateur',[
 
 
 
+    Route::get('afficher_contenue_panier',[
+        'as'=>'afficher_contenue_panier',
+        'uses'=>'DAController@afficher_contenue_panier',
 
+    ])->middleware('auth');
 
 
 
@@ -1209,10 +1213,5 @@ Route::post('/update_fournisseur',[
     'uses'=>'FournisseurController@update_fournisseur',
     'middleware' => 'roles',
     'roles' => ['Parametrage']
-
-])->middleware('auth');
-Route::get('afficher_contenue_panier',[
-    'as'=>'afficher_contenue_panier',
-    'uses'=>'DAController@afficher_contenue_panier',
 
 ])->middleware('auth');

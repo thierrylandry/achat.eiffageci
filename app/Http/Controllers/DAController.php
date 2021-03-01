@@ -286,7 +286,7 @@ class DAController
 
       //  dd($panier_demande);
         $lignebesoins = $panier_demande->lignebesoins()->where('etat','<',2)->where('etat','<>',0)->get();
-
+       // dd($lignebesoins);
         $res = array();
         foreach($lignebesoins as $lignebesoin):
             $res[]=$lignebesoin->designation->libelle;
