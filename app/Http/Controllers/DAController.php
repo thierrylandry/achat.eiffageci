@@ -125,7 +125,7 @@ class DAController
 
     }
 
-    public function validation_da_collective($id)
+    public function validation_da_collective($locale,$id)
     {
         // dd($listeDA);
         $tab_da = explode(",", $id);
@@ -155,7 +155,7 @@ class DAController
         // return redirect()->route('gestion_bc')->with('success', "Bon(s) de commande(s) validé(s) & Transmission aux fournisseurs");
         return 'success';
     }
-    public function donne_moi_le_nom_des_designations($id)
+    public function donne_moi_le_nom_des_designations($locale,$id)
     {
         // dd($listeDA);
         $ids = explode(",", $id);
@@ -224,7 +224,7 @@ class DAController
     {
         $parameters = $request->except(['_token']);
 
-        // dd($parameters);
+//         dd($parameters);
         $res=$parameters['res'];
         $lesId=$parameters['lesId'];
         $lesId=explode(',',$lesId);
@@ -261,7 +261,7 @@ class DAController
         return 1;
 
     }
-    public function retirer_du_panier($id)
+    public function retirer_du_panier($locale,$id)
     {
 
         $ids = explode(",", $id);
@@ -294,7 +294,7 @@ class DAController
         return $res;
     }
 
-    public function refus_da_collective($id)
+    public function refus_da_collective($locale,$id)
     {
         // dd($listeDA);
         $tab_da = explode(",", $id);
@@ -747,7 +747,7 @@ class DAController
 
 
     }
-    public function voir_da($slug)
+    public function voir_da($locale,$slug)
     {
         //$das=  DA::where('id_user','=',\Illuminate\Support\Facades\Auth::user()->id)->orderBy('created_at', 'DESC')->paginate(50);
         $gestions =Gestion::all();
@@ -874,7 +874,7 @@ class DAController
      * @param $slug
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function confirmer_da($slug)
+    public function confirmer_da($locale,$slug)
     {
         $da = DA::where('slug', '=', $slug)->first();
 

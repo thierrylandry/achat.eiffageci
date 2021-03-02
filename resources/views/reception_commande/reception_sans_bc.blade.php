@@ -10,7 +10,7 @@
     <style>
         div.dropdown-menu.open { width: 100%; } ul.dropdown-menu.inner>li>a { white-space: initial; }
     </style>
-    <h2>RECEPTION DE COMMANDE SANS B.C - {{isset($ligne_bonlivraison)? 'MODIFIER ':'AJOUTER '}}  <a href="{{route('reception_commande_sans_bc')}}" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Ajouter</a></h2>
+    <h2>RECEPTION DE COMMANDE SANS B.C - {{isset($ligne_bonlivraison)? 'MODIFIER ':'AJOUTER '}}  <a href="{{route('reception_commande_sans_bc',app()->getLocale())}}" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Ajouter</a></h2>
     </br>
     </br>
     <div class="row">
@@ -186,7 +186,7 @@
                                         <td>{{$lignebc->quantite}} {{$lignebc->unite}}</td>
                                         <td>{{$lignebc->prix_unitaire}}</td>
                                         <td>{{$lignebc->date_reception}}</td>
-                                        <td><a href="{{route('reception_commande_sans_bc_edit',$lignebc->id)}}" class="btn btn-info"><i class="fa fa-pencil"></i></a>&nbsp;<a href="{{route('supprimer_livraison_sans_bc',$lignebc->id)}}" class="btn btn-danger"><i class="fa fa-trash"></i></a></td>
+                                        <td><a href="{{route('reception_commande_sans_bc_edit',['locale'=>app()->getLocale(),'id'=>$lignebc->id])}}" class="btn btn-info"><i class="fa fa-pencil"></i></a>&nbsp;<a href="{{route('supprimer_livraison_sans_bc',['locale'=>app()->getLocale(),'id'=>$lignebc->id])}}" class="btn btn-danger"><i class="fa fa-trash"></i></a></td>
                                     </tr>
 
                                 @endforeach

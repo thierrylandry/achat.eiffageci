@@ -86,12 +86,12 @@
 
                                     <div class="row">
                                         <div class="col-sm-3">
-                                            <a  class="btn_supp btn btn-info" href="{{route('lister_commande',['slug'=>$bc->id])}}" data-toggle="modal" class="" title="Plus d'info">
+                                            <a  class="btn_supp btn btn-info" href="{{route('lister_commande',['locale'=>app()->getLocale(),'slug'=>$bc->id])}}" data-toggle="modal" class="" title="Plus d'info">
                                                 <i class=" fa fa-list "></i>
                                             </a>
                                         </div>
                                         <div class="col-sm-3">
-                                            <a class=" btn btn-danger" href="{{route('supprimer_bc',['slug'=>$bc->slug])}}" data-toggle="modal" class="sup" title="Supprimer">
+                                            <a class=" btn btn-danger" href="{{route('supprimer_bc',['locale'=>app()->getLocale(),'slug'=>$bc->slug])}}" data-toggle="modal" class="sup" title="Supprimer">
                                                 <i class=" fa fa-trash"></i>
                                             </a>
                                         </div>
@@ -99,10 +99,10 @@
 
 
                                 @elseif($bc->etat==2)
-                                    <a href="{{route('annuler_commande',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default ">
+                                    <a href="{{route('annuler_commande',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default ">
                                         <i class="fa fa-ban"></i> Annuler
                                     </a>
-                                    <a href="{{route('bon_commande_file',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
+                                    <a href="{{route('bon_commande_file',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
                                         <i class="fa fa-file-pdf-o"></i>
                                     </a>
                                     @if(Auth::user() != null && Auth::user()->hasAnyRole(['Gestionnaire_BC']))
@@ -111,7 +111,7 @@
                                         </a>
                                     @endif
                                 @elseif($bc->etat==0)
-                                    <a href="{{route('lister_commande',['slug'=>$bc->id])}}" data-toggle="modal" class="">
+                                    <a href="{{route('lister_commande',['locale'=>app()->getLocale(),'slug'=>$bc->id])}}" data-toggle="modal" class="">
                                         <i class=" fa fa-list "></i> plus d'info
                                     </a>
                                     <div class="btn-group">
@@ -122,11 +122,11 @@
                                         </button>
                                         <div class="dropdown-menu" role="menu">
 
-                                            <a href="{{route('valider_commande',['id'=>$bc->slug])}}" data-toggle="modal" class="validercom">
+                                            <a href="{{route('valider_commande',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="validercom">
                                                 <i class=" fa fa-check-square-o"></i> Valider le bon
                                             </a>
                                             <div class="dropdown-divider"></div>
-                                            <a href="{{route('supprimer_bc',['slug'=>$bc->slug])}}" data-toggle="modal" class="sup">
+                                            <a href="{{route('supprimer_bc',['locale'=>app()->getLocale(),'slug'=>$bc->slug])}}" data-toggle="modal" class="sup">
                                                 <i class=" fa fa-trash"></i>Supprimer
                                             </a>
                                             <div class="dropdown-divider"></div>
@@ -134,26 +134,26 @@
                                         </div>
                                     </div>
                                 @elseif($bc->etat==3)
-                                    <a href="{{route('traite_finalise',['id'=>$bc->slug])}}" data-toggle="modal" class="">
+                                    <a href="{{route('traite_finalise',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="">
                                         <i class="fa fa-hourglass-end"></i> traité et finalisé?
                                     </a>ou
-                                    <a href="{{route('traite_retourne',['id'=>$bc->slug])}}" data-toggle="modal" class="">
+                                    <a href="{{route('traite_retourne',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="">
                                         <i class="fa fa-arrow-circle-right"></i> traité et retourné?
                                     </a>
-                                    <a href="{{route('bon_commande_file',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
+                                    <a href="{{route('bon_commande_file',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
                                         <i class="fa fa-file-pdf-o"></i>
                                     </a>
                                 @elseif($bc->etat==4)
-                                    <a href="{{route('bon_commande_file',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
+                                    <a href="{{route('bon_commande_file',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
                                         <i class="fa fa-file-pdf-o"></i>
                                     </a>
 
                                 @elseif($bc->etat==11)
-                                    <a href="{{route('bon_commande_file',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
+                                    <a href="{{route('bon_commande_file',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
                                         <i class="fa fa-file-pdf-o"></i>
                                     </a>
                                     <div class="dropdown-divider"></div>
-                                    <a href="{{route('supprimer_bc',['slug'=>$bc->slug])}}" data-toggle="modal" class="sup">
+                                    <a href="{{route('supprimer_bc',['locale'=>app()->getLocale(),'slug'=>$bc->slug])}}" data-toggle="modal" class="sup">
                                         <i class=" fa fa-trash"></i>Supprimer
                                     </a>
                                 @endif
@@ -241,7 +241,7 @@
                                 @if($bc->etat==1)
 
 
-                                    <a href="{{route('lister_commande',['slug'=>$bc->id])}}" data-toggle="modal" class="">
+                                    <a href="{{route('lister_commande',['locale'=>app()->getLocale(),'slug'=>$bc->id])}}" data-toggle="modal" class="">
                                         <i class=" fa fa-list "></i> plus d'info
                                     </a>
                                     <div class="btn-group">
@@ -252,15 +252,15 @@
                                         </button>
                                         <div class="dropdown-menu" role="menu">
 
-                                            <a href="{{route('valider_commande',['id'=>$bc->slug])}}" data-toggle="modal" class="validercom">
+                                            <a href="{{route('valider_commande',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="validercom">
                                                 <i class=" fa fa-check-square-o"></i> Valider le bon
                                             </a>
                                             <div class="dropdown-divider"></div>
-                                            <a href="{{route('refuser_commande',['id'=>$bc->slug])}}" data-toggle="modal" class="reject">
+                                            <a href="{{route('refuser_commande',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="reject">
                                                 <i class="fa fa-ban"></i> Rejeter le bon
                                             </a>
                                             <div class="dropdown-divider"></div>
-                                            <a href="{{route('supprimer_bc',['slug'=>$bc->slug])}}" data-toggle="modal" class="sup">
+                                            <a href="{{route('supprimer_bc',['locale'=>app()->getLocale(),'slug'=>$bc->slug])}}" data-toggle="modal" class="sup">
                                                 <i class=" fa fa-trash"></i>Supprimer
                                             </a>
                                             <div class="dropdown-divider"></div>
@@ -269,10 +269,10 @@
                                     </div>
 
                                 @elseif($bc->etat==2)
-                                    <a href="{{route('annuler_commande',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default ">
+                                    <a href="{{route('annuler_commande',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default ">
                                         <i class="fa fa-ban"></i> Annuler
                                     </a>
-                                    <a href="{{route('bon_commande_file',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
+                                    <a href="{{route('bon_commande_file',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
                                         <i class="fa fa-file-pdf-o"></i>
                                     </a>
                                     <a href="#" data-toggle="modal" data-target="#list_devis" class="btn btn-default preciser_livraison">
@@ -282,16 +282,16 @@
                                         <a href="" data-toggle="modal" data-target="#confirm_email" class="btn btn-default" id="envoie_fourniseur">
                                             <i class="fa fa-file-pdf-o"></i><i class="fa fa-paper-plane-o"></i> envoyer au fournisseur
                                         </a>
-                                        <a href="{{route('traite_finalise',['id'=>$bc->slug])}}" data-toggle="modal" class="">
+                                        <a href="{{route('traite_finalise',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="">
                                             <i class="fa fa-hourglass-end"></i> traité et finalisé?
                                         </a>ou
-                                        <a href="{{route('traite_retourne',['id'=>$bc->slug])}}" data-toggle="modal" class="">
+                                        <a href="{{route('traite_retourne',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="">
                                             <i class="fa fa-arrow-circle-right"></i> traité et retourné?
                                         </a>
                                     @endif
 
                                 @elseif($bc->etat==0)
-                                    <a href="{{route('lister_commande',['slug'=>$bc->id])}}" data-toggle="modal" class="">
+                                    <a href="{{route('lister_commande',['locale'=>app()->getLocale(),'slug'=>$bc->id])}}" data-toggle="modal" class="">
                                         <i class=" fa fa-list "></i> plus d'info
                                     </a>
                                     <a href="#" data-toggle="modal" data-target="#list_devis" class="btn btn-default preciser_livraison">
@@ -305,52 +305,52 @@
                                         </button>
                                         <div class="dropdown-menu" role="menu">
 
-                                            <a href="{{route('valider_commande',['id'=>$bc->slug])}}" data-toggle="modal" class="validercom">
+                                            <a href="{{route('valider_commande',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="validercom">
                                                 <i class=" fa fa-check-square-o"></i> Valider le bon
                                             </a>
                                             <div class="dropdown-divider"></div>
-                                            <a href="{{route('supprimer_bc',['slug'=>$bc->slug])}}" data-toggle="modal" class="sup">
+                                            <a href="{{route('supprimer_bc',['locale'=>app()->getLocale(),'slug'=>$bc->slug])}}" data-toggle="modal" class="sup">
                                                 <i class=" fa fa-trash"></i>Supprimer
                                             </a>
                                             <div class="dropdown-divider"></div>
 
                                         </div>
                                     </div>
-                                    <a href="{{route('annuler_commande',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default ">
+                                    <a href="{{route('annuler_commande',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default ">
                                         <i class="fa fa-ban"></i> Annuler
                                     </a>
                                 @elseif($bc->etat==3)
 
-                                    <a href="{{route('traite_finalise',['id'=>$bc->slug])}}" data-toggle="modal" class="">
+                                    <a href="{{route('traite_finalise',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="">
                                         <i class="fa fa-hourglass-end"></i> traité et finalisé?
                                     </a>ou
-                                    <a href="{{route('traite_retourne',['id'=>$bc->slug])}}" data-toggle="modal" class="">
+                                    <a href="{{route('traite_retourne',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="">
                                         <i class="fa fa-arrow-circle-right"></i> traité et retourné?
                                     </a>
-                                    <a href="{{route('bon_commande_file',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
+                                    <a href="{{route('bon_commande_file',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
                                         <i class="fa fa-file-pdf-o"></i>
                                     </a>
                                     <a href="#" data-toggle="modal" data-target="#list_devis" class="btn btn-default preciser_livraison">
                                         <i class="fa fa-list"></i><i class="fa fa-calendar-check-o"></i>
                                     </a>
-                                    <a href="{{route('annuler_commande',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default ">
+                                    <a href="{{route('annuler_commande',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default ">
                                         <i class="fa fa-ban"></i> Annuler
                                     </a>
                                 @elseif($bc->etat==4)
-                                    <a href="{{route('bon_commande_file',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
+                                    <a href="{{route('bon_commande_file',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
                                         <i class="fa fa-file-pdf-o"></i>
                                     </a>
-                                    <a href="{{route('annuler_commande',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default ">
+                                    <a href="{{route('annuler_commande',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default ">
                                         <i class="fa fa-ban"></i> Annuler
                                     </a>
                                   </br>
                                     @if($bc->date_livraison!=null) date de livraison éffective :  {{\Carbon\Carbon::parse($bc->date_livraison)->format('d-m-Y')}} @endif
                                 @elseif($bc->etat==11)
-                                    <a href="{{route('bon_commande_file',['id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
+                                    <a href="{{route('bon_commande_file',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
                                         <i class="fa fa-file-pdf-o"></i>
                                     </a>
                                     <div class="dropdown-divider"></div>
-                                    <a href="{{route('supprimer_bc',['slug'=>$bc->slug])}}" data-toggle="modal" class="sup">
+                                    <a href="{{route('supprimer_bc',['locale'=>app()->getLocale(),'slug'=>$bc->slug])}}" data-toggle="modal" class="sup">
                                         <i class=" fa fa-trash"></i>Supprimer
                                     </a>
                                 @endif

@@ -22,7 +22,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{route('refuser_da')}}" method="post">
+                <form action="{{route('refuser_da',app()->getLocale())}}" method="post">
                     @csrf
                     <div class="modal-body">
 
@@ -173,7 +173,7 @@
 
 
                             @if($da->etat==1)
-                                <a href="{{route('confirmer_da',['slug'=>$da->slug])}} "id="btnconfirmerda2" data-toggle="modal" class="btn btn-success confirmons">
+                                <a href="{{route('confirmer_da',['locale'=>app()->getLocale(),'slug'=>$da->slug])}} "id="btnconfirmerda2" data-toggle="modal" class="btn btn-success confirmons">
                                     <i class=" fa fa-check-circle" style="size: 40px"> Accepter ?</i>
                                 </a>
                                 <a href="" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" id="btnconfirmerda2" data-toggle="modal" class="btn btn-danger btn_refuser">

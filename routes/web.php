@@ -748,7 +748,7 @@ Route::get('/reception_commande',[
     'uses'=>'ReceptionController@reception_commande',
 
 ])->middleware('auth');
-Route::get('/reception_commande_sans_bc',[
+Route::get('reception_commande_sans_bc',[
     'as'=>'reception_commande_sans_bc',
     'uses'=>'ReceptionController@reception_commande_sans_bc',
 

@@ -35,7 +35,7 @@
                             <tr>
                                 <td>{{$recep->id}}</td>
                                 <td>{{$recep->libelle}}</td>
-                                <td><a href="{{route('detail_regularisation',$recep->id)}}" class="btn btn-info"><i class="fa fa-pencil"></i> Régulariser</a></td>
+                                <td><a href="{{route('detail_regularisation',['locale'=>app()->getLocale(),'id'=>$recep->id])}}" class="btn btn-info"><i class="fa fa-pencil"></i> Régulariser</a></td>
                             </tr>
 
                         @endforeach

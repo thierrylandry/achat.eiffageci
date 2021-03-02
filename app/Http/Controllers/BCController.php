@@ -89,7 +89,7 @@ class BCController extends Controller
         return $pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
 
     }
-    public function afficher_le_mail($bc_slug){
+    public function afficher_le_mail($locale,$bc_slug){
 
         $bc= DB::table('boncommande')
             ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
@@ -408,7 +408,7 @@ return $view;
 
         return view('BC/regularisation',compact('receptions'));
     }
-    public function detail_regularisation($id_fournisseur){
+    public function detail_regularisation($locale,$id_fournisseur){
         $fournisseur =Fournisseur::find($id_fournisseur);
         $ligne_bonlivraisons = Ligne_bonlivraison::where('id_fournisseur','=',$id_fournisseur)->where('etat','=',0)->get();
         $gestions =Gestion::all();
@@ -481,7 +481,7 @@ return $view;
         $analytiques= Analytique::all();
         return view('BC/validation_bc',compact('bcs','bcs_en_attentes','fournisseurs','utilisateurs','analytiques','fournisseurss'));
     }
-    public function validation_bc_collective($id)
+    public function validation_bc_collective($locale,$id)
     {
         // dd($listeDA);
         $tab_bc = explode(",", $id);
@@ -705,7 +705,7 @@ return $view;
             $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         }
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; Création du bon de commande Numero '.$boncommande->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
-        return redirect()->route('gestion_bc')->with('success',"La commande a été ajoutée avec success");
+        return redirect()->route('gestion_bc',app()->getLocale())->with('success',"La commande a été ajoutée avec success");
     }
     public function update_ligne_bc(Request $request)
     {
@@ -871,7 +871,7 @@ return $view;
         }
         return redirect()->route('validation_bc')->with('success',"Bon de commande validé et transmit");
     }
-    public function add_new_da_to_bc($id,$id_bc)
+    public function add_new_da_to_bc($locale,$id,$id_bc)
     {
         $devi= Devis::find($id);
 
@@ -957,7 +957,7 @@ return $view;
         return \GuzzleHttp\json_encode($materiel);
     }
 
-    public function retirer_da_to_bc($id,$id_bc)
+    public function retirer_da_to_bc($locale,$id,$id_bc)
     {
         $devi= Devis::find($id);
 
@@ -979,7 +979,7 @@ return $view;
 
         return \GuzzleHttp\json_encode($devi);
     }
-    public function supprimer_def_da_to_bc($id,$id_bc)
+    public function supprimer_def_da_to_bc($locale,$id,$id_bc)
     {
         $devi= Devis::find($id);
         $bc=$devi->id_bc;
@@ -1004,7 +1004,7 @@ return $view;
         return \GuzzleHttp\json_encode($devi);
     }
 
-    public function traite_finalise($slug)
+    public function traite_finalise($locale,$slug)
     {
         $date= new \DateTime(null);
         $today = $date->format("Y-m-d");
@@ -1031,7 +1031,7 @@ return $view;
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Bon de commande traité et finalisé N° '.$Boncommande->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
         return redirect()->route('gestion_bc')->with('success',"le bon de commande à été traité et finalisé");
     }
-    public function traite_retourne($slug)
+    public function traite_retourne($locale,$slug)
     {
         $date= new \DateTime(null);
         $Boncommande= Boncommande::where('slug', '=', $slug)->first();
@@ -1053,7 +1053,7 @@ return $view;
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Bon de commande traité et retourné N° '.$Boncommande->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
         return redirect()->route('gestion_bc')->with('success',"le bon de commande à été traité et finalisé");
     }
-    public function refuser_commande($slug)
+    public function refuser_commande($locale,$slug)
     {
         $date= new \DateTime(null);
         $Boncommande= Boncommande::where('slug', '=', $slug)->first();
@@ -1070,7 +1070,7 @@ return $view;
         return redirect(url()->previous())->with('success',"Le bon de commande à été validé avec succès");
     }
 
-    public function annuler_commande($slug)
+    public function annuler_commande($locale,$slug)
     {
         $date= new \DateTime(null);
         $Boncommande= Boncommande::where('slug', '=', $slug)->first();
@@ -1087,7 +1087,7 @@ return $view;
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Annulation du Bon de commande N° '.$Boncommande->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
         return redirect(url()->previous())->with('success',"le bon de commande à été annuler avec succès");
     }
-    public function lister_commande($id)
+    public function lister_commande($locale,$id)
     {
         $bc=  Boncommande::find($id);
         $utilisateurs=  User::all();
@@ -1146,7 +1146,7 @@ if(isset($devis->first()->devise)){
         $gestions= Gestion::all();
         return view('BC/list_ligne_bc',compact('bc','fournisseur','utilisateurs','listerbc','devis','gestions','devise','id_devi','date_propose','service_id','service_libelle','new_devis','services'));
     }
-    public function bc_express($nb){
+    public function bc_express($locale,$nb){
         $analytiques =  Analytique::all();
         $materiels =  Materiel::all();
         $fournisseurs =  Fournisseur::all();
@@ -1190,7 +1190,7 @@ if(isset($devis->first()->devise)){
         endforeach;
         return view('BC/gestion_bc',compact('bcs','bcs_en_attentes','fournisseurs','utilisateurs','ajouter','analytiques','fournisseurss','projets','expediteurs'));
     }
-    public function detail_rep_fournisseur($id){
+    public function detail_rep_fournisseur($locale,$id){
 
         $reponse_fournisseur = Reponse_fournisseur::where('id','=',$id)->first();
 
@@ -1261,7 +1261,7 @@ if(isset($devis->first()->devise)){
         return redirect()->route('gestion_bc')->with('success',"Le bon de commande a été Modifié");
     }
 
-    public function supprimer_bc($slug)
+    public function supprimer_bc($locale,$slug)
     {
         $bon_de_commande = Boncommande::where('slug', '=', $slug)->first();
 
@@ -1284,7 +1284,7 @@ if(isset($devis->first()->devise)){
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Suppression du Bon de commande N° '.$bon_de_commande->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
         return redirect()->route('gestion_bc')->with('success', "Le Bon de commande a été supprimé   NB: la suppression d'un bon de commande, entraine la suppression en cascade des lignes de cet bon de commande ");
     }
-    public function supprimer_ligne_bc($slug)
+    public function supprimer_ligne_bc($locale,$slug)
     {
         $ligne_bc = ligne_bc::where('slug', '=', $slug)->first();
        $id=$ligne_bc->id_bonCommande;
@@ -1307,7 +1307,7 @@ if(isset($devis->first()->devise)){
         return redirect()->route('gestion_bc')->with('success', "La ligne du bon de commande a été supprimée avec succes ");
     }
 
-    public function list_contact($id)
+    public function list_contact($locale,$id)
     {
 $bc= Boncommande::find($id);
  $fournisseur=       Fournisseur::find($bc->id_fournisseur);

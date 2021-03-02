@@ -430,7 +430,7 @@
                        console.log(res);
                     //enregistrer_devis/"+res+"/"+lesId+"/"+lesIdmat
                     var csrf_token = $('meta[name="csrf-token"]').attr('content');
-                    $.post("enregistrer_devis",{res:res,lesId:lesId,lesIdmat:lesIdmat,_token: "{{ csrf_token() }}"},
+                    $.post("../enregistrer_devis",{res:res,lesId:lesId,lesIdmat:lesIdmat,_token: "{{ csrf_token() }}"},
                         function (data) {
                             console.log(data);
                             if(data==1){
@@ -460,7 +460,7 @@
                     console.log(lesId);
                     //enregistrer_devis/"+res+"/"+lesId+"/"+lesIdmat
                     var csrf_token = $('meta[name="csrf-token"]').attr('content');
-                    $.post("supprimer_def_devis_collectif",{lesId:lesId,_token: "{{ csrf_token() }}"},
+                    $.post("../supprimer_def_devis_collectif",{lesId:lesId,_token: "{{ csrf_token() }}"},
                         function (data) {
                             console.log(data);
                             if(data=="ok"){
@@ -489,7 +489,7 @@
                     console.log(lesId);
                     //enregistrer_devis/"+res+"/"+lesId+"/"+lesIdmat
                     var csrf_token = $('meta[name="csrf-token"]').attr('content');
-                    $.post("supprimer_def_devis2_collectif",{lesId:lesId,_token: "{{ csrf_token() }}"},
+                    $.post("../supprimer_def_devis2_collectif",{lesId:lesId,_token: "{{ csrf_token() }}"},
                         function (data) {
                             console.log(data);
                             if(data=="ok"){
@@ -522,7 +522,7 @@
                     res=table2.$('input, select').serialize();
                     //console.log(res);
                     var csrf_token = $('meta[name="csrf-token"]').attr('content');
-                    $.post("modifier_devis",{res:res,lesId:lesId,_token: "{{ csrf_token() }}"},
+                    $.post("../modifier_devis",{res:res,lesId:lesId,_token: "{{ csrf_token() }}"},
                         function (data) {
                             console.log(data);
                             if (data == 1) {

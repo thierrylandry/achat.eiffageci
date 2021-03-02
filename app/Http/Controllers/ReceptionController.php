@@ -52,7 +52,7 @@ class ReceptionController extends Controller
         $ligne_bonlivraisons= Ligne_bonlivraison::all();
         return view('reception_commande/historique_bl',compact('ligne_bonlivraisons'));
     }
-    public function reception_commande_sans_bc_edit($id){
+    public function reception_commande_sans_bc_edit($locale,$id){
 
         $ligne_bonlivraison = Ligne_bonlivraison::find($id);
 

@@ -10,7 +10,7 @@
     <style>
         div.dropdown-menu.open { width: 100%; } ul.dropdown-menu.inner>li>a { white-space: initial; }
     </style>
-    <h2>LES DEMANDES D'APPROVISIONNEMENT - {{isset($da)? 'MODIFIER ':'AJOUTER '}} <a href="{{route('lister_da')}}" class="btn btn-default pull-right"><i class="fa fa-list" aria-hidden="true"></i> Lister</a> <a href="{{route('creer_da')}}" class="btn btn-default  pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i> Ajouter</a></h2>
+    <h2>LES DEMANDES D'APPROVISIONNEMENT - {{isset($da)? 'MODIFIER ':'AJOUTER '}} <a href="{{route('lister_da',app()->getLocale())}}" class="btn btn-default pull-right"><i class="fa fa-list" aria-hidden="true"></i> Lister</a> <a href="{{route('creer_da',app()->getLocale())}}" class="btn btn-default  pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i> Ajouter</a></h2>
     </br>
     </br>
     <div class="row">
@@ -290,7 +290,7 @@
                             <th class="dt-head-center">{{$da->commentaire}}</th>
                             <td>
                                 @if($da->etat==1)
-                                    <a href="{{route('confirmer_da_depuis_creermodifier_da',['slug'=>$da->slug])}} "id="btnconfirmerda2" data-toggle="modal" class="btn btn-success confirmons">
+                                    <a href="{{route('confirmer_da_depuis_creermodifier_da',['locale'=>app()->getLocale(),'slug'=>$da->slug])}} "id="btnconfirmerda2" data-toggle="modal" class="btn btn-success confirmons">
                                         <i class=" fa fa-check-circle" style="size: 40px"> Accepter ?</i>
                                     </a>
                                     <a href="" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" id="btnconfirmerda2" data-toggle="modal" class="btn btn-danger btn_refuser">
@@ -307,11 +307,11 @@
 
                                             <div class="dropdown-menu" role="menu">
 
-                                                <a href="{{route('voir_da',['slug'=>$da->slug])}}" data-toggle="modal">
+                                                <a href="{{route('voir_da',['locale'=>app()->getLocale(),'slug'=>$da->slug])}}" data-toggle="modal">
                                                     <i class=" fa fa-pencil"> modifier</i>
                                                 </a>
                                                 <div class="dropdown-divider"></div>
-                                                <a href="{{route('supprimer_da',['slug'=>$da->slug])}}" data-toggle="modal" >
+                                                <a href="{{route('supprimer_da',['locale'=>app()->getLocale(),'slug'=>$da->slug])}}" data-toggle="modal" >
                                                     <i class=" fa fa-trash">Supprimer</i>
                                                 </a>
                                             </div>
@@ -319,14 +319,14 @@
                                         </div>
                                     @endif
                                 @elseif($da->etat==2)
-                                    <a href="{{route('suspendre_da',['slug'=>$da->slug])}} "id="btnconfirmerda12" data-toggle="modal" class="btn btn-warning ">
+                                    <a href="{{route('suspendre_da',['locale'=>app()->getLocale(),'slug'=>$da->slug])}} "id="btnconfirmerda12" data-toggle="modal" class="btn btn-warning ">
                                         <i class=" fa fa-pause" style="size: 40px"> Suspendre ?</i>
                                     </a>
                                     <a href="" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" id="btnconfirmerda2" data-toggle="modal" class="btn btn-danger btn_refuser">
                                         <i class=" fa fa-check-circle" style="size: 40px"> Refuser ?</i>
                                     </a>
                                 @elseif($da->etat==0)
-                                    <a href="{{route('confirmer_da_depuis_creermodifier_da',['slug'=>$da->slug])}} " id="btnconfirmerda2" data-toggle="modal" class="btn btn-success confirmons">
+                                    <a href="{{route('confirmer_da_depuis_creermodifier_da',['locale'=>app()->getLocale(),'slug'=>$da->slug])}} " id="btnconfirmerda2" data-toggle="modal" class="btn btn-success confirmons">
                                         <i class=" fa fa-check-circle" > </i>Accepter ?
                                     </a>
 
@@ -339,11 +339,11 @@
                                             </button>
                                             <div class="dropdown-menu" role="menu">
 
-                                                <a href="{{route('voir_da',['slug'=>$da->slug])}}" data-toggle="modal">
+                                                <a href="{{route('voir_da',['locale'=>app()->getLocale(),'slug'=>$da->slug])}}" data-toggle="modal">
                                                     <i class=" fa fa-pencil"> modifier</i>
                                                 </a>
                                                 <div class="dropdown-divider"></div>
-                                                <a href="{{route('supprimer_da',['slug'=>$da->slug])}}" data-toggle="modal" >
+                                                <a href="{{route('supprimer_da',['locale'=>app()->getLocale(),'slug'=>$da->slug])}}" data-toggle="modal" >
                                                     <i class=" fa fa-trash">Supprimer</i>
                                                 </a>
                                             </div>

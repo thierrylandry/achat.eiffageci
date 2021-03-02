@@ -266,10 +266,10 @@
     </div>
 
 <div class="row">
-    <a href="{{route('gestion_bc_ajouter')}}" class="btn btn-success pull-right" id="Ajouter_pro" >Ajouter un bon de commande</a>
+    <a href="{{route('gestion_bc_ajouter',app()->getLocale())}}" class="btn btn-success pull-right" id="Ajouter_pro" >Ajouter un bon de commande</a>
 
 </div><div class="row"><br>
-    <a href="{{route('bc_express',10)}}" class="btn btn-info pull-right" id="Ajouter_pro" >>>Express<<</a>
+    <a href="{{route('bc_express',['locale'=>app()->getLocale(),10])}}" class="btn btn-info pull-right" id="Ajouter_pro" >>>Express<<</a>
 
 </div>
        <div class="row">

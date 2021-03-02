@@ -65,7 +65,7 @@ class Demande_proformaController extends Controller
 
 
     }
-    public function demande_ou_rappel($tab_slug,$list_da){
+    public function demande_ou_rappel($locale,$tab_slug,$list_da){
         // a terminer
 dd($list_da);
     }
@@ -285,10 +285,10 @@ return 1;
         $Trace_mail->das=implode(',',$daas);
         $Trace_mail->save();
 
-        return redirect()->route('gestion_demande_proformas')->with('success', "Envoie d'email reussi");
+        return redirect()->back()->with('success', "Envoie d'email reussi");
 
     }
-    public function recup_infos_pour_envois_mail_perso($listeDA){
+    public function recup_infos_pour_envois_mail_perso($locale,$listeDA){
 
         $listeDA = explode(',',$listeDA);
         $i=0;
@@ -336,7 +336,7 @@ return 1;
     }
 
 
-public function nouveau_rappel($id_trace_mail){
+public function nouveau_rappel($locale,$id_trace_mail){
 
     $trace_mail= Tracemail::find($id_trace_mail);
     $id_das=explode(',',$trace_mail->das);
@@ -375,7 +375,7 @@ $i=0;
     endforeach;
     $this->dispatch(new EnvoieMailFournisseurPerso(explode(',',$trace_mail->email),$images,$trace_mail->objet,"POUR RAPPEL : \r\n".$trace_mail->msg_contenu) );
 
-    return redirect()->route('gestion_demande_proformas')->with('success', "Envoie d'email reussi");
+    return redirect()->back()->with('success', "Envoie d'email reussi");
 
 }
     public function envoies(Request $request)
@@ -481,14 +481,14 @@ foreach ($recup_email as $email):
 
 
        // return view('mail.mail')->with('corps',$corps);
-            return redirect()->route('gestion_demande_proformas')->with('success', "Envoie d'email reussi");
+            return redirect()->back()->with('success', "Envoie d'email reussi");
     }
 
     /**
      * @param $slug
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function supprimer_def_devis2($id)
+    public function supprimer_def_devis2($locale,$id)
     {
         $devi= Devis::find($id);
         if(!empty($devi)){
@@ -585,7 +585,7 @@ foreach ($recup_email as $email):
 
 
     }
-    public function les_das_funct($domaine)
+    public function les_das_funct($locale,$domaine)
     {
         $types = DB::table('designation')
             ->where('famille.id_domaine', '=', $domaine)
@@ -615,7 +615,7 @@ foreach ($recup_email as $email):
 
     }
 
-    public function les_das_fournisseurs_funct($domaine)
+    public function les_das_fournisseurs_funct($locale,$domaine)
     {
 
 
@@ -635,7 +635,7 @@ foreach ($recup_email as $email):
 
     }
 
-    public function les_das_fournisseurs_funct_da($id_fournisseur){
+    public function les_das_fournisseurs_funct_da($locale,$id_fournisseur){
 
         $fournisseur= Fournisseur::find($id_fournisseur);
        // dd($fournisseur);

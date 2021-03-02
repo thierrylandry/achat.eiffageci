@@ -150,7 +150,7 @@
         <div class="row">
             <div class="col-sm-2"><input type="submit" class="btn btn-success" id="enregistrer" value="ENREGISTRER" /> </div>
             <div class="col-sm-8"></div>
-            <div class="col-sm-2"><button id="supprimer" class="btn btn-danger" ><i class="fa fa-trash"></i> Retirer du panier</button></div>
+            <div class="col-sm-2"><button id="supprimer" class="btn btn-danger" type="button" ><i class="fa fa-trash"></i> Retirer du panier</button></div>
 
         </div>
         </form>
@@ -212,7 +212,7 @@
                 //enregistrer_devis/"+res+"/"+lesId+"/"+lesIdmat
                 var csrf_token = $('meta[name="csrf-token"]').attr('content');
 
-                $.post("mise_ajour_info_da",{res:res,lesId:lesId,_token: "{{ csrf_token() }}"},
+                $.post("../mise_ajour_info_da",{res:res,lesId:lesId,_token: "{{ csrf_token() }}"},
                         function (data) {
                             console.log(data);
                             if(data==1){
@@ -223,7 +223,8 @@
                 return false;
 
             } );
-            $('#supprimer').on( 'click', function () {
+            $('#supprimer').on( 'click', function (event) {
+                event.preventDefault;
                 var rows_selected = table.column(0).checkboxes.selected();
                 console.log(rows_selected);
                 var mavariable="";
