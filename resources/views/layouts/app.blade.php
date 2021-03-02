@@ -227,19 +227,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
      <li>
          <a @yield('tableau_de_bord') href="{{route('home',app()->getLocale())}}">
              <i class="fa fa-dashboard"></i>
-             <span>Tableau de Bord</span>
+             <span>{{ __('menu.dashboard') }} </span>
          </a>
      </li>
      <li>
          <a  href="" @yield('rapport')>
              <i class="fa fa-bar-chart"></i>
-             <span>Rapports</span>
+             <span>{{ __('menu.Reports') }}</span>
          </a>
          <ul class="sub" >
 
-             <li @yield('performance_fournisseur') ><a href="{{route('performance_fournisseur',app()->getLocale())}}" @yield('performance_fournisseur') > Performance fournisseur & relations </a></li>
-             <li @yield('rapport_stock') ><a href="{{route('rapport_stock',app()->getLocale())}}"> Stocks </a></li>
-             <li @yield('rapport_demande_achat') ><a href="{{route('rapport_demande_achat',app()->getLocale())}}"> Demande d'achat </a></li>
+             <li @yield('performance_fournisseur') ><a href="{{route('performance_fournisseur',app()->getLocale())}}" @yield('performance_fournisseur') > {{ __('menu.performance_fournisseur') }} </a></li>
+             <li @yield('rapport_stock') ><a href="{{route('rapport_stock',app()->getLocale())}}"> {{ __('menu.Stocks') }} </a></li>
+             <li @yield('rapport_demande_achat') ><a href="{{route('rapport_demande_achat',app()->getLocale())}}"> {{ __('menu.demande_achat') }} </a></li>
 
          </ul>
      </li>

@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::redirect('/','/login');
 Route::group(['prefix' => '{locale}', 'middleware' => 'setlocale'], function() {
 Route::get('/', function () {
     return redirect(app()->getLocale());
