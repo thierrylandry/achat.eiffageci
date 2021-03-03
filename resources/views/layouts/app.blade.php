@@ -183,7 +183,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
  </li>
  @endif
  <li>
-    <a href="{{env('APP_URL')}}/public/uploads/guide utilisateur.pdf" target="_blank"> &nbsp; <i class="fa fa-file-pdf-o"></i> Guide Utilisateur</a>
+    <a href="{{env('APP_URL')}}/public/uploads/guide utilisateur.pdf" target="_blank"> &nbsp; <i class="fa fa-file-pdf-o"></i>  {{ __('menu.guide_utilisateur') }}</a>
  </li><li>
      <input type="text" class="form-control search" placeholder=" Search">
  </li>
@@ -205,8 +205,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
              <b class="caret"></b>
          </a>
          <ul class="dropdown-menu extended logout">
-             <li><a href="{{route('monprofile',['$lug'=> \Illuminate\Support\Facades\Auth::user()->slug,'locale'=>app()->getLocale()])}}"><i class=" fa fa-suitcase"></i>Mon profile </a></li>
-             <li> <a class="dropdown-item" href="{{ route('logout', app()->getLocale()) }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-key"></i>{{ __('Se déconnecter') }}</a></li>
+             <li><a href="{{route('monprofile',['$lug'=> \Illuminate\Support\Facades\Auth::user()->slug,'locale'=>app()->getLocale()])}}"><i class=" fa fa-suitcase"></i>{{ __('menu.mon_profile') }}  </a></li>
+             <li> <a class="dropdown-item" href="{{ route('logout', app()->getLocale()) }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-key"></i>{{ __('menu.se_deconnecter') }}</a></li>
              <form id="logout-form" action="{{ route('logout', app()->getLocale()) }}" method="POST" style="display: none;">
                  @csrf
              </form>
@@ -246,7 +246,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
      <li>
          <a @yield('gestion_stock') href="{{route('gestion_stock',app()->getLocale())}}">
              <i class="fa fa-houzz"></i>
-             <span>Gestion de stock</span>
+             <span>{{ __('menu.gestion_stock') }}</span>
          </a>
      </li>
      @if(Auth::user() != null && Auth::user()->hasRole('Parametrage'))
@@ -255,17 +255,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
              <i class="fa fa-gear">
 
              </i>
-             <span>Paramétrage</span>
+             <span>{{ __('menu.setting') }}</span>
          </a>
          <ul class="sub" >
 
-             <li @yield('utilisateurs')><a href="{{route('gestion_utilisateur',app()->getLocale())}}">Utilisateurs</a></li>
-             <li @yield('fournisseurs') ><a href="{{route('lister_fournisseur',app()->getLocale())}}"> Fournisseurs </a>
+             <li @yield('utilisateurs')><a href="{{route('gestion_utilisateur',app()->getLocale())}}">{{ __('menu.users') }}</a></li>
+             <li @yield('fournisseurs') ><a href="{{route('lister_fournisseur',app()->getLocale())}}"> {{ __('menu.fournisseurs') }} </a>
 
                  <ul class="sub" @yield('ul_fournisseur')>
 
-                     <li @yield('lister_fournisseurs') ><a href="{{route('lister_fournisseurs',app()->getLocale())}}" @yield('lister_fournisseurs') > Lister fournisseurs </a></li>
-                     <li @yield('ajouter_fournisseur') ><a href="{{route('ajouter_fournisseur',app()->getLocale())}}"> Ajouter fournisseur </a></li>
+                     <li @yield('lister_fournisseurs') ><a href="{{route('lister_fournisseurs',app()->getLocale())}}" @yield('lister_fournisseurs') >{{ __('menu.liser_fournisseurs') }}</a></li>
+                     <li @yield('ajouter_fournisseur') ><a href="{{route('ajouter_fournisseur',app()->getLocale())}}">{{ __('menu.add_fournisseurs') }}</a></li>
 
                  </ul></li>
 
@@ -273,21 +273,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
      </li>
      @endif
      @if(Auth::user() != null && Auth::user()->hasAnyRole(['Gestionnaire_DA','Valideur_DA']))
-         <li @yield('menu_produit') ><a href="{{route('menu_produit',app()->getLocale())}}" @yield('menu_produit')>Produits et Services</a></li>
+         <li @yield('menu_produit') ><a href="{{route('menu_produit',app()->getLocale())}}" @yield('menu_produit')>{{ __('menu.produit_service') }}</a></li>
      <li >
          <a  href="{{route('gestion_da',app()->getLocale())}}" @yield('das')>
              <i class="fa fa-archive"></i>
-             <span>Les D.A.</span>
+             <span>{{ __('menu.les_da') }}</span>
          </a>
          <ul class="sub">
-             <li @yield('recherche_da')><a href="{{route('lister_da_recherche',app()->getLocale())}}">Rechercher une  D.A.</a></li>
+             <li @yield('recherche_da')><a href="{{route('lister_da_recherche',app()->getLocale())}}">{{ __('menu.search_da') }}</a></li>
              @if(Auth::user() != null && Auth::user()->hasAnyRole(['Valideur_DA'])  || Auth::user()->hasAnyRole(['Gestionnaire_Pro_Forma']))
 
-             <li @yield('lister_da')><a href="{{route('lister_da',app()->getLocale())}}">Lister les D.A.</a></li>
-             <li @yield('encours_validation')><a href="{{route('encours_validation',app()->getLocale())}}">Lister les D.A. à valider</a></li>
+             <li @yield('lister_da')><a href="{{route('lister_da',app()->getLocale())}}">{{ __('menu.list_da') }}</a></li>
+             <li @yield('encours_validation')><a href="{{route('encours_validation',app()->getLocale())}}">{{ __('menu.list_da_valider') }}</a></li>
              @endif
-             <li  @yield('demande_achat')><a href="{{route('demande_achat',app()->getLocale())}}">Demande d'achat</a></li>
-             <li  @yield('historique_achat')><a href="{{route('historique_achat',app()->getLocale())}}">Historique</a></li>
+             <li  @yield('demande_achat')><a href="{{route('demande_achat',app()->getLocale())}}">{{ __('menu.demande_achat') }}</a></li>
+             <li  @yield('historique_achat')><a href="{{route('historique_achat',app()->getLocale())}}">{{ __('menu.historique') }}</a></li>
 
          </ul>
      </li>
@@ -296,11 +296,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
      <li>
          <a  href="index.html" @yield('parent_demande_proformas')>
              <i class="fa fa-book"></i>
-             <span>Les Dévis</span>
+             <span>{{ __('menu.les_devis') }}</span>
          </a>
          <ul class="sub">
-             <li  @yield('demande_proformas')><a href="{{route('gestion_demande_proformas',app()->getLocale())}}">Demande de Dévis</a></li>
-             <li @yield('reponse_fournisseur')><a href="{{route('gestion_reponse_fournisseur',app()->getLocale())}}">Reception de Dévis</a></li>
+             <li  @yield('demande_proformas')><a href="{{route('gestion_demande_proformas',app()->getLocale())}}">{{ __('menu.demande_devis') }}</a></li>
+             <li @yield('reponse_fournisseur')><a href="{{route('gestion_reponse_fournisseur',app()->getLocale())}}">{{ __('menu.reception_devis') }}</a></li>
          </ul>
      </li>
      @endif
@@ -308,41 +308,32 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
      <li >
          <a  @yield('gestion_bc') href="{{route('gestion_bc',app()->getLocale())}}">
              <i class="fa fa-archive"></i>
-             <span>Gestion des BCs</span>
+             <span>{{ __('menu.gestion_bc') }}</span>
          </a>
 
      </li>
          <li >
          <a  @yield('regularisation') href="{{route('regularisation',app()->getLocale())}}">
              <i class="fa fa-archive"></i>
-             <span>Régularisation de BCs</span>
+             <span>{{ __('menu.regularisation_bc') }}</span>
          </a>
 
      </li>
      @endif
-     @if(Auth::user() != null && Auth::user()->hasAnyRole(['Gestionnaire_Facture']))
-         <li >
-             <a  @yield('gestion_Facture') href="{{route('Gestion_Facture',app()->getLocale())}}">
-                 <i class="fa fa-archive"></i>
-                 <span>Gestion des Factures</span>
-             </a>
-
-         </li>
-     @endif
 
          @if(Auth::user() != null && Auth::user()->hasAnyRole(['Valideur_BC']))
-         <li @yield('validation_bc')>  <a href="{{route('validation_bc',app()->getLocale())}}"><i class="fa fa-check"></i><span>Validation B.C.</span></a></li>
+         <li @yield('validation_bc')>  <a href="{{route('validation_bc',app()->getLocale())}}"><i class="fa fa-check"></i><span>{{ __('menu.validation_bc') }}</span></a></li>
      @endif
      @if(Auth::user() != null && Auth::user()->hasRole('Gestionnaire_Pro_Forma'))
          <li>
              <a  href="index.html" @yield('parent_reception_commande')>
                  <i class="fa fa-archive"></i>
-                 <span>Reception de commande</span>
+                 <span>{{ __('menu.reception_commande') }}</span>
              </a>
              <ul class="sub">
-                 <li  @yield('reception_commande')><a href="{{route('reception_commande',app()->getLocale())}}"> Avec B.C</a></li>
-                 <li @yield('reception_sans_commande')><a href="{{route('reception_commande_sans_bc',app()->getLocale())}}">Sans B.C</a></li>
-                 <li @yield('historique_bl')><a href="{{route('historique_bl',app()->getLocale())}}">Liste des bon de livraisons</a></li>
+                 <li  @yield('reception_commande')><a href="{{route('reception_commande',app()->getLocale())}}"> {{ __('menu.avec_bc') }}</a></li>
+                 <li @yield('reception_sans_commande')><a href="{{route('reception_commande_sans_bc',app()->getLocale())}}">{{ __('menu.sans_bc') }}</a></li>
+                 <li @yield('historique_bl')><a href="{{route('historique_bl',app()->getLocale())}}">{{ __('menu.liste_bon_livraison') }}</a></li>
              </ul>
          </li>
      @endif
@@ -350,11 +341,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
          <table   style="color: ghostwhite;size:20pt">
              <thead>
              <tr><th></th><th>D.A</th><th>B.C</th></tr>
-             <tr><td><div style="background-color: #CC0000; width: 25px"> &nbsp;</div></td><td> En attente de validation </td><td>En attente de validation</td></tr>
-             <tr><td><div style="background-color: mediumspringgreen; width: 25px"> &nbsp;</div></td><td>Validée </td><td>Validé</td></tr>
-             <tr><td><div style="background-color: #e0a800; width: 25px"> &nbsp;</div></td><td>Encours de traitement </td><td>Transmis</td></tr>
-             <tr><td><div style="background-color: #00ffff; width: 25px"> &nbsp;</div></td><td> Traitée et terminée </td><td>Traité, transmis et terminé</td></tr>
-             <tr><td><div style="background-color: violet; width: 25px"> &nbsp;</div></td><td> Traitée et retournée </td><td> Traité, transmis et retourné</td></tr>
+             <tr><td><div style="background-color: #CC0000; width: 25px"> &nbsp;</div></td><td> {{ __('menu.attente') }} </td><td>{{ __('menu.attente') }}</td></tr>
+             <tr><td><div style="background-color: mediumspringgreen; width: 25px"> &nbsp;</div></td><td>{{ __('menu.valide') }} </td><td>{{ __('menu.valide') }}</td></tr>
+             <tr><td><div style="background-color: #e0a800; width: 25px"> &nbsp;</div></td><td>{{ __('menu.encours') }} </td><td>{{ __('menu.transmis') }}</td></tr>
+             <tr><td><div style="background-color: #00ffff; width: 25px"> &nbsp;</div></td><td> {{ __('menu.traite_termine') }} </td><td>{{ __('menu.traite_termine_transmis') }}</td></tr>
+             <tr><td><div style="background-color: violet; width: 25px"> &nbsp;</div></td><td>  {{ __('menu.traite_retourne') }} </td><td>{{ __('menu.traite_transmis_retourne') }} </td></tr>
              </thead>
 
          </table></li>
