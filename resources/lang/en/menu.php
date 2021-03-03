@@ -39,4 +39,5 @@ return array (
     'guide_utilisateur'=>'User guide',
     'mon_profile'=>'My profile',
     'se_deconnecter'=>'Logout',
+    'bon_commande'=>'Order form'
 );

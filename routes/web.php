@@ -11,7 +11,16 @@
 |
 */
 Route::redirect('/','/login');
+// Route qui permet de modifier la langue
+Route::get('change/{lang}', [
+    'as'=>'change',
+    'uses'=>'LocalizationController@setLang'
+
+]);
 Route::group(['prefix' => '{locale}', 'middleware' => 'setlocale'], function() {
+
+
+
 Route::get('/', function () {
     return redirect(app()->getLocale());
 });

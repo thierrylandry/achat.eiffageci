@@ -182,7 +182,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
      </ul>
  </li>
  @endif
- <li>
+ <li><a href="{{route('change',['lang'=>'fr'])}}">Français</a>
+    </li>
+    <li> <a href="{{route('change',['lang'=>'en'])}}">English</a>
+    </li>
+    <li>
     <a href="{{env('APP_URL')}}/public/uploads/guide utilisateur.pdf" target="_blank"> &nbsp; <i class="fa fa-file-pdf-o"></i>  {{ __('menu.guide_utilisateur') }}</a>
  </li><li>
      <input type="text" class="form-control search" placeholder=" Search">

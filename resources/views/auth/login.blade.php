@@ -43,7 +43,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <!-- <h2>{{ __('Connexion') }}</h2> -->
         <div align="center" class="msg">{{ __('auth.instruction') }}</div>
         </br>
-
+        <li><a href="{{route('change',['lang'=>'fr'])}}">Français</a>
+       <a href="{{route('change',['lang'=>'en'])}}">English</a>
+        </li>
         @foreach($errors->all() as $e)
             <div class="alert bg-red alert-dismissible ">
                 {{ $e }}

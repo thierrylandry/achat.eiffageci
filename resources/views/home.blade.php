@@ -76,7 +76,7 @@
                     <i class="fa fa-info fa-3x   fa-fw" style="color: white"></i>
                 </div>
                 <div class="col-md-8 market-update-left">
-                    <h4>D.A. en attente de validation</h4>
+                    <h4>{{__('dashboard.da')}} {{__('menu.attente')}}</h4>
                     <h4 id="daencours">{{$daencours}}/{{$das}}</h4>
                 </div>
                 <div class="clearfix"> </div>
@@ -88,7 +88,7 @@
                     <i class="fa fa-info fa-3x   fa-fw" style="color: white"> </i>
                 </div>
                 <div class="col-md-8 market-update-left">
-                    <h4>B.C. en attente de signature</h4>
+                    <h4>{{__('dashboard.bc')}} {{__('menu.attente')}}</h4>
                     <h4 id="Boncommandeencours" title="B.C en attente de valisation">{{$Boncommandeencours}}/{{$Boncommandes}}</h4>
                 </div>
                 <div class="clearfix"> </div>
@@ -100,7 +100,7 @@
                     <i class="fa fa-info fa-3x   fa-fw" style="color: white"> </i>
                 </div>
                 <div class="col-md-8 market-update-left">
-                    <h4>B.C. traités et finalisés</h4>
+                    <h4>{{__('dashboard.bc')}} {{__('menu.traite_termine')}}</h4>
                     <h4 id="$montant_bc">{{number_format($montant_bc, 0,".", " ")}} Fr CFA</h4>
                 </div>
                 <div class="clearfix"> </div>
@@ -112,7 +112,7 @@
                     <i class="fa fa-info fa-3x   fa-fw" style="color: white"> </i>
                 </div>
                 <div class="col-md-8 market-update-left">
-                    <h4>B.C. traités et retournés</h4>
+                    <h4>{{__('dashboard.bc')}} {{__('menu.traite_retourne')}}</h4>
                     <h4 id="montant_bct">{{number_format($montant_bct, 0,".", " ")}} Fr CFA</h4>
                 </div>
                 <div class="clearfix"> </div>
@@ -129,7 +129,7 @@
         <div class="agileinfo-grap">
             <div class="agileits-box">
                 <header class="agileits-box-header clearfix">
-                    <h3>Cumule mensuel des Demandes d'achat</h3>
+                    <h3>{{__('dashboard.cumule_mensuelle_da')}}</h3>
                     <div class="toolbar">
 
 
@@ -150,7 +150,7 @@
                         data: cumuleda,
                         xkey: 'period',
                         ykeys: ['DA'],
-                        labels: ["Demande d'Achats"],
+                        labels: ["{{__('menu.demande_achat')}}"],
                         xLabelAngle: 60
                     });
                 </script>
@@ -168,12 +168,12 @@
                 <div class="chart_agile_bottom" style="text-align: center">
 
                     <div id="graph4"></div>
-                    <h3> Les fournisseurs les plus sollicités</h3>
+                    <h3> {{__('dashboard.fournisseurs_sollicite')}}</h3>
                     <script>
 
                         var fournisseur_sollicie=[
                             @foreach($fournisseur_sollicie as $res)
-                            {{"{value:".$res->y}} {{",label:"}} '{{$res->name}}' {{",formatted:"}} '{{$res->y.' Bon(s) de commande'}}'},
+                            {{"{value:".$res->y}} {{",label:"}} '{{$res->name}}' {{",formatted:"}} '{{$res->y.__('menu.bon_commande')}}'},
                             @endforeach
                         ];
                         Morris.Donut({
@@ -193,12 +193,12 @@
                 <div class="chart_agile_bottom" style="text-align: center">
 
                     <div id="graphsecond"></div>
-                    <h3> Nombre de B.C. retourné / fournisseur</h3>
+                    <h3> {{__('dashboard.nombre_bc_retourne')}}</h3>
                     <script>
 
                         var fournisseur_sollicie=[
                             @foreach($fournisseur_retour as $res)
-                            {{"{value:".$res->y}} {{",label:"}} '{{$res->name}}' {{",formatted:"}} '{{$res->y.' Bon(s) de commande retourné'}}'},
+                            {{"{value:".$res->y}} {{",label:"}} '{{$res->name}}' {{",formatted:"}} '{{$res->y.__('menu.bon_commande').' '.__('menu.traite_retourne')}}'},
                             @endforeach
                         ];
                         Morris.Donut({
@@ -218,13 +218,13 @@
                 <div class="chart_agile_bottom" style="text-align: center">
 
                     <div id="graphsretardfourn"></div>
-                    <h3>  Retard de livraison/fournisseur</h3>
+                    <h3>  {{__('dashboard.retard_livraison')}}</h3>
                     <script>
 
                         var fournisseur_retard=[
                             @foreach($fournisseur_retard as $res)
                                     @if($res->y!=null)
-                                    {{"{value:".$res->y}} {{",label:"}} '{{$res->name}}' {{",formatted:"}} '{{$res->y.' jour de retard sur une livraison'}}'},
+                                    {{"{value:".$res->y}} {{",label:"}} '{{$res->name}}' {{",formatted:"}} '{{$res->y.__('dashboard.jour_retard')}}'},
                                     @endif
                         @endforeach
                         ];
@@ -330,7 +330,7 @@
                 <a href="{{route('demande_achat',app()->getLocale())}}">
                         <div class="col-4 princing-item red">
                             <div class="pricing-divider ">
-                                <h3 class="text-light" style="color: white">FAIRE UNE D.A.</h3>
+                                <h3 class="text-light" style="color: white">{{strtoupper(__('dashboard.da'))}}</h3>
                                 <svg class='pricing-divider-img' enable-background='new 0 0 300 100' height='100px' id='Layer_1' preserveAspectRatio='none' version='1.1' viewBox='0 0 300 100' width='300px' x='0px' xml:space='preserve' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns='http://www.w3.org/2000/svg' y='0px'>
           <path class='deco-layer deco-layer--1' d='M30.913,43.944c0,0,42.911-34.464,87.51-14.191c77.31,35.14,113.304-1.952,146.638-4.729
 	c48.654-4.056,69.94,16.218,69.94,16.218v54.396H30.913V43.944z' fill='#FFFFFF' opacity='0.6'></path>
@@ -371,7 +371,7 @@
 
                 <div class="col-4 princing-item blue">
                     <div class="pricing-divider ">
-                        <h3 class="text-light"  style="color: white">RECEPTION DE DEVIS</h3>
+                        <h3 class="text-light"  style="color: white">{{strtoupper(__('menu.reception_devis'))}}</h3>
                         <svg class='pricing-divider-img' enable-background='new 0 0 300 100' height='100px' id='Layer_1' preserveAspectRatio='none' version='1.1' viewBox='0 0 300 100' width='300px' x='0px' xml:space='preserve' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns='http://www.w3.org/2000/svg' y='0px'>
           <path class='deco-layer deco-layer--1' d='M30.913,43.944c0,0,42.911-34.464,87.51-14.191c77.31,35.14,113.304-1.952,146.638-4.729
 	c48.654-4.056,69.94,16.218,69.94,16.218v54.396H30.913V43.944z' fill='#FFFFFF' opacity='0.6'></path>
@@ -398,7 +398,7 @@
 
                 <div class="col-4 princing-item green">
                     <div class="pricing-divider ">
-                        <h3 class="text-light"  style="color: white">CREATION DE B.C.</h3>
+                        <h3 class="text-light"  style="color: white">{{strtoupper(__('menu.gestion_bc'))}}</h3>
 
                         <svg class='pricing-divider-img' enable-background='new 0 0 300 100' height='100px' id='Layer_1' preserveAspectRatio='none' version='1.1' viewBox='0 0 300 100' width='300px' x='0px' xml:space='preserve' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns='http://www.w3.org/2000/svg' y='0px'>
           <path class='deco-layer deco-layer--1' d='M30.913,43.944c0,0,42.911-34.464,87.51-14.191c77.31,35.14,113.304-1.952,146.638-4.729
