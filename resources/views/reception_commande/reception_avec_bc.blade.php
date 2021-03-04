@@ -7,7 +7,7 @@
     class='active'
 @endsection
 @section('content')
-    <h2>RECEPTION DE COMMANDE - {{isset($da)? 'MODIFIER ':'AJOUTER '}}  </h2>
+    <h2>{{__('menu.reception_commande')}} - @if(isset($da)) {{ __('add') }} @else  {{ __('neutrale.ajouter') }} @endif </h2>
     </br>
     </br>
     <!-- modal de l'ajout de facture-->
@@ -38,7 +38,7 @@
 
         <form role="form" id="FormRegister" class="" method="post" action="{{route('reception_commande_numero',app()->getLocale())}}">
             <div class="form-group">
-                <label class="control-label col-sm-1" for="id_bc">Bon de commande:</label>
+                <label class="control-label col-sm-1" for="id_bc">{{__('menu.bon_commande')}}:</label>
                 <div class="col-sm-2">
                     <select class="form-control selectpicker " id="id_bc" name="id_bc" data-live-search="true" data-size="6" required>
                         <option value="" >SELECTIONNER UN BON DE COMMANDE</option>

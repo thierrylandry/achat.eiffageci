@@ -6,7 +6,7 @@
     class="active"
 @endsection
 @section('content')
-    <h2>{{strtoupper('STOCKS')}}  </h2>
+    <h2>{{strtoupper( __('menu.Stocks'))}}  </h2>
     </br>
     <div class="row">
         <div class="col-sm-12">
@@ -27,7 +27,11 @@
                 @foreach($rapports as $rapport )
                     <tr>
                         <td>{{$rapport->id}}</td>
-                        <td>{{$rapport->libelle}}</td>
+                        <td>@if(App()->getLocale()=="fr")
+                                {{$rapport->libelle}}
+                            @elseif(App()->getLocale()=="en")
+                                {{$rapport->libelle_en}}
+                            @endif</td>
                         <td>
                             <a href="{{route('rapport',['id'=>$rapport->id,'locale'=>App()->getLocale()])}}" data-toggle="modal"  class=" btn btn-default col-sm-4 pull-right">
                                 <i class=" fa fa-area-chart">    </i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -64,7 +68,11 @@
                 // Get the modal
                 var table= $('#fournisseurs').DataTable({
                     language: {
-                        url: "js/French.json"
+                        @if(App()->getLocale()=='fr')
+                        url: "../public/js/French.json"
+                        @elseif(App()->getLocale()=='en')
+                        url: "../public/js/English.json"
+                        @endif
                     },
                     "ordering":true,
                     "responsive": true,

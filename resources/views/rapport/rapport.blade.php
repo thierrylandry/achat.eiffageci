@@ -97,7 +97,11 @@
         }
 
     </style>
-   <h2 align="center">{{$rapport->libelle}}  <a href="{{url()->previous()}}" class="btn btn-info pull-right"><i class="fa fa-arrow-left" aria-hidden="true"></i> Retour</a></h2>
+   <h2 align="center">@if(App()->getLocale()=="fr")
+           {{$rapport->libelle}}
+       @elseif(App()->getLocale()=="en")
+           {{$rapport->libelle_en}}
+       @endif  <a href="{{url()->previous()}}" class="btn btn-info pull-right"><i class="fa fa-arrow-left" aria-hidden="true"></i> {{__('pagination.previous')}}</a></h2>
 
 </br>
 </br>
@@ -242,59 +246,6 @@
                 </div>
             </div>
         @elseif($rapport->id==4)
-             <div class=" col-sm-12 ">
-                <div class="stats-title">
-                    <?php
-                    $tot=0;
-                    $array= array();
-                    if(isset($dependance_tableaux)){
-                        foreach($dependance_tableaux as $res):
-                            if(isset($array[$res->libelle])){
-                                $array[$res->libelle]+= $res->prix_total+$res->valeur_tva_tot;
-                            }else{
-                                $array[$res->libelle]=$res->prix_total+$res->valeur_tva_tot;
-                            }
-
-                            $tot+=$res->prix_total+$res->valeur_tva_tot;
-                        endforeach;
-
-                    }
-
-                    ?>
-                </div>
-                <div class="stats-body">
-
-                    <table id="fournisseur_categorie" class="table data-table tableDA">
-                        <thead>
-
-                        <tr>
-                            <th >Fournisseur</th>
-                            <th >Catégorie</th>
-                            <th >Montant (FCFA)</th>
-                            <th > 100%</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @if(isset($dependance_tableaux))
-                            @foreach($dependance_tableaux as $res)
-                                <tr>
-                                    <td>{{$res->libelle}}</td>
-                                    <td>{{$res->libelleDomainne}}</td>
-                                    <td>{{number_format($res->prix_total+$res->valeur_tva_tot,'0',',','.')}}</td>
-                                    <td>{{number_format(($res->prix_total+$res->valeur_tva_tot)*100/$array[$res->libelle],'2',',','.')}}%</td>
-                                </tr>
-                            @endforeach
-                        @endif
-                        </tbody>
-                        <tfoot>
-                        <td></td>
-                        <td>Total</td>
-                        <td></td>
-                        </tfoot>
-
-                    </table>
-                </div>
-            </div>
             <div class=" col-sm-12 ">
                 <div class="stats-title">
                     <?php
@@ -711,9 +662,9 @@
                            columns: [ 0,1]
                        },
                        text:"Copier",
-                       filename: "{{$rapport->libelle}}" +date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
+                       filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
                        className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                       messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                       messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
 
                    },
                    {
@@ -722,9 +673,9 @@
                            columns: [ 0,1]
                        },
                        text:"Excel",
-                       filename: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                       filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                        className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                       messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                       messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                        orientation: 'landscape',
 
                    },
@@ -734,9 +685,9 @@
                            columns: [ 0,1]
                        },
                        text:"PDF",
-                       filename: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                       filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                        className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                       messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                       messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                        orientation: 'landscape',
 
                    },
@@ -746,9 +697,9 @@
                            columns: [ 0,1]
                        },
                        text:"Imprimer",
-                       filename: "{{$rapport->libelle}}"+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
+                       filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif"+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
                        className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                       messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                       messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                        orientation: 'landscape',
 
                    }
@@ -768,9 +719,9 @@
                                    columns: [ 0,1]
                                },
                                text:"Copier",
-                               filename: "{{$rapport->libelle}}" +date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
 
                            },
                            {
@@ -779,9 +730,9 @@
                                    columns: [ 0,1]
                                },
                                text:"Excel",
-                               filename: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                orientation: 'landscape',
 
                            },
@@ -791,9 +742,9 @@
                                    columns: [ 0,1]
                                },
                                text:"PDF",
-                               filename: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                orientation: 'landscape',
 
                            },
@@ -803,75 +754,24 @@
                                    columns: [ 0,1]
                                },
                                text:"Imprimer",
-                               filename: "{{$rapport->libelle}}"+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif"+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                orientation: 'landscape',
 
                            }
                        ],
-                       language: {
-                           url: "{{ URL::asset('public/js/French.json') }}"
+                        language: {
+                           @if(App()->getLocale()=='fr')
+                           url: "../../public/js/French.json"
+                           @elseif(App()->getLocale()=='en')
+                           url: "../../public/js/English.json"
+                           @endif
                        },
+
 
                    });
                    @elseif($rapport->id==4)
-           var table= $('#ca_fournisseur').DataTable({
-                       dom: 'Bfrtip',
-                       buttons: [
-                           {
-                               extend: 'copyHtml5',
-                               exportOptions: {
-                                   columns: [ 0,1]
-                               },
-                               text:"Copier",
-                               filename: "{{$rapport->libelle}}" +date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
-                               className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
-
-                           },
-                           {
-                               extend: 'excelHtml5',
-                               exportOptions: {
-                                   columns: [ 0,1]
-                               },
-                               text:"Excel",
-                               filename: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
-                               className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
-                               orientation: 'landscape',
-
-                           },
-                           {
-                               extend: 'pdfHtml5',
-                               exportOptions: {
-                                   columns: [ 0,1]
-                               },
-                               text:"PDF",
-                               filename: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
-                               className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
-                               orientation: 'landscape',
-
-                           },
-                           {
-                               extend: 'print',
-                               exportOptions: {
-                                   columns: [ 0,1]
-                               },
-                               text:"Imprimer",
-                               filename: "{{$rapport->libelle}}"+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
-                               className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
-                               orientation: 'landscape',
-
-                           }
-                       ],
-                       language: {
-                           url: "{{ URL::asset('public/js/French.json') }}"
-                       },
-
-                   });
            var table= $('#fournisseur_categorie1').DataTable({
                        dom: 'Bfrtip',
                        buttons: [
@@ -881,9 +781,9 @@
                                    columns: [ 0,1,2,3]
                                },
                                text:"Copier",
-                               filename: "{{$rapport->libelle}}" +date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
 
                            },
                            {
@@ -892,9 +792,9 @@
                                    columns: [ 0,1,2,3]
                                },
                                text:"Excel",
-                               filename: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                orientation: 'landscape',
 
                            },
@@ -904,9 +804,9 @@
                                    columns: [ 0,1,2,3]
                                },
                                text:"PDF",
-                               filename: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                orientation: 'landscape',
 
                            },
@@ -916,16 +816,21 @@
                                    columns: [ 0,1,2,3]
                                },
                                text:"Imprimer",
-                               filename: "{{$rapport->libelle}}"+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif"+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                orientation: 'landscape',
 
                            }
                        ],
-                       language: {
-                           url: "{{ URL::asset('public/js/French.json') }}"
+                        language: {
+                           @if(App()->getLocale()=='fr')
+                           url: "../../public/js/French.json"
+                           @elseif(App()->getLocale()=='en')
+                           url: "../../public/js/English.json"
+                           @endif
                        },
+
                order: [[1, 'desc']],
                "drawCallback": function (settings){
                    var api = this.api();
@@ -1000,9 +905,9 @@
                                    columns: [ 0,1,2,3]
                                },
                                text:"Copier",
-                               filename: "{{$rapport->libelle}}" +date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                footer: true
 
                            },
@@ -1012,9 +917,9 @@
                                    columns: [ 0,1,2,3]
                                },
                                text:"Excel",
-                               filename: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                orientation: 'landscape',
                                footer: true
 
@@ -1025,9 +930,9 @@
                                    columns: [ 0,1,2,3]
                                },
                                text:"PDF",
-                               filename: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                orientation: 'landscape',
                                footer: true
 
@@ -1038,17 +943,22 @@
                                    columns: [ 0,1,2,3]
                                },
                                text:"Imprimer",
-                               filename: "{{$rapport->libelle}}"+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif"+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                orientation: 'landscape',
                                footer: true
 
                            }
                        ],
-                       language: {
-                           url: "{{ URL::asset('public/js/French.json') }}"
+                        language: {
+                           @if(App()->getLocale()=='fr')
+                           url: "../../public/js/French.json"
+                           @elseif(App()->getLocale()=='en')
+                           url: "../../public/js/English.json"
+                           @endif
                        },
+
                order: [[0, 'desc']],
                "drawCallback": function (settings){
                    var api = this.api();
@@ -1123,9 +1033,9 @@
                                    columns: [ 0,1]
                                },
                                text:"Copier",
-                               filename: "{{$rapport->libelle}}" +date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
 
                            },
                            {
@@ -1134,9 +1044,9 @@
                                    columns: [ 0,1]
                                },
                                text:"Excel",
-                               filename: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                orientation: 'landscape',
 
                            },
@@ -1146,9 +1056,9 @@
                                    columns: [ 0,1]
                                },
                                text:"PDF",
-                               filename: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                orientation: 'landscape',
 
                            },
@@ -1158,16 +1068,21 @@
                                    columns: [ 0,1]
                                },
                                text:"Imprimer",
-                               filename: "{{$rapport->libelle}}"+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif"+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                orientation: 'landscape',
 
                            }
                        ],
-                       language: {
-                           url: "{{ URL::asset('public/js/French.json') }}"
+                        language: {
+                           @if(App()->getLocale()=='fr')
+                           url: "../../public/js/French.json"
+                           @elseif(App()->getLocale()=='en')
+                           url: "../../public/js/English.json"
+                           @endif
                        },
+
 
                    });
                    @elseif($rapport->id==6)
@@ -1188,9 +1103,9 @@
                                    columns: [ 0,1,2,3,4]
                                },
                                text:"Copier",
-                               filename: "{{$rapport->libelle}}" +date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                footer: true
 
                            },
@@ -1200,9 +1115,9 @@
                                    columns: [ 0,1,2,3,4]
                                },
                                text:"Excel",
-                               filename: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                orientation: 'landscape',
                                footer: true
 
@@ -1213,9 +1128,9 @@
                                    columns: [ 0,1,2,3,4]
                                },
                                text:"PDF",
-                               filename: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                orientation: 'landscape',
                                footer: true
 
@@ -1226,17 +1141,22 @@
                                    columns: [ 0,1,2,3,4]
                                },
                                text:"Imprimer",
-                               filename: "{{$rapport->libelle}}"+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif"+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                orientation: 'landscape',
                                footer: true
 
                            }
                        ],
-                       language: {
-                           url: "{{ URL::asset('public/js/French.json') }}"
+                        language: {
+                           @if(App()->getLocale()=='fr')
+                           url: "../../public/js/French.json"
+                           @elseif(App()->getLocale()=='en')
+                           url: "../../public/js/English.json"
+                           @endif
                        },
+
                        "footerCallback": function ( row, data, start, end, display ) {
                            var api = this.api(), data;
 
@@ -1297,9 +1217,9 @@
                                    columns: [ 0,1,2,3]
                                },
                                text:"Copier",
-                               filename: "{{$rapport->libelle}}" +date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
 
                            },
                            {
@@ -1308,9 +1228,9 @@
                                    columns: [ 0,1,2,3]
                                },
                                text:"Excel",
-                               filename: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                orientation: 'landscape',
 
                            },
@@ -1320,9 +1240,9 @@
                                    columns: [ 0,1,2,3]
                                },
                                text:"PDF",
-                               filename: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                orientation: 'landscape',
 
                            },
@@ -1332,16 +1252,21 @@
                                    columns: [ 0,1,2,3]
                                },
                                text:"Imprimer",
-                               filename: "{{$rapport->libelle}}"+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif"+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                orientation: 'landscape',
 
                            }
                        ],
-                       language: {
-                           url: "{{ URL::asset('public/js/French.json') }}"
+                        language: {
+                           @if(App()->getLocale()=='fr')
+                           url: "../../public/js/French.json"
+                           @elseif(App()->getLocale()=='en')
+                           url: "../../public/js/English.json"
+                           @endif
                        },
+
 
 
                    });
@@ -1355,9 +1280,9 @@
                                    columns: [ 1,2,3,4,5,6]
                                },
                                text:"Copier",
-                               filename: "{{$rapport->libelle}}" +date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
 
                            },
                            {
@@ -1366,9 +1291,9 @@
                                    columns: [ 1,2,3,4,5,6]
                                },
                                text:"Excel",
-                               filename: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                orientation: 'landscape',
 
                            },
@@ -1378,9 +1303,9 @@
                                    columns: [ 1,2,3,4,5,6]
                                },
                                text:"PDF",
-                               filename: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                orientation: 'landscape',
 
                            },
@@ -1390,16 +1315,21 @@
                                    columns: [ 1,2,3,4,5,6]
                                },
                                text:"Imprimer",
-                               filename: "{{$rapport->libelle}}"+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif"+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                orientation: 'landscape',
 
                            }
                        ],
-                       language: {
-                           url: "{{ URL::asset('public/js/French.json') }}"
+                        language: {
+                           @if(App()->getLocale()=='fr')
+                           url: "../../public/js/French.json"
+                           @elseif(App()->getLocale()=='en')
+                           url: "../../public/js/English.json"
+                           @endif
                        },
+
                    }).column(0).visible(false);
                    @elseif($rapport->id==9)
            var table= $('#delai_prouit').DataTable({
@@ -1411,9 +1341,9 @@
                                    columns: [ 0,1,2,3]
                                },
                                text:"Copier",
-                               filename: "{{$rapport->libelle}}" +date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
 
                            },
                            {
@@ -1422,9 +1352,9 @@
                                    columns: [ 0,1,2,3]
                                },
                                text:"Excel",
-                               filename: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                orientation: 'landscape',
 
                            },
@@ -1434,9 +1364,9 @@
                                    columns: [ 0,1,2,3]
                                },
                                text:"PDF",
-                               filename: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                orientation: 'landscape',
 
                            },
@@ -1446,16 +1376,21 @@
                                    columns: [ 0,1,2,3]
                                },
                                text:"Imprimer",
-                               filename: "{{$rapport->libelle}}"+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif"+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                orientation: 'landscape',
 
                            }
                        ],
-                       language: {
-                           url: "{{ URL::asset('public/js/French.json') }}"
+                        language: {
+                           @if(App()->getLocale()=='fr')
+                           url: "../../public/js/French.json"
+                           @elseif(App()->getLocale()=='en')
+                           url: "../../public/js/English.json"
+                           @endif
                        },
+
 
                    });
                    @elseif($rapport->id==10)
@@ -1468,9 +1403,9 @@
                                    columns: [ 0,1,2,3,4,5,6]
                                },
                                text:"Copier",
-                               filename: "{{$rapport->libelle}}" +date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
 
                            },
                            {
@@ -1479,9 +1414,9 @@
                                    columns: [ 0,1,2,3,4,5,6]
                                },
                                text:"Excel",
-                               filename: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                orientation: 'landscape',
 
                            },
@@ -1491,9 +1426,9 @@
                                    columns: [ 0,1,2,3,4,5,6]
                                },
                                text:"PDF",
-                               filename: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                orientation: 'landscape',
 
                            },
@@ -1503,15 +1438,19 @@
                                    columns: [ 0,1,2,3,4,5,6]
                                },
                                text:"Imprimer",
-                               filename: "{{$rapport->libelle}}"+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif"+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                orientation: 'landscape',
 
                            }
                        ],
                        language: {
-                           url: "{{ URL::asset('public/js/French.json') }}"
+                           @if(App()->getLocale()=='fr')
+                           url: "../../public/js/French.json"
+                           @elseif(App()->getLocale()=='en')
+                           url: "../../public/js/English.json"
+                           @endif
                        },
 
                    });
@@ -1525,9 +1464,9 @@
                                    columns: [ 0,1,2,3,4]
                                },
                                text:"Copier",
-                               filename: "{{$rapport->libelle}}" +date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
 
                            },
                            {
@@ -1536,9 +1475,9 @@
                                    columns: [ 0,1,2,3,4]
                                },
                                text:"Excel",
-                               filename: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                orientation: 'landscape',
 
                            },
@@ -1548,9 +1487,9 @@
                                    columns: [ 0,1,2,3,4]
                                },
                                text:"PDF",
-                               filename: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                orientation: 'landscape',
 
                            },
@@ -1560,16 +1499,21 @@
                                    columns: [ 0,1,2,3,4]
                                },
                                text:"Imprimer",
-                               filename: "{{$rapport->libelle}}"+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
+                               filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif"+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
                                className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
-                               messageTop: "{{$rapport->libelle}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                               messageTop: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
                                orientation: 'landscape',
 
                            }
                        ],
-                       language: {
-                           url: "{{ URL::asset('public/js/French.json') }}"
+                        language: {
+                           @if(App()->getLocale()=='fr')
+                           url: "../../public/js/French.json"
+                           @elseif(App()->getLocale()=='en')
+                           url: "../../public/js/English.json"
+                           @endif
                        },
+
 
                    });
            @endif
