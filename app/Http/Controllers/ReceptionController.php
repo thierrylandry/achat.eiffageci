@@ -139,6 +139,10 @@ class ReceptionController extends Controller
     }
     public function reception_commande_numero(Request $request){
         $parameters=$request->except(['_token']);
+
+        if(sizeof($parameters)==0){
+            return redirect()->route('reception_commande',app()->getLocale());
+        }
         $id_bc=$parameters['id_bc'];
         $bc_chosisi = Boncommande::find($id_bc);
         $bcs = Boncommande::where('etat','=','3')->get();

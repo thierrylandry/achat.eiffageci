@@ -8,7 +8,7 @@
     <style>
         div.dropdown-menu.open { width: 100%; } ul.dropdown-menu.inner>li>a { white-space: initial; }
     </style>
-    <h2>SORTIES DE MATERIEL - {{isset($mouvement)? 'MODIFIER ':'AJOUTER '}} UN MOUVEMENT @if(isset($mouvement)) <a href="{{route('sortie_stock',App()->getLocale())}}" class="btn btn-success pull-right"><i class="fa fa-plus" aria-hidden="true"></i> Ajouter</a> @endif &nbsp;</h2>
+    <h2>{{__('reception.sortie_materiel')}} - {{isset($mouvement)? 'MODIFIER ':'AJOUTER '}} UN MOUVEMENT @if(isset($mouvement)) <a href="{{route('sortie_stock',App()->getLocale())}}" class="btn btn-success pull-right"><i class="fa fa-plus" aria-hidden="true"></i> Ajouter</a> @endif &nbsp;</h2>
     </br>
     </br>
     <div class="row">

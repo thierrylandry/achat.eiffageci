@@ -41,7 +41,7 @@
                 <label class="control-label col-sm-1" for="id_bc">{{__('menu.bon_commande')}}:</label>
                 <div class="col-sm-2">
                     <select class="form-control selectpicker " id="id_bc" name="id_bc" data-live-search="true" data-size="6" required>
-                        <option value="" >SELECTIONNER UN BON DE COMMANDE</option>
+                        <option value="" >{{__('reception.selectionner_commande')}}</option>
                         @foreach($bcs as $bc)
                             <option value="{{$bc->id}}" {{isset($bc_chosisi) && $bc_chosisi->id==$bc->id? 'selected':''}}>{{$bc->numBonCommande}}</option>
                         @endforeach
@@ -50,7 +50,7 @@
             </div>
             <div class="col-sm-1">
                 @csrf
-                <input type="submit"  value="RECHERCHER"/>
+                <input type="submit"  value="{{__('reception.search')}}"/>
             </div>
         </form>
 
@@ -60,7 +60,7 @@
     <div class="row">
         <div class="col-sm-2">
             <div class="form-group">
-                <label for="libelle" class="control-label">Date de livraison</label>
+                <label for="libelle" class="control-label">{{__('reception.date_livraison')}}</label>
 
 
                <input type="date" id="date_livraison" />
@@ -68,7 +68,7 @@
         </div>
         <div class="col-sm-2">
             <div class="form-group">
-                <label for="libelle" class="control-label">Numero de BL : </label>
+                <label for="libelle" class="control-label">{{__('reception.numero_bl')}} : </label>
 
 
                <input type="text" id="numero_bl" />
@@ -83,20 +83,20 @@
         <div class="col-sm-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                   Liste des commandes
+                    {{__('reception.list_commande')}}
                 </div>
                 <div  class="table-responsive" STYLE="overflow-x:scroll;">
                     <table class="table table-striped b-t b-light" id="reception_commande">
                         <thead>
                         <tr>
                             <th class="dt-head-center">id</th>
-                            <th class="dt-head-center">produits et services</th>
-                            <th class="dt-head-center">Référence fournisseur</th>
-                            <th class="dt-head-center">Titre externe</th>
-                            <th class="dt-head-center">Quantité commandé</th>
-                                <th class="dt-head-center" style="min-width:350px">Mes livraisons</th>
-                                <th class="dt-head-center">Solde courant</th>
-                            <th class="dt-head-center" style="min-width:500px">Nouvelle Livraison</th>
+                            <th class="dt-head-center">{{__('reception.article')}}</th>
+                            <th class="dt-head-center">{{__('reception.reference_fournisseur')}}</th>
+                            <th class="dt-head-center">{{__('reception.titre_externe')}}</th>
+                            <th class="dt-head-center">{{__('reception.quantite')}}</th>
+                                <th class="dt-head-center" style="min-width:350px">{{__('reception.mes_livraison')}}</th>
+                                <th class="dt-head-center">{{__('reception.solde_courant')}}</th>
+                            <th class="dt-head-center" style="min-width:500px">{{__('reception.new_livraison')}}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -115,7 +115,7 @@
                                    @if(isset($bls['ligne'.$lignebc->id]))
                                         <ul>
                                                 @foreach($bls['ligne'.$lignebc->id] as $res)
-                                                livraison n°{{isset($res)?$res->numero_bl:''}} </br> Quantité livrée : {{isset($res)?$res->quantite:0}}  Livré le {{$res->date_reception}} Solde : @if(isset($res)){{$solde-=$res->quantite}}  @endif &nbsp; &nbsp;<a href="{{route('supprimer_livraison',['id'=>$res->id,'locale'=>App()->getLocale()])}}"><i class="fa fa-trash"></i></a> </li>
+                                                {{__('reception.livraison')}} n°{{isset($res)?$res->numero_bl:''}} </br> {{__('reception.quantite_livre')}}: {{isset($res)?$res->quantite:0}} {{__('reception.Livre_le')}}  {{$res->date_reception}} {{__('reception.solde')}} : @if(isset($res)){{$solde-=$res->quantite}}  @endif &nbsp; &nbsp;<a href="{{route('supprimer_livraison',['id'=>$res->id,'locale'=>App()->getLocale()])}}"><i class="fa fa-trash"></i></a> </li>
 
                                                             @endforeach
 
@@ -125,7 +125,7 @@
                                    </td>
                                    <td>@if(isset($res)){{$solde}} @else() {{$solde}} @endif</td>
 
-                                       <td>Quantité reçu : <input type="number"  min=1 max="{{$solde}}" onkeyup="if(this.value > {{$solde}} || this.value<=0) this.value = null;" id="row_n_{{$lignebc->id}}_qte_livraison" class="_qte_livraison" name="row_n_{{$lignebc->id}}_qte_livraison" style="width:59px;"/> <input type="date" id="row_n_{{$lignebc->id}}_date_livraison" class="_date_livraison" name="row_n_{{$lignebc->id}}_date_livraison" style="width:135px;" /> Numero BL :<input type="text" id="row_n_{{$lignebc->id}}_numerobl_livraison" class="_numerobl_livraison" name="row_n_{{$lignebc->id}}_numerobl_livraison" placeholder="Numero BL" style="width:100px;" /> </td>
+                                       <td>{{__('reception.quantite_recu')}}: : <input type="number"  min=1 max="{{$solde}}" onkeyup="if(this.value > {{$solde}} || this.value<=0) this.value = null;" id="row_n_{{$lignebc->id}}_qte_livraison" class="_qte_livraison" name="row_n_{{$lignebc->id}}_qte_livraison" style="width:59px;"/> <input type="date" id="row_n_{{$lignebc->id}}_date_livraison" class="_date_livraison" name="row_n_{{$lignebc->id}}_date_livraison" style="width:135px;" /> Numero BL :<input type="text" id="row_n_{{$lignebc->id}}_numerobl_livraison" class="_numerobl_livraison" name="row_n_{{$lignebc->id}}_numerobl_livraison" placeholder="Numero BL" style="width:100px;" /> </td>
                                </tr>
 
                            @endforeach
@@ -135,7 +135,7 @@
                 </div>
             </div>
 
-            <input type="submit" class="btn btn-success pull-right" id="soumettre1" name="soumettre1" value="Enregistrer" />
+            <input type="submit" class="btn btn-success pull-right" id="soumettre1" name="soumettre1" value="{{__('translation.save')}}" />
         </div>
 
         </form>
@@ -200,7 +200,11 @@
         (function($) {
             var table= $('#reception_commande').DataTable({
                 language: {
-                    url: "{{ URL::asset('js/French.json') }}"
+                    @if(App()->getLocale()=='fr')
+                    url: "../public/js/French.json"
+                    @elseif(App()->getLocale()=='en')
+                    url: "../public/js/English.json"
+                    @endif
                 },
                 "ordering":false,
                 "createdRow": function( row, data, dataIndex){
