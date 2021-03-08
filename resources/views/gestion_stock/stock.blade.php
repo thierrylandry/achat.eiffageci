@@ -31,13 +31,13 @@
 
                     <tr>
                         <th class="dt-head-center">id</th>
-                        <th class="dt-head-center">Domaine</th>
-                        <th class="dt-head-center">Famille</th>
-                        <th class="dt-head-center">Article</th>
-                        <th class="dt-head-center">Quantite</th>
-                        <th class="dt-head-center">Unité</th>
-                        <th class="dt-head-center">Stock min</th>
-                        <th class="dt-head-center">Valorisation (FCFA)</th>
+                        <th class="dt-head-center">{{__('gestion_stock.domaine')}}</th>
+                        <th class="dt-head-center">{{__('gestion_stock.famille')}}</th>
+                        <th class="dt-head-center">{{__('gestion_stock.article')}}</th>
+                        <th class="dt-head-center">{{__('gestion_stock.quantite')}}</th>
+                        <th class="dt-head-center">{{__('gestion_stock.unite')}}</th>
+                        <th class="dt-head-center">{{__('gestion_stock.stock_min')}}</th>
+                        <th class="dt-head-center">{{__('gestion_stock.valorisation')}}</th>
 
                     </tr>
                     </thead>
@@ -123,15 +123,19 @@
             // Setup - add a text input to each footer cell
             $('#tableDA thead th').each( function () {
                 var title = $(this).text();
-                if($(this).html()!='Stock min' && $(this).html()!='Valorisation (FCFA)'&& $(this).html()!='Quantite'&& $(this).html()!='Unité'){
+                if($(this).html()!='{{__('gestion_stock.stock_min')}}' && $(this).html()!='{{__('gestion_stock.valorisation')}}' && $(this).html()!='{{__('gestion_stock.quantite')}}' && $(this).html()!='{{__('gestion_stock.unite')}}'){
                     $(this).append( '</br><input type="text" style="width: 100px;" placeholder="Search '+title+'" />' );
                 }
 
             } );
             var table= $('#tableDA').DataTable({
                 language: {
-                    url: "{{ URL::asset('js/French.json') }}"
-                },
+                @if(App()->getLocale()=='fr')
+                        url: "../public/js/French.json"
+                @elseif(App()->getLocale()=='en')
+                        url: "../public/js/English.json"
+                @endif
+            },
                 "ordering":false,
                 "createdRow": function( row, data, dataIndex){
 

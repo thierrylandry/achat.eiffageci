@@ -8,7 +8,7 @@
     <style>
         div.dropdown-menu.open { width: 100%; } ul.dropdown-menu.inner>li>a { white-space: initial; }
     </style>
-    <h2>{{__('reception.sortie_materiel')}} - {{isset($mouvement)? 'MODIFIER ':'AJOUTER '}} UN MOUVEMENT @if(isset($mouvement)) <a href="{{route('sortie_stock',App()->getLocale())}}" class="btn btn-success pull-right"><i class="fa fa-plus" aria-hidden="true"></i> Ajouter</a> @endif &nbsp;</h2>
+    <h2>{{__('sortie_materiel.sortie_article')}}  @if(isset($mouvement)) {{ __('translation.update') }} @else {{ __('translation.add') }}  @endif  @if(isset($mouvement)) <a href="{{route('sortie_stock',App()->getLocale())}}" class="btn btn-success pull-right"> {{ __('translation.add') }}</a> @endif &nbsp;</h2>
     </br>
     </br>
     <div class="row">
@@ -18,11 +18,11 @@
 
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label for="libelle" class="control-label">Domaine:</label>
+                    <label for="libelle" class="control-label">{{__('gestion_stock.domaine')}}:</label>
 
 
                     <select class="form-control selectpicker " id="domaines" name="domaines" data-live-search="true" data-size="6">
-                        <option value="" >SELECTIONNER UN DOMAINE</option>
+                        <option value="" >{{__('sortie_materiel.selectionner_domaine')}}</option>
                         @foreach($domaines as $domaine)
                             <option value="{{$domaine->id_domaine}}"> {{$domaine->libelle_domaine}}</option>
                         @endforeach
@@ -33,11 +33,11 @@
             </div>
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label for="libelle" class="control-label">Famille:</label>
+                    <label for="libelle" class="control-label">{{__('gestion_stock.famille')}}:</label>
 
 
                     <select class="form-control selectpicker " id="famille" name="famille" data-live-search="true" data-size="6">
-                        <option value="" >SELECTIONNER UNE FAMILLE</option>
+                        <option value="" >{{__('sortie_materiel.selectionner_famille')}}</option>
                         @foreach($familles as $famille)
                             <option value="{{$famille->id_famille}}"> {{$famille->libelle_famille}}</option>
                         @endforeach
@@ -48,11 +48,11 @@
             <div class="col-sm-4">
                 <div class="form-group">
                     <input type="hidden" name="id" value="{{isset($mouvement)?$mouvement->id:''}}">
-                    <label for="libelle" class="control-label">Article</label>
+                    <label for="libelle" class="control-label">{{__('gestion_stock.article')}}</label>
 
 
                     <select class="form-control selectpicker col-sm-4" id="id_materiel" name="id_mouvement" data-live-search="true" data-size="6" required>
-                        <option  value="">SELECTIONNER UN ARICLE</option>
+                        <option  value="">{{__('sortie_materiel.selectionner_article')}}</option>
                         @foreach($mouvement_materiels as $mouvement_materiel)
                             <optgroup label="code tache: {{$mouvement_materiel->codetache}}">
                                 <option @if(isset($mouvement) and $mouvement_materiel->id==$mouvement->id_mouvement)
@@ -68,11 +68,11 @@
                 @csrf
 
                 <div class="form-group">
-                    <label for="libelle" class="control-label">Code tache</label>
+                    <label for="libelle" class="control-label">{{__('gestion_stock.code_tache')}}</label>
 
 
                     <select class="form-control selectpicker col-sm-4" id="id_imputation" name="id_imputation" data-live-search="true" data-size="6" required>
-                        <option value="">SELECTIONNER UN CODE TACHE</option>
+                        <option value="">{{__('sortie_materiel.selectionner_code_tache')}}</option>
                         @foreach($codetaches as $codetache)
                             <optgroup label="Picnic">
                             <option @if(isset($mouvement) and $codetache->id==$mouvement->id_imputation)
@@ -86,7 +86,7 @@
             </div>
             <div class="col-sm-4">
                 <div class="form-group">
-                    <b><label for="libelle" class="control-label">Demandeur</label></b>
+                    <b><label for="libelle" class="control-label">{{__('gestion_stock.demandeur')}}</label></b>
                     <select class="form-control selectpicker col-sm-4" id="id_demandeur" name="id_demandeur" data-live-search="true" data-size="6">
                         @foreach($demandeurs as $demandeur)
                             <option @if(isset($mouvement) and $demandeur->id==$mouvement->id_demandeur)
@@ -98,11 +98,11 @@
             </div>
             <div class="col-sm-4">
                 <div class="form-group col-sm-3 ">
-                    <label for="type">Quantité</label>
-                    <input type="number"  step="any" class="form-control " id="quantite" name="quantite" placeholder="quantite" max="{{isset($mouvement)? $stock_max:''}}" value="{{isset($mouvement)? $mouvement->quantite*(-1):''}}"   min="1" required>
+                    <label for="type">{{__('gestion_stock.quantite')}}</label>
+                    <input type="number"  step="any" class="form-control " id="quantite" name="quantite" placeholder="{{__('gestion_stock.quantite')}}" max="{{isset($mouvement)? $stock_max:''}}" value="{{isset($mouvement)? $mouvement->quantite*(-1):''}}"   min="1" required>
                 </div>
                 <div class="form-group col-sm-3">
-                    <label for="type">Unité</label>
+                    <label for="type">{{__('gestion_stock.unite')}}</label>
                     <select class="form-control selectpicker col-sm-4" id="unite" name="unite" data-live-search="true" data-size="6">
                         @foreach($tab_unite['nothing'] as $unite)
                             <option value="{{$unite}}" {{isset($mouvement) && $unite==$mouvement->unite?"selected":''}}>{{$unite}}</option>
@@ -140,7 +140,7 @@
                 <br>
                 <br>
                 <div class="form-group col-sm-4 col-sm-push-8" >
-                    <button type="submit"  id="btnvalider"class="btn btn-success form-control">{{isset($mouvement)? 'Modifier':'Ajouter'}}</button>
+                    <button type="submit"  id="btnvalider"class="btn btn-success form-control">@if(isset($mouvement)) {{ __('translation.update') }} @else {{ __('translation.add') }}  @endif</button>
                 </div>
             </div>
 
@@ -156,7 +156,7 @@
         </form>
 
     </div>
-    <h2>LES SORTIES MATERIELS  </h2>
+    <h2>{{__('gestion_stock.sortie_materiel')}}  </h2>
     <br>
     <br>
     <div class="panel-group" id="accordion">
@@ -174,15 +174,15 @@
 
                     <tr>
                         <th class="dt-head-center">id</th>
-                        <th class="dt-head-center">Domaine</th>
-                        <th class="dt-head-center">Famille</th>
-                        <th class="dt-head-center">Article</th>
-                        <th class="dt-head-center">Quantite</th>
-                        <th class="dt-head-center">Unité</th>
-                        <th class="dt-head-center">Code tache</th>
-                        <th class="dt-head-center">Demandeur</th>
-                        <th class="dt-head-center">Auteur</th>
-                        <th class="dt-head-center">Action</th>
+                        <th class="dt-head-center">{{__('gestion_stock.domaine')}}</th>
+                        <th class="dt-head-center">{{__('gestion_stock.famille')}}</th>
+                        <th class="dt-head-center">{{__('gestion_stock.article')}}</th>
+                        <th class="dt-head-center">{{__('gestion_stock.quantite')}}</th>
+                        <th class="dt-head-center">{{__('gestion_stock.unite')}}</th>
+                        <th class="dt-head-center">{{__('gestion_stock.code_tache')}}</th>
+                        <th class="dt-head-center">{{__('gestion_stock.demandeur')}}</th>
+                        <th class="dt-head-center">{{__('gestion_stock.auteur')}}</th>
+                        <th class="dt-head-center">{{__('gestion_stock.action')}}</th>
 
                     </tr>
                     </thead>
@@ -275,7 +275,11 @@
             } );
             var table= $('#tableDA').DataTable({
                 language: {
-                    url: "{{ URL::asset('js/French.json') }}"
+                    @if(App()->getLocale()=='fr')
+                    url: "../public/js/French.json"
+                    @elseif(App()->getLocale()=='en')
+                    url: "../public/js/English.json"
+                    @endif
                 },
                 "ordering":false,
                 "createdRow": function( row, data, dataIndex){

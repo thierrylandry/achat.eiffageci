@@ -7,7 +7,7 @@
     class='active'
 @endsection
 @section('content')
-    <h2>LES UTILISATEURS - {{isset($utilisateur)? 'MODIFIER UTILISATEUR':'AJOUTER UTILISATEUR'}}</h2><br/><br/><br/>
+    <h2>{{__('translation.users')}}  @if(isset($utilisateur)) {{ __('translation.update') }} @else {{ __('translation.add') }}  @endif</h2><br/><br/><br/>
 
     <div class="row">
         @if(isset($utilisateur))
@@ -19,17 +19,17 @@
         <div class="col-sm-4">
             @csrf
             <div class="form-group">
-                <b><label for="nom" class="control-label">Nom</label></b>
-                <input type="text" class="form-control" id="nom" name="nom" placeholder="nom" value="{{isset($utilisateur)? $utilisateur->nom:''}}" required>
+                <b><label for="nom" class="control-label">{{__('translation.nom')}}</label></b>
+                <input type="text" class="form-control" id="nom" name="nom" placeholder="{{__('translation.nom')}}" value="{{isset($utilisateur)? $utilisateur->nom:''}}" required>
             </div>
 
             <div class="form-group">
-                <label for="prenoms">Prénoms</label>
-                <input type="text" class="form-control" id="prenoms" name="prenoms" placeholder="Condition de Paiement" value="{{isset($utilisateur)? $utilisateur->prenoms:''}}">
+                <label for="prenoms">{{__('translation.prenoms')}}</label>
+                <input type="text" class="form-control" id="prenoms" name="prenoms" placeholder="{{__('translation.prenoms')}}" value="{{isset($utilisateur)? $utilisateur->prenoms:''}}">
             </div>
 
             <div class="form-group">
-                <label for="email">Email</label>
+                <label for="email">{{__('translation.email')}}</label>
                 <input type="email" class="form-control" id="email" name="email" value="{{isset($utilisateur)? $utilisateur->email:''}}">
             </div>
 
@@ -38,18 +38,18 @@
 
         <div class="col-sm-4">
             <div class="form-group">
-                <label for="responsable">Mot de passe</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="responsable" value="{{isset($utilisateur)? $utilisateur->password:''}}">
+                <label for="responsable">{{__('translation.password')}}</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="{{__('translation.password')}}" value="{{isset($utilisateur)? $utilisateur->password:''}}">
             </div>
 
             <div class="form-group">
-                <label for="domaine">Abréviation</label>
-                <input type="text" class="form-control" id="abréviation" name="abréviation" placeholder="abréviation"  value="{{isset($utilisateur)? $utilisateur->abréviation:''}}">
+                <label for="domaine">{{__('translation.abreviation')}}</label>
+                <input type="text" class="form-control" id="abréviation" name="abréviation" placeholder="{{__('translation.abreviation')}}"  value="{{isset($utilisateur)? $utilisateur->abréviation:''}}">
             </div>
 
             <div class="form-group">
-                <label for="contact">Contact</label>
-                <input type="text" class="form-control" id="contact" name="contact" placeholder="Contact" value="{{isset($utilisateur)? $utilisateur->contact:''}}">
+                <label for="contact">{{__('translation.contact')}}</label>
+                <input type="text" class="form-control" id="contact" name="contact" placeholder="{{__('translation.contact')}}" value="{{isset($utilisateur)? $utilisateur->contact:''}}">
             </div>
         </div>
 
@@ -57,7 +57,7 @@
             <fieldset><title>Habilitation</title>
 
             <div class="form-group">
-                <label for="domaine">Fonction</label>
+                <label for="domaine">{{__('translation.fonction')}}</label>
                 <input type="text" class="form-control" id="function" name="function" placeholder="function" value="{{isset($utilisateur)? $utilisateur->function:''}}">
             </div>
 
@@ -73,7 +73,7 @@
             </div>
 
             <div class="form-group">
-                    <label for="domaine">Les Roles</label>
+                    <label for="domaine">{{__('translation.les_roles')}}</label>
 
                     <select class="form-control selectpicker" id="roles" name="roles[]" data-live-search="true" data-size="6" noneSelectedText="SELECTIONNER LE(S) ROLE(S)"  multiple required >
                         <option  value="">SELECTIONNER LE(S) ROLE(S)</option>
@@ -89,10 +89,10 @@
             </div>
 
                     <br><div class="form-group" >
-                        <button type="submit" class="btn btn-success form-control " style="width: 200px;margin-right: 10px">{{isset($utilisateur)? 'Modifier':'Ajouter'}}</button>
+                        <button type="submit" class="btn btn-success form-control " style="width: 200px;margin-right: 10px">@if(isset($utilisateur)) {{ __('translation.update') }} @else {{ __('translation.add') }}  @endif</button>
                     </div>
                     @if(isset($utilisateur))
-                        <a href="{{route('gestion_utilisateur',app()->getLocale())}}">Ajouter un utilisateur</a>
+                        <a href="{{route('gestion_utilisateur',app()->getLocale())}}">{{__('neutrale.ajouter')}}</a>
                     @endif
 
                 </fieldset>
@@ -130,7 +130,11 @@
 
     var table= $('#fournisseurs').DataTable({
         language: {
-            url: "js/French.json"
+            @if(App()->getLocale()=='fr')
+            url: "../public/js/French.json"
+            @elseif(App()->getLocale()=='en')
+            url: "../public/js/English.json"
+            @endif
         },
         "ordering":true,
         "responsive": true,

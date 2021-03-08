@@ -2,6 +2,7 @@
 
 return [
     'add' => '+ Ajouter',
+    'update' => ' Modifier',
     'add_language' => 'Ajouter une nouvelle langue',
     'add_translation' => 'Ajouter une traduction',
     'advanced_options' => 'Afficher les options avancées',
@@ -50,4 +51,14 @@ return [
     'value_label' => 'Valeur',
     'value_placeholder' => 'Par exemple : Les clés doivent être une seule chaîne',
     'liste' => 'liste',
+    'nom' => 'Nom',
+    'prenom' => 'Prénoms',
+    'password' => 'Mot de passe',
+    'abreviation' => 'Abréviation',
+    'contact' => 'Contact',
+    'fonction' => 'Fonction',
+    'service' => 'Service',
+    'les_roles' => 'Les rôles',
+    'users' => 'Les utilisateurs',
+    'email' => 'E-mail',
 ];

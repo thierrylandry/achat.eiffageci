@@ -7,12 +7,12 @@
 
             <tr>
                 <th class="dt-head-center">id</th>
-                <th class="dt-head-center">nom</th>
-                <th class="dt-head-center">prenoms</th>
-                <th class="dt-head-center">abréviation</th>
-                <th class="dt-head-center">fonction</th>
-                <th class="dt-head-center">email</th>
-                <th class="dt-head-center">Action</th>
+                <th class="dt-head-center">{{__('translation.nom')}}</th>
+                <th class="dt-head-center">{{__('translation.prenoms')}}</th>
+                <th class="dt-head-center">{{__('translation.abreviation')}}</th>
+                <th class="dt-head-center">{{__('translation.fonction')}}</th>
+                <th class="dt-head-center">{{__('translation.email')}}</th>
+                <th class="dt-head-center">{{__('gestion_stock.action')}}</th>
 
             </tr>
             </thead>
