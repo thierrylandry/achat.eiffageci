@@ -15,4 +15,12 @@ return array (
     'action' => 'Action',
     'stock_min' => 'Stock min.',
     'valorisation' => 'Valorisation (XOF)',
+    'adresse_geographique' => 'Adresse géographique',
+    'responsable' => 'Responsable',
+    'interlocuteur' => 'Interlocuteur',
+    'titre' => 'Libelle',
+    'condition_paiement' => 'Condition de paiement',
+    'commentaire' => 'commentaire',
+    'type' => 'Type',
+    'code_analytique' => 'Code analytique',
 );

@@ -10,7 +10,7 @@
     class='active'
 @endsection
 @section('content')
-    <h2>LES FOURNISSEURS - LISTER FOURNISSEURS <a href="{{route('ajouter_fournisseur',app()->getLocale())}}" class="btn btn-default  pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i> Ajouter</a></h2>
+    <h2>{{__('menu.fournisseurs')}} - {{__('translation.liste')}} <a href="{{route('ajouter_fournisseur',app()->getLocale())}}" class="btn btn-default  pull-right"> {{ __('translation.add') }}</a></h2>
 </br>
 </br>
         <table name ="fournisseurs1" id="fournisseurs1" class='table table-bordered table-striped  no-wrap ' >
@@ -19,14 +19,14 @@
 
             <tr>
                 <th class="dt-head-center">id</th>
-                <th class="dt-head-center">Domaine</th>
-                <th class="dt-head-center">Libelle</th>
+                <th class="dt-head-center">{{__('gestion_stock.domaine')}}</th>
+                <th class="dt-head-center">{{__('gestion_stock.titre')}}</th>
 
-                <th class="dt-head-center">Adresse Géographique</th>
-                <th class="dt-head-center">Responsable</th>
-                <th class="dt-head-center">Interlocuteur</th>
-                <th class="dt-head-center">E-mail</th>
-                <th class="dt-head-center">Action</th>
+                <th class="dt-head-center">{{__('gestion_stock.adresse_geographique')}}</th>
+                <th class="dt-head-center">{{__('gestion_stock.responsable')}}</th>
+                <th class="dt-head-center">{{__('gestion_stock.interlocuteur')}}</th>
+                <th class="dt-head-center">{{__('translation.email')}}</th>
+                <th class="dt-head-center">{{__('gestion_stock.action')}}</th>
 
             </tr>
             </thead>
@@ -66,7 +66,11 @@
 
             var table= $('#fournisseurs1').DataTable({
                 language: {
-                    url: "js/French.json"
+                    @if(App()->getLocale()=='fr')
+                    url: "../public/js/French.json"
+                    @elseif(App()->getLocale()=='en')
+                    url: "../public/js/English.json"
+                    @endif
                 },
                 "createdRow": function( row, data, dataIndex){
 

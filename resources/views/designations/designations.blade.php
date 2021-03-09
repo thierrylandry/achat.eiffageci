@@ -3,7 +3,7 @@
     class="active"
 @endsection
 @section('content')
-    <h2>LES DESIGNATIONS DE PRODUITS - {{isset($designation)? 'MODIFIER DESIGNATION':'AJOUTER UNE DESIGNATION'}}</h2>
+    <h2>{{__('gestion_stock.article')}} / @if(isset($famille)) {{ __('translation.update') }} @else {{ __('translation.add') }}  @endif</h2>
     </br>
     <div class="row">
         <!-- The Modal -->
@@ -25,9 +25,9 @@
                             @csrf
                             <div class="row">
                                 <div class="col-sm-1">  <div class="form-group">
-                                        <label for="type">Type</label>
+                                        <label for="type">{{__('gestion_stock.type')}}</label>
                                         <select class="form-control selectpicker" id="type_designation" name="type_designation" data-live-search="true" data-size="6" required>
-                                            <option  value="">SELECTIONNER UN TYPE</option>
+                                            <option  value="">{{__('sortie_materiel.selectionner_type')}}</option>
                                             @foreach($type_designations as $type_designations)
                                                 <option @if(isset($designation) and $type_designations->id==$designation->type_designation)
                                                         {{'selected'}}
@@ -35,9 +35,9 @@
                                             @endforeach
                                         </select>
                                     </div></div>                                <div class="col-sm-3">  <div class="form-group">
-                                        <label for="type">Famille</label>
+                                        <label for="type">{{__('gestion_stock.famille')}}</label>
                                         <select class="form-control selectpicker" id="id_famille" name="id_famille" data-live-search="true" data-size="6" required>
-                                            <option  value="">SELECTIONNER UNE FAMILLE</option>
+                                            <option  value="">{{__('sortie_materiel.selectionner_famille')}}</option>
                                             @foreach($familles as $famille)
                                                 <option @if(isset($designation) and $famille->id==$designation->id_famille)
                                                         {{'selected'}}
@@ -46,18 +46,18 @@
                                         </select>
                                     </div></div>
                                 <div class="col-sm-3"><div class="form-froup">
-                                        <b><label for="libelle" class="control-label">Article</label></b>
+                                        <b><label for="libelle" class="control-label">{{__('gestion_stock.article')}}</label></b>
                                         <input type="text" class="form-control" id="libelle" name="libelle" placeholder="libelle"  value="{{isset($designation)? $designation->libelle:''}}" required>
                                     </div></div>
                                 <div class="col-sm-2"><div class="form-froup">
-                                        <b><label for="libelle" class="control-label">Stock min</label></b>
-                                        <input type="text" class="form-control" id="stock_min" name="stock_min" placeholder="Stock min"  value="{{isset($designation)? $designation->stock_min:''}}" >
+                                        <b><label for="libelle" class="control-label">{{__('gestion_stock.stock_min')}}</label></b>
+                                        <input type="text" class="form-control" id="stock_min" name="stock_min" placeholder="{{__('gestion_stock.stock_min')}}"  value="{{isset($designation)? $designation->stock_min:''}}" >
                                     </div></div>
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        <label for="type">Code analytique par defaut</label>
+                                        <label for="type">{{__('gestion_stock.code_analytique')}}</label>
                                         <select class="form-control selectpicker" id="code_analytique" name="code_analytique" data-live-search="true" data-size="6">
-                                            <option  value="">SELECTIONNER UN CODE ANALYTIQUE</option>
+                                            <option  value="">{{__('sortie_materiel.selectionner_code_analytique')}}</option>
                                             @foreach($analytiques as $analytique)
                                                 <option @if(isset($designation->code_analytique) and $analytique->codeRubrique==$designation->code_analytique)
                                                         {{'selected'}}
@@ -74,11 +74,11 @@
                             <br>
                             <div class="col-sm-4">
                                 <div class="form-group" >
-                                    <button type="submit" id="submit-all" class="btn btn-success form-control">{{isset($designation)? 'Modifier':'Ajouter'}}</button>
+                                    <button type="submit" id="submit-all" class="btn btn-success form-control">@if(isset($designation)) {{ __('translation.update') }} @else {{ __('translation.add') }}  @endif</button>
                                 </div>
                             </div>
-                            @if(isset($produit))
-                                <a href="{{route('domaines')}}">Ajouter un domaine</a>
+                            @if(isset($designation))
+                                <a href="{{route('designations',app()->getLocale())}}">@if(isset($designation)) {{ __('translation.add') }} @else {{ __('translation.update') }}  @endif</a>
                             @endif
 
                         </form>
@@ -93,11 +93,11 @@
 
                 <tr>
                     <th class="dt-head-center">id</th>
-                    <th class="dt-head-center">Famille</th>
-                    <th class="dt-head-center">Article</th>
-                    <th class="dt-head-center">Stock min</th>
-                    <th class="dt-head-center">Type</th>
-                    <th class="dt-head-center">Action</th>
+                    <th class="dt-head-center">{{__('gestion_stock.famille')}}</th>
+                    <th class="dt-head-center">{{__('gestion_stock.article')}}</th>
+                    <th class="dt-head-center">{{__('gestion_stock.stock_min')}}</th>
+                    <th class="dt-head-center">{{__('gestion_stock.type')}}</th>
+                    <th class="dt-head-center">{{__('gestion_stock.action')}}</th>
 
                 </tr>
                 </thead>
@@ -184,7 +184,11 @@
 
         var table= $('#fournisseurs').DataTable({
             language: {
-                url: "js/French.json"
+                @if(App()->getLocale()=='fr')
+                url: "../public/js/French.json"
+                @elseif(App()->getLocale()=='en')
+                url: "../public/js/English.json"
+                @endif
             },
             "ordering":true,
             "responsive": true,

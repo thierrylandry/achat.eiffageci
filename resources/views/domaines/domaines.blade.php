@@ -3,7 +3,7 @@
     class="active"
 @endsection
 @section('content')
-    <h2>LES DOMAINES DE PRODUITS - {{isset($produit)? 'MODIFIER DOMAINE':'AJOUTER UN DOMAINE'}}</h2>
+    <h2>{{__('gestion_stock.domaine')}}  @if(isset($domaine)) {{ __('translation.update') }} @else {{ __('translation.add') }}  @endif</h2>
     </br>
     <div class="row">
         <!-- The Modal -->
@@ -23,17 +23,17 @@
 
 
                             @csrf<div class="form-group">
-                                <b><label for="libelle" class="control-label">Libelle du domaine</label></b>
-                                <input type="text" class="form-control" id="libelle" name="libelle" placeholder="libelle"  value="{{isset($domaine)? $domaine->libelleDomainne:''}}" required>
+                                <b><label for="libelle" class="control-label">{{__('gestion_stock.domaine')}}</label></b>
+                                <input type="text" class="form-control" id="libelle" name="libelle" placeholder="{{__('gestion_stock.domaine')}}"  value="{{isset($domaine)? $domaine->libelleDomainne:''}}" required>
                             </div>
                             <br>
                             <input type="hidden" class="form-control" id="id" name="id" placeholder="" value="{{isset($domaine)? $domaine->id:''}}">
                             <br>
                             <div class="form-group" >
-                                <button type="submit" id="submit-all" class="btn btn-success form-control">{{isset($domaine)? 'Modifier':'Ajouter'}}</button>
+                                <button type="submit" id="submit-all" class="btn btn-success form-control">@if(isset($domaine)) {{ __('translation.update') }} @else {{ __('translation.add') }}  @endif</button>
                             </div>
-                            @if(isset($produit))
-                                <a href="{{route('domaines')}}">Ajouter un domaine</a>
+                            @if(isset($domaine))
+                                <a href="{{route('domaines',app()->getLocale())}}">{{ __('translation.add') }}</a>
                             @endif
 
                         </form>
@@ -48,8 +48,8 @@
 
                 <tr>
                     <th class="dt-head-center">id</th>
-                    <th class="dt-head-center">domaine</th>
-                    <th class="dt-head-center">Action</th>
+                    <th class="dt-head-center">{{__('gestion_stock.domaine')}}</th>
+                    <th class="dt-head-center">{{__('gestion_stock.action')}}</th>
 
                 </tr>
                 </thead>
@@ -133,7 +133,11 @@
 
         var table= $('#fournisseurs').DataTable({
             language: {
-                url: "js/French.json"
+                @if(App()->getLocale()=='fr')
+                url: "../public/js/French.json"
+                @elseif(App()->getLocale()=='en')
+                url: "../public/js/English.json"
+                @endif
             },
             "ordering":true,
             "responsive": true,

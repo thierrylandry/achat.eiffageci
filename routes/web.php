@@ -57,7 +57,7 @@ Route::get('/Administration', [
 
 
 
-Route::get('/ajouter_fournisseur',[
+Route::get('ajouter_fournisseur',[
     'as'=>'ajouter_fournisseur',
     'uses'=>'FournisseurController@ajouter_fournisseur',
     'middleware' => 'roles',

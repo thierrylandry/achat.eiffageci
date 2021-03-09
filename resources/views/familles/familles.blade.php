@@ -3,7 +3,7 @@
     class="active"
 @endsection
 @section('content')
-    <h2>LES FAMILLES DE PRODUITS - {{isset($famille)? 'MODIFIER FAMILLE':'AJOUTER UNE FAMILLE'}}</h2>
+    <h2>{{__('gestion_stock.famille')}} / @if(isset($famille)) {{ __('translation.update') }} @else {{ __('translation.add') }}  @endif</h2>
     </br>
     <div class="row">
         <!-- The Modal -->
@@ -25,9 +25,9 @@
                             @csrf
                             <div class="row">
                                 <div class="col-sm-6">  <div class="form-group">
-                                        <label for="type">Domaine</label>
+                                        <label for="type">{{__('gestion_stock.domaine')}}</label>
                                         <select class="form-control selectpicker" id="id_domaine" name="id_domaine" data-live-search="true" data-size="6" required>
-                                            <option  value="">SELECTIONNER UN DOMAINE</option>
+                                            <option  value="">{{__('sortie_materiel.selectionner_domaine')}}</option>
                                             @foreach($domaines as $domaine)
                                                 <option @if(isset($famille) and $domaine->id==$famille->id_domaine)
                                                         {{'selected'}}
@@ -36,8 +36,8 @@
                                         </select>
                                     </div></div>
                                 <div class="col-sm-6"><div class="form-froup">
-                                        <b><label for="libelle" class="control-label">Libelle de la  famille</label></b>
-                                        <input type="text" class="form-control" id="libelle" name="libelle" placeholder="libelle"  value="{{isset($famille)? $famille->libelle:''}}" required>
+                                        <b><label for="libelle" class="control-label">{{__('gestion_stock.famille')}}</label></b>
+                                        <input type="text" class="form-control" id="libelle" name="libelle" placeholder="{{__('gestion_stock.famille')}}"  value="{{isset($famille)? $famille->libelle:''}}" required>
                                     </div></div>
                             </div>
 
@@ -47,11 +47,11 @@
                             <br>
                             <div class="col-sm-4">
                                 <div class="form-group" >
-                                    <button type="submit" id="submit-all" class="btn btn-success form-control">{{isset($famille)? 'Modifier':'Ajouter'}}</button>
+                                    <button type="submit" id="submit-all" class="btn btn-success form-control">@if(isset($famille)) {{ __('translation.update') }} @else {{ __('translation.add') }}  @endif</button>
                                 </div>
                             </div>
-                            @if(isset($produit))
-                                <a href="{{route('domaines')}}">Ajouter un domaine</a>
+                            @if(isset($famille))
+                                <a href="{{route('familles',app()->getLocale())}}">@if(isset($famille)) {{ __('translation.add') }}  @endif</a>
                             @endif
 
                         </form>
@@ -66,9 +66,9 @@
 
                 <tr>
                     <th class="dt-head-center">id</th>
-                    <th class="dt-head-center">domaine</th>
-                    <th class="dt-head-center">famille</th>
-                    <th class="dt-head-center">Action</th>
+                    <th class="dt-head-center">{{__('gestion_stock.domaine')}}</th>
+                    <th class="dt-head-center">{{__('gestion_stock.famille')}}</th>
+                    <th class="dt-head-center">{{__('gestion_stock.action')}}</th>
 
                 </tr>
                 </thead>
@@ -153,7 +153,11 @@
 
         var table= $('#fournisseurs').DataTable({
             language: {
-                url: "js/French.json"
+                @if(App()->getLocale()=='fr')
+                url: "../../public/js/French.json"
+                @elseif(App()->getLocale()=='en')
+                url: "../../public/js/English.json"
+                @endif
             },
             "ordering":true,
             "responsive": true,

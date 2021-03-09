@@ -6,6 +6,7 @@ return array (
     'selectionner_famille' => 'SELECTIONNER UNE FAMILLE',
     'selectionner_article' => 'SELECTIONNER UN ARTICLE',
     'selectionner_code_tache' => 'SELECTIONNER UN CODE TACHE',
+    'selectionner_code_analytique' => 'SELECTIONNER UN CODE ANALYTIQUE',
     'famille'=>'Famille',
     'code_tache' => 'Code tâche',
     'demandeur' => 'Demandeur',
