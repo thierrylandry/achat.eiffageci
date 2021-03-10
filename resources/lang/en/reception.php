@@ -1,15 +1,15 @@
 <?php
 return array (
-    'reception_commande' => 'RECEIPT OF ORDERS',
+      'reception_commande' => 'Order receiving',
     'sortie_stock' => 'OUT OF STOCK',
     'stock' => 'STOCK',
     'selectionner_commande'=>'SELECT A PURCHASE ORDER',
     'search' => 'SEARCH',
     'date_livraison' => 'Delivery Date',
-    'numero_bl' => 'Delivery slip number',
+    'numero_bl' => 'Delivery order number',
     'list_commande' => 'LIST OF ORDERS',
     'article' => 'Item',
-    'reference_fournisseur' => 'Reference supplier',
+    'reference_fournisseur' => 'Supplier reference',
     'titre_externe' => 'External title',
     'quantite' => 'Quantity',
     'mes_livraison' => 'My deliveries',
@@ -18,5 +18,5 @@ return array (
     'livraison' => 'Delivery',
     'quantite_livre' => 'Quantity delivered',
     'Livre_le' => 'Delivered on',
-    'quantite_recu'=>'the received quantity'
+    'quantite_recu'=>'Received quantity'
 );

@@ -916,7 +916,7 @@ class DAController
 
     }
 
-    public function confirmer_da_depuis_creermodifier_da($slug)
+    public function confirmer_da_depuis_creermodifier_da($locale,$slug)
     {
         $da = DA::where('slug', '=', $slug)->first();
 
@@ -996,7 +996,7 @@ class DAController
         }
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; refus de la D.A '.$da->id, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
 
-        return redirect()->route('gestion_da')->with('succes', "La demande d'approvisionnement a bien été refusée");
+        return redirect()->route('gestion_da',app()->getLocale())->with('succes', "La demande d'approvisionnement a bien été refusée");
 
     }
 

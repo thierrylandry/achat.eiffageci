@@ -13,7 +13,7 @@
     <style>
         div.dropdown-menu.open { width: 100%; } ul.dropdown-menu.inner>li>a { white-space: initial; }
     </style>
-    <h2>MON HISTORIQUE</h2>
+    <h2>{{__('menu.historique')}}</h2>
 
     <br>
     <br>
@@ -22,7 +22,7 @@
             <div class="panel-heading" style="background-color: #f0bcb4!important;">
                 <h4 class="panel-title" style="font-size: 32px; color:white" data-toggle="collapse" data-parent="#accordion" href="#collapse1">
 
-                    <a >  MES D.A </a>
+                    <a >  {{__('menu.demande_achat')}} </a>
                 </h4>
             </div>
             <div id="collapse1" class="panel-collapse collapse in">
@@ -31,17 +31,17 @@
                     <thead>
 
                     <tr>
-                        <th class="dt-head-center">N°D.A</th>
-                        <th class="dt-head-center">statut</th>
-                        <th class="dt-head-center">date de demande</th>
-                        <th class="dt-head-center">Nature</th>
-                        <th class="dt-head-center">Matériel et consultation</th>
-                        <th class="dt-head-center">Quantité</th>
-                        <th class="dt-head-center">Pour le ?</th>
-                        <th class="dt-head-center">Usage</th>
-                        <th class="dt-head-center">Code Analytique</th>
-                        <th class="dt-head-center">Code Gestion</th>
-                        <th class="dt-head-center">Description</th>
+                        <th class="dt-head-center">{{__('neutrale.numero_da')}}</th>
+                        <th class="dt-head-center">{{__('neutrale.statut')}}</th>
+                        <th class="dt-head-center">{{__('neutrale.date_demande')}}</th>
+                        <th class="dt-head-center">{{__('neutrale.nature')}}</th>
+                        <th class="dt-head-center">{{__('gestion_stock.code_analytique')}}</th>
+                        <th class="dt-head-center">{{__('gestion_stock.quantite')}}</th>
+                        <th class="dt-head-center">{{__('neutrale.pour_le')}}</th>
+                        <th class="dt-head-center">{{__('neutrale.usage')}}</th>
+                        <th class="dt-head-center">{{__('gestion_stock.code_analytique')}}</th>
+                        <th class="dt-head-center">{{__('neutrale.code_gestion')}}</th>
+                        <th class="dt-head-center">{{__('neutrale.description')}}</th>
 
                     </tr>
                     </thead>
@@ -185,7 +185,11 @@
         (function($) {
             var table= $('#tableDA').DataTable({
                 language: {
-                    url: "{{ URL::asset('js/French.json') }}"
+                    @if(App()->getLocale()=='fr')
+                    url: "../public/js/French.json"
+                    @elseif(App()->getLocale()=='en')
+                    url: "../public/js/English.json"
+                    @endif
                 },
                 "ordering":false,
                 "createdRow": function( row, data, dataIndex){

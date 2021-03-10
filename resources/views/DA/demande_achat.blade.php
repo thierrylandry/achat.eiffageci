@@ -3,7 +3,7 @@
 @section('das')
     class='active'
 @endsection
-@section('creer_da')
+@section('demande_achat')
     class='active'
 @endsection
 @section('parent_da')
@@ -13,7 +13,7 @@
     <style>
         div.dropdown-menu.open { width: 100%; } ul.dropdown-menu.inner>li>a { white-space: initial; }
     </style>
-    <h2>CATALOGUES DE PRODUIT - DEMANDE D'ACHAT  <a href="{{route('lister_da',app()->getLocale())}}" class="btn btn-default pull-right"><i class="fa fa-list" aria-hidden="true"></i> Lister</a></h2>
+    <h2>{{__('neutrale.catalogue_article')}} / {{__('menu.demande_achat')}}  <a href="{{route('lister_da',app()->getLocale())}}" class="btn btn-default pull-right"><i class="fa fa-list" aria-hidden="true"></i> {{__('translation.liste')}}</a></h2>
     </br>
     </br>
     <div class="row">
@@ -22,17 +22,17 @@
         <form role="form" id="FormRegister" class="" method="post" action="{{route('Validdas')}}" onsubmit="return confirm('Voulez vous enregistrer?');">
 
             <div id="events"></div>
-    <input type="button" class="btn btn-info" value="lister ma selection" id="action_liste"> <input type="button" class="btn btn-success" value="Ajouter au panier" id="ajouter_panier">
+    <input type="button" class="btn btn-info" value="{{__('gestion_stock.lister_selection')}} " id="action_liste"> <input type="button" class="btn btn-success" value="{{__('gestion_stock.ajouter_au_panier')}} " id="ajouter_panier">
             <table  name ="produits" id="produits" class='table table-bordered table-striped  no-wrap '>
 
                 <thead>
 
                 <tr>
                     <th class="dt-head-center">id</th>
-                    <th class="dt-head-center">image</th>
-                    <th class="dt-head-center">libelle Mareriel</th>
-                    <th class="dt-head-center">Famille</th>
-                    <th class="dt-head-center">Domaine</th>
+                    <th class="dt-head-center">{{__('gestion_stock.image')}}</th>
+                    <th class="dt-head-center">{{__('gestion_stock.article')}}</th>
+                    <th class="dt-head-center">{{__('gestion_stock.famille')}}</th>
+                    <th class="dt-head-center">{{__('gestion_stock.domaine')}}</th>
                 </tr>
                 </thead>
                 <tbody name ="contenu_tableau_entite" id="contenu_tableau_entite">
@@ -130,7 +130,11 @@
                     }
                 ],
                 language: {
-                    url: "{{ URL::asset('js/French.json') }}"
+                    @if(App()->getLocale()=='fr')
+                    url: "../public/js/French.json"
+                    @elseif(App()->getLocale()=='en')
+                    url: "../public/js/English.json"
+                    @endif
                 },
                 "ordering":true,
                 "createdRow": function( row, data, dataIndex){

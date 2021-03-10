@@ -62,7 +62,7 @@
             </div>
 
             <div class="form-group">
-                <b><label for="service">Service</label></b>
+                <b><label for="service">{{__('translation.service')}}</label></b>
                 <select class="form-control selectpicker" id="id_service" name="id_service" data-live-search="true" data-size="6" noneSelectedText="SELECTIONNER UN SERVICE">
                     <option value="">SELECTIONNER UN SERVICE</option>
 

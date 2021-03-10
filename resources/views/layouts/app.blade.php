@@ -290,7 +290,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
              <li @yield('lister_da')><a href="{{route('lister_da',app()->getLocale())}}">{{ __('menu.list_da') }}</a></li>
              <li @yield('encours_validation')><a href="{{route('encours_validation',app()->getLocale())}}">{{ __('menu.list_da_valider') }}</a></li>
              @endif
-             <li  @yield('demande_achat')><a href="{{route('demande_achat',app()->getLocale())}}">{{ __('menu.demande_achat') }}</a></li>
+             <li  @yield('demande_achat')><a  href="{{route('demande_achat',app()->getLocale())}}">{{ __('menu.demande_achat') }}</a></li>
              <li  @yield('historique_achat')><a href="{{route('historique_achat',app()->getLocale())}}">{{ __('menu.historique') }}</a></li>
 
          </ul>

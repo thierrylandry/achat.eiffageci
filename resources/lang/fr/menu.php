@@ -14,7 +14,7 @@ return array (
     'les_da' => 'Les D.A.',
     'search_da' => 'Rechercher une  D.A.',
     'list_da' => 'Lister les D.A.',
-    'list_da_valider' => 'the purchase requests to be validated',
+    'list_da_valider' => 'Listes des D.A. a valider',
     'historique' => 'Historique',
     'gestion_stock' => 'Gestion des stocks',
     'setting' => 'Paramétrages',

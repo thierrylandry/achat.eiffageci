@@ -55,28 +55,28 @@
                 <thead>
 
                 <tr>
-                    <th class="dt-head-center">N°D.A</th>
-                    <th class="dt-head-center">statut</th>
-                    <th class="dt-head-center">date de demande</th>
-                    <th class="dt-head-center">type</th>
-                    <th class="dt-head-center">Nature</th>
-                    <th class="dt-head-center">Matériel et consultation</th>
-                    <th class="dt-head-center">Quantité</th>
-                    <th class="dt-head-center">Pour le ?</th>
-                    <th class="dt-head-center">Usage</th>
-                    <th class="dt-head-center">Demandeur</th>
-                    <th class="dt-head-center">Auteur</th>
-                    <th class="dt-head-center">Service</th>
-                    <th class="dt-head-center">Code Analytique</th>
+                    <th class="dt-head-center">{{__('neutrale.numero_da')}}</th>
+                    <th class="dt-head-center">{{__('neutrale.statut')}}</th>
+                    <th class="dt-head-center">{{__('neutrale.date_demande')}}</th>
+                    <th class="dt-head-center">{{__('neutrale.type')}}</th>
+                    <th class="dt-head-center">{{__('neutrale.nature')}}</th>
+                    <th class="dt-head-center">{{__('gestion_stock.article')}}</th>
+                    <th class="dt-head-center">{{__('gestion_stock.quantite')}}</th>
+                    <th class="dt-head-center">{{__('neutrale.pour_le')}}</th>
+                    <th class="dt-head-center">{{__('neutrale.usage')}}</th>
+                    <th class="dt-head-center">{{__('sortie_materiel.demandeur')}}</th>
+                    <th class="dt-head-center">{{__('sortie_materiel.auteur')}}</th>
+                    <th class="dt-head-center">{{__('translation.service')}}</th>
+                    <th class="dt-head-center">{{__('gestion_stock.code_analytique')}}</th>
                     <th class="dt-head-center">Code gestion</th>
-                    <th class="dt-head-center">Confirmer/infirmer</th>
+                    <th class="dt-head-center">{{__('neutrale.confirmer_infirmer')}}</th>
                     <th class="dt-head-center">Consultation en cours</th>
-                    <th class="dt-head-center">Fournisseur retenu</th>
-                    <th class="dt-head-center">N° BC</th>
-                    <th class="dt-head-center">Date du BC</th>
-                    <th class="dt-head-center">Date livraison effective</th>
-                    <th class="dt-head-center">Description</th>
-                    <th class="dt-head-center">Action</th>
+                    <th class="dt-head-center">{{__('neutrale.fournisseur_retenue')}}</th>
+                    <th class="dt-head-center">{{__('neutrale.numero_bc')}}</th>
+                    <th class="dt-head-center">{{__('neutrale.date_bc')}}</th>
+                    <th class="dt-head-center">{{__('neutrale.date_livraison')}}</th>
+                    <th class="dt-head-center">{{__('neutrale.description')}}</th>
+                    <th class="dt-head-center">{{__('gestion_stock.action')}}</th>
 
                 </tr>
                 </thead>
@@ -186,7 +186,7 @@
                         <th class="dt-head-center">{{$da->commentaire}}</th>
                         <td>
                             @if($da->etat==1)
-                                <a href="{{route('confirmer_da_depuis_creermodifier_da',['slug'=>$da->slug])}} "id="btnconfirmerda2" data-toggle="modal" class="btn btn-success confirmons">
+                                <a href="{{route('confirmer_da_depuis_creermodifier_da',['locale'=>app()->getLocale(),'slug'=>$da->slug])}} "id="btnconfirmerda2" data-toggle="modal" class="btn btn-success confirmons">
                                     <i class=" fa fa-check-circle" style="size: 40px"> Accepter ?</i>
                                 </a>
                                 <a href="" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" id="btnconfirmerda2" data-toggle="modal" class="btn btn-danger btn_refuser">
@@ -203,11 +203,11 @@
 
                                         <div class="dropdown-menu" role="menu">
 
-                                            <a href="{{route('voir_da',['slug'=>$da->slug])}}" data-toggle="modal">
+                                            <a href="{{route('voir_da',['locale'=>app()->getLocale(),'slug'=>$da->slug])}}" data-toggle="modal">
                                                 <i class=" fa fa-pencil"> modifier</i>
                                             </a>
                                             <div class="dropdown-divider"></div>
-                                            <a href="{{route('supprimer_da',['slug'=>$da->slug])}}" data-toggle="modal" >
+                                            <a href="{{route('supprimer_da',['locale'=>app()->getLocale(),'slug'=>$da->slug])}}" data-toggle="modal" >
                                                 <i class=" fa fa-trash">Supprimer</i>
                                             </a>
                                         </div>
@@ -215,14 +215,14 @@
                                     </div>
                                 @endif
                             @elseif($da->etat==2)
-                                <a href="{{route('suspendre_da',['slug'=>$da->slug])}} "id="btnconfirmerda12" data-toggle="modal" class="btn btn-warning ">
+                                <a href="{{route('suspendre_da',['locale'=>app()->getLocale(),'slug'=>$da->slug])}} "id="btnconfirmerda12" data-toggle="modal" class="btn btn-warning ">
                                     <i class=" fa fa-pause" style="size: 40px"> Suspendre ?</i>
                                 </a>
                                 <a href="" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" id="btnconfirmerda2" data-toggle="modal" class="btn btn-danger btn_refuser">
                                     <i class=" fa fa-check-circle" style="size: 40px"> Refuser ?</i>
                                 </a>
                             @elseif($da->etat==0)
-                                <a href="{{route('confirmer_da_depuis_creermodifier_da',['slug'=>$da->slug])}} " id="btnconfirmerda2" data-toggle="modal" class="btn btn-success confirmons">
+                                <a href="{{route('confirmer_da_depuis_creermodifier_da',['locale'=>app()->getLocale(),'slug'=>$da->slug])}} " id="btnconfirmerda2" data-toggle="modal" class="btn btn-success confirmons">
                                     <i class=" fa fa-check-circle" > </i>Accepter ?
                                 </a>
 
@@ -235,11 +235,11 @@
                                         </button>
                                         <div class="dropdown-menu" role="menu">
 
-                                            <a href="{{route('voir_da',['slug'=>$da->slug])}}" data-toggle="modal">
+                                            <a href="{{route('voir_da',['locale'=>app()->getLocale(),'slug'=>$da->slug])}}" data-toggle="modal">
                                                 <i class=" fa fa-pencil"> modifier</i>
                                             </a>
                                             <div class="dropdown-divider"></div>
-                                            <a href="{{route('supprimer_da',['slug'=>$da->slug])}}" data-toggle="modal" >
+                                            <a href="{{route('supprimer_da',['locale'=>app()->getLocale(),'slug'=>$da->slug])}}" data-toggle="modal" >
                                                 <i class=" fa fa-trash">Supprimer</i>
                                             </a>
                                         </div>
@@ -316,7 +316,7 @@
                         exportOptions: {
                             columns: [ 1, 2, 5,6,7,8,9,10,11,12,13,14 ]
                         },
-                        text:"Imprimer",
+                        text:"{{__('neutrale.imprimer')}}",
                         filename: "Liste des D.A"+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
                         className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
                         messageTop: "Liste des D.A "+date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
@@ -325,7 +325,11 @@
                     }
                 ],
                 language: {
-                    url: "{{ URL::asset('public/js/French.json') }}"
+                    @if(App()->getLocale()=='fr')
+                    url: "../public/js/French.json"
+                    @elseif(App()->getLocale()=='en')
+                    url: "../public/js/English.json"
+                    @endif
                 },
                 "order": [[ 0, 'desc' ]],
                 "ordering":true,

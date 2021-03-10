@@ -23,4 +23,7 @@ return array (
     'commentaire' => 'commentaire',
     'type' => 'Type',
     'code_analytique' => 'Code analytique',
+    'image' => 'Image',
+    'lister_selection' => 'Lister ma selection',
+    'ajouter_au_panier' => 'Ajouter au pannier',
 );

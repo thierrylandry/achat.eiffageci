@@ -84,7 +84,7 @@
         </div>
     </div>
 
-    <h2>LES DEMANDES D'ACHATS - EN COURS DE VALIDATION <a href="{{route('creer_da',app()->getLocale())}}" class="btn btn-default  pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i> Ajouter</a></h2>
+    <h2>LES DEMANDES D'ACHATS - EN COURS DE VALIDATION <a href="{{route('creer_da',app()->getLocale())}}" class="btn btn-default  pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i> {{__('neutrale.ajouter')}}</a></h2>
     </br>
 
     <div class="row">
@@ -96,21 +96,21 @@
 
                 <tr>
                     <th class="dt-head-center">case</th>
-                    <th class="dt-head-center">N°D.A</th>
-                    <th class="dt-head-center">statut</th>
-                    <th class="dt-head-center">date de demande</th>
-                    <th class="dt-head-center">type</th>
-                    <th class="dt-head-center">Nature</th>
-                    <th class="dt-head-center">Code Analytique</th>
-                    <th class="dt-head-center">Code Gestion</th>
-                    <th class="dt-head-center">Matériel et consultation</th>
-                    <th class="dt-head-center">Quantité</th>
-                    <th class="dt-head-center">Pour le ?</th>
-                    <th class="dt-head-center">Usage</th>
-                    <th class="dt-head-center">Demandeur</th>
-                    <th class="dt-head-center">Auteur</th>
-                    <th class="dt-head-center">Service</th>
-                    <th class="dt-head-center">Action</th>
+                    <th class="dt-head-center">{{__('neutrale.numero_da')}}</th>
+                    <th class="dt-head-center">{{__('neutrale.statut')}}</th>
+                    <th class="dt-head-center">{{__('neutrale.date_demande')}}</th>
+                    <th class="dt-head-center">{{__('neutrale.type')}}</th>
+                    <th class="dt-head-center">{{__('neutrale.nature')}}</th>
+                    <th class="dt-head-center">{{__('gestion_stock.code_analytique')}}</th>
+                    <th class="dt-head-center">{{__('neutrale.code_gestion')}}</th>
+                    <th class="dt-head-center">{{__('gestion_stock.article')}}</th>
+                    <th class="dt-head-center">{{__('gestion_stock.quantite')}}</th>
+                    <th class="dt-head-center">{{__('neutrale.pour_le')}}</th>
+                    <th class="dt-head-center">{{__('neutrale.usage')}}</th>
+                    <th class="dt-head-center">{{__('sortie_materiel.demandeur')}}</th>
+                    <th class="dt-head-center">{{__('gestion_stock.auteur')}}</th>
+                    <th class="dt-head-center">{{__('translation.service')}}</th>
+                    <th class="dt-head-center">{{__('gestion_stock.action')}}</th>
 
                 </tr>
                 </thead>
@@ -239,8 +239,8 @@
                 @endforeach
                 </tbody>
             </table>
-            <button class="btn btn-success" id="valider_selectionner"> ACCEPTER LA SELECTION</button>
-            <button class="btn btn-danger" id="refuser_selectionner"> REFUSER LA SELECTION</button>
+            <button class="btn btn-success" id="valider_selectionner"> {{__('neutrale.accepter_selection')}}</button>
+            <button class="btn btn-danger" id="refuser_selectionner"> {{__('neutrale.refuser_selection')}}</button>
         </div>
     </div>
     <script src="{{ URL::asset("js/dataTables.buttons.min.js") }}"></script>
@@ -266,7 +266,7 @@
                         exportOptions: {
                             columns: [ 1, 2, 5,6,7,8,9,10,11,12,13,14 ]
                         },
-                        text:"Copier",
+                        text:"{{__('neutrale.copier')}}",
                         filename: "Liste des D.A "+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
                         className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
                         messageTop: "Liste des D.A "+date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
@@ -301,7 +301,7 @@
                         exportOptions: {
                             columns: [ 1, 2, 5,6,7,8,9,10,11,12,13,14 ]
                         },
-                        text:"Imprimer",
+                        text:"{{__('neutrale.imprimer')}}",
                         filename: "Liste des D.A"+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
                         className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
                         messageTop: "Liste des D.A "+date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),

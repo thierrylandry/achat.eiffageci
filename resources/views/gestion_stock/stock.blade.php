@@ -13,7 +13,7 @@
         }
     </style>
 
-    <h2>LE STOCK MATERIEL  </h2>
+    <h2>{{__('menu.gestion_stock')}}  </h2>
     <br>
     <br>
     <div class="panel-group" id="accordion">
