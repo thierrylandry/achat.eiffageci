@@ -322,7 +322,11 @@
                     'style': 'multi'
                 },
                 language: {
-                    url: "{{ URL::asset('public/js/French.json') }}"
+                    @if(App()->getLocale()=='fr')
+                    url: "../public/js/French.json"
+                    @elseif(App()->getLocale()=='en')
+                    url: "../public/js/English.json"
+                    @endif
                 },
                 "order": [[ 0, 'desc' ]],
                 "ordering":true,

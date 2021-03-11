@@ -10,7 +10,7 @@
 
     <script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
 
-    <h2>RECEPTION DE DEVIS DES FOURNISSEURS </h2>
+    <h2>{{__('neutrale.reception_devis_fournisseur')}} </h2>
     <div class="row">
         <div class="col-sm-12">
             </br>
@@ -19,7 +19,7 @@
                     <div class="panel-heading" style="background-color: #f0bcb4!important;">
                         <h4 class="panel-title" style="font-size: 32px; color:white" data-toggle="collapse" data-parent="#accordion" href="#collapse1">
 
-                            <a >  NOUVEAU(X)</a>
+                            <a >  {{__('neutrale.new')}}</a>
                         </h4>
                     </div>
                     <div id="collapse1" class="panel-collapse collapse in">
@@ -30,22 +30,22 @@
                                         <thead>
 
                                         <tr>
-                                            <th class="dt-head-center">N°D.A</th>
-                                            <th class="dt-head-center">N°D.A</th>
+                                            <th class="dt-head-center">{{__('neutrale.numero_da')}}</th>
+                                            <th class="dt-head-center">{{__('neutrale.numero_da')}}</th>
                                             <th class="dt-head-center">id_materiel</th>
-                                            <th class="dt-head-center">Article</th>
-                                            <th>Code Analytique</th>
-                                            <th>Code Gestion</th>
-                                            <th class="dt-head-center">Article (Fournisseur)</th>
-                                            <th>Reference </br>Fournisseur</th>
-                                            <th class="dt-head-center" width="5%">Quantité</th>
-                                            <th class="dt-head-center">Pour le ?</th>
-                                            <th class="dt-head-center">Fournisseur</th>
-                                            <th class="dt-head-center">Pu HT</th>
-                                            <th class="dt-head-center" width="80px">Remise %</th>
-                                            <th class="dt-head-center">Devise</th>
-                                            <th class="dt-head-center">TVA</th>
-                                            <th class="dt-head-center">Action</th>
+                                            <th class="dt-head-center">{{__('gestion_stock.article')}}</th>
+                                            <th>{{__('gestion_stock.code_analytique')}}</th>
+                                            <th>{{__('neutrale.code_gestion')}}</th>
+                                            <th class="dt-head-center">{{ __('gestion_stock.article') }} ({{ __('menu.fournisseurs') }})</th>
+                                            <th>{{ __('neutrale.reference') }}  </br>{{ __('gestion_stock.article') }} </th>
+                                            <th class="dt-head-center" width="5%">{{ __('gestion_stock.quantite') }} </th>
+                                            <th class="dt-head-center">{{ __('neutrale.pour_le') }} </th>
+                                            <th class="dt-head-center">{{ __('menu.fournisseurs') }} </th>
+                                            <th class="dt-head-center">{{ __('neutrale.pu') }} </th>
+                                            <th class="dt-head-center" width="80px">{{ __('neutrale.remise') }} </th>
+                                            <th class="dt-head-center">{{ __('neutrale.devise') }} </th>
+                                            <th class="dt-head-center">{{ __('neutrale.tva') }}</th>
+                                            <th class="dt-head-center">{{ __('gestion_stock.action') }}</th>
                                         </tr>
                                         </thead>
 
@@ -161,8 +161,8 @@
 
                                     </table>
 
-                                    <input type="button" class="btn btn-success pull-right" id="soumettre" name="soumettre" value="Soumettre" />
-                                    <input type="button" class="btn btn-danger pull-left" id="supprimer" name="supprimer" value="Suppression mutiple" />
+                                    <input type="button" class="btn btn-success pull-right" id="soumettre" name="soumettre" value="{{ __('neutrale.soumettre') }}" />
+                                    <input type="button" class="btn btn-danger pull-left" id="supprimer" name="supprimer" value="{{ __('neutrale.supprimer') }}" />
 
                                 </div>
                             </form></div>
@@ -172,7 +172,7 @@
                     <div class="panel-heading" style="background-color: #f0bcb4!important;">
                         <h4 class="panel-title" style="font-size: 32px; color:white" data-toggle="collapse" data-parent="#accordion" href="#collapse2">
 
-                            <a >  TRAITE(S)</a>
+                            <a >  {{__('neutrale.traite')}}</a>
                         </h4>
                     </div>
                     <div id="collapse2" class="panel-collapse collapse" >
@@ -189,18 +189,18 @@
                                             <th class="dt-head-center">id</th>
                                             <th class="dt-head-center">id</th>
                                             <th class="dt-head-center">id_materiel</th>
-                                            <th class="dt-head-center">N°D.A</th>
-                                            <th>Code Analytique</th>
-                                            <th>Code Gestion</th>
-                                            <th class="dt-head-center">Article (Fournisseur)</th>
-                                            <th class="dt-head-center">Reference Fournisseur</th>
-                                            <th class="dt-head-center" >Quantité</th>
-                                            <th class="dt-head-center">Fournisseur</th>
-                                            <th class="dt-head-center">Prix Unitaire</th>
-                                            <th class="dt-head-center">Remise %</th>
-                                            <th class="dt-head-center">Devise</th>
-                                            <th class="dt-head-center">TVA</th>
-                                            <th class="dt-head-center">Action</th>
+                                            <th class="dt-head-center">{{__('neutrale.numero_da')}}</th>
+                                            <th>{{__('gestion_stock.code_analytique')}}</th>
+                                            <th>{{__('neutrale.code_gestion')}}</th>
+                                            <th class="dt-head-center">{{ __('gestion_stock.article') }} ({{ __('menu.fournisseurs') }})</th>
+                                            <th class="dt-head-center">{{ __('neutrale.reference') }}  </br>{{ __('gestion_stock.article') }}</th>
+                                            <th class="dt-head-center" width="5%">{{ __('gestion_stock.quantite') }} </th>
+                                            <th class="dt-head-center">{{ __('menu.fournisseurs') }} </th>
+                                            <th class="dt-head-center">{{ __('neutrale.pu') }} </th>
+                                            <th class="dt-head-center" width="80px">{{ __('neutrale.remise') }} </th>
+                                            <th class="dt-head-center">{{ __('neutrale.devise') }} </th>
+                                            <th class="dt-head-center">{{ __('neutrale.tva') }}</th>
+                                            <th class="dt-head-center">{{ __('gestion_stock.action') }}</th>
                                         </tr>
                                         </thead>
                                         <tbody name ="contenu_tableau_entite" id="contenu_tableau_entite" onload="alert('jai chargé')">
@@ -314,8 +314,8 @@
                                         </tbody>
                                     </table>
 
-                                    <input type="button" class="btn btn-success pull-right" id="soumettre1" name="soumettre1" value="Modifier" />
-                                    <input type="button" class="btn btn-danger pull-left" id="supprimer1" name="supprimer" value="Suppression mutiple" />
+                                    <input type="button" class="btn btn-success pull-right" id="soumettre1" name="soumettre1" value="{{__('translation.update')}}" />
+                                    <input type="button" class="btn btn-danger pull-left" id="supprimer1" name="supprimer" value="{{__('neutrale.supprimer')}}" />
 
                                 </div>
                             </form>
@@ -369,7 +369,11 @@
                     }
                 ],
                 language: {
-                    url: "public/js/French.json"
+                    @if(App()->getLocale()=='fr')
+                    url: "../public/js/French.json"
+                    @elseif(App()->getLocale()=='en')
+                    url: "../public/js/English.json"
+                    @endif
                 },
                 "ordering":true,
                 "paging": false,
@@ -385,7 +389,11 @@
                     }
                 ],
                 language: {
-                    url: "public/js/French.json"
+                    @if(App()->getLocale()=='fr')
+                    url: "../public/js/French.json"
+                    @elseif(App()->getLocale()=='en')
+                    url: "../public/js/English.json"
+                    @endif
                 },
                 "ordering":true,
                 "paging": false,

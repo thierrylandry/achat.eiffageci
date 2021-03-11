@@ -89,11 +89,11 @@
                         @csrf
 
                                         <div class="form-group">
-                                            <b><label for="libelle" class="control-label">Domaine d'activité</label></b>
+                                            <b><label for="libelle" class="control-label">{{ __('gestion_stock.domaine') }}</label></b>
 
 
                                             <select class="form-control selectpicker" id="domaine" name="domaine" data-live-search="true" data-size="6" required>
-                                                <option  value="">SELECTIONNER UN DOMAINE</option>
+                                                <option  value="">{{__('sortie_materiel.selectionner_domaine')}}</option>
                                                 @foreach($types as $type)
                                                     <option value="{{$type->id}}">{{$type->libelleDomainne}}</option>
                                                 @endforeach
@@ -103,12 +103,12 @@
                         <input type="text" class="form-control" id="listeDA" name="listeDA" placeholder="" value="" style="visibility: hidden" required>
                         <br>
                                         <div class="form-group">
-                                      rappel :  <input type="checkbox" name="rappel" id="rappel"/>
+                                            {{__('neutrale.rappel')}} :  <input type="checkbox" name="rappel" id="rappel"/>
                                             </div>
 
                                         <div style="">
                                             <div class="form-group">
-                                                <label> Les fournisseurs concernés</label>
+                                                <label> {{ __('menu.fournisseurs') }}</label>
                                                 <input type="text" id="fournisseur" name="fournisseur"   value="" required style="visibility: hidden"/>
 
                                             </div>
@@ -121,9 +121,9 @@
                                         </br>
                                         </br>
                                         <div class="row" >
-                                            <div class="col-sm-5"> <button type="submit" class="btn btn-success form-control"> ENVOYER MAIL</button></div>
+                                            <div class="col-sm-5"> <button type="submit" class="btn btn-success form-control">{{__('neutrale.envoyer_mail')}}</button></div>
                                             <div class="col-sm-3">  <a href="" data-toggle="modal" data-target="#personnaliser_mail" class="btn btn-success" id="personnaliser">
-                                                    <i class="fa fa-file-pdf-o"></i><i class="fa fa-paper-plane-o"></i> personnaliser le mail
+                                                    <i class="fa fa-file-pdf-o"></i><i class="fa fa-paper-plane-o"></i> {{__('neutrale.personnaliser_mail')}}
                                                 </a></div>
 
                         </div>
@@ -131,21 +131,21 @@
                     </form>
                 </div>
                 <div class="col-sm-8">
-                        <h3 id="titre">Domaine :</h3>
+                        <h3 id="titre">{{ __('gestion_stock.domaine') }} :</h3>
                     <table name ="gestion_demande_proforma" id="gestion_demande_proforma" class='table table-bordered table-striped  no-wrap display'>
 
                         <thead>
 
                         <tr>
                             <th class="dt-head-center">id</th>
-                            <th class="dt-head-center">produits et services</th>
-                            <th class="dt-head-center">Nature</th>
-                            <th class="dt-head-center">Quantité</th>
-                            <th class="dt-head-center">Pour le ?</th>
-                            <th class="dt-head-center">Demandeur</th>
-                            <th class="dt-head-center">Date de la demande</th>
-                            <th class="dt-head-center">Confirmer ou Infirmer par ?</th>
-                            <th class="dt-head-center">Etat</th>
+                            <th class="dt-head-center">{{__('gestion_stock.article')}}</th>
+                            <th class="dt-head-center">{{__('neutrale.nature')}}</th>
+                            <th class="dt-head-center">{{__('gestion_stock.quantite')}}</th>
+                            <th class="dt-head-center">{{__('neutrale.pour_le')}}</th>
+                            <th class="dt-head-center">{{__('sortie_materiel.demandeur')}}</th>
+                            <th class="dt-head-center">{{__('neutrale.date_demande')}}</th>
+                            <th class="dt-head-center">{{__('neutrale.confirmer_infirmer')}}</th>
+                            <th class="dt-head-center">{{__('neutrale.etat')}}</th>
 
                         </tr>
                         </thead>
@@ -161,19 +161,19 @@
     </br>
     <div class="row col-sm-offset-0">
         <div class="col-sm-12">
-            <h3 id="titre">Historique des envois de mail :</h3>
+            <h3 id="titre">{{ __('menu.historique') }}</h3>
             <table name ="historique" id="historique" class='table table-bordered table-striped  no-wrap display'>
 
                 <thead>
 
                 <tr>
                     <th class="dt-head-center">id</th>
-                    <th class="dt-head-center" >Destinataire</th>
-                    <th class="dt-head-center">Email</th>
-                    <th class="dt-head-center">Objet</th>
-                    <th class="dt-head-center">Contenue du mail</th>
-                    <th class="dt-head-center">Date et heure</th>
-                    <th class="dt-head-center">Action</th>
+                    <th class="dt-head-center" >{{ __('neutrale.destinataire') }}</th>
+                    <th class="dt-head-center">{{ __('translation.email') }}</th>
+                    <th class="dt-head-center">{{ __('neutrale.objet') }}</th>
+                    <th class="dt-head-center">{{ __('neutrale.contenu_mail') }}</th>
+                    <th class="dt-head-center">{{ __('neutrale.date_heure') }}</th>
+                    <th class="dt-head-center">{{ __('gestion_stock.action') }}</th>
 
                 </tr>
                 </thead>
@@ -211,7 +211,7 @@
             {{date_format(new DateTime($trace_mail->created_at),'d-m-Y H:i:s')}}
         </td>
         <td>
-            <a href="{{route("nouveau_rappel",['locale'=>app()->getLocale(),'id'=>$trace_mail->id])}}" class="btn btn-primary">Rappel</a>
+            <a href="{{route("nouveau_rappel",['locale'=>app()->getLocale(),'id'=>$trace_mail->id])}}" class="btn btn-primary">{{__('neutrale.rappel')}}</a>
         </td>
     </tr>
     @endforeach
@@ -301,7 +301,7 @@
                     exportOptions: {
                         columns: [ 1, 2,3, 5,6,7 ]
                     },
-                    text:"Copier",
+                    text:"{{__('neutrale.copier')}}",
                     filename: function () { return getExportFileName();},
                     className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
                     messageTop: function () { return getExportFileName();}
@@ -334,7 +334,7 @@
                     exportOptions: {
                         columns: [ 1, 2,3, 5,6,7 ]
                     },
-                    text:"Imprimer",
+                    text:"{{__('neutrale.imprimer')}}",
                     filename: function () { return getExportFileName();},
                     className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
                     messageTop: function () { return getExportFileName();}
@@ -355,7 +355,11 @@
             },
             'order': [[0, 'desc']],
             language: {
-                url: "{{ URL::asset('public/js/French.json') }}"
+                @if(App()->getLocale()=='fr')
+                url: "../public/js/French.json"
+                @elseif(App()->getLocale()=='en')
+                url: "../public/js/English.json"
+                @endif
             },
             "ordering":true,
             "responsive": true,
@@ -366,7 +370,11 @@
     console.log(table);
         var table1 = $('#historique').DataTable({
             language: {
-                url: "{{ URL::asset('public/js/French.json') }}"
+                @if(App()->getLocale()=='fr')
+                url: "../public/js/French.json"
+                @elseif(App()->getLocale()=='en')
+                url: "../public/js/English.json"
+                @endif
             },
             "ordering":false,
             "responsive": true,
