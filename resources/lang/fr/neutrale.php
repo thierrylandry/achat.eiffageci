@@ -54,4 +54,14 @@ return [
     'soumettre' => 'Soumettre',
     'traite' => 'TRAITE',
     'reception_devis_fournisseur' => 'RECEPTION DE DEVIS DES FOURNISSEURS',
+    'les_bons_commandes' => 'LES BONS DE COMMANDES',
+    'gestion' => 'GESTION',
+    'validation' => 'VALIDATION',
+    'expediteur' => 'Expéditeur',
+    'bc_en_attente_de_validation' => 'BON DE COMMANDES EN ATTENTE DE VALIDATION',
+    'selectionner_fournisseur' => 'SELECTIONNER FOURNISSEUR',
+    'selectionner_expediteur' => 'SELECTIONNER EXPEDITEUR',
+    'selectionner_projet' => 'SELECTIONNER PROJET',
+    'projet' => 'Projet',
+
 ];

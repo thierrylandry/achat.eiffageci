@@ -3,7 +3,7 @@
     <span class="alert-icon"><i class="fa fa-bell-o"></i></span>
     <div class="notification-info">
         <ul class="clearfix notification-meta">
-            <li class="pull-left notification-sender">Vous avez  <b style="font-size: 24px">{{sizeof($fournisseurs)}}</b>  Bon de commande(s)en attente de création</li>
+            <li class="pull-left notification-sender"> {{ __('cotation.vous_avez') }}  <b style="font-size: 24px">{{sizeof($fournisseurs)}}</b>   {{ __('cotation.bon_commande_attente_creation') }} </li>
 
         </ul>
         <p>
@@ -17,7 +17,7 @@
         <div class="panel-heading" style="background-color: #f0bcb4!important;">
             <h4 class="panel-title" style="font-size: 32px; color:white" data-toggle="collapse" data-parent="#accordion" href="#collapse1">
 
-                <a > BON DE COMMANDES EN ATTENTE DE VALIDATION</a>
+                <a >  {{ __('neutrale.bc_en_attente_de_validation') }}</a>
             </h4>
         </div>
         <div id="collapse1" class="panel-collapse collapse in">
@@ -29,13 +29,13 @@
 
                     <tr>
                         <th class="dt-head-center">id</th>
-                        <th class="">status</th>
-                        <th class="">N°B.C</th>
-                        <th class="">Fournisseur</th>
-                        <th class="">Date Livraison</th>
-                        <th class="">Auteur</th>
-                        <th class="">Expéditeur</th>
-                        <th class="">Action</th>
+                        <th class="">{{ __('neutrale.statut') }}</th>
+                        <th class="">{{__('neutrale.numero_bc')}}</th>
+                        <th class="">{{__('menu.fournisseurs')}}</th>
+                        <th class="">{{__('reception.date_livraison')}}</th>
+                        <th class="">{{__('gestion_stock.auteur')}}</th>
+                        <th class="">{{__('neutrale.expediteur')}}</th>
+                        <th class="">{{__('gestion_stock.action')}}</th>
 
                     </tr>
                     </thead>
@@ -171,7 +171,7 @@
         <div class="panel-heading" style="background-color: #f0bcb4!important;">
             <h4 class="panel-title" style="font-size: 32px; color:white" data-toggle="collapse" data-parent="#accordion" href="#collapse2">
 
-                <a > HISTORIQUES DES BONS DE COMMANDES</a>
+                <a > {{ __('menu.historique') }}</a>
             </h4>
         </div>
         <div id="collapse2" class="panel-collapse collapse" >
@@ -182,14 +182,15 @@
                     <thead>
 
                     <tr>
+
                         <th class="dt-head-center">id</th>
-                        <th class="">status</th>
-                        <th class="">N°B.C</th>
-                        <th class="">Fournisseur</th>
-                        <th class="">Date Livraison</th>
-                        <th class="">Auteur</th>
-                        <th class="">Expéditeur</th>
-                        <th class="">Action</th>
+                        <th class="">{{ __('neutrale.statut') }}</th>
+                        <th class="">{{__('neutrale.numero_bc')}}</th>
+                        <th class="">{{__('menu.fournisseurs')}}</th>
+                        <th class="">{{__('reception.date_livraison')}}</th>
+                        <th class="">{{__('gestion_stock.auteur')}}</th>
+                        <th class="">{{__('neutrale.expediteur')}}</th>
+                        <th class="">{{__('gestion_stock.action')}}</th>
 
                     </tr>
                     </thead>
@@ -242,10 +243,10 @@
 
 
                                     <a href="{{route('lister_commande',['locale'=>app()->getLocale(),'slug'=>$bc->id])}}" data-toggle="modal" class="">
-                                        <i class=" fa fa-list "></i> plus d'info
+                                        <i class=" fa fa-list "></i> {{__('neutrale.plus_dinfo')}}
                                     </a>
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-info">Action</button>
+                                        <button type="button" class="btn btn-info">{{__('neutrale.action')}}</button>
                                         <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
                                             <span class="caret"></span>
                                             <span class="sr-only">Toggle Dropdown</span>
@@ -253,15 +254,15 @@
                                         <div class="dropdown-menu" role="menu">
 
                                             <a href="{{route('valider_commande',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="validercom">
-                                                <i class=" fa fa-check-square-o"></i> Valider le bon
+                                                <i class=" fa fa-check-square-o"></i> {{__('neutrale.valider_bon')}}
                                             </a>
                                             <div class="dropdown-divider"></div>
                                             <a href="{{route('refuser_commande',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="reject">
-                                                <i class="fa fa-ban"></i> Rejeter le bon
+                                                <i class="fa fa-ban"></i> {{__('neutrale.rejeter_bon')}}
                                             </a>
                                             <div class="dropdown-divider"></div>
                                             <a href="{{route('supprimer_bc',['locale'=>app()->getLocale(),'slug'=>$bc->slug])}}" data-toggle="modal" class="sup">
-                                                <i class=" fa fa-trash"></i>Supprimer
+                                                <i class=" fa fa-trash"></i>{{__('neutrale.supprimer_bon')}}
                                             </a>
                                             <div class="dropdown-divider"></div>
 
@@ -270,7 +271,7 @@
 
                                 @elseif($bc->etat==2)
                                     <a href="{{route('annuler_commande',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default ">
-                                        <i class="fa fa-ban"></i> Annuler
+                                        <i class="fa fa-ban"></i> {{__('neutrale.Annuler')}}
                                     </a>
                                     <a href="{{route('bon_commande_file',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
                                         <i class="fa fa-file-pdf-o"></i>
@@ -283,10 +284,10 @@
                                             <i class="fa fa-file-pdf-o"></i><i class="fa fa-paper-plane-o"></i> envoyer au fournisseur
                                         </a>
                                         <a href="{{route('traite_finalise',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="">
-                                            <i class="fa fa-hourglass-end"></i> traité et finalisé?
+                                            <i class="fa fa-hourglass-end"></i> {{__('neutrale.traiter_finaliser')}}
                                         </a>ou
                                         <a href="{{route('traite_retourne',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="">
-                                            <i class="fa fa-arrow-circle-right"></i> traité et retourné?
+                                            <i class="fa fa-arrow-circle-right"></i> {{__('neutrale.traiter_retourner')}}
                                         </a>
                                     @endif
 
@@ -298,7 +299,7 @@
                                         <i class="fa fa-list"></i><i class="fa fa-calendar-check-o"></i>
                                     </a>
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-info">Action</button>
+                                        <button type="button" class="btn btn-info">{{__('neutrale.action')}}</button>
                                         <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
                                             <span class="caret"></span>
                                             <span class="sr-only">Toggle Dropdown</span>
@@ -306,26 +307,26 @@
                                         <div class="dropdown-menu" role="menu">
 
                                             <a href="{{route('valider_commande',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="validercom">
-                                                <i class=" fa fa-check-square-o"></i> Valider le bon
+                                                <i class=" fa fa-check-square-o"></i> {{__('neutrale.valider_bon')}}
                                             </a>
                                             <div class="dropdown-divider"></div>
                                             <a href="{{route('supprimer_bc',['locale'=>app()->getLocale(),'slug'=>$bc->slug])}}" data-toggle="modal" class="sup">
-                                                <i class=" fa fa-trash"></i>Supprimer
+                                                <i class=" fa fa-trash"></i>{{__('neutrale.supprimer')}}
                                             </a>
                                             <div class="dropdown-divider"></div>
 
                                         </div>
                                     </div>
                                     <a href="{{route('annuler_commande',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default ">
-                                        <i class="fa fa-ban"></i> Annuler
+                                        <i class="fa fa-ban"></i> {{__('neutrale.annuler')}}
                                     </a>
                                 @elseif($bc->etat==3)
 
                                     <a href="{{route('traite_finalise',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="">
-                                        <i class="fa fa-hourglass-end"></i> traité et finalisé?
+                                        <i class="fa fa-hourglass-end"></i> {{__('neutrale.traiter_finaliser')}}
                                     </a>ou
                                     <a href="{{route('traite_retourne',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="">
-                                        <i class="fa fa-arrow-circle-right"></i> traité et retourné?
+                                        <i class="fa fa-arrow-circle-right"></i> {{__('neutrale.traiter_retourner')}}
                                     </a>
                                     <a href="{{route('bon_commande_file',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
                                         <i class="fa fa-file-pdf-o"></i>
@@ -334,14 +335,14 @@
                                         <i class="fa fa-list"></i><i class="fa fa-calendar-check-o"></i>
                                     </a>
                                     <a href="{{route('annuler_commande',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default ">
-                                        <i class="fa fa-ban"></i> Annuler
+                                        <i class="fa fa-ban"></i> {{__('neutrale.annuler')}}
                                     </a>
                                 @elseif($bc->etat==4)
                                     <a href="{{route('bon_commande_file',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default">
                                         <i class="fa fa-file-pdf-o"></i>
                                     </a>
                                     <a href="{{route('annuler_commande',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="btn btn-default ">
-                                        <i class="fa fa-ban"></i> Annuler
+                                        <i class="fa fa-ban"></i> {{__('neutrale.annuler')}}
                                     </a>
                                   </br>
                                     @if($bc->date_livraison!=null) date de livraison éffective :  {{\Carbon\Carbon::parse($bc->date_livraison)->format('d-m-Y')}} @endif
@@ -351,7 +352,7 @@
                                     </a>
                                     <div class="dropdown-divider"></div>
                                     <a href="{{route('supprimer_bc',['locale'=>app()->getLocale(),'slug'=>$bc->slug])}}" data-toggle="modal" class="sup">
-                                        <i class=" fa fa-trash"></i>Supprimer
+                                        <i class=" fa fa-trash"></i>{{__('neutrale.supprimer')}}
                                     </a>
                                 @endif
 
@@ -427,7 +428,11 @@
     } );
     var table= $('#bonCommandes').DataTable({
         language: {
-            url: "{{ URL::asset('public/js/French.json') }}"
+            @if(App()->getLocale()=='fr')
+            url: "../public/js/French.json"
+            @elseif(App()->getLocale()=='en')
+            url: "../public/js/English.json"
+            @endif
         },
         "ordering":false,
         "responsive": false,
@@ -437,7 +442,11 @@
     }).column(0).visible(false);
     var table1= $('#bonCommandes1').DataTable({
         language: {
-            url: "{{ URL::asset('public/js/French.json') }}"
+            @if(App()->getLocale()=='fr')
+            url: "../public/js/French.json"
+            @elseif(App()->getLocale()=='en')
+            url: "../public/js/English.json"
+            @endif
         },
         "ordering":false,
         "responsive": false,
@@ -447,7 +456,11 @@
     }).column(0).visible(false);
     var table3= $('#contenu_devis').DataTable({
         language: {
-            url: "{{ URL::asset('public/js/French.json') }}"
+            @if(App()->getLocale()=='fr')
+            url: "../public/js/French.json"
+            @elseif(App()->getLocale()=='en')
+            url: "../public/js/English.json"
+            @endif
         },
         "ordering":false,
         "responsive": false,

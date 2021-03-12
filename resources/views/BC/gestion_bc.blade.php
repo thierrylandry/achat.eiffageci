@@ -5,7 +5,7 @@
 
 @section('content')
 
-    <h2>LES BONS DE COMMANDES - GESTION</h2>
+    <h2>{{strtoupper(__('neutrale.les_bons_commandes'))}}  - {{__('neutrale.gestion')}}</h2>
     <div id="ajouterrep" class="modal fade in" aria-hidden="true" role="dialog" >
         <div class="modal-dialog modal-md">
 
@@ -13,17 +13,17 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Bon de commande</h4>
+                    <h4 class="modal-title">{{__('dashboard.bc')}}</h4>
                 </div>
                         <form class="form-horizontal" action="{{route('save_bc')}}" method="post">
 @csrf
                 <div class="modal-body">
 <input type="hidden" name="slug"  value="{{isset($bc)? $bc->slug:''}}"/>
                     <div class="form-group">
-                        <b><label for="libelle" class="control-label col-sm-6">Projet:</label></b>
+                        <b><label for="libelle" class="control-label col-sm-6">{{__('neutrale.projet')}}:</label></b>
                         <div class="col-sm-6">
                             <select class="form-control selectpicker " id="id_projet" name="id_projet" data-live-search="true" data-size="6" required>
-                                <option value="" >SELECTIONNER UN PROJET</option>
+                                <option value="" >{{__('neutrale.selectionner_projet')}}</option>
                                 @foreach($projets as $projet)
                                     @if(isset($bc) && $bc->id_projet==$projet->id)
                                         {{$selec="selected"}}
@@ -37,17 +37,17 @@
                         </div>
                     </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-6" for="numbc">Bon de commande N°:</label>
+                            <label class="control-label col-sm-6" for="numbc">{{__('neutrale.numero_bc')}}:</label>
                             <div class="col-sm-4">
                                 <input type="text" class="form-control" id="numbc" name="numbc" placeholder="Enter un numero" value="{{isset($bc)? $bc->numBonCommande:''}}" {{isset($bc)? 'disabled':''}}   required>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <b><label for="libelle" class="control-label col-sm-6">Fournisseur:</label></b>
+                            <b><label for="libelle" class="control-label col-sm-6">{{__('menu.fournisseurs')}}:</label></b>
                             <div class="col-sm-6">
                             <select class="form-control selectpicker " id="id_fournisseur" name="id_fournisseur" data-live-search="true" data-size="6" required>
-                                <option value="" >SELECTIONNER UN FOURNISSEUR</option>
+                                <option value="" >{{__('neutrale.selectionner_fournisseur')}}</option>
                                 @foreach($fournisseurs as $fournisseur)
                                     @if(isset($bc) && $bc->id_fournisseur==$fournisseur->id)
                                        {{$selec="selected"}}
@@ -61,10 +61,10 @@
                             </div>
                         </div>
                     <div class="form-group">
-                            <b><label for="libelle" class="control-label col-sm-6">Expéditeur:</label></b>
+                            <b><label for="libelle" class="control-label col-sm-6">{{__('neutrale.expediteur')}}:</label></b>
                             <div class="col-sm-6">
                             <select class="form-control selectpicker " id="id_expediteur" name="id_expediteur" data-live-search="true" data-size="6" required>
-                                <option value="" >SELECTIONNER L'EXPEDITEUR</option>
+                                <option value="" >{{__('neutrale.selectionner_expediteur')}}</option>
                                 @foreach($expediteurs as $expediteur)
                                     @if( Auth::user()->id==$expediteur->id)
                                        {{$selec="selected"}}
@@ -81,7 +81,7 @@
                 </div>
             <div class="modal-footer">
 
-                        <button type="submit" class="btn btn-default">{{isset($bc)?'Modifier':'Enregistrer'}}</button>
+                        <button type="submit" class="btn btn-default">@if(!isset($bc)) {{ __('translation.add') }} @else {{ __('translation.update') }}  @endif</button>
             </div>
                 </form>
         </div>
@@ -166,7 +166,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Date de livraison</h4>
+                    <h4 class="modal-title">{{__('reception.date_livraison')}}</h4>
                 </div>
 
                     <form  action="{{route('add_date_livraison')}}" method="post">
@@ -180,7 +180,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="submit" id="enregistrer_date_livraison" >
-                                        <i class="fa fa-file-pdf-o"></i><i class="fa fa-paper-plane-o"></i> Enregistrer
+                                        <i class="fa fa-file-pdf-o"></i><i class="fa fa-paper-plane-o"></i> {{__('neutrale.enregistrer')}}
                                     </button>
                                 </div>
                             </form>
@@ -266,7 +266,7 @@
     </div>
 
 <div class="row">
-    <a href="{{route('gestion_bc_ajouter',app()->getLocale())}}" class="btn btn-success pull-right" id="Ajouter_pro" >Ajouter un bon de commande</a>
+    <a href="{{route('gestion_bc_ajouter',app()->getLocale())}}" class="btn btn-success pull-right" id="Ajouter_pro" > {{ __('translation.add') }}</a>
 
 </div><div class="row"><br>
     <a href="{{route('bc_express',['locale'=>app()->getLocale(),10])}}" class="btn btn-info pull-right" id="Ajouter_pro" >>>Express<<</a>

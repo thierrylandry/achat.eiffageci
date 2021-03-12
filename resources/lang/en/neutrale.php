@@ -54,4 +54,12 @@ return [
     'soumettre' => 'Submit',
     'traite' => 'TREATY',
     'reception_devis_fournisseur' => 'RECEIPT OF QUOTES FROM SUPPLIERS',
+    'les_bons_commandes' => 'Purchase orders',
+    'gestion' => 'MANAGEMENT',
+    'validation' => 'VALIDATION',
+    'expediteur' => 'Sender',
+    'bc_en_attente_de_validation' => 'ORDER FORM PENDING VALIDATION',
+    'selectionner_fournisseur' => 'SELECT SUPPLIER',
+    'selectionner_projet' => 'SELECT PROJECT',
+    'projet' => 'Project',
 ];
