@@ -21,6 +21,7 @@ return array (
     'les_devis' => 'Les Devis',
     'demande_devis' => 'Demande de dévis',
     'reception_devis' => 'Reception de Dévis',
+    'reception_commande_sans_bc' => 'Reception de commande sans B.C.',
     'gestion_bc' => 'Gestion des BCs',
     'regularisation_bc' => 'Régularisation de BCs',
     'validation_bc' => 'Validation B.C.',
@@ -37,7 +38,7 @@ return array (
     'traite_retourne'=>'Traitée et retournée',
     'traite_transmis_retourne'=>'Traité, transmis et retourné',
     'guide_utilisateur'=>'Guide Utilisateur',
-    'mon_profile'=>'Guide Utilisateur',
+    'mon_profile'=>'Mon profil',
     'se_deconnecter'=>'Se déconnecter',
     'bon_commande'=>'Bon(s) de commande(s)'
 );

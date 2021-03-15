@@ -1,7 +1,7 @@
 
 @extends('layouts.app')
 @section('content')
-    <h2>MON PROFILE - {{isset($utilisateur)? 'MODIFIER UTILISATEUR':'AJOUTER UTILISATEUR'}}</h2><br/><br/><br/>
+    <h2>{{strtoupper(__('menu.mon_profile'))}} / {{isset($utilisateur)? strtoupper(__('neutrale.modifier_utilisateur')):''}}</h2><br/><br/><br/>
 
     <div class="row">
             <form role="form" id="FormRegister" class="bucket-form" method="post" action="{{route('modifier_profile')}}">
@@ -9,17 +9,17 @@
                         <div class="col-sm-4">
                             @csrf
                             <div class="form-group">
-                                <b><label for="nom" class="control-label">Nom</label></b>
-                                <input type="text" class="form-control" id="nom" name="nom" placeholder="nom" value="{{isset($utilisateur)? $utilisateur->nom:''}}" required>
+                                <b><label for="nom" class="control-label">{{__('translation.nom')}}</label></b>
+                                <input type="text" class="form-control" id="nom" name="nom" placeholder="{{__('translation.nom')}}" value="{{isset($utilisateur)? $utilisateur->nom:''}}" required>
                             </div>
 
                             <div class="form-group">
-                                <label for="prenoms">Prénoms</label>
-                                <input type="text" class="form-control" id="prenoms" name="prenoms" placeholder="Condition de Paiement" value="{{isset($utilisateur)? $utilisateur->prenoms:''}}">
+                                <label for="prenoms">{{__('translation.prenoms')}}</label>
+                                <input type="text" class="form-control" id="prenoms" name="prenoms" placeholder="{{__('translation.prenoms')}}" value="{{isset($utilisateur)? $utilisateur->prenoms:''}}">
                             </div>
 
                             <div class="form-group">
-                                <label for="email">Email</label>
+                                <label for="email">{{__('translation.email')}}</label>
                                 <input type="email" class="form-control" id="email" name="email" value="{{isset($utilisateur)? $utilisateur->email:''}}" readonly>
                             </div>
 
@@ -28,31 +28,31 @@
 
                         <div class="col-sm-4">
                             <div class="form-group">
-                                <label for="responsable">Mot de passe</label>
-                                <input type="password" class="form-control" id="password" name="password" placeholder="responsable" value="{{isset($utilisateur)? $utilisateur->password:''}}">
+                                <label for="responsable">{{__('translation.password')}}</label>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="{{__('translation.password')}}" value="{{isset($utilisateur)? $utilisateur->password:''}}">
                             </div>
 
                             <div class="form-group">
-                                <label for="domaine">Abréviation</label>
-                                <input type="text" class="form-control" id="abréviation" name="abréviation" placeholder="abréviation"  value="{{isset($utilisateur)? $utilisateur->abréviation:''}}">
+                                <label for="domaine">{{__('translation.abreviation')}}</label>
+                                <input type="text" class="form-control" id="abréviation" name="abréviation" placeholder="{{__('translation.abreviation')}}"  value="{{isset($utilisateur)? $utilisateur->abréviation:''}}">
                             </div>
 
                             <div class="form-group">
-                                <label for="contact">Contact</label>
-                                <input type="text" class="form-control" id="contact" name="contact" placeholder="Contact" value="{{isset($utilisateur)? $utilisateur->contact:''}}">
+                                <label for="contact">{{__('translation.contact')}}</label>
+                                <input type="text" class="form-control" id="contact" name="contact" placeholder="{{__('translation.contact')}}" value="{{isset($utilisateur)? $utilisateur->contact:''}}">
                             </div>
                         </div>
 
                         <div class="col-sm-4">
-                            <fieldset><title>Habilitation</title>
+                            <fieldset><title></title>
 
                                 <div class="form-group">
-                                    <label for="domaine">Fonction</label>
-                                    <input type="text" class="form-control" id="function" name="function" placeholder="function" value="{{isset($utilisateur)? $utilisateur->function:''}}">
+                                    <label for="domaine">{{__('translation.fonction')}}</label>
+                                    <input type="text" class="form-control" id="function" name="function" placeholder="{{__('translation.fonction')}}" value="{{isset($utilisateur)? $utilisateur->function:''}}">
                                 </div>
 
                                 <div class="form-group">
-                                    <b><label for="service">Service</label></b>
+                                    <b><label for="service">{{__('translation.service')}}</label></b>
                                     <ul>
                                         @foreach($services as $service)
                                             @if(isset($utilisateur) and $utilisateur->service==$service->id)
@@ -65,7 +65,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="domaine">Les Roles</label>
+                                    <label for="domaine">{{__('translation.les_roles')}}</label>
                                     <ul>
                                     @foreach($roles as $role)
                                         @if(isset($utilisateur) and $utilisateur->hasRole($role->name))
@@ -80,7 +80,7 @@
                                 </div>
 
                                 <br><div class="form-group" >
-                                    <button type="submit" class="btn btn-success form-control " style="width: 200px;margin-right: 10px">{{isset($utilisateur)? 'Modifier':'Ajouter'}}</button>
+                                    <button type="submit" class="btn btn-success form-control " style="width: 200px;margin-right: 10px">{{isset($utilisateur)? strtoupper(__('neutrale.modifier_utilisateur')):''}}</button>
                                 </div>
 
                             </fieldset>

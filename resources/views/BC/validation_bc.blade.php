@@ -4,7 +4,7 @@
 @endsection
 
 @section('content')
-    <h2>LES BONS DE COMMANDES - VALIDATION</h2>
+    <h2>{{strtoupper(__('neutrale.les_bons_commandes'))}}  - {{__('neutrale.validation')}}</h2>
 
 </br>
     <div class="row">

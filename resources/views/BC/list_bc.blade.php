@@ -112,10 +112,10 @@
                                     @endif
                                 @elseif($bc->etat==0)
                                     <a href="{{route('lister_commande',['locale'=>app()->getLocale(),'slug'=>$bc->id])}}" data-toggle="modal" class="">
-                                        <i class=" fa fa-list "></i> plus d'info
+                                        <i class=" fa fa-list "></i>{{__('neutrale.plus_dinfo')}}
                                     </a>
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-info">Action</button>
+                                        <button type="button" class="btn btn-info">{{__('gest_stock.action')}}</button>
                                         <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
                                             <span class="caret"></span>
                                             <span class="sr-only">Toggle Dropdown</span>
@@ -246,7 +246,7 @@
                                         <i class=" fa fa-list "></i> {{__('neutrale.plus_dinfo')}}
                                     </a>
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-info">{{__('neutrale.action')}}</button>
+                                        <button type="button" class="btn btn-info">{{__('gest_stock.action')}}</button>
                                         <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
                                             <span class="caret"></span>
                                             <span class="sr-only">Toggle Dropdown</span>
@@ -299,7 +299,7 @@
                                         <i class="fa fa-list"></i><i class="fa fa-calendar-check-o"></i>
                                     </a>
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-info">{{__('neutrale.action')}}</button>
+                                        <button type="button" class="btn btn-info">{{__('gestion_stock.action')}}</button>
                                         <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
                                             <span class="caret"></span>
                                             <span class="sr-only">Toggle Dropdown</span>

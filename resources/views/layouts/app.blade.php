@@ -326,7 +326,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
      @endif
 
          @if(Auth::user() != null && Auth::user()->hasAnyRole(['Valideur_BC']))
-         <li @yield('validation_bc')>  <a href="{{route('validation_bc',app()->getLocale())}}"><i class="fa fa-check"></i><span>{{ __('menu.validation_bc') }}</span></a></li>
+         <li >  <a @yield('validation_bc')  href="{{route('validation_bc',app()->getLocale())}}"><i class="fa fa-check"></i><span>{{ __('menu.validation_bc') }}</span></a></li>
      @endif
      @if(Auth::user() != null && Auth::user()->hasRole('Gestionnaire_Pro_Forma'))
          <li>

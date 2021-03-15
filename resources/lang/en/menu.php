@@ -21,6 +21,7 @@ return array (
     'les_devis' => 'Quotations',
     'demande_devis' => 'Quote\'s request',
     'reception_devis' => 'Quote\'s Receipt',
+    'reception_commande_sans_bc' => 'Order reception without purchase order',
     'gestion_bc' => 'Order management',
     'regularisation_bc' => 'Regularization\'s orders',
     'validation_bc' => 'Validatios\'s Orders',

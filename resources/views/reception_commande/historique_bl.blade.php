@@ -10,7 +10,7 @@
     <style>
         div.dropdown-menu.open { width: 100%; } ul.dropdown-menu.inner>li>a { white-space: initial; }
     </style>
-    <h2>HISTORIQUE DES BON DE LIVRAISON - {{isset($ligne_bonlivraison)? 'MODIFIER ':'AJOUTER '}}</h2>
+    <h2>{{ __('menu.liste_bon_livraison') }} </h2>
     </br>
     </br>
     <br>
@@ -18,20 +18,17 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Liste des bon de livraison
-                    </div>
                     <div  class="table-responsive" STYLE="overflow-x:scroll;">
                         <table class="table table-striped b-t b-light" id="reception_commande">
                             <thead>
                             <tr>
                                 <th class="dt-head-center">id</th>
-                                <th class="dt-head-center">Numero de BL</th>
-                                <th class="dt-head-center">Fournisseur</th>
-                                <th class="dt-head-center">produits et services</th>
-                                <th class="dt-head-center">Quantité commandé</th>
-                                <th class="dt-head-center">Prix unitaire</th>
-                                <th class="dt-head-center">Date de livraison</th>
+                                <th class="dt-head-center">{{__('reception.numero_bl')}}</th>
+                                <th class="dt-head-center">{{__('menu.fournisseurs')}}</th>
+                                <th class="dt-head-center">{{__('gestion_stock.article')}}</th>
+                                <th class="dt-head-center">{{__('gestion_stock.quantite')}}</th>
+                                <th class="dt-head-center">{{__('neutrale.pu')}}</th>
+                                <th class="dt-head-center">{{__('reception.date_livraison')}}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -116,7 +113,11 @@
         (function($) {
             var table= $('#reception_commande').DataTable({
                 language: {
-                    url: "{{ URL::asset('js/French.json') }}"
+                    @if(App()->getLocale()=='fr')
+                    url: "../public/js/French.json"
+                    @elseif(App()->getLocale()=='en')
+                    url: "../public/js/English.json"
+                    @endif
                 },
                 "ordering":true,
                 "createdRow": function( row, data, dataIndex){

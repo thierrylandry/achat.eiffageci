@@ -119,7 +119,7 @@ class UtilisateurController
     {
         $parameters=$request->except(['_token']);
 
-        dd($request);
+      //  dd($request);
 
         $utilisateur=  User::where('slug','=',$parameters['slug'])->first();
 
@@ -146,7 +146,7 @@ class UtilisateurController
         $utilisateur->save();
 
 
-        return redirect()->back()->with('success',"L'utilisateur a été mis à jour");
+        return redirect()->route('home',app()->getLocale())->with('success',"L'utilisateur a été mis à jour");
     }
     public function alljson(){
         $collections = [];

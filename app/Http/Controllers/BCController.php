@@ -1238,7 +1238,7 @@ if(isset($devis->first()->devise)){
             $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         }
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Création du Bon de commande N° '.$Boncommande->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
-        return redirect()->route('gestion_bc')->with('success',"Le bon de commande a été ajouté, Veuillez ajouter la listes des produits ou des services");
+        return redirect()->back()->with('success',"Le bon de commande a été ajouté, Veuillez ajouter la listes des produits ou des services");
     }
     public function modifier_bc( Request $request)
     {

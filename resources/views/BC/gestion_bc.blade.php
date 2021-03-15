@@ -268,9 +268,6 @@
 <div class="row">
     <a href="{{route('gestion_bc_ajouter',app()->getLocale())}}" class="btn btn-success pull-right" id="Ajouter_pro" > {{ __('translation.add') }}</a>
 
-</div><div class="row"><br>
-    <a href="{{route('bc_express',['locale'=>app()->getLocale(),10])}}" class="btn btn-info pull-right" id="Ajouter_pro" >>>Express<<</a>
-
 </div>
        <div class="row">
         <div class="col-sm-offset-2 col-sm-8" >    @include('BC/list_bc')</div>

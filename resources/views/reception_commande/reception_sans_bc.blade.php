@@ -10,7 +10,7 @@
     <style>
         div.dropdown-menu.open { width: 100%; } ul.dropdown-menu.inner>li>a { white-space: initial; }
     </style>
-    <h2>RECEPTION DE COMMANDE SANS B.C - {{isset($ligne_bonlivraison)? 'MODIFIER ':'AJOUTER '}}  <a href="{{route('reception_commande_sans_bc',app()->getLocale())}}" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Ajouter</a></h2>
+    <h2>{{__('menu.reception_commande_sans_bc')}} / @if(isset($ligne_bonlivraison)) {{ __('translation.update') }}  <a href="{{route('reception_commande_sans_bc',app()->getLocale())}}" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Ajouter</a> @else {{ __('translation.add') }}  @endif </h2>
     </br>
     </br>
     <div class="row">
@@ -20,11 +20,11 @@
             <div class="row">
                 <div class="col-sm-4">
                     <div class="form-group">
-                        <label for="libelle" class="control-label">Domaine:</label>
+                        <label for="libelle" class="control-label">{{__('gestion_stock.domaine')}}:</label>
 
 
                         <select class="form-control selectpicker " id="domaines" name="domaines" data-live-search="true" data-size="6">
-                            <option value="" >SELECTIONNER UN DOMAINE</option>
+                            <option value="" >{{__('sortie_materiel.selectionner_domaine')}}</option>
                             @foreach($domaines as $domaine)
                                 <option value="{{$domaine->id}}" {{isset($ligne_bonlivraison->reference) && $ligne_bonlivraison->reference==$domaine->libelleDomainne?'selected':''}} >{{$domaine->libelleDomainne}}</option>
                             @endforeach
@@ -33,11 +33,11 @@
                 </div>
                 <div class="col-sm-4">
                     <div class="form-group">
-                        <label for="libelle" class="control-label">Famille:</label>
+                        <label for="libelle" class="control-label">{{__('gestion_stock.famille')}}:</label>
 
 
                         <select class="form-control selectpicker " id="famille" name="famille" data-live-search="true" data-size="6">
-                            <option value="" >SELECTIONNER UNE FAMILLE</option>
+                            <option value="" >{{__('sortie_materiel.selectionner_famille')}}</option>
                             @foreach($familles as $famille)
                                 <option value="{{$famille->id}}" {{isset($ligne_bonlivraison->reference) && $ligne_bonlivraison->reference==$famille->libelle?'selected':''}} >{{$famille->libelle}}</option>
                             @endforeach
@@ -45,11 +45,11 @@
                     </div>
                 </div> <div class="col-sm-4">
                     <div class="form-group">
-                        <label for="libelle" class="control-label">Article:</label>
+                        <label for="libelle" class="control-label">{{__('gestion_stock.article')}}:</label>
 
 
                         <select class="form-control selectpicker " id="refference" name="refference" data-live-search="true" data-size="6" required>
-                            <option value="" >SELECTIONNER UN ARTICLE</option>
+                            <option value="" >{{__('sortie_materiel.selectionner_article')}}</option>
                             @foreach($produits as $produit)
                                 <option value="{{$produit->libelle}}" {{isset($ligne_bonlivraison->reference) && $ligne_bonlivraison->reference==$produit->libelle?'selected':''}} >{{$produit->libelle}}</option>
                             @endforeach
@@ -61,11 +61,11 @@
 
                 <div class="col-sm-4">
                     <div class="form-group">
-                        <label for="libelle" class="control-label">Fournisseur:</label>
+                        <label for="libelle" class="control-label">{{__('menu.fournisseurs')}}:</label>
                             @csrf
                         <input type="hidden" name="id" value="{{isset($ligne_bonlivraison->id)? $ligne_bonlivraison->id:''}}" />
                         <select class="form-control selectpicker " id="id_fournisseur" name="id_fournisseur" data-live-search="true" data-size="6" required>
-                            <option value="" >SELECTIONNER UN FOURNISSEUR</option>
+                            <option value="" >{{__('neutrale.selectionner_fournisseur')}}</option>
                             @foreach($fournisseurs as $fournisseur)
                                 <option value="{{$fournisseur->id}}" {{isset($ligne_bonlivraison->id_fournisseur) && $ligne_bonlivraison->id_fournisseur==$fournisseur->id?'selected':''}} >{{$fournisseur->libelle}}</option>
                             @endforeach
@@ -73,7 +73,7 @@
                     </div>
                 </div>
                 <div class="col-sm-4">
-                    <label for="libelle" class="control-label">Numero de BL : </label>
+                    <label for="libelle" class="control-label">{{__('reception.numero_bl')}}: </label>
                     <div class="form-group">
                         <input type="text" class="form-control" id="numero_bl" name="numero_bl" value="{{isset($ligne_bonlivraison->numero_bl)? $ligne_bonlivraison->numero_bl:''}}" />
                     </div>
@@ -81,7 +81,7 @@
 
 
                 <div class="col-sm-4">
-                    <label class="control-label" for="id_bc">Prix unitaire:</label>
+                    <label class="control-label" for="id_bc">{{__('neutrale.pu')}}:</label>
                     <div class="form-group">
                         <input type="number" name="prix_unitaire" class="form-control" value="{{isset($ligne_bonlivraison->prix_unitaire)? $ligne_bonlivraison->prix_unitaire:''}}" />
                     </div>
@@ -89,13 +89,13 @@
             </div>
             <div class="row">
                 <div class="col-sm-4">
-                    <label class="control-label col-sm-1" for="id_bc">Quantité:</label>
+                    <label class="control-label col-sm-1" for="id_bc">{{__('gestion_stock.quantite')}}:</label>
                     <div class="form_group">
                         <input type="number" min="1" name="quantite" class="form-control" value="{{isset($ligne_bonlivraison->quantite)? $ligne_bonlivraison->quantite:''}}" />
                     </div>
                 </div>
                 <div class="form-group col-sm-4">
-                    <label for="type">Unité</label>
+                    <label for="type">{{__('gestion_stock.unite')}}</label>
                     <select class="form-control selectpicker col-sm-4" id="unite" name="unite" data-live-search="true" data-size="6">
                         @foreach($tab_unite['nothing'] as $unite)
                             <option value="{{$unite}}" {{isset($ligne_bonlivraison) && $unite==$ligne_bonlivraison->unite?"selected":''}}>{{$unite}}</option>
@@ -129,7 +129,7 @@
 
                 <div class="col-sm-4">
                     <div class="form-group">
-                        <label for="libelle" class="control-label">Date de livraison</label>
+                        <label for="libelle" class="control-label">{{__('reception.date_livraison')}}</label>
 
 
                         <input type="date" id="date_livraison" name="date_livraison" value="{{isset($ligne_bonlivraison->date_livraison)? $ligne_bonlivraison->date_livraison:''}}"/>
@@ -138,7 +138,7 @@
                 <div class="col-sm-3">
                     @csrf
                     <label for="libelle" class="control-label"></label>
-                    <input type="submit"  value="{{isset($ligne_bonlivraison)? 'MODIFIER':'ENREGISTRER'}}"/>
+                    <input type="submit"  value="@if(isset($ligne_bonlivraison)) {{ __('translation.update') }}  @else {{ __('translation.add') }}  @endif"/>
                 </div>
             </div>
 
@@ -157,20 +157,20 @@
             <div class="col-sm-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Liste des  sans B.C
+                       {{__('neutrale.Liste_des_sans_BC')}}
                     </div>
                     <div  class="table-responsive" STYLE="overflow-x:scroll;">
                         <table class="table table-striped b-t b-light" id="reception_commande">
                             <thead>
                             <tr>
                                 <th class="dt-head-center">id</th>
-                                <th class="dt-head-center">Numero de BL</th>
-                                <th class="dt-head-center">Fournisseur</th>
-                                <th class="dt-head-center">Article</th>
-                                <th class="dt-head-center">Quantité commandé</th>
-                                <th class="dt-head-center">Prix unitaire</th>
-                                <th class="dt-head-center">Date de livraison</th>
-                                <th class="dt-head-center">Action</th>
+                                <th class="dt-head-center">{{__('reception.numero_bl')}}</th>
+                                <th class="dt-head-center">{{__('menu.fournisseurs')}}</th>
+                                <th class="dt-head-center">{{__('gestion_stock.article')}}</th>
+                                <th class="dt-head-center">{{__('gestion_stock.quantite')}}</th>
+                                <th class="dt-head-center">{{__('neutrale.pu')}}</th>
+                                <th class="dt-head-center">{{__('reception.date_livraison')}}</th>
+                                <th class="dt-head-center">{{__('gestion_stock.action')}}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -194,8 +194,6 @@
                         </table>
                     </div>
                 </div>
-
-                <input type="submit" class="btn btn-success pull-right" id="soumettre1" name="soumettre1" value="Enregistrer" />
             </div>
 
     </form>
@@ -230,7 +228,11 @@
         (function($) {
             var table= $('#reception_commande').DataTable({
                 language: {
-                    url: "{{ URL::asset('js/French.json') }}"
+                    @if(App()->getLocale()=='fr')
+                    url: "../public/js/French.json"
+                    @elseif(App()->getLocale()=='en')
+                    url: "../public/js/English.json"
+                    @endif
                 },
                 "ordering":true,
                 "createdRow": function( row, data, dataIndex){

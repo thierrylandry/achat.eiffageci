@@ -63,5 +63,15 @@ return [
     'selectionner_expediteur' => 'SELECTIONNER EXPEDITEUR',
     'selectionner_projet' => 'SELECTIONNER PROJET',
     'projet' => 'Projet',
+    'annuler' => 'Annuler',
+    'traiter_retourner' => 'Traité retourné',
+    'traiter_finaliser' => 'Traité finalisé',
+    'valider_bon' => 'Validé le bon',
+    'plus_dinfo' => 'Plus d\'info',
+    'question_valider_bc' => 'Voulez vous valide le Bon de commande ?',
+    'question_rejeter_bc' => 'Voulez vous rejeter Bon de commande ?',
+    'question_supprimer_bc' => 'Voulez vous supprimer le Bon de commande ?',
+    'Liste_des_sans_BC' => 'Liste des demandes sans BC',
+    'modifier_utilisateur' => 'MODIFIER UTILISATEUR',
 
 ];
