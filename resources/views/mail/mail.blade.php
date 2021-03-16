@@ -1,17 +1,18 @@
 @extends('mail.layoutmail')
 @section('content')
 
-    <p>Bonjour,</p>
+    <p>{{__('neutrale.bonjour')}}</p>
 
-    <p>Veuillez svp nous adresser votre meilleure offre pour :
+    <p>{{__('neutrale.adresser_meilleur_offre')}} :
         <br>
+
         @for($i=0;$i<sizeof($corps);$i++)
 
             <br> <strong>{{$corps[$i]}}</strong>
 
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{isset($precisions[$i]) && $precisions[$i]!=""?" ".$precisions[$i]:''}}
             @if(isset($images[$i]) && $images[$i]!="")
-                voir piece jointe : {{$images[$i]}}
+                {{__('neutrale.voir_pj')}} : {{$images[$i]}}
     @endif
 
 
@@ -19,12 +20,11 @@
     @endfor
 
     <p></p><br>
-        <p>Dans l’attente, et en vous remerciant par avance,<br>
+        <p>{{__('neutrale.dans_lattente')}}<br>
         <br>
         <p>
-        Cordialement,
+        {{__('neutrale.cordialement')}},
         <br>
-        Best regards,
         </p>
     </p>
 
@@ -36,9 +36,9 @@
         <br>
         {{ \Illuminate\Support\Facades\Auth::user()->function }}
         <br>
-        <label>Téléphone : </label>{{ \Illuminate\Support\Facades\Auth::user()->contact }}
+        <label>{{__('neutrale.telephone')}} : </label>{{ \Illuminate\Support\Facades\Auth::user()->contact }}
         <br>
-        <label>Mail : </label>{{ \Illuminate\Support\Facades\Auth::user()->email }}
+        <label>{{__('translation.email')}} : </label>{{ \Illuminate\Support\Facades\Auth::user()->email }}
         <br>
         <img src="http://172.20.73.3/achat.eiffageci/images/logomail.png"/>
     </p>

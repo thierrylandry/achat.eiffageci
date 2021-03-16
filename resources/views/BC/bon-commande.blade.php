@@ -3,16 +3,15 @@
     <table class="payload">
         <thead>
         <tr class="head">
-            <th width="1%">N°</th>
-            <th width="25%">DESIGNATION</th>
-            <th width="10%">REFERENCE FOURNISSEUR</th>
-            <th width="10%">CODE ANALYTI<br/>QUE</th>
-            <th width="10%">CODE <br/>GESTION</th>
-            <th width="7%">QUANTITE</th>
-            <th width="8%">UNITE</th>
-            <th width="10%">P.U HT</th>
-            <th width="10%">REMISE %</th>
-            <th width="18%">TOTAL HT</th>
+            <th width="1%">{{__('reception.article')}} </th>
+            <th width="25%">{{__('reception.reference_fournisseur')}}</th>
+            <th width="10%">{{__('gestion_stock.code_analytique')}}</th>
+            <th width="10%">{{__('neutrale.code_gestion')}}</th>
+            <th width="10%">{{__('reception.quantite')}}</th>
+            <th width="7%">{{__('gestion_stock.unite')}}</th>
+            <th width="8%">{{__('neutrale.pu')}}</th>
+            <th width="10%">{{__('neutrale.remise')}}</th>
+            <th width="18%">{{__('neutrale.totlal_ht')}}</th>
         </tr>
         </thead>
         <tbody>
@@ -173,9 +172,9 @@
         <tfoot style="margin: 0; padding: 0;">
         <tr style="margin: 0; padding: 0;">
             <th colspan="2" style="margin: 0; padding: 0;">
-                <p align="center"><b>Adresse de livraison</b></p>
+                <p align="center"><b>{{__('neutrale.adresse_livraison')}}</b></p>
                 <div class="rubrique">
-                    <p style="border-bottom: none;"><b>Chantier : PONT FELIX HOUPHOUET BOIGNY</b></p>
+                    <p style="border-bottom: none;"><b>{{__('neutrale.chantier')}} : PONT FELIX HOUPHOUET BOIGNY</b></p>
                     <p style="font-size: 10px">SITE INSTALLATION DU CHANTIER, LAGUNE EBRIE RIVE SUD, TREICHVILLE, AVENUE CHRISTIANI</p>
                 </div>
                 <br/>
@@ -183,19 +182,19 @@
                     <p style="border-bottom: none;" align="center"><b>Date et modalité de livraison</b></p>
                     <p>{{(new \Illuminate\Support\Carbon($bc->date))->format('d/m/Y')}}</p>
                 </div>
-                <p align="center"><b>Condition de paiement</b></p>
+                <p align="center"><b>{{__('gestion_stock.condition_paiement')}}</b></p>
                 <div class="rubrique">
-                    <p style="font-size: 10px"><b>RIB à mentionner sur la facture</b> <br/>
+                    <p style="font-size: 10px"><b>{{__('neutrale.rib')}}RIB à mentionner sur la facture</b> <br/>
                     {{$bc->conditionPaiement}}</p>
                 </div>  <div class="rubrique">
-                    <p style=""><b><p style="font-size: 7pt"><t style="color:#761c19;">Port d’EPI</t>  obligatoire  (casque, chasuble, chaussures et gants) pour toute intervention sur le chantier et après autorisation d’un personnel HSE</p></b> <br/></p>
+                    <p style=""><b><p style="font-size: 7pt"><t style="color:#761c19;">{{__('neutrale.port_epi')}}Port d’EPI</t>  obligatoire  (casque, chasuble, chaussures et gants) pour toute intervention sur le chantier et après autorisation d’un personnel HSE</p></b> <br/></p>
                 </div>
             </th>
             <th colspan="8" valign="top" style="margin: 0; padding: 0; ">
                 <table class="ssfacture" style="margin: 0; padding: 0;">
                     @if($bc->remise_excep!=0)
                         <tr>
-                            <td style="text-align:right" ><b>REMISE EXCEPTIONNELLE </b></td>
+                            <td style="text-align:right" ><b>{{__('neutrale.remise_excep')}} </b></td>
                             <td class="value">
 
                                 {{number_format($bc->remise_excep,0,"."," ")." ".$devis[0]->devise}}
@@ -203,11 +202,11 @@
                         </tr>
                     @endif
                     <tr>
-                        <td width="61.8%" style="text-align:right"><b>Total Hors Taxes en FCFA</b> </td>
+                        <td width="61.8%" style="text-align:right"><b>{{__('neutrale.totlal_ht')}}</b> </td>
                         <td class="value">{{ number_format($tothtax-$bc->remise_excep, 0,".", " ")." ".$devis[0]->devise  }}</td>
                     </tr>
                     <tr>
-                        <td style="text-align:right" ><b>TVA </b></td>
+                        <td style="text-align:right" ><b>{{__('neutrale.totlal_ht')}} </b></td>
                         <td class="value">
                             <?php
                                     $tva=0;
@@ -228,7 +227,7 @@
                                 </td>
                     </tr>
                         <tr>
-                        <td style="text-align:right" ><b>TOTAL TTC EN FCFA </b></td>
+                        <td style="text-align:right" ><b>{{__('neutrale.total_ttc')}} </b></td>
 
                             @if($bc->remise_excep!=0)
                         <td class="value">
@@ -246,7 +245,7 @@
 
                 <table>
                     <tr>
-                        <th style="text-align:left; border-right: none;">Demandeur :(Nom/Téléphone)</th>
+                        <th style="text-align:left; border-right: none;">{{__('sortie_materiel.demandeur')}} :({{__('translate.nom')}}/{{__('translation.contact')}})</th>
                         <th style="text-align:center; border-left: none;">{{strtoupper($bc->libelle_service)}}</th>
                     </tr>
                     <tr>
@@ -259,7 +258,7 @@
                     </tr>
                     <tr><th colspan="2" style="padding-left: 100px"><img src="{{ asset("images/Signature_Sylvain.jpg") }}" width="225px" /></th> </tr>
                     <tr>
-                        <th style="border-right: none;border-bottom-color: white "> Nom du Signataire Habilité : </th>
+                        <th style="border-right: none;border-bottom-color: white "> {{__('neutrale.nom_signataire')}} : </th>
                         <th style="border-left: none;border-bottom-color: white" >SYLVAIN DECULTIEUX</th>
                     </tr>
                 </table>

@@ -41,7 +41,7 @@ class PrixController
         $prix->save();
 
 
-        return redirect()->route('gestion_prix')->with('success', "Le prix a été ajouté");
+        return redirect()->route('gestion_prix')->with('success', "success");
     }
     public function voir_prix($slug)
     {
@@ -55,7 +55,7 @@ class PrixController
     {
         $prix = Tbprix::where('slug', '=', $slug)->first();
         $prix->delete();
-        return redirect()->route('gestion_prix')->with('success', "le prix a été supprimé");
+        return redirect()->route('gestion_prix')->with('success', "success");
     }
     public function modifier_prix( Request $request)
     {
@@ -77,7 +77,7 @@ class PrixController
             $prix->id_materiel = $parameters['id_materiel'];
             $prix->slug = Str::slug($parameters['prix'] . $date->format('dmYhis'));
             $prix->save();
-            return redirect()->route('gestion_prix')->with('success',"le prix à été mis à jour");
+            return redirect()->route('gestion_prix')->with('success',"success");
         }
         catch(\Exception $e){
             // do task when error

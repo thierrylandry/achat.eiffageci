@@ -6,4 +6,5 @@ return array (
     'bon_commande_attente_creation' => 'Purchase order (s) awaiting creation',
     'bon_commande_attente_signature' => 'Order form awaiting signature',
     'valider_transmettre_la_signature' => 'VALIDATE AND TRANSMIT THE SIGNATURE',
+    'demande_recente' => 'recent purchase request (s). Add to order forms',
 );

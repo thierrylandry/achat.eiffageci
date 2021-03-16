@@ -226,7 +226,7 @@ return 1;
         $fournisseur->email=$parameters['email'];
         $fournisseur->slug=Str::slug($parameters['libelle'].$date->format('dmYhis'));
         $fournisseur->save();
-        return redirect()->route('ajouter_fournisseur')->with('success',"Le fournisseur à été mis à jour");
+        return redirect()->route('ajouter_fournisseur')->with('success',"success");
     }
     public function send_it_personnalisé_ddd(Request $request){
         $parameters=$request->except(['_token']);
@@ -285,7 +285,7 @@ return 1;
         $Trace_mail->das=implode(',',$daas);
         $Trace_mail->save();
 
-        return redirect()->back()->with('success', "Envoie d'email reussi");
+        return redirect()->back()->with('success', "success");
 
     }
     public function recup_infos_pour_envois_mail_perso($locale,$listeDA){
@@ -316,9 +316,9 @@ return 1;
 
                 }
                 if($images[$i]=="vide"){
-                    $corps[$i] =" - ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelleMateriel;
+                    $corps[$i] =" - ".$das->quantite." ".$das->unite." ".__('neutrale.de').$materiel[0]->libelleMateriel;
                 }else{
-                    $corps[$i] =" - ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelleMateriel." voir pièce jointe : ".$images[$i];
+                    $corps[$i] =" - ".$das->quantite." ".$das->unite." ".__('neutrale.de').$materiel[0]->libelleMateriel." voir pièce jointe : ".$images[$i];
                 }
 
                 $i++;
@@ -375,7 +375,7 @@ $i=0;
     endforeach;
     $this->dispatch(new EnvoieMailFournisseurPerso(explode(',',$trace_mail->email),$images,$trace_mail->objet,"POUR RAPPEL : \r\n".$trace_mail->msg_contenu) );
 
-    return redirect()->back()->with('success', "Envoie d'email reussi");
+    return redirect()->back()->with('success', "success");
 
 }
     public function envoies(Request $request)
@@ -434,7 +434,7 @@ $i=0;
                     $precisions[$i]="";
 
                 }
-                $corps[$i] =" - ".$das->quantite." ".$das->unite." de ".$materiel[0]->libelle." \r\n ";
+                $corps[$i] =" - ".$das->quantite." ".$das->unite." ".__('neutrale.de').$materiel[0]->libelle." \r\n ";
                 $i++;
             }
 
@@ -481,7 +481,7 @@ foreach ($recup_email as $email):
 
 
        // return view('mail.mail')->with('corps',$corps);
-            return redirect()->back()->with('success', "Envoie d'email reussi");
+            return redirect()->back()->with('success', "success");
     }
 
     /**

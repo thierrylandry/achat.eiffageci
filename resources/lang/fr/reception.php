@@ -18,5 +18,6 @@ return array (
     'livraison' => 'Livraison',
     'quantite_livre' => 'Quantié livrée',
     'Livre_le' => 'Livré le',
-    'quantite_recu'=>'Quantité reçu'
+    'quantite_recu'=>'Quantité reçu',
+    'commentaire'=>'Commentaire',
 );

@@ -19,7 +19,7 @@
         }
     }</script>
 
-    <h2>LISTE DES COMMANDES - N° BC : {{$bc->numBonCommande}} <a href="{{url()->previous()}}" class="btn btn-default pull-right"><i class="fa fa-list" aria-hidden="true"></i> Lister</a></h2>
+    <h2>{{__('reception.list_commande')}} - {{__('neutrale.numero_bc')}} : {{$bc->numBonCommande}} </h2>
     <br>
     <form method="post" action="{{route('save_ligne_bc')}}" onsubmit="return confirm('Voulez vous enregistrer?');">
         @csrf
@@ -31,27 +31,27 @@
     <div class="row">
         <div class="col-sm-4">
             <div class="form-group">
-                <label class="control-label" for="date_livraison">Date de livraison:</label>
+                <label class="control-label" for="date_livraison">{{__('neutrale.date_livraison')}}:</label>
                 <div>
                     <input type="date" class="form-control" id="date_livraison" name="date_livraison" placeholder="Enter un numero" value="{{isset($bc->date)?$bc->date:''}}"  {{$bc->etat!=1?'readonly':''}}  required>
                 </div>
-                <label>LISTE DES DATES PROPOSEES: @foreach($date_propose as $date)
+                <label>{{__('translation.liste')}}: @foreach($date_propose as $date)
 
                         <a  onclick="document.getElementById('date_livraison').value='{{$date}}'">  {{ "".$date}}</a>;
                     @endforeach</label>
             </div>
             </br>
             <div class="form-group">
-                <label class="control-label" for="numbc">Service demandeur:</label>
+                <label class="control-label" for="numbc">{{__('translation.service')}}:</label>
                 <div>
                     <select class="form-control selectpicker" id="id_service" name="id_service" data-live-search="true" data-size="6" noneSelectedText="SELECTIONNER UN SERVICE" {{$bc->etat!=1?'disabled':''}}  required >
-                        <option value="">SELECTIONNER UN SERVICE</option>
+                        <option value="">{{__('neutrale.selectionner_service')}}</option>
                         @foreach($services as $service)
                             <option {{isset($bc)&& $bc->service_demandeur==$service->id? "selected":''}} value="{{$service->id}}">{{$service->libelle}}</option>
                         @endforeach
                     </select>
                 </div>
-                <label>LISTE DES SERVICES PROPOSES: @for($i=0;$i<count($service_id);$i++)
+                <label>{{__('translation.liste')}}: @for($i=0;$i<count($service_id);$i++)
                         <a  onclick="document.getElementById('id_service').value='{{$service_id[$i]}}';$('#id_service').selectpicker('refresh')">  {{$service_libelle[$i]}}</a>;
                     @endfor</label>
             </div>
@@ -71,7 +71,7 @@
         <br>
         <br>
         <div class="col-sm-6 col-sm-offset-2">
-            <label for="commentaire">Commentaire général </label><br>
+            <label for="commentaire">{{__('neutrale.commentaire_general')}} </label><br>
             <br>
             <textarea id="commentaire" name="commentaire" class="form-control col-sm-8" style="height: 100px" maxlength="1000">{{isset($bc)? $bc->commentaire_general:''}}</textarea>
         </div>
@@ -83,7 +83,7 @@
             <span class="alert-icon"><i class="fa fa-bell-o"></i></span>
             <div class="notification-info">
                 <ul class="clearfix notification-meta">
-                    <li class="pull-left notification-sender">Vous avez  <b style="font-size: 24px">{{sizeof($new_devis)}}</b>   demande(s) d'achat recente(s). Ajoutez aux bons de commande <button type="button" onclick="myFunction()"> détail</button></li>
+                    <li class="pull-left notification-sender">{{ __('cotation.vous_avez') }}  <b style="font-size: 24px">{{sizeof($new_devis)}}</b>   {{ __('cotation.demande_recente') }}  <button type="button" onclick="myFunction()"> détail</button></li>
 
                 </ul>
                 <p>
@@ -96,15 +96,15 @@
 
                     <tr>
                         <th class="dt-head-center">slug</th>
-                        <th class="">Designation (Ref fournisseur)</th>
-                        <th class="">Commentaire</th>
-                        <th class="">Quantité</th>
-                        <th class="">Unité</th>
-                        <th class="">Pu HT</th>
-                        <th class="">remise %</th>
-                        <th class="">Total  HT</th>
-                        <th class="">TVA /produit</th>
-                        <th class="">Action</th>
+                        <th class="dt-head-center">{{__('reception.article')}} ({{__('reception.reference_fournisseur')}})</th>
+                        <th class="dt-head-center">{{__('reception.commentaire')}}</th>
+                        <th class="dt-head-center">{{__('reception.quantite')}}</th>
+                        <th class="dt-head-center">{{__('gestion_stock.unite')}}</th>
+                        <th class="dt-head-center">{{__('neutrale.pu')}}</th>
+                        <th class="dt-head-center">{{__('neutrale.remise')}}</th>
+                        <th class="">{{__('neutrale.totlal_ht')}}</th>
+                        <th class="">{{__('neutrale.tva')}} /{{__('reception.article')}}</th>
+                        <th class="">{{__('gestion_stock.action')}}</th>
 
                     </tr>
                     </thead>
@@ -148,18 +148,18 @@
 
     <tr>
         <th class="dt-head-center">slug</th>
-        <th class="">Designation(Ref fournisseur)</th>
-        <th class="">Commentaire</th>
-        <th class="">Code gestion</th>
-        <th class="" >QTE</th>
-        <th class="">Unité</th>
-        <th class="">Pu HT</th>
-        <th class="">remise %</th>
-        <th class="">Total  HT</th>
-        <th class="">TVA /produit</th>
-        <th class="">TVA</th>
+        <th class="dt-head-center">{{__('reception.article')}} ({{__('reception.reference_fournisseur')}})</th>
+        <th class="dt-head-center">{{__('reception.commentaire')}}</th>
+        <th class="dt-head-center">{{__('neutrale.code_gestion')}}</th>
+        <th class="dt-head-center">{{__('reception.quantite')}}</th>
+        <th class="dt-head-center">{{__('gestion_stock.unite')}}</th>
+        <th class="dt-head-center">{{__('neutrale.pu')}}</th>
+        <th class="dt-head-center">{{__('neutrale.remise')}}</th>
+        <th class="">{{__('neutrale.totlal_ht')}}</th>
+        <th class="">{{__('neutrale.tva')}} /{{__('reception.article')}}</th>
+        <th class="">{{__('neutrale.tva')}}</th>
         <th class="">statit tva</th>
-        <th class="">Action</th>
+        <th class="">{{__('gestion_stock.action')}}</th>
     </tr>
     </thead>
     <tbody name ="contenu_tableau_entite" id="contenu_tableau_entite">
@@ -171,7 +171,7 @@
             <td>{{$devi->titre_ext}} {{isset($devi->referenceFournisseur)?"(".$devi->referenceFournisseur.")":""}}</td>
             <td>{{$devi->commentaire}}</td>
             <td><select class="form-control selectpicker" id="row_n_{{$devi->id}}_codeGestion" name="row_n_{{$devi->id}}_codeGestion" data-live-search="true" data-size="6" required>
-                    <option  value="">SELECTIONNER</option>
+                    <option  value="">{{__('neutrale.selectionner')}}</option>
                     @foreach($gestions as $gestion)
 
                         <option @if(isset($devi->codeGestion) && $gestion->codeGestion==$devi->codeGestion)
@@ -194,29 +194,29 @@
             @endif </td>
             <td><input type="checkbox" id="row_n_{{$devi->id}}_tva" name="row_n_{{$devi->id}}_tva" class="row_n__tva" {{1==$devi->hastva?"checked='checked'":""}}/>   </td>
         <td>{{$devi->hastva}}</td>
-            <td><div class="row"><div class="col-sm-6"><button type="button" class="btn_retirerbc">Retirer</button></div><div class="col-sm-6"><button type="button" class="btn_supp btn btn-danger"><i class="fa fa-trash"></i></button></div></div></td>
+            <td><div class="row"><div class="col-sm-6"><button type="button" class="btn_retirerbc">{{__('neutrale.retirer')}}</button></div><div class="col-sm-6"><button type="button" class="btn_supp btn btn-danger"><i class="fa fa-trash"></i></button></div></div></td>
         </tr>
     @endforeach
         @endif
     </tbody>
     <tfooter>
-        <tr> <th colspan="7" style="text-align:right" >REMISE EXCEP -:</th> <th  style="text-align: right"><input type="number" id="remise_exc" name="remise_exc" style="width: 100px" value="{{isset($bc->remise_excep)?$bc->remise_excep:0}}" min="0"/> </th> </tr>
-        <tr> <th colspan="7" style="text-align:right" >TOTAL HORS TAXES :</th> <th id="tot" style="text-align: right"></th> </tr>
-        <tr> <th colspan="7" style="text-align:right" >TVA :</th> <th id="tva" style="text-align: right"></th> </tr>
-      <tr> <th colspan="7" style="text-align:right" >TOTAL TTC :</th> <th id="ttc" style="text-align: right"></th> </tr>
+        <tr> <th colspan="7" style="text-align:right" >{{__('neutrale.remse_excep')}} -:</th> <th  style="text-align: right"><input type="number" id="remise_exc" name="remise_exc" style="width: 100px" value="{{isset($bc->remise_excep)?$bc->remise_excep:0}}" min="0"/> </th> </tr>
+        <tr> <th colspan="7" style="text-align:right" >{{__('neutrale.total_hors_taxes')}} :</th> <th id="tot" style="text-align: right"></th> </tr>
+        <tr> <th colspan="7" style="text-align:right" >{{__('neutrale.tva')}} :</th> <th id="tva" style="text-align: right"></th> </tr>
+      <tr> <th colspan="7" style="text-align:right" >{{__('neutrale.total_ttc')}} :</th> <th id="ttc" style="text-align: right"></th> </tr>
     </tfooter>
 </table>
 
 <div class="row"  style="width: 90%">
     <div class="col-sm-1 pull-right">
-        <a href="{{route('valider_commande',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" class="btn btn-info" {{$bc->etat!=1?'disabled':''}} onclick="">VALIDER LE BON</a>
+        <a href="{{route('valider_commande',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" class="btn btn-info" {{$bc->etat!=1?'disabled':''}} onclick="">{{strtoupper(__('neutrale.valider_bon'))}}</a>
 
     </div>
     <div class="col-sm-1 pull-right">
 
     </div>
     <div class="col-sm-1 pull-right">
-        <button type="submit" onclick="" class="btn btn-success" {{$bc->etat!=1?'disabled':''}} >METTRE EN MEMOIRE</button>
+        <button type="submit" onclick="" class="btn btn-success" {{$bc->etat!=1?'disabled':''}} >{{__('neutrale.mettre_memoire')}}</button>
 
     </div>
 
@@ -307,7 +307,11 @@ var id_bc= $("#id_bc").val();
         }
         var table1= $('#ligneCommandes_a_ajouter').DataTable({
             language: {
-                url: '../js/French.json'
+                @if(App()->getLocale()=='fr')
+                url: "../../public/js/French.json"
+                @elseif(App()->getLocale()=='en')
+                url: "../../public/js/English.json"
+                @endif
             },
             "ordering":true,
             "createdRow": function( row, data, dataIndex){
@@ -323,7 +327,11 @@ var id_bc= $("#id_bc").val();
 
         var table= $('#ligneCommandes').DataTable({
             language: {
-                url: '../js/French.json'
+                @if(App()->getLocale()=='fr')
+                url: "../../public/js/French.json"
+                @elseif(App()->getLocale()=='en')
+                url: "../../public/js/English.json"
+                @endif
             },
             "ordering":true,
             "paging": false,

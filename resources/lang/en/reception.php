@@ -18,5 +18,6 @@ return array (
     'livraison' => 'Delivery',
     'quantite_livre' => 'Quantity delivered',
     'Livre_le' => 'Delivered on',
-    'quantite_recu'=>'Received quantity'
+    'quantite_recu'=>'Received quantity',
+    'commentaire'=>'Note',
 );

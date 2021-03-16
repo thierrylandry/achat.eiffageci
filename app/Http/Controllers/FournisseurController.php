@@ -59,7 +59,7 @@ class FournisseurController extends Controller
     {
         $fournisseur = Fournisseur::where('slug', '=', $slug)->first();
         $fournisseur->delete();
-        return redirect()->route('lister_fournisseurs',app()->getLocale())->with('success', "Le fournisseur a été supprimé");
+        return redirect()->route('lister_fournisseurs',app()->getLocale())->with('success', "success");
     }
     public function update_fournisseur( Request $request)
     {
@@ -108,7 +108,7 @@ class FournisseurController extends Controller
 
         $contacts= json_decode($fournisseur->contact);
 
-        return redirect()->back()->with('success',"Le fournisseur a été mis à jour");
+        return redirect()->back()->with('success',"success");
     }
     public function Validfournisseur( Request $request)
     {
@@ -155,7 +155,7 @@ class FournisseurController extends Controller
         $fournisseur->save();
 
 
-        return redirect()->route('ajouter_fournisseur')->with('success',"Le fournisseur a été ajouté");
+        return redirect()->route('ajouter_fournisseur')->with('success',"success");
     }
     public function alljson(){
         $collections = [];

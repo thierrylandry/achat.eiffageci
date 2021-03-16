@@ -55,9 +55,9 @@ class EnvoiMailFournisseur implements ShouldQueue
         Mail::send('mail.mail',compact('corps','precisions','images'),function($message)use ($email,$images,$domaine,$date )
         {
             $message->from(Auth::user()->email ,Auth::user()->nom." ".Auth::user()->prenoms )
-               ->to("claudiane.costecalde@eiffage.com")
-                ->to("marina.oulai@eiffage.com")
-                ->subject('EGCCI-PHB/Demande de devis - '.$domaine.' - '.$date);
+              // ->to("claudiane.costecalde@eiffage.com")
+               // ->to("marina.oulai@eiffage.com")
+                ->subject('EGCCI-PHB/'.__('neutrale.demande_devis').' - '.$domaine.' - '.$date);
             foreach($email as $em):
                 $message ->bcc($em);
                 endforeach;

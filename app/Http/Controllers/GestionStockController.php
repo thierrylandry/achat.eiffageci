@@ -246,7 +246,7 @@ class GestionStockController extends Controller
             $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         }
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; sorite du materiel '.$mouvement->libelle, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
-        return redirect()->back()->with('success',"La sorite  a été prise en compte avec succes");
+        return redirect()->back()->with('success',"success");
     }
     public function modifier_mouvement(Request $request){
         $parameters=$request->except(['_token']);
@@ -281,13 +281,13 @@ class GestionStockController extends Controller
             $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         }
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; sorite du materiel '.$mouvement->libelle, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
-        return redirect()->back()->with('success',"La sorite  a été modifiée  avec succes");
+        return redirect()->back()->with('success',"success");
     }
     public function delete_mouvement($locale,$id){
         $mouvement = Mouvement::find($id);
         $mouvement->delete();
 
-        return redirect()->back()->with('success',"La sorite  a été supprimée  avec succes");
+        return redirect()->back()->with('success',"success");
 
     }
     public function stock(){

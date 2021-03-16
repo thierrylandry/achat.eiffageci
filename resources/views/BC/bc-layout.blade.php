@@ -103,7 +103,7 @@
             <td width="50%">
                 <table class="numero lignesEspacees">
                     <tr >
-                        <td  width="50%" valign="center" align="right">Bon de commande N°</td>
+                        <td  width="50%" valign="center" align="right">{{__('neutrale.numero_bc_sans_abreviation')}} </td>
                         <td style="border: 0.3pt solid #000000;" width="50%" valign="center" align="center"> {{$bc->numBonCommande}} </td>
                     </tr>
                     <tr>
@@ -119,27 +119,27 @@
             <td width="50%">
                 <table class="preambule">
                     <tr>
-                        <td width="30%"><b>Merci de libeller votre facture</b></td>
+                        <td width="30%"><b>Please write your invoice</b></td>
                         <td width="70%"><b>EIFFAGE GENIE CIVIL COTE D'IVOIRE</b>
                             </br>Tour Biao 8ème étage – Le plateau  Avenue Lamblin
                             01 ABIDJAN - BP 5552 ABIDJAN</td>
                     </tr>
                     <tr>
-                        <td width="30%"><b>Merci d'envoyer votre facture à</b></td>
+                        <td width="30%"><b>Please send your invoice to</b></td>
                         <td width="70%"><b>EIFFAGE GENIE CIVIL COTE D'IVOIRE</b>
                             <br/>Chantier du PONT FELIX HOUPHOUET BOIGNY - NON LOIN DU SIEGE DE BOLLORE - A TREICHVILLE AVENUE CHRISTIANI
                         </td>
                     </tr>
                     <tr>
-                        <td width="30%"><b>Chantier ou projet :</b></td>
+                        <td width="30%"><b>Site or project:</b></td>
                         <td  width="70%">Réhabilitation du Pont Houphouet Boigny</td>
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <p>Toute facture doit mentionner impérativement le numéro du Bon de Commande
-                            et les numéros IBAN et BIC du compte bancaire du Fournisseur. Toute facture doit être accompagnée des documents suivants :</p>
-                            <p>- copie du Bon de Commande dûment signé,</p>
-                            <p>- tout document justificatif pour le paiement conformément à la commande</p>
+                            <p>All invoices must mention the Purchase Order number.
+                                and the IBAN and BIC numbers of the Supplier's bank account. All invoices must be accompanied by the following documents :</p>
+                            <p>- Copy of the duly signed Purchase Order,</p>
+                            <p>- Any supporting documents for payment in accordance with the order</p>
                         </td>
                     </tr>
                 </table>
@@ -151,7 +151,7 @@
     </table>
     <table style="border: 0.3pt solid #000000;">
         <tr style="padding: 0; margin: 0;">
-            <td style="font-size: 7pt; text-align: center; padding: 2px; margin: 0;">Toute facture Fournisseurs / Sous-Traitants doit être avec la dénomination : <b style="color: #761c19;">Eiffage Génie Civil - Côte d'Ivoire</b>. <br/>Toute facture ne suivant pas ce principe sera refusée par le service comptable</td>
+            <td style="font-size: 7pt; text-align: center; padding: 2px; margin: 0;">All Suppliers / Subcontractors invoice must be with the name : <b style="color: #761c19;">Eiffage Génie Civil - Côte d'Ivoire</b>. <br/>Any invoice not following this principle will be refused by the accounting department.</td>
         </tr>
     </table>
 </div>

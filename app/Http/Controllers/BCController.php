@@ -238,9 +238,9 @@ return $view;
 
         $text="";
       //  $contact,$pdf,$bc,$images,$msg_contenu
-        $pdf->save(storage_path('bon_commande').'\bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
+        $pdf->save(storage_path('bon_commande').'\ '.__('neutrale.numero_bc_sans_abreviation').$bc->numBonCommande.'.pdf');
        // $pdf=$pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
-        $this->dispatch(new EnvoiBcFournisseurPersonnalise($contact,storage_path('bon_commande').'\bon_de_commande_n°'.$bc->numBonCommande.'.pdf',$bc,$images,$msg_contenu,$objet,$pj,$copi) );
+        $this->dispatch(new EnvoiBcFournisseurPersonnalise($contact,storage_path('bon_commande').'\ '.__('neutrale.numero_bc_sans_abreviation').$bc->numBonCommande.'.pdf',$bc,$images,$msg_contenu,$objet,$pj,$copi) );
         //  return redirect()->route('gestion_bc')->with('success', "Envoie d'email reussi");
 
         $boncom=Boncommande::where('id','=',$bc->id)->first();
@@ -252,7 +252,7 @@ return $view;
         // Finally, you can download the file using download function
         //$pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
         $tothtax = 0;
-        return redirect()->route('gestion_bc')->with('success', "Envoie d'email reussi");
+        return redirect()->route('gestion_bc')->with('success', "success");
 
     }
     public function send_it(Request $request){
@@ -341,8 +341,8 @@ return $view;
             $i++;
 
         endforeach;
-        $pdf->save(storage_path('bon_commande').'\bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
-        $this->dispatch(new EnvoiBcFournisseur($contact,storage_path('bon_commande').'\bon_de_commande_n°'.$bc->numBonCommande.'.pdf',$tab,$corps,$contactDemandeur,$bc,$precisions,$images) );
+        $pdf->save(storage_path('bon_commande').'\ '.__('neutrale.numero_bc_sans_abreviation').$bc->numBonCommande.'.pdf');
+        $this->dispatch(new EnvoiBcFournisseur($contact,storage_path('bon_commande').'\ '.__('neutrale.numero_bc_sans_abreviation').$bc->numBonCommande.'.pdf',$tab,$corps,$contactDemandeur,$bc,$precisions,$images) );
       //  return redirect()->route('gestion_bc')->with('success', "Envoie d'email reussi");
 
         $boncom=Boncommande::where('id','=',$bc->id)->first();
@@ -355,7 +355,7 @@ return $view;
           $pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
 
 
-        return redirect()->route('gestion_bc')->with('success', "Envoie d'email reussi");
+        return redirect()->route('gestion_bc')->with('success', "success");
     }
     public function bon_commande_file1($slug){
         // $bc=  Boncommande::where('slug','=',$slug)->first();
@@ -584,8 +584,8 @@ return $view;
                 $i++;
 
             endforeach;
-            $pdf->save(storage_path('bon_commande').'\bon_de_commande_n°'.$Boncommande->numBonCommande.'.pdf');
-            $this->dispatch(new EnvoiBcFournisseur($contact,storage_path('bon_commande').'\bon_de_commande_n°'.$Boncommande->numBonCommande.'.pdf',$tab,$corps,$contactDemandeur,$Boncommande,$precisions,$images) );
+            $pdf->save(storage_path('bon_commande').'\ '.__('neutrale.numero_bc_sans_abreviation').$Boncommande->numBonCommande.'.pdf');
+            $this->dispatch(new EnvoiBcFournisseur($contact,storage_path('bon_commande').'\ '.__('neutrale.numero_bc_sans_abreviation').$Boncommande->numBonCommande.'.pdf',$tab,$corps,$contactDemandeur,$Boncommande,$precisions,$images) );
             //  return redirect()->route('gestion_bc')->with('success', "Envoie d'email reussi");
 
             $Boncommande->etat=3;
@@ -705,7 +705,7 @@ return $view;
             $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         }
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; Création du bon de commande Numero '.$boncommande->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
-        return redirect()->route('gestion_bc',app()->getLocale())->with('success',"La commande a été ajoutée avec success");
+        return redirect()->route('gestion_bc',app()->getLocale())->with('success',"success");
     }
     public function update_ligne_bc(Request $request)
     {
@@ -741,9 +741,9 @@ return $view;
         }
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; Modification du bon de commande Numero '.$boncommande->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
 
-        return redirect()->route('gestion_bc')->with('success',"La ligne  a été mise à jour avec succes");
+        return redirect()->route('gestion_bc')->with('success',"success");
     }
-    public function valider_commande($slug)
+    public function valider_commande($locale,$slug)
     {
         $date= new \DateTime(null);
         $Boncommande= Boncommande::where('slug', '=', $slug)->first();
@@ -841,9 +841,9 @@ return $view;
                     $i++;
 
                 endforeach;
-                $pdf->save(storage_path('bon_commande').'\bon_de_commande_n°'.$Boncommande->numBonCommande.'.pdf');
+                $pdf->save(storage_path('bon_commande').'\ '.__('neutrale.numero_bc_sans_abreviation').$Boncommande->numBonCommande.'.pdf');
           //  dd($contactDemandeur);
-                $this->dispatch(new EnvoiBcFournisseur($contact,storage_path('bon_commande').'\bon_de_commande_n°'.$Boncommande->numBonCommande.'.pdf',$tab,$corps,$contactDemandeur,$Boncommande,$precisions,$images) );
+                $this->dispatch(new EnvoiBcFournisseur($contact,storage_path('bon_commande').'\ '.__('neutrale.numero_bc_sans_abreviation').$Boncommande->numBonCommande.'.pdf',$tab,$corps,$contactDemandeur,$Boncommande,$precisions,$images) );
                 //  return redirect()->route('gestion_bc')->with('success', "Envoie d'email reussi");
 
                 $Boncommande->etat=3;
@@ -869,7 +869,7 @@ return $view;
             Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; Bon de commande validé et transmit N° '.$Boncommande->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
                 //fin de l'utilisation de la fonction send_it
         }
-        return redirect()->route('validation_bc')->with('success',"Bon de commande validé et transmit");
+        return redirect()->back()->with('success',"success");
     }
     public function add_new_da_to_bc($locale,$id,$id_bc)
     {
@@ -947,7 +947,7 @@ return $view;
                 $bondecommande->save();
             }
         }
-        return redirect()->route('gestion_bc')->with('success',"a date de livraison a été précisé");
+        return redirect()->route('gestion_bc')->with('success',"success");
 
     }
 
@@ -1029,7 +1029,7 @@ return $view;
             $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         }
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Bon de commande traité et finalisé N° '.$Boncommande->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
-        return redirect()->route('gestion_bc')->with('success',"le bon de commande à été traité et finalisé");
+        return redirect()->route('gestion_bc')->with('success',"success");
     }
     public function traite_retourne($locale,$slug)
     {
@@ -1051,7 +1051,7 @@ return $view;
             $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         }
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Bon de commande traité et retourné N° '.$Boncommande->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
-        return redirect()->route('gestion_bc')->with('success',"le bon de commande à été traité et finalisé");
+        return redirect()->route('gestion_bc')->with('success',"success");
     }
     public function refuser_commande($locale,$slug)
     {
@@ -1067,7 +1067,7 @@ return $view;
             $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         }
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Bon de commande tréfusé N° '.$Boncommande->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
-        return redirect(url()->previous())->with('success',"Le bon de commande à été validé avec succès");
+        return redirect(url()->previous())->with('success',"success");
     }
 
     public function annuler_commande($locale,$slug)
@@ -1085,7 +1085,7 @@ return $view;
             $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         }
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Annulation du Bon de commande N° '.$Boncommande->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
-        return redirect(url()->previous())->with('success',"le bon de commande à été annuler avec succès");
+        return redirect(url()->previous())->with('success',"success");
     }
     public function lister_commande($locale,$id)
     {
@@ -1238,7 +1238,7 @@ if(isset($devis->first()->devise)){
             $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         }
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Création du Bon de commande N° '.$Boncommande->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
-        return redirect()->back()->with('success',"Le bon de commande a été ajouté, Veuillez ajouter la listes des produits ou des services");
+        return redirect()->back()->with('success',"success");
     }
     public function modifier_bc( Request $request)
     {
@@ -1258,7 +1258,7 @@ if(isset($devis->first()->devise)){
             $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         }
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Modification du Bon de commande N° '.$Boncommande->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
-        return redirect()->route('gestion_bc')->with('success',"Le bon de commande a été Modifié");
+        return redirect()->route('gestion_bc')->with('success',"success");
     }
 
     public function supprimer_bc($locale,$slug)
@@ -1304,7 +1304,7 @@ if(isset($devis->first()->devise)){
             $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         }
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Suppression de la ligne du bon de commande  du Bon de commande N° '.$boncommande->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
-        return redirect()->route('gestion_bc')->with('success', "La ligne du bon de commande a été supprimée avec succes ");
+        return redirect()->route('gestion_bc')->with('success', "success");
     }
 
     public function list_contact($locale,$id)
@@ -1338,7 +1338,7 @@ public function gestion_offre(){
             $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         }
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Date de livraison effective affecté sur le Bon de commande N° '.$boncommande->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
-        return redirect()->route('gestion_bc')->with('success', "Date de livraison ajoutée avec succès ");
+        return redirect()->route('gestion_bc')->with('success', "success");
 
     }
     public function list_materiel_produit(){

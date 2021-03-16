@@ -675,7 +675,7 @@ class DAController
         }
 
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; création  de la  D.A slug:'.$da->slug.' .', ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
-        return redirect()->route('creer_da')->with('success', "La demande d'approvisionnement a été ajoutée");
+        return redirect()->route('creer_da')->with('success', "success");
 
 
 
@@ -743,7 +743,7 @@ class DAController
         }
 
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; création  de la  D.A multiple: .', ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
-        return redirect()->back()->with('success', "vos demandes d'approvisionnement ont été ajoutées");
+        return redirect()->back()->with('success', "success");
 
 
     }
@@ -867,7 +867,7 @@ class DAController
         }
 
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; suppression de la D.A '.$idda, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
-        return redirect()->route('gestion_da')->with('success', "La demande d'approvisionnement a bien été supprimée");
+        return redirect()->route('gestion_da')->with('success', "success");
     }
 
     /**
@@ -912,7 +912,7 @@ class DAController
             $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         }
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; confirmaion de la D.A '.$da->id, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
-        return redirect()->route('encours_validation')->with('success', "La demande d'approvisionnement a bien été confirmée");
+        return redirect()->route('encours_validation')->with('success', "success");
 
     }
 
@@ -954,7 +954,7 @@ class DAController
             $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         }
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; confirmaion de la D.A '.$da->id, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
-        return redirect()->route('creer_da')->with('success', "La demande d'approvisionnement a bien été confirmée");
+        return redirect()->route('creer_da')->with('success', "success");
 
     }
 
@@ -1027,7 +1027,7 @@ class DAController
             $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         }
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; suspension de la D.A '.$da->id, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
-        return redirect()->route('gestion_da')->with('success', "la demande d'approvisionnement a bien été suspendue");
+        return redirect()->route('gestion_da')->with('success', "success");
 
     }
     public function modifier_da( Request $request)
@@ -1064,7 +1064,7 @@ class DAController
             $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         }
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; Modification  de la D.A '.$da->id, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
-        return redirect()->route('creer_da')->with('success',"La demande d'approvisionnement a été mise à jour");
+        return redirect()->route('creer_da')->with('success',"success");
     }
     public function alljson(){
         $collections = [];

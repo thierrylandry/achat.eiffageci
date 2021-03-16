@@ -49,7 +49,7 @@ class UtilisateurController
             endforeach;
 
 
-        return redirect()->back()->with('success', "L'utilisateur a été ajouté");
+        return redirect()->back()->with('success', "success");
     }
     public function voir_utilisateur($locale,$slug)
     {
@@ -72,7 +72,7 @@ class UtilisateurController
         $utilisateur = User::where('slug', '=', $slug)->first();
         $utilisateur->roles()->detach();
         $utilisateur->delete();
-        return redirect()->route('gestion_utilisateur')->with('success', "L'utilisateur a été supprimé");
+        return redirect()->route('gestion_utilisateur')->with('success', "success");
     }
     public function modifier_utilisateur( Request $request)
     {
@@ -113,7 +113,7 @@ class UtilisateurController
             $utilisateur->roles()->attach(Role::where('name',$role)->first());
         endforeach;
 
-        return redirect()->back()->with('success',"L'utilisateur a été mis à jour");
+        return redirect()->back()->with('success',"success");
     }
     public function modifier_profile( Request $request)
     {
@@ -146,7 +146,7 @@ class UtilisateurController
         $utilisateur->save();
 
 
-        return redirect()->route('home',app()->getLocale())->with('success',"L'utilisateur a été mis à jour");
+        return redirect()->route('home',app()->getLocale())->with('success',"success");
     }
     public function alljson(){
         $collections = [];

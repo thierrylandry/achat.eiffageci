@@ -49,7 +49,7 @@ class ProduitController
         $domaine =Domaines::find($id);
 
         $domaine->delete();
-        return redirect()->back()->with('success', "Le domaine a été supprimé avec succès");
+        return redirect()->back()->with('success', "success");
     }
     public function familles(){
         $domaines =Domaines::orderBy('libelleDomainne','ASC')->get();
@@ -77,7 +77,7 @@ class ProduitController
         $famille =Famille::find($id);
 
         $famille->delete();
-        return redirect()->back()->with('success', "La famille a été supprimé avec succès");
+        return redirect()->back()->with('success', "success");
     }
     public function modifier_designation($locale,$id){
 
@@ -93,7 +93,7 @@ class ProduitController
         $desingation =Designation::find($id);
 
         $desingation->delete();
-        return redirect()->back()->with('success', "La designation a été supprimé avec succès");
+        return redirect()->back()->with('success', "success");
     }
     public function menu_produit(){
 
@@ -132,7 +132,7 @@ if(isset($_FILES['image']['name']) && $_FILES['image']['name']!="" ){
             $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         }
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Ajout du produit '.$produit->libelleMateriel , ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
-        return redirect()->route('gestion_produit')->with('success', "Le produit a été ajouté");
+        return redirect()->route('gestion_produit')->with('success', "success");
     }
     public function update_domaine( Request $request)
     {
@@ -144,7 +144,7 @@ if(isset($_FILES['image']['name']) && $_FILES['image']['name']!="" ){
         $domaine->libelleDomainne=$libelle;
         $domaine->save();
         // Fournisseur::create($parameters);
-        return redirect()->back()->with('success', "Le domaine a été modifié avec succès");
+        return redirect()->back()->with('success', "success");
     }
     public function enregistrer_domaine( Request $request)
     {
@@ -154,7 +154,7 @@ if(isset($_FILES['image']['name']) && $_FILES['image']['name']!="" ){
         $domaine->libelleDomainne=$libelle;
         $domaine->save();
         // Fournisseur::create($parameters);
-        return redirect()->back()->with('success', "Le domaine a été ajouté");
+        return redirect()->back()->with('success', "success");
     }
     public function update_famille( Request $request)
     {
@@ -168,7 +168,7 @@ if(isset($_FILES['image']['name']) && $_FILES['image']['name']!="" ){
         $famille->id_domaine=$id_domaine;
         $famille->save();
         // Fournisseur::create($parameters);
-        return redirect()->back()->with('success', "La famille a été ajouté avec succès");
+        return redirect()->back()->with('success', "success");
     }
     public function enregistrer_famille( Request $request)
     {
@@ -180,7 +180,7 @@ if(isset($_FILES['image']['name']) && $_FILES['image']['name']!="" ){
         $famille->id_domaine=$id_domaine;
         $famille->save();
         // Fournisseur::create($parameters);
-        return redirect()->back()->with('success', "Le famille a été ajoutée avec succès");
+        return redirect()->back()->with('success', "success");
     }
     public function update_designation( Request $request)
     {
@@ -200,7 +200,7 @@ if(isset($_FILES['image']['name']) && $_FILES['image']['name']!="" ){
         $designation->code_analytique=$code_analytique;
         $designation->save();
         // Fournisseur::create($parameters);
-        return redirect()->back()->with('success', "La designation a été ajouté avec succès");
+        return redirect()->back()->with('success', "success");
     }
     public function enregistrer_designation( Request $request)
     {
@@ -221,7 +221,7 @@ if(isset($_FILES['image']['name']) && $_FILES['image']['name']!="" ){
         $designation->save();
         // Fournisseur::create($parameters);
         // Fournisseur::create($parameters);
-        return redirect()->back()->with('success', "Le famille a été ajoutée avec succès");
+        return redirect()->back()->with('success', "success");
     }
     public function voir_produit($slug)
     {
@@ -252,7 +252,7 @@ if(isset($_FILES['image']['name']) && $_FILES['image']['name']!="" ){
         }
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Le  produit '.$produit->libelleMateriel , ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
 
-        return redirect()->route('gestion_produit')->with('success', "Le produit a été supprimé");
+        return redirect()->route('gestion_produit')->with('success', "success");
     }
     public function modifier_produit( Request $request)
     {
@@ -302,7 +302,7 @@ if(isset($_FILES['image']['name']) && $_FILES['image']['name']!="" ){
             $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         }
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.';le  produit a été modifié  id_produit:'.$produit->id.' '.$produit->libelleMateriel , ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
-        return redirect()->route('gestion_produit')->with('success',"Le produit a été mis à jour");
+        return redirect()->route('gestion_produit')->with('success',"success");
     }
     public function alljson(){
         $collections = [];

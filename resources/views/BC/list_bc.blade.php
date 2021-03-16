@@ -123,7 +123,7 @@
                                         <div class="dropdown-menu" role="menu">
 
                                             <a href="{{route('valider_commande',['locale'=>app()->getLocale(),'id'=>$bc->slug])}}" data-toggle="modal" class="validercom">
-                                                <i class=" fa fa-check-square-o"></i> Valider le bon
+                                                <i class=" fa fa-check-square-o"></i> {{__('neutrale.valider_bon')}}
                                             </a>
                                             <div class="dropdown-divider"></div>
                                             <a href="{{route('supprimer_bc',['locale'=>app()->getLocale(),'slug'=>$bc->slug])}}" data-toggle="modal" class="sup">

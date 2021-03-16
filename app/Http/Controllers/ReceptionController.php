@@ -126,7 +126,7 @@ class ReceptionController extends Controller
         $ligne_bonlivraison->delete();
         $mouvement = Mouvement::where('id_ligne_bonlivraison','=',$ligne_bonlivraison->id)->first();
         $mouvement->delete();
-        return redirect()->route('reception_commande_numero',['locale'=>app()->getLocale(),'id_bc'=>$id_bc,'_token'=>csrf_token()])->with('success',"La ligne  a été supprimée avec succes");
+        return redirect()->route('reception_commande_numero',['locale'=>app()->getLocale(),'id_bc'=>$id_bc,'_token'=>csrf_token()])->with('success',"success");
     }
     public function supprimer_livraison_sans_bc($id){
 
@@ -135,7 +135,7 @@ class ReceptionController extends Controller
 
           $mouvement = Mouvement::where('id_ligne_bonlivraison','=',$ligne_bonlivraison->id)->first();
                 $mouvement->delete();
-        return redirect()->back()->with('success',"La ligne  a été supprimée avec succes");
+        return redirect()->back()->with('success',"success");
     }
     public function reception_commande_numero(Request $request){
         $parameters=$request->except(['_token']);
@@ -187,7 +187,7 @@ class ReceptionController extends Controller
             $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         }
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; Reception de commande sans bon de commande', ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
-        return redirect()->back()->with('success',"La commande  a été receptionnée avec succes");
+        return redirect()->back()->with('success',"success");
     }
     public function receptionner_commande_sans_bc_update(Request $request){
         $parameters=$request->except(['_token']);
@@ -225,7 +225,7 @@ class ReceptionController extends Controller
             $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         }
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; Modification de la réception de commande sans bon de commande', ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
-        return redirect()->back()->with('success',"La réception  a été modifiée avec succes");
+        return redirect()->back()->with('success',"success");
     }
     public function receptionner_commande(Request $request){
         $parameters=$request->except(['_token']);
@@ -266,7 +266,7 @@ class ReceptionController extends Controller
             $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         }
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; Reception de commande pour le  du bon de commande Numero '.$bc_chosisi->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
-        return redirect()->route('reception_commande_numero',['locale'=>app()->getLocale(),'id_bc'=>$id_bc,'_token'=>csrf_token()])->with('success',"La commande  a été receptionnée avec success");
+        return redirect()->route('reception_commande_numero',['locale'=>app()->getLocale(),'id_bc'=>$id_bc,'_token'=>csrf_token()])->with('success',"success");
     }
     public function faire_un_mouvement_stock($id_materiel,$quantite,$unite,$id_ligne_bonlivraison,$type_mouvement){
 

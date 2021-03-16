@@ -34,7 +34,7 @@ class ProfilController
         $profil->save();
 
 
-        return redirect()->route('gestion_profil')->with('success', "Le profil a été ajouté");
+        return redirect()->route('gestion_profil')->with('success', "success");
     }
     public function voir_profil($slug)
     {
@@ -46,7 +46,7 @@ class ProfilController
     {
         $profil = Profil::where('slug', '=', $slug)->first();
         $profil->delete();
-        return redirect()->route('gestion_profil')->with('success', "Le profil a été supprimé");
+        return redirect()->route('gestion_profil')->with('success', "success");
     }
     public function modifier_profil( Request $request)
     {
@@ -65,7 +65,7 @@ class ProfilController
         $profil->slug = Str::slug($parameters['libelleProfil'] . $date->format('dmYhis'));
         $profil->save();
 
-        return redirect()->route('gestion_profil')->with('success',"Le profil a été mis à jour");
+        return redirect()->route('gestion_profil')->with('success',"success");
     }
     public function alljson(){
         $collections = [];

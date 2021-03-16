@@ -85,7 +85,7 @@
         <br>
                 <div class="col-sm-4">
 
-                                    <form role="form" id="FormRegister" class="bucket-form" method="post" action="{{route('envoies')}}" onsubmit="return confirm('Voulez vous envoyer le(s) email(s)?');">
+                                    <form role="form" id="FormRegister" class="bucket-form" method="post" action="{{route('envoies')}}" onsubmit="return confirm('{{__('neutrale.question_envoie_mail')}}');">
                         @csrf
 
                                         <div class="form-group">
@@ -454,16 +454,18 @@
             });
             //$("#compose-textarea").val(mail);
             var date =new Date();
-            $("#objet").val("EGCCI-PHB/Demande de devis -"+domaine+"- "+date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear());
+            $("#objet").val("EGCCI-PHB/{{__('neutrale.demande_devis')}} -"+domaine+"- "+date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear());
             var corps= "";
 $('#daas').val(mavariable);
             $.get("recup_infos_pour_envois_mail_perso/"+mavariable,
                     function (data) {
 
-
+                            console.log(data);
                         $.each(data['corps'],function (index, value) {
                             corps=corps +value+"\r\n";
                         });
+                        @if(app()->getLocale()=='fr')
+
                         var debumail="\r\nBonjour,\r\nVeuillez svp nous adresser votre meilleure offre pour :\r\n";
 
                         var precision="";
@@ -474,14 +476,27 @@ $('#daas').val(mavariable);
                             }
 
                         });
+                        @elseif(app()->getLocale()=='en')
+                        var debumail="\r\nHello,\r\n Please send us your best offer for :\r\n";
 
-                        var finmail="Dans l’attente, et en vous remerciant par avance. \r\n";
+                        var precision="";
+
+                        $.each(data['precision'],function (index, value) {
+                            if(value!=""){
+                                precision=+"\r\n"+precision +value;
+                            }
+
+                        });
+                        @endif
+
+                                alert(debumail);
+                        var finmail="Looking forward, and thanking you in advance. \r\n";
                         $('#compose-textarea').val(debumail+corps+precision+finmail);
                     });
 
 
         }else{
-            alert("Veuillez selectionner les D.A et les fournisseurs");
+            alert("{{__('neutrale.demande_devis')}}");
 
             $('#compose-textarea').val("");
             $('#personnaliser_mail').modal(false);

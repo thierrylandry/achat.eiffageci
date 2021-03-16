@@ -107,10 +107,10 @@ class FactureController extends Controller
         }
         if(is_null($id_facture)) {
             Log::info('ip :' . $ip . '; Machine: ' . $nommachine . '; ajout dune facture: n°fac' . $fac->id . ' .', ['nom et prenom' => Auth::user()->nom . ' ' . Auth::user()->prenom]);
-            return redirect()->back()->with('success', "La facture a été ajoutée");
+            return redirect()->back()->with('success', "success");
         }else{
             Log::info('ip :' . $ip . '; Machine: ' . $nommachine . '; modifier dune facture: n°fac' . $fac->id . ' .', ['nom et prenom' => Auth::user()->nom . ' ' . Auth::user()->prenom]);
-            return redirect()->back()->with('success', "La facture a été modifié");
+            return redirect()->back()->with('success', "success");
         }
 
 
@@ -161,7 +161,7 @@ class FactureController extends Controller
         }
 
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; Suppression de la facture n°:'.$id.' par user.', ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
-        return redirect()->back()->with('success', "La facture a été Supprimé");
+        return redirect()->back()->with('success', "success");
 
     }
 }
