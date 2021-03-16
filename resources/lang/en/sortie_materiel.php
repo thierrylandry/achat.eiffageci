@@ -11,7 +11,7 @@ return array (
     'demandeur' => 'Applicant',
     'unite' => 'Unit',
 
-    'selectionner_code_analytique' => 'SELECT A ANALYTIC CODE',
+    'selectionner_code_analytique' => 'SELECT AN ANALYTIC CODE',
 
 
 );
