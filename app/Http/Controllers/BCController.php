@@ -382,7 +382,7 @@ return $view;
         $fournisseurs= DB::table('fournisseur')
             ->join('devis', 'fournisseur.id', '=', 'devis.id_fournisseur')
             ->where('devis.etat', '=', 1)
-            ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
+            ->select('fournisseur.libelle','fournisseur.id')->get();
         $fournisseurss= DB::table('fournisseur')
 
             ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();

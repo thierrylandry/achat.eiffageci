@@ -92,11 +92,11 @@ class GestionStockController extends Controller
 
         return view('gestion_stock/sortie_stock',compact('domaines','familles','mouvement_materiels','tab_unite','codetaches','demandeurs','mouvements'));
     }
-    public function donne_moi_les_famille_disponible($domaine){
+    public function donne_moi_les_famille_disponible($locale,$domaine){
 
 
 
-        $res="<option value=''>SELECTIONNER UNE FAMILLE</option>";
+        $res="<option value=''>".__('sortie_materiel.selectionner_famille')."</option>";
         if($domaine!='tout'){
 
             $familles =Stock_user::orderby('libelle','asc')->where('id_domaine','=',$domaine)->get();
@@ -130,11 +130,11 @@ class GestionStockController extends Controller
             endforeach;
     }
 
-    public function donne_moi_les_designation_disponible($famille){
+    public function donne_moi_les_designation_disponible($locale,$famille){
 
 
 
-        $res="<option value=''>SELECTIONNER UN PRODUIT </option>";
+        $res="<option value=''>".__('sortie_materiel.selectionner_article')." </option>";
         if($famille!='tout'){
 
             $produits =Stock_user::orderby('libelle','asc')->where('id_famille','=',$famille)->get();
@@ -208,7 +208,7 @@ class GestionStockController extends Controller
 
         return view('gestion_stock/sortie_stock',compact('mouvement_materiels','tab_unite','codetaches','demandeurs','mouvements','mouvement','domaines','familles'));
     }
-    public function reste_en_stock($valeur){
+    public function reste_en_stock($locale,$valeur){
 
         $stock=Stock_user::find($valeur);
 

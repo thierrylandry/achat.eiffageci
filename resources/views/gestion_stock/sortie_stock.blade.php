@@ -209,34 +209,109 @@
     </div>
     <script src="{{URL::asset('js/scriptperso.js')}}"> </script>
     <script>
-        $('#id_materiel').change(function (e) {
-            if(this.value==""){
-                $('#image').attr('src',"images/background2.jpg");
-            }
-            var route ="{{asset('')}}";
-            $.get(route+"/afficher_image/" + this.value,
-                    function (data) {
-                        if(data!=""){
-                            $('#image').attr('src',"uploads/"+data);
-                        }else{
-                            $('#image').attr('src',"images/background2.jpg");
-                        }
+        $('#id_materiel').change(function(e){
 
-                    }
-            );
-            /*    $.get(route+"/code_gestion_produit/" + this.value,
-             function (data) {
-             if(data!=""){
-             $('#id_codeGestion').val(data);
-             $('#id_codeGestion').selectpicker('refresh');
-             }else{
-             $('#id_codeGestion').val('');
-             $('#id_codeGestion').selectpicker('refresh');
-             }
+            var valeur = $(this).val();
 
-             }
-             );*/
+            $('#quantite').val(1);
+            $.get('reste_en_stock/'+valeur,function (data) {
+                $('#quantite').attr({"max" : data.quantite});
+                $('#unite').val(data.unite);
+                $('#unite').selectpicker('refresh');
+
+                //   $('#id_demandeur').val(data.id_user);
+                // $('#id_demandeur').selectpicker('refresh');
+
+                $('#id_imputation option:contains('+data.codetache+')').prop('selected', true);
+
+                $('#id_imputation').selectpicker('refresh');
+
+            });
         });
+
+        var route="{{asset('')}}/{{app()->getLocale()}}";
+        $('#domaines').change(function (e) {
+            var domaines = $('#domaines').val();
+
+            if(domaines==''){
+                domaines="tout";}
+
+            $.get(route+'/donne_moi_les_famille_disponible/'+domaines,function (data) {
+
+                console.log(data);
+
+                $('#famille').html('');
+                $('#famille').html(data);
+                $('#famille').selectpicker('refresh');
+
+                $.get(route+'/donne_moi_les_designation_disponible/'+famille,function (data) {
+
+                    console.log(data);
+
+                    $('#id_materiel').html('');
+                    $('#id_materiel').html(data);
+                    $('#id_materiel').selectpicker('refresh');
+
+                });
+
+            });
+
+        });
+        $('#famille').change(function (e) {
+            var famille = $('#famille').val();
+
+            if(famille==''){
+                famille="tout";}
+
+            $.get(route+'/donne_moi_les_designation_disponible/'+famille,function (data) {
+
+                console.log(data);
+
+                $('#id_materiel').html('');
+                $('#id_materiel').html(data);
+                $('#id_materiel').selectpicker('refresh');
+
+            });
+
+        });
+
+        $('#refference').change(function (e) {
+            var refference = $('#refference').val();
+
+            $.get(route+'/donne_moi_toute_la_refference_disponible/'+refference,function (data) {
+
+                console.log(data);
+
+                $('#famille').val(data.id_famille);
+                $('#famille').selectpicker('refresh');
+
+                $('#domaines').val(data.id_domaine);
+                $('#domaines').selectpicker('refresh');
+
+
+            });
+
+        });
+
+        function defaut(){
+            var route="{{asset('')}}";
+            var refference = $('#refference').val();
+
+            $.get(route+'/donne_moi_toute_la_refference/'+refference,function (data) {
+
+                console.log(data);
+
+                $('#famille').val(data.id_famille);
+                $('#famille').selectpicker('refresh');
+
+                $('#domaines').val(data.id_domaine);
+                $('#domaines').selectpicker('refresh');
+
+
+            });
+        }
+        //  defaut();
+        setTimeout(defaut, 5000);
     </script>
     <script>
         function voir(val){
@@ -268,7 +343,7 @@
             $('#tableDA thead th').each( function () {
                 var title = $(this).text();
 
-                if( $(this).html()!="Action" && $(this).html()!="Quantite"&& $(this).html()!="Unité" ){
+                if( $(this).html()!="Action" && $(this).html()!="{{__('gestion_stock.quantite')}}"&& $(this).html()!="{{__('gestion_stock.unite')}}" ){
                     $(this).append( '<input type="text" placeholder="Search '+title+'" />' );
                 }
 
@@ -345,109 +420,7 @@
 
             });
 
-            $('#id_materiel').change(function(e){
 
-                var valeur = $(this).val();
-
-                $('#quantite').val(1);
-                $.get('reste_en_stock/'+valeur,function (data) {
-                    $('#quantite').attr({"max" : data.quantite});
-                    $('#unite').val(data.unite);
-                    $('#unite').selectpicker('refresh');
-
-                 //   $('#id_demandeur').val(data.id_user);
-                   // $('#id_demandeur').selectpicker('refresh');
-
-                    $('#id_imputation option:contains('+data.codetache+')').prop('selected', true);
-
-                    $('#id_imputation').selectpicker('refresh');
-
-                });
-            });
-
-            var route="{{asset('')}}";
-            $('#domaines').change(function (e) {
-                var domaines = $('#domaines').val();
-
-                if(domaines==''){
-                    domaines="tout";}
-
-                $.get(route+'/donne_moi_les_famille_disponible/'+domaines,function (data) {
-
-                    console.log(data);
-
-                    $('#famille').html('');
-                    $('#famille').html(data);
-                    $('#famille').selectpicker('refresh');
-
-                    $.get(route+'/donne_moi_les_designation_disponible/'+famille,function (data) {
-
-                        console.log(data);
-
-                        $('#id_materiel').html('');
-                        $('#id_materiel').html(data);
-                        $('#id_materiel').selectpicker('refresh');
-
-                    });
-
-                });
-
-            });
-            $('#famille').change(function (e) {
-                var famille = $('#famille').val();
-
-                if(famille==''){
-                    famille="tout";}
-
-                $.get(route+'/donne_moi_les_designation_disponible/'+famille,function (data) {
-
-                    console.log(data);
-
-                    $('#id_materiel').html('');
-                    $('#id_materiel').html(data);
-                    $('#id_materiel').selectpicker('refresh');
-
-                });
-
-            });
-
-            $('#refference').change(function (e) {
-                var refference = $('#refference').val();
-
-                $.get(route+'/donne_moi_toute_la_refference_disponible/'+refference,function (data) {
-
-                    console.log(data);
-
-                    $('#famille').val(data.id_famille);
-                    $('#famille').selectpicker('refresh');
-
-                    $('#domaines').val(data.id_domaine);
-                    $('#domaines').selectpicker('refresh');
-
-
-                });
-
-            });
-
-            function defaut(){
-                var route="{{asset('')}}";
-                var refference = $('#refference').val();
-
-                $.get(route+'/donne_moi_toute_la_refference/'+refference,function (data) {
-
-                    console.log(data);
-
-                    $('#famille').val(data.id_famille);
-                    $('#famille').selectpicker('refresh');
-
-                    $('#domaines').val(data.id_domaine);
-                    $('#domaines').selectpicker('refresh');
-
-
-                });
-            }
-            //  defaut();
-            setTimeout(defaut, 5000);
         })(jQuery);
 
     </script>

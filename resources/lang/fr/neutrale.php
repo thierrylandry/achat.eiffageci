@@ -94,5 +94,8 @@ return [
     'retirer' => 'RETIRER',
     'nom_signataire' => 'Nom du signataire',
     'numero_bc_sans_abreviation' => 'Bon de commande N°',
+    'jour' => 'Jours',
+    'montant' => 'Montant',
+    'quantite_consome' => 'Quantitée consommée',
 
 ];

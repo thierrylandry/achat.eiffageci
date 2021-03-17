@@ -93,4 +93,7 @@ return [
     'retirer' => 'REMOVE',
     'nom_signataire' => 'signatory\'s name',
     'numero_bc_sans_abreviation' => 'Order form N °',
+    'jour' => 'Days',
+    'montant' => 'Amount',
+    'quantite_consome' => 'Quantity consumed',
 ];

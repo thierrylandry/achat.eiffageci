@@ -116,8 +116,8 @@
                 <table class="table"  id="delai_prouit" style="width: 100%">
                     <thead>
                     <tr>
-                        <td>Fournisseur</td>
-                        <td>Jour(s)</td>
+                        <td>{{__('menu.fournisseurs')}}</td>
+                        <td>{{__('neutrale.jour')}}</td>
                     </tr>
                     </thead>
                     <tbody>
@@ -171,8 +171,8 @@
                     <table class="table"  id="CA" style="width: 100%">
                         <thead>
                         <tr>
-                            <td>Fournisseur</td>
-                            <td>Montant (FCFA)</td>
+                            <td>{{__('menu.fournisseurs')}}</td>
+                            <td>{{__('neutrale.montant')}} (XOF)</td>
                         </tr>
                         </thead>
                         <tbody>
@@ -199,8 +199,8 @@
                     <table class="table data-table tableDA">
                         <thead>
                         <tr>
-                            <td>Fournisseur</td>
-                            <td>Montant</td>
+                            <td>{{__('menu.fournisseurs')}}</td>
+                            <td>{{__('neutrale.montant')}}</td>
                         </tr>
                         </thead>
                         <tbody>
@@ -208,7 +208,7 @@
                             @foreach($tableaux as $res)
                                 <tr>
                                     <td>{{$res->libelle}}</td>
-                                    <td>{{number_format($res->chfirreaffaire,'0',',','.')}} FCFA</td>
+                                    <td>{{number_format($res->chfirreaffaire,'0',',','.')}} XOF</td>
                                 </tr>
                             @endforeach
                         @endif
@@ -272,9 +272,9 @@
                         <thead>
 
                         <tr>
-                            <th >Fournisseur</th>
-                            <th >Catégorie</th>
-                            <th >Montant (FCFA)</th>
+                            <th >{{__('menu.fournisseurs')}}</th>
+                            <th >{{__('neutrale.categorie')}}</th>
+                            <th >{{__('neutrale.montant')}} (XOF)</th>
                             <th >%</th>
                         </tr>
                         </thead>
@@ -320,8 +320,8 @@
                         <thead>
 
                         <tr>
-                            <th >Fournisseur</th>
-                            <th >Nombre de retour</th>
+                            <th >{{__('menu.fournisseurs')}}</th>
+                            <th >{{__('neutrale.nombre_retour')}}</th>
                             <th > %</th>
                         </tr>
                         </thead>
@@ -359,11 +359,11 @@
                         <thead>
 
                         <tr>
-                            <th >Domaine</th>
-                            <th >Famille</th>
-                            <th >Article</th>
-                            <th >Quantite</th>
-                            <th >Montant (FCFA)</th>
+                            <th >{{__('gestion_stock.domaine')}}</th>
+                            <th >{{__('gestion_stock.famille')}}</th>
+                            <th >{{__('gestion_stock.article')}}</th>
+                            <th >{{__('gestion_stock.quantite')}}</th>
+                            <th >{{__('neutrale.montant')}} (FCFA)</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -402,11 +402,11 @@
                         <thead>
 
                         <tr>
-                            <th >Domaine</th>
-                            <th >Famille</th>
-                            <th >Article</th>
-                            <th >Quantite consommée</th>
-                            <th >Montant (FCFA)</th>
+                            <th >{{__('gestion_stock.domaine')}}</th>
+                            <th >{{__('gestion_stock.famille')}}</th>
+                            <th >{{__('gestion_stock.article')}}</th>
+                            <th >{{__('neutrale.quantite_consome')}}</th>
+                            <th >{{__('neutrale.montant')}} (FCFA)</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -437,12 +437,12 @@
 
                         <tr>
                             <th class="dt-head-center">id</th>
-                            <th class="dt-head-center">Domaine</th>
-                            <th class="dt-head-center">Famille</th>
-                            <th class="dt-head-center">Article</th>
-                            <th class="dt-head-center">Quantite</th>
-                            <th class="dt-head-center">Unité</th>
-                            <th class="dt-head-center">Stock min</th>
+                            <th >{{__('gestion_stock.domaine')}}</th>
+                            <th >{{__('gestion_stock.famille')}}</th>
+                            <th >{{__('gestion_stock.article')}}</th>
+                            <th class="dt-head-center">{{__('gestion_stock.quantite')}}</th>
+                            <th class="dt-head-center">{{__('gestion_stock.unite')}}</th>
+                            <th class="dt-head-center">{{__('gestion_stock.stock_min')}}</th>
 
                         </tr>
                         </thead>
@@ -470,10 +470,10 @@
                     <table class="table"  id="delai_prouit" style="width: 100%">
                         <thead>
                         <tr>
-                            <td>Domaine</td>
-                            <td>Famille</td>
-                            <td>Article</td>
-                            <td>Jour(s)</td>
+                            <th >{{__('gestion_stock.domaine')}}</th>
+                            <th >{{__('gestion_stock.famille')}}</th>
+                            <th >{{__('gestion_stock.article')}}</th>
+                            <td>{{__('neutrale.jour')}}</td>
                         </tr>
                         </thead>
                         <tbody>
@@ -502,11 +502,11 @@
                         <tr>
                             <td>Etat</td>
                             <td>N°</td>
-                            <td>Domaine</td>
-                            <td>Famille</td>
-                            <td>Article</td>
-                            <td>Code tache</td>
-                            <td>Quantité</td>
+                            <th >{{__('gestion_stock.domaine')}}</th>
+                            <th >{{__('gestion_stock.famille')}}</th>
+                            <th >{{__('gestion_stock.article')}}</th>
+                            <td>{{__('gestion_stock.code_tache')}}</td>
+                            <td>{{__('gestion_stock.quantite')}}</td>
 
                         </tr>
                         </thead>
@@ -556,11 +556,11 @@
                     <table class="table"  id="delai_prouit" style="width: 100%">
                         <thead>
                         <tr>
-                            <td>Etat</td>
+                            <td>{{__('neutrale.etat')}}</td>
                             <td>N°</td>
-                            <td>fournisseur</td>
-                            <td>utilisateur</td>
-                            <td>date</td>
+                            <td>{{__('menu.fournisseurs')}}</td>
+                            <td>{{__('menu.users')}}</td>
+                            <td>Date</td>
 
                         </tr>
                         </thead>
@@ -1089,7 +1089,7 @@
                                $('#fournisseur_categorie thead th').each( function () {
                        var title = $(this).text();
 
-                       if( $(this).html()!="Action" && $(this).html()!="Quantite"&& $(this).html()!="Unité" && $(this).html()!="Montant (FCFA)" ){
+                       if( $(this).html()!="{{__('gestion_stock.action')}}" && $(this).html()!="{{__('gestion_stock.quantite')}}"&& $(this).html()!="{{__('gestion_stock.unite')}}" && $(this).html()!="{{__('neutrale.montant')}} (FCFA)" ){
                            $(this).append( '<input type="text" placeholder="Search '+title+'" />' );
                        }
 

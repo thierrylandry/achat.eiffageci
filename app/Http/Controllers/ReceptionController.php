@@ -111,7 +111,7 @@ class ReceptionController extends Controller
 
         return $res;
     }
-       public function donne_moi_toute_la_refference($refference){
+       public function donne_moi_toute_la_refference($locale,$refference){
 
       $produit = Designation::where('libelle','=',$refference)->first();
 
