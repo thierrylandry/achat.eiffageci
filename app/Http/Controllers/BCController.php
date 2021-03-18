@@ -52,14 +52,13 @@ class BCController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function bon_commande_file($slug){
+    public function bon_commande_file($locale,$slug){
      // $bc=  Boncommande::where('slug','=',$slug)->first();
         $bc= DB::table('boncommande')
             ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
             ->leftJoin('services', 'services.id', '=', 'boncommande.service_demandeur')
             ->where('boncommande.slug','=',$slug)
             ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','services.libelle as libelle_service','commentaire_general','fournisseur.conditionPaiement','boncommande.id_fournisseur','remise_excep')->first();
-
         $devis=DB::table('devis')
             ->leftjoin('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
             ->where('id_bc','=',$bc->id)
@@ -382,7 +381,9 @@ return $view;
         $fournisseurs= DB::table('fournisseur')
             ->join('devis', 'fournisseur.id', '=', 'devis.id_fournisseur')
             ->where('devis.etat', '=', 1)
-            ->select('fournisseur.libelle','fournisseur.id')->get();
+            ->select('fournisseur.libelle','fournisseur.id','devise')
+            ->groupBy('devis.devise','fournisseur.id')
+            ->get();
         $fournisseurss= DB::table('fournisseur')
 
             ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
@@ -1107,6 +1108,7 @@ return $view;
             ->leftJoin('users', 'lignebesoin.id_user', '=', 'users.id')
             ->where('devis.etat', '=', 1)
             ->where('devis.id_bc', '=', null)
+            ->where('devis.devise', '=', $devis[0]->devise)
             ->where('devis.id_fournisseur', '=', $bc->id_fournisseur)
             ->select('devis.id','devis.titre_ext','id_bc','devis.codeRubrique','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.devise','devis.hastva','DateBesoin','users.service','lignebesoin.commentaire','referenceFournisseur')->distinct()->get();
 
@@ -1175,7 +1177,9 @@ if(isset($devis->first()->devise)){
         $fournisseurs= DB::table('fournisseur')
             ->join('devis', 'fournisseur.id', '=', 'devis.id_fournisseur')
             ->where('devis.etat', '=', 1)
-            ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
+            ->select('fournisseur.libelle','fournisseur.id','devise')
+            ->groupBy('devis.devise','fournisseur.id')
+            ->get();
         $fournisseurss= DB::table('fournisseur')
 
             ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
@@ -1205,9 +1209,13 @@ if(isset($devis->first()->devise)){
         $Boncommande= new Boncommande();
         $Boncommande->numBonCommande=$projet->libelle."-".$parameters['numbc'];
        // $Boncommande->date=$parameters['date'];
-        $Boncommande->id_fournisseur=$parameters['id_fournisseur'];
+       // dd($parameters['id_fournisseur']);
+        $id_fournisseur = explode('-',$parameters['id_fournisseur'])[0];
+        $devise = explode('-',$parameters['id_fournisseur'])[1];
+        $Boncommande->id_fournisseur=$id_fournisseur;
         $Boncommande->id_user=Auth::user()->id;
         $Boncommande->id_projet=$projet->id;
+        $Boncommande->devise_bc=$devise;
         $Boncommande->id_expediteur=$parameters['id_expediteur'];
 
         $Boncommande->slug=Str::slug($parameters['numbc'].$date->format('dmYhis'));
@@ -1216,11 +1224,11 @@ if(isset($devis->first()->devise)){
         }catch (\Illuminate\Database\QueryException $ex){
 
 
-            return redirect()->route('gestion_bc')->with('error',"Le numero du bon de commande est déjà utilisé");
+            return redirect()->back()->with('error',__('neutrale.numero_bc_utilise'));
         }
         $lesdevis= Devis::where('id_fournisseur','=',$Boncommande->id_fournisseur)
 
-            ->where('etat','=',1)->get();
+            ->where('etat','=',1)->where('devise','=',$devise)->get();
 
 
         foreach($lesdevis as $devi):

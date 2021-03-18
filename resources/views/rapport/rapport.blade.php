@@ -148,7 +148,7 @@
                             var tableaux=[
                                 @if(isset($tableaux))
                                         @foreach($tableaux as $res)
-                                        {{"{value:".$res->chfirreaffaire}} {{",label:"}} '{{$res->libelle}}' {{",formatted:"}} '{{number_format($res->chfirreaffaire,'2',',','.').' FCFA'}}'},
+                                        {{"{value:".$res->chfirreaffaire}} {{",label:"}} '{{$res->libelle}}' {{",formatted:"}} '{{number_format($res->chfirreaffaire,'2',',','.').' '.$res->devise_bc}}'},
                             @endforeach
                             @endif
                             ];
@@ -172,7 +172,7 @@
                         <thead>
                         <tr>
                             <td>{{__('menu.fournisseurs')}}</td>
-                            <td>{{__('neutrale.montant')}} (XOF)</td>
+                            <td>{{__('neutrale.montant')}} </td>
                         </tr>
                         </thead>
                         <tbody>
@@ -180,7 +180,7 @@
                             @foreach($tableaux as $res)
                                 <tr>
                                     <td>{{$res->libelle}}</td>
-                                    <td>{{number_format($res->chfirreaffaire,'2',',','.')}} FCFA</td>
+                                    <td>{{number_format($res->chfirreaffaire,'2',',','.')}} {{$res->devise_bc}}</td>
                                 </tr>
                             @endforeach
                         @endif
@@ -274,7 +274,7 @@
                         <tr>
                             <th >{{__('menu.fournisseurs')}}</th>
                             <th >{{__('neutrale.categorie')}}</th>
-                            <th >{{__('neutrale.montant')}} (XOF)</th>
+                            <th >{{__('neutrale.montant')}} </th>
                             <th >%</th>
                         </tr>
                         </thead>
@@ -284,7 +284,7 @@
                                 <tr>
                                     <td>{{$res->libelle}}</td>
                                     <td>{{$res->libelleDomainne}}</td>
-                                    <td>{{number_format($res->prix_total+$res->valeur_tva_tot,'0',',','.')}}</td>
+                                    <td>{{number_format($res->prix_total+$res->valeur_tva_tot,'0',',','.')}} {{$res->devise_bc}} </td>
                                     <td>{{number_format(($res->prix_total+$res->valeur_tva_tot)*100/ $array[$res->libelleDomainne],'2',',','.')}}%</td>
                                 </tr>
                             @endforeach
@@ -363,7 +363,7 @@
                             <th >{{__('gestion_stock.famille')}}</th>
                             <th >{{__('gestion_stock.article')}}</th>
                             <th >{{__('gestion_stock.quantite')}}</th>
-                            <th >{{__('neutrale.montant')}} (FCFA)</th>
+                            <th >{{__('neutrale.montant')}} </th>
                         </tr>
                         </thead>
                         <tbody>
@@ -406,7 +406,8 @@
                             <th >{{__('gestion_stock.famille')}}</th>
                             <th >{{__('gestion_stock.article')}}</th>
                             <th >{{__('neutrale.quantite_consome')}}</th>
-                            <th >{{__('neutrale.montant')}} (FCFA)</th>
+                            <th >{{__('neutrale.montant')}} </th>
+                            <th >{{__('neutrale.devise')}} </th>
                         </tr>
                         </thead>
                         <tbody>
@@ -418,6 +419,7 @@
                                     <td>{{$res->libelle}}</td>
                                     <td>{{-1*$res->quantite}}</td>
                                     <td>{{-1*$res->prix_ht_materiel}}</td>
+                                    <td>{{$res->devise}}</td>
                                 </tr>
                             @endforeach
                         @endif
@@ -1214,7 +1216,7 @@
                            {
                                extend: 'copyHtml5',
                                exportOptions: {
-                                   columns: [ 0,1,2,3]
+                                   columns: [ 0,1,2,3,4]
                                },
                                text:"Copier",
                                filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
@@ -1225,7 +1227,7 @@
                            {
                                extend: 'excelHtml5',
                                exportOptions: {
-                                   columns: [ 0,1,2,3]
+                                   columns: [ 0,1,2,3,4]
                                },
                                text:"Excel",
                                filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
@@ -1237,7 +1239,7 @@
                            {
                                extend: 'pdfHtml5',
                                exportOptions: {
-                                   columns: [ 0,1,2,3]
+                                   columns: [ 0,1,2,3,4]
                                },
                                text:"PDF",
                                filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
@@ -1249,7 +1251,7 @@
                            {
                                extend: 'print',
                                exportOptions: {
-                                   columns: [ 0,1,2,3]
+                                   columns: [ 0,1,2,3,4]
                                },
                                text:"Imprimer",
                                filename: "@if(App()->getLocale()=="fr"){{$rapport->libelle}}@elseif(App()->getLocale()=="en"){{$rapport->libelle_en}}@endif"+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),

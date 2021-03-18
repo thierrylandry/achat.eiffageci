@@ -912,7 +912,7 @@ class DAController
             $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         }
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; confirmaion de la D.A '.$da->id, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
-        return redirect()->route('encours_validation')->with('success', "success");
+        return redirect()->back()->with('success', "success");
 
     }
 

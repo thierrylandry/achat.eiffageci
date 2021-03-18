@@ -160,6 +160,7 @@ class ReceptionController extends Controller
         $quantite=$parameters['quantite'];
         $date_livraison=$parameters['date_livraison'];
         $unite=$parameters['unite'];
+        $devise=$parameters['devise'];
 
         //dd($bc_chosisi->ligne_bcs()->get());
 
@@ -171,6 +172,8 @@ class ReceptionController extends Controller
             $ligne_livraison->numero_bl	=$numero_bl;
             $ligne_livraison->prix_unitaire	=$prix_unitaire;
             $ligne_livraison->reference	=$refference;
+            $ligne_livraison->devise=$devise;
+            $ligne_livraison->unite=$unite;
             $ligne_livraison->etat=0;
             $ligne_livraison->id_fournisseur	=$id_fournisseur;
             $ligne_livraison->save();
@@ -200,6 +203,7 @@ class ReceptionController extends Controller
         $quantite=$parameters['quantite'];
         $date_livraison=$parameters['date_livraison'];
         $unite=$parameters['unite'];
+        $devise=$parameters['devise'];
 
         //dd($bc_chosisi->ligne_bcs()->get());
 
@@ -211,6 +215,8 @@ class ReceptionController extends Controller
             $ligne_livraison->numero_bl	=$numero_bl;
             $ligne_livraison->prix_unitaire	=$prix_unitaire;
             $ligne_livraison->reference	=$refference;
+            $ligne_livraison->devise=$devise;
+            $ligne_livraison->unite=$unite;
             $ligne_livraison->etat=0;
             $ligne_livraison->id_fournisseur	=$id_fournisseur;
             $ligne_livraison->save();
@@ -250,6 +256,7 @@ class ReceptionController extends Controller
             $ligne_livraison->reference	=$ligne_bc->titre_ext;
             $ligne_livraison->etat=1;
             $ligne_livraison->unite=$ligne_bc->unite;
+            $ligne_livraison->devise=$ligne_bc->devise;
             $ligne_livraison->id_fournisseur	=$bc_chosisi->id_fournisseur;
             $ligne_livraison->save();
 

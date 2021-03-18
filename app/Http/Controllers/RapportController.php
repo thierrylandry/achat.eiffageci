@@ -41,7 +41,7 @@ class RapportController extends Controller
         if($id==1){
             $tableaux =Moyenne_jour_livraison_par_fournisseur::all();
         }elseif($id==2){
-            $tableaux = DB::table('chiffre_ffaire')->select('libelle','chfirreaffaire')->get();
+            $tableaux = DB::table('chiffre_ffaire')->select('libelle','chfirreaffaire','devise_bc')->get();
         }elseif($id==3){
             $command_receptions = DB::select('SELECT `fournisseur`.`id` AS `id`,`fournisseur`.`libelle` AS `libelle`,`boncommande`.`numBonCommande` AS `numBonCommande`,sum(quantite) as quantite_commande_tot FROM fournisseur join boncommande on fournisseur.id=boncommande.id_fournisseur join devis on devis.id_bc=boncommande.id group by fournisseur.id,libelle,numBonCommande;');
             $tableaux_intermediaire=array();
@@ -50,7 +50,7 @@ class RapportController extends Controller
            // dd($command_receptions);
         }elseif($id==4){
                 //$ca_par_fournisseur_et_domaine
-             $dependance_vu_produits = DB::select("SELECT `fournisseur`.`id` AS `id`, `fournisseur`.`libelle` AS `libelle`,domaines.libelleDomainne as libelleDomainne, sum(devis.prix_tot) as prix_total,sum(devis.valeur_tva) as valeur_tva_tot  FROM fournisseur  join boncommande on fournisseur.id=boncommande.id_fournisseur join devis on devis.id_bc=boncommande.id join designation on designation.id=devis.id_materiel join famille on famille.id=designation.id_famille join domaines on domaines.id=famille.id_domaine where boncommande.etat=3 group by fournisseur.id,fournisseur.libelle,libelleDomainne");
+             $dependance_vu_produits = DB::select("SELECT `fournisseur`.`id` AS `id`, `fournisseur`.`libelle` AS `libelle`,domaines.libelleDomainne as libelleDomainne, sum(devis.prix_tot) as prix_total,sum(devis.valeur_tva) as valeur_tva_tot,devise_bc  FROM fournisseur  join boncommande on fournisseur.id=boncommande.id_fournisseur join devis on devis.id_bc=boncommande.id join designation on designation.id=devis.id_materiel join famille on famille.id=designation.id_famille join domaines on domaines.id=famille.id_domaine where boncommande.etat=3 group by devise_bc,fournisseur.id,fournisseur.libelle,libelleDomainne");
             $dependance_tableaux=$dependance_vu_produits;
             $total = array();
 
@@ -83,7 +83,7 @@ class RapportController extends Controller
         }elseif($id==7){
             //$ca_par_fournisseur_et_domaine
 
-            $tableaux = DB::select('SELECT domaine,famille,libelle,quantite,prix_unitaire, sum(quantite*prix_unitaire) as prix_ht_materiel FROM achat_eiffage.consommation_prix_u
+            $tableaux = DB::select('SELECT domaine,famille,libelle,quantite,prix_unitaire, sum(quantite*prix_unitaire) as prix_ht_materiel,devise FROM achat_eiffage.consommation_prix_u
 group by id_materiel;');
 
         }elseif($id==8){

@@ -3,9 +3,10 @@
     <table class="payload">
         <thead>
         <tr class="head">
-            <th width="1%">{{__('reception.article')}} </th>
-            <th width="25%">{{__('reception.reference_fournisseur')}}</th>
-            <th width="10%">{{__('gestion_stock.code_analytique')}}</th>
+            <th width="1%">n° </th>
+            <th width="25%">{{__('reception.article')}} </th>
+            <th width="5%">{{__('reception.reference_fournisseur')}}</th>
+            <th width="5%">{{__('gestion_stock.code_analytique')}}</th>
             <th width="10%">{{__('neutrale.code_gestion')}}</th>
             <th width="10%">{{__('reception.quantite')}}</th>
             <th width="7%">{{__('gestion_stock.unite')}}</th>

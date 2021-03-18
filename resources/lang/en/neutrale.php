@@ -96,4 +96,5 @@ return [
     'jour' => 'Days',
     'montant' => 'Amount',
     'quantite_consome' => 'Quantity consumed',
+    'numero_bc_utilise' => 'The purchase order number is already used',
 ];

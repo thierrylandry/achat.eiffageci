@@ -44,7 +44,7 @@
             <div class="form-group">
                 <label class="control-label" for="numbc">{{__('translation.service')}}:</label>
                 <div>
-                    <select class="form-control selectpicker" id="id_service" name="id_service" data-live-search="true" data-size="6" noneSelectedText="SELECTIONNER UN SERVICE" {{$bc->etat!=1?'disabled':''}}  required >
+                    <select class="form-control selectpicker" id="id_service" name="id_service" data-live-search="true" data-size="6" noneSelectedText="{{__('neutrale.selectionner_service')}}" {{$bc->etat!=1?'disabled':''}}  required >
                         <option value="">{{__('neutrale.selectionner_service')}}</option>
                         @foreach($services as $service)
                             <option {{isset($bc)&& $bc->service_demandeur==$service->id? "selected":''}} value="{{$service->id}}">{{$service->libelle}}</option>

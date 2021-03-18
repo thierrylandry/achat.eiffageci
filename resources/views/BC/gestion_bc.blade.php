@@ -55,7 +55,7 @@
                                         {{$selec=""}}
                                     @endif
 
-                                    <option value="{{$fournisseur->id}}" {{$selec}}>{{$fournisseur->libelle}}</option>
+                                    <option value="{{$fournisseur->id}}-{{$fournisseur->devise}}" {{$selec}}>{{$fournisseur->libelle}} ({{$fournisseur->devise}})</option>
                                     @endforeach
                             </select>
                             </div>

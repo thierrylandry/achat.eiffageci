@@ -3,7 +3,10 @@
     <span class="alert-icon"><i class="fa fa-bell-o"></i></span>
     <div class="notification-info">
         <ul class="clearfix notification-meta">
-            <li class="pull-left notification-sender"> {{ __('cotation.vous_avez') }}  <b style="font-size: 24px">{{sizeof($fournisseurs)}}</b>   {{ __('cotation.bon_commande_attente_creation') }} </li>
+
+            <li class="pull-left notification-sender">
+                {{ __('cotation.vous_avez') }}  <b style="font-size: 24px">{{sizeof($fournisseurs)}}</b>   {{ __('cotation.bon_commande_attente_creation') }}
+            </li>
 
         </ul>
         <p>

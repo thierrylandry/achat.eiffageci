@@ -126,8 +126,16 @@
                         @endforeach
                     </select>
                 </div>
-
-                <div class="col-sm-4">
+                <div class="col-sm-1">
+                    <div class="form-group">
+                        <label for="libelle" class="control-label">{{__('neutrale.devise')}}</label>
+                        <select class="form-control selectpicker col-sm-2" name="devise" data-live-search="true" data-size="6">
+                            <option value="FCFA">FCFA</option>
+                            <option value="EURO">EURO</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-3">
                     <div class="form-group">
                         <label for="libelle" class="control-label">{{__('reception.date_livraison')}}</label>
 
@@ -135,6 +143,7 @@
                         <input type="date" id="date_livraison" name="date_livraison" value="{{isset($ligne_bonlivraison->date_livraison)? $ligne_bonlivraison->date_livraison:''}}"/>
                     </div>
                 </div>
+
                 <div class="col-sm-3">
                     @csrf
                     <label for="libelle" class="control-label"></label>

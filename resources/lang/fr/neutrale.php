@@ -97,5 +97,6 @@ return [
     'jour' => 'Jours',
     'montant' => 'Montant',
     'quantite_consome' => 'Quantitée consommée',
+    'numero_bc_utilise' => 'Le numero du bon de commande est déjà utilisé',
 
 ];
