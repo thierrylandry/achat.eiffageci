@@ -27,6 +27,7 @@ use App\Reponse_fournisseur;
 use App\Services;
 use App\Unites;
 use App\User;
+use danielme85\CConverter\Currency;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -397,7 +398,6 @@ return $view;
                 $expediteurs[]=$user;
             }
             endforeach;
-
         return view('BC/gestion_bc',compact('bcs','bcs_en_attentes','fournisseurs','utilisateurs','analytiques','fournisseurss','users','projets','expediteurs'));
     }
     public function regularisation(){

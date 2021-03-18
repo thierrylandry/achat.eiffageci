@@ -284,7 +284,7 @@
                                 <tr>
                                     <td>{{$res->libelle}}</td>
                                     <td>{{$res->libelleDomainne}}</td>
-                                    <td>{{number_format($res->prix_total+$res->valeur_tva_tot,'0',',','.')}} {{$res->devise_bc}} </td>
+                                    <td>{{number_format($res->prix_total+$res->valeur_tva_tot,'0',',','.')}}  {{$res->devise_bc}} </td>
                                     <td>{{number_format(($res->prix_total+$res->valeur_tva_tot)*100/ $array[$res->libelleDomainne],'2',',','.')}}%</td>
                                 </tr>
                             @endforeach

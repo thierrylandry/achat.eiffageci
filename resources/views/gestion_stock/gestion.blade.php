@@ -147,7 +147,7 @@
 
                     <div class="col-4 princing-item green">
                         <div class="pricing-divider ">
-                            <h3 class="text-light"  style="color: white">{{__('gestion_stock.stock')}}</h3>
+                            <h3 class="text-light"  style="color: white">{{strtoupper(__('gestion_stock.stock'))}}</h3>
 
                             <svg class='pricing-divider-img' enable-background='new 0 0 300 100' height='100px' id='Layer_1' preserveAspectRatio='none' version='1.1' viewBox='0 0 300 100' width='300px' x='0px' xml:space='preserve' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns='http://www.w3.org/2000/svg' y='0px'>
           <path class='deco-layer deco-layer--1' d='M30.913,43.944c0,0,42.911-34.464,87.51-14.191c77.31,35.14,113.304-1.952,146.638-4.729

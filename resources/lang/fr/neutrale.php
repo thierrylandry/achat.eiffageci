@@ -98,5 +98,8 @@ return [
     'montant' => 'Montant',
     'quantite_consome' => 'Quantitée consommée',
     'numero_bc_utilise' => 'Le numero du bon de commande est déjà utilisé',
+    'rib' => 'RIB à mentionner sur la facture',
+    'adresse_livraison' => 'Adresse de livraison',
+    'chantier' => 'Chantier',
 
 ];

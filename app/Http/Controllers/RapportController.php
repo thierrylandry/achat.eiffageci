@@ -51,6 +51,9 @@ class RapportController extends Controller
         }elseif($id==4){
                 //$ca_par_fournisseur_et_domaine
              $dependance_vu_produits = DB::select("SELECT `fournisseur`.`id` AS `id`, `fournisseur`.`libelle` AS `libelle`,domaines.libelleDomainne as libelleDomainne, sum(devis.prix_tot) as prix_total,sum(devis.valeur_tva) as valeur_tva_tot,devise_bc  FROM fournisseur  join boncommande on fournisseur.id=boncommande.id_fournisseur join devis on devis.id_bc=boncommande.id join designation on designation.id=devis.id_materiel join famille on famille.id=designation.id_famille join domaines on domaines.id=famille.id_domaine where boncommande.etat=3 group by devise_bc,fournisseur.id,fournisseur.libelle,libelleDomainne");
+
+          //  dd($this->convertisseur_devise('EUR','XOF',1));
+
             $dependance_tableaux=$dependance_vu_produits;
             $total = array();
 
@@ -183,4 +186,21 @@ having quantite_livree is null
 
         dd($premiere_livraisons);
 }
+    public static function convertisseur_devise($de,$a,$valeur){
+        $de="EUR";
+        $a="XOF";
+        $ch = curl_init('https://free.currconv.com/api/v7/convert?q='.$de.'_'.$a.'&compact=ultra&apiKey=70d29bc945007a293ffd');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+// get the (still encoded) JSON data:
+        $json = curl_exec($ch);
+        curl_close($ch);
+// Decode JSON response:
+        $conversionResult = json_decode($json, true);
+        $resultat= Array();
+        foreach($conversionResult as $conversionResult1):
+            $resultat=$conversionResult1;
+        endforeach;
+// access the conversion result
+        return $resultat*$valeur;
+    }
 }

@@ -97,4 +97,7 @@ return [
     'montant' => 'Amount',
     'quantite_consome' => 'Quantity consumed',
     'numero_bc_utilise' => 'The purchase order number is already used',
+    'rib' => 'RIB to be mentioned on the invoice',
+    'adresse_livraison' => 'Delivery address',
+    'chantier' => 'Construction site',
 ];

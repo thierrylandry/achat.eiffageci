@@ -8,11 +8,11 @@
             <th width="5%">{{__('reception.reference_fournisseur')}}</th>
             <th width="5%">{{__('gestion_stock.code_analytique')}}</th>
             <th width="10%">{{__('neutrale.code_gestion')}}</th>
-            <th width="10%">{{__('reception.quantite')}}</th>
+            <th width="1%">{{__('reception.quantite')}}</th>
             <th width="7%">{{__('gestion_stock.unite')}}</th>
-            <th width="8%">{{__('neutrale.pu')}}</th>
-            <th width="10%">{{__('neutrale.remise')}}</th>
-            <th width="18%">{{__('neutrale.totlal_ht')}}</th>
+            <th width="10%">{{__('neutrale.pu')}}</th>
+            <th width="2%">{{__('neutrale.remise')}}</th>
+            <th width="30%">{{__('neutrale.totlal_ht')}}</th>
         </tr>
         </thead>
         <tbody>
@@ -185,7 +185,7 @@
                 </div>
                 <p align="center"><b>{{__('gestion_stock.condition_paiement')}}</b></p>
                 <div class="rubrique">
-                    <p style="font-size: 10px"><b>{{__('neutrale.rib')}}RIB à mentionner sur la facture</b> <br/>
+                    <p style="font-size: 10px"><b>{{__('neutrale.rib')}}</b> <br/>
                     {{$bc->conditionPaiement}}</p>
                 </div>  <div class="rubrique">
                     <p style=""><b><p style="font-size: 7pt"><t style="color:#761c19;">{{__('neutrale.port_epi')}}Port d’EPI</t>  obligatoire  (casque, chasuble, chaussures et gants) pour toute intervention sur le chantier et après autorisation d’un personnel HSE</p></b> <br/></p>
@@ -246,7 +246,7 @@
 
                 <table>
                     <tr>
-                        <th style="text-align:left; border-right: none;">{{__('sortie_materiel.demandeur')}} :({{__('translate.nom')}}/{{__('translation.contact')}})</th>
+                        <th style="text-align:left; border-right: none;">{{__('sortie_materiel.demandeur')}} :({{__('translation.nom')}}/{{__('translation.contact')}})</th>
                         <th style="text-align:center; border-left: none;">{{strtoupper($bc->libelle_service)}}</th>
                     </tr>
                     <tr>
