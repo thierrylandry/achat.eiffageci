@@ -383,6 +383,11 @@ Route::get('/donne_moi_les_famille_disponible/{domaine}',[
     'uses'=>'GestionStockController@donne_moi_les_famille_disponible',
 
 ])->middleware('auth');
+    Route::get('gestion_projets',[
+    'as'=>'gestion_projets',
+    'uses'=>'ProjectController@gestion_projets',
+
+])->middleware('auth');
 Route::get('/donne_moi_les_designation_disponible/{famille}',[
     'as'=>'donne_moi_les_designation_disponible',
     'uses'=>'GestionStockController@donne_moi_les_designation_disponible',
