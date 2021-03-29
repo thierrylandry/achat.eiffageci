@@ -40,6 +40,9 @@ return array (
     'guide_utilisateur'=>'User guide',
     'mon_profile'=>'My profile',
     'se_deconnecter'=>'Logout',
-    'bon_commande'=>'Order form'
+    'bon_commande'=>'Order form',
+    'import_fournisseurs'=>'Import Suppliers',
+    'import_codetache'=>'Import Task code',
+    'import_codeanalytique'=>'Import Analytical code',
 
 );

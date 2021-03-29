@@ -102,6 +102,13 @@ Route::get('/gestion_produit',[
     'roles' => ['Gestionnaire_DA']
 
 ])->middleware('auth');
+    Route::get('/gestion_produit',[
+    'as'=>'gestion_produit',
+    'uses'=>'ProduitController@produits',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_DA']
+
+])->middleware('auth');
 Route::post('/Validproduits', [
     'as'=>'Validproduits',
     'uses'=>'ProduitController@Validproduits',
@@ -560,6 +567,14 @@ Route::get('/modifier_reponse_fournisseur/{slug}', [
 Route::get('/gestion_stock', [
     'as'=>'gestion_stock',
     'uses'=>'GestionStockController@gestion_stock',
+])->middleware('auth');
+    Route::get('/gestion_importation/{id}', [
+    'as'=>'gestion_importation',
+    'uses'=>'ExportImportController@gestion_importation',
+])->middleware('auth');
+    Route::get('/importation_code_tache/{id_projet}', [
+    'as'=>'importation_code_tache',
+    'uses'=>'ExportImportController@importation_code_tache',
 ])->middleware('auth');
 Route::get('/reste_en_stock/{valeur}', [
     'as'=>'reste_en_stock',

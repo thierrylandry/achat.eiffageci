@@ -18,8 +18,7 @@
 
                     </form>
                     </br>
-                    </br>
-                    </br>
+
                     <div class="row">
                         <div class="col-sm-12 col-xr-12">
 
@@ -37,7 +36,25 @@
                                 </tr>
                                 </thead>
                                 <tbody name ="contenu_tableau_entite" id="contenu_tableau_entite">
+                                    @foreach($projets as $projet)
+                                        <tr>
+                                            <td>{{$projet->id}}</td>
+                                            <td>{{$projet->libelle}}</td>
+                                            <td>
+                                                <a href="{{route('supprimer_utilisateur',['locale'=>app()->getLocale(),'slug'=>$projet->id])}}" data-toggle="modal" class="btn btn-danger  pull-right">
+                                                    <i class=" fa fa-trash"></i>
+                                                </a>
+                                                <a href="{{route('voir_utilisateur',['locale'=>app()->getLocale(),'slug'=>$projet->id])}}" data-toggle="modal" class="btn btn-info  pull-right">
+                                                    <i class=" fa fa-pencil"></i>
+                                                </a>
 
+                                                <a href="{{route('gestion_importation',['locale'=>app()->getLocale(),'slug'=>$projet->id])}}" data-toggle="modal" class="btn btn-default pull-right">
+                                                    <i class="fa  fa-upload"></i> Importations
+                                                </a>
+
+                                            </td>
+                                        </tr>
+                                        @endforeach
                                 </tbody>
                             </table>
 
@@ -47,26 +64,7 @@
 
                     <!-- Script pour générer l'adresse e-mail à partir du nom et prénoms saisi -->
                     <script type="application/javascript">
-
-                        var txtnom = document.getElementById('nom');
-                        var txtprenoms = document.getElementById('prenoms');
-
-                        function génère_mail()
-                        {
-                            var mail = txtprenoms.value +'.'+ txtnom.value + '@eiffage.com';
-                            document.getElementById('email').value = mail;
-                        }
-
-                        txtprenoms.addEventListener('keydown', function (e) {génère_mail()});
-                        txtprenoms.addEventListener('change', function (e) {génère_mail()});
-                        txtnom.addEventListener('change', function (e) {génère_mail()});
-                        txtnom.addEventListener('keydown', function (e) {génère_mail()});
-
-                        $(document).ready(function (e) {
-                            //  génère_mail();
-                        });
-
-                        var table= $('#fournisseurs').DataTable({
+                        var table= $('#projets').DataTable({
                             language: {
                                 @if(App()->getLocale()=='fr')
                                 url: "../public/js/French.json"

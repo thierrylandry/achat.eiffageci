@@ -40,5 +40,8 @@ return array (
     'guide_utilisateur'=>'Guide Utilisateur',
     'mon_profile'=>'Mon profil',
     'se_deconnecter'=>'Se déconnecter',
-    'bon_commande'=>'Bon(s) de commande(s)'
+    'bon_commande'=>'Bon(s) de commande(s)',
+    'import_fournisseurs'=>'Importation de fournisseurs',
+    'import_codetache'=>'Importation de Code tâche',
+    'import_codeanalytique'=>'Importation de Code Analytique',
 );
