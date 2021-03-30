@@ -1114,6 +1114,12 @@ Route::post('/mailling', [
 
 
 
+Route::post('/import_code_tache', [
+    'as'=>'import_code_tache',
+    'uses'=>'ExportImportController@import_code_tache',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_Pro_Forma']
+])->middleware('auth');
 Route::post('/ajouter_reponse', [
     'as'=>'ajouter_reponse',
     'uses'=>'Demande_proformaController@ajouter_reponse',

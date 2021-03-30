@@ -6,33 +6,26 @@
     class='active'
 @endsection
 @section('content')
-    <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
-                    <h4 class="modal-title">{{__('menu.import_codetache')}}</h4>
-                </div>
-                <div class="modal-body">
-
-                    <form role="form" class="bucket-form" method="post" action="{{route('Validfournisseur')}}">
+        <div class="row">
+            <div class="col-sm-6">
+                <h4 class="modal-title">{{__('menu.import_codetache')}}</h4>
+                <br>
+                    <form role="form" class="form-group" method="post" action="{{route('import_code_tache')}}" enctype="multipart/form-data">
                         @csrf
-                        <div class="form-group">
-                            <b><label for="libelle" class="control-label">Libelle du matériel</label></b>
-                            <input type="text" class="form-control" id="libelle" name="libelle" placeholder="libelle" required>
+                        <div class="form-inline">
+
+                            <input type="hidden" class="form-control" id="id" name="id_projet" placeholder="id" value="{{$id_projet}}" required>
+                            <input type="file" class="form-control" id="libelle" name="excel"  required>
                         </div>
-                        <div class="form-group">
-                            <label for="domaine">type</label>
-                            <input type="text" class="form-control" id="domaine" name="domaine" placeholder="Domaine" required>
-                        </div>
-                        <br><div class="form-group" >
-                            <button type="submit" class="btn btn-success form-control">Ajouter</button>
+
+                        <br><div class="form-inline" >
+                            <button type="submit" class="btn btn-success form-control">{{__('translation.add')}}</button>
                         </div>
                     </form>
-                </div>
+
             </div>
         </div>
-    </div>
+
 
 
 @endsection

@@ -8,4 +8,6 @@ class CodeTache extends Model
 {
     //
   protected  $table="codetache";
+    protected $fillable= ['*'];
+
 }
