@@ -101,5 +101,6 @@ return [
     'rib' => 'RIB à mentionner sur la facture',
     'adresse_livraison' => 'Adresse de livraison',
     'chantier' => 'Chantier',
+    'telecharger_trame' => 'télécharger la trame',
 
 ];

@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Imports\CodetacheImport;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
+
 
 class ExportImportController extends Controller
 {
@@ -34,5 +37,11 @@ class ExportImportController extends Controller
         }
 
         return redirect()->back()->with('success', "success");
+    }
+    public function download_doc($locale,$namefile){
+        //$namefile=str_replace('_','.',$namefile);
+        // dd($namefile);
+        //   dd('document/'.$slug.'/'.$namefile);
+        return Storage::download('trame/'. Str::ascii($namefile,'fr'));
     }
 }

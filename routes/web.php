@@ -267,6 +267,13 @@ Route::get('afficher_image/{id}',[
 
 
 ])->middleware('auth');
+
+    Route::get('download_doc/{namefile}',[
+    'as'=>'download_doc',
+    'uses'=>'ExportImportController@download_doc',
+
+
+])->middleware('auth');
 Route::get('code_gestion_produit/{id}',[
     'as'=>'code_gestion_produit',
     'uses'=>'DAController@code_gestion_produit',

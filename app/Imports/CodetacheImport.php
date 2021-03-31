@@ -23,15 +23,15 @@ class CodetacheImport implements ToModel,WithHeadingRow
 
         $laclasse="";
         if(isset($row['libelle'])){
-            $codtache = CodeTache::where('libelle','=',$row['libelle'])->first();
+            $codtache = CodeTache::where('libelle','=',$row['libelle'])->where('id_projet','=',$GLOBALS['id_projet'])->first();
             if(!isset($codtache)){
 
-                return new CodeTache([
-                    //
-                    'libelle' =>$row['libelle'],
-                    'description' =>$row['description'],
-                    'id_projet' =>$GLOBALS["id_projet"],
-                ]);
+                $codetache = new CodeTache();
+                $codetache->libelle=$row['libelle'];
+                $codetache->description=$row['description'];
+                $codetache->id_projet=$GLOBALS['id_projet'];
+                $codetache->save();
+                return $codetache;
             }
         }
 

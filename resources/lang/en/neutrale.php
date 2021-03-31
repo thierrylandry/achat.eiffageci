@@ -100,4 +100,5 @@ return [
     'rib' => 'RIB to be mentioned on the invoice',
     'adresse_livraison' => 'Delivery address',
     'chantier' => 'Construction site',
+    'telecharger_trame' => 'download the frame',
 ];
