@@ -102,5 +102,6 @@ return [
     'adresse_livraison' => 'Adresse de livraison',
     'chantier' => 'Chantier',
     'telecharger_trame' => 'télécharger la trame',
+    'retour' => 'Retour',
 
 ];

@@ -6,7 +6,7 @@
     class='active'
 @endsection
 @section('content')
-    <a href="{{route('creer_da',app()->getLocale())}}" class="btn btn-default  pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i> {{__('translation.add')}}</a>
+    <a href="{{route('gestion_importation',app()->getLocale())}}" class="btn btn-default  pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i> {{__('translation.add')}}</a>
         <div class="row">
             <div class="col-sm-6">
                 <h4 class="modal-title">{{__('menu.import_codetache')}} Format : Excel XLSX</h4>

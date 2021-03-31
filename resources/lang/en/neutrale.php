@@ -101,4 +101,5 @@ return [
     'adresse_livraison' => 'Delivery address',
     'chantier' => 'Construction site',
     'telecharger_trame' => 'download the frame',
+    'retour' => 'Back',
 ];
