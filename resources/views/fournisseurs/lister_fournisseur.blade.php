@@ -10,6 +10,22 @@
     class='active'
 @endsection
 @section('content')
+    <script src="{{ URL::asset("js/dataTables.buttons.min.js") }}"></script>
+    <script src="{{ URL::asset("js/buttons.flash.min.js") }}"></script>
+    <script src="{{ URL::asset("js/jszip.min.js") }}"></script>
+    <script src="{{ URL::asset("js/dataTable.pdfmaker.js") }}"></script>
+    <script src="{{ URL::asset("js/vfs_fonts.js") }}"></script>
+    <script src="{{ URL::asset("js/buttons.html5.min.js") }}"></script>
+    <script src="{{ URL::asset("js/buttons.print.min.js") }}"></script>
+    <script src="{{ URL::asset('js/jstree.min.js') }}"></script>
+    <script src="{{ URL::asset('js/jstree.checkbox.js') }}"></script>
+    <script src="{{ URL::asset('js/jstree.min.js') }}"></script>
+    <script src="{{ URL::asset('js/jstree.checkbox.js') }}"></script>
+
+    <link rel="stylesheet" href="{{URL::asset('css/morris.css')}}" type="text/css"/>
+    <script src="{{URL::asset('js/raphael-min.js')}}"></script>
+    <script src="{{URL::asset('js/morris.js')}}"></script>
+
     <h2>{{__('menu.fournisseurs')}} - {{__('translation.liste')}} <a href="{{route('ajouter_fournisseur',app()->getLocale())}}" class="btn btn-default  pull-right"> {{ __('translation.add') }}</a></h2>
 </br>
 </br>
@@ -35,14 +51,7 @@
                 <tr>
                     <td>{{$fournisseur->id_fournisseur}}</td>
                     <td>
-
-                        @foreach( $domaines as $domaine)
-                            @if(in_array($domaine->id, explode(",",$fournisseur->domaine))!= false)
-                                {{$domaine->libelleDomainne." "}}</br>
-                            @else
-                            @endif
-                        @endforeach
-
+                        @foreach( $domaines as $domaine) @if(in_array($domaine->id, explode(",",$fournisseur->domaine))!= false) {{$domaine->libelleDomainne." "}}, @else @endif @endforeach
                     </td>
                     <td>{{$fournisseur->libelle}}</td>
                     <td>{{$fournisseur->adresseGeographique}}</td>
@@ -63,15 +72,71 @@
             </tbody>
         </table>
         <script>
-
+            var date =new Date();
             var table= $('#fournisseurs1').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'copyHtml5',
+                        exportOptions: {
+                            columns: [ 1,2,3,4,5]
+                        },
+                        text:"Copier",
+                        filename: "{{__('menu.fournisseurs')}}" +date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
+                        className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
+                        messageTop: "{{__('menu.fournisseurs')}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                        footer: true
+
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        exportOptions: {
+                            columns: [ 1,2,3,4,5]
+                        },
+                        text:"Excel",
+                        filename: "{{__('menu.fournisseurs')}} "+date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                        className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
+                        messageTop: "{{__('menu.fournisseurs')}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                        orientation: 'landscape',
+                        footer: true
+
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        exportOptions: {
+                            columns: [ 1,2,3,4,5]
+                        },
+                        text:"PDF",
+                        filename: "{{__('menu.fournisseurs')}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                        className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
+                        messageTop: "{{__('menu.fournisseurs')}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                        orientation: 'landscape',
+                        footer: true
+
+                    },
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            columns: [ 1,2,3,4,5]
+                        },
+                        text:"Imprimer",
+                        filename: "{{__('menu.fournisseurs')}}"+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
+                        className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
+                        messageTop: "{{__('menu.fournisseurs')}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
+                        orientation: 'landscape',
+                        footer: true
+
+                    }
+                ],
                 language: {
                     @if(App()->getLocale()=='fr')
-                    url: "../public/js/French.json"
+                    url: "../../public/js/French.json"
                     @elseif(App()->getLocale()=='en')
-                    url: "../public/js/English.json"
+                    url: "../../public/js/English.json"
                     @endif
                 },
+
+                order: [[0, 'desc']],
                 "createdRow": function( row, data, dataIndex){
 
                 },

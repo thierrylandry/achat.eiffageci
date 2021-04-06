@@ -77,7 +77,7 @@
 
             <div class="col-sm-4 container-fluid bg-gradient p-5">
 
-                <a href="{{route('importation_code_tache',['locale'=>app()->getLocale(),'id_projet'=>$id_projet])}}">
+                <a href="{{route('importation_fournisseur',['locale'=>app()->getLocale(),'id_projet'=>$id_projet])}}">
 
                     <div class="col-4 princing-item blue">
                         <div class="pricing-divider ">
@@ -143,7 +143,7 @@
             <div class="col-sm-4 container-fluid bg-gradient p-5">
 
 
-                <a href="{{route('stock',app()->getLocale())}}">
+                <a href="{{route('importation_codeanalytique',['locale'=>app()->getLocale(),'id_projet'=>$id_projet])}}">
 
                     <div class="col-4 princing-item green">
                         <div class="pricing-divider ">

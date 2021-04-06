@@ -583,6 +583,14 @@ Route::get('/gestion_stock', [
     'as'=>'importation_code_tache',
     'uses'=>'ExportImportController@importation_code_tache',
 ])->middleware('auth');
+    Route::get('/importation_codeanalytique/{id_projet}', [
+    'as'=>'importation_codeanalytique',
+    'uses'=>'ExportImportController@importation_codeanalytique',
+])->middleware('auth');
+    Route::get('/importation_fournisseur/{id_projet}', [
+    'as'=>'importation_fournisseur',
+    'uses'=>'ExportImportController@importation_fournisseur',
+])->middleware('auth');
 Route::get('/reste_en_stock/{valeur}', [
     'as'=>'reste_en_stock',
     'uses'=>'GestionStockController@reste_en_stock',
@@ -1121,6 +1129,12 @@ Route::post('/mailling', [
 
 
 
+Route::post('/import_code_analytique', [
+    'as'=>'import_code_analytique',
+    'uses'=>'ExportImportController@import_code_analytique',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_Pro_Forma']
+])->middleware('auth');
 Route::post('/import_code_tache', [
     'as'=>'import_code_tache',
     'uses'=>'ExportImportController@import_code_tache',

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\CodeanalytiqueImport;
 use App\Imports\CodetacheImport;
 use Exception;
 use Illuminate\Http\Request;
@@ -21,6 +22,12 @@ class ExportImportController extends Controller
     public function importation_code_tache($locale,$id_projet){
         return view('importations.importation_code_tache',compact('id_projet'));
     }
+    public function importation_codeanalytique($locale,$id_projet){
+        return view('importations.importation_codeanalytique',compact('id_projet'));
+    }
+    public function importation_fournisseur($locale,$id_projet){
+        return view('importations.importation_fournisseur',compact('id_projet'));
+    }
     public function import_code_tache(Request $request){
 
         $parameters = $request->except(['_token']);
@@ -31,6 +38,23 @@ class ExportImportController extends Controller
 
         try{
             Excel::import(new CodetacheImport(),request()->file('excel'),null,\Maatwebsite\Excel\Excel::XLSX);
+        }catch (Exception $exception){
+           //dd($exception->getMessage());
+            return "format incorrect veuillez selectionner un fichier excel au format XLSX";
+        }
+
+        return redirect()->back()->with('success', "success");
+    }
+    public function import_code_analytique(Request $request){
+
+        $parameters = $request->except(['_token']);
+
+        $excel=$parameters['excel'];
+        $GLOBALS["id_projet"]=$parameters['id_projet'];
+       // Excel::import(new CodetacheImport(),request()->file('excel'),null,\Maatwebsite\Excel\Excel::CSV);
+
+        try{
+            Excel::import(new CodeanalytiqueImport(),request()->file('excel'),null,\Maatwebsite\Excel\Excel::XLSX);
         }catch (Exception $exception){
            //dd($exception->getMessage());
             return "format incorrect veuillez selectionner un fichier excel au format XLSX";
