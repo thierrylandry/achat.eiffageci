@@ -1141,6 +1141,14 @@ Route::post('/import_code_tache', [
     'middleware' => 'roles',
     'roles' => ['Gestionnaire_Pro_Forma']
 ])->middleware('auth');
+Route::post('/import_fournisseurs', [
+    'as'=>'import_fournisseurs',
+    'uses'=>'ExportImportController@import_fournisseurs',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_Pro_Forma']
+])->middleware('auth');
+
+
 Route::post('/ajouter_reponse', [
     'as'=>'ajouter_reponse',
     'uses'=>'Demande_proformaController@ajouter_reponse',

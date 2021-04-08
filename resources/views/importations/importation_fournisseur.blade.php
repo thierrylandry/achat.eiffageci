@@ -11,7 +11,7 @@
         <div class="col-sm-6">
             <h4 class="modal-title">{{__('menu.import_fournisseurs')}} Format : Excel XLSX</h4>
             <br>
-            <form role="form" class="form-group" method="post" action="{{route('import_code_analytique')}}" enctype="multipart/form-data">
+            <form role="form" class="form-group" method="post" action="{{route('import_fournisseurs')}}" enctype="multipart/form-data">
                 @csrf
                 <div class="form-inline">
 
@@ -28,7 +28,7 @@
         <div class="col-sm-6">
 
 
-            <a href="{{route("download_doc",['locale'=>app()->getLocale(),'namefile' => "trame_analytique.xlsx"])}}"><i class="fa fa-file-excel-o fa-3x" ></i><br> {{__('neutrale.telecharger_trame')}}</a>
+            <a href="{{route("download_doc",['locale'=>app()->getLocale(),'namefile' => "trame_fournisseurs.xlsx"])}}"><i class="fa fa-file-excel-o fa-3x" ></i><br> {{__('neutrale.telecharger_trame')}}</a>
             <br>
 
 
