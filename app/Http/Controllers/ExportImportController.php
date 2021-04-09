@@ -74,7 +74,7 @@ class ExportImportController extends Controller
         try{
             Excel::import(new FournisseurImport(),request()->file('excel'),null,\Maatwebsite\Excel\Excel::XLSX);
         }catch (Exception $exception){
-           //dd($exception->getMessage());
+           dd($exception->getMessage());
             return "format incorrect veuillez selectionner un fichier excel au format XLSX";
         }
 
