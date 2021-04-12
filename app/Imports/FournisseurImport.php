@@ -9,6 +9,7 @@
 namespace App\Imports;
 
 use App\Fournisseur;
+use App\Domaines;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use App\Metier\Json\Contact;
@@ -20,7 +21,7 @@ class FournisseurImport implements ToModel,WithHeadingRow
 
     public function model(array $row)
     {
-         //dd($row);
+        // dd($row);
 
 
         $laclasse="";
@@ -48,13 +49,31 @@ class FournisseurImport implements ToModel,WithHeadingRow
 
       $domaines= array();
       if($row['domaine']!=""){
-        $domaines[]= $row['domaine'];
+
+        $domaine = Domaines::where('libelleDomainne','=',$row['domaine'])->first();
+
+        if(isset($domaine)){
+            $domaines[]= $domaine->id;
+        }
+
       }
       if($row['domaine']!=""){
-        $domaines[]= $row['domaine2'];
+
+        $domaine2 = Domaines::where('libelleDomainne','=',$row['domaine2'])->first();
+
+        if(isset($domaine2)){
+            $domaines[]= $domaine2->id;
+        }
+
+
       }
       if($row['domaine']!=""){
-        $domaines[]= $row['domaine3'];
+        $domaine3 = Domaines::where('libelleDomainne','=',$row['domaine3'])->first();
+
+        if(isset($domaine3)){
+            $domaines[]= $domaine3->id;
+        }
+
       }
 
       $date= new \DateTime(null);
@@ -67,7 +86,7 @@ class FournisseurImport implements ToModel,WithHeadingRow
                 $fournisseur->responsable=$row['responsable'];
                 $fournisseur->email=$row['email'];
                 $fournisseur->conditionPaiement=$row['condition_paiement'];
-                $fournisseur->adresseGeographique=$row['Adresse_geographique'];
+                $fournisseur->adresseGeographique=$row['adresse_geographique'];
                 $fournisseur->contact=$raw["contact"];
                 $fournisseur->domaine=implode(',',$domaines);
                 $fournisseur->id_projet=$GLOBALS['id_projet'];
