@@ -402,6 +402,12 @@ Route::get('/donne_moi_les_famille_disponible/{domaine}',[
     'uses'=>'ProjectController@gestion_projets',
 
 ])->middleware('auth');
+
+Route::get('modifier_projets/{id}',[
+    'as'=>'modifier_projets',
+    'uses'=>'ProjectController@modifier_projets',
+
+])->middleware('auth');
 Route::get('/donne_moi_les_designation_disponible/{famille}',[
     'as'=>'donne_moi_les_designation_disponible',
     'uses'=>'GestionStockController@donne_moi_les_designation_disponible',
@@ -978,6 +984,18 @@ Route::post('/enregistrer_mouvement', [
     'as'=>'enregistrer_mouvement',
     'uses'=>'GestionStockController@enregistrer_mouvement',
 ])->middleware('auth');
+
+
+Route::post('/update_projet', [
+    'as'=>'update_projet',
+    'uses'=>'ProjectController@update_projet',
+])->middleware('auth');
+
+Route::post('/ajouter_projet', [
+    'as'=>'ajouter_projet',
+    'uses'=>'ProjectController@ajouter_projet',
+])->middleware('auth');
+
 
 Route::post('/enregistrer_devis', [
     'as'=>'enregistrer_devis',

@@ -63,6 +63,8 @@ return [
     'selectionner_expediteur' => 'SELECTIONNER EXPEDITEUR',
     'selectionner_projet' => 'SELECTIONNER PROJET',
     'projet' => 'Projet',
+    'selectionner_pays' => 'SELECTIONNER PAYS',
+    'pays' => 'Pays',
     'annuler' => 'Annuler',
     'traiter_retourner' => 'Traité retourné',
     'traiter_finaliser' => 'Traité finalisé',

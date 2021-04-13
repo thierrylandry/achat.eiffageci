@@ -62,6 +62,8 @@ return [
     'selectionner_fournisseur' => 'SELECT SUPPLIER',
     'selectionner_projet' => 'SELECT PROJECT',
     'projet' => 'Project',
+    'selectionner_pays' => 'SELECTIONNER PAYS',
+    'pays' => 'Pays',
     'annuler' => 'Delete',
     'traiter_retourner' => 'returned treaty',
     'traiter_finaliser' => 'Finalized treaty',

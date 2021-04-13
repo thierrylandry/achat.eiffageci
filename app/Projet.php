@@ -15,4 +15,8 @@ class Projet extends Model
     {
         return $this->belongsTo('App\Boncommande','id_projet');
     }
+    public function pays()
+    {
+        return $this->belongsTo('App\Pays','id_pays');
+    }
 }

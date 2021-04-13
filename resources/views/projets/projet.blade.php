@@ -7,42 +7,45 @@
     class='active'
 @endsection
 @section('content')
-    <h2>{{ __('neutrale.projet') }}  @if(isset($utilisateur)) {{ __('translation.update') }} @else {{ __('translation.add') }}  @endif</h2><br/><br/><br/>
+
+    <h2>{{ __('neutrale.projet') }}  @if(isset($projet)) {{ __('translation.update') }} @else {{ __('translation.add') }}  @endif</h2><br/><br/><br/>
 
                     <div class="row">
                         <div class="col-sm-12">
 
-                                <form role="form" id="FormRegister" class="bucket-form" method="post" action="{{route('update_designation')}}" enctype="multipart/form-data">
+                                <form role="form" id="FormRegister" class="bucket-form" method="post" action="@if(isset($projet))   {{route('update_projet')}}  @else {{route('ajouter_projet')}} @endif" enctype="multipart/form-data">
 
 
 
                                             @csrf
                                             <div class="row">
-                                                <div class="col-sm-1">
+                                                <div class="col-sm-4">
                                                     <div class="form-group">
-                                                        <label for="type">{{__('gestion_stock.type')}}</label>
-                                                        <select class="form-control selectpicker" id="type_designation" name="type_designation" data-live-search="true" data-size="6" required>
-                                                            <option  value="">{{__('sortie_materiel.selectionner_type')}}</option>
+                                                        <label for="type">{{__('neutrale.pays')}} </label>
+                                                        <select class="form-control selectpicker" id="id_pays" name="id_pays" data-live-search="true" data-size="6" required>
+                                                            <option  value="">{{__('neutrale.selectionner_pays')}}</option>
+                                                            @foreach ( $payss as$pays )
+                                                                <option value="{{$pays->id}}" {{isset($projet) && $projet->id_pays==$pays->id?'selected':''}}>{{$pays->nom_fr_fr}}</option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-4">
                                                     <div class="form-froup">
-                                                        <b><label for="libelle" class="control-label">{{__('gestion_stock.article')}}</label></b>
-                                                        <input type="text" class="form-control" id="libelle" name="libelle" placeholder="libelle"  value="{{isset($designation)? $designation->libelle:''}}" required>
+                                                        <b><label for="libelle" class="control-label">{{__('neutrale.projet')}}</label></b>
+                                                        <input type="text" class="form-control" id="libelle" name="libelle" placeholder="libelle"  value="{{isset($projet)? $projet->libelle:''}}" required>
                                                     </div>
                                                 </div>
 
-
-
-
-                                                <br>
-                                                <input type="hidden" class="form-control" id="id" name="id" placeholder="" value="{{isset($designation)? $designation->id:''}}">
+                                                <input type="hidden" class="form-control" id="id" name="id" placeholder="" value="{{isset($projet)? $projet->id:''}}">
                                                  <br>
-                                                 <div class="col-sm-4">
+                                                 <div class="col-sm-2">
                                                 <div class="form-group" >
-                                                    <button type="submit" id="submit-all" class="btn btn-success form-control">@if(isset($designation)) {{ __('translation.update') }} @else {{ __('translation.add') }}  @endif</button>
+                                                    <button type="submit" id="submit-all" class="btn btn-success form-control">@if(isset($projet)) {{ __('translation.update') }} @else {{ __('translation.add') }}  @endif</button>
                                                 </div>
+                                                @if(isset($projet))
+                                                <a href="{{route('gestion_projets',app()->getLocale())}}">{{__('neutrale.ajouter')}}</a>
+                                            @endif
                                             </div>
 
 
@@ -59,6 +62,7 @@
                                 <tr>
                                     <th class="dt-head-center">id</th>
                                     <th class="dt-head-center">{{ __('neutrale.projet') }}</th>
+                                    <th class="dt-head-center">{{ __('neutrale.pays') }}</th>
                                     <th class="dt-head-center">{{__('gestion_stock.action')}}</th>
 
                                 </tr>
@@ -68,11 +72,12 @@
                                         <tr>
                                             <td>{{$projet->id}}</td>
                                             <td>{{$projet->libelle}}</td>
+                                            <td>{{$projet->pays->nom_fr_fr}}</td>
                                             <td>
                                                 <a href="{{route('supprimer_utilisateur',['locale'=>app()->getLocale(),'slug'=>$projet->id])}}" data-toggle="modal" class="btn btn-danger  pull-right">
                                                     <i class=" fa fa-trash"></i>
                                                 </a>
-                                                <a href="{{route('voir_utilisateur',['locale'=>app()->getLocale(),'slug'=>$projet->id])}}" data-toggle="modal" class="btn btn-info  pull-right">
+                                                <a href="{{route('modifier_projets',['locale'=>app()->getLocale(),'id'=>$projet->id])}}" data-toggle="modal" class="btn btn-info  pull-right">
                                                     <i class=" fa fa-pencil"></i>
                                                 </a>
 
@@ -90,7 +95,7 @@
                         </div>
                     </div>
 
-                    <!-- Script pour générer l'adresse e-mail à partir du nom et prénoms saisi -->
+
                     <script type="application/javascript">
                         var table= $('#projets').DataTable({
                             language: {
@@ -101,17 +106,12 @@
                                 @endif
                             },
                             "ordering":true,
-                            "responsive": true,
                             "createdRow": function( row, data, dataIndex){
 
                             },
-                            columnDefs: [
-                                { responsivePriority: 5, targets: 0 },
-                                { responsivePriority: 4, targets: -1 }
-                            ]
-                        }).column(0).visible(false);
-                        //table.DataTable().draw();
+                            responsive: true,
+                            paging: false,
 
-
+                        }).column( 0 ).visible(false);
                     </script>
 @endsection
