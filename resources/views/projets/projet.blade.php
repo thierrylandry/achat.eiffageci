@@ -19,24 +19,150 @@
 
                                             @csrf
                                             <div class="row">
-                                                <div class="col-sm-4">
-                                                    <div class="form-group">
-                                                        <label for="type">{{__('neutrale.pays')}} </label>
-                                                        <select class="form-control selectpicker" id="id_pays" name="id_pays" data-live-search="true" data-size="6" required>
-                                                            <option  value="">{{__('neutrale.selectionner_pays')}}</option>
-                                                            @foreach ( $payss as$pays )
-                                                                <option value="{{$pays->id}}" {{isset($projet) && $projet->id_pays==$pays->id?'selected':''}}>{{$pays->nom_fr_fr}}</option>
-                                                            @endforeach
-                                                        </select>
+                                                <div class="col-sm-3">
+                                                    <div>
+                                                        <div class="form-group">
+                                                            <label for="type">{{__('neutrale.pays')}} </label>
+                                                            <select class="form-control selectpicker" id="id_pays" name="id_pays" data-live-search="true" data-size="6" required>
+                                                                <option  value="">{{__('neutrale.selectionner_pays')}}</option>
+                                                                @foreach ( $payss as$pays )
+                                                                    <option value="{{$pays->id}}" {{isset($projet) && $projet->id_pays==$pays->id?'selected':''}}>{{$pays->nom_fr_fr}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div >
+                                                        <div class="form-froup">
+                                                            <b><label for="libelle" class="control-label">{{__('neutrale.projet')}}</label></b>
+                                                            <input type="text" class="form-control" id="libelle" name="libelle" placeholder="libelle"  value="{{isset($projet)? $projet->libelle:''}}" required>
+                                                        <br>
+                                                        </div>
+                                                    </div>
+                                                    <div >
+                                                        <div class="form-group">
+                                                            <label for="type">{{__('neutrale.default_language')}} </label>
+                                                            <select class="form-control selectpicker" id="default_language" name="default_language" data-live-search="true" data-size="6" required>
+                                                                <option  value="">{{__('neutrale.selectionner_default_language')}}</option>
+                                                                @foreach ( $languages as$language )
+                                                                    <option value="{{$pays->id}}" {{isset($projet) && $projet->	defaultLanguage==$language->language?'selected':''}}>{{$language->name}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div >
+                                                        <div class="form-group">
+                                                            <label for="type">{{__('neutrale.devise')}} </label>
+                                                            <select class="form-control selectpicker" id="devise" name="devise" data-live-search="true" data-size="6" required>
+                                                                <option  value="">{{__('neutrale.selectionner_devise')}}</option>
+                                                                @foreach ( $devises as$devise )
+                                                                    <option value="{{$pays->id}}" {{isset($projet) && $projet->defaultDevise==$devise->devise?'selected':''}}>{{$devise->devise}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div >
+                                                        <div class="form-group">
+                                                            <label for="type">{{__('neutrale.typeValidation')}} </label>
+                                                            <select class="form-control selectpicker" id="typeValidation" name="typeValidation" data-live-search="true" data-size="6" required>
+                                                                <option  value="">{{__('neutrale.selectionner_typeValidation')}}</option>
+                                                                @foreach ( $typesValidations as$typesValidation )
+                                                                    <option value="{{$pays->id}}" {{isset($projet) && $projet->id_pays==$pays->id?'selected':''}}>{{app()->getLocale()=='fr'?$typesValidation->libelle:$typesValidation->libelle_en}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-4">
-                                                    <div class="form-froup">
-                                                        <b><label for="libelle" class="control-label">{{__('neutrale.projet')}}</label></b>
-                                                        <input type="text" class="form-control" id="libelle" name="libelle" placeholder="libelle"  value="{{isset($projet)? $projet->libelle:''}}" required>
+                                                <div class="col-sm-3">
+                                                    <div >
+                                                        <div class="form-froup">
+                                                            <b><label for="libelle" class="control-label">{{__('neutrale.denomination_courte')}}</label></b>
+                                                            <input type="text" class="form-control" id="denomination_courte" name="denomination_courte" placeholder="libelle"  value="{{isset($projet)? $projet->libelle:''}}" required>
+                                                        </div>
+                                                        <br>
+                                                    </div>
+                                                    <div >
+                                                        <div class="form-froup">
+                                                            <b><label for="libelle" class="control-label">{{__('neutrale.denomination_longue')}}</label></b>
+                                                            <input type="text" class="form-control" id="denomination_longue" name="denomination_longue" placeholder="libelle"  value="{{isset($projet)? $projet->libelle:''}}" required>
+                                                        </div>
+                                                        <br>
+                                                    </div>
+                                                    <div >
+                                                        <div class="form-froup">
+                                                            <b><label for="libelle" class="control-label">{{__('neutrale.n_rccm')}}</label></b>
+                                                            <input type="text" class="form-control" id="n_rccm" name="n_rccm" placeholder="libelle"  value="{{isset($projet)? $projet->libelle:''}}" required>
+                                                        </div>
+                                                        <br>
+                                                    </div>
+                                                    <div >
+                                                        <div class="form-froup">
+                                                            <b><label for="libelle" class="control-label">{{__('neutrale.n_cc')}}</label></b>
+                                                            <input type="text" class="form-control" id="n_cc" name="n_cc" placeholder="libelle"  value="{{isset($projet)? $projet->libelle:''}}" required>
+                                                        </div>
+                                                        <br>
+                                                    </div>
+                                                    <div >
+                                                        <div class="form-froup">
+                                                            <b><label for="libelle" class="control-label">{{__('gestion_stock.adresse_geographique')}}</label></b>
+                                                            <input type="text" class="form-control" id="adresse_geographique" name="adresse_geographique" placeholder="libelle"  value="{{isset($projet)? $projet->libelle:''}}" required>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div >
+                                                        <div class="form-froup">
+                                                            <b><label for="libelle" class="control-label">{{__('neutrale.adressePostale')}}</label></b>
+                                                            <input type="text" class="form-control" id="adressePostale" name="adressePostale" placeholder="libelle"  value="{{isset($projet)? $projet->libelle:''}}" required>
+                                                        </div>
+                                                        <br>
+                                                    </div>
+                                                    <div >
+                                                        <div class="form-froup">
+                                                            <b><label for="libelle" class="control-label">{{__('neutrale.adresseReceptionFacture')}}</label></b>
+                                                            <input type="text" class="form-control" id="adresseReceptionFacture" name="adresseReceptionFacture" placeholder="libelle"  value="{{isset($projet)? $projet->libelle:''}}" required>
+                                                        </div>
+                                                        <br>
+                                                    </div>
+                                                    <div >
+                                                        <div class="form-froup">
+                                                            <b><label for="libelle" class="control-label">{{__('neutrale.adressePostaleReceptionFacture')}}</label></b>
+                                                            <input type="text" class="form-control" id="adressePostaleReceptionFacture" name="adressePostaleReceptionFacture" placeholder="libelle"  value="{{isset($projet)? $projet->libelle:''}}" required>
+                                                        </div>
+                                                        <br>
+                                                    </div>
+                                                    <div >
+                                                        <div class="form-froup">
+                                                            <b><label for="libelle" class="control-label">{{__('neutrale.portEPIObligatoire')}}</label></b>
+                                                            <input type="text" class="form-control" id="portEPIObligatoire" name="portEPIObligatoire" placeholder="libelle"  value="{{isset($projet)? $projet->libelle:''}}" required>
+                                                        </div>
+                                                        <br>
+                                                    </div>
+                                                    <div >
+                                                        <div class="form-froup">
+                                                            <b><label for="libelle" class="control-label">{{__('neutrale.use_tva')}}</label></b>
+                                                            <input type="text" class="form-control" id="use_tva" name="use_tva" placeholder="libelle"  value="{{isset($projet)? $projet->libelle:''}}" required>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div >
+                                                        <div class="form-froup">
+                                                            <b><label for="libelle" class="control-label">{{__('neutrale.siege_social')}}</label></b>
+                                                            <input type="text" class="form-control" id="siege_social" name="siege_social" placeholder="libelle"  value="{{isset($projet)? $projet->libelle:''}}" required>
+                                                        </div>
+                                                        <br>
+                                                    </div>
+                                                    <div >
+                                                        <div class="form-froup">
+                                                            <b><label for="libelle" class="control-label">{{__('neutrale.conditionGeneralAchat')}}</label></b>
+                                                            <textarea name="conditionGeneralAchat" class="form-control"></textarea>
+                                                        </div>
+                                                        <br>
                                                     </div>
                                                 </div>
-
+                                                <br>
                                                 <input type="hidden" class="form-control" id="id" name="id" placeholder="" value="{{isset($projet)? $projet->id:''}}">
                                                  <br>
                                                  <div class="col-sm-2">

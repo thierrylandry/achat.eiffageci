@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Pays;
 use App\Projet;
-use App\StdClass;
+use App\Devise;
+use App\Languages;
+use App\TypeValidation;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -14,8 +16,12 @@ class ProjectController extends Controller
     public function gestion_projets($locale){
 
         $projets  = Projet::all();
+        $devises = Devise::all();
+        $languages = Languages::all();
+        $typesValidations = TypeValidation::all();
         $payss =Pays::all();
-        return view('projets/projet',compact('projets','payss'));
+
+        return view('projets/projet',compact('projets','payss','devises','languages','typesValidations'));
     }
     public function modifier_projets($locale,$id){
 

@@ -63,6 +63,11 @@ return [
     'selectionner_expediteur' => 'SELECTIONNER EXPEDITEUR',
     'selectionner_projet' => 'SELECTIONNER PROJET',
     'projet' => 'Projet',
+    'default_language' => 'Langue par defaut',
+    'selectionner_default_language' => 'SELECTIONNER LANGUE PAR DEFAUT',
+    'typeValidation' => 'Type de validation',
+    'selectionner_typeValidation' => 'SELECTIONNER TYPE DE VALIDATION',
+    'selectionner_devise' => 'SELECTIONNER DEVISE',
     'selectionner_pays' => 'SELECTIONNER PAYS',
     'pays' => 'Pays',
     'annuler' => 'Annuler',
@@ -105,5 +110,18 @@ return [
     'chantier' => 'Chantier',
     'telecharger_trame' => 'télécharger la trame',
     'retour' => 'Retour',
+    'denomination_courte' => 'Dénomination courte',
+    'denomination_longue' => 'Dénomination longue',
+    'n_rccm' => 'N°CCM',
+    'n_cc' => 'N°CC',
+    'adressePostale' => 'Adresse Postale',
+    'adresseReceptionFacture' => 'Adresse de recption de facture',
+    'adressePostaleReceptionFacture' => 'Adresse de recption postale de facture',
+    'portEPIObligatoire' => 'Port d\'EPI obligatoire',
+    'use_tva' => 'Utilisation de la TVA',
+    'siege_social' => 'Siège social',
+    'conditionGeneralAchat' => 'Condition générale d\'achat',
+
+
 
 ];
