@@ -121,6 +121,9 @@ return [
     'use_tva' => 'Utilisation de la TVA',
     'siege_social' => 'Siège social',
     'conditionGeneralAchat' => 'Condition générale d\'achat',
+    'chantier' => 'Chantier',
+    'prefix_bc' => 'Préfix de N°BC',
+    'valideur' => 'Valideur',
 
 
 

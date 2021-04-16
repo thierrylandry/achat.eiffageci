@@ -38,9 +38,10 @@ class ProjectController extends Controller
 
 
         $parameters=$request->except(['_token']);
-        dd($parameters);
+        //dd($parameters);
         $id_pays = $parameters['id_pays'];
         $libelle= $parameters['libelle'];
+        $chantier= $parameters['chantier'];
         $denomination_courte= $parameters['denomination_courte'];
         $denomination_longue= $parameters['denomination_longue'];
         $n_rccm= $parameters['n_rccm'];
@@ -50,6 +51,7 @@ class ProjectController extends Controller
         $adresse_geographique= $parameters['adresse_geographique'];
         $adressePostale= $parameters['adressePostale'];
         $adresseReceptionFacture= $parameters['adresseReceptionFacture'];
+        $adressePostaleReceptionFacture=$parameters['adressePostaleReceptionFacture'];
         $default_language= $parameters['default_language'];
         $devise= $parameters['devise'];
         $typeValidation= $parameters['typeValidation'];
@@ -58,6 +60,7 @@ class ProjectController extends Controller
 
         $projet = new Projet();
         $projet->libelle=$libelle;
+        $projet->chantier=$chantier;
         $projet->id_pays=$id_pays;
 
         $projet->denomination_courte=$denomination_courte;
@@ -69,6 +72,7 @@ class ProjectController extends Controller
         $projet->adresseGeographique=$adresse_geographique;
         $projet->adressePostale=$adressePostale;
         $projet->adresseReceptionFacture=$adresseReceptionFacture;
+        $projet->adressePostaleReceptionFacture=$adressePostaleReceptionFacture;
         $projet->	defaultLanguage=$default_language;
         $projet->defaultDevise=$devise;
         $projet->typeValidation=$typeValidation;
@@ -85,6 +89,7 @@ class ProjectController extends Controller
         $id = $parameters['id'];
         $id_pays = $parameters['id_pays'];
         $libelle= $parameters['libelle'];
+        $chantier= $parameters['chantier'];
 
         $denomination_courte= $parameters['denomination_courte'];
         $denomination_longue= $parameters['denomination_longue'];
@@ -95,6 +100,7 @@ class ProjectController extends Controller
         $adresse_geographique= $parameters['adresse_geographique'];
         $adressePostale= $parameters['adressePostale'];
         $adresseReceptionFacture= $parameters['adresseReceptionFacture'];
+        $adressePostaleReceptionFacture = $parameters['adressePostaleReceptionFacture'];
         $default_language= $parameters['default_language'];
         $devise= $parameters['devise'];
         $typeValidation= $parameters['typeValidation'];
@@ -102,6 +108,7 @@ class ProjectController extends Controller
         $use_tva= $parameters['use_tva'];
         $projet =  Projet::find($id);
         $projet->libelle=$libelle;
+        $projet->chantier=$chantier;
         $projet->id_pays=$id_pays;
 
         $projet->denomination_courte=$denomination_courte;
@@ -113,6 +120,7 @@ class ProjectController extends Controller
         $projet->adresseGeographique=$adresse_geographique;
         $projet->adressePostale=$adressePostale;
         $projet->adresseReceptionFacture=$adresseReceptionFacture;
+        $projet->adressePostaleReceptionFacture=$adressePostaleReceptionFacture;
         $projet->defaultLanguage=$default_language;
         $projet->defaultDevise=$devise;
         $projet->typeValidation=$typeValidation;

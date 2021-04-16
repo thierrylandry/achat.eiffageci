@@ -120,4 +120,7 @@ return [
     'use_tva' => 'Use TVA',
     'siege_social' => 'the head office',
     'conditionGeneralAchat' => 'General Purchase condition',
+    'chantier' => 'Construction site',
+    'prefix_bc' => 'Prefix purchase order number',
+    'valideur' => 'Validator',
 ];

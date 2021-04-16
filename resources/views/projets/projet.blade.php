@@ -8,9 +8,82 @@
 @endsection
 @section('content')
 
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">MODIFIER LE CODE DE GESTION</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{route('changer_code_gestion')}}" method="post">
+                @csrf
+                <div class="modal-body">
+
+                    <div id="contacts">
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label" for="valideur[]">{{ __('neutrale.valideur') }} </label>
+                                <div class="col-sm-2">
+                                    <input type="text" name="valideur[]" class="titre_c form-control" placeholder="" value="{{ old('valideur[]') }}">
+                                </div>
+
+                                <label class="col-sm-2 col-form-label" for="titre_c[]">{{ __('neutrale.montant') }} min </label>
+                                <div class="col-sm-2">
+                                    <input type="number" name="montant[]" class="montant form-control" placeholder="{{ __('neutrale.montant') }}" value="{{ old('montant[]') }}">
+                                </div>
+
+                                <label class="col-sm-2 col-form-label" for="titre_c[]">{{ __('neutrale.montant') }} max </label>
+                                <div class="col-sm-2">
+                                    <input type="number" name="montant[]" class="montant form-control" placeholder="{{ __('neutrale.montant') }}" value="{{ old('montant[]') }}">
+                                </div>
+                                <br>
+                                {{ __('translation.add') }}
+                                <button type="button" class="btn bg-teal btn-circle waves-effect waves-circle waves-float" id="addcontact">
+                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                </button>
+                                </br>
+                                </br>
+                                </br>
+                            </div>
+                    </div>
+                    <div class="col-sm-12 col-lg-push-3">
+
+
+
+
+                    </div>
+                    <div id="contacttemplate" class="row clearfix" style="display: none">
+                        <label class="col-sm-2 col-form-label" for="valideur[]">{{ __('neutrale.valideur') }} </label>
+                        <div class="col-sm-2">
+                            <input type="text" name="valideur[]" class="titre_c form-control" placeholder="" value="{{ old('valideur[]') }}">
+                        </div>
+
+                        <label class="col-sm-2 col-form-label" for="titre_c[]">{{ __('neutrale.montant') }} min </label>
+                        <div class="col-sm-2">
+                            <input type="number" name="montant[]" class="montant form-control" placeholder="{{ __('neutrale.montant') }}" value="{{ old('montant[]') }}">
+                        </div>
+
+                        <label class="col-sm-2 col-form-label" for="titre_c[]">{{ __('neutrale.montant') }} max </label>
+                        <div class="col-sm-2">
+                            <input type="number" name="montant[]" class="montant form-control" placeholder="{{ __('neutrale.montant') }}" value="{{ old('montant[]') }}">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-info">Modifier</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
     <h2>{{ __('neutrale.projet') }}  @if(isset($projet)) {{ __('translation.update') }} @else {{ __('translation.add') }}  @endif</h2><br/><br/><br/>
 
                     <div class="row">
+
                         <div class="col-sm-12">
 
                                 <form role="form" id="FormRegister" class="bucket-form" method="post" action="@if(isset($projet))   {{route('update_projet')}}  @else {{route('ajouter_projet')}} @endif" enctype="multipart/form-data">
@@ -33,7 +106,14 @@
                                                     </div>
                                                     <div >
                                                         <div class="form-froup">
-                                                            <b><label for="libelle" class="control-label">{{__('neutrale.projet')}}</label></b>
+                                                            <b><label for="libelle" class="control-label">{{__('neutrale.chantier')}}</label></b>
+                                                            <input type="text" class="form-control" id="chantier" name="chantier" placeholder="libelle"  value="{{isset($projet)? $projet->chantier:''}}" required>
+                                                        <br>
+                                                        </div>
+                                                    </div>
+                                                    <div >
+                                                        <div class="form-froup">
+                                                            <b><label for="libelle" class="control-label">{{__('neutrale.prefix_bc')}}</label></b>
                                                             <input type="text" class="form-control" id="libelle" name="libelle" placeholder="libelle"  value="{{isset($projet)? $projet->libelle:''}}" required>
                                                         <br>
                                                         </div>
@@ -71,14 +151,16 @@
                                                     <div >
                                                         <div class="form-froup">
                                                             <b><label for="libelle" class="control-label">{{__('neutrale.siege_social')}}</label></b>
-                                                            <input type="text" class="form-control" id="siege_social" name="siege_social" placeholder="libelle"  value="{{isset($projet)? $projet->siege_social:''}}" required>
+                                                            <textarea class="form-control" id="siege_social" name="siege_social"> {{isset($projet)? $projet->siege_social:''}}</textarea>
+
                                                         </div>
                                                         <br>
                                                     </div>
                                                     <div >
                                                         <div class="form-froup">
                                                             <b><label for="libelle" class="control-label">{{__('neutrale.portEPIObligatoire')}}</label></b>
-                                                            <input type="text" class="form-control" id="portEPIObligatoire" name="portEPIObligatoire" placeholder="libelle"  value="{{isset($projet)? $projet->	portEPIObligatoire:''}}" required>
+                                                            <textarea class="form-control" id="portEPIObligatoire" name="portEPIObligatoire"> {{isset($projet)? $projet->	portEPIObligatoire:''}}</textarea>
+
                                                         </div>
                                                         <br>
                                                     </div>
@@ -90,7 +172,8 @@
                                                         <div >
                                                             <div class="form-froup">
                                                                 <b><label for="libelle" class="control-label">{{__('gestion_stock.adresse_geographique')}}</label></b>
-                                                                <input type="text" class="form-control" id="adresse_geographique" name="adresse_geographique" placeholder="libelle"  value="{{isset($projet)? $projet->adresseGeographique:''}}" required>
+                                                                <textarea class="form-control" id="adresse_geographique" name="adresse_geographique"> {{isset($projet)? $projet->	adresseGeographique:''}}</textarea>
+
                                                             </div>
                                                         </div>
                                                         <div class="form-froup">
@@ -102,7 +185,8 @@
                                                     <div >
                                                         <div class="form-froup">
                                                             <b><label for="libelle" class="control-label">{{__('neutrale.adresseReceptionFacture')}}</label></b>
-                                                            <input type="text" class="form-control" id="adresseReceptionFacture" name="adresseReceptionFacture" placeholder="libelle"  value="{{isset($projet)? $projet->adresseReceptionFacture:''}}" required>
+                                                            <textarea class="form-control" id="adresseReceptionFacture" name="adresseReceptionFacture"> {{isset($projet)? $projet->adresseReceptionFacture:''}}</textarea>
+
                                                         </div>
                                                         <br>
                                                     </div>
@@ -123,7 +207,7 @@
                                                             <select class="form-control selectpicker" id="default_language" name="default_language" data-live-search="true" data-size="6" required>
                                                                 <option  value="">{{__('neutrale.selectionner_default_language')}}</option>
                                                                 @foreach ( $languages as$language )
-                                                                    <option value="{{$pays->id}}" {{isset($projet) && $projet->	defaultLanguage==$language->language?'selected':''}}>{{$language->name}}</option>
+                                                                    <option value="{{$language->language}}" {{isset($projet) && $projet->	defaultLanguage==$language->language?'selected':''}}>{{$language->name}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
@@ -134,21 +218,25 @@
                                                             <select class="form-control selectpicker" id="devise" name="devise" data-live-search="true" data-size="6" required>
                                                                 <option  value="">{{__('neutrale.selectionner_devise')}}</option>
                                                                 @foreach ( $devises as$devise )
-                                                                    <option value="{{$devise->id}}" {{isset($projet) && $projet->defaultDevise==$devise->devise?'selected':''}}>{{$devise->devise}}</option>
+                                                                    <option value="{{$devise->devise}}" {{isset($projet) && $projet->defaultDevise==$devise->devise?'selected':''}}>{{$devise->devise}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
                                                     </div>
                                                     <div >
                                                         <div class="form-group">
-                                                            <label for="type">{{__('neutrale.typeValidation')}} </label>
+                                                            <label for="type">{{__('neutrale.typeValidation')}} <a href="" data-toggle="modal" data-target="#exampleModal1" data-whatever="@mdo"   data-toggle="modal" class="btn btn-info btnupdate_cg">
+                                                                <i class="fa fa-info-circle" style="size: 40px">{{__('neutrale.valideur')}} (s) </i>
+                                                            </a> </label>
                                                             <select class="form-control selectpicker" id="typeValidation" name="typeValidation" data-live-search="true" data-size="6" required>
                                                                 <option  value="">{{__('neutrale.selectionner_typeValidation')}}</option>
                                                                 @foreach ( $typesValidations as$typesValidation )
-                                                                    <option value="{{$typesValidation->id}}" {{isset($projet) && $projet->id_pays==$pays->id?'selected':''}}>{{app()->getLocale()=='fr'?$typesValidation->libelle:$typesValidation->libelle_en}}</option>
+                                                                    <option value="{{$typesValidation->id}}" {{isset($projet) && $projet->typeValidation==$typesValidation->id?'selected':''}}>{{app()->getLocale()=='fr'?$typesValidation->libelle:$typesValidation->libelle_en}}</option>
                                                                 @endforeach
                                                             </select>
+
                                                         </div>
+
                                                     </div>
                                                     <div >
                                                         <div class="form-froup">
@@ -171,6 +259,8 @@
                                                 <div class="form-group" >
                                                     <button type="submit" id="submit-all" class="btn btn-success form-control">@if(isset($projet)) {{ __('translation.update') }} @else {{ __('translation.add') }}  @endif</button>
                                                 </div>
+
+
                                                 @if(isset($projet))
                                                 <a href="{{route('gestion_projets',app()->getLocale())}}">{{__('neutrale.ajouter')}}</a>
                                             @endif
@@ -241,5 +331,8 @@
                             paging: false,
 
                         }).column( 0 ).visible(false);
+                        $("#addcontact").click(function (e) {
+                            $($("#contacttemplate").html()).appendTo($("#contacts"));
+                        });
                     </script>
 @endsection
