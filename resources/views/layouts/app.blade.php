@@ -277,6 +277,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
          </ul>
      </li>
      @endif
+     @if(Auth::user() != null && Auth::user()->hasRole('Parametrage'))
+     <li @yield('configuration') >
+         <a  @yield('configuration') href="{{route('configuration',app()->getLocale())}}" >
+             <i class="fa fa-cogs">
+
+             </i>
+             <span>{{ __('menu.configuration') }}</span>
+         </a>
+     </li>
+     @endif
      @if(Auth::user() != null && Auth::user()->hasAnyRole(['Gestionnaire_DA','Valideur_DA']))
          <li @yield('menu_produit') ><a href="{{route('menu_produit',app()->getLocale())}}" @yield('menu_produit')>{{ __('menu.produit_service') }}</a></li>
      <li >

@@ -8,78 +8,7 @@
 @endsection
 @section('content')
 
-<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">MODIFIER LE CODE DE GESTION</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action="{{route('changer_code_gestion')}}" method="post">
-                @csrf
-                <div class="modal-body">
 
-                    <div id="contacts">
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label" for="valideur[]">{{ __('neutrale.valideur') }} </label>
-                                <div class="col-sm-2">
-                                    <input type="text" name="valideur[]" class="titre_c form-control" placeholder="" value="{{ old('valideur[]') }}">
-                                </div>
-
-                                <label class="col-sm-2 col-form-label" for="titre_c[]">{{ __('neutrale.montant') }} min </label>
-                                <div class="col-sm-2">
-                                    <input type="number" name="montant[]" class="montant form-control" placeholder="{{ __('neutrale.montant') }}" value="{{ old('montant[]') }}">
-                                </div>
-
-                                <label class="col-sm-2 col-form-label" for="titre_c[]">{{ __('neutrale.montant') }} max </label>
-                                <div class="col-sm-2">
-                                    <input type="number" name="montant[]" class="montant form-control" placeholder="{{ __('neutrale.montant') }}" value="{{ old('montant[]') }}">
-                                </div>
-                                <br>
-                                {{ __('translation.add') }}
-                                <button type="button" class="btn bg-teal btn-circle waves-effect waves-circle waves-float" id="addcontact">
-                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                                </button>
-                                </br>
-                                </br>
-                                </br>
-                            </div>
-                    </div>
-                    <div class="col-sm-12 col-lg-push-3">
-
-
-
-
-                    </div>
-                    <div id="contacttemplate" class="row clearfix" style="display: none">
-                        <label class="col-sm-2 col-form-label" for="valideur[]">{{ __('neutrale.valideur') }} </label>
-                        <div class="col-sm-2">
-                            <input type="text" name="valideur[]" class="titre_c form-control" placeholder="" value="{{ old('valideur[]') }}">
-                        </div>
-
-                        <label class="col-sm-2 col-form-label" for="titre_c[]">{{ __('neutrale.montant') }} min </label>
-                        <div class="col-sm-2">
-                            <input type="number" name="montant[]" class="montant form-control" placeholder="{{ __('neutrale.montant') }}" value="{{ old('montant[]') }}">
-                        </div>
-
-                        <label class="col-sm-2 col-form-label" for="titre_c[]">{{ __('neutrale.montant') }} max </label>
-                        <div class="col-sm-2">
-                            <input type="number" name="montant[]" class="montant form-control" placeholder="{{ __('neutrale.montant') }}" value="{{ old('montant[]') }}">
-                        </div>
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-info">Modifier</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
     <h2>{{ __('neutrale.projet') }}  @if(isset($projet)) {{ __('translation.update') }} @else {{ __('translation.add') }}  @endif</h2><br/><br/><br/>
 
                     <div class="row">
@@ -92,7 +21,7 @@
 
                                             @csrf
                                             <div class="row">
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-2">
                                                     <div>
                                                         <div class="form-group">
                                                             <label for="type">{{__('neutrale.pays')}} </label>
@@ -265,7 +194,57 @@
                                                 <a href="{{route('gestion_projets',app()->getLocale())}}">{{__('neutrale.ajouter')}}</a>
                                             @endif
                                             </div>
+                                            <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">{{__('neutrale.valideur')}}</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
 
+
+                                                            <div class="modal-body">
+
+                                                                <div class="form-inline">
+                                                                    <div class="form-group">
+                                                                      <label for="email">{{__('neutrale.valideur')}} 1:</label>
+                                                                      <select name="valideur[]"class="form-control">
+                                                                            <option> {{__('neutrale.selectionner')}}</option>
+                                                                            @foreach ($users as $user)
+                                                                                <option value="{{$user->id}}" {{isset($projet->valideur1) && $projet->valideur1==$user->id?'selected':''}}>{{$user->nom}} {{$user->prenoms}}</option>
+                                                                            @endforeach
+                                                                      </select>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                      <label for="pwd">{{__('neutrale.montant')}} 1: <=</label>
+                                                                      <input type="number" name="montant[]" value="{{isset($projet->montant1)?$projet->montant1:''}}" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                 <br>
+                                                                <div class="form-inline">
+                                                                    <div class="form-group">
+                                                                      <label for="email">{{__('neutrale.valideur')}} 2:</label>
+                                                                      <select name="valideur[]"class="form-control">
+                                                                        <option> {{__('neutrale.selectionner')}}</option>
+                                                                        @foreach ($users as $user)
+                                                                            <option value="{{$user->id}}" {{isset($projet->valideur2) && $projet->valideur2==$user->id?'selected':''}}>{{$user->nom}} {{$user->prenoms}}</option>
+                                                                        @endforeach
+                                                                  </select>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                      <label for="pwd">{{__('neutrale.montant')}} 2:  ></label>
+                                                                      <input type="number" name="montant[]" value="{{isset($projet->montant2)?$projet->montant2:''}}" class="form-control">
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                            </div>
+                                                    </div>
+                                                </div>
+                                            </div>
 
                                  </form>
                         </div>

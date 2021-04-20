@@ -93,7 +93,13 @@ Route::get('/supprimer_fournisseur/{slug}',[
 
 
 
+Route::get('/configuration',[
+    'as'=>'configuration',
+    'uses'=>'ConfigurationController@configuration',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_DA']
 
+])->middleware('auth');
 
 Route::get('/gestion_produit',[
     'as'=>'gestion_produit',
@@ -588,6 +594,10 @@ Route::get('/gestion_stock', [
     Route::get('/importation_code_tache/{id_projet}', [
     'as'=>'importation_code_tache',
     'uses'=>'ExportImportController@importation_code_tache',
+])->middleware('auth');
+Route::get('/importation_plan_comptable', [
+    'as'=>'importation_plan_comptable',
+    'uses'=>'ExportImportController@importation_plan_comptable',
 ])->middleware('auth');
     Route::get('/importation_codeanalytique/{id_projet}', [
     'as'=>'importation_codeanalytique',

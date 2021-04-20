@@ -29,6 +29,9 @@ class ExportImportController extends Controller
     public function importation_fournisseur($locale,$id_projet){
         return view('importations.importation_fournisseur',compact('id_projet'));
     }
+    public function importation_plan_comptable($locale){
+        return view('importations.import_plan_comptable');
+    }
     public function import_code_tache(Request $request){
 
         $parameters = $request->except(['_token']);

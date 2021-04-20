@@ -44,5 +44,6 @@ return array (
     'import_fournisseurs'=>'Import Suppliers',
     'import_codetache'=>'Import Task code',
     'import_codeanalytique'=>'Import Analytical code',
-
+    'import_plancomptable'=>'Import chart of accounts',
+    'configuration'=>'Configurations',
 );

@@ -7,6 +7,7 @@ use App\Projet;
 use App\Devise;
 use App\Languages;
 use App\TypeValidation;
+use App\User;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -20,8 +21,16 @@ class ProjectController extends Controller
         $languages = Languages::all();
         $typesValidations = TypeValidation::all();
         $payss =Pays::all();
+        $listeusers = User::all();
+        $users = array();
+        foreach($listeusers as $user):
+            if($user->hasRole('Gestionnaire_Pro_Forma')){
+                $users[]=$user;
+            }
+            endforeach;
 
-        return view('projets/projet',compact('projets','payss','devises','languages','typesValidations'));
+
+        return view('projets/projet',compact('projets','payss','devises','languages','typesValidations','users'));
     }
     public function modifier_projets($locale,$id){
 
@@ -31,7 +40,15 @@ class ProjectController extends Controller
         $languages = Languages::all();
         $typesValidations = TypeValidation::all();
         $payss =Pays::all();
-        return view('projets/projet',compact('projets','payss','projet','devises','languages','typesValidations'));
+        $listeusers = User::all();
+        $users = array();
+        foreach($listeusers as $user):
+            if($user->hasRole('Gestionnaire_Pro_Forma')){
+                $users[]=$user;
+            }
+            endforeach;
+
+        return view('projets/projet',compact('projets','payss','projet','devises','languages','typesValidations','users'));
     }
     public function ajouter_projet(Request $request){
 
@@ -57,6 +74,8 @@ class ProjectController extends Controller
         $typeValidation= $parameters['typeValidation'];
         $conditionGeneralAchat= $parameters['conditionGeneralAchat'];
         $use_tva= $parameters['use_tva'];
+        $valideur= $parameters['valideur'];
+        $montant= $parameters['montant'];
 
         $projet = new Projet();
         $projet->libelle=$libelle;
@@ -79,6 +98,11 @@ class ProjectController extends Controller
 
         $projet->conditionGeneralAchat=$conditionGeneralAchat;
         $projet->use_tva=$use_tva;
+        $projet->valideur1=$valideur[0];
+        $projet->montant1=$montant[0];
+        $projet->valideur2=$valideur[1];
+        $projet->montant2=$montant[1];
+
 
         $projet->save();
         return redirect()->back()->with('success', "success");
@@ -86,6 +110,7 @@ class ProjectController extends Controller
     public function update_projet(Request $request){
 
         $parameters=$request->except(['_token']);
+        //dd($parameters);
         $id = $parameters['id'];
         $id_pays = $parameters['id_pays'];
         $libelle= $parameters['libelle'];
@@ -106,6 +131,8 @@ class ProjectController extends Controller
         $typeValidation= $parameters['typeValidation'];
         $conditionGeneralAchat= $parameters['conditionGeneralAchat'];
         $use_tva= $parameters['use_tva'];
+        $valideur= $parameters['valideur'];
+        $montant= $parameters['montant'];
         $projet =  Projet::find($id);
         $projet->libelle=$libelle;
         $projet->chantier=$chantier;
@@ -127,6 +154,10 @@ class ProjectController extends Controller
 
         $projet->conditionGeneralAchat=$conditionGeneralAchat;
         $projet->use_tva=$use_tva;
+        $projet->valideur1=$valideur[0];
+        $projet->montant1=$montant[0];
+        $projet->valideur2=$valideur[1];
+        $projet->montant2=$montant[1];
 
         $projet->save();
         return redirect()->back()->with('success', "success");
