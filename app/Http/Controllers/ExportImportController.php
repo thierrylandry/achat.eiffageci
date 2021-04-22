@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Imports\CodeanalytiqueImport;
+use App\Imports\CodeComptableImport;
 use App\Imports\CodetacheImport;
+use App\Imports\DesignationImport;
 use App\Imports\FournisseurImport;
+use App\Pays;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -30,7 +33,30 @@ class ExportImportController extends Controller
         return view('importations.importation_fournisseur',compact('id_projet'));
     }
     public function importation_plan_comptable($locale){
-        return view('importations.import_plan_comptable');
+        $payss = Pays::all();
+        return view('importations.import_plan_comptable',compact('payss'));
+    }
+
+    public function importation_designation($locale){
+
+        return view('importations.importation_designation');
+    }
+    public function import_code_comptable(Request $request){
+
+        $parameters = $request->except(['_token']);
+
+        $excel=$parameters['excel'];
+        $GLOBALS['id_pays']=$parameters['id_pays'];
+       // Excel::import(new CodetacheImport(),request()->file('excel'),null,\Maatwebsite\Excel\Excel::CSV);
+
+        try{
+            Excel::import(new CodeComptableImport(),request()->file('excel'),null,\Maatwebsite\Excel\Excel::XLSX);
+        }catch (Exception $exception){
+           //dd($exception->getMessage());
+            return "format incorrect veuillez selectionner un fichier excel au format XLSX";
+        }
+
+        return redirect()->back()->with('success', "success");
     }
     public function import_code_tache(Request $request){
 
@@ -44,6 +70,22 @@ class ExportImportController extends Controller
             Excel::import(new CodetacheImport(),request()->file('excel'),null,\Maatwebsite\Excel\Excel::XLSX);
         }catch (Exception $exception){
            //dd($exception->getMessage());
+            return "format incorrect veuillez selectionner un fichier excel au format XLSX";
+        }
+
+        return redirect()->back()->with('success', "success");
+    }
+    public function import_designation(Request $request){
+
+        $parameters = $request->except(['_token']);
+
+        $excel=$parameters['excel'];
+       // Excel::import(new CodetacheImport(),request()->file('excel'),null,\Maatwebsite\Excel\Excel::CSV);
+
+        try{
+            Excel::import(new DesignationImport(),request()->file('excel'),null,\Maatwebsite\Excel\Excel::XLSX);
+        }catch (Exception $exception){
+           dd($exception->getMessage());
             return "format incorrect veuillez selectionner un fichier excel au format XLSX";
         }
 

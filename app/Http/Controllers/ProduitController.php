@@ -8,8 +8,7 @@
 
 namespace App\Http\Controllers;
 
-
-
+use App\Code_comptable;
 use App\Designation;
 use App\Domaines;
 use App\Famille;
@@ -63,7 +62,8 @@ class ProduitController
         $designations =Designation::orderBy('libelle', 'ASC')->get();
         $type_designations =Type_designation::all();
         $analytiques=  DB::table('analytique')->distinct()->get(['codeRubrique','libelle']);
-        return view('designations/designations',compact('familles','designations','type_designations','analytiques'));
+        $code_comptables =Code_comptable::all();
+        return view('designations/designations',compact('familles','designations','type_designations','analytiques','code_comptables'));
     }
     public function modifier_famille($locale,$id){
 
@@ -86,7 +86,8 @@ class ProduitController
         $designations =Designation::orderBy('libelle', 'ASC')->get();
         $type_designations =Type_designation::all();
         $analytiques=  DB::table('analytique')->distinct()->get(['codeRubrique','libelle']);
-        return view('designations/designations',compact('familles','designation','designations','type_designations','analytiques'));
+        $code_comptables =Code_comptable::all();
+        return view('designations/designations',compact('familles','designation','designations','type_designations','analytiques','code_comptables'));
     }
     public function supprimer_designation($locale,$id){
 
@@ -192,12 +193,14 @@ if(isset($_FILES['image']['name']) && $_FILES['image']['name']!="" ){
         $stockmin = $parameters['stock_min'];
         $type_designation = $parameters['type_designation'];
         $code_analytique = $parameters['code_analytique'];
+        $code_comptable = $parameters['code_comptable'];
         $designation=  Designation::find($id);
         $designation->libelle=$libelle;
         $designation->id_famille=$id_famille;
         $designation->stock_min=$stockmin;
         $designation->type_designation=$type_designation;
         $designation->code_analytique=$code_analytique;
+        $designation->code_comptable=$code_comptable;
         $designation->save();
         // Fournisseur::create($parameters);
         return redirect()->back()->with('success', "success");
@@ -212,12 +215,14 @@ if(isset($_FILES['image']['name']) && $_FILES['image']['name']!="" ){
         $stockmin = $parameters['stock_min'];
         $type_designation = $parameters['type_designation'];
         $code_analytique = $parameters['code_analytique'];
+        $code_comptable = $parameters['code_comptable'];
         $designation=  new Designation();
         $designation->libelle=$libelle;
         $designation->id_famille=$id_famille;
         $designation->stock_min=$stockmin;
         $designation->type_designation=$type_designation;
         $designation->code_analytique=$code_analytique;
+        $designation->code_comptable=$code_comptable;
         $designation->save();
         // Fournisseur::create($parameters);
         // Fournisseur::create($parameters);

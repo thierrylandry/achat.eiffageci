@@ -58,4 +58,34 @@ class User extends Authenticatable
         }
         return false;
     }
+
+
+
+    public function projets()
+    {
+        return $this->belongsToMany('App\Projet', 'user_projet', 'id_user', 'id_projet');
+    }
+    public function hasAnyProjets($projets)
+    {
+        if (is_array($projets)) {
+            foreach ($projets as $projet) {
+                if ($this->hasRole($projets)) {
+                    return true;
+                }
+            }
+        } else {
+            if ($this->hasRole($projets)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function hasProjet($projet)
+    {
+        if ($this->projets()->where('chantier', $projet)->first()) {
+            return true;
+        }
+        return false;
+    }
 }

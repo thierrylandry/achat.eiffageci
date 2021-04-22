@@ -8,8 +8,19 @@
             <div class="col-sm-6">
                 <h4 class="modal-title">{{__('menu.import_plancomptable')}} Format : Excel XLSX</h4>
                 <br>
-                    <form role="form" class="form-group" method="post" action="{{route('import_code_tache')}}" enctype="multipart/form-data">
+                    <form role="form" class="form-group" method="post" action="{{route('import_code_comptable')}}" enctype="multipart/form-data">
                         @csrf
+                        <div>
+                            <div class="form-group">
+                                <label for="type">{{__('neutrale.pays')}} </label>
+                                <select class="form-control selectpicker" id="id_pays" name="id_pays" data-live-search="true" data-size="6" required>
+                                    <option  value="">{{__('neutrale.selectionner_pays')}}</option>
+                                    @foreach ( $payss as$pays )
+                                        <option value="{{$pays->id}}" {{isset($projet) && $projet->id_pays==$pays->id?'selected':''}}>{{$pays->nom_fr_fr}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                         <div class="form-inline">
 
 
@@ -25,7 +36,7 @@
             <div class="col-sm-6">
 
 
-                        <a href="{{route("download_doc",['locale'=>app()->getLocale(),'namefile' => "trame_codetache.xlsx"])}}"><i class="fa fa-file-excel-o fa-3x" ></i><br> {{__('neutrale.telecharger_trame')}}</a>
+                        <a href="{{route("download_doc",['locale'=>app()->getLocale(),'namefile' => "trame_codecomptable.xlsx"])}}"><i class="fa fa-file-excel-o fa-3x" ></i><br> {{__('neutrale.telecharger_trame')}}</a>
                 <br>
 
 

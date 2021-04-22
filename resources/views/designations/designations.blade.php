@@ -24,7 +24,8 @@
 
                             @csrf
                             <div class="row">
-                                <div class="col-sm-1">  <div class="form-group">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
                                         <label for="type">{{__('gestion_stock.type')}}</label>
                                         <select class="form-control selectpicker" id="type_designation" name="type_designation" data-live-search="true" data-size="6" required>
                                             <option  value="">{{__('sortie_materiel.selectionner_type')}}</option>
@@ -34,7 +35,8 @@
                                                         @endif value="{{$type_designations->id}}">{{$type_designations->libelle}}</option>
                                             @endforeach
                                         </select>
-                                    </div></div>                                <div class="col-sm-3">  <div class="form-group">
+                                    </div>
+                                    <div class="form-group">
                                         <label for="type">{{__('gestion_stock.famille')}}</label>
                                         <select class="form-control selectpicker" id="id_famille" name="id_famille" data-live-search="true" data-size="6" required>
                                             <option  value="">{{__('sortie_materiel.selectionner_famille')}}</option>
@@ -44,16 +46,18 @@
                                                         @endif value="{{$famille->id}}">{{$famille->libelle}}</option>
                                             @endforeach
                                         </select>
-                                    </div></div>
-                                <div class="col-sm-3"><div class="form-froup">
+                                    </div>
+                                    <div class="form-froup">
                                         <b><label for="libelle" class="control-label">{{__('gestion_stock.article')}}</label></b>
                                         <input type="text" class="form-control" id="libelle" name="libelle" placeholder="libelle"  value="{{isset($designation)? $designation->libelle:''}}" required>
-                                    </div></div>
-                                <div class="col-sm-2"><div class="form-froup">
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-froup">
                                         <b><label for="libelle" class="control-label">{{__('gestion_stock.stock_min')}}</label></b>
                                         <input type="text" class="form-control" id="stock_min" name="stock_min" placeholder="{{__('gestion_stock.stock_min')}}"  value="{{isset($designation)? $designation->stock_min:''}}" >
-                                    </div></div>
-                                <div class="col-sm-3">
+                                    </div>
                                     <div class="form-group">
                                         <label for="type">{{__('gestion_stock.code_analytique')}}</label>
                                         <select class="form-control selectpicker" id="code_analytique" name="code_analytique" data-live-search="true" data-size="6">
@@ -65,21 +69,33 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="type">{{__('menu.code_comptable')}} </label>
+                                        <select class="form-control selectpicker" id="code_comptable" name="code_comptable" data-live-search="true" data-size="6">
+                                            <option  value="">{{__('neutrale.selectionner')}}</option>
+                                            @foreach($code_comptables as $code_comptable)
+                                                <option @if(isset($designation->code_comptable) and $code_comptable->code==$designation->code_comptable)
+                                                        {{'selected'}}
+                                                        @endif value="{{$code_comptable->code}}" >{{$code_comptable->code}} -- {{$code_comptable->libelle}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <br>
+                                         <div class="form-group" >
+                                            <button type="submit" id="submit-all" class="btn btn-success form-control">@if(isset($designation)) {{ __('translation.update') }} @else {{ __('translation.add') }}  @endif</button>
+                                        </div>
 
-                            </div>
+                                    @if(isset($designation))
+                                        <a href="{{route('designations',app()->getLocale())}}">@if(isset($designation)) {{ __('translation.add') }} @else {{ __('translation.update') }}  @endif</a>
+                                    @endif
+                                </div>
 
 
                             <br>
                             <input type="hidden" class="form-control" id="id" name="id" placeholder="" value="{{isset($designation)? $designation->id:''}}">
-                            <br>
-                            <div class="col-sm-4">
-                                <div class="form-group" >
-                                    <button type="submit" id="submit-all" class="btn btn-success form-control">@if(isset($designation)) {{ __('translation.update') }} @else {{ __('translation.add') }}  @endif</button>
-                                </div>
-                            </div>
-                            @if(isset($designation))
-                                <a href="{{route('designations',app()->getLocale())}}">@if(isset($designation)) {{ __('translation.add') }} @else {{ __('translation.update') }}  @endif</a>
-                            @endif
+
 
                         </form>
         </div>
@@ -95,6 +111,8 @@
                     <th class="dt-head-center">id</th>
                     <th class="dt-head-center">{{__('gestion_stock.famille')}}</th>
                     <th class="dt-head-center">{{__('gestion_stock.article')}}</th>
+                    <th class="dt-head-center">{{__('gestion_stock.code_analytique')}}</th>
+                    <th class="dt-head-center">{{__('menu.code_comptable')}}</th>
                     <th class="dt-head-center">{{__('gestion_stock.stock_min')}}</th>
                     <th class="dt-head-center">{{__('gestion_stock.type')}}</th>
                     <th class="dt-head-center">{{__('gestion_stock.action')}}</th>
@@ -107,6 +125,8 @@
                         <td>{{$designation->id}}</td>
                        <td>{{$designation->famille->libelle}}</td>
                        <td>{{$designation->libelle}}</td>
+                       <td>{{isset($designation->lecode_analytique)?$designation->lecode_analytique->codeRubrique:''}}- {{isset($designation->lecode_analytique)?$designation->lecode_analytique->libelle:''}}</td>
+                       <td>{{isset($designation->lecode_comptable)?$designation->lecode_comptable->codeRubrique:''}}- {{isset($designation->lecode_comptable)?$designation->lecode_analytique->libelle:''}}</td>
                        <td>{{$designation->stock_min}}</td>
                        <td>{{isset($designation->type_designation) && $designation->type_designation==1?'Suivi':'non suivi'}}</td>
 

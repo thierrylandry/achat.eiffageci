@@ -46,4 +46,5 @@ return array (
     'import_codeanalytique'=>'Importation de Code Analytique',
     'import_plancomptable'=>'Importation du plan comptable',
     'configuration'=>'Configurations',
+    'code_comptable'=>'Code Comptable',
 );

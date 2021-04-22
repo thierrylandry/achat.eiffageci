@@ -161,6 +161,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <a href="{{route('home',app()->getLocale())}}" class="logo">
                 Pro-Achat
             </a>
+            <p style="color: #FFFFFF">v2.0</p>
             <div class="sidebar-toggle-box">
                 <div class="fa fa-bars"></div>
             </div>

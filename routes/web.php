@@ -159,6 +159,14 @@ Route::get('/gestion_utilisateur',[
 
 ])->middleware('auth');
 
+Route::get('/super_utilisateur',[
+    'as'=>'super_utilisateur',
+    'uses'=>'UtilisateurController@super_utilisateur',
+    'middleware' => 'roles',
+    'roles' => ['Parametrage']
+
+])->middleware('auth');
+
 Route::get('/voir_utilisateur/{slug}',[
     'as'=>'voir_utilisateur',
     'uses'=>'UtilisateurController@voir_utilisateur',
@@ -594,6 +602,10 @@ Route::get('/gestion_stock', [
     Route::get('/importation_code_tache/{id_projet}', [
     'as'=>'importation_code_tache',
     'uses'=>'ExportImportController@importation_code_tache',
+])->middleware('auth');
+Route::get('/importation_designation', [
+    'as'=>'importation_designation',
+    'uses'=>'ExportImportController@importation_designation',
 ])->middleware('auth');
 Route::get('/importation_plan_comptable', [
     'as'=>'importation_plan_comptable',
@@ -1157,6 +1169,12 @@ Route::post('/mailling', [
 
 
 
+Route::post('/import_designation', [
+    'as'=>'import_designation',
+    'uses'=>'ExportImportController@import_designation',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_Pro_Forma']
+])->middleware('auth');
 Route::post('/import_code_analytique', [
     'as'=>'import_code_analytique',
     'uses'=>'ExportImportController@import_code_analytique',
@@ -1166,6 +1184,12 @@ Route::post('/import_code_analytique', [
 Route::post('/import_code_tache', [
     'as'=>'import_code_tache',
     'uses'=>'ExportImportController@import_code_tache',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_Pro_Forma']
+])->middleware('auth');
+Route::post('/import_code_comptable', [
+    'as'=>'import_code_comptable',
+    'uses'=>'ExportImportController@import_code_comptable',
     'middleware' => 'roles',
     'roles' => ['Gestionnaire_Pro_Forma']
 ])->middleware('auth');
@@ -1286,9 +1310,20 @@ Route::post('/Validutilisateurs', [
     'middleware' => 'roles',
     'roles' => ['Parametrage']
 ])->middleware('auth');
+Route::post('/Validsuperutilisateurs', [
+    'as'=>'Validutilisateurs',
+    'uses'=>'UtilisateurController@Validsuperutilisateurs',
+    'middleware' => 'roles',
+    'roles' => ['Parametrage']
+])->middleware('auth');
 Route::post('/modifier_utilisateur}',[
     'as'=>'modifier_utilisateur',
     'uses'=>'UtilisateurController@modifier_utilisateur'
+
+])->middleware('auth');
+Route::post('/modifier_superutilisateur}',[
+    'as'=>'modifier_superutilisateur',
+    'uses'=>'UtilisateurController@modifier_superutilisateur'
 
 ])->middleware('auth');
 Route::post('/modifier_profile}',[
