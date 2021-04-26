@@ -78,6 +78,20 @@
 
 
                                 </div>
+                                <div class="form-group">
+                                    <label for="domaine">{{__('neutrale.projet')}}</label>
+                                    <ul>
+                                    @foreach($utilisateur->projets()->get() as $projet)
+
+                                                <li>{{$projet->libelle}}</li>
+
+
+
+                                    @endforeach
+                                    </ul>
+
+
+                                </div>
 
                                 <br><div class="form-group" >
                                     <button type="submit" class="btn btn-success form-control " style="width: 200px;margin-right: 10px">{{isset($utilisateur)? strtoupper(__('neutrale.modifier_utilisateur')):''}}</button>

@@ -170,6 +170,27 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <div class="top-nav clearfix">
             <!--search & user info start-->
             <ul class="nav pull-right top-menu">
+
+                <li>
+                    @if(sizeof(Auth::user()->projets()->get())!=1)
+                        <form method="post" action="{{route('switch_projet')}}">
+                    <div class="header-left">
+
+                            @csrf
+
+                        <select data-placeholder="" tabindex="1" name="id_projet" >
+
+                            @foreach(Auth::user()->projets()->get() as $projet )
+                            <option value="{{$projet->id}}" @if(session('id_projet')==$projet->id) selected @endif> {{$projet->libelle}}</option>
+                            @endforeach
+                        </select>
+
+                        <button class="btn btn-info" type="submit"><i class="fa fa-check"></i></button>
+                    </div>
+                        </form>
+                    @endif
+                </li>
+
 @if(isset($panini) )
 <li class="dropdown">
      <a data-toggle="dropdown" class="dropdown-toggle" href="#">
@@ -188,8 +209,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <li> <a href="{{route('change',['lang'=>'en'])}}">English</a>
     </li>
     <li>
-    <a href="{{env('APP_URL')}}/public/uploads/guide utilisateur.pdf" target="_blank"> &nbsp; <i class="fa fa-file-pdf-o"></i>  {{ __('menu.guide_utilisateur') }}</a>
- </li><li>
      <input type="text" class="form-control search" placeholder=" Search">
  </li>
  <!-- user login dropdown start-->

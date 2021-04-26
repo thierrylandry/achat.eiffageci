@@ -7,6 +7,7 @@ use App\DA;
 use App\Vardiag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
@@ -27,25 +28,28 @@ class HomeController extends Controller
      */
     public function index()
     {
-$daencours= DB::table('lignebesoin')->where('etat','=','1')->count();
+
+   $projet_choisi= ProjectController::check_projet_access();
+$daencours= DB::table('lignebesoin')->where('etat','=','1')->where('id_projet','=',$projet_choisi->id)->count();
         $das= DB::table('lignebesoin')
+        ->where('id_projet','=',$projet_choisi->id)
             ->where('etat','=','2')
-            ->orwhere('etat','=','1')->count();
-$Boncommandeencours= Boncommande::where('etat','=','1')->where('date','<>','')->count();
+            ->orwhere('etat','=','1')->where('id_projet','=',$projet_choisi->id)->count();
+$Boncommandeencours= Boncommande::where('etat','=','1')->where('date','<>','')->where('id_projet','=',$projet_choisi->id)->count();
 $montant_bc= DB::table('boncommande')
-    ->where('boncommande.etat','=',4)
+    ->where('boncommande.etat','=',4)->where('id_projet','=',$projet_choisi->id)
     ->sum('total_ttc');
-        $montant_bct= DB::table('boncommande')
+        $montant_bct= DB::table('boncommande')->where('id_projet','=',$projet_choisi->id)
             ->where('boncommande.etat','=',11)
             ->sum('total_ttc');
-$Boncommandes= Boncommande::all()->count();
+$Boncommandes= Boncommande::where('id_projet','=',$projet_choisi->id)->count();
 
 
 
 
         $fournisseur_sollicie_tab = DB::table('boncommande')
             ->groupBy('fournisseur.id')
-            ->join('fournisseur','fournisseur.id','=','boncommande.id_fournisseur')
+            ->join('fournisseur','fournisseur.id','=','boncommande.id_fournisseur')->where('boncommande.id_projet','=',$projet_choisi->id)
             ->select('fournisseur.libelle',DB::raw('count(boncommande.id) as nb'))
             ->get();
 
@@ -64,7 +68,7 @@ $Boncommandes= Boncommande::all()->count();
         $fournisseur_retour_tab = DB::table('boncommande')
             ->groupBy('fournisseur.id')
             ->join('fournisseur','fournisseur.id','=','boncommande.id_fournisseur')
-            ->where('etat','=',11)
+            ->where('etat','=',11)->where('boncommande.id_projet','=',$projet_choisi->id)
             ->select('fournisseur.libelle',DB::raw('count(boncommande.id) as nb'))
             ->get();
 
@@ -79,7 +83,7 @@ $Boncommandes= Boncommande::all()->count();
 
         endforeach;
 
-        $fournisseur_retard_tab = DB::table('differencedatebc')
+        $fournisseur_retard_tab = DB::table('differencedatebc')->where('id_projet','=',$projet_choisi->id)
             ->get();
 
         $fournisseur_retard= Array();
@@ -94,7 +98,7 @@ $Boncommandes= Boncommande::all()->count();
             }
         endforeach;
 
-        $cumuleda_tab = DB::table('cumuleda')
+        $cumuleda_tab = DB::table('cumuleda')->where('id_projet','=',$projet_choisi->id)
             ->get();
 
         $cumuleda= Array();
@@ -106,7 +110,7 @@ $Boncommandes= Boncommande::all()->count();
             $cumuleda[]=$vardiag;
         endforeach;
 
-        $boncommande_tab = DB::table('boncommande')
+        $boncommande_tab = DB::table('boncommande')->where('id_projet','=',$projet_choisi->id)
             //->select(DB::raw("DATE_FORMAT (created_at,'%d-%b-%Y') as dat" ),DB::raw('sum(boncommande.total_ttc) as nb'))
           //  ->select(DB::raw("DATE_FORMAT (created_at,'%b-%Y') as dat" ),DB::raw('boncommande.total_ttc as nb'))
             ->select(DB::raw("DATE_FORMAT (created_at,'%b-%Y') as dat" ),'total_ttc as nb')

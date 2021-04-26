@@ -174,6 +174,13 @@ Route::get('/voir_utilisateur/{slug}',[
     'roles' => ['Parametrage']
 
 ])->middleware('auth');
+Route::get('/voir_superutilisateur/{slug}',[
+    'as'=>'voir_superutilisateur',
+    'uses'=>'UtilisateurController@voir_superutilisateur',
+    'middleware' => 'roles',
+    'roles' => ['Parametrage']
+
+])->middleware('auth');
 Route::get('/supprimer_utilisateur/{slug}',[
     'as'=>'supprimer_utilisateur',
     'uses'=>'UtilisateurController@supprimer_utilisateur',
@@ -1311,7 +1318,7 @@ Route::post('/Validutilisateurs', [
     'roles' => ['Parametrage']
 ])->middleware('auth');
 Route::post('/Validsuperutilisateurs', [
-    'as'=>'Validutilisateurs',
+    'as'=>'Validsuperutilisateurs',
     'uses'=>'UtilisateurController@Validsuperutilisateurs',
     'middleware' => 'roles',
     'roles' => ['Parametrage']
@@ -1340,5 +1347,11 @@ Route::post('/update_fournisseur',[
     'uses'=>'FournisseurController@update_fournisseur',
     'middleware' => 'roles',
     'roles' => ['Parametrage']
+
+])->middleware('auth');
+Route::post('/switch_projet',[
+    'as'=>'switch_projet',
+    'uses'=>'ProjectController@switch_projet',
+    'middleware' => 'roles',
 
 ])->middleware('auth');

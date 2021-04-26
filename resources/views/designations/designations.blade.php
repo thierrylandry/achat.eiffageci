@@ -126,7 +126,7 @@
                        <td>{{$designation->famille->libelle}}</td>
                        <td>{{$designation->libelle}}</td>
                        <td>{{isset($designation->lecode_analytique)?$designation->lecode_analytique->codeRubrique:''}}- {{isset($designation->lecode_analytique)?$designation->lecode_analytique->libelle:''}}</td>
-                       <td>{{isset($designation->lecode_comptable)?$designation->lecode_comptable->codeRubrique:''}}- {{isset($designation->lecode_comptable)?$designation->lecode_analytique->libelle:''}}</td>
+                       <td>{{isset($designation->lecode_comptable)?$designation->lecode_comptable->code:''}}- {{isset($designation->lecode_comptable)?$designation->lecode_comptable->libelle:''}}</td>
                        <td>{{$designation->stock_min}}</td>
                        <td>{{isset($designation->type_designation) && $designation->type_designation==1?'Suivi':'non suivi'}}</td>
 

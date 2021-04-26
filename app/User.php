@@ -83,7 +83,7 @@ class User extends Authenticatable
 
     public function hasProjet($projet)
     {
-        if ($this->projets()->where('chantier', $projet)->first()) {
+        if ($this->projets()->where('libelle', $projet)->first()) {
             return true;
         }
         return false;

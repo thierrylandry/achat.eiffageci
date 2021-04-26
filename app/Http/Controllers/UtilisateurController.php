@@ -29,7 +29,7 @@ class UtilisateurController
 
     public function utilisateurs()
     {
-        $utilisateurs=  User::all();
+        $utilisateurs=  User::where('id_type_users','=',1)->get();
         $services= Services::all();
         $roles=  Role::all();
         return view('utilisateurs/gestion_utilisateur',compact('utilisateurs','roles','services'));
@@ -67,6 +67,15 @@ class UtilisateurController
         $services= Services::all();
         return view('utilisateurs/gestion_utilisateur',compact('utilisateurs','utilisateur','roles','services'));
     }
+    public function voir_superutilisateur($locale,$slug)
+    {
+        $utilisateurs = User::all();
+        $utilisateur = User::where('slug', '=', $slug)->first();
+        $roles=  Role::all();
+        $services= Services::all();
+        $projets =Projet::all();
+        return view('superusers/gestion_utilisateur',compact('utilisateurs','utilisateur','roles','services','projets'));
+    }
 
     public function monprofile($locale,$slug)
     {
@@ -80,7 +89,7 @@ class UtilisateurController
         $utilisateur = User::where('slug', '=', $slug)->first();
         $utilisateur->roles()->detach();
         $utilisateur->delete();
-        return redirect()->route('gestion_utilisateur')->with('success', "success");
+        return redirect()->back()->with('success', "success");
     }
 
     public function Validsuperutilisateurs( Request $request)
@@ -99,11 +108,17 @@ class UtilisateurController
         $utilisateur->contact =$parameters['contact'];
         $utilisateur->service = $parameters['id_service'];
         $utilisateur->slug = Str::slug($parameters['email'] . $date->format('dmYhis'));
+        $utilisateur->id_type_users = $parameters['types_user'];
         $utilisateur->save();
         $roles=$parameters['roles'];
+        $projets=$parameters['projets'];
         foreach ($roles as $role):
             $utilisateur->roles()->attach(Role::where('name',$role)->first());
             endforeach;
+        foreach ($projets as $projet):
+                $utilisateur->projets()->attach(Projet::where('chantier',$projet)->first());
+        endforeach;
+
 
 
         return redirect()->back()->with('success', "success");
@@ -127,6 +142,7 @@ class UtilisateurController
         $utilisateur->email = $parameters['email'];
         $utilisateur->contact =$parameters['contact'];
         $utilisateur->service = $parameters['id_service'];
+        $utilisateur->id_type_users = $parameters['types_user'];
 
         //Hash::needsRehash($parameters['password'])
         //dd("ancien ".$utilisateur->password." nouveau :".$parameters['password']." Qaund on hash sa donne ceci".Hash::check($parameters['password'],$parameters['password']));
@@ -141,12 +157,16 @@ class UtilisateurController
         $utilisateur->save();
 
         $utilisateur->roles()->detach();
+        $utilisateur->projets()->detach();
 
         $roles=$parameters['roles'];
+        $projets=$parameters['projets'];
         foreach ($roles as $role):
             $utilisateur->roles()->attach(Role::where('name',$role)->first());
         endforeach;
-
+        foreach ($projets as $projet):
+            $utilisateur->projets()->attach(Projet::where('libelle',$projet)->first());
+        endforeach;
         return redirect()->back()->with('success',"success");
     }
     public function modifier_utilisateur( Request $request)

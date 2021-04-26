@@ -1,4 +1,9 @@
+<style>
+#fournisseurs > tbody .administrateur {
+    background-color: #e3f7c4  !important;
+}
 
+</style>
 @extends('layouts.app')
 @section('utilisateurs')
     class='active'
@@ -11,9 +16,9 @@
 
     <div class="row">
         @if(isset($utilisateur))
-        <form role="form" id="FormRegister" class="bucket-form" method="post" action="{{route('modifier_utilisateur')}}">
+        <form role="form" id="FormRegister" class="bucket-form" method="post" action="{{route('modifier_superutilisateur')}}">
         @else
-        <form role="form" id="FormRegister" class="bucket-form" method="post" action="{{route('Validutilisateurs')}}">
+        <form role="form" id="FormRegister" class="bucket-form" method="post" action="{{route('Validsuperutilisateurs')}}">
         @endif
 
         <div class="col-sm-4">
@@ -94,28 +99,21 @@
                 <select class="form-control selectpicker" id="projets" name="projets[]" data-live-search="true" data-size="6" noneSelectedText="{{__('neutrale.selectionner')}}"  multiple required >
                     <option  value="">{{__('neutrale.selectionner')}}</option>
                     @foreach($projets as $projet)
-                        @if(isset($utilisateur) and $utilisateur->hasRole($projet->chantier))
-                            <option value="{{$projet->id}}" selected>{{$projet->libelle}} {{$projet->chantier}}</option>
+                        @if(isset($utilisateur) and $utilisateur->hasProjet($projet->libelle))
+                            <option value="{{$projet->libelle}}" selected>{{$projet->libelle}} {{$projet->chantier}}</option>
                         @else
-                            <option value="{{$projet->id}}" >{{$projet->libelle}} {{$projet->chantier}}</option>
+                            <option value="{{$projet->libelle}}" >{{$projet->libelle}} {{$projet->chantier}}</option>
                         @endif
 
                     @endforeach
                 </select>
         </div>
         <div class="form-group">
-            <label for="domaine">{{__('neutrale.projet')}}</label>
+            <label for="domaine">{{__('neutrale.type_user')}}</label>
 
-            <select class="form-control selectpicker" id="roles" name="roles[]" data-live-search="true" data-size="6" noneSelectedText="SELECTIONNER LE(S) ROLE(S)"  multiple required >
-                <option  value="">{{__('neutrale.selectionner')}}</option>
-                @foreach($projets as $projet)
-                    @if(isset($utilisateur) and $utilisateur->hasRole($projet->chantier))
-                        <option value="{{$projet->id}}" selected>{{$projet->libelle}} {{$projet->chantier}}</option>
-                    @else
-                        <option value="{{$projet->id}}" >{{$projet->libelle}} {{$projet->chantier}}</option>
-                    @endif
-
-                @endforeach
+            <select class="form-control selectpicker" id="types_user" name="types_user" data-live-search="true" data-size="6" noneSelectedText="{{__('neutrale.selectionner')}}" required >
+                <option  value="1" {{isset($utilisateur->id_type_users) && $utilisateur->id_type_users==1?'selected':''}} >Utilisateur</option>
+                <option  value="2" {{isset($utilisateur->id_type_users) && $utilisateur->id_type_users==2?'selected':''}}>Administrateur</option>
             </select>
     </div>
 
@@ -123,7 +121,7 @@
                         <button type="submit" class="btn btn-success form-control " style="width: 200px;margin-right: 10px">@if(isset($utilisateur)) {{ __('translation.update') }} @else {{ __('translation.add') }}  @endif</button>
                     </div>
                     @if(isset($utilisateur))
-                        <a href="{{route('gestion_utilisateur',app()->getLocale())}}">{{__('neutrale.ajouter')}}</a>
+                        <a href="{{route('super_utilisateur',app()->getLocale())}}">{{__('neutrale.ajouter')}}</a>
                     @endif
 
                 </fieldset>
@@ -134,7 +132,7 @@
 </br>
         <div class="row">
             <div class="col-sm-12 col-xr-12">
-                @include('utilisateurs/list_utilisateur')
+                @include('superusers/list_utilisateur')
             </div>
         </div>
 

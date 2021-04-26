@@ -37,20 +37,21 @@ class RapportController extends Controller
     }
     public function rapport($locale,$id){
 
+        $projet_choisi= ProjectController::check_projet_access();
         $rapport = Rapports::find($id);
         if($id==1){
-            $tableaux =Moyenne_jour_livraison_par_fournisseur::all();
+            $tableaux =Moyenne_jour_livraison_par_fournisseur::where('id_projet','=',$projet_choisi->id)->get();
         }elseif($id==2){
-            $tableaux = DB::table('chiffre_ffaire')->select('libelle','chfirreaffaire','devise_bc')->get();
+            $tableaux = DB::table('chiffre_ffaire')->where('id_projet','=',$projet_choisi->id )->select('libelle','chfirreaffaire','devise_bc')->get();
         }elseif($id==3){
-            $command_receptions = DB::select('SELECT `fournisseur`.`id` AS `id`,`fournisseur`.`libelle` AS `libelle`,`boncommande`.`numBonCommande` AS `numBonCommande`,sum(quantite) as quantite_commande_tot FROM fournisseur join boncommande on fournisseur.id=boncommande.id_fournisseur join devis on devis.id_bc=boncommande.id group by fournisseur.id,libelle,numBonCommande;');
+            $command_receptions = DB::select('SELECT `fournisseur`.`id` AS `id`,`fournisseur`.`libelle` AS `libelle`,`boncommande`.`numBonCommande` AS `numBonCommande`,sum(quantite) as quantite_commande_tot FROM fournisseur join boncommande on fournisseur.id=boncommande.id_fournisseur join devis on devis.id_bc=boncommande.id WHERE boncommande.id_projet='.$projet_choisi->id.' group by fournisseur.id,libelle,numBonCommande;');
             $tableaux_intermediaire=array();
 
 
            // dd($command_receptions);
         }elseif($id==4){
                 //$ca_par_fournisseur_et_domaine
-             $dependance_vu_produits = DB::select("SELECT `fournisseur`.`id` AS `id`, `fournisseur`.`libelle` AS `libelle`,domaines.libelleDomainne as libelleDomainne, sum(devis.prix_tot) as prix_total,sum(devis.valeur_tva) as valeur_tva_tot,devise_bc  FROM fournisseur  join boncommande on fournisseur.id=boncommande.id_fournisseur join devis on devis.id_bc=boncommande.id join designation on designation.id=devis.id_materiel join famille on famille.id=designation.id_famille join domaines on domaines.id=famille.id_domaine where boncommande.etat=3 group by devise_bc,fournisseur.id,fournisseur.libelle,libelleDomainne");
+             $dependance_vu_produits = DB::select("SELECT `fournisseur`.`id` AS `id`, `fournisseur`.`libelle` AS `libelle`,domaines.libelleDomainne as libelleDomainne, sum(devis.prix_tot) as prix_total,sum(devis.valeur_tva) as valeur_tva_tot,devise_bc  FROM fournisseur  join boncommande on fournisseur.id=boncommande.id_fournisseur join devis on devis.id_bc=boncommande.id join designation on designation.id=devis.id_materiel join famille on famille.id=designation.id_famille join domaines on domaines.id=famille.id_domaine where boncommande.etat=3 and boncommande.id_projet=".$projet_choisi->id." group by devise_bc,fournisseur.id,fournisseur.libelle,libelleDomainne");
 
           //  dd($this->convertisseur_devise('EUR','XOF',1));
 
@@ -61,7 +62,7 @@ class RapportController extends Controller
            // dd($tableaux);
         }elseif($id==5){
                 //$ca_par_fournisseur_et_domaine
-             $retour_non_conformes = DB::table('retours_non_conforme')->get();
+             $retour_non_conformes = DB::table('retours_non_conforme')->where('id_projet','=',$projet_choisi->id)->get();
 
            return view('rapport/rapport',compact('rapport','retour_non_conformes'));
            // dd($tableaux);
@@ -114,7 +115,7 @@ left join devis on devis.id_bc=boncommande.id
 left join ligne_bonlivraison on ligne_bonlivraison.id_devis=devis.id
 left join fournisseur on boncommande.id_fournisseur=fournisseur.id
 left join users on boncommande.id_user=users.id
-where boncommande.etat>=3 
+where boncommande.etat>=3
 group by boncommande.id
 having quantite_livree is null
 

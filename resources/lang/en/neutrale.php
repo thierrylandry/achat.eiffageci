@@ -124,4 +124,5 @@ return [
     'prefix_bc' => 'Prefix purchase order number',
     'valideur' => 'Validator',
     'super_user' => 'Super Users',
+    'type_user' => 'User type',
 ];

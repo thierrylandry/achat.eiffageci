@@ -125,6 +125,7 @@ return [
     'prefix_bc' => 'Préfix de N°BC',
     'valideur' => 'Valideur',
     'super_user' => 'Super utilisateurs',
+    'type_user' => 'Type utilisateur',
 
 
 ];

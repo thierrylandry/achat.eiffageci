@@ -9,10 +9,36 @@ use App\Languages;
 use App\TypeValidation;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class ProjectController extends Controller
 {
     //
+     public static function check_projet_access(){
+       $id_projet= Session::get('id_projet');
+
+        $leprojet=Projet::find($id_projet);
+        $liste_projet_objs=Auth::user()->projets()->get();
+        $liste_projets=array();
+        foreach($liste_projet_objs as $obj):
+            $liste_projets[]=$obj->libelle;
+        endforeach;
+
+        if(isset($leprojet->libelle) && in_array($leprojet->libelle,$liste_projets,true)){
+           //
+            return $leprojet;
+        }elseif(!isset($leprojet->libelle) && !empty($liste_projets)){
+
+            $leprojet= Projet::where('libelle','=',$liste_projets[0])->first();
+            session(['id_projet' => $leprojet->id]);
+            return $leprojet;
+
+        }else{
+            return null;
+        }
+
+    }
 
     public function gestion_projets($locale){
 
@@ -107,6 +133,13 @@ class ProjectController extends Controller
         $projet->save();
         return redirect()->back()->with('success', "success");
     }
+    public function switch_projet(Request $request){
+        $parameters=$request->except(['_token']);
+        $id_projet = $parameters['id_projet'];
+
+        session(['id_projet' => $id_projet]);
+        return redirect()->back()->with('success', "success");
+    }
     public function update_projet(Request $request){
 
         $parameters=$request->except(['_token']);
@@ -162,4 +195,5 @@ class ProjectController extends Controller
         $projet->save();
         return redirect()->back()->with('success', "success");
     }
+
 }
