@@ -29,8 +29,8 @@ class GestionStockController extends Controller
         return view('gestion_stock/gestion');
     }
     public function donne_moi_les_sortie_de_ce_mouvement($id_mouvement){
-
-        $mouvements =Mouvement::where('id_mouvement','=',$id_mouvement)->get();
+        $projet_choisi= ProjectController::check_projet_access();
+        $mouvements =Mouvement::where('id_projet','=',$projet_choisi->id)->where('id_mouvement','=',$id_mouvement)->get();
 
         $solde =0;
         foreach ($mouvements as $mouvement):
@@ -44,9 +44,9 @@ class GestionStockController extends Controller
 
         //ici
         $codetaches= CodeTache::all();
+        $projet_choisi= ProjectController::check_projet_access();
 
-
-        $mouvement_materiels_totals=Stock_user::orderby('libelle','asc')->get();
+        $mouvement_materiels_totals=Stock_user::where('id_projet','=',$projet_choisi->id)->orderby('libelle','asc')->get();
         $mouvement_materiels = array();
         $domaines= array();
         $familles= array();
@@ -63,7 +63,7 @@ class GestionStockController extends Controller
         // $das=  DA::where('id_user','=',\Illuminate\Support\Facades\Auth::user()->id)->orderBy('created_at', 'DESC')->paginate(50);
         $unites=Unites::all();
         $demandeurs = User::all();
-        $mouvements = Mouvement::where('id_type_mouvement','=',0)->orderBy('id','desc')->get();
+        $mouvements = Mouvement::where('id_projet','=',$projet_choisi->id)->where('id_type_mouvement','=',0)->orderBy('id','desc')->get();
         foreach($unites as $unite):
             if($unite->id==1 || $unite->id>=41 && $unite->id<50 ){
                 $tab_unite['nothing'][]=$unite->libelle;
@@ -93,16 +93,16 @@ class GestionStockController extends Controller
         return view('gestion_stock/sortie_stock',compact('domaines','familles','mouvement_materiels','tab_unite','codetaches','demandeurs','mouvements'));
     }
     public function donne_moi_les_famille_disponible($locale,$domaine){
-
+        $projet_choisi= ProjectController::check_projet_access();
 
 
         $res="<option value=''>".__('sortie_materiel.selectionner_famille')."</option>";
         if($domaine!='tout'){
 
-            $familles =Stock_user::orderby('libelle','asc')->where('id_domaine','=',$domaine)->get();
+            $familles =Stock_user::where('id_projet','=',$projet_choisi->id)->orderby('libelle','asc')->where('id_domaine','=',$domaine)->get();
 
         }else{
-            $familles = Stock_user::orderby('libelle','asc')->get();
+            $familles = Stock_user::where('id_projet','=',$projet_choisi->id)->orderby('libelle','asc')->get();
         }
 
         foreach($familles as $famille):
@@ -132,15 +132,15 @@ class GestionStockController extends Controller
 
     public function donne_moi_les_designation_disponible($locale,$famille){
 
-
+        $projet_choisi= ProjectController::check_projet_access();
 
         $res="<option value=''>".__('sortie_materiel.selectionner_article')." </option>";
         if($famille!='tout'){
 
-            $produits =Stock_user::orderby('libelle','asc')->where('id_famille','=',$famille)->get();
+            $produits =Stock_user::where('id_projet','=',$projet_choisi->id)->orderby('libelle','asc')->where('id_famille','=',$famille)->get();
 
         }else{
-            $produits = Stock_user::orderby('libelle','asc')->get();
+            $produits = Stock_user::where('id_projet','=',$projet_choisi->id)->orderby('libelle','asc')->get();
         }
 
         foreach($produits as $produit):
@@ -151,12 +151,12 @@ class GestionStockController extends Controller
         return $res;
     }
     public function edit_mouvement($locale,$id)  {
-
+        $projet_choisi= ProjectController::check_projet_access();
         //ici
         $codetaches= CodeTache::all();
 
 
-        $mouvement_materiels_totals=Stock_user::orderby('libelle','asc')->get();
+        $mouvement_materiels_totals=Stock_user::where('id_projet','=',$projet_choisi->id)->orderby('libelle','asc')->get();
         $domaines= array();
         $familles= array();
         foreach( $mouvement_materiels_totals as $mouvement_materiel):
@@ -169,7 +169,7 @@ class GestionStockController extends Controller
 
         endforeach;
         $codetaches= CodeTache::all();
-        $mouvement_materiels=Stock_user::orderby('libelle','asc')->get();
+        $mouvement_materiels=Stock_user::where('id_projet','=',$projet_choisi->id)->orderby('libelle','asc')->get();
         foreach( $mouvement_materiels as $mouvement_materiel):
 
             $mouvement_materiel->quantite = $mouvement_materiel->quantite +$this->donne_moi_les_sortie_de_ce_mouvement($mouvement_materiel->id);
@@ -179,7 +179,7 @@ class GestionStockController extends Controller
         $unites=Unites::all();
         $demandeurs = User::all();
         $mouvement = Mouvement::find($id);
-        $mouvements = Mouvement::where('id_type_mouvement','=',0)->orderBy('id','desc')->get();
+        $mouvements = Mouvement::where('id_projet','=',$projet_choisi->id)->where('id_type_mouvement','=',0)->orderBy('id','desc')->get();
         foreach($unites as $unite):
             if($unite->id==1 || $unite->id>=41 && $unite->id<50 ){
                 $tab_unite['nothing'][]=$unite->libelle;
@@ -232,6 +232,7 @@ class GestionStockController extends Controller
         $mouvement->quantite=-$quantite;
         $mouvement->unite=$unite;
         $mouvement->id_type_mouvement=0;
+        $mouvement->id_projet=session('id_projet');
         $mouvement->id_mouvement=$mouvement_traite->id;
         $mouvement->save();
         if($id_imputation=="1003"){
@@ -291,8 +292,8 @@ class GestionStockController extends Controller
 
     }
     public function stock(){
-
-        $stocks =Stock::orderBy('libelle','ASC')->get();
+        $projet_choisi= ProjectController::check_projet_access();
+        $stocks =Stock::where('id_projet','=',$projet_choisi->id)->orderBy('libelle','ASC')->get();
 
         $tableaux = array();
         foreach ($stocks as $stock):
@@ -307,11 +308,11 @@ class GestionStockController extends Controller
         return view('gestion_stock/stock',compact('stocks','tableaux'));
     }
     public function fifo($_id_materiel,$libelle){
-
-        $chronologie_livraisons= DB::table('chronologi_livraison')->where('id','=',$_id_materiel)->orWhere('reference','=',$libelle)->get();
+        $projet_choisi= ProjectController::check_projet_access();
+        $chronologie_livraisons= DB::table('chronologi_livraison')->where('id_projet','=',$projet_choisi->id)->where('id','=',$_id_materiel)->orWhere('reference','=',$libelle)->where('id_projet','=',$projet_choisi->id)->get();
 
         //  dd($chronologie_livraisons);
-        $point_consomation = DB::table("point_consomation")->where('id_materiel','=',$_id_materiel)->first();
+        $point_consomation = DB::table("point_consomation")->where('id_projet','=',$projet_choisi->id)->where('id_materiel','=',$_id_materiel)->first();
         //   dd($point_consomation);
         $resultats = array();
         $consommer=0;

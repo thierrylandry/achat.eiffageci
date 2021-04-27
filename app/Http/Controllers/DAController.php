@@ -82,8 +82,8 @@ class DAController
     }
     public function lister_da_recherche()
     {
-        $fournisseurs=Fournisseur::all();
-        $materiels=Materiel::all();
+        $projet_choisi= ProjectController::check_projet_access();
+        $fournisseurs=Fournisseur::where('id_projet','=',$projet_choisi->id)->get();
       //  $das=  DA::orderBy('created_at', 'DESC')->paginate(100);
        // $das=  DA::orderBy('created_at', 'DESC')->paginate(20);
         $das= "";
@@ -91,9 +91,9 @@ class DAController
           //  dd($das[0]->bondecommande);
         $service_users=DB::table('users')
             ->leftJoin('services', 'services.id', '=', 'users.service')
-            ->select('users.id','nom','prenoms','services.libelle','users.service')->get();
+            ->select('users.id','nom','prenoms','services.libelle','users.service')->where('id_projet','=',$projet_choisi->id)->get();
         $domaines=  DB::table('domaines')->get();
-        $tracemails= DB::table('trace_mail')->get();
+        $tracemails= DB::table('trace_mail')->where('id_projet','=',$projet_choisi->id)->get();
 
         $unites=Unites::all();
         foreach($unites as $unite):
@@ -120,7 +120,7 @@ class DAController
         }
 
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; Lister les D.A par user.', ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
-        return view('DA/lister_da_recherche',compact('das','fournisseurs','materiels','natures','service_users','domaines','tracemails','tab_unite'));
+        return view('DA/lister_da_recherche',compact('das','fournisseurs','natures','service_users','domaines','tracemails','tab_unite'));
 
 
     }
@@ -195,8 +195,9 @@ class DAController
         $date= new \DateTime(null);
        // echo $date->format('Y-m-d');
     //    dd($ids);
+    $projet_choisi= ProjectController::check_projet_access();
         foreach($ids as $id):
-            $lignaexiste = Lignebesoin::where('id_materiel','=',$id)->where('id_user','=',Auth::user()->id)->where('etat','=',1)->first();
+            $lignaexiste = Lignebesoin::where('id_projet','=',$projet_choisi->id)->where('id_materiel','=',$id)->where('id_user','=',Auth::user()->id)->where('etat','=',1)->first();
 //dd($lignaexiste);
           if(!isset($lignaexiste->id)){
               if($id!=''){
@@ -209,6 +210,7 @@ class DAController
                   $lignebesoin->demandeur=Auth::user()->nom;
                   $lignebesoin->id_user=Auth::user()->id;
                   $lignebesoin->id_panier_demande=$panier_demande->id;
+                  $lignebesoin->id_projet=session('id_projet');
                   $lignebesoin->slug= Str::slug($id . $date->format('Y-m-d h:m:s'));
                   $lignebesoin->save();
 
@@ -284,8 +286,9 @@ class DAController
     {
         $panier_demande = Panier_demande::where('id_user','=',Auth::user()->id)->where('etat','=',1)->first();
 
+        $projet_choisi= ProjectController::check_projet_access();
       //  dd($panier_demande);
-        $lignebesoins = $panier_demande->lignebesoins()->where('etat','<',2)->where('etat','<>',0)->get();
+        $lignebesoins = $panier_demande->lignebesoins()->where('id_projet','=',$projet_choisi->id)->where('etat','<',2)->where('etat','<>',0)->get();
        // dd($lignebesoins);
         $res = array();
         foreach($lignebesoins as $lignebesoin):
@@ -354,6 +357,7 @@ class DAController
         $materiels=Materiel::all();
       //  $das=  DA::orderBy('created_at', 'DESC')->paginate(100);
        // $das=  DA::orderBy('created_at', 'DESC')->paginate(20);
+       $projet_choisi= ProjectController::check_projet_access();
         $das=  DB::table('lignebesoin')
             ->Join('users','users.id','=','lignebesoin.id_user')
             ->leftJoin('materiel','materiel.id','=','lignebesoin.id_materiel')
@@ -364,66 +368,22 @@ class DAController
             ->leftJoin('boncommande','boncommande.id','=','lignebesoin.id_bonCommande')
             ->select('lignebesoin.id','lignebesoin.unite','lignebesoin.quantite','DateBesoin','lignebesoin.id_user','id_nature','lignebesoin.id_materiel','materiel.libelleMateriel','lignebesoin.created_at','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','usage','lignebesoin.commentaire','dateConfirmation','date_livraison_eff','code_analytique','codeRubrique',DB::raw('fournisseur.libelle as libelle_fournisseur'),'numBonCommande','boncommande.date','lignebesoin.created_at','gestion.codeGestion','devis.prix_unitaire')
          //   ->WhereBetween('lignebesoin.created_at', [$debut, $fin])
-            ->orWhere('lignebesoin.demandeur', 'LIKE', "%{$mot_cle}%")
+            ->orWhere('lignebesoin.demandeur', 'LIKE', "%{$mot_cle}%")->where('id_projet','=',$projet_choisi->id)
             //  ->WhereBetween('lignebesoin.created_at', [$debutt, $finn])
-            ->orWhere('materiel.libelleMateriel', 'LIKE', "%{$mot_cle}%")
-            ->orWhere('fournisseur.libelle', 'LIKE', "%{$mot_cle}%")
-            ->orWhere('lignebesoin.demandeur', 'LIKE', "%{$mot_cle}%")
-            ->orWhere('boncommande.numBonCommande', 'LIKE', "%{$mot_cle}%")
-            ->orWhere('gestion.codeGestion', 'LIKE', "%{$mot_cle}%")
-            ->orWhere('boncommande.date', 'LIKE', "%{$mot_cle}%")
+            ->orWhere('materiel.libelleMateriel', 'LIKE', "%{$mot_cle}%")->where('id_projet','=',$projet_choisi->id)
+            ->orWhere('fournisseur.libelle', 'LIKE', "%{$mot_cle}%")->where('id_projet','=',$projet_choisi->id)
+            ->orWhere('lignebesoin.demandeur', 'LIKE', "%{$mot_cle}%")->where('id_projet','=',$projet_choisi->id)
+            ->orWhere('boncommande.numBonCommande', 'LIKE', "%{$mot_cle}%")->where('id_projet','=',$projet_choisi->id)
+            ->orWhere('gestion.codeGestion', 'LIKE', "%{$mot_cle}%")->where('id_projet','=',$projet_choisi->id)
+            ->orWhere('boncommande.date', 'LIKE', "%{$mot_cle}%")->where('id_projet','=',$projet_choisi->id)
           ->get(100);
-
-
-
-/*
-        $das=  DB::table('lignebesoin')
-            ->Join('users','users.id','=','lignebesoin.id_user')
-            ->leftJoin('materiel','materiel.id','=','lignebesoin.id_materiel')
-            ->leftJoin('devis','devis.id_da','=','lignebesoin.id')
-            ->leftJoin('fournisseur','fournisseur.id','=','devis.id_fournisseur')
-            ->WhereBetween('lignebesoin.created_at', [$debutt, $finn])
-            ->leftJoin('boncommande','boncommande.id','=','lignebesoin.id_bonCommande')
-            ->select('lignebesoin.id','lignebesoin.unite','lignebesoin.quantite','DateBesoin','lignebesoin.id_user','id_nature','lignebesoin.id_materiel','materiel.libelleMateriel','lignebesoin.created_at','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','usage','lignebesoin.commentaire','dateConfirmation','date_livraison_eff','code_analytique','codeRubrique',DB::raw('fournisseur.libelle as libelle_fournisseur'),'numBonCommande','boncommande.date','lignebesoin.created_at')
- ->orWhere('lignebesoin.demandeur', 'LIKE', "%{$mot_cle}%")
-            ->orWhere('materiel.libelleMateriel', 'LIKE', "%{$mot_cle}%")
-            ->orWhere('fournisseur.libelle', 'LIKE', "%{$mot_cle}%")
-            ->orWhere('lignebesoin.demandeur', 'LIKE', "%{$mot_cle}%")
-            ->orWhere('boncommande.numBonCommande', 'LIKE', "%{$mot_cle}%")
-            ->orWhere('boncommande.date', 'LIKE', "%{$mot_cle}%")
-            ->orWhere('lignebesoin.usage', 'LIKE', "%{$mot_cle}%")
-            ->paginate(50);
-            ->orWhere([
-                ['lignebesoin.demandeur', 'LIKE', "%{$mot_cle}%"],
-                ['materiel.libelleMateriel', 'LIKE', "%{$mot_cle}%"],
-                ['fournisseur.libelle', 'LIKE', "%{$mot_cle}%"],
-                ['lignebesoin.demandeur', 'LIKE', "%{$mot_cle}%"],
-                ['boncommande.numBonCommande', 'LIKE', "%{$mot_cle}%"],
-                ['boncommande.date', 'LIKE', "%{$mot_cle}%"],
-                ['lignebesoin.usage', 'LIKE', "%{$mot_cle}%"],
-            ])
-*/
-     /*   $das=  DB::select("select `lignebesoin`.`id`, `lignebesoin`.`unite`, `lignebesoin`.`quantite`, `DateBesoin`, `lignebesoin`.`id_user`, `id_nature`, `lignebesoin`.`id_materiel`, `materiel`.`libelleMateriel`, `lignebesoin`.`created_at`, `demandeur`, `lignebesoin`.`slug`, `lignebesoin`.`etat`, `id_valideur`, `motif`, `usage`, `lignebesoin`.`commentaire`, `dateConfirmation`, `date_livraison_eff`, `code_analytique`, `codeRubrique`, fournisseur.libelle as libelle_fournisseur, `numBonCommande`, `boncommande`.`date`, `lignebesoin`.`created_at`
-                           from `lignebesoin` inner join `users` on `users`.`id` = `lignebesoin`.`id_user` left join `materiel` on `materiel`.`id` = `lignebesoin`.`id_materiel` left join `devis` on `devis`.`id_da` = `lignebesoin`.`id` left join `fournisseur` on `fournisseur`.`id` = `devis`.`id_fournisseur` left join `boncommande` on `boncommande`.`id` = `lignebesoin`.`id_bonCommande`
-                           where `lignebesoin`.`created_at` between ? and ? and (`lignebesoin`.`demandeur` LIKE ? or `materiel`.`libelleMateriel` LIKE ? or `fournisseur`.`libelle` LIKE ?  or `boncommande`.`numBonCommande` LIKE ? or `boncommande`.`date` LIKE ? or `lignebesoin`.`usage` LIKE ?)",[$debutt,$finn,'%'.$mot_cle.'%','%'.$mot_cle.'%','%'.$mot_cle.'%','%'.$mot_cle.'%','%'.$mot_cle.'%','%'.$mot_cle.'%',]);
-       */
-         // dd($das);
-           /*
-            ->orWhere('lignebesoin.demandeur', 'LIKE', "%{$mot_cle}%")
-            ->orWhere('materiel.libelleMateriel', 'LIKE', "%{$mot_cle}%")
-            ->orWhere('fournisseur.libelle', 'LIKE', "%{$mot_cle}%")
-            ->orWhere('lignebesoin.demandeur', 'LIKE', "%{$mot_cle}%")
-            ->orWhere('boncommande.numBonCommande', 'LIKE', "%{$mot_cle}%")
-            ->orWhere('boncommande.date', 'LIKE', "%{$mot_cle}%")
-            ->orWhere('lignebesoin.usage', 'LIKE', "%{$mot_cle}%")
-            ->paginate(50);*/
-
         //dd($das);
         $natures= Nature::all();
           //  dd($das[0]->bondecommande);
         $service_users=DB::table('users')
             ->leftJoin('services', 'services.id', '=', 'users.service')
-            ->select('users.id','nom','prenoms','services.libelle','users.service')->get();
+            ->select('users.id','nom','prenoms','services.libelle','users.service')
+            ->get();
         $domaines=  DB::table('domaines')->get();
         $tracemails= DB::table('trace_mail')->get();
 
@@ -458,9 +418,10 @@ class DAController
     }
     public function encours_validation()
     {
-        $das = Lignebesoin::where('etat','=',1)->where('id_codeGestion','<>','')->where('usage','<>','')->paginate(100);
+        $projet_choisi= ProjectController::check_projet_access();
+        $das = Lignebesoin::where('etat','=',1)->where('id_projet','=',$projet_choisi->id)->where('id_codeGestion','<>','')->where('usage','<>','')->paginate(100);
         $gestions= Gestion::all();
-        $tracemails= DB::table('trace_mail')->get();
+        $tracemails= DB::table('trace_mail')->where('id_projet','=',$projet_choisi->id)->get();
         /*debut du traçages*/
         $ip			= $_SERVER['REMOTE_ADDR'];
         if (isset($_SERVER['REMOTE_HOST'])){

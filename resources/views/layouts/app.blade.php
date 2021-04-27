@@ -292,7 +292,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                      <li @yield('ajouter_fournisseur') ><a href="{{route('ajouter_fournisseur',app()->getLocale())}}">{{ __('menu.add_fournisseurs') }}</a></li>
 
                  </ul></li>
-             <li @yield('projets')><a href="{{route('gestion_projets',app()->getLocale())}}">{{ __('neutrale.projet') }}</a></li>
 
          </ul>
      </li>

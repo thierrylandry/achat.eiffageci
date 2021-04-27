@@ -29,7 +29,8 @@ class UtilisateurController
 
     public function utilisateurs()
     {
-        $utilisateurs=  User::where('id_type_users','=',1)->get();
+        $projet_choisi= ProjectController::check_projet_access();
+        $utilisateurs=  User::where('id_projet','=',$projet_choisi->id)->where('id_type_users','=',1)->get();
         $services= Services::all();
         $roles=  Role::all();
         return view('utilisateurs/gestion_utilisateur',compact('utilisateurs','roles','services'));
@@ -50,6 +51,7 @@ class UtilisateurController
         $utilisateur->contact =$parameters['contact'];
         $utilisateur->service = $parameters['id_service'];
         $utilisateur->slug = Str::slug($parameters['email'] . $date->format('dmYhis'));
+        $utilisateur->id_projet=session('id_projet');
         $utilisateur->save();
         $roles=$parameters['roles'];
         foreach ($roles as $role):
@@ -61,7 +63,8 @@ class UtilisateurController
     }
     public function voir_utilisateur($locale,$slug)
     {
-        $utilisateurs = User::all();
+        $projet_choisi= ProjectController::check_projet_access();
+        $utilisateurs = User::where('id_projet','=',$projet_choisi->id)->get();
         $utilisateur = User::where('slug', '=', $slug)->first();
         $roles=  Role::all();
         $services= Services::all();
@@ -69,7 +72,8 @@ class UtilisateurController
     }
     public function voir_superutilisateur($locale,$slug)
     {
-        $utilisateurs = User::all();
+        $projet_choisi= ProjectController::check_projet_access();
+        $utilisateurs = User::where('id_projet','=',$projet_choisi->id)->get();
         $utilisateur = User::where('slug', '=', $slug)->first();
         $roles=  Role::all();
         $services= Services::all();
@@ -109,6 +113,7 @@ class UtilisateurController
         $utilisateur->service = $parameters['id_service'];
         $utilisateur->slug = Str::slug($parameters['email'] . $date->format('dmYhis'));
         $utilisateur->id_type_users = $parameters['types_user'];
+        $utilisateur->id_projet=$parameters['id_projet'];
         $utilisateur->save();
         $roles=$parameters['roles'];
         $projets=$parameters['projets'];
@@ -143,6 +148,7 @@ class UtilisateurController
         $utilisateur->contact =$parameters['contact'];
         $utilisateur->service = $parameters['id_service'];
         $utilisateur->id_type_users = $parameters['types_user'];
+        $utilisateur->id_projet=$parameters['id_projet'];
 
         //Hash::needsRehash($parameters['password'])
         //dd("ancien ".$utilisateur->password." nouveau :".$parameters['password']." Qaund on hash sa donne ceci".Hash::check($parameters['password'],$parameters['password']));
@@ -188,6 +194,7 @@ class UtilisateurController
         $utilisateur->email = $parameters['email'];
         $utilisateur->contact =$parameters['contact'];
         $utilisateur->service = $parameters['id_service'];
+        $utilisateur->id_projet=$parameters['id_projet'];
 
         //Hash::needsRehash($parameters['password'])
         //dd("ancien ".$utilisateur->password." nouveau :".$parameters['password']." Qaund on hash sa donne ceci".Hash::check($parameters['password'],$parameters['password']));
@@ -227,6 +234,7 @@ class UtilisateurController
         $utilisateur->abréviation = $parameters['abréviation'];
         $utilisateur->function = $parameters['function'];
         $utilisateur->contact =$parameters['contact'];
+
 
         //Hash::needsRehash($parameters['password'])
         //dd("ancien ".$utilisateur->password." nouveau :".$parameters['password']." Qaund on hash sa donne ceci".Hash::check($parameters['password'],$parameters['password']));

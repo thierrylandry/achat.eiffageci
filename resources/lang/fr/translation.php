@@ -61,4 +61,5 @@ return [
     'les_roles' => 'Les rôles',
     'users' => 'Les utilisateurs',
     'email' => 'E-mail',
+    'prenoms'=> 'Prenoms',
 ];

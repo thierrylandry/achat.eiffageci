@@ -19,18 +19,18 @@ class ReceptionController extends Controller
 {
     //
     public function reception_commande(){
-
-        $bcs = Boncommande::where('etat','=','3')->get();
+        $projet_choisi= ProjectController::check_projet_access();
+        $bcs = Boncommande::where('etat','=','3')->where('id_projet','=',$projet_choisi->id)->get();
         return view('reception_commande/reception_avec_bc',compact('bcs'));
     }
     public function reception_commande_sans_bc(){
-
+        $projet_choisi= ProjectController::check_projet_access();
         $fournisseurs = Fournisseur::all();
         $produits = Designation::orderby('libelle','ASC')->get();
         $domaines =Domaines::orderby('libelleDomainne','ASC')->get();
         $familles = Famille::orderby('libelle','ASC')->get();
 
-        $ligne_bonlivraisons= Ligne_bonlivraison::where('etat','=',0)->get();
+        $ligne_bonlivraisons= Ligne_bonlivraison::where('etat','=',0)->where('id_projet','=',$projet_choisi->id)->get();
         $unites=Unites::all();
         foreach($unites as $unite):
             if($unite->id==1 || $unite->id>=41 && $unite->id<50 ){
@@ -48,12 +48,12 @@ class ReceptionController extends Controller
         return view('reception_commande/reception_sans_bc',compact('fournisseurs','produits','ligne_bonlivraisons','tab_unite','domaines','familles'));
     }
     public function historique_bl(){
-
-        $ligne_bonlivraisons= Ligne_bonlivraison::all();
+        $projet_choisi= ProjectController::check_projet_access();
+        $ligne_bonlivraisons= Ligne_bonlivraison::where('id_projet','=',$projet_choisi->id)->get();
         return view('reception_commande/historique_bl',compact('ligne_bonlivraisons'));
     }
     public function reception_commande_sans_bc_edit($locale,$id){
-
+        $projet_choisi= ProjectController::check_projet_access();
         $ligne_bonlivraison = Ligne_bonlivraison::find($id);
 
          $produits = Designation::orderby('libelle','ASC')->get();
@@ -62,7 +62,7 @@ class ReceptionController extends Controller
                  $domaines =Domaines::orderby('libelleDomainne','ASC')->get();
         $fournisseurs = Fournisseur::all();
 
-        $ligne_bonlivraisons= Ligne_bonlivraison::where('etat','=',0)->get();
+        $ligne_bonlivraisons= Ligne_bonlivraison::where('etat','=',0)->where('id_projet','=',$projet_choisi->id)->get();
          $unites=Unites::all();
                 foreach($unites as $unite):
                     if($unite->id==1 || $unite->id>=41 && $unite->id<50 ){
@@ -138,6 +138,7 @@ class ReceptionController extends Controller
         return redirect()->back()->with('success',"success");
     }
     public function reception_commande_numero(Request $request){
+        $projet_choisi= ProjectController::check_projet_access();
         $parameters=$request->except(['_token']);
 
         if(sizeof($parameters)==0){
@@ -145,7 +146,7 @@ class ReceptionController extends Controller
         }
         $id_bc=$parameters['id_bc'];
         $bc_chosisi = Boncommande::find($id_bc);
-        $bcs = Boncommande::where('etat','=','3')->get();
+        $bcs = Boncommande::where('etat','=','3')->where('id_projet','=',$projet_choisi->id)->get();
         $bls=$this->donne_moi_bc_je_te_donne_bl($id_bc);
         //dd($bls);
         return view('reception_commande/reception_avec_bc',compact('bc_chosisi','bcs','bls'));
@@ -176,6 +177,7 @@ class ReceptionController extends Controller
             $ligne_livraison->unite=$unite;
             $ligne_livraison->etat=0;
             $ligne_livraison->id_fournisseur	=$id_fournisseur;
+            $ligne_livraison->id_projet=session('id_projet');
             $ligne_livraison->save();
 
 
@@ -218,6 +220,7 @@ class ReceptionController extends Controller
             $ligne_livraison->devise=$devise;
             $ligne_livraison->unite=$unite;
             $ligne_livraison->etat=0;
+           // $ligne_livraison->id_projet=session('id_projet');
             $ligne_livraison->id_fournisseur	=$id_fournisseur;
             $ligne_livraison->save();
 
@@ -255,6 +258,7 @@ class ReceptionController extends Controller
             $ligne_livraison->prix_unitaire	=$ligne_bc->prix_unitaire;
             $ligne_livraison->reference	=$ligne_bc->titre_ext;
             $ligne_livraison->etat=1;
+            $ligne_livraison->id_projet=session('id_projet');
             $ligne_livraison->unite=$ligne_bc->unite;
             $ligne_livraison->devise=$ligne_bc->devise;
             $ligne_livraison->id_fournisseur	=$bc_chosisi->id_fournisseur;
@@ -292,20 +296,22 @@ class ReceptionController extends Controller
             $mouvement->id_materiel=$id_materiel;
             $mouvement->id_type_mouvement=1;
             $mouvement->unite=$unite;
+            $mouvement->id_projet=session('id_projet');
             $mouvement->save();
         }
 
 
     }
     public function donne_moi_bc_je_te_donne_bl($id_bc){
+         $projet_choisi= ProjectController::check_projet_access();
         $bc_chosisi = Boncommande::find($id_bc);
         $arrayidlignebcs= Array();
         foreach ($bc_chosisi->ligne_bcs()->get() as $lige_bc):
             $arrayidlignebcs[]=$lige_bc->id;
         endforeach;
 
-        $ligne_bon_livraisons = Ligne_bonlivraison::whereIn('id_devis',$arrayidlignebcs)->get();
-        $nb_bls = Ligne_bonlivraison::whereIn('id_devis',$arrayidlignebcs)->get()->unique('numero_bl')->count();
+        $ligne_bon_livraisons = Ligne_bonlivraison::whereIn('id_devis',$arrayidlignebcs)->where('id_projet','=',$projet_choisi->id)->get();
+        $nb_bls = Ligne_bonlivraison::whereIn('id_devis',$arrayidlignebcs)->where('id_projet','=',$projet_choisi->id)->get()->unique('numero_bl')->count();
         foreach($ligne_bon_livraisons as $lignebl):
         $res['ligne'.$lignebl->id_devis][]=$lignebl;
         $res['tot_bl'][]=$lignebl;

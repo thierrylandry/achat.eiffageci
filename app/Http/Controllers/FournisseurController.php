@@ -33,8 +33,9 @@ class FournisseurController extends Controller
 
     public function fournisseurs()
     {
+        $projet_choisi= ProjectController::check_projet_access();
         $domaines=  DB::table('domaines')->get();
-        $fournisseurs=  Fournisseur::all();
+        $fournisseurs=  Fournisseur::where('id_projet','=',$projet_choisi->id)->get();
         return view('fournisseurs/lister_fournisseur')->with('fournisseurs', $fournisseurs)->with('domaines',$domaines);
     }
     public function modifier_fournisseur($locale,$slug)
@@ -51,8 +52,9 @@ class FournisseurController extends Controller
 
     public function ajouter_fournisseur()
     {
+        $projet_choisi= ProjectController::check_projet_access();
         $domaines=  DB::table('domaines')->get();
-        $fournisseurs=  Fournisseur::all();
+        $fournisseurs=  Fournisseur::where('id_projet','=',$projet_choisi->id)->get();
         return view('fournisseurs/ajouter_fournisseur')->with('fournisseurs',$fournisseurs)->with('domaines',$domaines);
     }
     public function supprimer_fournisseur($locale,$slug)
@@ -151,6 +153,7 @@ class FournisseurController extends Controller
       //  $fournisseur->interlocuteur=$parameters['interlocuteur'];
         $fournisseur->email=$parameters['email'];
         $fournisseur->contact=$raw["contact"];
+        $fournisseur->id_projet=session('id_projet');
         $fournisseur->slug=Str::slug($parameters['libelle'].$date->format('dmYhis'));
         $fournisseur->save();
 

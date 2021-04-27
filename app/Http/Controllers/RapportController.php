@@ -68,9 +68,9 @@ class RapportController extends Controller
            // dd($tableaux);
         }elseif($id==6){
                 //$ca_par_fournisseur_et_domaine
-                $chronologie_livraisons = DB::table('chronologi_livraison')->get();
+                $chronologie_livraisons = DB::table('chronologi_livraison')->where('id_projet','=',$projet_choisi->id)->get();
 
-                $chronologie_sorties = DB::table('chronologie_sortie')->get();
+                $chronologie_sorties = DB::table('chronologie_sortie')->where('id_projet','=',$projet_choisi->id)->get();
 
 
             $stocks = Stock::all();
@@ -87,36 +87,35 @@ class RapportController extends Controller
         }elseif($id==7){
             //$ca_par_fournisseur_et_domaine
 
-            $tableaux = DB::select('SELECT domaine,famille,libelle,quantite,prix_unitaire, sum(quantite*prix_unitaire) as prix_ht_materiel,devise FROM achat_eiffage.consommation_prix_u
-group by id_materiel;');
+            $tableaux = DB::select('SELECT domaine,famille,libelle,quantite,prix_unitaire, sum(quantite*prix_unitaire) as prix_ht_materiel,devise FROM achat_eiffage.consommation_prix_u WHERE id_projet='.$projet_choisi->id.' group by id_projet,id_materiel;');
 
         }elseif($id==8){
             //$ca_par_fournisseur_et_domaine
 
-            $tableaux = DB::select('SELECT * FROM achat_eiffage.stock where quantite<=stock_min');
+            $tableaux = DB::select('SELECT * FROM achat_eiffage.stock where  quantite<=stock_min and id_projet='.$projet_choisi->id );
 
             // dd($tableaux);
         }elseif($id==9){
             //$ca_par_fournisseur_et_domaine
 
-            $tableaux =DB::table('moyenne_jour_livraison_produit')->get();
+            $tableaux =DB::table('moyenne_jour_livraison_produit')->where('id_projet','=',$projet_choisi->id)->get();
 
             // dd($tableaux);
         }elseif($id==10){
             //$ca_par_fournisseur_et_domaine
 
-            $tableaux =Etat_da_pas_transforme::all();
+            $tableaux =Etat_da_pas_transforme::where('id_projet','=',$projet_choisi->id)->get();
 
         }elseif($id==11){
             //$ca_par_fournisseur_et_domaine
 
-            $tableaux =DB::select('select fournisseur.libelle as fournisseur,boncommande.date, boncommande.id,numBonCommande,id_user,users.nom,users.prenoms,boncommande.created_at,boncommande.etat,boncommande.id_fournisseur,devis.id_materiel,devis.quantite as quantite_commande, sum(ligne_bonlivraison.quantite) as quantite_livree from boncommande
+            $tableaux =DB::select('select boncommande.id_projet,fournisseur.libelle as fournisseur,boncommande.date, boncommande.id,numBonCommande,id_user,users.nom,users.prenoms,boncommande.created_at,boncommande.etat,boncommande.id_fournisseur,devis.id_materiel,devis.quantite as quantite_commande, sum(ligne_bonlivraison.quantite) as quantite_livree from boncommande
 left join devis on devis.id_bc=boncommande.id
 left join ligne_bonlivraison on ligne_bonlivraison.id_devis=devis.id
 left join fournisseur on boncommande.id_fournisseur=fournisseur.id
 left join users on boncommande.id_user=users.id
-where boncommande.etat>=3
-group by boncommande.id
+where boncommande.etat>=3, id_projet='.$projet_choisi->id.'
+group by boncommande.id_projet,boncommande.id
 having quantite_livree is null
 
 ');
@@ -130,11 +129,11 @@ having quantite_livree is null
 
     }
     public function fifo($_id_materiel,$libelle){
-
-        $chronologie_livraisons= DB::table('chronologi_livraison')->where('id','=',$_id_materiel)->orWhere('reference','=',$libelle)->get();
+        $projet_choisi= ProjectController::check_projet_access();
+        $chronologie_livraisons= DB::table('chronologi_livraison')->where('id_projet','=',$projet_choisi->id)->where('id','=',$_id_materiel)->orWhere('reference','=',$libelle)->where('id_projet','=',$projet_choisi->id)->get();
 
       //  dd($chronologie_livraisons);
-        $point_consomation = DB::table("point_consomation")->where('id_materiel','=',$_id_materiel)->first();
+        $point_consomation = DB::table("point_consomation")->where('id_projet','=',$projet_choisi->id)->where('id_materiel','=',$_id_materiel)->first();
      //   dd($point_consomation);
         $resultats = array();
         $consommer=0;
@@ -181,8 +180,8 @@ having quantite_livree is null
         return $valeur_stock;
     }
     public function donne_moi_la_les_elements_de_la_première_livraison($numBonCommande,$id_fourisseur,$id_materiel){
-
-    $premiere_livraisons =DB::select("SELECT * FROM achat_eiffage.command_reception  where  id_materiel=$id_materiel and id=$id_fourisseur and numBonCommande='$numBonCommande' order by date_reception ASC limit 1;");
+        $projet_choisi= ProjectController::check_projet_access();
+    $premiere_livraisons =DB::select("SELECT * FROM achat_eiffage.command_reception  where id_projet=".$projet_choisi->id." and id_materiel=$id_materiel and id=$id_fourisseur and numBonCommande='$numBonCommande' order by date_reception ASC limit 1;");
 
 
         dd($premiere_livraisons);

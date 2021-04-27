@@ -1,9 +1,6 @@
 
 @extends('layouts.app')
-@section('projets')
-    class='active'
-@endsection
-@section('parent_fournisseurs')
+@section('configuration')
     class='active'
 @endsection
 @section('content')
