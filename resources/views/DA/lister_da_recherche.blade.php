@@ -219,69 +219,7 @@
                         </td>
                         <th class="dt-head-center">{{$da->commentaire}}</th>
                         <td>
-                            @if($da->etat==1)
-                                <a href="{{route('confirmer_da_depuis_creermodifier_da',['slug'=>$da->slug])}} "id="btnconfirmerda2" data-toggle="modal" class="btn btn-success confirmons">
-                                    <i class=" fa fa-check-circle" style="size: 40px"> Accepter ?</i>
-                                </a>
-                                <a href="" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" id="btnconfirmerda2" data-toggle="modal" class="btn btn-danger btn_refuser">
-                                    <i class=" fa fa-check-circle" style="size: 40px"> Refuser ?</i>
-                                </a>
-                                @if($da->id_user==\Illuminate\Support\Facades\Auth::user()->id)
-                                    <div class="btn-group " >
-                                        <button type="button" class="btn btn-default btn-flat ">Autres</button>
-                                        <button type="button" class="btn btn-default btn-flat dropdown-toggle" data-toggle="dropdown">
-                                            <span class="caret"></span>
-                                            <span class="sr-only">Toggle Dropdown</span>
-                                        </button>
 
-
-                                        <div class="dropdown-menu" role="menu">
-
-                                            <a href="{{route('voir_da',['slug'=>$da->slug])}}" data-toggle="modal">
-                                                <i class=" fa fa-pencil"> modifier</i>
-                                            </a>
-                                            <div class="dropdown-divider"></div>
-                                            <a href="{{route('supprimer_da',['slug'=>$da->slug])}}" data-toggle="modal" >
-                                                <i class=" fa fa-trash">Supprimer</i>
-                                            </a>
-                                        </div>
-
-                                    </div>
-                                @endif
-                            @elseif($da->etat==2)
-                                <a href="{{route('suspendre_da',['slug'=>$da->slug])}} "id="btnconfirmerda12" data-toggle="modal" class="btn btn-warning ">
-                                    <i class=" fa fa-pause" style="size: 40px"> Suspendre ?</i>
-                                </a>
-                                <a href="" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" id="btnconfirmerda2" data-toggle="modal" class="btn btn-danger btn_refuser">
-                                    <i class=" fa fa-check-circle" style="size: 40px"> Refuser ?</i>
-                                </a>
-                            @elseif($da->etat==0)
-                                <a href="{{route('confirmer_da_depuis_creermodifier_da',['slug'=>$da->slug])}} " id="btnconfirmerda2" data-toggle="modal" class="btn btn-success confirmons">
-                                    <i class=" fa fa-check-circle" > </i>Accepter ?
-                                </a>
-
-                                @if($da->id_user==\Illuminate\Support\Facades\Auth::user()->id)
-                                    <div class="btn-group ">
-                                        <button type="button" class="btn btn-default btn-flat ">Autres</button>
-                                        <button type="button" class="btn btn-default btn-flat dropdown-toggle" data-toggle="dropdown">
-                                            <span class="caret"></span>
-                                            <span class="sr-only">Toggle Dropdown</span>
-                                        </button>
-                                        <div class="dropdown-menu" role="menu">
-
-                                            <a href="{{route('voir_da',['slug'=>$da->slug])}}" data-toggle="modal">
-                                                <i class=" fa fa-pencil"> modifier</i>
-                                            </a>
-                                            <div class="dropdown-divider"></div>
-                                            <a href="{{route('supprimer_da',['slug'=>$da->slug])}}" data-toggle="modal" >
-                                                <i class=" fa fa-trash">Supprimer</i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                @endif
-                            @elseif($da->etat==3)
-
-                            @endif
 
                         </td>
 

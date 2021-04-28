@@ -43,6 +43,7 @@ class DAController
 
     public function das()
     {
+        $projet_choisi= ProjectController::check_projet_access();
         $fournisseurs=Fournisseur::all();
         $materiels=Materiel::all();
       //  $das=  DA::orderBy('created_at', 'DESC')->paginate(100);
@@ -54,9 +55,13 @@ class DAController
             ->leftJoin('fournisseur','fournisseur.id','=','devis.id_fournisseur')
             ->leftJoin('boncommande','boncommande.id','=','lignebesoin.id_bonCommande')
             ->leftJoin('gestion','gestion.id','=','lignebesoin.id_codeGestion')
+            ->where('lignebesoin.id_projet','=',$projet_choisi->id)
             //->where('users.service','=',\Illuminate\Support\Facades\Auth::user()->service)->orderBy('lignebesoin.created_at', 'DESC')
             ->select('lignebesoin.id','lignebesoin.unite','lignebesoin.quantite','DateBesoin','lignebesoin.id_user','id_nature','lignebesoin.id_materiel','lignebesoin.created_at','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','usage','lignebesoin.commentaire','dateConfirmation','date_livraison_eff','code_analytique','codeRubrique',DB::raw('fournisseur.libelle as libelle_fournisseur'),'numBonCommande','boncommande.date','gestion.codeGestion')->paginate(300);
-        $natures= Nature::all();
+
+     //  $das= Lignebesoin::where('lignebesoin.id_projet','=',$projet_choisi->id)->paginate(300);
+
+       $natures= Nature::all();
           //  dd($das[0]->bondecommande);
         $service_users=DB::table('users')
             ->leftJoin('services', 'services.id', '=', 'users.service')
@@ -91,7 +96,7 @@ class DAController
           //  dd($das[0]->bondecommande);
         $service_users=DB::table('users')
             ->leftJoin('services', 'services.id', '=', 'users.service')
-            ->select('users.id','nom','prenoms','services.libelle','users.service')->where('id_projet','=',$projet_choisi->id)->get();
+            ->select('users.id','nom','prenoms','services.libelle','users.service')->get();
         $domaines=  DB::table('domaines')->get();
         $tracemails= DB::table('trace_mail')->where('id_projet','=',$projet_choisi->id)->get();
 
@@ -368,14 +373,14 @@ class DAController
             ->leftJoin('boncommande','boncommande.id','=','lignebesoin.id_bonCommande')
             ->select('lignebesoin.id','lignebesoin.unite','lignebesoin.quantite','DateBesoin','lignebesoin.id_user','id_nature','lignebesoin.id_materiel','materiel.libelleMateriel','lignebesoin.created_at','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','usage','lignebesoin.commentaire','dateConfirmation','date_livraison_eff','code_analytique','codeRubrique',DB::raw('fournisseur.libelle as libelle_fournisseur'),'numBonCommande','boncommande.date','lignebesoin.created_at','gestion.codeGestion','devis.prix_unitaire')
          //   ->WhereBetween('lignebesoin.created_at', [$debut, $fin])
-            ->orWhere('lignebesoin.demandeur', 'LIKE', "%{$mot_cle}%")->where('id_projet','=',$projet_choisi->id)
+            ->orWhere('lignebesoin.demandeur', 'LIKE', "%{$mot_cle}%")->where('lignebesoin.id_projet','=',$projet_choisi->id)
             //  ->WhereBetween('lignebesoin.created_at', [$debutt, $finn])
-            ->orWhere('materiel.libelleMateriel', 'LIKE', "%{$mot_cle}%")->where('id_projet','=',$projet_choisi->id)
-            ->orWhere('fournisseur.libelle', 'LIKE', "%{$mot_cle}%")->where('id_projet','=',$projet_choisi->id)
-            ->orWhere('lignebesoin.demandeur', 'LIKE', "%{$mot_cle}%")->where('id_projet','=',$projet_choisi->id)
-            ->orWhere('boncommande.numBonCommande', 'LIKE', "%{$mot_cle}%")->where('id_projet','=',$projet_choisi->id)
-            ->orWhere('gestion.codeGestion', 'LIKE', "%{$mot_cle}%")->where('id_projet','=',$projet_choisi->id)
-            ->orWhere('boncommande.date', 'LIKE', "%{$mot_cle}%")->where('id_projet','=',$projet_choisi->id)
+            ->orWhere('materiel.libelleMateriel', 'LIKE', "%{$mot_cle}%")->where('lignebesoin.id_projet','=',$projet_choisi->id)
+            ->orWhere('fournisseur.libelle', 'LIKE', "%{$mot_cle}%")->where('lignebesoin.id_projet','=',$projet_choisi->id)
+            ->orWhere('lignebesoin.demandeur', 'LIKE', "%{$mot_cle}%")->where('lignebesoin.id_projet','=',$projet_choisi->id)
+            ->orWhere('boncommande.numBonCommande', 'LIKE', "%{$mot_cle}%")->where('lignebesoin.id_projet','=',$projet_choisi->id)
+            ->orWhere('gestion.codeGestion', 'LIKE', "%{$mot_cle}%")->where('lignebesoin.id_projet','=',$projet_choisi->id)
+            ->orWhere('boncommande.date', 'LIKE', "%{$mot_cle}%")->where('lignebesoin.id_projet','=',$projet_choisi->id)
           ->get(100);
         //dd($das);
         $natures= Nature::all();
@@ -499,8 +504,9 @@ class DAController
     }
     public function historique_achat()
     {
-           $mesdas=  Lignebesoin::where('lignebesoin.created_at','<','2020-12-14 00:00:00')->where('lignebesoin.id_user','=',Auth::user()->id)->orderBy('lignebesoin.created_at', 'DESC')->get();
-           $mesdas_news=  Lignebesoin::where('lignebesoin.created_at','>','2020-12-14 00:00:00')->where('lignebesoin.id_user','=',Auth::user()->id)->orderBy('lignebesoin.created_at', 'DESC')->get();
+            $projet_choisi= ProjectController::check_projet_access();
+           $mesdas=  Lignebesoin::where('id_projet','=',$projet_choisi->id)->where('lignebesoin.created_at','<','2020-12-14 00:00:00')->where('lignebesoin.id_user','=',Auth::user()->id)->orderBy('lignebesoin.created_at', 'DESC')->get();
+           $mesdas_news=  Lignebesoin::where('id_projet','=',$projet_choisi->id)->where('lignebesoin.created_at','>','2020-12-14 00:00:00')->where('lignebesoin.id_user','=',Auth::user()->id)->orderBy('lignebesoin.created_at', 'DESC')->get();
         /*debut du traçages*/
         $ip			= $_SERVER['REMOTE_ADDR'];
         if (isset($_SERVER['REMOTE_HOST'])){
@@ -619,6 +625,7 @@ class DAController
         $da->usage = $parameters['usage'];
         $da->demandeur = $parameters['demandeur'];
         $da->slug = Str::slug($parameters['id_materiel'] . $date->format('dmYhis'));
+        $da->id_projet=session('id_projet');
         $da->save();
 
         $materiel = Materiel::find( $da->id_materiel);
@@ -692,6 +699,7 @@ class DAController
             $da->unite=$request->input("unite")[$i];
             $da->commentaire=$request->input("commentaire")[$i];
             $da->id_user=$request->input("id_user")[$i];
+            $da->id_projet=session('id_projet');
             $da->slug = Str::slug($request->input("id_materiel")[$i] . $date->format('dmYhis'));
             $da->save();
         }

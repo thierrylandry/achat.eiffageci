@@ -44,24 +44,24 @@ class Demande_proformaController extends Controller
 
     public function demande_proformas()
     {
-
+        $projet_choisi= ProjectController::check_projet_access();
         $types = DB::table('designation')
             ->join('lignebesoin', 'designation.id', '=', 'lignebesoin.id_materiel')
             ->join('famille', 'famille.id', '=', 'designation.id_famille')
             ->join('domaines', 'domaines.id', '=', 'famille.id_domaine')
             ->whereIn('lignebesoin.etat',[2,3])
+            ->where('lignebesoin.id_projet','=',$projet_choisi->id)
             ->select('domaines.libelleDomainne','domaines.id','lignebesoin.etat')->distinct()->get();
 
-        $fournisseurs=Fournisseur::all();
-        $materiels=Materiel::all();
-        $das=  DA::all();
+        $fournisseurs=Fournisseur::where('id_projet','=',$projet_choisi->id)->get();
+        $das=  DA::where('id_projet','=',$projet_choisi->id)->get();
         $natures= Nature::all();
-        $users= User::all();
-        $trace_mails= DB::table('trace_mail')
+        $users= User::where('id_projet','=',$projet_choisi->id)->get();
+        $trace_mails= DB::table('trace_mail')->where('id_projet','=',$projet_choisi->id)
             ->select('trace_mail.id','das','trace_mail.created_at','rappel','trace_mail.email','id_fournisseur','msg_contenu','objet')->orderBy('trace_mail.created_at', 'DESC')->get();
 
 
-        return view('demande_proformas/gestion_demande_proforma',compact('das','fournisseurs','materiels','natures','users','types','trace_mails'));
+        return view('demande_proformas/gestion_demande_proforma',compact('das','fournisseurs','natures','users','types','trace_mails'));
 
 
     }
@@ -89,6 +89,7 @@ dd($list_da);
                 $devis->id_fournisseur=$tab["row_n_".$id."_fournisseur"];
                 $devis->codeGestion=$tab["row_n_".$id."_codeGestion"];
                 $devis->quantite=$tab["row_n_".$id."_quantite"];
+                $devis->id_projet=session('id_projet');
                 //ajout de la réference fournisseur
                 $devis->referenceFournisseur=$tab["row_n_".$id."_ref"];
                 if(isset($tab["row_n_".$id."_tva"]) && $tab["row_n_".$id."_tva"]!=""){
@@ -196,11 +197,12 @@ return 1;
     }
     public function lister_les_reponse($id_lignebesoin)
     {
-
+        $projet_choisi= ProjectController::check_projet_access();
         $reponse_fournisseurs = DB::table('reponse_fournisseur')
             ->join('fournisseur', 'fournisseur.id', '=', 'reponse_fournisseur.id_fournisseur')
             ->join('lignebesoin', 'lignebesoin.id', '=', 'reponse_fournisseur.id_lignebesoin')
             ->where('reponse_fournisseur.id_lignebesoin', '=', $id_lignebesoin)
+            ->where('lignebesoin.id_projet','=',$projet_choisi->id)
             ->select('titre_ext','reponse_fournisseur.quantite','reponse_fournisseur.unite','reponse_fournisseur.prix','fournisseur.libelle','reponse_fournisseur.slug','id_fournisseur','lignebesoin.id_reponse_fournisseur','reponse_fournisseur.id','remise','date_precise')
             ->orderBy('prix', 'ASC')->get();
         return response()->json($reponse_fournisseurs);

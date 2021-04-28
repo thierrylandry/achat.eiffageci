@@ -316,8 +316,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
          <ul class="sub">
              <li @yield('recherche_da')><a href="{{route('lister_da_recherche',app()->getLocale())}}">{{ __('menu.search_da') }}</a></li>
              @if(Auth::user() != null && Auth::user()->hasAnyRole(['Valideur_DA'])  || Auth::user()->hasAnyRole(['Gestionnaire_Pro_Forma']))
-
-             <li @yield('lister_da')><a href="{{route('lister_da',app()->getLocale())}}">{{ __('menu.list_da') }}</a></li>
              <li @yield('encours_validation')><a href="{{route('encours_validation',app()->getLocale())}}">{{ __('menu.list_da_valider') }}</a></li>
              @endif
              <li  @yield('demande_achat')><a  href="{{route('demande_achat',app()->getLocale())}}">{{ __('menu.demande_achat') }}</a></li>
