@@ -63,6 +63,7 @@ class EnvoiBcFournisseur implements ShouldQueue
 
 $fournisseur= Fournisseur::find($bc->id_fournisseur);
       //  dd($fournisseur);
+
                 // If you want to store the generated pdf to the server then you can use the store function
                 Mail::send('mail.mail_bc',array('tab' =>$tab,'bc'=>$bc),function($message)use ($pdf,$bc,$contact,$contactDemandeur,$numBonCommande,$fournisseur){
                 $message->from($bc->expediteur->email ,$bc->expediteur->nom." ".$bc->expediteur->prenoms)

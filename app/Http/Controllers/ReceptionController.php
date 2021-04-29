@@ -25,7 +25,7 @@ class ReceptionController extends Controller
     }
     public function reception_commande_sans_bc(){
         $projet_choisi= ProjectController::check_projet_access();
-        $fournisseurs = Fournisseur::all();
+        $fournisseurs = Fournisseur::where('id_projet','=',$projet_choisi->id)->get();
         $produits = Designation::orderby('libelle','ASC')->get();
         $domaines =Domaines::orderby('libelleDomainne','ASC')->get();
         $familles = Famille::orderby('libelle','ASC')->get();

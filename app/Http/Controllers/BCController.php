@@ -55,14 +55,17 @@ class BCController extends Controller
 
     public function bon_commande_file($locale,$slug){
      // $bc=  Boncommande::where('slug','=',$slug)->first();
+     $projet_choisi= ProjectController::check_projet_access();
         $bc= DB::table('boncommande')
             ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
             ->leftJoin('services', 'services.id', '=', 'boncommande.service_demandeur')
             ->where('boncommande.slug','=',$slug)
+            ->where('boncommande.id_projet','=',$projet_choisi->id)
             ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','services.libelle as libelle_service','commentaire_general','fournisseur.conditionPaiement','boncommande.id_fournisseur','remise_excep')->first();
         $devis=DB::table('devis')
             ->leftjoin('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
             ->where('id_bc','=',$bc->id)
+            ->where('lignebesoin.id_projet','=',$projet_choisi->id)
             ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.devise','commentaire','hastva','referenceFournisseur','codeGestion')->get();
 
         $taille=sizeof($devis);
@@ -90,11 +93,12 @@ class BCController extends Controller
 
     }
     public function afficher_le_mail($locale,$bc_slug){
-
+        $projet_choisi= ProjectController::check_projet_access();
         $bc= DB::table('boncommande')
             ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
             ->join('services', 'services.id', '=', 'boncommande.service_demandeur')
             ->where('boncommande.id','=',$bc_slug)
+            ->where('boncommande.id_projet','=',$projet_choisi->id)
             ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','libelle_service','contact')->get()->first();
 
 
@@ -102,7 +106,7 @@ class BCController extends Controller
 
 
         //$lignebesoins=Lignebesoin::where('id_bonCommande','=',$bc->id)->first();
-        $lignebesoins=DB::table('lignebesoin')->where('id_bonCommande','=',$bc_slug)->get();
+        $lignebesoins=DB::table('lignebesoin')->where('lignebesoin.id_projet','=',$projet_choisi->id)->where('id_bonCommande','=',$bc_slug)->get();
         //  $email=$bc->email;
 
 $corps= Array();
@@ -145,7 +149,7 @@ $corps= Array();
 return $view;
     }
     public function send_it_personnalisé(Request $request){
-
+        $projet_choisi= ProjectController::check_projet_access();
         $parameters=$request->except(['_token']);
         $objet=$parameters['objet'];
         $msg_contenu=$parameters['compose-textarea'];
@@ -160,12 +164,14 @@ return $view;
         $bc= DB::table('boncommande')
             ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
             ->join('services', 'services.id', '=', 'boncommande.service_demandeur')
+            ->where('boncommande.id_projet','=',$projet_choisi->id)
             ->where('boncommande.id','=',$bc_slug)
             ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','services.libelle as libelle_service','contact','commentaire_general','fournisseur.conditionPaiement','boncommande.id_fournisseur')->first();
 
         $devis=DB::table('devis')
             ->join('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
             ->where('id_bc','=',$bc->id)
+            ->where('lignebesoin.id_projet','=',$projet_choisi->id)
             ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.devise','commentaire','hastva')->get();
         $taille=sizeof($devis);
         $tothtax = 0;
@@ -246,7 +252,7 @@ return $view;
         $boncom=Boncommande::where('id','=',$bc->id)->first();
         $boncom->etat=3;
         $boncom->save();
-        $lignebesoin=Lignebesoin::where('id_bonCommande','=',$bc->id)->first();
+        $lignebesoin=Lignebesoin::where('lignebesoin.id_projet','=',$projet_choisi->id)->where('id_bonCommande','=',$bc->id)->first();
         $lignebesoin->etat=3;
         $lignebesoin->save();
         // Finally, you can download the file using download function
@@ -256,7 +262,7 @@ return $view;
 
     }
     public function send_it(Request $request){
-
+        $projet_choisi= ProjectController::check_projet_access();
         $parameters=$request->except(['_token']);
 
         $bc_slug=$parameters['bc_slug'];
@@ -267,12 +273,14 @@ return $view;
             ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
             ->join('services', 'services.id', '=', 'boncommande.service_demandeur')
             ->where('boncommande.id','=',$bc_slug)
+            ->where('boncommande.id_projet','=',$projet_choisi->id)
             ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','services.libelle as libelle_service','contact','commentaire_general','fournisseur.conditionPaiement','boncommande.id_fournisseur','remise_excep')->first();
 
 
         $devis=DB::table('devis')
             ->join('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
             ->where('id_bc','=',$bc->id)
+            ->where('lignebesoin.id_projet','=',$projet_choisi->id)
             ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.devise','commentaire','referenceFournisseur','codeGestion')->get();
 
 
@@ -375,18 +383,20 @@ return $view;
 
     public function gestion_bc()
     {
-        $bcs=  Boncommande::where('etat','!=',1)->orderBy('created_at', 'DESC')->paginate(100);
-        $bcs_en_attentes=  Boncommande::where('etat','=',1)->orderBy('created_at', 'DESC')->get();
+        $projet_choisi= ProjectController::check_projet_access();
+        $bcs=  Boncommande::where('etat','!=',1)->where('id_projet','=',$projet_choisi->id)->orderBy('created_at', 'DESC')->paginate(100);
+        $bcs_en_attentes=  Boncommande::where('etat','=',1)->where('id_projet','=',$projet_choisi->id)->orderBy('created_at', 'DESC')->get();
         $utilisateurs=  User::all();
 
         $fournisseurs= DB::table('fournisseur')
             ->join('devis', 'fournisseur.id', '=', 'devis.id_fournisseur')
             ->where('devis.etat', '=', 1)
+            ->where('devis.id_projet','=',$projet_choisi->id)
             ->select('fournisseur.libelle','fournisseur.id','devise')
             ->groupBy('devis.devise','fournisseur.id')
             ->get();
         $fournisseurss= DB::table('fournisseur')
-
+             ->where('fournisseur.id_projet','=',$projet_choisi->id)
             ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
         $users= User::all();
 
@@ -401,23 +411,26 @@ return $view;
         return view('BC/gestion_bc',compact('bcs','bcs_en_attentes','fournisseurs','utilisateurs','analytiques','fournisseurss','users','projets','expediteurs'));
     }
     public function regularisation(){
-
+        $projet_choisi= ProjectController::check_projet_access();
         $receptions = DB::table('ligne_bonlivraison')
             ->join('fournisseur', 'fournisseur.id', '=', 'ligne_bonlivraison.id_fournisseur')
             ->where('ligne_bonlivraison.etat', '=', 0)
+            ->where('ligne_bonlivraison.id_projet','=',$projet_choisi->id)
             ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
 
         return view('BC/regularisation',compact('receptions'));
     }
     public function detail_regularisation($locale,$id_fournisseur){
+        $projet_choisi= ProjectController::check_projet_access();
         $fournisseur =Fournisseur::find($id_fournisseur);
-        $ligne_bonlivraisons = Ligne_bonlivraison::where('id_fournisseur','=',$id_fournisseur)->where('etat','=',0)->get();
+        $ligne_bonlivraisons = Ligne_bonlivraison::where('ligne_bonlivraison.id_projet','=',$projet_choisi->id)->where('id_fournisseur','=',$id_fournisseur)->where('etat','=',0)->get();
         $gestions =Gestion::all();
         $devise = "FCFA";
         return view('BC/bc_regularisation',compact('ligne_bonlivraisons','fournisseur','gestions','devise'));
     }
     public function generer_numero_bc(){
-        $bcs =Boncommande::where('id_projet','=',1)->get();
+        $projet_choisi= ProjectController::check_projet_access();
+        $bcs =Boncommande::where('id_projet','=',$projet_choisi->id)->get();
         $project = Projet::find(1);
         $tableau_numb= array();
 
@@ -467,19 +480,21 @@ return $view;
     }
     public function validation_bc()
     {
-        $bcs=  Boncommande::where('etat','!=',1)->orderBy('created_at', 'DESC')->get();
-        $bcs_en_attentes=  Boncommande::where([['etat', '=', 1],['date', '<>', null],['service_demandeur', '<>', null]])->orderBy('created_at', 'DESC')->get();
-        $utilisateurs=  User::all();
+        $projet_choisi= ProjectController::check_projet_access();
+        $bcs=  Boncommande::where('id_projet','=',$projet_choisi->id)->where('etat','!=',1)->orderBy('created_at', 'DESC')->get();
+        $bcs_en_attentes=  Boncommande::where('id_projet','=',$projet_choisi->id)->where([['etat', '=', 1],['date', '<>', null],['service_demandeur', '<>', null]])->orderBy('created_at', 'DESC')->get();
+        $utilisateurs=  User::where('id_projet','=',$projet_choisi->id)->get();
 
         $fournisseurs= DB::table('fournisseur')
             ->join('devis', 'fournisseur.id', '=', 'devis.id_fournisseur')
             ->where('devis.etat', '=', 1)
+            ->where('devis.id_projet','=',$projet_choisi->id)
             ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
         $fournisseurss= DB::table('fournisseur')
-
+            ->where('id_projet','=',$projet_choisi->id)
             ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
 
-        $analytiques= Analytique::all();
+        $analytiques= Analytique::where('id_projet','=',$projet_choisi->id)->get();
         return view('BC/validation_bc',compact('bcs','bcs_en_attentes','fournisseurs','utilisateurs','analytiques','fournisseurss'));
     }
     public function validation_bc_collective($locale,$id)
@@ -1103,6 +1118,7 @@ return $view;
 
 
     $services=Services::all();
+    $projet_choisi= ProjectController::check_projet_access();
         $new_devis=DB::table('devis')
             ->leftJoin('lignebesoin', 'lignebesoin.id', '=', 'devis.id_da')
             ->leftJoin('users', 'lignebesoin.id_user', '=', 'users.id')
@@ -1110,6 +1126,7 @@ return $view;
             ->where('devis.id_bc', '=', null)
             ->where('devis.devise', '=', $devis[0]->devise)
             ->where('devis.id_fournisseur', '=', $bc->id_fournisseur)
+            ->where('devis.id_projet','=',$projet_choisi->id)
             ->select('devis.id','devis.titre_ext','id_bc','devis.codeRubrique','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.devise','devis.hastva','DateBesoin','users.service','lignebesoin.commentaire','referenceFournisseur')->distinct()->get();
 
         $date_propose= Array();
@@ -1171,21 +1188,23 @@ if(isset($devis->first()->devise)){
     }
     public function gestion_bc_ajouter()
     {
-        $bcs=  Boncommande::orderBy('created_at', 'DESC')->paginate(100);
-        $bcs_en_attentes=  Boncommande::where('etat','=',1)->orderBy('created_at', 'DESC')->get();
-        $utilisateurs=  User::all();
+        $projet_choisi= ProjectController::check_projet_access();
+        $bcs=  Boncommande::where('boncommande.id_projet','=',$projet_choisi->id)->orderBy('created_at', 'DESC')->paginate(100);
+        $bcs_en_attentes=  Boncommande::where('boncommande.id_projet','=',$projet_choisi->id)->where('etat','=',1)->orderBy('created_at', 'DESC')->get();
+        $utilisateurs=  User::where('id_projet','=',$projet_choisi->id)->get();
         $fournisseurs= DB::table('fournisseur')
             ->join('devis', 'fournisseur.id', '=', 'devis.id_fournisseur')
             ->where('devis.etat', '=', 1)
+            ->where('devis.id_projet','=',$projet_choisi->id)
             ->select('fournisseur.libelle','fournisseur.id','devise')
             ->groupBy('devis.devise','fournisseur.id')
             ->get();
         $fournisseurss= DB::table('fournisseur')
-
+            ->where('devis.id_projet','=',$projet_choisi->id)
             ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
         $ajouter='vrai';
-        $analytiques= Analytique::all();
-        $projets= Projet::all();
+        $analytiques= Analytique::where('devis.id_projet','=',$projet_choisi->id)->get();
+        $projets= Projet::where('id','=',$projet_choisi->id)->get();
         $expediteurs= array();
         foreach($utilisateurs as $user):
             if($user->hasRole('Gestionnaire_Pro_Forma')){
@@ -1202,6 +1221,7 @@ if(isset($devis->first()->devise)){
     }
     public function save_bc( Request $request)
     {
+        $projet_choisi= ProjectController::check_projet_access();
         $parameters=$request->except(['_token']);
 
         $date= new \DateTime(null);
@@ -1216,6 +1236,7 @@ if(isset($devis->first()->devise)){
         $Boncommande->id_user=Auth::user()->id;
         $Boncommande->id_projet=$projet->id;
         $Boncommande->devise_bc=$devise;
+        $Boncommande->id_projet=session('id_projet');
         $Boncommande->id_expediteur=$parameters['id_expediteur'];
 
         $Boncommande->slug=Str::slug($parameters['numbc'].$date->format('dmYhis'));
@@ -1227,8 +1248,8 @@ if(isset($devis->first()->devise)){
             return redirect()->back()->with('error',__('neutrale.numero_bc_utilise'));
         }
         $lesdevis= Devis::where('id_fournisseur','=',$Boncommande->id_fournisseur)
-
-            ->where('etat','=',1)->where('devise','=',$devise)->get();
+                        ->where('Devis.id_projet','=',$projet_choisi->id)
+                        ->where('etat','=',1)->where('devise','=',$devise)->get();
 
 
         foreach($lesdevis as $devi):

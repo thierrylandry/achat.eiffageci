@@ -479,6 +479,7 @@ foreach ($recup_email as $email):
         $Trace_mail->das=implode(',',$tab_listeSA);
         $Trace_mail->objet=$objet;
         $Trace_mail->msg_contenu=$debut_contenu.implode(' ',$corps).$fin_contenu;
+        $Trace_mail->id_projet=session('id_projet');
         $Trace_mail->save();
 
 
@@ -589,8 +590,10 @@ foreach ($recup_email as $email):
     }
     public function les_das_funct($locale,$domaine)
     {
+        $projet_choisi= ProjectController::check_projet_access();
         $types = DB::table('designation')
             ->where('famille.id_domaine', '=', $domaine)
+            ->where('lignebesoin.id_projet','=',$projet_choisi->id)
             ->join('famille', 'famille.id', '=', 'designation.id_famille')
             ->join('lignebesoin', 'designation.id', '=', 'lignebesoin.id_materiel')
             ->join('nature', 'nature.id', '=', 'lignebesoin.id_nature')
@@ -669,9 +672,11 @@ foreach ($recup_email as $email):
 
     //reponse fournisseur iportant
     public function gestion_reponse_fournisseur(){
+        $projet_choisi= ProjectController::check_projet_access();
         $gestions = Gestion::all();
         $fournisseurs=DB::table('fournisseur')
             ->join('domaines', 'domaines.id', '=', 'fournisseur.domaine')
+            ->where('fournisseur.id_projet','=',$projet_choisi->id)
             ->select('libelle','libelleDomainne','fournisseur.id','fournisseur.domaine')->distinct()->get();
        // $materiels=Materiel::all();
         /*
@@ -681,10 +686,10 @@ foreach ($recup_email as $email):
             ->where('lignebesoin.created_at', '>', '2020-12-21 00:00:00')
             ->select('libelle','lignebesoin.id', 'lignebesoin.unite', 'lignebesoin.quantite', 'DateBesoin','id_user', 'id_reponse_fournisseur','id_nature', 'lignebesoin.id_materiel', 'id_bonCommande','demandeur','lignebesoin.slug','lignebesoin.etat','id_valideur','motif','code_analytique','type','lignebesoin.id_codeGestion')->distinct()->paginate(30);
 */
-        $das= Lignebesoin::where('etat','=',2)->distinct()->paginate(30);
+        $das= Lignebesoin::where('etat','=',2)->where('id_projet','=',$projet_choisi->id)->distinct()->paginate(30);
         $tab_proposition= Array();
         foreach ($das as $d):
-            $dev = Devis::where('id_materiel','=',$d->id_materiel)->orderByRaw('devis.id DESC')->get()->first();
+            $dev = Devis::where('id_materiel','=',$d->id_materiel)->where('id_projet','=',$projet_choisi->id)->orderByRaw('devis.id DESC')->get()->first();
             if($dev!=null){
                 $tab_proposition[$d->id]=$dev;
             }
@@ -695,6 +700,7 @@ foreach ($recup_email as $email):
         $devis = DB::table('devis')
             ->join('designation', 'designation.id', '=', 'devis.id_materiel')
             ->join('famille', 'famille.id', '=', 'designation.id_famille')
+            ->where('devis.id_projet','=',$projet_choisi->id)
             ->select('designation.libelle','devis.id','devis.id_da','titre_ext','famille.id_domaine','devise', 'devis.unite', 'devis.quantite','id_fournisseur','prix_unitaire','remise','devis.codeRubrique','hastva','referenceFournisseur','codeGestion')
 
         ->where('etat','=',1)->get();
