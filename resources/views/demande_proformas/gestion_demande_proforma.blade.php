@@ -110,7 +110,7 @@
                                             <div class="form-group">
                                                 <label> {{ __('menu.fournisseurs') }}</label>
                                                 <input type="text" id="fournisseur" name="fournisseur"   value="" required style="visibility: hidden"/>
-
+                                                <input type="hidden" name="lang" value="{{app()->getLocale()}}" />
                                             </div>
                                             <div id="jstree" >
 

@@ -375,7 +375,7 @@ $i=0;
         $i++;
 
     endforeach;
-    $this->dispatch(new EnvoieMailFournisseurPerso(explode(',',$trace_mail->email),$images,$trace_mail->objet,"POUR RAPPEL : \r\n".$trace_mail->msg_contenu) );
+    $this->dispatch(new EnvoieMailFournisseurPerso(explode(',',$trace_mail->email),$images,$trace_mail->objet,"POUR RAPPEL : \r\n".$trace_mail->msg_conten) );
 
     return redirect()->back()->with('success', "success");
 
@@ -400,6 +400,7 @@ $i=0;
      //   dd($recup_email);
         $listeDA = $parameters['listeDA'];
         $domaine = $parameters['domaine'];
+        $lang = $parameters['lang'];
         $domaine =  Domaines::find($domaine)->libelleDomainne;
        // dd($listeDA);
         $tab_listeSA = explode(",", $listeDA);
@@ -450,7 +451,7 @@ $i=0;
             $date= new \DateTime(null);
             $date= $date->format("d/m/Y");
 
-            $this->dispatch(new EnvoiMailFournisseur($corps, $precisions, $images, $recup_email,$domaine, $date) );
+            $this->dispatch(new EnvoiMailFournisseur($corps, $precisions, $images, $recup_email,$domaine, $date,$lang) );
         }else{
             $date= new \DateTime(null);
             $date= $date->format("d/m/Y");

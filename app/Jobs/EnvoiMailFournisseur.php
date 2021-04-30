@@ -2,12 +2,14 @@
 
 namespace App\Jobs;
 
+use App\Projet;
 use Faker\Provider\cs_CZ\DateTime;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -22,12 +24,13 @@ class EnvoiMailFournisseur implements ShouldQueue
     private $email;
     private $domaine;
     private $date;
+    private $lang;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($corps, $precisions, $images, $email,$domaine,$date)
+    public function __construct($corps, $precisions, $images, $email,$domaine,$date,$lang)
     {
         $this->email = $email;
         $this->corps = $corps;
@@ -35,6 +38,7 @@ class EnvoiMailFournisseur implements ShouldQueue
         $this->images = $images;
         $this->domaine = $domaine;
         $this->date = $date;
+        $this->lang = $lang;
 
     }
 
@@ -51,16 +55,21 @@ class EnvoiMailFournisseur implements ShouldQueue
         $images = $this->images;
         $domaine = $this->domaine;
         $date = $this->date;
+        $lang= $this->lang;
 
-        Mail::send('mail.mail',compact('corps','precisions','images'),function($message)use ($email,$images,$domaine,$date )
+        Mail::send('mail.mail',compact('corps','precisions','images'),function($message)use ($email,$images,$domaine,$date,$lang )
         {
+            App::setLocale($lang);
+            $projet =Projet::find(session('id_projet'));
+            $nom_projet = explode('-',$projet->libelle);
             $message->from(Auth::user()->email ,Auth::user()->nom." ".Auth::user()->prenoms )
               // ->to("claudiane.costecalde@eiffage.com")
                // ->to("marina.oulai@eiffage.com")
-                ->subject('EGCCI-PHB/'.__('neutrale.demande_devis').' - '.$domaine.' - '.$date);
+                ->subject('EGCCI-'.$nom_projet[0].'/'.__('neutrale.demande_devis').' - '.$domaine.' - '.$date);
             foreach($email as $em):
                 $message ->bcc($em);
                 endforeach;
+
             foreach($images as $img):
                 if($img!="vide"){
                     try{

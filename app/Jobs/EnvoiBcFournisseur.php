@@ -3,6 +3,8 @@
 namespace App\Jobs;
 
 use App\Fournisseur;
+use App\Projet;
+use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -63,21 +65,30 @@ class EnvoiBcFournisseur implements ShouldQueue
 
 $fournisseur= Fournisseur::find($bc->id_fournisseur);
       //  dd($fournisseur);
+      $user_en_copies = array();
 
+            $users = User::where('id_projet','=',session('id_projet'))->get();
+            foreach($users as $user):
+                if($user->hasRole('Gestionnaire_Pro_Forma')){
+                    $user_en_copies[]= $user->email;
+                }
+
+            endforeach;
                 // If you want to store the generated pdf to the server then you can use the store function
-                Mail::send('mail.mail_bc',array('tab' =>$tab,'bc'=>$bc),function($message)use ($pdf,$bc,$contact,$contactDemandeur,$numBonCommande,$fournisseur){
-                $message->from($bc->expediteur->email ,$bc->expediteur->nom." ".$bc->expediteur->prenoms)
-                    ->bcc("claudiane.costecalde@eiffage.com")
-                    ->bcc("marina.oulai@eiffage.com")
-                    ->bcc("sopie.ncho@eiffage.com")
-                    ->bcc("melaine.ekra@eiffage.com")
+                Mail::send('mail.mail_bc',array('tab' =>$tab,'bc'=>$bc),function($message)use ($pdf,$bc,$contact,$contactDemandeur,$user_en_copies,$numBonCommande,$fournisseur){
+                    $projet =Projet::find(session('id_projet'));
+
+                    $message->from($bc->expediteur->email ,$bc->expediteur->nom." ".$bc->expediteur->prenoms)
                     ->bcc("cyriaque.kodia@eiffage.com")
-                    ->subject($fournisseur->libelle."/BC N°".str_replace("PHB-815140-",'',$numBonCommande).'/EGC-CI EIFFAGE')
+                    ->subject($fournisseur->libelle."/".__('neutrale.demande_devis').' '.str_replace($projet->libelle,'',$numBonCommande).'/EGC-CI EIFFAGE')
                     ->attach($pdf);
                     foreach($contact as $em):
                         $message ->to($em);
                     endforeach;
                     foreach($contactDemandeur as $em):
+                        $message ->bcc($em);
+                    endforeach;
+                    foreach($user_en_copies as $em):
                         $message ->bcc($em);
                     endforeach;
             });
