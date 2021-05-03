@@ -126,6 +126,13 @@ return [
     'valideur' => 'Valideur',
     'super_user' => 'Super utilisateurs',
     'type_user' => 'Type utilisateur',
+    'merci_libelle_facture' =>'Merci de libeller votre facture à',
+    'merci_envoyer_facture' => 'Merci d\'envoyer votre facture à',
+    'detail' =>'Toute facture doit mentionner impérativement le numéro du Bon de Commande et les
+    numéros IBAN et BIC du compte bancaire du Fournisseur. Toute facture doit être
+    accompagnée des documents suivants :
+    - copie du Bon de Commande dûment signé,
+    - tout document justificatif pour le paiement conformément à la commande',
 
 
 ];

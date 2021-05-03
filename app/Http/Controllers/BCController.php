@@ -56,13 +56,16 @@ class BCController extends Controller
     public function bon_commande_file($locale,$slug){
      // $bc=  Boncommande::where('slug','=',$slug)->first();
      $projet_choisi= ProjectController::check_projet_access();
-        $bc= DB::table('boncommande')
+       /* $bc= DB::table('boncommande')
             ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
-            ->leftJoin('services', 'services.id', '=', 'boncommande.service_demandeur')
+             ->leftJoin('services', 'services.id', '=', 'boncommande.service_demandeur')
+            ->leftJoin('projet', 'projet.id', '=', 'boncommande.id_projet')
             ->where('boncommande.slug','=',$slug)
             ->where('boncommande.id_projet','=',$projet_choisi->id)
-            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','services.libelle as libelle_service','commentaire_general','fournisseur.conditionPaiement','boncommande.id_fournisseur','remise_excep')->first();
-        $devis=DB::table('devis')
+            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','services.libelle as libelle_service','commentaire_general','fournisseur.conditionPaiement','boncommande.id_fournisseur','remise_excep','n_rccm','n_cc',)->first();
+       */
+      $bc=Boncommande::where('slug','=',$slug)->first();
+            $devis=DB::table('devis')
             ->leftjoin('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
             ->where('id_bc','=',$bc->id)
             ->where('lignebesoin.id_projet','=',$projet_choisi->id)
@@ -80,7 +83,7 @@ class BCController extends Controller
         $tothtax = 0;
         //return view('BC.bon-commande', compact('bc','ligne_bcs','tothtax'));
         $pdf = PDF::loadView('BC.bon-commande', compact('bc','devis','tothtax','taille','taille_minim','taille_maxim'));
-
+       return  $pdf->stream();
         /*debut du traçages*/
         $ip			= $_SERVER['REMOTE_ADDR'];
         if (isset($_SERVER['REMOTE_HOST'])){
@@ -89,7 +92,7 @@ class BCController extends Controller
             $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         }
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; téléchargement du B.C N°'.$bc->numBonCommande.'  Adressé au fournisseur '.$bc->id_fournisseur, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
-        return $pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
+       // return $pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
 
     }
     public function afficher_le_mail($locale,$bc_slug){

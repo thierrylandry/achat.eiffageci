@@ -98,7 +98,7 @@
             <td width="50%" valign="center" align="left">
                 <img src="{{ asset("images/Eiffage_2400_01_colour_RGB.jpg") }}">
                 <p style="font-size: 8pt; padding: 0;">EIFFAGE Génie Civil - Succursale de Côte d'Ivoire</p>
-                <p style="font-size: 8pt; padding: 0;">N° RCCM : CI-ABJ-2017-B-22961 / N° CC : 1739936Z</p>
+                <p style="font-size: 8pt; padding: 0;">N° RCCM : {{$bc->projet->n_rccm}} / N° CC : {{$bc->projet->n_cc}}</p>
             </td>
             <td width="50%">
                 <table class="numero lignesEspacees">
@@ -119,33 +119,31 @@
             <td width="50%">
                 <table class="preambule">
                     <tr>
-                        <td width="30%"><b>Please write your invoice</b></td>
-                        <td width="70%"><b>EIFFAGE GENIE CIVIL COTE D'IVOIRE</b>
-                            </br>Tour Biao 8ème étage – Le plateau  Avenue Lamblin
-                            01 ABIDJAN - BP 5552 ABIDJAN</td>
+                        <td width="30%"><b>{{__('neutrale.merci_libelle_facture')}}</b></td>
+                        <td width="70%"><b>{{strtoupper($bc->projet->denomination_courte)}}</b>
+                            </br>{{$bc->projet->adresseGeographique}}
+                            {{$bc->projet->adressePostale}}</td>
                     </tr>
                     <tr>
-                        <td width="30%"><b>Please send your invoice to</b></td>
-                        <td width="70%"><b>EIFFAGE GENIE CIVIL COTE D'IVOIRE</b>
-                            <br/>Chantier du PONT FELIX HOUPHOUET BOIGNY - NON LOIN DU SIEGE DE BOLLORE - A TREICHVILLE AVENUE CHRISTIANI
+                        <td width="30%"><b>{{__('neutrale.merci_envoyer_facture')}}</b></td>
+                        <td width="70%"><b>{{strtoupper($bc->projet->denomination_longue)}}</b>
+                            <br/>{{$bc->projet->adresseReceptionFacture}}
                         </td>
                     </tr>
                     <tr>
-                        <td width="30%"><b>Site or project:</b></td>
-                        <td  width="70%">Réhabilitation du Pont Houphouet Boigny</td>
+                        <td width="30%"><b>{{__('neutrale.chantier')}}:</b></td>
+                        <td  width="70%">{{$bc->projet->chantier}}</td>
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <p>All invoices must mention the Purchase Order number.
-                                and the IBAN and BIC numbers of the Supplier's bank account. All invoices must be accompanied by the following documents :</p>
-                            <p>- Copy of the duly signed Purchase Order,</p>
-                            <p>- Any supporting documents for payment in accordance with the order</p>
+                            {{html_entity_decode(__('neutrale.detail'))}}
+
                         </td>
                     </tr>
                 </table>
             </td>
             <td width="50%" class="fournisseur" valign="center" align="center">
-                {{$bc->libelle}}
+                {{$bc->fournisseur->libelle}}
             </td>
         </tr>
     </table>
