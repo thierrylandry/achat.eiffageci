@@ -65,13 +65,14 @@ class BCController extends Controller
             ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','services.libelle as libelle_service','commentaire_general','fournisseur.conditionPaiement','boncommande.id_fournisseur','remise_excep','n_rccm','n_cc',)->first();
        */
       $bc=Boncommande::where('slug','=',$slug)->first();
-            $devis=DB::table('devis')
+
+      /*$devis=DB::table('devis')
             ->leftjoin('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
             ->where('id_bc','=',$bc->id)
             ->where('lignebesoin.id_projet','=',$projet_choisi->id)
             ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.devise','commentaire','hastva','referenceFournisseur','codeGestion')->get();
-
-        $taille=sizeof($devis);
+        */
+        $taille=sizeof($bc->ligne_bcs()->get());
 
         if($bc->commentaire_general==''){
             $taille_minim=6;
@@ -82,7 +83,7 @@ class BCController extends Controller
         }
         $tothtax = 0;
         //return view('BC.bon-commande', compact('bc','ligne_bcs','tothtax'));
-        $pdf = PDF::loadView('BC.bon-commande', compact('bc','devis','tothtax','taille','taille_minim','taille_maxim'));
+        $pdf = PDF::loadView('BC.bon-commande', compact('bc','tothtax','taille','taille_minim','taille_maxim'));
        return  $pdf->stream();
         /*debut du traçages*/
         $ip			= $_SERVER['REMOTE_ADDR'];
@@ -1203,10 +1204,10 @@ if(isset($devis->first()->devise)){
             ->groupBy('devis.devise','fournisseur.id')
             ->get();
         $fournisseurss= DB::table('fournisseur')
-            ->where('devis.id_projet','=',$projet_choisi->id)
+            ->where('id_projet','=',$projet_choisi->id)
             ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
         $ajouter='vrai';
-        $analytiques= Analytique::where('devis.id_projet','=',$projet_choisi->id)->get();
+        $analytiques= Analytique::where('id_projet','=',$projet_choisi->id)->get();
         $projets= Projet::where('id','=',$projet_choisi->id)->get();
         $expediteurs= array();
         foreach($utilisateurs as $user):

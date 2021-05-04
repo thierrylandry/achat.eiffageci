@@ -27,4 +27,8 @@ class Boncommande extends Model
     {
         return $this->belongsTo('App\Projet','id_projet');
     }
+    public function service_du_demandeur()
+    {
+        return $this->belongsTo('App\Services','service_demandeur');
+    }
 }

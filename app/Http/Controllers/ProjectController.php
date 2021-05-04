@@ -102,11 +102,14 @@ class ProjectController extends Controller
         $use_tva= $parameters['use_tva'];
         $valideur= $parameters['valideur'];
         $montant= $parameters['montant'];
+        $site_installation= $parameters['site_installation'];
+        $denomination = $parameters['denomination'];
 
         $projet = new Projet();
         $projet->libelle=$libelle;
         $projet->chantier=$chantier;
         $projet->id_pays=$id_pays;
+        $projet->site_installation=$site_installation;
 
         $projet->denomination_courte=$denomination_courte;
         $projet->denomination_longue=$denomination_longue;
@@ -128,6 +131,7 @@ class ProjectController extends Controller
         $projet->montant1=$montant[0];
         $projet->valideur2=$valideur[1];
         $projet->montant2=$montant[1];
+        $projet->denomination=$denomination;
 
 
         $projet->save();
@@ -166,10 +170,13 @@ class ProjectController extends Controller
         $use_tva= $parameters['use_tva'];
         $valideur= $parameters['valideur'];
         $montant= $parameters['montant'];
+        $site_installation = $parameters['site_installation'];
+        $denomination = $parameters['denomination'];
         $projet =  Projet::find($id);
         $projet->libelle=$libelle;
         $projet->chantier=$chantier;
         $projet->id_pays=$id_pays;
+        $projet->site_installation= $site_installation;
 
         $projet->denomination_courte=$denomination_courte;
         $projet->denomination_longue=$denomination_longue;
@@ -191,6 +198,7 @@ class ProjectController extends Controller
         $projet->montant1=$montant[0];
         $projet->valideur2=$valideur[1];
         $projet->montant2=$montant[1];
+        $projet->denomination=$denomination;
 
         $projet->save();
         return redirect()->back()->with('success', "success");

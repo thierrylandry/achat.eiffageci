@@ -128,4 +128,9 @@ return [
     'merci_libelle_facture' =>'Please write your invoice',
     'merci_envoyer_facture' => 'Please send your invoice to',
     'detail' =>'All invoices must mention the Purchase Order number.\r and the IBAN and BIC numbers of the Supplier\'s bank account. \nAll invoices must be accompanied by the following documents :\r- Copy of the duly signed Purchase Order,\r- Any supporting documents for payment in accordance with the order',
+    'All_Suppliers_Subcontractors_invoice_must_be_with_the_name' => 'All Suppliers / Subcontractors invoice must be with the name :',
+    'Toute_facture_ne_suivant_pas_ce_principe_sera_refusee_par_le_service_comptable'=>'Any invoice not following this principle will be refused by the accounting department',
+    'site_installation' => 'Installation site',
+    'denomination'=> 'Name',
+
 ];

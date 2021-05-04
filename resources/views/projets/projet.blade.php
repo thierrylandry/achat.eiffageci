@@ -90,6 +90,13 @@
                                                         </div>
                                                         <br>
                                                     </div>
+                                                    <div >
+                                                        <div class="form-froup">
+                                                            <b><label for="libelle" class="control-label">{{__('neutrale.denomination')}}</label></b>
+                                                            <input type="text" class="form-control" id="denomination" name="denomination" placeholder="denomination"  value="{{isset($projet)? $projet->denomination:''}}" required>
+                                                        </div>
+                                                        <br>
+                                                    </div>
 
                                                     <br>
                                                 </div>
@@ -120,6 +127,14 @@
                                                         <div class="form-froup">
                                                             <b><label for="libelle" class="control-label">{{__('neutrale.adressePostaleReceptionFacture')}}</label></b>
                                                             <input type="text" class="form-control" id="adressePostaleReceptionFacture" name="adressePostaleReceptionFacture" placeholder="libelle"  value="{{isset($projet)? $projet->adressePostaleReceptionFacture:''}}" required>
+                                                        </div>
+                                                        <br>
+                                                    </div>
+                                                    <div >
+                                                        <div class="form-froup">
+                                                            <b><label for="libelle" class="control-label">{{__('neutrale.site_installation')}}</label></b>
+                                                            <textarea class="form-control" id="site_installation" name="site_installation"> {{isset($projet)? $projet->site_installation:''}}</textarea>
+
                                                         </div>
                                                         <br>
                                                     </div>

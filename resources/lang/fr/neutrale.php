@@ -133,6 +133,10 @@ return [
     accompagnée des documents suivants :
     - copie du Bon de Commande dûment signé,
     - tout document justificatif pour le paiement conformément à la commande',
+    'All_Suppliers_Subcontractors_invoice_must_be_with_the_name' => 'Toute facture Fournisseurs / Sous-Traitants doit être avec la dénomination :',
+    'Toute_facture_ne_suivant_pas_ce_principe_sera_refusee_par_le_service_comptable'=>'Toute facture ne suivant pas ce principe sera refusée par le service comptable',
+    'site_installation' => 'Site d\'installation',
+    'denomination'=> 'Dénomination',
 
 
 ];

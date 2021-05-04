@@ -34,7 +34,7 @@
                     </td>
                 </tr>
             @endif
-            @foreach($devis as $dev)
+            @foreach($bc->ligne_bcs()->get() as $dev)
                 @if($loop->index + 1!=$taille_minim)
                 <tr>
                     <td  style="border-bottom-color: white">{{$loop->index + 1}}</td>
@@ -118,7 +118,7 @@
                     </td>
                 </tr>
             @endif
-        @foreach($devis as $dev)
+        @foreach($bc->ligne_bcs()->get() as $dev)
 
 
             <tr >
@@ -175,8 +175,8 @@
             <th colspan="2" style="margin: 0; padding: 0;">
                 <p align="center"><b>{{__('neutrale.adresse_livraison')}}</b></p>
                 <div class="rubrique">
-                    <p style="border-bottom: none;"><b>{{__('neutrale.chantier')}} : PONT FELIX HOUPHOUET BOIGNY</b></p>
-                    <p style="font-size: 10px">SITE INSTALLATION DU CHANTIER, LAGUNE EBRIE RIVE SUD, TREICHVILLE, AVENUE CHRISTIANI</p>
+                    <p style="border-bottom: none;"><b>{{__('neutrale.chantier')}} : {{$bc->projet->chantier}}</b></p>
+                    <p style="font-size: 10px">{{strtoupper($bc->projet->site_installation)}}</p>
                 </div>
                 <br/>
                 <div class="rubrique">
@@ -198,20 +198,20 @@
                             <td style="text-align:right" ><b>{{__('neutrale.remise_excep')}} </b></td>
                             <td class="value">
 
-                                {{number_format($bc->remise_excep,0,"."," ")." ".$devis[0]->devise}}
+                                {{number_format($bc->remise_excep,0,"."," ")." ".$bc->ligne_bcs()->first()->devise}}
                             </td>
                         </tr>
                     @endif
                     <tr>
                         <td width="61.8%" style="text-align:right"><b>{{__('neutrale.totlal_ht')}}</b> </td>
-                        <td class="value">{{ number_format($tothtax-$bc->remise_excep, 0,".", " ")." ".$devis[0]->devise  }}</td>
+                        <td class="value">{{ number_format($tothtax-$bc->remise_excep, 0,".", " ")." ".$bc->ligne_bcs()->first()->devise  }}</td>
                     </tr>
                     <tr>
                         <td style="text-align:right" ><b>{{__('neutrale.totlal_ht')}} </b></td>
                         <td class="value">
                             <?php
                                     $tva=0;
-                                foreach($devis as $dev):
+                                foreach($bc->ligne_bcs()->get() as $dev):
                                     if(1==$dev->hastva){
                                         $tva+=$dev->prix_tot*0.18;
                                     }else{
@@ -223,7 +223,7 @@
                                     $tva=$tva-($bc->remise_excep*0.18);
                                 }
 
-                                    echo number_format($tva, 0,".", " ")." ".$devis[0]->devise;
+                                    echo number_format($tva, 0,".", " ")." ".$bc->ligne_bcs()->first()->devise;
                             ?>
                                 </td>
                     </tr>
@@ -233,12 +233,12 @@
                             @if($bc->remise_excep!=0)
                         <td class="value">
 
-                            {{number_format($tothtax+$tva-$bc->remise_excep,0,"."," ")." ".$devis[0]->devise}}
+                            {{number_format($tothtax+$tva-$bc->remise_excep,0,"."," ")." ".$bc->ligne_bcs()->first()->devise}}
                         </td>
                                 @else
                                 <td class="value">
 
-                                    {{number_format($tothtax+$tva,0,"."," ")." ".$devis[0]->devise}}
+                                    {{number_format($tothtax+$tva,0,"."," ")." ".$bc->ligne_bcs()->first()->devise}}
                                 </td>
                                 @endif
                     </tr>
@@ -247,7 +247,7 @@
                 <table>
                     <tr>
                         <th style="text-align:left; border-right: none;">{{__('sortie_materiel.demandeur')}} :({{__('translation.nom')}}/{{__('translation.contact')}})</th>
-                        <th style="text-align:center; border-left: none;">{{strtoupper($bc->libelle_service)}}</th>
+                        <th style="text-align:center; border-left: none;">{{strtoupper($bc->service_du_demandeur->libelle)}}</th>
                     </tr>
                     <tr>
 

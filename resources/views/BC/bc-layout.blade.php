@@ -97,7 +97,7 @@
         <tr>
             <td width="50%" valign="center" align="left">
                 <img src="{{ asset("images/Eiffage_2400_01_colour_RGB.jpg") }}">
-                <p style="font-size: 8pt; padding: 0;">EIFFAGE Génie Civil - Succursale de Côte d'Ivoire</p>
+                <p style="font-size: 8pt; padding: 0;">{{$bc->projet->denomination}}</p>
                 <p style="font-size: 8pt; padding: 0;">N° RCCM : {{$bc->projet->n_rccm}} / N° CC : {{$bc->projet->n_cc}}</p>
             </td>
             <td width="50%">
@@ -149,16 +149,14 @@
     </table>
     <table style="border: 0.3pt solid #000000;">
         <tr style="padding: 0; margin: 0;">
-            <td style="font-size: 7pt; text-align: center; padding: 2px; margin: 0;">All Suppliers / Subcontractors invoice must be with the name : <b style="color: #761c19;">Eiffage Génie Civil - Côte d'Ivoire</b>. <br/>Any invoice not following this principle will be refused by the accounting department.</td>
+            <td style="font-size: 7pt; text-align: center; padding: 2px; margin: 0;">{{__('neutrale.All_Suppliers_Subcontractors_invoice_must_be_with_the_name')}} <b style="color: #761c19;">{{$bc->projet->denomination_longue}}</b>. <br/>{{__('neutrale.Toute_facture_ne_suivant_pas_ce_principe_sera_refusee_par_le_service_comptable')}}</td>
         </tr>
     </table>
 </div>
 <main class="page">
     @yield('content')
     <footer>
-        <p>Siége Social : EIFFAGE GENIE CIVIL - Campus Pierre Berger - 3 à 7 Place de l'Europe 78140 VELIZY VILLACOUBLAY <br/>
-            SA au Capital de 29 388 795 € RCS Versailles 352 745 749 - NAF 4213 A - TVA FR 42 352 745 749<br/>
-            VOIR AU VERSO NOS CONDITIONS GENERALES D'ACHAT QUI FONT PARTIE DE LA COMMANDE</p>
+        <p>{{$bc->projet->siege_social}}</p>
     </footer>
 </main>
 
