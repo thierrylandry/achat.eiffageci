@@ -212,18 +212,18 @@
                             <?php
                                     $tva=0;
                                 foreach($bc->ligne_bcs()->get() as $dev):
-                                    if(1==$dev->hastva){
-                                        $tva+=$dev->prix_tot*0.18;
+                                    if(1==$dev->hastva && $bc->projet->use_tva!="" or $bc->projet->use_tva!=0 ){
+                                        $tva+=($dev->prix_tot*$bc->projet->use_tva)/100;
                                     }else{
                                         $tva+=0;
                                     }
 
                                     endforeach;
-                                if($bc->remise_excep!=0){
-                                    $tva=$tva-($bc->remise_excep*0.18);
+                                if($bc->remise_excep!=0 && $bc->projet->use_tva!="" or $bc->projet->use_tva!=0){
+                                    $tva=$tva-($bc->remise_excep*$bc->projet->use_tva)/100;
                                 }
 
-                                    echo number_format($tva, 0,".", " ")." ".$bc->ligne_bcs()->first()->devise;
+                                    echo number_format($tva, 0,".", " ")." ".$bc->devise_bc;
                             ?>
                                 </td>
                     </tr>

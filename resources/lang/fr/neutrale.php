@@ -137,6 +137,7 @@ return [
     'Toute_facture_ne_suivant_pas_ce_principe_sera_refusee_par_le_service_comptable'=>'Toute facture ne suivant pas ce principe sera refusée par le service comptable',
     'site_installation' => 'Site d\'installation',
     'denomination'=> 'Dénomination',
+    'taux_change'=>'Taux de change',
 
 
 ];

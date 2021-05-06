@@ -132,5 +132,6 @@ return [
     'Toute_facture_ne_suivant_pas_ce_principe_sera_refusee_par_le_service_comptable'=>'Any invoice not following this principle will be refused by the accounting department',
     'site_installation' => 'Installation site',
     'denomination'=> 'Name',
+    'taux_change'=>'Exchange rate',
 
 ];

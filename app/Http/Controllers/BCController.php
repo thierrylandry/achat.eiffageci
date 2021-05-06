@@ -766,9 +766,9 @@ return $view;
     public function valider_commande($locale,$slug)
     {
         $date= new \DateTime(null);
-        $Boncommande= Boncommande::where('slug', '=', $slug)->first();
-        $ligne_besoin= Lignebesoin::where('id_bonCommande', '=', $Boncommande->id)->first();
-        if($Boncommande->date==null && $ligne_besoin==null){
+        $bc= Boncommande::where('slug', '=', $slug)->first();
+        $ligne_besoin= Lignebesoin::where('id_bonCommande', '=', $bc->id)->first();
+        if($bc->date==null && $ligne_besoin==null){
             return redirect()->route('gestion_bc')->with('error',"Le bon de commande n'est pas rempli donc ne peut être validé");
 
         }else{
@@ -776,7 +776,7 @@ return $view;
 
                 // $parameters=$request->except(['_token']);
 
-                $fournisseur = Fournisseur::find($Boncommande->id_fournisseur);
+                $fournisseur = Fournisseur::find($bc->id_fournisseur);
                 $contacts= json_decode($fournisseur->contact);
                 $contact = Array();
                 foreach ($contacts as $cont):
@@ -786,15 +786,15 @@ return $view;
                     }
                 endforeach;
 
-                // $les_id_devis=explode(',',$parameters['les_id_devis']);
-                $devis=DB::table('devis')
-                    ->leftjoin('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
-                    ->where('id_bc','=',$Boncommande->id)
-                    ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.codeGestion','devis.devise','commentaire','hastva','referenceFournisseur')->get();
-
+  // $les_id_devis=explode(',',$parameters['les_id_devis']);
+ /* $devis=DB::table('devis')
+  ->leftjoin('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
+  ->where('id_bc','=',$bc->id)
+  ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.codeGestion','devis.devise','commentaire','hastva','referenceFournisseur')->get();
+*/
                 $tothtax = 0;
-                $taille=sizeof($devis);
-                if($Boncommande->commentaire_general==''){
+                $taille=sizeof($bc->ligne_bcs()->get());
+                if($bc->commentaire_general==''){
                     $taille_minim=6;
                     $taille_maxim=0;
                 }else{
@@ -803,17 +803,12 @@ return $view;
                 }
                 // Send data to the view using loadView function of PDF facade
              //   $bc=$Boncommande;
-            $bc=DB::table('boncommande')
-                ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
-                ->join('services', 'services.id', '=', 'boncommande.service_demandeur')
-                ->where('boncommande.id','=',$Boncommande->id)
-                ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','services.libelle as libelle_service','contact','commentaire_general','fournisseur.conditionPaiement','boncommande.id_fournisseur','boncommande.remise_excep')->first();
-            $pdf = PDF::loadView('BC.bon-commande', compact('bc','devis','tothtax','taille','taille_minim','taille_maxim'));
-                $pdf = PDF::loadView('BC.bon-commande', compact('bc','devis','tothtax','taille','taille_minim','taille_maxim'));
+            $pdf = PDF::loadView('BC.bon-commande', compact('bc','tothtax','taille','taille_minim','taille_maxim'));
+
 
                 //$lignebesoins=Lignebesoin::where('id_bonCommande','=',$bc->id)->first();
                 $lignebesoins=DB::table('lignebesoin')
-                                  ->join('users', 'lignebesoin.id_user', '=', 'users.id')->where('id_bonCommande','=',$Boncommande->id)->get();
+                                  ->join('users', 'lignebesoin.id_user', '=', 'users.id')->where('id_bonCommande','=',$bc->id)->get();
                 //  $email=$bc->email;
 
                 /*
@@ -823,7 +818,7 @@ return $view;
 
                 }
         */
-                $numBonCommande=$Boncommande->numBonCommande;
+                $numBonCommande=$bc->numBonCommande;
                 $tab=Array();
                 foreach($lignebesoins as $lignebesoin){
                     $tab[]=$lignebesoin->id_nature;
@@ -861,15 +856,15 @@ return $view;
                     $i++;
 
                 endforeach;
-                $pdf->save(storage_path('bon_commande').'\ '.__('neutrale.numero_bc_sans_abreviation').$Boncommande->numBonCommande.'.pdf');
+                $pdf->save(storage_path('bon_commande').'\ '.__('neutrale.numero_bc_sans_abreviation').$bc->numBonCommande.'.pdf');
           //  dd($contactDemandeur);
-                $this->dispatch(new EnvoiBcFournisseur($contact,storage_path('bon_commande').'\ '.__('neutrale.numero_bc_sans_abreviation').$Boncommande->numBonCommande.'.pdf',$tab,$corps,$contactDemandeur,$Boncommande,$precisions,$images) );
+                $this->dispatch(new EnvoiBcFournisseur($contact,storage_path('bon_commande').'\ '.__('neutrale.numero_bc_sans_abreviation').$bc->numBonCommande.'.pdf',$tab,$corps,$contactDemandeur,$bc,$precisions,$images) );
                 //  return redirect()->route('gestion_bc')->with('success', "Envoie d'email reussi");
 
-                $Boncommande->etat=3;
-                 $Boncommande->date_validation=date("Y-m-d H:i:s");
-                $Boncommande->save();
-                $lignebesoin=Lignebesoin::where('id_bonCommande','=',$Boncommande->id)->first();
+                $bc->etat=3;
+                 $bc->date_validation=date("Y-m-d H:i:s");
+                $bc->save();
+                $lignebesoin=Lignebesoin::where('id_bonCommande','=',$bc->id)->first();
             if(isset($lignebesoin)){
                 $lignebesoin->etat=3;
                 $lignebesoin->save();
@@ -886,7 +881,7 @@ return $view;
             }else{
                 $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
             }
-            Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; Bon de commande validé et transmit N° '.$Boncommande->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
+            Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; Bon de commande validé et transmit N° '.$bc->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
                 //fin de l'utilisation de la fonction send_it
         }
         return redirect()->back()->with('success',"success");
@@ -1107,28 +1102,21 @@ return $view;
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Annulation du Bon de commande N° '.$Boncommande->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
         return redirect(url()->previous())->with('success',"success");
     }
-    public function lister_commande($locale,$id)
-    {
+    public function lister_commande($locale,$id){
         $bc=  Boncommande::find($id);
         $utilisateurs=  User::all();
         $fournisseur= Fournisseur::find($bc->id_fournisseur);
-        $devis= DB::table('devis')
-            ->leftJoin('lignebesoin', 'lignebesoin.id', '=', 'devis.id_da')
-            ->leftJoin('users', 'lignebesoin.id_user', '=', 'users.id')
-            ->where('devis.etat', '=', 2)
-            ->where('devis.id_bc', '=', $id)
-            ->select('devis.id','devis.titre_ext','id_bc','devis.codeGestion','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.devise','devis.hastva','DateBesoin','users.service','lignebesoin.commentaire','referenceFournisseur')->distinct()->get();
 
 
 
-    $services=Services::all();
-    $projet_choisi= ProjectController::check_projet_access();
+        $services=Services::all();
+        $projet_choisi= ProjectController::check_projet_access();
         $new_devis=DB::table('devis')
             ->leftJoin('lignebesoin', 'lignebesoin.id', '=', 'devis.id_da')
             ->leftJoin('users', 'lignebesoin.id_user', '=', 'users.id')
             ->where('devis.etat', '=', 1)
             ->where('devis.id_bc', '=', null)
-            ->where('devis.devise', '=', $devis[0]->devise)
+            ->where('devis.devise', '=', $bc->ligne_bcs()->first()->devise)
             ->where('devis.id_fournisseur', '=', $bc->id_fournisseur)
             ->where('devis.id_projet','=',$projet_choisi->id)
             ->select('devis.id','devis.titre_ext','id_bc','devis.codeRubrique','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.devise','devis.hastva','DateBesoin','users.service','lignebesoin.commentaire','referenceFournisseur')->distinct()->get();
@@ -1137,15 +1125,16 @@ return $view;
         $service_id= Array();
         $service_libelle= Array();
 
-        foreach($devis as $dev){
+        foreach($bc->ligne_bcs()->get() as $dev){
 
             if(!in_array($dev->DateBesoin, $date_propose)){
-                $date_propose[]=$dev->DateBesoin;
+                $date_propose[]=$dev->ligne_besoin->DateBesoin;
             }
-            if(!in_array($dev->service,$service_id)){
+
+            if(!in_array($dev->ligne_besoin->user->service,$service_id)){
 
 
-                $service_unique= Services::find($dev->service);
+                $service_unique= Services::find($dev->ligne_besoin->user->service);
                 if(isset($service_unique)){
                     $service_id[]=$service_unique->id;
                     $service_libelle[]=$service_unique->libelle;
@@ -1153,21 +1142,19 @@ return $view;
 
             }
         }
-if(isset($devis->first()->devise)){
-    $devise=$devis->first()->devise;
-}else{
-    $devise="";
-}
+
+        $devise=$bc->devise_bc;
+
 
         $id_devi="";
-        foreach($devis as $devi):
+        foreach($bc->ligne_bcs()->get() as $devi):
             $id_devi=$id_devi.$devi->id.",";
             endforeach;
 
 
         $listerbc='';
         $gestions= Gestion::all();
-        return view('BC/list_ligne_bc',compact('bc','fournisseur','utilisateurs','listerbc','devis','gestions','devise','id_devi','date_propose','service_id','service_libelle','new_devis','services'));
+        return view('BC/list_ligne_bc',compact('bc','fournisseur','utilisateurs','listerbc','gestions','devise','id_devi','date_propose','service_id','service_libelle','new_devis','services'));
     }
     public function bc_express($locale,$nb){
         $analytiques =  Analytique::all();

@@ -67,16 +67,17 @@ $fournisseur= Fournisseur::find($bc->id_fournisseur);
       //  dd($fournisseur);
       $user_en_copies = array();
 
-            $users = User::where('id_projet','=',session('id_projet'))->get();
+            $users = User::where('id_projet','=',$bc->id_projet)->get();
             foreach($users as $user):
                 if($user->hasRole('Gestionnaire_Pro_Forma')){
                     $user_en_copies[]= $user->email;
                 }
 
             endforeach;
+
                 // If you want to store the generated pdf to the server then you can use the store function
                 Mail::send('mail.mail_bc',array('tab' =>$tab,'bc'=>$bc),function($message)use ($pdf,$bc,$contact,$contactDemandeur,$user_en_copies,$numBonCommande,$fournisseur){
-                    $projet =Projet::find(session('id_projet'));
+                    $projet =Projet::find($bc->id_projet);
 
                     $message->from($bc->expediteur->email ,$bc->expediteur->nom." ".$bc->expediteur->prenoms)
                     ->bcc("cyriaque.kodia@eiffage.com")

@@ -30,6 +30,11 @@ Route::get('erreur', [
 
 ]);
 
+Route::get('/taux_change',[
+    'as'=>'taux_change',
+    'uses'=>'ConfigurationController@taux_change'
+
+])->middleware('auth');
 Route::get('/profiles',[
     'as'=>'profiles',
     'uses'=>'HomeController@profiles'
@@ -998,7 +1003,17 @@ Route::get('/notificateur',[
 
     ])->middleware('auth');
 
+    Route::get('modifier_taux_change/{id}',[
+        'as'=>'modifier_taux_change',
+        'uses'=>'ConfigurationController@modifier_taux_change',
 
+    ])->middleware('auth');
+
+    Route::get('supprimer_taux_change/{id}',[
+        'as'=>'supprimer_taux_change',
+        'uses'=>'ConfigurationController@supprimer_taux_change',
+
+    ])->middleware('auth');
 
 
 Auth::routes();
@@ -1172,7 +1187,14 @@ Route::post('/mailling', [
     'as'=>'mailling',
     'uses'=>'Demande_proformaController@mailling'
 ])->middleware('auth');
-
+Route::post('/ajouter_taux_change', [
+    'as'=>'ajouter_taux_change',
+    'uses'=>'ConfigurationController@ajouter_taux_change'
+])->middleware('auth');
+Route::post('/update_taux_change', [
+    'as'=>'update_taux_change',
+    'uses'=>'ConfigurationController@update_taux_change'
+])->middleware('auth');
 
 
 

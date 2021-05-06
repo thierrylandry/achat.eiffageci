@@ -34,4 +34,12 @@ class Lignebesoin extends Model
 
         return $this->belongsTo('App\Gestion','id_codeGestion');
     }
+    public function user(){
+
+        return $this->belongsTo('App\User','id_user');
+    }
+    public function devis()
+    {
+        return $this->belongsTo('App\Devis','id_da');
+    }
 }

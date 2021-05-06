@@ -13,4 +13,9 @@ class Devis extends Model
 
         return $this->belongsTo('App\Designation','id_materiel');
     }
+
+    public function ligne_besoin(){
+
+        return $this->belongsTo('App\Lignebesoin','id_da');
+    }
 }
