@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Etat_da_pas_transforme;
 use App\Ligne_bonlivraison;
 use App\Moyenne_jour_livraison_par_fournisseur;
+use App\Projet;
 use App\Rapports;
 use App\Stock;
+use App\Taux_change;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class RapportController extends Controller
 {
@@ -42,7 +45,34 @@ class RapportController extends Controller
         if($id==1){
             $tableaux =Moyenne_jour_livraison_par_fournisseur::where('id_projet','=',$projet_choisi->id)->get();
         }elseif($id==2){
-            $tableaux = DB::table('chiffre_ffaire')->where('id_projet','=',$projet_choisi->id )->select('libelle','chfirreaffaire','devise_bc')->get();
+
+         //  $res= RapportController::convertir_dans_une_devise(1,'2021-05-9','EUR_XOF');
+
+
+            $tableaux_chiffre_affaires = DB::table('chiffre_ffaire')->where('id_projet','=',$projet_choisi->id )->select('id','libelle','chfirreaffaire','devise_bc')->get();
+
+            $tableaux = array();
+            $tableaux1 = array();
+            foreach($tableaux_chiffre_affaires as $tableaux_chiffre_affaire):
+                if(isset($tableaux1[$tableaux_chiffre_affaire->id])){
+                    $tableaux1[$tableaux_chiffre_affaire->id]['val']+=RapportController::convertir_dans_une_devise($tableaux_chiffre_affaire->chfirreaffaire,date("Y-m-d"),$tableaux_chiffre_affaire->devise_bc.'_'.$projet_choisi->defaultDevise);
+                    $tableaux1[$tableaux_chiffre_affaire->id]['devise']+=$tableaux_chiffre_affaire->devise_bc;
+                }else{
+                    $tableaux1[$tableaux_chiffre_affaire->id]['val']=RapportController::convertir_dans_une_devise($tableaux_chiffre_affaire->chfirreaffaire,date("Y-m-d"),$tableaux_chiffre_affaire->devise_bc.'_'.$projet_choisi->defaultDevise);
+                    $tableaux1[$tableaux_chiffre_affaire->id]['devise']=$tableaux_chiffre_affaire->devise_bc;
+                }
+            endforeach;
+
+
+            dd($tableaux1);
+            foreach($tableaux_chiffre_affaires as $tableaux_chiffre_affaire):
+
+                $tableaux_chiffre_affaire->chfirreaffaire= $tableaux1[$tableaux_chiffre_affaire->id];
+                $tableaux[$tableaux_chiffre_affaire->id]=$tableaux_chiffre_affaire;
+
+             endforeach;
+
+
         }elseif($id==3){
             $command_receptions = DB::select('SELECT `fournisseur`.`id` AS `id`,`fournisseur`.`libelle` AS `libelle`,`boncommande`.`numBonCommande` AS `numBonCommande`,sum(quantite) as quantite_commande_tot FROM fournisseur join boncommande on fournisseur.id=boncommande.id_fournisseur join devis on devis.id_bc=boncommande.id WHERE boncommande.id_projet='.$projet_choisi->id.' group by fournisseur.id,libelle,numBonCommande;');
             $tableaux_intermediaire=array();
@@ -202,5 +232,54 @@ having quantite_livree is null
         endforeach;
 // access the conversion result
         return $resultat*$valeur;
+    }
+    public function fouille_et_trouve_montant(){
+
+
+    }
+    public static function convertir_dans_une_devise($montant,$date_montant,$sens_conversion){
+
+
+        $taux_change = Taux_change::where('date','<=',$date_montant)->orderBy('date','DESC')->first();
+      //  dd($taux_change);
+
+        $montant_onverti=0;
+        if($taux_change!==null){
+
+            switch($sens_conversion) {
+                case 'EUR_XOF':
+                    $montant_onverti = $taux_change->EUR_XOF*$montant;
+
+                  break;
+                case 'EUR_USD':
+                    $montant_onverti = $taux_change->EUR_USD*$montant;
+                  break;
+                case 'USD_XOF':
+                    $montant_onverti = $taux_change->USD_XOF*$montant;
+                  break;
+
+                case 'XOF_EUR':
+                    $montant_onverti =(1/$taux_change->EUR_XOF)*$montant;
+                      break;
+                case 'USD_EUR':
+                    $montant_onverti = (1/$taux_change->EUR_USD)*$montant;
+                      break;
+                case 'XOF_USD':
+                    $montant_onverti = (1/$taux_change->XOF_USD)*$montant;
+                      break;
+
+                default:
+                $montant_onverti = $montant;
+
+          }
+
+        }else{
+
+            $montant_onverti = $montant;
+        }
+
+        return $montant_onverti;
+
+
     }
 }
