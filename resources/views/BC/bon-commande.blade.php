@@ -257,11 +257,21 @@
 
                         </th>
                     </tr>
+
+                    @if(strstr($bc->numBonCommande, "PHB-815140"))
                     <tr><th colspan="2" style="padding-left: 100px"><img src="{{ asset("images/Signature_Sylvain.jpg") }}" width="225px" /></th> </tr>
                     <tr>
                         <th style="border-right: none;border-bottom-color: white "> Nom du Signataire Habilité : </th>
                         <th style="border-left: none;border-bottom-color: white" >SYLVAIN DECULTIEUX</th>
                     </tr>
+                    @else
+
+                    <tr><th colspan="2" style="padding-left: 100px"><img src="{{ asset("images/Signature_Sylvain.jpg") }}" width="225px" /></th> </tr>
+                    <tr>
+                        <th style="border-right: none;border-bottom-color: white "> Nom du Signataire Habilité : </th>
+                        <th style="border-left: none;border-bottom-color: white" >SYLVAIN DECULTIEUX</th>
+                    </tr>
+                    @endif
                 </table>
             </th>
         </tr>
