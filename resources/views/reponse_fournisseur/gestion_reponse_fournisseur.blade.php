@@ -148,9 +148,13 @@
                                                         <a  onclick="document.getElementById('row_n_{{$da->id}}_remise').value='{{isset($tab_proposition[$da->id])?$tab_proposition[$da->id]->remise:''}}';$('row_n_{{$da->id}}_remise').selectpicker('refresh')">  {{isset($tab_proposition[$da->id])?$tab_proposition[$da->id]->remise:''}}</a>;
                                                     </label>
                                                 </td>
-                                                <td><select class="form-control" style="width: 80px;" id="row_n_{{$da->id}}_devise" name="row_n_{{$da->id}}_devise"><option  @if( isset($tab_proposition[$da->id]) && "FCFA"==$tab_proposition[$da->id]->devise)
-                                                                                                                                                                             {{'selected'}}
-                                                                                                                                                                             @endif value="FCFA">FCFA</option><option @if( isset($tab_proposition[$da->id]) && "EURO"==$tab_proposition[$da->id]->devise) {{'selected'}}@endif value="EURO">EURO</option></select></td>
+                                                <td>
+                                                    <select class="form-control" style="width: 80px;" id="row_n_{{$da->id}}_devise" name="row_n_{{$da->id}}_devise">
+                                                    @foreach($devises as $devise)
+                                                    <option {{$projet_choisi->defaultDevise==$devise->devise?'selected':''}} value="{{$devise->devise}}">{{$devise->libelle}}</option>
+                                                    @endforeach
+                                                    </select>
+                                                </td>
                                                 <td><input type="checkbox" value="1" id="row_n_{{$da->id}}_tva" name="row_n_{{$da->id}}_tva" checked/>   </td>
                                                 <td><div class="row"><div class="col-sm-6"><button type="button" class="btn_supp btn btn-danger" title="SUPPRIMER"><i class="fa fa-trash"></i></button></div></div>   </td>
                                             </tr>
@@ -297,15 +301,15 @@
 
 
                                                         @endforeach</select></td>
-                                                <td><input class="form-control" style="width: 100px;" type="number" min="0" id="row_n_{{$devi->id}}_prix_unitaire" name="row_n_{{$devi->id}}_prix_unitaire" value="{{$devi->prix_unitaire}}" /></td>
+                                                <td><input class="form-control" style="width: 100px;" type="number" min="0" id="row_n_{{$devi->id}}_prix_unitaire" name="row_n_{{$devi->id}}_prix_unitaire" value="@if($devi->devise=="XOF"){{$devi->prix_unitaire}}@elseif($devi->devise=="USD"){{$devi->prix_unitaire_usd}}@else{{$devi->prix_unitaire_euro}}@endif" /></td>
                                                 <td><input class="form-control" style="width: 100px;" type="number" min="0" id="row_n_{{$devi->id}}_remise" name="row_n_{{$devi->id}}_remise" value="{{$devi->remise}}" /></td>
-                                                <td><select class="form-control" style="width: 100px;" id="row_n_{{$devi->id}}_devise" name="row_n_{{$devi->id}}_devise">
-
-
-                                                        <option value="FCFA"  {{"FCFA"==$devi->devise?"selected":''}}>FCFA</option>
-                                                        <option value="EURO" {{"EURO"==$devi->devise?"selected":''}}>EURO</option>
-
-                                                    </select></td>
+                                                <td>
+                                                    <select class="form-control" style="width: 80px;" id="row_n_{{$devi->id}}_devise" name="row_n_{{$devi->id}}_devise">
+                                                        @foreach($devises as $devise)
+                                                        <option {{$devi->devise==$devise->devise?'selected':''}} value="{{$devise->devise}}">{{$devise->libelle}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
                                                 <td><input type="checkbox" value="1" id="row_n_{{$devi->id}}_tva" name="row_n_{{$devi->id}}_tva" {{1==$devi->hastva?"checked":''}}/>   </td>
                                                 <td><div class="row"><div class="col-sm-6"><button type="button" class="btn_supp2 btn btn-danger" title="SUPPRIMER"><i class="fa fa-trash"></i></button></div></div>   </td>
                                             </tr>

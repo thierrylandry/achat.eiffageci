@@ -13,6 +13,7 @@ namespace App\Http\Controllers;
 use App\DA;
 use App\Designation;
 use App\Devis;
+use App\Devise;
 use App\Domaines;
 use App\Gestion;
 use App\Jobs\EnvoieMailFournisseurPerso;
@@ -107,9 +108,21 @@ dd($list_da);
 
                 $devis->unite=$tab["row_n_".$id."_unite"];
 
-                $devis->prix_unitaire=$tab["row_n_".$id."_prix_unitaire"];
-                $devis->devise=$tab["row_n_".$id."_devise"];
+                if($tab["row_n_".$id."_devise"]=="XOF"){
+                    $devis->prix_unitaire=$tab["row_n_".$id."_prix_unitaire"];
+                    $devis->prix_unitaire_euro=RapportController::convertir_dans_une_devise($tab["row_n_".$id."_prix_unitaire"],date("Y-m-d"),$tab["row_n_".$id."_devise"].'_EUR');
+                    $devis->prix_unitaire_usd=RapportController::convertir_dans_une_devise($tab["row_n_".$id."_prix_unitaire"],date("Y-m-d"),$tab["row_n_".$id."_devise"].'_USD');
+                }elseif($tab["row_n_".$id."_devise"]=="USD"){
+                    $devis->prix_unitaire_usd=$tab["row_n_".$id."_prix_unitaire"];
+                    $devis->prix_unitaire_euro=RapportController::convertir_dans_une_devise($tab["row_n_".$id."_prix_unitaire"],date("Y-m-d"),$tab["row_n_".$id."_devise"].'_EUR');
+                    $devis->prix_unitaire=RapportController::convertir_dans_une_devise($tab["row_n_".$id."_prix_unitaire"],date("Y-m-d"),$tab["row_n_".$id."_devise"].'_XOF');
+                }else{
+                    $devis->prix_unitaire_euro=$tab["row_n_".$id."_prix_unitaire"];
+                    $devis->prix_unitaire_usd=RapportController::convertir_dans_une_devise($tab["row_n_".$id."_prix_unitaire"],date("Y-m-d"),$tab["row_n_".$id."_devise"].'_USD');
+                    $devis->prix_unitaire=RapportController::convertir_dans_une_devise($tab["row_n_".$id."_prix_unitaire"],date("Y-m-d"),$tab["row_n_".$id."_devise"].'_XOF');
+                }
                 $devis->etat=1;
+                $devis->devise=$tab["row_n_".$id."_devise"];
 
 
                 $lignebesoin= Lignebesoin::find($id);
@@ -702,9 +715,11 @@ foreach ($recup_email as $email):
             ->join('designation', 'designation.id', '=', 'devis.id_materiel')
             ->join('famille', 'famille.id', '=', 'designation.id_famille')
             ->where('devis.id_projet','=',$projet_choisi->id)
-            ->select('designation.libelle','devis.id','devis.id_da','titre_ext','famille.id_domaine','devise', 'devis.unite', 'devis.quantite','id_fournisseur','prix_unitaire','remise','devis.codeRubrique','hastva','referenceFournisseur','codeGestion')
+            ->select('designation.libelle','devis.id','devis.id_da','titre_ext','famille.id_domaine','devise', 'devis.unite', 'devis.quantite','id_fournisseur','prix_unitaire','prix_unitaire_usd','prix_unitaire_euro','remise','devis.codeRubrique','hastva','referenceFournisseur','codeGestion')
 
         ->where('etat','=',1)->get();
+
+        $devises = Devise::all();
 
         $analytiques=  DB::table('analytique')->distinct()->get(['codeRubrique','libelle']);
         $unites=Unites::all();
@@ -721,7 +736,7 @@ foreach ($recup_email as $email):
                 $tab_unite['La surface'][]=$unite->libelle;
             }
         endforeach;
-        return view('reponse_fournisseur/gestion_reponse_fournisseur',compact('analytiques','das','fournisseurs','natures','users','domaines','devis','tab_proposition','tab_unite','gestions'));
+        return view('reponse_fournisseur/gestion_reponse_fournisseur',compact('devises','analytiques','das','fournisseurs','natures','users','domaines','devis','tab_proposition','tab_unite','gestions','projet_choisi'));
 
 
     }

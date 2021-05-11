@@ -10,6 +10,7 @@ use App\Rapports;
 use App\Stock;
 use App\Taux_change;
 use Barryvdh\DomPDF\Facade as PDF;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
@@ -55,19 +56,22 @@ class RapportController extends Controller
             $tableaux1 = array();
             foreach($tableaux_chiffre_affaires as $tableaux_chiffre_affaire):
                 if(isset($tableaux1[$tableaux_chiffre_affaire->id])){
-                    $tableaux1[$tableaux_chiffre_affaire->id]['val']+=RapportController::convertir_dans_une_devise($tableaux_chiffre_affaire->chfirreaffaire,date("Y-m-d"),$tableaux_chiffre_affaire->devise_bc.'_'.$projet_choisi->defaultDevise);
-                    $tableaux1[$tableaux_chiffre_affaire->id]['devise']+=$tableaux_chiffre_affaire->devise_bc;
+
+                        $tableaux1[$tableaux_chiffre_affaire->id]+=RapportController::convertir_dans_une_devise($tableaux_chiffre_affaire->chfirreaffaire,date("Y-m-d"),$tableaux_chiffre_affaire->devise_bc.'_'.$projet_choisi->defaultDevise);
+
+
+
                 }else{
-                    $tableaux1[$tableaux_chiffre_affaire->id]['val']=RapportController::convertir_dans_une_devise($tableaux_chiffre_affaire->chfirreaffaire,date("Y-m-d"),$tableaux_chiffre_affaire->devise_bc.'_'.$projet_choisi->defaultDevise);
-                    $tableaux1[$tableaux_chiffre_affaire->id]['devise']=$tableaux_chiffre_affaire->devise_bc;
+                    $tableaux1[$tableaux_chiffre_affaire->id]=RapportController::convertir_dans_une_devise($tableaux_chiffre_affaire->chfirreaffaire,date("Y-m-d"),$tableaux_chiffre_affaire->devise_bc.'_'.$projet_choisi->defaultDevise);
+
                 }
             endforeach;
 
 
-            dd($tableaux1);
+          //  dd($tableaux1);
             foreach($tableaux_chiffre_affaires as $tableaux_chiffre_affaire):
 
-                $tableaux_chiffre_affaire->chfirreaffaire= $tableaux1[$tableaux_chiffre_affaire->id];
+                $tableaux_chiffre_affaire->chfirreaffaire= number_format($tableaux1[$tableaux_chiffre_affaire->id],2,'.','');
                 $tableaux[$tableaux_chiffre_affaire->id]=$tableaux_chiffre_affaire;
 
              endforeach;
@@ -85,7 +89,35 @@ class RapportController extends Controller
 
           //  dd($this->convertisseur_devise('EUR','XOF',1));
 
-            $dependance_tableaux=$dependance_vu_produits;
+          $tableaux = array();
+          $tableaux1 = array();
+          foreach($dependance_vu_produits as $dependance_vu_produit):
+              if(isset($tableaux1[$dependance_vu_produit->id]['prix_total'])){
+
+                      $tableaux1[$dependance_vu_produit->id.$dependance_vu_produit->libelleDomainne]['prix_total']+=RapportController::convertir_dans_une_devise($dependance_vu_produit->prix_total,date("Y-m-d"),$dependance_vu_produit->devise_bc.'_'.$projet_choisi->defaultDevise);
+                      $tableaux1[$dependance_vu_produit->id.$dependance_vu_produit->libelleDomainne]['valeur_tva_tot']+=RapportController::convertir_dans_une_devise($dependance_vu_produit->valeur_tva_tot,date("Y-m-d"),$dependance_vu_produit->devise_bc.'_'.$projet_choisi->defaultDevise);
+
+
+
+              }else{
+                  $tableaux1[$dependance_vu_produit->id.$dependance_vu_produit->libelleDomainne]['prix_total']=RapportController::convertir_dans_une_devise($dependance_vu_produit->prix_total,date("Y-m-d"),$dependance_vu_produit->devise_bc.'_'.$projet_choisi->defaultDevise);
+                  $tableaux1[$dependance_vu_produit->id.$dependance_vu_produit->libelleDomainne]['valeur_tva_tot']=RapportController::convertir_dans_une_devise($dependance_vu_produit->valeur_tva_tot,date("Y-m-d"),$dependance_vu_produit->devise_bc.'_'.$projet_choisi->defaultDevise);
+
+              }
+          endforeach;
+
+
+        //  dd($tableaux1);
+          foreach($dependance_vu_produits as $dependance_vu_produit):
+
+              $dependance_vu_produit->prix_total= number_format($tableaux1[$dependance_vu_produit->id.$dependance_vu_produit->libelleDomainne]['prix_total'],2,'.','');
+              $dependance_vu_produit->valeur_tva_tot= number_format($tableaux1[$dependance_vu_produit->id.$dependance_vu_produit->libelleDomainne]['valeur_tva_tot'],2,'.','');
+              $tableaux[$dependance_vu_produit->id.$dependance_vu_produit->libelleDomainne]=$dependance_vu_produit;
+
+           endforeach;
+
+            $dependance_tableaux=$tableaux;
+           // dd($dependance_tableaux);
             $total = array();
 
            return view('rapport/rapport',compact('rapport','dependance_tableaux','dependance_vu_produits'));
@@ -241,7 +273,7 @@ having quantite_livree is null
 
 
         $taux_change = Taux_change::where('date','<=',$date_montant)->orderBy('date','DESC')->first();
-      //  dd($taux_change);
+      //  dd($montant);
 
         $montant_onverti=0;
         if($taux_change!==null){
@@ -249,7 +281,6 @@ having quantite_livree is null
             switch($sens_conversion) {
                 case 'EUR_XOF':
                     $montant_onverti = $taux_change->EUR_XOF*$montant;
-
                   break;
                 case 'EUR_USD':
                     $montant_onverti = $taux_change->EUR_USD*$montant;
@@ -277,9 +308,9 @@ having quantite_livree is null
 
             $montant_onverti = $montant;
         }
-
+        //dd($montant.'*'.$taux_change->EUR_XOF.'='.$montant_onverti);
+       // return number_format($montant_onverti,2,'.','');
         return $montant_onverti;
-
 
     }
 }

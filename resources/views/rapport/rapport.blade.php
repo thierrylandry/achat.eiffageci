@@ -279,8 +279,8 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @if(isset($dependance_vu_produits))
-                            @foreach($dependance_vu_produits as $res)
+                        @if(isset($dependance_tableaux))
+                            @foreach($dependance_tableaux as $res)
                                 <tr>
                                     <td>{{$res->libelle}}</td>
                                     <td>{{$res->libelleDomainne}}</td>

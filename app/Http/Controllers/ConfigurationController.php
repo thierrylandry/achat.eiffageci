@@ -19,6 +19,9 @@ class ConfigurationController extends Controller
 
     public function taux_change($locale){
 
+        $EUR_XOF=null;
+        $EUR_USD=null;
+        $USD_XOF=null;
         try{
 
 
