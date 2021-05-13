@@ -186,7 +186,19 @@ return 1;
                     }else{
                         $devis->remise=0;
                     }
-                    $devis->prix_unitaire=$tab["row_n_".$id."_prix_unitaire"];
+                    if($tab["row_n_".$id."_devise"]=="XOF"){
+                        $devis->prix_unitaire=$tab["row_n_".$id."_prix_unitaire"];
+                        $devis->prix_unitaire_euro=RapportController::convertir_dans_une_devise($tab["row_n_".$id."_prix_unitaire"],date("Y-m-d"),$tab["row_n_".$id."_devise"].'_EUR');
+                        $devis->prix_unitaire_usd=RapportController::convertir_dans_une_devise($tab["row_n_".$id."_prix_unitaire"],date("Y-m-d"),$tab["row_n_".$id."_devise"].'_USD');
+                    }elseif($tab["row_n_".$id."_devise"]=="USD"){
+                        $devis->prix_unitaire_usd=$tab["row_n_".$id."_prix_unitaire"];
+                        $devis->prix_unitaire_euro=RapportController::convertir_dans_une_devise($tab["row_n_".$id."_prix_unitaire"],date("Y-m-d"),$tab["row_n_".$id."_devise"].'_EUR');
+                        $devis->prix_unitaire=RapportController::convertir_dans_une_devise($tab["row_n_".$id."_prix_unitaire"],date("Y-m-d"),$tab["row_n_".$id."_devise"].'_XOF');
+                    }else{
+                        $devis->prix_unitaire_euro=$tab["row_n_".$id."_prix_unitaire"];
+                        $devis->prix_unitaire_usd=RapportController::convertir_dans_une_devise($tab["row_n_".$id."_prix_unitaire"],date("Y-m-d"),$tab["row_n_".$id."_devise"].'_USD');
+                        $devis->prix_unitaire=RapportController::convertir_dans_une_devise($tab["row_n_".$id."_prix_unitaire"],date("Y-m-d"),$tab["row_n_".$id."_devise"].'_XOF');
+                    }
                     $devis->devise=$tab["row_n_".$id."_devise"];
                     $devis->etat=1;
 

@@ -296,7 +296,7 @@ having quantite_livree is null
                     $montant_onverti = (1/$taux_change->EUR_USD)*$montant;
                       break;
                 case 'XOF_USD':
-                    $montant_onverti = (1/$taux_change->XOF_USD)*$montant;
+                        $montant_onverti = (1/$taux_change->USD_XOF)*$montant;
                       break;
 
                 default:

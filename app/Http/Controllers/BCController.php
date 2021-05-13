@@ -1119,7 +1119,7 @@ return $view;
             ->where('devis.devise', '=', $bc->ligne_bcs()->first()->devise)
             ->where('devis.id_fournisseur', '=', $bc->id_fournisseur)
             ->where('devis.id_projet','=',$projet_choisi->id)
-            ->select('devis.id','devis.titre_ext','id_bc','devis.codeRubrique','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.devise','devis.hastva','DateBesoin','users.service','lignebesoin.commentaire','referenceFournisseur')->distinct()->get();
+            ->select('devis.id','devis.titre_ext','id_bc','devis.codeRubrique','devis.quantite','devis.unite','devis.prix_unitaire','devis.prix_unitaire_usd','devis.prix_unitaire_euro','devis.remise','devis.devise','devis.hastva','DateBesoin','users.service','lignebesoin.commentaire','referenceFournisseur')->distinct()->get();
 
         $date_propose= Array();
         $service_id= Array();

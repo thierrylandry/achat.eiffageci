@@ -121,9 +121,9 @@
                                 <td>
                                     {{$new_devi->unite}}
                                 </td>
-                                <td style="text-align: right">  {{$new_devi->prix_unitaire}}</td>
+                                <td style="text-align: right"> @if($new_devi->devise =="XOF") {{$new_devi->prix_unitaire}}  @elseif($new_devi->devise =="EUR") {{$new_devi->prix_unitaire_euro}} @elseif($new_devi->devise =="USD") {{$new_devi->prix_unitaire_usd}}  @endif </td>
                                 <td>  {{$new_devi->remise}}</td>
-                                <td style="text-align: right">  {{($THT=($new_devi->prix_unitaire*$new_devi->quantite)-(($new_devi->remise/100*($new_devi->prix_unitaire*$new_devi->quantite))))}}</td>
+                                <td style="text-align: right">@if($new_devi->devise =="XOF") {{($THT=($new_devi->prix_unitaire*$new_devi->quantite)-(($new_devi->remise/100*($new_devi->prix_unitaire*$new_devi->quantite))))}}  @elseif($new_devi->devise =="EUR") {{($THT=($new_devi->prix_unitaire_euro*$new_devi->quantite)-(($new_devi->remise/100*($new_devi->prix_unitaire_euro*$new_devi->quantite))))}} @elseif($new_devi->devise =="USD") {{($THT=($new_devi->prix_unitaire_usd*$new_devi->quantite)-(($new_devi->remise/100*($new_devi->prix_unitaire_usd*$new_devi->quantite))))}} @endif</td>
                                 <td > @if(1==$new_devi->hastva)
                                         {{number_format(floatval(($THT*$bc->projet->use_tva)/100), 2,".", " ")}}
                                     @else
@@ -183,9 +183,9 @@
             <td>
                 {{$devi->unite}}
             </td>
-            <td style="text-align: right"> {{number_format($devi->prix_unitaire, 2,".", " ")}}</td>
+            <td style="text-align: right">@if($devi->devise =="XOF") {{number_format($devi->prix_unitaire, 2,".", " ")}}  @elseif($devi->devise =="EUR") {{number_format($devi->prix_unitaire_euro, 2,".", " ")}} @elseif($devi->devise =="USD") {{number_format($devi->prix_unitaire_usd, 2,".", " ")}}  @endif </td>
             <td>  {{$devi->remise}}</td>
-            <td style="text-align: right">  {{number_format($THT=($devi->prix_unitaire*$devi->quantite)-(($devi->remise/100*($devi->prix_unitaire*$devi->quantite))),2,"."," ")}}</td>
+            <td style="text-align: right">  @if($devi->devise =="XOF") {{number_format($THT=($devi->prix_unitaire*$devi->quantite)-(($devi->remise/100*($devi->prix_unitaire*$devi->quantite))),2,"."," ")}}  @elseif($devi->devise =="EUR") {{number_format($THT=($devi->prix_unitaire_euro*$devi->quantite)-(($devi->remise/100*($devi->prix_unitaire_euro*$devi->quantite))),2,"."," ")}} @elseif($devi->devise =="USD") {{number_format($THT=($devi->prix_unitaire_usd*$devi->quantite)-(($devi->remise/100*($devi->prix_unitaire_usd*$devi->quantite))),2,"."," ")}}  @endif</td>
             <td> @if(1==$devi->hastva && $bc->projet->use_tva!=null || $bc->projet->use_tva!="")
                     {{number_format(floatval(($THT*$bc->projet->use_tva)/100), 2,".", " ")}}
             @else
