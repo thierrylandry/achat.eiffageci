@@ -16,6 +16,7 @@ use App\Stock;
 use App\Stock_user;
 use App\Unites;
 use App\User;
+use App\Projet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -305,15 +306,15 @@ class GestionStockController extends Controller
 
         endforeach;
 
-        return view('gestion_stock/stock',compact('stocks','tableaux'));
+        return view('gestion_stock/stock',compact('stocks','tableaux','projet_choisi'));
     }
     public function fifo($_id_materiel,$libelle){
         $projet_choisi= ProjectController::check_projet_access();
         $chronologie_livraisons= DB::table('chronologi_livraison')->where('id_projet','=',$projet_choisi->id)->where('id','=',$_id_materiel)->orWhere('reference','=',$libelle)->where('id_projet','=',$projet_choisi->id)->get();
 
-        //  dd($chronologie_livraisons);
+      //  dd($chronologie_livraisons);
         $point_consomation = DB::table("point_consomation")->where('id_projet','=',$projet_choisi->id)->where('id_materiel','=',$_id_materiel)->first();
-        //   dd($point_consomation);
+     //   dd($point_consomation);
         $resultats = array();
         $consommer=0;
         if(isset($point_consomation->quantite)){
@@ -345,16 +346,34 @@ class GestionStockController extends Controller
         endforeach;
 
         $valeur_stock=0;
+//dd($resultats);
+            foreach($resultats as $result):
 
-        foreach($resultats as $result):
+                $projet = Projet::find(Session('id_projet'));
+                if($projet->defaultDevise=="XOF"){
+                    if(!is_null($result->prix_tot)){
+                        $valeur_stock+=($result->prix_tot+$result->valeur_tva);
+                    }else{
+                        $valeur_stock+=$result->quantite*($result->prix_unitaire+$result->valeur_tva);
+                    }
+                }elseif($projet->defaultDevise=="USD"){
+                    if(!is_null($result->prix_tot_usd)){
+                        $valeur_stock+=($result->prix_tot_usd+$result->valeur_tva_usd);
+                    }else{
+                        $valeur_stock+=$result->quantite*($result->prix_unitaire_usd+$result->valeur_tva_usd);
+                    }
+                }else{
 
-            if(!is_null($result->prix_tot)){
-                $valeur_stock+=$result->quantite*($result->prix_tot+$result->valeur_tva);
-            }else{
-                $valeur_stock+=$result->quantite*($result->prix_unitaire+$result->valeur_tva);
-            }
+                    if(!is_null($result->prix_tot_euro)){
+                        $valeur_stock+=($result->prix_tot_euro+$result->valeur_tva_euro);
+                    }else{
+                        $valeur_stock+=$result->quantite*($result->prix_unitaire_euro+$result->valeur_tva_euro);
+                    }
+                }
 
-        endforeach;
+
+
+                endforeach;
 
         return $valeur_stock;
     }

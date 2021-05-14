@@ -180,7 +180,7 @@
                             @foreach($tableaux as $res)
                                 <tr>
                                     <td>{{$res->libelle}}</td>
-                                    <td>{{number_format($res->chfirreaffaire,'2',',','.')}} {{$res->devise_bc}}</td>
+                                    <td>@if($projet_choisi->defaultDevise =="XOF") {{number_format($res->chfirreaffaire,0,',','.')}}  @elseif($projet_choisi->defaultDevise =="EUR") {{number_format($res->chfirreaffaire_euro,2,',','.')}} @elseif($projet_choisi->defaultDevise =="USD") {{number_format($res->chfirreaffaire_usd,2,',','.')}}  @endif {{$projet_choisi->defaultDevise}}</td>
                                 </tr>
                             @endforeach
                         @endif
@@ -254,12 +254,36 @@
                     if(isset($dependance_tableaux)){
                         foreach($dependance_tableaux as $res):
                             if(isset($array[$res->libelleDomainne])){
-                                $array[$res->libelleDomainne]+= $res->prix_total+$res->valeur_tva_tot;
+                                if($projet_choisi->defaultDevise =="XOF"){
+                                    $array[$res->libelleDomainne]+= $res->prix_total+$res->valeur_tva_tot;
+                                }elseif($projet_choisi->defaultDevise =="EUR"){
+                                    $array[$res->libelleDomainne]+= $res->prix_total_euro+$res->valeur_tva_tot_euro;
+                                }elseif($projet_choisi->defaultDevise =="USD"){
+                                    $array[$res->libelleDomainne]+= $res->prix_total_usd+$res->valeur_tva_tot_usd;
+                                }
+
+
+
                             }else{
-                                $array[$res->libelleDomainne]=$res->prix_total+$res->valeur_tva_tot;
+
+                                if($projet_choisi->defaultDevise =="XOF"){
+                                    $array[$res->libelleDomainne]= $res->prix_total+$res->valeur_tva_tot;
+                                }elseif($projet_choisi->defaultDevise =="EUR"){
+                                    $array[$res->libelleDomainne]= $res->prix_total_euro+$res->valeur_tva_tot_euro;
+                                }elseif($projet_choisi->defaultDevise =="USD"){
+                                    $array[$res->libelleDomainne]= $res->prix_total_usd+$res->valeur_tva_tot_usd;
+                                }
+
+
+                            }
+                            if($projet_choisi->defaultDevise =="XOF"){
+                                $tot+=$res->prix_total+$res->valeur_tva_tot;
+                            }elseif($projet_choisi->defaultDevise =="EUR"){
+                                $tot+=$res->prix_total_euro+$res->valeur_tva_tot_euro;
+                            }elseif($projet_choisi->defaultDevise =="USD"){
+                                $tot+=$res->prix_total_usd+$res->valeur_tva_tot_usd;
                             }
 
-                            $tot+=$res->prix_total+$res->valeur_tva_tot;
                         endforeach;
 
                     }
@@ -274,7 +298,7 @@
                         <tr>
                             <th >{{__('menu.fournisseurs')}}</th>
                             <th >{{__('neutrale.categorie')}}</th>
-                            <th >{{__('neutrale.montant')}} </th>
+                            <th >{{__('neutrale.montant')}} ({{$projet_choisi->defaultDevise}}) </th>
                             <th >%</th>
                         </tr>
                         </thead>
@@ -284,8 +308,8 @@
                                 <tr>
                                     <td>{{$res->libelle}}</td>
                                     <td>{{$res->libelleDomainne}}</td>
-                                    <td>{{number_format($res->prix_total+$res->valeur_tva_tot,'0',',','.')}}  {{$res->devise_bc}} </td>
-                                    <td>{{number_format(($res->prix_total+$res->valeur_tva_tot)*100/ $array[$res->libelleDomainne],'2',',','.')}}%</td>
+                                    <td>@if($projet_choisi->defaultDevise =="XOF") {{number_format($res->prix_total+$res->valeur_tva_tot,'0',',','.')}}  @elseif($projet_choisi->defaultDevise =="EUR") {{number_format($res->prix_total_euro+$res->valeur_tva_tot_euro,'0',',','.')}} @elseif($dprojet_choisi->defaultDevise =="USD") {{number_format($res->prix_total_usd+$res->valeur_tva_tot_usd,'0',',','.')}}  @endif </td>
+                                    <td>@if($projet_choisi->defaultDevise =="XOF") {{number_format(($res->prix_total+$res->valeur_tva_tot)*100/ $array[$res->libelleDomainne],'2',',','.')}}  @elseif($projet_choisi->defaultDevise =="EUR") {{number_format(($res->prix_total_eur+$res->valeur_tva_tot_eur)*100/ $array[$res->libelleDomainne],'2',',','.')}} @elseif($projet_choisi->defaultDevise =="USD") {{number_format(($res->prix_total_usd+$res->valeur_tva_tot_usd)*100/ $array[$res->libelleDomainne],'2',',','.')}}  @endif %</td>
                                 </tr>
                             @endforeach
                         @endif
@@ -418,7 +442,7 @@
                                     <td>{{$res->famille}}</td>
                                     <td>{{$res->libelle}}</td>
                                     <td>{{-1*$res->quantite}}</td>
-                                    <td>{{-1*$res->prix_ht_materiel}}</td>
+                                    <td>@if($projet_choisi->defaultDevise =="XOF") {{-1*$res->prix_ht_materiel_xof}}  @elseif($projet_choisi->defaultDevise =="EUR") {{-1*$res->prix_ht_materiel_euro}} @elseif($projet_choisi->defaultDevise =="USD") {{-1*$res->prix_ht_materiel_usd}}  @endif</td>
                                     <td>{{$res->devise}}</td>
                                 </tr>
                             @endforeach
@@ -1188,7 +1212,7 @@
 
                            // Update footer
                            $( api.column( 4 ).footer() ).html(
-                           ''+lisibilite_nombre(pageTotal) +' FCFA ('+ lisibilite_nombre(total) +' FCFA total)'
+                           ''+lisibilite_nombre(pageTotal) +' {{$projet_choisi->defaultDevise}} ('+ lisibilite_nombre(total) +' {{$projet_choisi->defaultDevise}} total)'
                            );
 
                        },

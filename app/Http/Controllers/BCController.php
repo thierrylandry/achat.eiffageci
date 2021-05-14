@@ -273,23 +273,10 @@ return $view;
         $contact=explode(',',$parameters['contact']);
 
        // $les_id_devis=explode(',',$parameters['les_id_devis']);
-        $bc= DB::table('boncommande')
-            ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
-            ->join('services', 'services.id', '=', 'boncommande.service_demandeur')
-            ->where('boncommande.id','=',$bc_slug)
-            ->where('boncommande.id_projet','=',$projet_choisi->id)
-            ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','services.libelle as libelle_service','contact','commentaire_general','fournisseur.conditionPaiement','boncommande.id_fournisseur','remise_excep')->first();
-
-
-        $devis=DB::table('devis')
-            ->join('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
-            ->where('id_bc','=',$bc->id)
-            ->where('lignebesoin.id_projet','=',$projet_choisi->id)
-            ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.devise','commentaire','referenceFournisseur','codeGestion')->get();
-
+       $bc=Boncommande::where('slug','=',$bc_slug)->first();
 
         $tothtax = 0;
-        $taille=sizeof($devis);
+        $taille=sizeof($bc->ligne_bcs()->get());
         if($bc->commentaire_general==''){
             $taille_minim=6;
             $taille_maxim=0;
@@ -298,7 +285,7 @@ return $view;
             $taille_maxim=0;
         }
         // Send data to the view using loadView function of PDF facade
-        $pdf = PDF::loadView('BC.bon-commande', compact('bc','devis','tothtax','taille','taille_minim','taille_maxim'));
+        $pdf = PDF::loadView('BC.bon-commande', compact('bc','tothtax','taille','taille_minim','taille_maxim'));
 
         //$lignebesoins=Lignebesoin::where('id_bonCommande','=',$bc->id)->first();
         $lignebesoins=DB::table('lignebesoin')
@@ -484,10 +471,13 @@ return $view;
     }
     public function validation_bc()
     {
+
         $projet_choisi= ProjectController::check_projet_access();
         $bcs=  Boncommande::where('id_projet','=',$projet_choisi->id)->where('etat','!=',1)->orderBy('created_at', 'DESC')->get();
-        $bcs_en_attentes=  Boncommande::where('id_projet','=',$projet_choisi->id)->where([['etat', '=', 1],['date', '<>', null],['service_demandeur', '<>', null]])->orderBy('created_at', 'DESC')->get();
-        $utilisateurs=  User::where('id_projet','=',$projet_choisi->id)->get();
+        //je vérifie si on valide selon le paramettre valideur different
+
+        $bcs_en_attentes = BCController::liste_bc_en_attente_fonction_mode_validation($projet_choisi);
+         $utilisateurs=  User::where('id_projet','=',$projet_choisi->id)->get();
 
         $fournisseurs= DB::table('fournisseur')
             ->join('devis', 'fournisseur.id', '=', 'devis.id_fournisseur')
@@ -529,14 +519,8 @@ return $view;
                 endforeach;
 
             // $les_id_devis=explode(',',$parameters['les_id_devis']);
-            $devis=DB::table('devis')
-                ->leftjoin('lignebesoin', 'devis.id_da', '=', 'lignebesoin.id')
-                ->where('id_bc','=',$Boncommande->id)
-                ->select('titre_ext','devis.quantite','devis.unite','devis.prix_unitaire','devis.remise','devis.prix_tot','devis.codeRubrique','devis.devise','commentaire','hastva','referenceFournisseur','codeGestion')->get();
-
-
             $tothtax = 0;
-            $taille=sizeof($devis);
+            $taille=sizeof($Boncommande->ligne_bcs()->get());
             if($Boncommande->commentaire_general==''){
                 $taille_minim=6;
                 $taille_maxim=0;
@@ -546,12 +530,8 @@ return $view;
             }
             // Send data to the view using loadView function of PDF facade
           //  $bc=$Boncommande;
-            $bc=DB::table('boncommande')
-                ->join('fournisseur', 'boncommande.id_fournisseur', '=', 'fournisseur.id')
-                ->join('services', 'services.id', '=', 'boncommande.service_demandeur')
-                ->where('boncommande.id','=',$Boncommande->id)
-                ->select('fournisseur.libelle','boncommande.id','numBonCommande','date','boncommande.created_at','services.libelle as libelle_service','contact','commentaire_general','fournisseur.conditionPaiement','boncommande.id_fournisseur','remise_excep')->first();
-            $pdf = PDF::loadView('BC.bon-commande', compact('bc','devis','tothtax','taille','taille_minim','taille_maxim'));
+            $bc=$Boncommande;
+             $pdf = PDF::loadView('BC.bon-commande', compact('bc','tothtax','taille','taille_minim','taille_maxim'));
 
             //$lignebesoins=Lignebesoin::where('id_bonCommande','=',$bc->id)->first();
             $lignebesoins=DB::table('lignebesoin')
@@ -666,7 +646,35 @@ return $view;
         $commentaire=$parameters['commentaire'];
 
         $date= new \DateTime(null);
+        $boncommande= Boncommande::find($parameters['id_bc']);
 
+        $boncommande->date=$parameters['date_livraison'];
+        $boncommande->service_demandeur=$parameters['id_service'];
+        $boncommande->remise_excep=$parameters['remise_exc'];
+        $boncommande->commentaire_general=$commentaire;
+
+      //  $sumligne=ligne_bc::where('id_bonCommande','=',$boncommande->id)->sum('prix_tot');
+
+        $tot_ttc=$parameters['ttc_serv'];
+
+        if($boncommande->devise_bc=="XOF"){
+            $boncommande->total_ttc=$tot_ttc;
+            $boncommande->total_ttc_euro=RapportController::convertir_dans_une_devise($tot_ttc,date("Y-m-d"),$boncommande->devise_bc.'_EUR');
+            $boncommande->total_ttc_usd=RapportController::convertir_dans_une_devise($tot_ttc,date("Y-m-d"),$boncommande->devise_bc.'_USD');
+        }elseif($boncommande->devise=="USD"){
+            $boncommande->total_ttc_usd=$tot_ttc;
+            $boncommande->total_ttc_euro=RapportController::convertir_dans_une_devise($tot_ttc,date("Y-m-d"),$boncommande->devise_bc.'_EUR');
+            $boncommande->total_ttc=RapportController::convertir_dans_une_devise($tot_ttc,date("Y-m-d"),$boncommande->devise_bc.'_XOF');
+        }else{
+
+            $boncommande->total_ttc_euro=$tot_ttc;
+            $boncommande->total_ttc_usd=RapportController::convertir_dans_une_devise($tot_ttc,date("Y-m-d"),$boncommande->devise_bc.'_USD');
+            $boncommande->total_ttc=RapportController::convertir_dans_une_devise($tot_ttc,date("Y-m-d"),$boncommande->devise_bc.'_XOF');
+        }
+
+
+
+        $boncommande->save();
         foreach ($les_id_devis as $id):
             if($id!=""){
 
@@ -684,8 +692,49 @@ return $view;
                     $Devis->hastva=0;
 
                 }
-                $Devis->prix_tot=$Devis->prix_unitaire*$Devis->quantite-($Devis->remise*($Devis->prix_unitaire*$Devis->quantite))/100;
-                $Devis->valeur_tva=$Devis->prix_tot*0.18;
+
+                if($Devis->devise=="XOF"){
+                    $Devis->prix_tot=$Devis->prix_unitaire*$Devis->quantite-($Devis->remise*($Devis->prix_unitaire*$Devis->quantite))/100;
+                    $Devis->prix_tot_euro=RapportController::convertir_dans_une_devise($Devis->prix_tot,date("Y-m-d"),$Devis->devise.'_EUR');
+                    $Devis->prix_tot_usd=RapportController::convertir_dans_une_devise($Devis->prix_tot,date("Y-m-d"),$Devis->devise.'_USD');
+                }elseif($Devis->devise=="USD"){
+                    $Devis->prix_tot_usd=$Devis->prix_unitaire_usd*$Devis->quantite-($Devis->remise*($Devis->prix_unitaire_usd*$Devis->quantite))/100;
+                    $Devis->prix_tot_euro=RapportController::convertir_dans_une_devise($Devis->prix_tot_usd,date("Y-m-d"),$Devis->devise.'_EUR');
+                    $Devis->prix_tot=RapportController::convertir_dans_une_devise($Devis->prix_tot_usd,date("Y-m-d"),$Devis->devise.'_XOF');
+                }else{
+                    $Devis->prix_tot_euro=$Devis->prix_unitaire_euro*$Devis->quantite-($Devis->remise*($Devis->prix_unitaire_euro*$Devis->quantite))/100;
+                    $Devis->prix_tot_usd=RapportController::convertir_dans_une_devise($Devis->prix_tot_euro,date("Y-m-d"),$Devis->devise.'_USD');
+                    $Devis->prix_tot=RapportController::convertir_dans_une_devise($Devis->prix_tot_euro,date("Y-m-d"),$Devis->devise.'_XOF');
+                }
+
+
+
+                if($Devis->devise=="XOF"){
+
+                    if(1==$Devis->hastva && $boncommande->projet->use_tva!="" or $boncommande->projet->use_tva!=0 ){
+                        $Devis->valeur_tva=($Devis->prix_tot*$boncommande->projet->use_tva)/100;
+                    }else{
+                        $Devis->valeur_tva=0;
+                    }
+                    $Devis->valeur_tva_euro=RapportController::convertir_dans_une_devise($Devis->valeur_tva,date("Y-m-d"),$Devis->devise.'_EUR');
+                    $Devis->valeur_tva_usd=RapportController::convertir_dans_une_devise($Devis->valeur_tva,date("Y-m-d"),$Devis->devise.'_USD');
+                }elseif($Devis->devise=="USD"){
+                    if(1==$Devis->hastva && $boncommande->projet->use_tva!="" or $boncommande->projet->use_tva!=0 ){
+                        $Devis->valeur_tva_usd=($Devis->prix_tot_usd*$boncommande->projet->use_tva)/100;
+                    }else{
+                        $Devis->valeur_tva_usd=0;
+                    }
+                    $Devis->valeur_tva_euro=RapportController::convertir_dans_une_devise($Devis->valeur_tva_usd,date("Y-m-d"),$Devis->devise.'_EUR');
+                    $Devis->valeur_tva=RapportController::convertir_dans_une_devise($Devis->valeur_tva_usd,date("Y-m-d"),$Devis->devise.'_XOF');
+                }else{
+                    if(1==$Devis->hastva && $boncommande->projet->use_tva!="" or $boncommande->projet->use_tva!=0 ){
+                        $Devis->valeur_tva_euro=($Devis->prix_tot_euro*$boncommande->projet->use_tva)/100;
+                    }else{
+                        $Devis->valeur_tva_euro=0;
+                    }
+                    $Devis->valeur_tva_usd=RapportController::convertir_dans_une_devise($Devis->valeur_tva_euro,date("Y-m-d"),$Devis->devise.'_USD');
+                    $Devis->valeur_tva=RapportController::convertir_dans_une_devise($Devis->valeur_tva_euro,date("Y-m-d"),$Devis->devise.'_XOF');
+                }
 
                 $Devis->save();
                 $lignebesoin=Lignebesoin::find($Devis->id_da);
@@ -696,22 +745,6 @@ return $view;
             }
 
             endforeach;
-
-
-        $boncommande= Boncommande::find($parameters['id_bc']);
-
-        $boncommande->date=$parameters['date_livraison'];
-        $boncommande->service_demandeur=$parameters['id_service'];
-        $boncommande->remise_excep=$parameters['remise_exc'];
-        $boncommande->commentaire_general=$commentaire;
-
-      //  $sumligne=ligne_bc::where('id_bonCommande','=',$boncommande->id)->sum('prix_tot');
-
-        $tot_ttc=$parameters['ttc_serv'];
-
-
-        $boncommande->total_ttc=$tot_ttc;
-        $boncommande->save();
 
 
 
@@ -725,7 +758,9 @@ return $view;
             $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         }
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; Création du bon de commande Numero '.$boncommande->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
-        return redirect()->route('gestion_bc',app()->getLocale())->with('success',"success");
+
+        //dd(App()->getLocale());
+        return redirect()->route('gestion_bc',$parameters['locale'])->with('success',"success");
     }
     public function update_ligne_bc(Request $request)
     {
@@ -1421,6 +1456,64 @@ $optcode.=" <option value='".$code->codeRubrique."' data-subtext='".$code->libel
 
         return $tab;
 
+    }
+
+
+
+
+    public static function liste_bc_en_attente_fonction_mode_validation($projet_choisi){
+
+        if( $projet_choisi->typeValidation==2){
+
+            //si personne connecté egale à valideur
+            if(Auth::user()->id==$projet_choisi->valideur1){
+                    if($projet_choisi->defaultDevise=="XOF"){
+                        $bcs_en_attentes=  Boncommande::where('id_projet','=',$projet_choisi->id)->where([['etat', '=', 1],['date', '<>', null],['service_demandeur', '<>', null],['total_ttc','<=',$projet_choisi->montant1]])->orderBy('created_at', 'DESC')->get();
+
+                     }elseif($projet_choisi->defaultDevis=="USD"){
+                        $bcs_en_attentes=  Boncommande::where('id_projet','=',$projet_choisi->id)->where([['etat', '=', 1],['date', '<>', null],['service_demandeur', '<>', null],['total_ttc_usd','<=',$projet_choisi->montant1]])->orderBy('created_at', 'DESC')->get();
+                      }else{
+
+                        $bcs_en_attentes=  Boncommande::where('id_projet','=',$projet_choisi->id)->where([['etat', '=', 1],['date', '<>', null],['service_demandeur', '<>', null],['total_ttc_euro','<=',$projet_choisi->montant1]])->orderBy('created_at', 'DESC')->get();
+                    }
+
+
+            }elseif(Auth::user()->id==$projet_choisi->valideur2){
+
+            //si la personne connecté est le valideur 2
+
+            //enfonction de la devise par defaut
+                if($projet_choisi->defaultDevise=="XOF"){
+                    $bcs_en_attentes=  Boncommande::where('id_projet','=',$projet_choisi->id)->where([['etat', '=', 1],['date', '<>', null],['service_demandeur', '<>', null],['total_ttc','>',$projet_choisi->montant2]])->orderBy('created_at', 'DESC')->get();
+
+                 }elseif($projet_choisi->defaultDevis=="USD"){
+                    $bcs_en_attentes=  Boncommande::where('id_projet','=',$projet_choisi->id)->where([['etat', '=', 1],['date', '<>', null],['service_demandeur', '<>', null],['total_ttc_usd','>',$projet_choisi->montant2]])->orderBy('created_at', 'DESC')->get();
+
+                  }else{
+
+                    $bcs_en_attentes=  Boncommande::where('id_projet','=',$projet_choisi->id)->where([['etat', '=', 1],['date', '<>', null],['service_demandeur', '<>', null],['total_ttc_euro','>',$projet_choisi->montant2]])->orderBy('created_at', 'DESC')->get();
+
+                }
+            }else{
+                //dd("ici");
+                if($projet_choisi->defaultDevise=="XOF"){
+                    $bcs_en_attentes=  Boncommande::where('id_projet','=',$projet_choisi->id)->where([['etat', '=', 1],['date', '<>', null],['service_demandeur', '<>', null],['total_ttc','<=',$projet_choisi->montant1]])->orderBy('created_at', 'DESC')->get();
+
+                 }elseif($projet_choisi->defaultDevis=="USD"){
+                    $bcs_en_attentes=  Boncommande::where('id_projet','=',$projet_choisi->id)->where([['etat', '=', 1],['date', '<>', null],['service_demandeur', '<>', null],['total_ttc_usd','<=',$projet_choisi->montant1]])->orderBy('created_at', 'DESC')->get();
+                  }else{
+
+                    $bcs_en_attentes=  Boncommande::where('id_projet','=',$projet_choisi->id)->where([['etat', '=', 1],['date', '<>', null],['service_demandeur', '<>', null],['total_ttc_euro','<=',$projet_choisi->montant1]])->orderBy('created_at', 'DESC')->get();
+                }
+
+            }
+
+
+        }else{
+            $bcs_en_attentes=  Boncommande::where('id_projet','=',$projet_choisi->id)->where([['etat', '=', 1],['date', '<>', null],['service_demandeur', '<>', null]])->orderBy('created_at', 'DESC')->get();
+
+        }
+        return $bcs_en_attentes;
     }
 
 }

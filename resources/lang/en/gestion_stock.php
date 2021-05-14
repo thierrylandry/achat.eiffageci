@@ -14,7 +14,7 @@ return array (
     'auteur' => 'Author',
     'action' => 'Action',
     'stock_min' => 'Stock min.',
-    'valorisation' => 'Valuation (XOF)',
+    'valorisation' => 'Valuation',
     'adresse_geographique' => 'Localisation',
     'responsable' => 'Manager',
     'interlocuteur' => 'Speaker',

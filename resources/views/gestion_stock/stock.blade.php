@@ -37,7 +37,7 @@
                         <th class="dt-head-center">{{__('gestion_stock.quantite')}}</th>
                         <th class="dt-head-center">{{__('gestion_stock.unite')}}</th>
                         <th class="dt-head-center">{{__('gestion_stock.stock_min')}}</th>
-                        <th class="dt-head-center">{{__('gestion_stock.valorisation')}}</th>
+                        <th class="dt-head-center">{{__('gestion_stock.valorisation')}} ({{$projet_choisi->defaultDevise}})</th>
 
                     </tr>
                     </thead>

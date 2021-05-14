@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Boncommande;
 use App\Designation;
+use App\Devise;
 use App\Domaines;
 use App\Famille;
 use App\Fournisseur;
@@ -29,6 +30,7 @@ class ReceptionController extends Controller
         $produits = Designation::orderby('libelle','ASC')->get();
         $domaines =Domaines::orderby('libelleDomainne','ASC')->get();
         $familles = Famille::orderby('libelle','ASC')->get();
+        $devises = Devise::all();
 
         $ligne_bonlivraisons= Ligne_bonlivraison::where('etat','=',0)->where('id_projet','=',$projet_choisi->id)->get();
         $unites=Unites::all();
@@ -45,7 +47,7 @@ class ReceptionController extends Controller
                 $tab_unite['La surface'][]=$unite->libelle;
             }
         endforeach;
-        return view('reception_commande/reception_sans_bc',compact('fournisseurs','produits','ligne_bonlivraisons','tab_unite','domaines','familles'));
+        return view('reception_commande/reception_sans_bc',compact('fournisseurs','produits','ligne_bonlivraisons','tab_unite','domaines','familles','devises'));
     }
     public function historique_bl(){
         $projet_choisi= ProjectController::check_projet_access();
@@ -77,7 +79,8 @@ class ReceptionController extends Controller
                         $tab_unite['La surface'][]=$unite->libelle;
                     }
                 endforeach;
-        return view('reception_commande/reception_sans_bc',compact('fournisseurs','produits','ligne_bonlivraisons','ligne_bonlivraison','produits','domaines','familles','tab_unite'));
+                $devises = Devise::all();
+        return view('reception_commande/reception_sans_bc',compact('fournisseurs','produits','ligne_bonlivraisons','ligne_bonlivraison','produits','domaines','familles','tab_unite','devises'));
     }
     public function donne_moi_les_famille($domaine){
        $res="<option value=''>SELECTIONNER UNE FAMILLE</option>";
@@ -215,7 +218,24 @@ class ReceptionController extends Controller
             $ligne_livraison->quantite	=$quantite;
             $ligne_livraison->date_reception=$date_livraison;
             $ligne_livraison->numero_bl	=$numero_bl;
-            $ligne_livraison->prix_unitaire	=$prix_unitaire;
+
+
+            if($devise=="XOF"){
+                $ligne_livraison->prix_unitaire	=$prix_unitaire;
+                $ligne_livraison->prix_unitaire_euro=RapportController::convertir_dans_une_devise($prix_unitaire,date("Y-m-d"),$devise.'_EUR');
+                $ligne_livraison->prix_unitaire_usd=RapportController::convertir_dans_une_devise($prix_unitaire,date("Y-m-d"),$devise.'_USD');
+            }elseif($devise=="USD"){
+                $ligne_livraison->prix_unitaire_usd	=$prix_unitaire;
+                $ligne_livraison->prix_unitaire_euro=RapportController::convertir_dans_une_devise($prix_unitaire,date("Y-m-d"),$devise.'_EUR');
+                $ligne_livraison->prix_unitaire=RapportController::convertir_dans_une_devise($prix_unitaire,date("Y-m-d"),$devise.'_XOF');
+            }else{
+
+                $ligne_livraison->prix_unitaire_euro=$prix_unitaire;
+                $ligne_livraison->prix_unitaire_usd=RapportController::convertir_dans_une_devise($prix_unitaire,date("Y-m-d"),$devise.'_USD');
+                $ligne_livraison->prix_unitaire=RapportController::convertir_dans_une_devise($prix_unitaire,date("Y-m-d"),$devise.'_XOF');
+            }
+
+
             $ligne_livraison->reference	=$refference;
             $ligne_livraison->devise=$devise;
             $ligne_livraison->unite=$unite;
@@ -256,6 +276,8 @@ class ReceptionController extends Controller
             $ligne_livraison->date_reception	=$_date_livraison;
             $ligne_livraison->numero_bl	=$_numerobl_livraison;
             $ligne_livraison->prix_unitaire	=$ligne_bc->prix_unitaire;
+            $ligne_livraison->prix_unitaire_usd	=$ligne_bc->prix_unitaire_usd;
+            $ligne_livraison->prix_unitaire_euro	=$ligne_bc->prix_unitaire_euro;
             $ligne_livraison->reference	=$ligne_bc->titre_ext;
             $ligne_livraison->etat=1;
             $ligne_livraison->id_projet=session('id_projet');

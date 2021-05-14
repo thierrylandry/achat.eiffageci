@@ -44,10 +44,10 @@
                     <td style=" text-align: center;border-bottom-color: white">{{$dev->codeGestion}}</td>
                     <td style=" text-align: center;border-bottom-color: white">{{$dev->quantite}}</td>
                     <td style="border-bottom-color: white">{{$dev->unite}}</td>
-                    <td style=" text-align: right;border-bottom-color: white">{{number_format($dev->prix_unitaire, 0,".", " ")}}</td>
+                    <td style=" text-align: right;border-bottom-color: white">@if($dev->devise =="XOF") {{number_format($dev->prix_unitaire, 0,".", " ")}}  @elseif($dev->devise =="EUR") {{number_format($dev->prix_unitaire_euro, 2,".", " ")}} @elseif($dev->devise =="USD") {{number_format($dev->prix_unitaire_usd, 2,".", " ")}}  @endif</td>
                     <td style=" text-align: center;border-bottom-color: white">{{$dev->remise}}</td>
-                    <td style=" text-align: right;border-bottom-color: white">{{number_format($dev->prix_tot, 0,".", " ")}}
-                        <span style="display: none;border-bottom-color: white">{{ $tothtax +=  $dev->prix_tot }}</span>
+                    <td style=" text-align: right;border-bottom-color: white">@if($dev->devise =="XOF") {{number_format($dev->prix_tot, 0,".", " ")}}  @elseif($dev->devise =="EUR") {{number_format($dev->prix_tot_euro, 2,".", " ")}} @elseif($dev->devise =="USD") {{number_format($dev->prix_tot_usd, 2,".", " ")}}  @endif
+                        <span style="display: none;border-bottom-color: white">@if($dev->devise =="XOF") {{ $tothtax +=  $dev->prix_tot }}  @elseif($dev->devise =="EUR") {{ $tothtax +=  $dev->prix_tot_euro }}  @elseif($dev->devise =="USD") {{ $tothtax +=  $dev->prix_tot_usd }}  @endif</span>
                     </td>
                 </tr>
                     @else
@@ -59,10 +59,10 @@
                         <td style=" text-align: center;border-bottom-color: white">{{$dev->codeGestion}}</td>
                         <td style=" text-align: center;">{{$dev->quantite}}</td>
                         <td style="">{{$dev->unite}}</td>
-                        <td style=" text-align: right;">{{number_format($dev->prix_unitaire, 0,".", " ")}}</td>
+                        <td style=" text-align: right;">@if($dev->devise =="XOF") {{number_format($dev->prix_unitaire, 2,".", " ")}}  @elseif($dev->devise =="EUR") {{number_format($dev->prix_unitaire_euro, 2,".", " ")}} @elseif($dev->devise =="USD") {{number_format($dev->prix_unitaire_usd, 2,".", " ")}}  @endif</td>
                         <td style=" text-align: center;">{{$dev->remise}}</td>
-                        <td style=" text-align: right;">{{number_format($dev->prix_tot, 0,".", " ")}}
-                            <span style="display: none;">{{ $tothtax +=  $dev->prix_tot }}</span>
+                        <td style=" text-align: right;">@if($dev->devise =="XOF") {{number_format($dev->prix_tot, 0,".", " ")}}  @elseif($dev->devise =="EUR") {{number_format($dev->prix_tot_euro, 2,".", " ")}} @elseif($dev->devise =="USD") {{number_format($dev->prix_tot_usd, 2,".", " ")}}  @endif
+                            <span style="display: none;">@if($dev->devise =="XOF") {{ $tothtax +=  $dev->prix_tot }}  @elseif($dev->devise =="EUR") {{ $tothtax +=  $dev->prix_tot_euro }}  @elseif($dev->devise =="USD") {{ $tothtax +=  $dev->prix_tot_usd }}  @endif</span>
                         </td>
                     </tr>
                 @endif
@@ -129,10 +129,10 @@
                 <td style=" text-align: center;border-bottom-color: white">{{$dev->codeGestion}}</td>
                 <td style=" text-align: center;border-bottom-color: white">{{$dev->quantite}}</td>
                 <td style="border-bottom-color: white">{{$dev->unite}}</td>
-                <td style=" text-align: right;border-bottom-color: white">{{number_format($dev->prix_unitaire, 0,".", " ")}}</td>
+                <td style=" text-align: right;border-bottom-color: white">@if($dev->devise =="XOF") {{number_format($dev->prix_unitaire, 2,".", " ")}}  @elseif($dev->devise =="EUR") {{number_format($dev->prix_unitaire_euro, 2,".", " ")}} @elseif($dev->devise =="USD") {{number_format($dev->prix_unitaire_usd, 2,".", " ")}}  @endif</td>
                 <td style=" text-align: center;border-bottom-color: white">{{$dev->remise}}</td>
-                <td style=" text-align: right;border-bottom-color: white">{{number_format($dev->prix_tot, 0,".", " ")}}
-                    <span style="display: none;border-bottom-color: white">{{ $tothtax +=  $dev->prix_tot }}</span>
+                <td style=" text-align: right;border-bottom-color: white">@if($dev->devise =="XOF") {{number_format($dev->prix_tot, 0,".", " ")}}  @elseif($dev->devise =="EUR") {{number_format($dev->prix_tot_euro, 2,".", " ")}} @elseif($dev->devise =="USD") {{number_format($dev->prix_tot_usd, 2,".", " ")}}  @endif
+                    <span style="display: none;border-bottom-color: white">@if($dev->devise =="XOF") {{ $tothtax +=  $dev->prix_tot }}  @elseif($dev->devise =="EUR") {{ $tothtax +=  $dev->prix_tot_euro }}  @elseif($dev->devise =="USD") {{ $tothtax +=  $dev->prix_tot_usd }}  @endif</span>
                 </td>
             </tr>
 
@@ -204,7 +204,7 @@
                     @endif
                     <tr>
                         <td width="61.8%" style="text-align:right"><b>{{__('neutrale.totlal_ht')}}</b> </td>
-                        <td class="value">{{ number_format($tothtax-$bc->remise_excep, 0,".", " ")." ".$bc->ligne_bcs()->first()->devise  }}</td>
+                        <td class="value">{{ number_format($tothtax-$bc->remise_excep, 0,".", " ")." ".$bc->devise->libelle  }}</td>
                     </tr>
                     <tr>
                         <td style="text-align:right" ><b>{{__('neutrale.totlal_ht')}} </b></td>
@@ -213,7 +213,14 @@
                                     $tva=0;
                                 foreach($bc->ligne_bcs()->get() as $dev):
                                     if(1==$dev->hastva && $bc->projet->use_tva!="" or $bc->projet->use_tva!=0 ){
-                                        $tva+=($dev->prix_tot*$bc->projet->use_tva)/100;
+                                        if($dev->devise =="XOF"){
+                                            $tva+=($dev->prix_tot*$bc->projet->use_tva)/100;
+                                        }elseif($dev->devise =="EUR"){
+                                            $tva+=($dev->prix_tot_euro*$bc->projet->use_tva)/100;
+                                        }elseif($dev->devise =="USD") {
+                                            $tva+=($dev->prix_tot_usd*$bc->projet->use_tva)/100;
+                                        }
+
                                     }else{
                                         $tva+=0;
                                     }
@@ -223,7 +230,7 @@
                                     $tva=$tva-($bc->remise_excep*$bc->projet->use_tva)/100;
                                 }
 
-                                    echo number_format($tva, 0,".", " ")." ".$bc->devise_bc;
+                                    echo number_format($tva, 0,".", " ")." ".$bc->devise->libelle;
                             ?>
                                 </td>
                     </tr>
@@ -233,12 +240,12 @@
                             @if($bc->remise_excep!=0)
                         <td class="value">
 
-                            {{number_format($tothtax+$tva-$bc->remise_excep,0,"."," ")." ".$bc->ligne_bcs()->first()->devise}}
+                            {{number_format($tothtax+$tva-$bc->remise_excep,0,"."," ")." ".$bc->devise->libelle}}
                         </td>
                                 @else
                                 <td class="value">
 
-                                    {{number_format($tothtax+$tva,0,"."," ")." ".$bc->ligne_bcs()->first()->devise}}
+                                    {{number_format($tothtax+$tva,0,"."," ")." ".$bc->devise->libelle}}
                                 </td>
                                 @endif
                     </tr>

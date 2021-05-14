@@ -79,8 +79,8 @@
                                         {{$utilisateur->nom}}
                                     @endif
                                 @endforeach</td>
-                            <td> @if($bc->total_ttc!=0){{number_format($bc->total_ttc, 0, ',', ' ')}} FCFA
-                            @endif</td>
+                            <td>@if($bc->devise_bc =="XOF") @if($bc->total_ttc!=0){{number_format($bc->total_ttc, 0, ',', ' ')}} @endif  @elseif($bc->devise_bc =="EUR") @if($bc->total_ttc_euro!=0){{number_format($bc->total_ttc_euro, 0, ',', ' ')}}@endif @elseif($bc->devise_bc =="USD") @if($bc->total_ttc_usd!=0){{number_format($bc->total_ttc_usd, 0, ',', ' ')}}@endif  @endif  {{$bc->devise->libelle}}
+                            </td>
                             <td>
                                 @if($bc->etat==1)
 

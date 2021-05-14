@@ -58,9 +58,9 @@
         </div>
         <div class="col-sm-4 col-sm-offset-3" style="border: double; text-align: center; vertical-align: center; padding: 12px">
 
-             <h1>{{$fournisseur->libelle}}</h1>
+             <h1>{{$fournisseur->libelle}} ({{$bc->devise_bc}})</h1>
 
-
+            <input type="hidden" name='locale' value="{{App()->getLocale()}}"/>
 
 
         </div>
@@ -183,7 +183,7 @@
             <td>
                 {{$devi->unite}}
             </td>
-            <td style="text-align: right">@if($devi->devise =="XOF") {{number_format($devi->prix_unitaire, 2,".", " ")}}  @elseif($devi->devise =="EUR") {{number_format($devi->prix_unitaire_euro, 2,".", " ")}} @elseif($devi->devise =="USD") {{number_format($devi->prix_unitaire_usd, 2,".", " ")}}  @endif </td>
+            <td style="text-align: right">@if($devi->devise =="XOF") {{number_format($devi->prix_unitaire, 0,".", " ")}}  @elseif($devi->devise =="EUR") {{number_format($devi->prix_unitaire_euro, 2,".", " ")}} @elseif($devi->devise =="USD") {{number_format($devi->prix_unitaire_usd, 2,".", " ")}}  @endif </td>
             <td>  {{$devi->remise}}</td>
             <td style="text-align: right">  @if($devi->devise =="XOF") {{number_format($THT=($devi->prix_unitaire*$devi->quantite)-(($devi->remise/100*($devi->prix_unitaire*$devi->quantite))),2,"."," ")}}  @elseif($devi->devise =="EUR") {{number_format($THT=($devi->prix_unitaire_euro*$devi->quantite)-(($devi->remise/100*($devi->prix_unitaire_euro*$devi->quantite))),2,"."," ")}} @elseif($devi->devise =="USD") {{number_format($THT=($devi->prix_unitaire_usd*$devi->quantite)-(($devi->remise/100*($devi->prix_unitaire_usd*$devi->quantite))),2,"."," ")}}  @endif</td>
             <td> @if(1==$devi->hastva && $bc->projet->use_tva!=null || $bc->projet->use_tva!="")

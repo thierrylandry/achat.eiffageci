@@ -31,4 +31,8 @@ class Boncommande extends Model
     {
         return $this->belongsTo('App\Services','service_demandeur');
     }
+    public function devise()
+    {
+        return $this->belongsTo('App\Devise','devise_bc','devise');
+    }
 }

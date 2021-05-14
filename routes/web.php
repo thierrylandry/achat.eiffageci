@@ -703,13 +703,6 @@ Route::get('/regularisation',[
 
 ])->middleware('auth');
 
-Route::get('/gestion_bc',[
-    'as'=>'gestion_bc',
-    'uses'=>'BCController@gestion_bc',
-    'middleware' => 'roles',
-    'roles' => ['Gestionnaire_BC','Valideur_BC']
-
-])->middleware('auth');
 
 
 Route::get('/gestion_bc_ajouter',[

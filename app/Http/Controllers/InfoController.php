@@ -134,8 +134,8 @@ class InfoController extends Controller
 
     }
     public function notification_sur_les_B_C($email){
-
-        $das=  Boncommande::where('etat','=',1)->get();
+        $projet_choisi= ProjectController::check_projet_access();
+        $das=  BCController::liste_bc_en_attente_fonction_mode_validation($projet_choisi);
 
         $Nb=sizeof($das);
         $adresse_bc="http://172.20.73.3/achat.eiffageci/validation_bc";

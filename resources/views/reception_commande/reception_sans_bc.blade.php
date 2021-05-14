@@ -130,8 +130,9 @@
                     <div class="form-group">
                         <label for="libelle" class="control-label">{{__('neutrale.devise')}}</label>
                         <select class="form-control selectpicker col-sm-2" name="devise" data-live-search="true" data-size="6">
-                            <option value="FCFA">FCFA</option>
-                            <option value="EURO">EURO</option>
+                            @foreach($devises as $devise)
+                                <option value="{{$devise->devise}}" {{isset($ligne_bonlivraison) && $devise->devise==$ligne_bonlivraison->devise?"selected":''}}>{{$devise->libelle}}</option>
+                        @endforeach
                         </select>
                     </div>
                 </div>

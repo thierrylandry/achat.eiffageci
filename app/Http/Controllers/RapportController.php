@@ -13,6 +13,7 @@ use Barryvdh\DomPDF\Facade as PDF;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class RapportController extends Controller
@@ -49,32 +50,8 @@ class RapportController extends Controller
 
          //  $res= RapportController::convertir_dans_une_devise(1,'2021-05-9','EUR_XOF');
 
-
-            $tableaux_chiffre_affaires = DB::table('chiffre_ffaire')->where('id_projet','=',$projet_choisi->id )->select('id','libelle','chfirreaffaire','devise_bc')->get();
-
-            $tableaux = array();
-            $tableaux1 = array();
-            foreach($tableaux_chiffre_affaires as $tableaux_chiffre_affaire):
-                if(isset($tableaux1[$tableaux_chiffre_affaire->id])){
-
-                        $tableaux1[$tableaux_chiffre_affaire->id]+=RapportController::convertir_dans_une_devise($tableaux_chiffre_affaire->chfirreaffaire,date("Y-m-d"),$tableaux_chiffre_affaire->devise_bc.'_'.$projet_choisi->defaultDevise);
-
-
-
-                }else{
-                    $tableaux1[$tableaux_chiffre_affaire->id]=RapportController::convertir_dans_une_devise($tableaux_chiffre_affaire->chfirreaffaire,date("Y-m-d"),$tableaux_chiffre_affaire->devise_bc.'_'.$projet_choisi->defaultDevise);
-
-                }
-            endforeach;
-
-
-          //  dd($tableaux1);
-            foreach($tableaux_chiffre_affaires as $tableaux_chiffre_affaire):
-
-                $tableaux_chiffre_affaire->chfirreaffaire= number_format($tableaux1[$tableaux_chiffre_affaire->id],2,'.','');
-                $tableaux[$tableaux_chiffre_affaire->id]=$tableaux_chiffre_affaire;
-
-             endforeach;
+         $tableaux = array();
+            $tableaux = DB::table('chiffre_ffaire')->where('id_projet','=',$projet_choisi->id )->select('id','libelle','chfirreaffaire','chfirreaffaire_usd','chfirreaffaire_euro','devise_bc')->get();
 
 
         }elseif($id==3){
@@ -85,42 +62,16 @@ class RapportController extends Controller
            // dd($command_receptions);
         }elseif($id==4){
                 //$ca_par_fournisseur_et_domaine
-             $dependance_vu_produits = DB::select("SELECT `fournisseur`.`id` AS `id`, `fournisseur`.`libelle` AS `libelle`,domaines.libelleDomainne as libelleDomainne, sum(devis.prix_tot) as prix_total,sum(devis.valeur_tva) as valeur_tva_tot,devise_bc  FROM fournisseur  join boncommande on fournisseur.id=boncommande.id_fournisseur join devis on devis.id_bc=boncommande.id join designation on designation.id=devis.id_materiel join famille on famille.id=designation.id_famille join domaines on domaines.id=famille.id_domaine where boncommande.etat=3 and boncommande.id_projet=".$projet_choisi->id." group by devise_bc,fournisseur.id,fournisseur.libelle,libelleDomainne");
+
+             $dependance_vu_produits = DB::select("SELECT `fournisseur`.`id` AS `id`, `fournisseur`.`libelle` AS `libelle`,domaines.libelleDomainne as libelleDomainne, sum(devis.prix_tot) as prix_total, sum(devis.prix_tot_usd) as prix_total_usd, sum(devis.prix_tot_euro) as prix_total_euro,sum(devis.valeur_tva) as valeur_tva_tot,sum(devis.valeur_tva_euro) as valeur_tva_tot_euro,sum(devis.valeur_tva_usd) as valeur_tva_tot_usd,devise_bc  FROM fournisseur  join boncommande on fournisseur.id=boncommande.id_fournisseur join devis on devis.id_bc=boncommande.id join designation on designation.id=devis.id_materiel join famille on famille.id=designation.id_famille join domaines on domaines.id=famille.id_domaine where boncommande.etat=3 and boncommande.id_projet=".$projet_choisi->id." group by devise_bc,fournisseur.id,fournisseur.libelle,libelleDomainne");
 
           //  dd($this->convertisseur_devise('EUR','XOF',1));
-
-          $tableaux = array();
-          $tableaux1 = array();
-          foreach($dependance_vu_produits as $dependance_vu_produit):
-              if(isset($tableaux1[$dependance_vu_produit->id]['prix_total'])){
-
-                      $tableaux1[$dependance_vu_produit->id.$dependance_vu_produit->libelleDomainne]['prix_total']+=RapportController::convertir_dans_une_devise($dependance_vu_produit->prix_total,date("Y-m-d"),$dependance_vu_produit->devise_bc.'_'.$projet_choisi->defaultDevise);
-                      $tableaux1[$dependance_vu_produit->id.$dependance_vu_produit->libelleDomainne]['valeur_tva_tot']+=RapportController::convertir_dans_une_devise($dependance_vu_produit->valeur_tva_tot,date("Y-m-d"),$dependance_vu_produit->devise_bc.'_'.$projet_choisi->defaultDevise);
-
-
-
-              }else{
-                  $tableaux1[$dependance_vu_produit->id.$dependance_vu_produit->libelleDomainne]['prix_total']=RapportController::convertir_dans_une_devise($dependance_vu_produit->prix_total,date("Y-m-d"),$dependance_vu_produit->devise_bc.'_'.$projet_choisi->defaultDevise);
-                  $tableaux1[$dependance_vu_produit->id.$dependance_vu_produit->libelleDomainne]['valeur_tva_tot']=RapportController::convertir_dans_une_devise($dependance_vu_produit->valeur_tva_tot,date("Y-m-d"),$dependance_vu_produit->devise_bc.'_'.$projet_choisi->defaultDevise);
-
-              }
-          endforeach;
-
-
         //  dd($tableaux1);
-          foreach($dependance_vu_produits as $dependance_vu_produit):
-
-              $dependance_vu_produit->prix_total= number_format($tableaux1[$dependance_vu_produit->id.$dependance_vu_produit->libelleDomainne]['prix_total'],2,'.','');
-              $dependance_vu_produit->valeur_tva_tot= number_format($tableaux1[$dependance_vu_produit->id.$dependance_vu_produit->libelleDomainne]['valeur_tva_tot'],2,'.','');
-              $tableaux[$dependance_vu_produit->id.$dependance_vu_produit->libelleDomainne]=$dependance_vu_produit;
-
-           endforeach;
-
-            $dependance_tableaux=$tableaux;
+            $dependance_tableaux=$dependance_vu_produits;
            // dd($dependance_tableaux);
             $total = array();
 
-           return view('rapport/rapport',compact('rapport','dependance_tableaux','dependance_vu_produits'));
+           return view('rapport/rapport',compact('rapport','dependance_tableaux','dependance_vu_produits','projet_choisi'));
            // dd($tableaux);
         }elseif($id==5){
                 //$ca_par_fournisseur_et_domaine
@@ -144,12 +95,12 @@ class RapportController extends Controller
                 }
                 endforeach;
            // dd($tableaux);
-            return view('rapport/rapport',compact('rapport','tableaux','stocks'));
+            return view('rapport/rapport',compact('rapport','tableaux','stocks','projet_choisi'));
 
         }elseif($id==7){
             //$ca_par_fournisseur_et_domaine
 
-            $tableaux = DB::select('SELECT domaine,famille,libelle,quantite,prix_unitaire, sum(quantite*prix_unitaire) as prix_ht_materiel,devise FROM achat_eiffage.consommation_prix_u WHERE id_projet='.$projet_choisi->id.' group by id_projet,id_materiel;');
+            $tableaux = DB::select('SELECT domaine,famille,libelle,quantite,prix_unitaire,prix_unitaire_usd,prix_unitaire_euro, sum(quantite*prix_unitaire) as prix_ht_materiel,sum(quantite*prix_unitaire_usd) as prix_ht_materiel_usd,sum(quantite*prix_unitaire_euro) as prix_ht_materiel_euro,devise FROM achat_eiffage.consommation_prix_u WHERE id_projet='.$projet_choisi->id.' group by id_projet,id_materiel;');
 
         }elseif($id==8){
             //$ca_par_fournisseur_et_domaine
@@ -176,7 +127,7 @@ left join devis on devis.id_bc=boncommande.id
 left join ligne_bonlivraison on ligne_bonlivraison.id_devis=devis.id
 left join fournisseur on boncommande.id_fournisseur=fournisseur.id
 left join users on boncommande.id_user=users.id
-where boncommande.etat>=3, id_projet='.$projet_choisi->id.'
+where boncommande.etat>=3 and boncommande.id_projet='.$projet_choisi->id.'
 group by boncommande.id_projet,boncommande.id
 having quantite_livree is null
 
@@ -187,7 +138,7 @@ having quantite_livree is null
         }
 
 
-        return view('rapport/rapport',compact('rapport','tableaux'));
+        return view('rapport/rapport',compact('rapport','tableaux','projet_choisi'));
 
     }
     public function fifo($_id_materiel,$libelle){
@@ -228,14 +179,32 @@ having quantite_livree is null
         endforeach;
 
         $valeur_stock=0;
-
+//dd($resultats);
             foreach($resultats as $result):
 
-                if(!is_null($result->prix_tot)){
-                    $valeur_stock+=$result->quantite*($result->prix_tot+$result->valeur_tva);
+                $projet = Projet::find(Session('id_projet'));
+                if($projet->defaultDevise=="XOF"){
+                    if(!is_null($result->prix_tot)){
+                        $valeur_stock+=($result->prix_tot+$result->valeur_tva);
+                    }else{
+                        $valeur_stock+=$result->quantite*($result->prix_unitaire+$result->valeur_tva);
+                    }
+                }elseif($projet->defaultDevise=="USD"){
+                    if(!is_null($result->prix_tot_usd)){
+                        $valeur_stock+=($result->prix_tot_usd+$result->valeur_tva_usd);
+                    }else{
+                        $valeur_stock+=$result->quantite*($result->prix_unitaire_usd+$result->valeur_tva_usd);
+                    }
                 }else{
-                    $valeur_stock+=$result->quantite*($result->prix_unitaire+$result->valeur_tva);
+
+                    if(!is_null($result->prix_tot_euro)){
+                        $valeur_stock+=($result->prix_tot_euro+$result->valeur_tva_euro);
+                    }else{
+                        $valeur_stock+=$result->quantite*($result->prix_unitaire_euro+$result->valeur_tva_euro);
+                    }
                 }
+
+
 
                 endforeach;
 
