@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddIdTypeValidationDa extends Migration
+class AddSignatureToProjet extends Migration
 {
     /**
      * Run the migrations.
@@ -15,7 +15,8 @@ class AddIdTypeValidationDa extends Migration
     {
         Schema::table('projets', function (Blueprint $table) {
             //
-            $table->integer('id_type_validation_da')->nullable();
+            $table->text('signature1')->nullable();
+            $table->text('signature2')->nullable();
         });
     }
 
@@ -28,7 +29,8 @@ class AddIdTypeValidationDa extends Migration
     {
         Schema::table('projets', function (Blueprint $table) {
             //
-            $table->removeColumn('id_type_validation_da');
+            $table->removeColumn('signature1');
+            $table->removeColumn('signature2');
         });
     }
 }

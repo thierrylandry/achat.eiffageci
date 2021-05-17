@@ -309,7 +309,7 @@
                                     <td>{{$res->libelle}}</td>
                                     <td>{{$res->libelleDomainne}}</td>
                                     <td>@if($projet_choisi->defaultDevise =="XOF") {{number_format($res->prix_total+$res->valeur_tva_tot,'0',',','.')}}  @elseif($projet_choisi->defaultDevise =="EUR") {{number_format($res->prix_total_euro+$res->valeur_tva_tot_euro,'0',',','.')}} @elseif($dprojet_choisi->defaultDevise =="USD") {{number_format($res->prix_total_usd+$res->valeur_tva_tot_usd,'0',',','.')}}  @endif </td>
-                                    <td>@if($projet_choisi->defaultDevise =="XOF") {{number_format(($res->prix_total+$res->valeur_tva_tot)*100/ $array[$res->libelleDomainne],'2',',','.')}}  @elseif($projet_choisi->defaultDevise =="EUR") {{number_format(($res->prix_total_eur+$res->valeur_tva_tot_eur)*100/ $array[$res->libelleDomainne],'2',',','.')}} @elseif($projet_choisi->defaultDevise =="USD") {{number_format(($res->prix_total_usd+$res->valeur_tva_tot_usd)*100/ $array[$res->libelleDomainne],'2',',','.')}}  @endif %</td>
+                                    <td>@if($projet_choisi->defaultDevise =="XOF") {{number_format(($res->prix_total+$res->valeur_tva_tot)*100/ $array[$res->libelleDomainne],'2',',','.')}}  @elseif($projet_choisi->defaultDevise =="EUR") {{number_format(($res->prix_total_euro+$res->valeur_tva_tot_euro)*100/ $array[$res->libelleDomainne],'2',',','.')}} @elseif($projet_choisi->defaultDevise =="USD") {{number_format(($res->prix_total_usd+$res->valeur_tva_tot_usd)*100/ $array[$res->libelleDomainne],'2',',','.')}}  @endif %</td>
                                 </tr>
                             @endforeach
                         @endif

@@ -422,7 +422,7 @@ return $view;
     public function generer_numero_bc(){
         $projet_choisi= ProjectController::check_projet_access();
         $bcs =Boncommande::where('id_projet','=',$projet_choisi->id)->get();
-        $project = Projet::find(1);
+        $project = $projet_choisi;
         $tableau_numb= array();
 
         foreach($bcs as $bc):
@@ -1232,12 +1232,13 @@ return $view;
         $analytiques= Analytique::where('id_projet','=',$projet_choisi->id)->get();
         $projets= Projet::where('id','=',$projet_choisi->id)->get();
         $expediteurs= array();
+        $suggestion = $this->generer_numero_bc();
         foreach($utilisateurs as $user):
             if($user->hasRole('Gestionnaire_Pro_Forma')){
                 $expediteurs[]=$user;
             }
         endforeach;
-        return view('BC/gestion_bc',compact('bcs','bcs_en_attentes','fournisseurs','utilisateurs','ajouter','analytiques','fournisseurss','projets','expediteurs'));
+        return view('BC/gestion_bc',compact('bcs','bcs_en_attentes','fournisseurs','utilisateurs','ajouter','analytiques','fournisseurss','projets','expediteurs','suggestion'));
     }
     public function detail_rep_fournisseur($locale,$id){
 

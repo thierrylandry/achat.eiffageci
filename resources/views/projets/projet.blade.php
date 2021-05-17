@@ -175,6 +175,12 @@
                                                                     <option value="{{$typesValidation->id}}" {{isset($projet) && $projet->typeValidation==$typesValidation->id?'selected':''}}>{{app()->getLocale()=='fr'?$typesValidation->libelle:$typesValidation->libelle_en}}</option>
                                                                 @endforeach
                                                             </select>
+                                                            <select class="form-control selectpicker" id="id_type_validation_da" name="id_type_validation_da" data-live-search="true" data-size="6" required>
+                                                                <option  value="">{{__('neutrale.selectionner_typeValidation')}}</option>
+                                                                @foreach ( $type_validation_das as$type_validation_da )
+                                                                    <option value="{{$type_validation_da->id}}" {{isset($projet) && $projet->id_type_validation_da==$type_validation_da->id?'selected':''}}>{{app()->getLocale()=='fr'?$type_validation_da->libelle:$type_validation_da->libelle_en}}</option>
+                                                                @endforeach
+                                                            </select>
 
                                                         </div>
 

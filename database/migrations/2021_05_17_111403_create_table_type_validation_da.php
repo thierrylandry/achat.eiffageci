@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddIdTypeValidationDa extends Migration
+class CreateTableTypeValidationDa extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class AddIdTypeValidationDa extends Migration
      */
     public function up()
     {
-        Schema::table('projets', function (Blueprint $table) {
-            //
-            $table->integer('id_type_validation_da')->nullable();
+        Schema::create('type_validation_da', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('libelle');
+            $table->string('libelle_en');
+            $table->timestamps();
         });
     }
 
@@ -26,9 +28,6 @@ class AddIdTypeValidationDa extends Migration
      */
     public function down()
     {
-        Schema::table('projets', function (Blueprint $table) {
-            //
-            $table->removeColumn('id_type_validation_da');
-        });
+        Schema::dropIfExists('type_validation_da');
     }
 }

@@ -32,9 +32,9 @@ Route::get('erreur', [
 
 Route::get('/taux_change',[
     'as'=>'taux_change',
-    'uses'=>'ConfigurationController@taux_change'
-
-])->middleware('auth');
+    'uses'=>'ConfigurationController@taux_change',
+    'roles' => ['Configuration']
+])->middleware('auth')->middleware('roles');
 Route::get('/profiles',[
     'as'=>'profiles',
     'uses'=>'HomeController@profiles'
@@ -102,9 +102,9 @@ Route::get('/configuration',[
     'as'=>'configuration',
     'uses'=>'ConfigurationController@configuration',
     'middleware' => 'roles',
-    'roles' => ['Gestionnaire_DA']
+    'roles' => ['Configuration']
 
-])->middleware('auth');
+])->middleware('auth')->middleware('roles');
 
 Route::get('/gestion_produit',[
     'as'=>'gestion_produit',
@@ -168,9 +168,9 @@ Route::get('/super_utilisateur',[
     'as'=>'super_utilisateur',
     'uses'=>'UtilisateurController@super_utilisateur',
     'middleware' => 'roles',
-    'roles' => ['Parametrage']
+    'roles' => ['Configuration']
 
-])->middleware('auth');
+])->middleware('auth')->middleware('roles');
 
 Route::get('/voir_utilisateur/{slug}',[
     'as'=>'voir_utilisateur',
@@ -183,9 +183,9 @@ Route::get('/voir_superutilisateur/{slug}',[
     'as'=>'voir_superutilisateur',
     'uses'=>'UtilisateurController@voir_superutilisateur',
     'middleware' => 'roles',
-    'roles' => ['Parametrage']
+    'roles' => ['Configuration']
 
-])->middleware('auth');
+])->middleware('auth')->middleware('roles');
 Route::get('/supprimer_utilisateur/{slug}',[
     'as'=>'supprimer_utilisateur',
     'uses'=>'UtilisateurController@supprimer_utilisateur',
@@ -426,14 +426,14 @@ Route::get('/donne_moi_les_famille_disponible/{domaine}',[
     Route::get('gestion_projets',[
     'as'=>'gestion_projets',
     'uses'=>'ProjectController@gestion_projets',
-
-])->middleware('auth');
+    'roles' => ['Configuration']
+])->middleware('auth')->middleware('roles');
 
 Route::get('modifier_projets/{id}',[
     'as'=>'modifier_projets',
     'uses'=>'ProjectController@modifier_projets',
-
-])->middleware('auth');
+    'roles' => ['Configuration']
+])->middleware('auth')->middleware('roles');
 Route::get('/donne_moi_les_designation_disponible/{famille}',[
     'as'=>'donne_moi_les_designation_disponible',
     'uses'=>'GestionStockController@donne_moi_les_designation_disponible',
@@ -610,27 +610,33 @@ Route::get('/gestion_stock', [
     Route::get('/gestion_importation/{id}', [
     'as'=>'gestion_importation',
     'uses'=>'ExportImportController@gestion_importation',
-])->middleware('auth');
+    'roles' => ['Configuration']
+])->middleware('auth')->middleware('roles');
     Route::get('/importation_code_tache/{id_projet}', [
     'as'=>'importation_code_tache',
     'uses'=>'ExportImportController@importation_code_tache',
-])->middleware('auth');
+    'roles' => ['Configuration']
+])->middleware('auth')->middleware('roles');
 Route::get('/importation_designation', [
     'as'=>'importation_designation',
     'uses'=>'ExportImportController@importation_designation',
-])->middleware('auth');
+    'roles' => ['Configuration']
+])->middleware('auth')->middleware('roles');
 Route::get('/importation_plan_comptable', [
     'as'=>'importation_plan_comptable',
     'uses'=>'ExportImportController@importation_plan_comptable',
-])->middleware('auth');
+    'roles' => ['Configuration']
+])->middleware('auth')->middleware('roles');
     Route::get('/importation_codeanalytique/{id_projet}', [
     'as'=>'importation_codeanalytique',
     'uses'=>'ExportImportController@importation_codeanalytique',
-])->middleware('auth');
+    'roles' => ['Configuration']
+])->middleware('auth')->middleware('roles');
     Route::get('/importation_fournisseur/{id_projet}', [
     'as'=>'importation_fournisseur',
     'uses'=>'ExportImportController@importation_fournisseur',
-])->middleware('auth');
+    'roles' => ['Configuration']
+])->middleware('auth')->middleware('roles');
 Route::get('/reste_en_stock/{valeur}', [
     'as'=>'reste_en_stock',
     'uses'=>'GestionStockController@reste_en_stock',
@@ -999,14 +1005,14 @@ Route::get('/notificateur',[
     Route::get('modifier_taux_change/{id}',[
         'as'=>'modifier_taux_change',
         'uses'=>'ConfigurationController@modifier_taux_change',
-
-    ])->middleware('auth');
+        'roles'=>['Configuration'],
+    ])->middleware('auth')->middleware('roles');
 
     Route::get('supprimer_taux_change/{id}',[
         'as'=>'supprimer_taux_change',
         'uses'=>'ConfigurationController@supprimer_taux_change',
-
-    ])->middleware('auth');
+        'roles'=>['Configuration'],
+    ])->middleware('auth')->middleware('roles');
 
 
 Auth::routes();
@@ -1026,12 +1032,14 @@ Route::post('/enregistrer_mouvement', [
 Route::post('/update_projet', [
     'as'=>'update_projet',
     'uses'=>'ProjectController@update_projet',
-])->middleware('auth');
+    'roles' => ['Configuration']
+])->middleware('auth')->middleware('roles');
 
 Route::post('/ajouter_projet', [
     'as'=>'ajouter_projet',
     'uses'=>'ProjectController@ajouter_projet',
-])->middleware('auth');
+    'roles' => ['Configuration']
+])->middleware('auth')->middleware('roles');
 
 
 Route::post('/enregistrer_devis', [
@@ -1195,31 +1203,31 @@ Route::post('/import_designation', [
     'as'=>'import_designation',
     'uses'=>'ExportImportController@import_designation',
     'middleware' => 'roles',
-    'roles' => ['Gestionnaire_Pro_Forma']
+    'roles' => ['Configuration']
 ])->middleware('auth');
 Route::post('/import_code_analytique', [
     'as'=>'import_code_analytique',
     'uses'=>'ExportImportController@import_code_analytique',
     'middleware' => 'roles',
-    'roles' => ['Gestionnaire_Pro_Forma']
+    'roles' => ['Configuration']
 ])->middleware('auth');
 Route::post('/import_code_tache', [
     'as'=>'import_code_tache',
     'uses'=>'ExportImportController@import_code_tache',
     'middleware' => 'roles',
-    'roles' => ['Gestionnaire_Pro_Forma']
+    'roles' => ['Configuration']
 ])->middleware('auth');
 Route::post('/import_code_comptable', [
     'as'=>'import_code_comptable',
     'uses'=>'ExportImportController@import_code_comptable',
     'middleware' => 'roles',
-    'roles' => ['Gestionnaire_Pro_Forma']
+    'roles' => ['Configuration']
 ])->middleware('auth');
 Route::post('/import_fournisseurs', [
     'as'=>'import_fournisseurs',
     'uses'=>'ExportImportController@import_fournisseurs',
     'middleware' => 'roles',
-    'roles' => ['Gestionnaire_Pro_Forma']
+    'roles' => ['Configuration']
 ])->middleware('auth');
 
 
@@ -1336,8 +1344,8 @@ Route::post('/Validsuperutilisateurs', [
     'as'=>'Validsuperutilisateurs',
     'uses'=>'UtilisateurController@Validsuperutilisateurs',
     'middleware' => 'roles',
-    'roles' => ['Parametrage']
-])->middleware('auth');
+    'roles' => ['Configuration']
+])->middleware('auth')->middleware('roles');
 Route::post('/modifier_utilisateur}',[
     'as'=>'modifier_utilisateur',
     'uses'=>'UtilisateurController@modifier_utilisateur'
@@ -1345,9 +1353,9 @@ Route::post('/modifier_utilisateur}',[
 ])->middleware('auth');
 Route::post('/modifier_superutilisateur}',[
     'as'=>'modifier_superutilisateur',
-    'uses'=>'UtilisateurController@modifier_superutilisateur'
-
-])->middleware('auth');
+    'uses'=>'UtilisateurController@modifier_superutilisateur',
+    'roles' => ['Configuration']
+])->middleware('auth')->middleware('roles');
 Route::post('/modifier_profile}',[
     'as'=>'modifier_profile',
     'uses'=>'UtilisateurController@modifier_profile'

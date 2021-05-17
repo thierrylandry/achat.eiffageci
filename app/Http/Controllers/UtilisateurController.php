@@ -32,7 +32,7 @@ class UtilisateurController
         $projet_choisi= ProjectController::check_projet_access();
         $utilisateurs=  User::where('id_projet','=',$projet_choisi->id)->where('id_type_users','=',1)->get();
         $services= Services::all();
-        $roles=  Role::all();
+        $roles= Role::where('name','<>','Configuration')->get();
         return view('utilisateurs/gestion_utilisateur',compact('utilisateurs','roles','services'));
     }
     public function Validutilisateurs( Request $request)
@@ -66,7 +66,7 @@ class UtilisateurController
         $projet_choisi= ProjectController::check_projet_access();
         $utilisateurs = User::where('id_projet','=',$projet_choisi->id)->get();
         $utilisateur = User::where('slug', '=', $slug)->first();
-        $roles=  Role::all();
+        $roles=  Role::where('name','<>','Configuration')->get();
         $services= Services::all();
         return view('utilisateurs/gestion_utilisateur',compact('utilisateurs','utilisateur','roles','services'));
     }

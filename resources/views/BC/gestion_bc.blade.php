@@ -39,7 +39,7 @@
                         <div class="form-group">
                             <label class="control-label col-sm-6" for="numbc">{{__('neutrale.numero_bc')}}:</label>
                             <div class="col-sm-4">
-                                <input type="text" class="form-control" id="numbc" name="numbc" placeholder="Enter un numero" value="{{isset($bc)? $bc->numBonCommande:''}}" {{isset($bc)? 'disabled':''}}   required>
+                                <input type="text" class="form-control" id="numbc" name="numbc" placeholder="Enter un numero" value="{{isset($bc)? $bc->numBonCommande:$suggestion}}" {{isset($bc)? 'disabled':''}}   required>
                             </div>
                         </div>
 

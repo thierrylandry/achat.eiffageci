@@ -296,7 +296,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
          </ul>
      </li>
      @endif
-     @if(Auth::user() != null && Auth::user()->hasRole('Parametrage'))
+     @if(Auth::user() != null && Auth::user()->hasRole('configuration'))
      <li @yield('configuration') >
          <a  @yield('configuration') href="{{route('configuration',app()->getLocale())}}" >
              <i class="fa fa-cogs">

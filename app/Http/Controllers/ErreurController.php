@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 class ErreurController extends Controller
 {
     //
-    public function erreur(){
+    public function erreur($locale){
+
 
         return view('erreur');
     }

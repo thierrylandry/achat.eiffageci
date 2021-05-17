@@ -16,6 +16,7 @@ use App\fournisseur;
 use App\Jobs\EnvoiNotificationUtilisateur;
 use App\ligne_bc;
 use App\Lignebesoin;
+use App\Projet;
 use App\Reponse_fournisseur;
 use App\User;
 use Illuminate\Http\Request;
@@ -43,14 +44,18 @@ class InfoController extends Controller
 
     public function notificateur(){
 
-    $users=DB::table('users')
-        ->select('users.id','users.email')->get();
+        $projets = Projet::all();
+        foreach($projets as $projet):
 
+            $users=DB::table('users')
+            ->where('id_projet','=',$projet->id)
+            ->select('users.id','users.email')->get();
+             foreach($users as $user):
+                $mes_droits =  $this->dit_moi_qui_tu_es_je_te_dirai_tes_droits($user->id);
+                $this->je_connais_tes_droits_je_te_notifie_de_linformation_qui_te_concerne($mes_droits,$user->email,$projet);
+            endforeach;
+        endforeach;
 
-    foreach($users as $user):
-        $mes_droits =  $this->dit_moi_qui_tu_es_je_te_dirai_tes_droits($user->id);
-        $this->je_connais_tes_droits_je_te_notifie_de_linformation_qui_te_concerne($mes_droits,$user->email);
-    endforeach;
 
     return "notifier";
 }
@@ -73,20 +78,25 @@ class InfoController extends Controller
         return $tab_roles;
     }
 
-    public function je_connais_tes_droits_je_te_notifie_de_linformation_qui_te_concerne($les_droits,$email){
+    public function je_connais_tes_droits_je_te_notifie_de_linformation_qui_te_concerne($les_droits,$email,$projet){
 
 
         if(in_array('Valideur_DA',$les_droits)){
-            $this->notification_sur_les_D_A($email);
+            $this->notification_sur_les_D_A($email,$projet);
         }
         if(in_array('Valideur_BC',$les_droits)){
             $this->notification_sur_les_B_C($email);
         }
 
     }
-    public function notification_sur_les_D_A($email){
+    public function notification_sur_les_D_A($email,$projet){
 
-        $das=  DA::where('etat','=',1)->get();
+        if($projet->id_type_validation_da==1){
+            $das = Lignebesoin::where('etat','=',1)->where('id_projet','=',$projet->id)->where('id_codeGestion','<>','')->where('usage','<>','')->paginate(100);
+        }else{
+            $users = User::where('service','=',Auth::user()->id_service)->select('id')->get();
+            $das = Lignebesoin::where('etat','=',1)->where('id_projet','=',$projet->id)->where('id_codeGestion','<>','')->where('usage','<>','')->whereIn('service',$users)->paginate(100);
+        }
 
         $Nb=sizeof($das);;
         $adresse_da="http://172.20.73.3/achat.eiffageci/encours_validation";

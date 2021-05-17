@@ -6,6 +6,7 @@ use App\Pays;
 use App\Projet;
 use App\Devise;
 use App\Languages;
+use App\Type_validation_da;
 use App\TypeValidation;
 use App\User;
 use Illuminate\Http\Request;
@@ -46,6 +47,7 @@ class ProjectController extends Controller
         $devises = Devise::all();
         $languages = Languages::all();
         $typesValidations = TypeValidation::all();
+        $type_validation_das = Type_validation_da::all();
         $payss =Pays::all();
         $listeusers = User::all();
         $users = array();
@@ -56,7 +58,7 @@ class ProjectController extends Controller
             endforeach;
 
 
-        return view('projets/projet',compact('projets','payss','devises','languages','typesValidations','users'));
+        return view('projets/projet',compact('projets','payss','devises','languages','typesValidations','users','type_validation_das'));
     }
     public function modifier_projets($locale,$id){
 
@@ -65,6 +67,7 @@ class ProjectController extends Controller
         $devises = Devise::all();
         $languages = Languages::all();
         $typesValidations = TypeValidation::all();
+        $type_validation_das = Type_validation_da::all();
         $payss =Pays::all();
         $listeusers = User::all();
         $users = array();
@@ -74,7 +77,7 @@ class ProjectController extends Controller
             }
             endforeach;
 
-        return view('projets/projet',compact('projets','payss','projet','devises','languages','typesValidations','users'));
+        return view('projets/projet',compact('projets','payss','projet','devises','languages','typesValidations','users','type_validation_das'));
     }
     public function ajouter_projet(Request $request){
 
@@ -98,6 +101,7 @@ class ProjectController extends Controller
         $default_language= $parameters['default_language'];
         $devise= $parameters['devise'];
         $typeValidation= $parameters['typeValidation'];
+        $id_type_validation_da= $parameters['id_type_validation_da'];
         $conditionGeneralAchat= $parameters['conditionGeneralAchat'];
         $use_tva= $parameters['use_tva'];
         $valideur= $parameters['valideur'];
@@ -124,6 +128,7 @@ class ProjectController extends Controller
         $projet->	defaultLanguage=$default_language;
         $projet->defaultDevise=$devise;
         $projet->typeValidation=$typeValidation;
+        $projet->id_type_validation_da=$id_type_validation_da;
 
         $projet->conditionGeneralAchat=$conditionGeneralAchat;
         $projet->use_tva=$use_tva;
@@ -166,6 +171,7 @@ class ProjectController extends Controller
         $default_language= $parameters['default_language'];
         $devise= $parameters['devise'];
         $typeValidation= $parameters['typeValidation'];
+        $id_type_validation_da= $parameters['id_type_validation_da'];
         $conditionGeneralAchat= $parameters['conditionGeneralAchat'];
         $use_tva= $parameters['use_tva'];
         $valideur= $parameters['valideur'];
@@ -191,6 +197,7 @@ class ProjectController extends Controller
         $projet->defaultLanguage=$default_language;
         $projet->defaultDevise=$devise;
         $projet->typeValidation=$typeValidation;
+        $projet->id_type_validation_da=$id_type_validation_da;
 
         $projet->conditionGeneralAchat=$conditionGeneralAchat;
         $projet->use_tva=$use_tva;

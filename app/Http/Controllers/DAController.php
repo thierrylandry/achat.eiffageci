@@ -424,7 +424,14 @@ class DAController
     public function encours_validation()
     {
         $projet_choisi= ProjectController::check_projet_access();
-        $das = Lignebesoin::where('etat','=',1)->where('id_projet','=',$projet_choisi->id)->where('id_codeGestion','<>','')->where('usage','<>','')->paginate(100);
+
+        if($projet_choisi->id_type_validation_da==1){
+            $das = Lignebesoin::where('etat','=',1)->where('id_projet','=',$projet_choisi->id)->where('id_codeGestion','<>','')->where('usage','<>','')->paginate(100);
+        }else{
+            $users = User::where('service','=',Auth::user()->id_service)->select('id')->get();
+            $das = Lignebesoin::where('etat','=',1)->where('id_projet','=',$projet_choisi->id)->where('id_codeGestion','<>','')->where('usage','<>','')->whereIn('service',$users)->paginate(100);
+        }
+
         $gestions= Gestion::all();
         $tracemails= DB::table('trace_mail')->where('id_projet','=',$projet_choisi->id)->get();
         /*debut du traçages*/
