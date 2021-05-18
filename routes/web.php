@@ -612,6 +612,11 @@ Route::get('/gestion_stock', [
     'uses'=>'ExportImportController@gestion_importation',
     'roles' => ['Configuration']
 ])->middleware('auth')->middleware('roles');
+Route::get('/signature/{id}', [
+    'as'=>'signature',
+    'uses'=>'ExportImportController@signature',
+    'roles' => ['Configuration']
+])->middleware('auth')->middleware('roles');
     Route::get('/importation_code_tache/{id_projet}', [
     'as'=>'importation_code_tache',
     'uses'=>'ExportImportController@importation_code_tache',
@@ -1214,6 +1219,12 @@ Route::post('/import_code_analytique', [
 Route::post('/import_code_tache', [
     'as'=>'import_code_tache',
     'uses'=>'ExportImportController@import_code_tache',
+    'middleware' => 'roles',
+    'roles' => ['Configuration']
+])->middleware('auth');
+Route::post('/signature_update', [
+    'as'=>'signature_update',
+    'uses'=>'ExportImportController@signature_update',
     'middleware' => 'roles',
     'roles' => ['Configuration']
 ])->middleware('auth');

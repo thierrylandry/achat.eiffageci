@@ -264,11 +264,12 @@
 
                         </th>
                     </tr>
-                    <tr><th colspan="2" style="padding-left: 100px"><img src="{{ asset("images/Signature_Sylvain.jpg") }}" width="225px" /></th> </tr>
-                    <tr>
-                        <th style="border-right: none;border-bottom-color: white "> {{__('neutrale.nom_signataire')}} : </th>
-                        <th style="border-left: none;border-bottom-color: white" >SYLVAIN DECULTIEUX</th>
-                    </tr>
+
+                   <tr><th colspan="2" style="padding-left: 100px"><img src="{{asset('storage/app/images/'.App\Http\Controllers\BCController::signature_bc($bc->projet))}}" width="225px" /></th> </tr>
+                   <tr>
+                       <th style="border-right: none;border-bottom-color: white "> {{__('neutrale.nom_signataire')}} : </th>
+                       <th style="border-left: none;border-bottom-color: white" >{{strtoupper(App\Http\Controllers\BCController::signataire_bc($bc->projet))}}</th>
+                   </tr>
                 </table>
             </th>
         </tr>

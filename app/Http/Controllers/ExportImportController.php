@@ -8,6 +8,7 @@ use App\Imports\CodetacheImport;
 use App\Imports\DesignationImport;
 use App\Imports\FournisseurImport;
 use App\Pays;
+use App\Projet;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -18,6 +19,11 @@ use Maatwebsite\Excel\Facades\Excel;
 class ExportImportController extends Controller
 {
     //
+    public function signature($locale,$id){
+
+        $projet = Projet::find($id);
+        return view('importations.signature',compact('projet'));
+    }
     public function gestion_importation($locale,$id){
 
         $id_projet = $id;
@@ -58,6 +64,39 @@ class ExportImportController extends Controller
 
         return redirect()->back()->with('success', "success");
     }
+    public function signature_update(Request $request){
+
+        $parameters = $request->except(['_token']);
+
+        $type_signature=$parameters['type_signature'];
+        $id_projet=$parameters['id_projet'];
+
+        $projet= Projet::find($id_projet);
+
+        try{
+            if($request->file('signature')){
+
+                if($type_signature==1){
+                    $projet->signature1=$projet->id.$type_signature.'.'.$request->file('signature')->getClientOriginalExtension();
+
+                }else{
+                    $projet->signature2=$projet->id.$type_signature.'.'.$request->file('signature')->getClientOriginalExtension();
+                }
+                $projet->save();
+                $path = Storage::putFileAs(
+                    'images', $request->file('signature'), $projet->id.$type_signature.'.'.$request->file('signature')->getClientOriginalExtension()
+                );
+            }else{
+
+            }
+        }catch (Exception $exception){
+           //dd($exception->getMessage());
+            return "format incorrect veuillez selectionner un fichier Image";
+        }
+
+        return redirect()->back()->with('success', "success");
+    }
+
     public function import_code_tache(Request $request){
 
         $parameters = $request->except(['_token']);

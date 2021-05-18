@@ -47,4 +47,5 @@ return array (
     'import_plancomptable'=>'Importation du plan comptable',
     'configuration'=>'Configurations',
     'code_comptable'=>'Code Comptable',
+    'signature'=>'Signatures',
 );

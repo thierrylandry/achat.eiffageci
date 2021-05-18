@@ -266,7 +266,9 @@
 
                                  </form>
                         </div>
+
                         <div class="col-sm-12 col-xr-12">
+
 
 
 
@@ -297,7 +299,7 @@
                                                 </a>
 
                                                 <a href="{{route('gestion_importation',['locale'=>app()->getLocale(),'slug'=>$projet->id])}}" data-toggle="modal" class="btn btn-default pull-right">
-                                                    <i class="fa  fa-upload"></i> Importations
+                                                    <i class="fa  fa-upload"></i> Importations & {{__('menu.signature')}}
                                                 </a>
 
                                             </td>
@@ -305,6 +307,7 @@
                                         @endforeach
                                 </tbody>
                             </table>
+
 
 
                         </div>

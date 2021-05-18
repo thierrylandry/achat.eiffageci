@@ -85,6 +85,8 @@ class BCController extends Controller
         //return view('BC.bon-commande', compact('bc','ligne_bcs','tothtax'));
         $pdf = PDF::loadView('BC.bon-commande', compact('bc','tothtax','taille','taille_minim','taille_maxim'));
        return  $pdf->stream();
+
+
         /*debut du traçages*/
         $ip			= $_SERVER['REMOTE_ADDR'];
         if (isset($_SERVER['REMOTE_HOST'])){
@@ -1515,6 +1517,59 @@ $optcode.=" <option value='".$code->codeRubrique."' data-subtext='".$code->libel
 
         }
         return $bcs_en_attentes;
+    }
+
+    public static function signature_bc($projet_choisi){
+
+        $res='';
+        if( $projet_choisi->typeValidation==2){
+
+            //si personne connecté egale à valideur
+            if(Auth::user()->id==$projet_choisi->valideur1){
+
+                $res=$projet_choisi->signature1;
+
+            }elseif(Auth::user()->id==$projet_choisi->valideur2){
+
+                $res=$projet_choisi->signature2;
+            }else{
+                $res=$projet_choisi->signature1;
+            }
+
+
+        }else{
+            $res=$projet_choisi->signature1;
+
+        }
+
+        return $res;
+    }
+
+    public static function signataire_bc($projet_choisi){
+
+        $res='';
+        if( $projet_choisi->typeValidation==2){
+
+            //si personne connecté egale à valideur
+            if(Auth::user()->id==$projet_choisi->valideur1){
+
+                $res=$projet_choisi->signataire_principale->nom.' '.$projet_choisi->signataire_principale->prenoms;
+
+            }elseif(Auth::user()->id==$projet_choisi->valideur2){
+
+                $res=$projet_choisi->signataire_secondaire->nom.' '.$projet_choisi->signataire_secondaire->prenoms;
+
+            }else{
+                $res=$projet_choisi->signataire_principale->nom.' '.$projet_choisi->signataire_principale->prenoms;
+            }
+
+
+        }else{
+            $res=$projet_choisi->signataire_principale->nom.' '.$projet_choisi->signataire_principale->prenoms;
+
+        }
+
+        return $res;
     }
 
 }

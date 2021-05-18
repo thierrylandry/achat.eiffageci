@@ -47,4 +47,5 @@ return array (
     'import_plancomptable'=>'Import chart of accounts',
     'configuration'=>'Configurations',
     'code_comptable'=>'Accounting code',
+    'signature'=>'Signatures',
 );

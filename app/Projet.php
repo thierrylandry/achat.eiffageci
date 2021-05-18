@@ -19,4 +19,12 @@ class Projet extends Model
     {
         return $this->belongsTo('App\Pays','id_pays');
     }
+    public function signataire_principale()
+    {
+        return $this->belongsTo('App\User','valideur1');
+    }
+    public function signataire_secondaire()
+    {
+        return $this->belongsTo('App\User','valideur2');
+    }
 }
