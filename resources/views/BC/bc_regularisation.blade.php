@@ -298,7 +298,7 @@
                             '$'+pageTotal +' ( $'+ total +' total)'
                     );
                     $('.row_n_remise').change( function(){
-                        alert('test');
+                        $(this).closest('td').prev().prev().html()
                     });
                     remise_exc =$('#remise_exc').val();
                     //alert(pageTotal);
