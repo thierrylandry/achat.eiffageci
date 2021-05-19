@@ -3,7 +3,7 @@
     <span class="alert-icon"><i class="fa fa-bell-o"></i></span>
     <div class="notification-info">
         <ul class="clearfix notification-meta">
-            <li class="pull-left notification-sender">Vous avez  <b style="font-size: 24px">{{sizeof($receptions)}}</b>  régularisation(s) en attente</li>
+            <li class="pull-left notification-sender">{{__('cotation.vous_avez')}}  <b style="font-size: 24px">{{sizeof($receptions)}}</b>  {{__('menu.regularisation_bc')}} {{__('menu.attente_regularisation')}}</li>
 
         </ul>
         <p>
@@ -16,14 +16,14 @@
         <div class="col-sm-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Liste des régularisations
+                   {{__('translation.liste')}}
                 </div>
                 <div  class="table-responsive" STYLE="overflow-x:scroll;">
                     <table class="table table-striped b-t b-light" id="reception_commande">
                         <thead>
                         <tr>
                             <th class="dt-head-center">id</th>
-                            <th class="dt-head-center">Fournisseur</th>
+                            <th class="dt-head-center">{{__('menu.fournisseurs')}}</th>
                             <th class="dt-head-center">Action</th>
                         </tr>
                         </thead>
@@ -34,8 +34,8 @@
                         @foreach($receptions as $recep)
                             <tr>
                                 <td>{{$recep->id}}</td>
-                                <td>{{$recep->libelle}}</td>
-                                <td><a href="{{route('detail_regularisation',['locale'=>app()->getLocale(),'id'=>$recep->id])}}" class="btn btn-info"><i class="fa fa-pencil"></i> Régulariser</a></td>
+                                <td>{{$recep->libelle}} ({{$recep->devise}})</td>
+                                <td><a href="{{route('detail_regularisation',['locale'=>app()->getLocale(),'id'=>$recep->id,'devise'=>$recep->devise])}}" class="btn btn-info"><i class="fa fa-pencil"></i> {{__('menu.regulariser')}}</a></td>
                             </tr>
 
                         @endforeach
@@ -44,7 +44,6 @@
                 </div>
             </div>
 
-            <input type="submit" class="btn btn-success pull-right" id="soumettre1" name="soumettre1" value="Enregistrer" />
         </div>
 <br>
 
@@ -78,7 +77,11 @@
     } );
     var table= $('#reception_commande').DataTable({
         language: {
-            url: "{{ URL::asset('public/js/French.json') }}"
+            @if(App()->getLocale()=='fr')
+            url: "../public/js/French.json"
+            @elseif(App()->getLocale()=='en')
+            url: "../public/js/English.json"
+            @endif
         },
         "ordering":false,
         "responsive": false,

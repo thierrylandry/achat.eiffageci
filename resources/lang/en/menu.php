@@ -24,6 +24,7 @@ return array (
     'reception_commande_sans_bc' => 'Order reception without purchase order',
     'gestion_bc' => 'Order management',
     'regularisation_bc' => 'Regularization\'s orders',
+    'attente_regularisation'=>'Awaiting',
     'validation_bc' => 'Validatios\'s Orders',
     'reception_commande' => 'Ordes\'s receipt',
     'avec_bc' => 'With order\'s forms',
@@ -48,4 +49,5 @@ return array (
     'configuration'=>'Configurations',
     'code_comptable'=>'Accounting code',
     'signature'=>'Signatures',
+    'regulariser'=>'Regularize',
 );

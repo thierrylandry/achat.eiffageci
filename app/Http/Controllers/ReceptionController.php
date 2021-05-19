@@ -82,10 +82,11 @@ class ReceptionController extends Controller
                 $devises = Devise::all();
         return view('reception_commande/reception_sans_bc',compact('fournisseurs','produits','ligne_bonlivraisons','ligne_bonlivraison','produits','domaines','familles','tab_unite','devises'));
     }
-    public function donne_moi_les_famille($domaine){
+    public function donne_moi_les_famille($locale,$domaine){
        $res="<option value=''>SELECTIONNER UNE FAMILLE</option>";
             if($domaine!='tout'){
               $domaine = Domaines::find($domaine);
+             // dd($domaine);
                        $familles =$domaine->familles()->get();
 
             }else{
@@ -98,7 +99,7 @@ class ReceptionController extends Controller
 
         return $res;
     }
-     public function donne_moi_les_designation($famille){
+     public function donne_moi_les_designation($locale,$famille){
        $res="<option value=''>SELECTIONNER UNE FAMILLE</option>";
             if($famille!='tout'){
               $famille = Famille::find($famille);
@@ -116,8 +117,8 @@ class ReceptionController extends Controller
     }
        public function donne_moi_toute_la_refference($locale,$refference){
 
-      $produit = Designation::where('libelle','=',$refference)->first();
-
+      $produit = Designation::find($refference);
+//dd($produit);
         $res['id_famille']=$produit->id_famille;
         $res['id_domaine']=$produit->famille->id_domaine;
         return $res;
@@ -131,7 +132,7 @@ class ReceptionController extends Controller
         $mouvement->delete();
         return redirect()->route('reception_commande_numero',['locale'=>app()->getLocale(),'id_bc'=>$id_bc,'_token'=>csrf_token()])->with('success',"success");
     }
-    public function supprimer_livraison_sans_bc($id){
+    public function supprimer_livraison_sans_bc($locale,$id){
 
         $ligne_bonlivraison = Ligne_bonlivraison::find($id);
         $ligne_bonlivraison->delete();
@@ -165,7 +166,7 @@ class ReceptionController extends Controller
         $date_livraison=$parameters['date_livraison'];
         $unite=$parameters['unite'];
         $devise=$parameters['devise'];
-
+        $designation =Designation::find($parameters['refference']);
         //dd($bc_chosisi->ligne_bcs()->get());
 
 
@@ -175,7 +176,7 @@ class ReceptionController extends Controller
             $ligne_livraison->date_reception=$date_livraison;
             $ligne_livraison->numero_bl	=$numero_bl;
             $ligne_livraison->prix_unitaire	=$prix_unitaire;
-            $ligne_livraison->reference	=$refference;
+            $ligne_livraison->reference	=$designation->libelle;
             $ligne_livraison->devise=$devise;
             $ligne_livraison->unite=$unite;
             $ligne_livraison->etat=0;
@@ -184,7 +185,7 @@ class ReceptionController extends Controller
             $ligne_livraison->save();
 
 
-        $designation = Designation::where('libelle','=',$refference)->first();
+       // $designation = Designation::where('libelle','=',$refference)->first();
        // dd($refference);
         $this->faire_un_mouvement_stock($designation->id,$quantite,$unite,$ligne_livraison->id,1);
         /*debut du traçages*/
@@ -204,6 +205,7 @@ class ReceptionController extends Controller
         $numero_bl=$parameters['numero_bl'];
         $id_fournisseur=$parameters['id_fournisseur'];
         $refference=$parameters['refference'];
+        $designation =Designation::find($refference);
         $prix_unitaire=$parameters['prix_unitaire'];
         $quantite=$parameters['quantite'];
         $date_livraison=$parameters['date_livraison'];
@@ -236,7 +238,7 @@ class ReceptionController extends Controller
             }
 
 
-            $ligne_livraison->reference	=$refference;
+            $ligne_livraison->reference	=$designation;
             $ligne_livraison->devise=$devise;
             $ligne_livraison->unite=$unite;
             $ligne_livraison->etat=0;
@@ -244,7 +246,7 @@ class ReceptionController extends Controller
             $ligne_livraison->id_fournisseur	=$id_fournisseur;
             $ligne_livraison->save();
 
-        $designation = Designation::where('libelle','=',$refference)->first();
+        //$designation = Designation::where('libelle','=',$refference)->first();
         $this->faire_un_mouvement_stock($designation->id,$quantite,$unite,$ligne_livraison->id,1);
         /*debut du traçages*/
         $ip			= $_SERVER['REMOTE_ADDR'];

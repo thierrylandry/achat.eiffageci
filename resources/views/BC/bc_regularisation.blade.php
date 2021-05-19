@@ -19,10 +19,14 @@
             }
         }</script>
 
-    <h2>LISTE DES COMMANDES  <a href="" class="btn btn-info pull-right"><i class="fa fa-arrow-left" aria-hidden="true"></i> Retour</a></h2>
+    <h2>LISTE DES COMMANDES  <a href="{{ URL::previous() }}" class="btn btn-info pull-right"><i class="fa fa-arrow-left" aria-hidden="true"></i> Retour</a></h2>
     <br>
     <form method="post" action="{{route('save_ligne_bc')}}" onsubmit="return confirm('Voulez vous enregistrer?');">
+
         @csrf
+        <input type="hidden" name="tot_serv" id="tot_serv" value=""/>
+        <input type="hidden" name="tva_serv" id="tva_serv" value=""/>
+        <input type="hidden" name="ttc_serv" id="ttc_serv" value=""/>
         <div class="row">
             <div class="col-sm-4">
                 <div class="form-group">
@@ -103,6 +107,7 @@
                         </thead>
                         <tbody name ="contenu_tableau_entite" id="contenu_tableau_entite">
                         @if(isset($ligne_bonlivraisons))
+                        <?php $THT=0;?>
                             @foreach($ligne_bonlivraisons as $ligne )
 
                                 <tr>
@@ -124,14 +129,12 @@
                                     <td style="text-align: right"> {{number_format($ligne->prix_unitaire, 2,".", " ")}}</td>
                                     <td> <input class="form-control row_n_remise"  type="number" min="0" id="row_n_{{$ligne->id}}_remise" name="row_n_{{$ligne->id}}_remise" value="0" value="" /> </td>
                                     <td style="text-align: right">  {{number_format($THT=($ligne->prix_unitaire*$ligne->quantite)-(($ligne->remise/100*($ligne->prix_unitaire*$ligne->quantite))),2,"."," ")}}</td>
-                                    <td> @if(1==$ligne->hastva)
-                                            {{number_format(floatval(($THT*18)/100), 2,".", " ")}}
-                                        @else
-                                            {{0}}
-
+                                    <td> @if(""!=$projet_choisi->use_tva || 0!=$projet_choisi->use_tva)
+                                        {{number_format(($THT*$projet_choisi->use_tva/100), 2,".", " ")}}
+                                        @else 0
                                         @endif </td>
-                                    <td><input type="checkbox" id="row_n_{{$ligne->id}}_tva" name="row_n_{{$ligne->id}}_tva" class="row_n__tva" {{1==$ligne->hastva?"checked='checked'":""}}/>   </td>
-                                    <td>{{$ligne->hastva}}</td>
+                                    <td><input type="checkbox" id="row_n_{{$ligne->id}}_tva" name="row_n_{{$ligne->id}}_tva" class="row_n__tva" {{""!=$projet_choisi->use_tva || 0!=$projet_choisi->use_tva?"checked='checked'":""}}/>   </td>
+                                    <td>0</td>
                                     <td><div class="row"><div class="col-sm-6"><button type="button" class="btn_retirerbc">Retirer</button></div><div class="col-sm-6"><button type="button" class="btn_supp btn btn-danger"><i class="fa fa-trash"></i></button></div></div></td>
                                 </tr>
                             @endforeach
@@ -144,6 +147,7 @@
                             <tr> <th colspan="6" style="text-align:right" >TOTAL TTC :</th> <th id="ttc" style="text-align: right"></th> </tr>
                         </tfooter>
                     </table>
+
 
         </div>
         <div class="row"  style="width: 90%">
@@ -158,7 +162,48 @@
         </div>
     </form>
     <script>
+
+        function myFunction() {
+            var x = document.getElementById("myDIV");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
         (function($) {
+
+            $(".btn_addbc").click(function (){
+                var data = table1.row($(this).parents('tr')).data();
+
+    var id_bc= $("#id_bc").val();
+
+                $.get("../add_new_da_to_bc/"+data[0]+"/"+id_bc, function(data, status){
+                 //   alert(data);
+                    window.location.reload()
+                });
+
+            });
+            $(".btn_retirerbc").click(function (){
+                var data = table.row($(this).parents('tr')).data();
+                var id_bc= $("#id_bc").val();
+                $.get("../retirer_da_to_bc/"+data[0]+"/"+id_bc, function(data, status){
+                    console.log(data);
+                   window.location.reload()
+                });
+            });
+            $(".btn_supp").click(function (){
+                var data = table.row($(this).parents('tr')).data();
+                var id_bc= $("#id_bc").val();
+                if(confirm("Voulez vous supprimer définitivement cette ligne?")){
+                    $.get("../supprimer_def_da_to_bc/"+data[0]+"/"+id_bc, function(data, status){
+                        console.log(data);
+                        window.location.reload()
+                    });
+
+                }
+
+            });
             function ilisibilite_nombre(valeur){
 
                 for(var i=valeur.length-1; i>=0; i-- ){valeur=valeur.toString().replace(' ','');
@@ -202,7 +247,11 @@
 
             var table= $('#ligneCommandes').DataTable({
                 language: {
-                    url: '../js/French.json'
+                    @if(App()->getLocale()=='fr')
+                    url: "../../public/js/French.json"
+                    @elseif(App()->getLocale()=='en')
+                    url: "../../public/js/English.json"
+                    @endif
                 },
                 "ordering":true,
                 "paging": false,
@@ -233,6 +282,7 @@
                             .reduce( function (a, b) {
                                 return intVal(ilisibilite_nombre(a)) + intVal(ilisibilite_nombre(b));
                             }, 0 );
+
                     // Total tva
                     TTva = api
                             .column( 8, { page: 'current'} )
@@ -242,16 +292,30 @@
                             }, 0 );
 
                     // Update footer
+
                     $( api.column( 7 ).footer() ).html(
+
                             '$'+pageTotal +' ( $'+ total +' total)'
                     );
+                    $('.row_n_remise').change( function(){
+                        alert('test');
+                    });
                     remise_exc =$('#remise_exc').val();
-                    $('#tot').html(lisibilite_nombre(Math.round(pageTotal-remise_exc))+" {{$devise}}");
+                    //alert(pageTotal);
+                    $('#tot').html(lisibilite_nombre(Math.round(pageTotal-remise_exc)));
                     $('#tot_serv').val(Math.round(pageTotal-remise_exc));
-                    $('#tva').html(lisibilite_nombre(Math.round(TTva-remise_exc*0.18))+" {{$devise}}");
-                    $('#tva_serv').val(Math.round(TTva-remise_exc*0.18));
-                    $('#ttc').html(lisibilite_nombre(Math.round(pageTotal)+Math.round(TTva-remise_exc*0.18) - remise_exc) +" {{$devise}}");
-                    $('#ttc_serv').val(Math.round(pageTotal)+Math.round(TTva-remise_exc*0.18)-Math.round(remise_exc));
+                    @if($projet_choisi->use_tva!="")
+                        $('#tva').html(lisibilite_nombre(Math.round(TTva-remise_exc*{{$projet_choisi->use_tva/100}})));
+                        $('#tva_serv').val(Math.round(TTva-remise_exc*{{$projet_choisi->use_tva/100}}));
+                        $('#ttc').html(lisibilite_nombre(Math.round(pageTotal)+Math.round(TTva-remise_exc*{{$projet_choisi->use_tva/100}}) - remise_exc) );
+                        $('#ttc_serv').val(Math.round(pageTotal)+Math.round(TTva-remise_exc*{{$projet_choisi->use_tva/100}})-Math.round(remise_exc));
+                    @else
+                        $('#tva').html(lisibilite_nombre(Math.round(TTva-remise_exc*0)));
+                        $('#tva_serv').val(Math.round(TTva-remise_exc*0));
+                        $('#ttc').html(lisibilite_nombre(Math.round(pageTotal)+Math.round(TTva-remise_exc*0) - remise_exc));
+                        $('#ttc_serv').val(Math.round(pageTotal)+Math.round(TTva-remise_exc*0)-Math.round(remise_exc));
+                    @endif
+
                 },
                 responsive: true,
                 columnDefs: [
@@ -260,21 +324,26 @@
                     { type: 'formatted-num', targets: 9 },
                     { responsivePriority: 2, targets: -2 }
                 ]
-            }).column(0).visible(false).column(10).visible(false);
+            }).column(0).visible(false).column(11).visible(false);
 
             $('.row_n__tva').click(function (e) {
 
-                // $(this).closest('td').next().next().html(1);
+               // $(this).closest('td').next().next().html(1);
                 var tva=0;
                 var data = table.row($(this).parents('tr')).data();
                 var num_row=$(this).parents('tr');
-                var tva_prod=ilisibilite_nombre(parseFloat(ilisibilite_nombre($(this).closest('td').prev().prev().html())).toFixed(2)*18)/100;
-                var   remise_exc =$('#remise_exc').val();
+                @if($projet_choisi->use_tva!="")
+
+                var tva_prod=ilisibilite_nombre(parseFloat(ilisibilite_nombre($(this).closest('td').prev().prev().html())).toFixed(2)*{{$projet_choisi->use_tva/100}});
+                @else
+                var tva_prod=ilisibilite_nombre(parseFloat(ilisibilite_nombre($(this).closest('td').prev().prev().html())).toFixed(2)*0)/100;
+                @endif
+
+             var   remise_exc =$('#remise_exc').val();
                 if($(this).prop('checked') ){
 
-
                     $(this).closest('td').prev().html(lisibilite_nombre(tva_prod.toFixed(2)));
-                    data[9] = tva_prod.toFixed(2);
+                    data[8] = tva_prod.toFixed(2);
                     data[10] = 1;
 
                 }
@@ -282,8 +351,8 @@
 
 
                     data[10] = 0;
-                    // var valeur=Math.round(ilisibilite_nombre(data[8])+Math.round(tva_prod));
-                    data[9]=0;
+                   // var valeur=Math.round(ilisibilite_nombre(data[8])+Math.round(tva_prod));
+                    data[8]=0;
                     $(this).closest('td').prev().html(0);
 
 
@@ -295,85 +364,50 @@
                 var data = table.rows().data();
                 var sumtva=0;
                 data.each(function (value, index) {
-//alert(value[8]);
+    //alert(value[8]);
 
-                    sumtva+=Math.round(ilisibilite_nombre(value[9]));
-
-
-                });
-                sumtva=sumtva-remise_exc*0.18;
-
-                $('#tva').empty();
-                $('#tva').html(lisibilite_nombre(sumtva)+" {{$devise}}");
-                $('#tva_serv').val(Math.round(sumtva));
-                var remise_exc =$('#remise_exc').val();
-                var ttc=Math.round(sumtva+Math.round($('#tot_serv').val()) - remise_exc );
-                $('#ttc').empty();
-                $('#ttc').html(lisibilite_nombre(ttc) +" {{$devise}}");
-                $('#ttc_serv').val(Math.round(ttc));
-
-            }) ;
-            $('.row_n_remise').change(function (e) {
-
-                // $(this).closest('td').next().next().html(1);
-                var tva=0;
-                var data = table.row($(this).parents('tr')).data();
-                console.log($(this).closest('td').prev().prev().html());
-                var num_row=$(this).parents('tr');
-                var tht=ilisibilite_nombre(parseFloat(ilisibilite_nombre($(this).closest('td').prev().prev().html())).toFixed(2)*18)/100;
-                var   remise_exc =$('#remise_exc').val();
-                if($(this).prop('checked') ){
-
-
-                    $(this).closest('td').prev().html(lisibilite_nombre(tva_prod.toFixed(2)));
-                    data[9] = tva_prod.toFixed(2);
-                    data[10] = 1;
-
-                }
-                else {
-
-
-                    data[10] = 0;
-                    // var valeur=Math.round(ilisibilite_nombre(data[8])+Math.round(tva_prod));
-                    data[9]=0;
-                    $(this).closest('td').prev().html(0);
-
-
-
-
-
-                }
-
-                var data = table.rows().data();
-                var sumtva=0;
-                data.each(function (value, index) {
-//alert(value[8]);
-
-                    sumtva+=Math.round(ilisibilite_nombre(value[9]));
+                        sumtva+=Math.round(ilisibilite_nombre(value[8]));
 
 
                 });
-                sumtva=sumtva-remise_exc*0.18;
 
                 $('#tva').empty();
-                $('#tva').html(lisibilite_nombre(sumtva)+" {{$devise}}");
+                $('#tva').html(lisibilite_nombre(sumtva));
                 $('#tva_serv').val(Math.round(sumtva));
+                @if($projet_choisi->use_tva!="")
+                sumtva=sumtva-remise_exc*{{$projet_choisi->use_tva/100}};
+
+                @else
+                sumtva=sumtva-remise_exc*0;
+
+                @endif
+
                 var remise_exc =$('#remise_exc').val();
+
+
                 var ttc=Math.round(sumtva+Math.round($('#tot_serv').val()) - remise_exc );
+
                 $('#ttc').empty();
-                $('#ttc').html(lisibilite_nombre(ttc) +" {{$devise}}");
+                $('#ttc').html(lisibilite_nombre(ttc));
                 $('#ttc_serv').val(Math.round(ttc));
 
             })
 
             $("#remise_exc").change(function (e){
                 remise_exc =$('#remise_exc').val();
-                $('#tot').html(lisibilite_nombre(Math.round(pageTotal-remise_exc))+" {{$devise}}");
+                $('#tot').html(lisibilite_nombre(Math.round(pageTotal-remise_exc)));
                 $('#tot_serv').val(Math.round(pageTotal-remise_exc));
-                $('#tva').html(lisibilite_nombre(Math.round(TTva-remise_exc*0.18))+" {{$devise}}");
-                $('#tva_serv').val(Math.round(TTva-remise_exc*0.18));
-                $('#ttc').html(lisibilite_nombre(Math.round(pageTotal)+Math.round(TTva-remise_exc*0.18) - remise_exc) +" {{$devise}}");
-                $('#ttc_serv').val(Math.round(pageTotal)+Math.round(TTva-remise_exc*0.18)-Math.round(remise_exc));
+                @if($projet_choisi->use_tva!="")
+                $('#tva').html(lisibilite_nombre(Math.round(TTva-remise_exc*{{$projet_choisi->use_tva/100}})));
+                $('#tva_serv').val(Math.round(TTva-remise_exc*{{$projet_choisi->use_tva/100}}));
+                $('#ttc').html(lisibilite_nombre(Math.round(pageTotal)+Math.round(TTva-remise_exc*{{$projet_choisi->use_tva/100}}) - remise_exc));
+                $('#ttc_serv').val(Math.round(pageTotal)+Math.round(TTva-remise_exc*{{$projet_choisi->use_tva/100}})-Math.round(remise_exc));
+                @else
+                $('#tva').html(lisibilite_nombre(Math.round(TTva-remise_exc*0)));
+                $('#tva_serv').val(Math.round(TTva-remise_exc*0));
+                $('#ttc').html(lisibilite_nombre(Math.round(pageTotal)+Math.round(TTva-remise_exc*0) - remise_exc);
+                $('#ttc_serv').val(Math.round(pageTotal)+Math.round(TTva-remise_exc*0)-Math.round(remise_exc));
+                @endif
             });
 
         })(jQuery);

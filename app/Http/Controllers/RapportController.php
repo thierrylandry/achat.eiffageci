@@ -86,7 +86,7 @@ class RapportController extends Controller
                 $chronologie_sorties = DB::table('chronologie_sortie')->where('id_projet','=',$projet_choisi->id)->get();
 
 
-            $stocks = Stock::all();
+            $stocks = Stock::where('id_projet','=',$projet_choisi->id)->get();
             $tableaux = array();
 //dd($stocks);
             foreach ($stocks as $stock):

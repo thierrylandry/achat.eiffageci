@@ -406,7 +406,7 @@ var id_bc= $("#id_bc").val();
             var data = table.row($(this).parents('tr')).data();
             var num_row=$(this).parents('tr');
             @if($bc->projet->use_tva!="")
-            var tva_prod=ilisibilite_nombre(parseFloat(ilisibilite_nombre($(this).closest('td').prev().prev().html())).toFixed(2)*{{$bc->projet->use_tva/100}})/100;
+            var tva_prod=ilisibilite_nombre(parseFloat(ilisibilite_nombre($(this).closest('td').prev().prev().html())).toFixed(2)*{{$bc->projet->use_tva/100}});
             @else
             var tva_prod=ilisibilite_nombre(parseFloat(ilisibilite_nombre($(this).closest('td').prev().prev().html())).toFixed(2)*0)/100;
             @endif

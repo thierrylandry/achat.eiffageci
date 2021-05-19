@@ -366,7 +366,7 @@ Route::get('/generer_numero_bc',[
     'uses'=>'BCController@generer_numero_bc',
 
 ])->middleware('auth');
-Route::get('/detail_regularisation/{id_fournisseur}',[
+Route::get('/detail_regularisation/{id_fournisseur}/{devise}',[
     'as'=>'detail_regularisation',
     'uses'=>'BCController@detail_regularisation',
 
@@ -606,7 +606,8 @@ Route::get('/modifier_reponse_fournisseur/{slug}', [
 Route::get('/gestion_stock', [
     'as'=>'gestion_stock',
     'uses'=>'GestionStockController@gestion_stock',
-])->middleware('auth');
+    'roles'=>['Gestion_stock']
+])->middleware('auth')->middleware('auth');
     Route::get('/gestion_importation/{id}', [
     'as'=>'gestion_importation',
     'uses'=>'ExportImportController@gestion_importation',
@@ -645,7 +646,8 @@ Route::get('/importation_plan_comptable', [
 Route::get('/reste_en_stock/{valeur}', [
     'as'=>'reste_en_stock',
     'uses'=>'GestionStockController@reste_en_stock',
-])->middleware('auth');
+    'roles'=>['Gestion_stock']
+])->middleware('auth')->middleware('roles');
 
 
 Route::get('/delete_mouvement/{id}', [
@@ -655,15 +657,18 @@ Route::get('/delete_mouvement/{id}', [
 Route::get('/stock', [
     'as'=>'stock',
     'uses'=>'GestionStockController@stock',
-])->middleware('auth');
+    'roles'=>['Gestion_stock']
+])->middleware('auth')->middleware('roles');
 Route::get('/edit_mouvement/{id}', [
     'as'=>'edit_mouvement',
     'uses'=>'GestionStockController@edit_mouvement',
-])->middleware('auth');
+    'roles'=>['Gestion_stock']
+])->middleware('auth')->middleware('roles');
 Route::get('/sortie_stock', [
     'as'=>'sortie_stock',
     'uses'=>'GestionStockController@sortie_stock',
-])->middleware('auth');
+    'roles'=>['Gestion_stock']
+])->middleware('auth')->middleware('roles');
 ///enregistrer_devis/{res}/{tab}/{lesIdmat}
 
 

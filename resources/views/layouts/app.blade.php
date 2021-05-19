@@ -267,12 +267,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
          </ul>
      </li>
+     @if(Auth::user() != null && Auth::user()->hasRole('Gestion_stock'))
      <li>
          <a @yield('gestion_stock') href="{{route('gestion_stock',app()->getLocale())}}">
              <i class="fa fa-houzz"></i>
              <span>{{ __('menu.gestion_stock') }}</span>
          </a>
      </li>
+     @endif
      @if(Auth::user() != null && Auth::user()->hasRole('Parametrage'))
      <li>
          <a  href="index.html" @yield('parent_fournisseurs') >

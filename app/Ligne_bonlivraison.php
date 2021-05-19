@@ -19,4 +19,8 @@ class Ligne_bonlivraison extends Model
 
         return $this->belongsTo(Fournisseur::class, "id_fournisseur");
     }
+    public function projet()
+    {
+        return $this->belongsTo('App\Projet','id_projet');
+    }
 }

@@ -51,7 +51,7 @@
                         <select class="form-control selectpicker " id="refference" name="refference" data-live-search="true" data-size="6" required>
                             <option value="" >{{__('sortie_materiel.selectionner_article')}}</option>
                             @foreach($produits as $produit)
-                                <option value="{{$produit->libelle}}" {{isset($ligne_bonlivraison->reference) && $ligne_bonlivraison->reference==$produit->libelle?'selected':''}} >{{$produit->libelle}}</option>
+                                <option value="{{$produit->id}}" {{isset($ligne_bonlivraison->reference) && $ligne_bonlivraison->reference==$produit->libelle?'selected':''}} >{{$produit->libelle}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -288,9 +288,9 @@ console.log(api.order());
 
                     dataSrc: [0]
                 },
-            }).column( 0 ).visible(false);
+            }).column( 0 ).visible(false).column( 1 ).visible(false);
 
-            var route="{{asset('')}}";
+            var route="{{asset('').App()->getLocale()}}";
             $('#domaines').change(function (e) {
                 var domaines = $('#domaines').val();
 
@@ -327,6 +327,7 @@ console.log(api.order());
             });
 
                      $('#refference').change(function (e) {
+                        var route="{{asset('').App()->getLocale()}}";
                 var refference = $('#refference').val();
 
                 $.get(route+'/donne_moi_toute_la_refference/'+refference,function (data) {
@@ -345,7 +346,7 @@ console.log(api.order());
             });
 
             function defaut(){
-            var route="{{asset('')}}";
+            var route="{{asset('').App()->getLocale()}}";
              var refference = $('#refference').val();
 
                             $.get(route+'/donne_moi_toute_la_refference/'+refference,function (data) {

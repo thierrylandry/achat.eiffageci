@@ -30,6 +30,7 @@ return array (
     'sans_bc' => 'Sans B.C.',
     'liste_bon_livraison' => 'Liste des bons de livraisons',
     'attente'=>'En attente de validation',
+    'attente_regularisation'=>'En attente de régularisation',
     'valide'=>'Validé(e)',
     'encours'=>'Encours de traitement',
     'transmis'=>'Transmis',
@@ -48,4 +49,5 @@ return array (
     'configuration'=>'Configurations',
     'code_comptable'=>'Code Comptable',
     'signature'=>'Signatures',
+    'regulariser'=>'Régulariser',
 );

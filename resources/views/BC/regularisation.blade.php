@@ -5,7 +5,7 @@
 
 @section('content')
 
-    <h2>LES REGULARISATIONS - GESTION</h2>
+    <h2>{{__('menu.regularisation_bc')}}</h2>
 
     <!-- debut  -->
 

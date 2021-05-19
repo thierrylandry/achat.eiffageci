@@ -409,17 +409,19 @@ return $view;
             ->join('fournisseur', 'fournisseur.id', '=', 'ligne_bonlivraison.id_fournisseur')
             ->where('ligne_bonlivraison.etat', '=', 0)
             ->where('ligne_bonlivraison.id_projet','=',$projet_choisi->id)
-            ->select('fournisseur.libelle','fournisseur.id')->distinct()->get();
+            ->select('fournisseur.libelle','fournisseur.id','devise')->distinct()->get();
 
         return view('BC/regularisation',compact('receptions'));
     }
-    public function detail_regularisation($locale,$id_fournisseur){
+
+    public function detail_regularisation($locale,$id_fournisseur,$devise){
         $projet_choisi= ProjectController::check_projet_access();
         $fournisseur =Fournisseur::find($id_fournisseur);
-        $ligne_bonlivraisons = Ligne_bonlivraison::where('ligne_bonlivraison.id_projet','=',$projet_choisi->id)->where('id_fournisseur','=',$id_fournisseur)->where('etat','=',0)->get();
+        $ligne_bonlivraisons = Ligne_bonlivraison::where('ligne_bonlivraison.id_projet','=',$projet_choisi->id)->where('ligne_bonlivraison.devise','=',$devise)->where('id_fournisseur','=',$id_fournisseur)->where('etat','=',0)->get();
+
+
         $gestions =Gestion::all();
-        $devise = "FCFA";
-        return view('BC/bc_regularisation',compact('ligne_bonlivraisons','fournisseur','gestions','devise'));
+        return view('BC/bc_regularisation',compact('ligne_bonlivraisons','fournisseur','gestions','devise','projet_choisi'));
     }
     public function generer_numero_bc(){
         $projet_choisi= ProjectController::check_projet_access();
