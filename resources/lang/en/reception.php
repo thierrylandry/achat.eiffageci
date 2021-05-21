@@ -1,12 +1,12 @@
 <?php
 return array (
       'reception_commande' => 'Order receiving',
-    'sortie_stock' => 'OUT OF STOCK',
-    'stock' => 'STOCK',
-    'selectionner_commande'=>'SELECT A PURCHASE ORDER',
+    'sortie_stock' => 'OUT OF STORAGE',
+    'stock' => 'STORAGE',
+    'selectionner_commande'=>'SELECT A ORDER VOUCHER',
     'search' => 'SEARCH',
     'date_livraison' => 'Delivery Date',
-    'numero_bl' => 'Delivery order number',
+    'numero_bl' => 'Delivery voucher',
     'list_commande' => 'LIST OF ORDERS',
     'article' => 'Item',
     'reference_fournisseur' => 'Supplier reference',

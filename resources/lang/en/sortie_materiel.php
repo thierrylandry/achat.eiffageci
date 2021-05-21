@@ -1,6 +1,6 @@
 <?php
 return array (
-    'sortie_article' => 'OUT OF STOCK',
+    'sortie_article' => 'OUT OF STORAGE',
     'domaine' => 'Field',
     'selectionner_domaine' => 'SELECT FIELD',
     'selectionner_famille' => 'SELECT FAMILY',
@@ -10,8 +10,10 @@ return array (
     'code_tache' => 'Task code',
     'demandeur' => 'Applicant',
     'unite' => 'Unit',
-
-    'selectionner_code_analytique' => 'SELECT AN ANALYTIC CODE',
+    'selectionner_type'=>'SELECT',
+    'selectionner_code_analytique' => 'SELECT AN ANALYTICAL CODE',
+    'removal'=>'Remove from storage',
+    'update_mouvement'=>'Update',
 
 
 );

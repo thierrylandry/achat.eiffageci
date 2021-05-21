@@ -1,8 +1,8 @@
 <?php
 return array (
     'reception_commande' => 'RECEPTION DE COMMANDE',
-    'sortie_stock' => 'OUT OF STOCK',
-    'stock' => 'STOCK',
+    'sortie_stock' => 'OUT OF STORAGE',
+    'stock' => 'STORAGE',
     'selectionner_commande' => 'SELECTIONNER UN BON DE COMMANDE',
     'search' => 'RECHERCHER',
     'date_livraison' => 'Date de livraison',

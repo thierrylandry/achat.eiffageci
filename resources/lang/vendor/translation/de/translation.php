@@ -49,4 +49,8 @@ return [
     'key_placeholder' => 'z.B. invalid_key',
     'value_placeholder' => 'z.B. Schlüssel müssen eine einzige Zeichenfolge sein',
     'advanced_options' => 'Erweiterte Optionen umschalten',
+    'retirer_panier'=> 'Retirer du panier',
+    'confirmation'=>'Voulez vous continer?',
+    'selectionner_element'=>'Veuillez selectionner au moin un produit',
+
 ];

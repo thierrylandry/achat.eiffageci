@@ -123,7 +123,7 @@
                                 </div>
 
 
-                                
+
                                 <div class="form-group col-sm-6">
                                     <label for="type">Pour le?</label>
                                     <input type="date" class="form-control" id="DateBesoin" name="DateBesoin" placeholder="DateBesoin" value="{{isset($da)? $da->DateBesoin:date('Y-m-d',strtotime(date('Y-m-d'). ' + 7 days'))}}"  required>
@@ -207,16 +207,16 @@
 
                                 @if($da->etat==1)
                                     <i class="fa fa-circle "  style="color: red"></i>
-                                    Suspendu
+                                    {{__('menu.suspendu')}}
                                 @elseif($da->etat==2)
                                     <i class="fa fa-circle" style="color: mediumspringgreen"></i>
-                                    Acceptée
+                                    {{__('menu.accepted')}}
                                 @elseif($da->etat==3)
                                     <i class="fa fa-circle" style="color: #f0ad4e"></i>
-                                    En cours de traitement
+                                    {{__('menu.attente')}}
                                 @elseif($da->etat==0)
                                     <i class="fa fa-circle" style="color: black"></i>
-                                    Réfusée
+                                    {{__('menu.refuser')}}
                                 @elseif($da->etat==4)
                                     <i class="fa fa-circle" style="color:#00ffff"></i>
                                     Traitée et terminée

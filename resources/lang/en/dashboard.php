@@ -1,11 +1,11 @@
 <?php
 
 return array (
-    'da' => 'Purchase order',
-  'bc' => 'order form',
-    'cumule_mensuelle_da'=>'Monthly accumulation of Purchase requests',
-    'fournisseurs_sollicite'=>'The most requested suppliers',
-    'nombre_bc_retourne'=>'Number of order form returned / supplier',
-    'retard_livraison'=>'Delay in delivery / supplier',
+    'da' => 'Need expression',
+  'bc' => 'Order Voucher',
+    'cumule_mensuelle_da'=>'Monthly accumulation of need expression',
+    'fournisseurs_sollicite'=>'Most requested suppliers',
+    'nombre_bc_retourne'=>'Number of returned Order voucher / supplier',
+    'retard_livraison'=>'Delivery delay / supplier',
     'jour_retard'=>'Day of delay on a delivery'
 );

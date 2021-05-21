@@ -418,16 +418,16 @@
     });
     $('.validercom').click( function (e) {
         //   table.row('.selected').remove().draw( false );
-        if(confirm('Voulez vous valide le Bon de commande ?')){}else{e.preventDefault(); e.returnValue = false; return false; }
+        if(confirm('{{__('translation.confirmation')}}')){}else{e.preventDefault(); e.returnValue = false; return false; }
     } );
     $('.reject').click( function (e) {
         //   table.row('.selected').remove().draw( false );
-        if(confirm('Voulez vous rejeter Bon de commande ?')){}else{e.preventDefault(); e.returnValue = false; return false; }
+        if(confirm('{{__('translation.confirmation')}}')){}else{e.preventDefault(); e.returnValue = false; return false; }
     } );
 
     $('.sup').click( function (e) {
         //   table.row('.selected').remove().draw( false );
-        if(confirm('Voulez vous supprimer Bon de commande ?')){}else{e.preventDefault(); e.returnValue = false; return false; }
+        if(confirm('{{__('translation.confirmation')}}')){}else{e.preventDefault(); e.returnValue = false; return false; }
     } );
     var table= $('#bonCommandes').DataTable({
         language: {

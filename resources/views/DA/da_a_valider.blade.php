@@ -84,7 +84,7 @@
         </div>
     </div>
 
-    <h2>LES DEMANDES D'ACHATS - EN COURS DE VALIDATION <a href="{{route('creer_da',app()->getLocale())}}" class="btn btn-default  pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i> {{__('neutrale.ajouter')}}</a></h2>
+    <h2>{{__('dashboard.da')}} / {{ucfirst(strtolower(__('neutrale.encours_validation')))}} <a href="{{route('creer_da',app()->getLocale())}}" class="btn btn-default  pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i> {{__('neutrale.ajouter')}}</a></h2>
     </br>
 
     <div class="row">
@@ -122,23 +122,23 @@
                         <td>
 
                             @if($da->etat==1)
-                                <i class="fa fa-circle "  style="color: red"></i>
-                                Suspendu
+                            <i class="fa fa-circle "  style="color: red"></i>
+                            {{__('menu.suspendu')}}
                             @elseif($da->etat==2)
-                                <i class="fa fa-circle" style="color: mediumspringgreen"></i>
-                                Acceptée
+                            <i class="fa fa-circle" style="color: mediumspringgreen"></i>
+                            {{__('menu.accepted')}}
                             @elseif($da->etat==3)
-                                <i class="fa fa-circle" style="color: #f0ad4e"></i>
-                                En cours de traitement
+                            <i class="fa fa-circle" style="color: #f0ad4e"></i>
+                            {{__('menu.attente')}}
                             @elseif($da->etat==0)
-                                <i class="fa fa-circle" style="color: black"></i>
-                                Réfusée
+                            <i class="fa fa-circle" style="color: black"></i>
+                            {{__('menu.refuser')}}
                             @elseif($da->etat==4)
                                 <i class="fa fa-circle" style="color:#00ffff"></i>
-                                Traitée et terminée
+                                {{__('menu.traite_termine')}}
                             @elseif($da->etat==11)
                                 <i class="fa fa-circle" style="color: violet"></i>
-                                Traitée et retournée
+                                {{__('menu.traite_retouner')}}
                             @endif
                         </td>
                         <td><?php if(isset($da->created_at)){
@@ -348,7 +348,7 @@
 
                 });
                 if(mavariable==""){
-                    alert("Veuillez selectionner au moins un élément");
+                    alert('{{__('translation.selectionner_element')}}');
                 }else{
                     $.get('validation_da_collective/'+mavariable,function (data) {
                         if(data=="success"){
@@ -370,7 +370,7 @@
 
                 });
                 if(mavariable==""){
-                    alert("Veuillez selectionner au moins un élément");
+                    alert("{{__('translation.selectionner_element')}}");
                 }else{
                     $.get('refus_da_collective/'+mavariable,function (data) {
                         if(data=="success"){
@@ -446,11 +446,11 @@
             });
             $('.confirmons').click( function (e) {
                 //   table.row('.selected').remove().draw( false );
-                if(confirm('Voulez vous confirmer la D.A.?')){}else{e.preventDefault(); e.returnValue = false; return false; }
+                if(confirm('{{__('translation.confirmation')}}')){}else{e.preventDefault(); e.returnValue = false; return false; }
             } );
             $('.btn_refuse').click( function (e) {
                 //   table.row('.selected').remove().draw( false );
-                if(confirm('Voulez vous refuser la D.A.?')){}else{e.preventDefault(); e.returnValue = false; return false; }
+                if(confirm('{{__('translation.confirmation')}}')){}else{e.preventDefault(); e.returnValue = false; return false; }
             } );
         })(jQuery);
 

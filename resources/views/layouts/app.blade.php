@@ -194,7 +194,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 @if(isset($panini) )
 <li class="dropdown">
      <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-       Mon panier  <i class="fa fa-shopping-basket"></i>
+       {{__('neutrale.mon_panier')}}  <i class="fa fa-shopping-basket"></i>
          <span class="badge bg-success" id="nb_article">0</span>
      </a>
      <ul class="dropdown-menu extended tasks-bar" id="list_panier">
@@ -316,12 +316,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
              <span>{{ __('menu.les_da') }}</span>
          </a>
          <ul class="sub">
+          <li  @yield('demande_achat')><a  href="{{route('demande_achat',app()->getLocale())}}">{{ __('menu.faire_une_demande_achat') }}</a></li>
              <li @yield('recherche_da')><a href="{{route('lister_da_recherche',app()->getLocale())}}">{{ __('menu.search_da') }}</a></li>
              @if(Auth::user() != null && Auth::user()->hasAnyRole(['Valideur_DA'])  || Auth::user()->hasAnyRole(['Gestionnaire_Pro_Forma']))
              <li @yield('encours_validation')><a href="{{route('encours_validation',app()->getLocale())}}">{{ __('menu.list_da_valider') }}</a></li>
              @endif
-             <li  @yield('demande_achat')><a  href="{{route('demande_achat',app()->getLocale())}}">{{ __('menu.demande_achat') }}</a></li>
-             <li  @yield('historique_achat')><a href="{{route('historique_achat',app()->getLocale())}}">{{ __('menu.historique') }}</a></li>
+            <li  @yield('historique_achat')><a href="{{route('historique_achat',app()->getLocale())}}">{{ __('menu.historique') }}</a></li>
 
          </ul>
      </li>

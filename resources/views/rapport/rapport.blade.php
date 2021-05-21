@@ -731,8 +731,12 @@
                    }
                ],
                language: {
-                   url: "{{ URL::asset('public/js/French.json') }}"
-               },
+                @if(App()->getLocale()=='fr')
+                url: "../../public/js/French.json"
+                @elseif(App()->getLocale()=='en')
+                url: "../../public/js/English.json"
+                @endif
+            },
 
            });
            @elseif($rapport->id==2)

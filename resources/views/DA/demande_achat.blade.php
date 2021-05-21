@@ -19,7 +19,7 @@
     <div class="row">
 
 
-        <form role="form" id="FormRegister" class="" method="post" action="{{route('Validdas')}}" onsubmit="return confirm('Voulez vous enregistrer?');">
+        <form role="form" id="FormRegister" class="" method="post" action="{{route('Validdas')}}" onsubmit="return confirm('{{__('translation.confirmation')}}');">
 
             <div id="events"></div>
     <input type="button" class="btn btn-info" value="{{__('gestion_stock.lister_selection')}} " id="action_liste"> <input type="button" class="btn btn-success" value="{{__('gestion_stock.ajouter_au_panier')}} " id="ajouter_panier">
@@ -171,7 +171,7 @@
 
 
                 if(mavariable==""){
-                    alert("Veuillez selectionner au moins un élément");
+                    alert("{{__('translation.selectionner_element')}}");
                     events.html('');
                 }else{
                     $.get('creation_ajout_de_panier/'+mavariable,function (data) {
@@ -180,10 +180,10 @@
                         if(data==1){
                            // location.reload(true);
 
-                            alert('produit ajouté au panier');
+                            alert('{{__('menu.produit_panier')}}');
                         }else{
                             console.log(data);
-                            alert('produit déjà dans le panier');
+                            alert('{{__('menu.produit_panier')}}');
                         }
                         afficher_contenue_panier();
                     });
@@ -202,7 +202,7 @@
 
                     var adresse="{{route('mon_panier',app()->getLocale())}}";
 
-                    var res=" <li class='external'><a href='"+adresse+"' class='btn btn-success'>>>Ouvrir mon panier<<</a> </li>";
+                    var res=" <li class='external'><a href='"+adresse+"' class='btn btn-success'>>>{{__('neutrale.ouvrir_panier')}}<<</a> </li>";
                     $.each(data,function (index,value) {
                         res=res+"<li><a href='#'><div class='task-info clearfix'><div class='desc pull-left'><h5>"+value+"</h5></div> <span class='notification-pie-chart pull-right' data-percent='45'> <span class='percent'></span> </span> </div> </a> </li>";
                     });
@@ -223,7 +223,7 @@
 
 
                 if(mavariable==""){
-                    alert("Veuillez selectionner au moins un élément");
+                    alert("{{__('translation.selectionner_element')}}");
                     events.html('');
                 }else{
                     $.get('donne_moi_le_nom_des_designations/'+mavariable,function (data) {

@@ -49,4 +49,5 @@ return [
     'key_placeholder' => 'e.g. invalid_key',
     'value_placeholder' => 'e.g. Keys must be a single string',
     'advanced_options' => 'Toggle advanced options',
+
 ];

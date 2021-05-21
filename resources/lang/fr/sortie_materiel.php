@@ -11,6 +11,8 @@ return array (
     'code_tache' => 'Code tâche',
     'demandeur' => 'Demandeur',
     'unite' => 'Unité',
-
+    'selectionner_type'=>'SELECTIONNER',
+    'removal'=>'Ajouter une sortie',
+    'update_mouvement'=>'Modifier une sortie de stock',
 
 );

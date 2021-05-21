@@ -50,4 +50,13 @@ return array (
     'code_comptable'=>'Code Comptable',
     'signature'=>'Signatures',
     'regulariser'=>'Régulariser',
+    'bl'=>'BL',
+    'faire_une_demande_achat'=>'Réaliser une Demande d\'achat',
+    'produit_panier'=>'produit déjà dans le panier',
+    'suspendu'=>'Suspendue',
+    'accepted'=>'Acceptée',
+    'refuser'=>'refusée',
+    'attente'=>'En attente de validation',
+    'traite_termine'=>'traitée',
+    'traite_retouner'=>'Rétournée',
 );

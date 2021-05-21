@@ -15,13 +15,13 @@
             return false;
         }
         else {
-            return confirm('Voulez vous enregistrer??');
+            return confirm('{{__('translation.confirmation')}}');
         }
     }</script>
 
     <h2>{{__('reception.list_commande')}} - {{__('neutrale.numero_bc')}} : {{$bc->numBonCommande}} </h2>
     <br>
-    <form method="post" action="{{route('save_ligne_bc')}}" onsubmit="return confirm('Voulez vous enregistrer?');">
+    <form method="post" action="{{route('save_ligne_bc')}}" onsubmit="return confirm('{{__('translation.confirmation')}}');">
         @csrf
         <input type="hidden" name="id_bc" id="id_bc" value="{{$bc->id}}"/>
         <input type="hidden" name="les_id_devis" value="{{$id_devi}}"/>

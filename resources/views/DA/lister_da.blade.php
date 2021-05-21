@@ -87,23 +87,23 @@
                         <td>
 
                             @if($da->etat==1)
-                                <i class="fa fa-circle "  style="color: red"></i>
-                                Suspendu
+                            <i class="fa fa-circle "  style="color: red"></i>
+                            {{__('menu.suspendu')}}
                             @elseif($da->etat==2)
-                                <i class="fa fa-circle" style="color: mediumspringgreen"></i>
-                                Acceptée
+                            <i class="fa fa-circle" style="color: mediumspringgreen"></i>
+                            {{__('menu.accepted')}}
                             @elseif($da->etat==3)
-                                <i class="fa fa-circle" style="color: #f0ad4e"></i>
-                                En cours de traitement
+                            <i class="fa fa-circle" style="color: #f0ad4e"></i>
+                            {{__('menu.attente')}}
                             @elseif($da->etat==0)
-                                <i class="fa fa-circle" style="color: black"></i>
-                                Réfusée
+                            <i class="fa fa-circle" style="color: black"></i>
+                            {{__('menu.refuser')}}
                             @elseif($da->etat==4)
                                 <i class="fa fa-circle" style="color:#00ffff"></i>
-                                Traitée et terminée
+                                {{__('menu.traite_termine')}}
                             @elseif($da->etat==11)
                                 <i class="fa fa-circle" style="color: violet"></i>
-                                Traitée et retournée
+                                {{__('menu.traite_retouner')}}
                             @endif
                         </td>
                         <td>{{date_format( new datetime($da->created_at),'d-m-Y H:i:s')}}</td>

@@ -8,13 +8,13 @@
     <style>
         div.dropdown-menu.open { width: 100%; } ul.dropdown-menu.inner>li>a { white-space: initial; }
     </style>
-    <h2>{{__('sortie_materiel.sortie_article')}}  @if(isset($mouvement)) {{ __('translation.update') }} @else {{ __('translation.add') }}  @endif  @if(isset($mouvement)) <a href="{{route('sortie_stock',App()->getLocale())}}" class="btn btn-success pull-right"> {{ __('translation.add') }}</a> @endif &nbsp;</h2>
+    <h2>{{__('sortie_materiel.sortie_article')}} / @if(isset($mouvement)) {{ __('sortie_materiel.update_mouvement') }} @else {{ __('sortie_materiel.removal') }}  @endif  @if(isset($mouvement)) <a href="{{route('sortie_stock',App()->getLocale())}}" class="btn btn-success pull-right"> {{ __('translation.add') }}</a> @endif &nbsp;</h2>
     </br>
     </br>
     <div class="row">
 
 
-        <form role="form" id="FormRegister" class="" method="post" @if(isset($mouvement)) action="{{route('modifier_mouvement',App()->getLocale())}} @else  action="{{route('enregistrer_mouvement',App()->getLocale())}}" @endif  onsubmit="return confirm('Voulez vous enregistrer?');">
+        <form role="form" id="FormRegister" class="" method="post" @if(isset($mouvement)) action="{{route('modifier_mouvement',App()->getLocale())}} @else  action="{{route('enregistrer_mouvement',App()->getLocale())}}" @endif  onsubmit="" >
 
             <div class="col-sm-4">
                 <div class="form-group">
@@ -139,8 +139,8 @@
                 <br>                                <br>
                 <br>
                 <br>
-                <div class="form-group col-sm-4 col-sm-push-8" >
-                    <button type="submit"  id="btnvalider"class="btn btn-success form-control">@if(isset($mouvement)) {{ __('translation.update') }} @else {{ __('translation.add') }}  @endif</button>
+                <div class="form-group " >
+                    <button type="submit"  id="btnvalider"class="btn btn-success form-control">@if(isset($mouvement)) {{ __('translation.update') }}@else {{ __('sortie_materiel.removal')}}@endif</button>
                 </div>
             </div>
 

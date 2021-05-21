@@ -103,7 +103,7 @@
                     <h4 class="modal-title">Personnaliser l'E-mail</h4>
                 </div>
 
-                            <form action="{{route('send_it_personnalisé')}}" onsubmit="return confirm('Voulez vous envoyé?');"  method="post" enctype="multipart/form-data">
+                            <form action="{{route('send_it_personnalisé')}}" onsubmit="return confirm('{{__('translation.confirmation')}}');"  method="post" enctype="multipart/form-data">
 
                                 @csrf
                                 <div class="modal-body">
@@ -242,7 +242,7 @@
                 @if(isset($devis))
                     <form  action="{{route('update_ligne_bc')}}" method="post">
                         @else
-                            <form action="{{route('send_it')}}" onsubmit="return confirm('Voulez vous envoyer?');" method="post">
+                            <form action="{{route('send_it')}}" onsubmit="return confirm(__('translation.confirmation'));" method="post">
                                 @endif
                                 @csrf
 

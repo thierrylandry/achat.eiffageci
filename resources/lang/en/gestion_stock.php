@@ -1,7 +1,7 @@
 <?php
 return array (
-    'entree_stock' => 'ENTRY IN STOCK',
-    'sortie_stock' => 'OUT OF STOCK',
+    'entree_stock' => 'ENTRY IN STORAGE',
+    'sortie_stock' => 'OUT OF STORAGE',
     'stock' => 'Storage',
     'domaine' => 'Field',
     'famille' => 'Family',
@@ -13,7 +13,7 @@ return array (
     'demandeur' => 'Applicant',
     'auteur' => 'Author',
     'action' => 'Action',
-    'stock_min' => 'Stock min.',
+    'stock_min' => 'Storage min.',
     'valorisation' => 'Valuation',
     'adresse_geographique' => 'Localisation',
     'responsable' => 'Manager',

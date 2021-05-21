@@ -147,7 +147,7 @@
 
                             if (group_last !== group) {
                                 $(rows[index]).before(
-                                        '<tr class="group" style="background-color:#1f0707;color:white"><td colspan="11"><b>BL N° : ' + group + ' Fournisseur : '+ data[2]+'</b></td></tr>'
+                                        '<tr class="group" style="background-color:#1f0707;color:white"><td colspan="11"><b>{{__('menu.bl')}} N° : ' + group + ' Fournisseur : '+ data[2]+'</b></td></tr>'
                                 );
 
                                 group_last = group;

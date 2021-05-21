@@ -15,13 +15,13 @@
                 return false;
             }
             else {
-                return confirm('Voulez vous enregistrer??');
+                return confirm('{{__('translation.confirmation')}}');
             }
         }</script>
 
     <h2>LISTE DES COMMANDES  <a href="{{ URL::previous() }}" class="btn btn-info pull-right"><i class="fa fa-arrow-left" aria-hidden="true"></i> Retour</a></h2>
     <br>
-    <form method="post" action="{{route('save_ligne_bc')}}" onsubmit="return confirm('Voulez vous enregistrer?');">
+    <form method="post" action="{{route('save_ligne_bc')}}" onsubmit="return confirm('{{__('translation.confirmation')}}');">
 
         @csrf
         <input type="hidden" name="tot_serv" id="tot_serv" value=""/>
@@ -298,7 +298,10 @@
                             '$'+pageTotal +' ( $'+ total +' total)'
                     );
                     $('.row_n_remise').change( function(){
-                        $(this).closest('td').prev().prev().html()
+                        var taux_remise = $(this).val();
+                      //  var pu =
+                        var taux_remise = (Math.round(*$(this).closest('td').prev().html()))/100;
+                      // alert( taux_remise);
                     });
                     remise_exc =$('#remise_exc').val();
                     //alert(pageTotal);

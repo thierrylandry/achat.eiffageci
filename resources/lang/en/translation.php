@@ -58,8 +58,11 @@ return [
     'contact' => 'Contact',
     'fonction' => 'Function',
     'service' => 'Service',
-    'les_roles' => 'The roles',
-    'users' => 'The users',
+    'les_roles' => 'Roles',
+    'users' => 'Users',
     'email' => 'E-mail',
     'prenoms'=> 'First name',
+    'retirer_panier'=> 'Remove from basket',
+    'confirmation'=>'Do you want to continue?',
+    'selectionner_element'=>'Please select at least one product',
 ];

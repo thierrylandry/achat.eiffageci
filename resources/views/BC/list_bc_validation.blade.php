@@ -419,7 +419,7 @@
 
         });
 if(mavariable==""){
-    alert("Veuillez selectionner au moins un élément");
+    alert({{__('translation.selectionner_element')}});
 }else{
         $.get('validation_bc_collective/'+mavariable,function (data) {
                 if(data=="success"){

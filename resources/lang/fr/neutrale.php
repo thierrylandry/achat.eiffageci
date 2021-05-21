@@ -53,7 +53,7 @@ return [
     'suppression_multiple' => 'Suppression multiple',
     'soumettre' => 'Soumettre',
     'traite' => 'TRAITE',
-    'reception_devis_fournisseur' => 'RECEPTION DE DEVIS DES FOURNISSEURS',
+    'reception_devis_fournisseur' => 'TRAITEMENT DES DEMANDES D\'ACHAT VALIDE',
     'les_bons_commandes' => 'LES BONS DE COMMANDES',
     'gestion' => 'GESTION',
     'validation' => 'VALIDATION',
@@ -138,6 +138,11 @@ return [
     'site_installation' => 'Site d\'installation',
     'denomination'=> 'Dénomination',
     'taux_change'=>'Taux de change',
-
+    'encours_validation'=>'EN COURS DE VALIDATION',
+    'mon_panier' =>'Mon panier',
+    'ouvrir_panier'=>'Ouvrir mon panier',
+    'selectionner_code_tache'=>'Selectionner code tache',
+    'date_besoin'=>'Date du besoin',
+    'description_panier'=>'Description (Attention ceci figurera sur le bon de commande)',
 
 ];

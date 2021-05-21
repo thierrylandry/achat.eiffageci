@@ -7,4 +7,5 @@ return array (
     'bon_commande_attente_signature' => 'Order form awaiting signature',
     'valider_transmettre_la_signature' => 'VALIDATE AND TRANSMIT THE SIGNATURE',
     'demande_recente' => 'recent purchase request (s). Add to order forms',
+    'demande_panier' => 'Product(s) in your basket. Only products with management code and use will be  progressed.',
 );

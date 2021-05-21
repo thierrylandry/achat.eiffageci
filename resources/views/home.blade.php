@@ -88,7 +88,7 @@
                     <i class="fa fa-info fa-3x   fa-fw" style="color: white"> </i>
                 </div>
                 <div class="col-md-8 market-update-left">
-                    <h4>{{__('dashboard.bc')}} {{__('menu.attente')}}</h4>
+                    <h4> {{ucfirst(__('menu.attente'))}} {{strtolower(__('dashboard.bc'))}}</h4>
                     <h4 id="Boncommandeencours" title="B.C en attente de valisation">{{$Boncommandeencours}}/{{$Boncommandes}}</h4>
                 </div>
                 <div class="clearfix"> </div>
@@ -100,7 +100,7 @@
                     <i class="fa fa-info fa-3x   fa-fw" style="color: white"> </i>
                 </div>
                 <div class="col-md-8 market-update-left">
-                    <h4>{{__('dashboard.bc')}} {{__('menu.traite_termine')}}</h4>
+                    <h4>{{ucfirst(__('menu.traite_termine'))}} {{strtolower(__('dashboard.bc'))}}</h4>
                     <h4 id="$montant_bc">{{number_format($montant_bc, 0,".", " ")}} Fr CFA</h4>
                 </div>
                 <div class="clearfix"> </div>
@@ -112,7 +112,7 @@
                     <i class="fa fa-info fa-3x   fa-fw" style="color: white"> </i>
                 </div>
                 <div class="col-md-8 market-update-left">
-                    <h4>{{__('dashboard.bc')}} {{__('menu.traite_retourne')}}</h4>
+                    <h4>{{ucfirst(__('menu.traite_retourne'))}} {{strtolower(__('dashboard.bc'))}}</h4>
                     <h4 id="montant_bct">{{number_format($montant_bct, 0,".", " ")}} Fr CFA</h4>
                 </div>
                 <div class="clearfix"> </div>
@@ -150,7 +150,7 @@
                         data: cumuleda,
                         xkey: 'period',
                         ykeys: ['DA'],
-                        labels: ["{{__('menu.demande_achat')}}"],
+                        labels: ["{{__('menu.faire_une_demande_achat')}}"],
                         xLabelAngle: 60
                     });
                 </script>
