@@ -30,6 +30,13 @@
         <div class="row">
             <div class="col-sm-4">
                 <div class="form-group">
+                    <label class="control-label" for="date_livraison">Numero de BC:</label>
+                    <div>
+                        <input type="text" class="form-control" id="date_livraison" name="date_livraison" placeholder="Enter un numero" value="{{isset($bc->numBonCommande)?$bc->numBonCommande:''}}"  required>
+                    </div>
+                    <label>LISTE DES DATES PROPOSEES: </label>
+                </div>
+                <div class="form-group">
                     <label class="control-label" for="date_livraison">Date de livraison:</label>
                     <div>
                         <input type="date" class="form-control" id="date_livraison" name="date_livraison" placeholder="Enter un numero" value="{{isset($bc->date)?$bc->date:''}}"  required>
@@ -117,7 +124,7 @@
                                             <option  value="">SELECTIONNER</option>
                                             @foreach($gestions as $gestion)
 
-                                                <option @if(isset($devi->codeGestion) && $gestion->codeGestion==$devi->codeGestion)
+                                                <option @if(isset($ligne->codeGestion) && $gestion->codeGestion==$ligne->codeGestion)
                                                         {{'selected'}}
                                                         @endif value="{{$gestion->codeGestion}}" data-subtext="{{$gestion->codeGestion}}">{{$gestion->codeGestion}}</option>
                                             @endforeach
@@ -126,9 +133,9 @@
                                     <td>
                                         {{$ligne->unite}}
                                     </td>
-                                    <td style="text-align: right"> {{number_format($ligne->prix_unitaire, 2,".", " ")}}</td>
-                                    <td> <input class="form-control row_n_remise"  type="number" min="0" id="row_n_{{$ligne->id}}_remise" name="row_n_{{$ligne->id}}_remise" value="0" value="" /> </td>
-                                    <td style="text-align: right">  {{number_format($THT=($ligne->prix_unitaire*$ligne->quantite)-(($ligne->remise/100*($ligne->prix_unitaire*$ligne->quantite))),2,"."," ")}}</td>
+                                    <td style="text-align: right"> @if($ligne->devise =="XOF") {{number_format($ligne->prix_unitaire, 0,".", " ")}}  @elseif($ligne->devise =="EUR") {{number_format($ligne->prix_unitaire_euro, 2,".", " ")}} @elseif($ligne->devise =="USD") {{number_format($ligne->prix_unitaire_usd, 2,".", " ")}}  @endif</td>
+                                    <td>{{$ligne->remise}}</td>
+                                    <td style="text-align: right">   @if($ligne->devise =="XOF") {{number_format($THT=($ligne->prix_unitaire*$ligne->quantite)-(($ligne->remise/100*($ligne->prix_unitaire*$ligne->quantite))),2,"."," ")}}  @elseif($ligne->devise =="EUR") {{number_format($THT=($ligne->prix_unitaire_euro*$ligne->quantite)-(($ligne->remise/100*($ligne->prix_unitaire_euro*$ligne->quantite))),2,"."," ")}} @elseif($ligne->devise =="USD") {{number_format($THT=($ligne->prix_unitaire_usd*$ligne->quantite)-(($ligne->remise/100*($ligne->prix_unitaire_usd*$ligne->quantite))),2,"."," ")}}  @endif</td>
                                     <td> @if(""!=$projet_choisi->use_tva || 0!=$projet_choisi->use_tva)
                                         {{number_format(($THT*$projet_choisi->use_tva/100), 2,".", " ")}}
                                         @else 0
@@ -298,10 +305,23 @@
                             '$'+pageTotal +' ( $'+ total +' total)'
                     );
                     $('.row_n_remise').change( function(){
+                        var pu =parseFloat(ilisibilite_nombre($(this).closest('td').prev().html()));
+                        var qte= $(this).closest('td').prev().prev().prev().html()
                         var taux_remise = $(this).val();
-                      //  var pu =
-                        var taux_remise = (Math.round(*$(this).closest('td').prev().html()))/100;
-                      // alert( taux_remise);
+                        var remise= (pu*taux_remise)/100;
+                        var tht=((pu- remise)*qte).toFixed(2);
+                        //*taux_remise
+                        $(this).closest('td').next().html(tht);
+
+                        console.log(table.cell( this ).data() );
+                     //   table.column( 7 ).cache('search');
+
+
+
+
+                       // $('#tot').html(lisibilite_nombre(Math.round(pageTotal-remise_exc)));
+                        //$('#tot_serv').val(Math.round(pageTotal-remise_exc));
+
                     });
                     remise_exc =$('#remise_exc').val();
                     //alert(pageTotal);
@@ -327,7 +347,7 @@
                     { type: 'formatted-num', targets: 9 },
                     { responsivePriority: 2, targets: -2 }
                 ]
-            }).column(0).visible(false).column(11).visible(false);
+            }).column(0).visible(false).column(11).visible(false).column(10).visible(false);
 
             $('.row_n__tva').click(function (e) {
 

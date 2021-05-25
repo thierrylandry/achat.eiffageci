@@ -83,9 +83,10 @@
                 <div class="col-sm-4">
                     <label class="control-label" for="id_bc">{{__('neutrale.pu')}}:</label>
                     <div class="form-group">
-                        <input type="number" name="prix_unitaire" class="form-control" value="{{isset($ligne_bonlivraison->prix_unitaire)? $ligne_bonlivraison->prix_unitaire:''}}" />
+                        <input type="number" step="any" name="prix_unitaire" class="form-control" required value="@if(isset($ligne_bonlivraison))@if($ligne_bonlivraison->devise=="XOF"){{$ligne_bonlivraison->prix_unitaire}}@elseif($ligne_bonlivraison->devise=="USD"){{$ligne_bonlivraison->prix_unitaire_usd}}@else{{$ligne_bonlivraison->prix_unitaire_euro}}@endif{{''}}@endif" />
                     </div>
                 </div>
+
             </div>
             <div class="row">
                 <div class="col-sm-4">
@@ -125,6 +126,12 @@
                                 <option value="{{$unite}}" {{isset($ligne_bonlivraison) && $unite==$ligne_bonlivraison->unite?"selected":''}}>{{$unite}}</option>
                         @endforeach
                     </select>
+                </div>
+                <div class="col-sm-1">
+                    <label class="control-label" for="id_bc">{{__('neutrale.remise')}}:</label>
+                    <div class="form-group">
+                        <input type="number"  name="remise" class="form-control" value="{{isset($ligne_bonlivraison->remise)?$ligne_bonlivraison->remise:''}}" />
+                    </div>
                 </div>
                 <div class="col-sm-1">
                     <div class="form-group">
@@ -194,7 +201,7 @@
                                         <td>{{$lignebc->fournisseur->libelle}}</td>
                                         <td>{{$lignebc->reference}}</td>
                                         <td>{{$lignebc->quantite}} {{$lignebc->unite}}</td>
-                                        <td>{{$lignebc->prix_unitaire}}</td>
+                                        <td>@if($lignebc->devise=="XOF"){{$lignebc->prix_unitaire}}@elseif($lignebc->devise=="USD"){{$lignebc->prix_unitaire_usd}}@else{{$lignebc->prix_unitaire_euro}}@endif</td>
                                         <td>{{$lignebc->date_reception}}</td>
                                         <td><a href="{{route('reception_commande_sans_bc_edit',['locale'=>app()->getLocale(),'id'=>$lignebc->id])}}" class="btn btn-info"><i class="fa fa-pencil"></i></a>&nbsp;<a href="{{route('supprimer_livraison_sans_bc',['locale'=>app()->getLocale(),'id'=>$lignebc->id])}}" class="btn btn-danger"><i class="fa fa-trash"></i></a></td>
                                     </tr>

@@ -57,7 +57,7 @@ class ReceptionController extends Controller
     public function reception_commande_sans_bc_edit($locale,$id){
         $projet_choisi= ProjectController::check_projet_access();
         $ligne_bonlivraison = Ligne_bonlivraison::find($id);
-
+        //dd($ligne_bonlivraison);
          $produits = Designation::orderby('libelle','ASC')->get();
 
                 $familles = Famille::orderby('libelle','ASC')->get();
@@ -166,6 +166,7 @@ class ReceptionController extends Controller
         $date_livraison=$parameters['date_livraison'];
         $unite=$parameters['unite'];
         $devise=$parameters['devise'];
+        $remise=$parameters['remise'];
         $designation =Designation::find($parameters['refference']);
         //dd($bc_chosisi->ligne_bcs()->get());
 
@@ -178,6 +179,7 @@ class ReceptionController extends Controller
             $ligne_livraison->prix_unitaire	=$prix_unitaire;
             $ligne_livraison->reference	=$designation->libelle;
             $ligne_livraison->devise=$devise;
+            $ligne_livraison->remise=$remise;
             $ligne_livraison->unite=$unite;
             $ligne_livraison->etat=0;
             $ligne_livraison->id_fournisseur	=$id_fournisseur;
@@ -211,6 +213,7 @@ class ReceptionController extends Controller
         $date_livraison=$parameters['date_livraison'];
         $unite=$parameters['unite'];
         $devise=$parameters['devise'];
+        $remise=$parameters['remise'];
 
         //dd($bc_chosisi->ligne_bcs()->get());
 
@@ -233,13 +236,15 @@ class ReceptionController extends Controller
             }else{
 
                 $ligne_livraison->prix_unitaire_euro=$prix_unitaire;
+              //  dd($ligne_livraison->prix_unitaire_euro);
                 $ligne_livraison->prix_unitaire_usd=RapportController::convertir_dans_une_devise($prix_unitaire,date("Y-m-d"),$devise.'_USD');
                 $ligne_livraison->prix_unitaire=RapportController::convertir_dans_une_devise($prix_unitaire,date("Y-m-d"),$devise.'_XOF');
             }
 
 
-            $ligne_livraison->reference	=$designation;
+            $ligne_livraison->reference	=$designation->libelle;
             $ligne_livraison->devise=$devise;
+            $ligne_livraison->remise=$remise;
             $ligne_livraison->unite=$unite;
             $ligne_livraison->etat=0;
            // $ligne_livraison->id_projet=session('id_projet');

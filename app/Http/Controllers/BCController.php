@@ -430,7 +430,7 @@ return $view;
         $tableau_numb= array();
 
         foreach($bcs as $bc):
-            $tableau_numb[]= str_replace($project->libelle.'-test-',"",$bc->numBonCommande);
+            $tableau_numb[]= str_replace($project->libelle.'-',"",$bc->numBonCommande);
 
             rsort($tableau_numb);
             endforeach;
@@ -441,7 +441,7 @@ return $view;
             $val=1;
         }
 
-        return $project->libelle.'-test-'.$val;
+        return $val;
 
     }
     public function regulariser($id_fournisseur){
@@ -1263,6 +1263,7 @@ return $view;
        // dd($parameters['id_fournisseur']);
         $id_fournisseur = explode('-',$parameters['id_fournisseur'])[0];
         $devise = explode('-',$parameters['id_fournisseur'])[1];
+
         $Boncommande->id_fournisseur=$id_fournisseur;
         $Boncommande->id_user=Auth::user()->id;
         $Boncommande->id_projet=$projet->id;
@@ -1281,7 +1282,7 @@ return $view;
         $lesdevis= Devis::where('id_fournisseur','=',$Boncommande->id_fournisseur)
                         ->where('Devis.id_projet','=',$projet_choisi->id)
                         ->where('etat','=',1)->where('devise','=',$devise)->get();
-
+                       // dd($lesdevis);
 
         foreach($lesdevis as $devi):
             $devi->id_bc=$Boncommande->id;
