@@ -1106,6 +1106,13 @@ Route::post('/save_ligne_bc',[
     'roles' => ['Gestionnaire_BC']
 
 ])->middleware('auth');
+Route::post('/save_ligne_bc_regularisation',[
+    'as'=>'save_ligne_bc_regularisation',
+    'uses'=>'BCController@save_ligne_bc_regularisation',
+    'middleware' => 'roles',
+    'roles' => ['Gestionnaire_BC']
+
+])->middleware('auth');
 Route::post('/supprimer_def_devis2_collectif',[
     'as'=>'supprimer_def_devis2_collectif',
     'uses'=>'Demande_proformaController@supprimer_def_devis2_collectif',

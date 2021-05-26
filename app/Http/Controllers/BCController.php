@@ -418,10 +418,13 @@ return $view;
         $projet_choisi= ProjectController::check_projet_access();
         $fournisseur =Fournisseur::find($id_fournisseur);
         $ligne_bonlivraisons = Ligne_bonlivraison::where('ligne_bonlivraison.id_projet','=',$projet_choisi->id)->where('ligne_bonlivraison.devise','=',$devise)->where('id_fournisseur','=',$id_fournisseur)->where('etat','=',0)->get();
-
+        $future_devis="";
+        foreach($ligne_bonlivraisons as $devi):
+            $future_devis=$future_devis.$devi->id.",";
+            endforeach;
 
         $gestions =Gestion::all();
-        return view('BC/bc_regularisation',compact('ligne_bonlivraisons','fournisseur','gestions','devise','projet_choisi'));
+        return view('BC/bc_regularisation',compact('ligne_bonlivraisons','fournisseur','gestions','devise','projet_choisi','future_devis'));
     }
     public function generer_numero_bc(){
         $projet_choisi= ProjectController::check_projet_access();
@@ -642,10 +645,8 @@ return $view;
         $ligne_bc=Ligne_bc::where('slug','=',$slug)->first();
         return view('BC/gestion_bc',compact('bcs','fournisseurs','utilisateurs','modifierlignebc','reponse_fournisseurs','$slug','analytiques','ligne_bc'));
     }
-    public function save_ligne_bc(Request $request)
-    {
+    public function save_ligne_bc(Request $request){
         $parameters=$request->except(['_token']);
-
         $les_id_devis=explode(',',$parameters['les_id_devis']);
         $commentaire=$parameters['commentaire'];
 
@@ -765,6 +766,138 @@ return $view;
 
         //dd(App()->getLocale());
         return redirect()->route('gestion_bc',$parameters['locale'])->with('success',"success");
+    }
+    public function save_ligne_bc_regularisation(Request $request){
+
+        $parameters=$request->except(['_token']);
+        $les_id_futur_devis=explode(',',$parameters['les_id_futur_devis']);
+        $commentaire=$parameters['commentaire'];
+        //je crée le bons de commandes
+        $date= new \DateTime(null);
+        $boncommande= new Boncommande();
+
+        $boncommande->date=$parameters['date_livraison'];
+        $boncommande->service_demandeur=$parameters['id_service'];
+        $boncommande->remise_excep=$parameters['remise_exc'];
+        $boncommande->commentaire_general=$commentaire;
+        $boncommande->devise_bc=$parameters['devise'];
+        $boncommande->numBonCommande=$parameters['numero_bc'];
+        $boncommande->slug=Str::slug($parameters['numero_bc'].$date->format('dmYhis'));
+      //  $sumligne=ligne_bc::where('id_bonCommande','=',$boncommande->id)->sum('prix_tot');
+
+        $tot_ttc=$parameters['ttc_serv'];
+        //dd($tot_ttc);
+        if($boncommande->devise_bc=="XOF"){
+            $boncommande->total_ttc=$tot_ttc;
+            $boncommande->total_ttc_euro=RapportController::convertir_dans_une_devise($tot_ttc,date("Y-m-d"),$boncommande->devise_bc.'_EUR');
+            $boncommande->total_ttc_usd=RapportController::convertir_dans_une_devise($tot_ttc,date("Y-m-d"),$boncommande->devise_bc.'_USD');
+        }elseif($boncommande->devise=="USD"){
+            $boncommande->total_ttc_usd=$tot_ttc;
+            $boncommande->total_ttc_euro=RapportController::convertir_dans_une_devise($tot_ttc,date("Y-m-d"),$boncommande->devise_bc.'_EUR');
+            $boncommande->total_ttc=RapportController::convertir_dans_une_devise($tot_ttc,date("Y-m-d"),$boncommande->devise_bc.'_XOF');
+        }else{
+
+            $boncommande->total_ttc_euro=$tot_ttc;
+            $boncommande->total_ttc_usd=RapportController::convertir_dans_une_devise($tot_ttc,date("Y-m-d"),$boncommande->devise_bc.'_USD');
+            $boncommande->total_ttc=RapportController::convertir_dans_une_devise($tot_ttc,date("Y-m-d"),$boncommande->devise_bc.'_XOF');
+        }
+
+
+
+        $boncommande->save();
+$boncommande=Boncommande::find($boncommande->id);
+        foreach ($les_id_futur_devis as $id):
+            if($id!=""){
+
+                $ligne_bonlivraison = Ligne_bonlivraison::find($id);
+                //je crée un devis pour chaque ligne
+                $Devis= new Devis();
+                $Devis->id_bc=$boncommande->id;
+                $Devis->codeGestion=$parameters['row_n_'.$id.'_codeGestion'];
+                $gestion =Gestion::where('codeGestion','=', $Devis->codeGestion)->first();
+
+                //je complête les informations du devis
+
+                $Devis->titre_ext= $ligne_bonlivraison->reference;
+                $designation = Designation::where('libelle','=',$ligne_bonlivraison->reference)->first();
+                $Devis->id_materiel= $designation->id;
+                $Devis->quantite= $ligne_bonlivraison->quantite;
+                $Devis->unite= $ligne_bonlivraison->unite;
+                $Devis->remise= $ligne_bonlivraison->remise;
+                $Devis->codeRubrique= $designation->code_analytique;
+                $Devis->devise= $ligne_bonlivraison->devise;
+                $Devis->id_fournisseur= $ligne_bonlivraison->id_fournisseur;
+                $Devis->id_projet= $ligne_bonlivraison->id_projet;
+                $Devis->prix_unitaire=$ligne_bonlivraison->prix_unitaire;
+                $Devis->prix_unitaire_euro=$ligne_bonlivraison->prix_unitaire_euro;
+                $Devis->prix_unitaire_usd=$ligne_bonlivraison->prix_unitaire_usd;
+                $Devis->etat=1;
+                $Devis->save();
+               $ligne_bonlivraison->id_devis=$Devis->id;
+               $ligne_bonlivraison->etat=1;
+               $ligne_bonlivraison->save();
+                if(isset($parameters['row_n_'.$id.'_tva']) && $parameters['row_n_'.$id.'_tva']=='on' ){
+                    $Devis->hastva=1;
+                }else{
+                    $Devis->hastva=0;
+
+                }
+                if($Devis->devise=="XOF"){
+                    $Devis->prix_tot=$Devis->prix_unitaire*$Devis->quantite-($Devis->remise*($Devis->prix_unitaire*$Devis->quantite))/100;
+                    $Devis->prix_tot_euro=RapportController::convertir_dans_une_devise($Devis->prix_tot,date("Y-m-d"),$Devis->devise.'_EUR');
+                    $Devis->prix_tot_usd=RapportController::convertir_dans_une_devise($Devis->prix_tot,date("Y-m-d"),$Devis->devise.'_USD');
+                    if(1==$Devis->hastva && $boncommande->projet->use_tva!="" or $boncommande->projet->use_tva!=0 ){
+                        $Devis->valeur_tva=($Devis->prix_tot*$boncommande->projet->use_tva)/100;
+                    }else{
+                        $Devis->valeur_tva=0;
+                    }
+                    $Devis->valeur_tva_euro=RapportController::convertir_dans_une_devise($Devis->valeur_tva,date("Y-m-d"),$Devis->devise.'_EUR');
+                    $Devis->valeur_tva_usd=RapportController::convertir_dans_une_devise($Devis->valeur_tva,date("Y-m-d"),$Devis->devise.'_USD');
+
+                }elseif($Devis->devise=="USD"){
+                    $Devis->prix_tot_usd=$Devis->prix_unitaire_usd*$Devis->quantite-($Devis->remise*($Devis->prix_unitaire_usd*$Devis->quantite))/100;
+                    $Devis->prix_tot_euro=RapportController::convertir_dans_une_devise($Devis->prix_tot_usd,date("Y-m-d"),$Devis->devise.'_EUR');
+                    $Devis->prix_tot=RapportController::convertir_dans_une_devise($Devis->prix_tot_usd,date("Y-m-d"),$Devis->devise.'_XOF');
+                    if(1==$Devis->hastva && $boncommande->projet->use_tva!="" or $boncommande->projet->use_tva!=0 ){
+                        $Devis->valeur_tva_usd=($Devis->prix_tot_usd*$boncommande->projet->use_tva)/100;
+                    }else{
+                        $Devis->valeur_tva_usd=0;
+                    }
+                    $Devis->valeur_tva_euro=RapportController::convertir_dans_une_devise($Devis->valeur_tva_usd,date("Y-m-d"),$Devis->devise.'_EUR');
+                    $Devis->valeur_tva=RapportController::convertir_dans_une_devise($Devis->valeur_tva_usd,date("Y-m-d"),$Devis->devise.'_XOF');
+                }else{
+                    $Devis->prix_tot_euro=$Devis->prix_unitaire_euro*$Devis->quantite-($Devis->remise*($Devis->prix_unitaire_euro*$Devis->quantite))/100;
+                    $Devis->prix_tot_usd=RapportController::convertir_dans_une_devise($Devis->prix_tot_euro,date("Y-m-d"),$Devis->devise.'_USD');
+                    $Devis->prix_tot=RapportController::convertir_dans_une_devise($Devis->prix_tot_euro,date("Y-m-d"),$Devis->devise.'_XOF');
+                    if(1==$Devis->hastva && $boncommande->projet->use_tva!="" or $boncommande->projet->use_tva!=0 ){
+                        $Devis->valeur_tva_euro=($Devis->prix_tot_euro*$boncommande->projet->use_tva)/100;
+                    }else{
+                        $Devis->valeur_tva_euro=0;
+                    }
+                    $Devis->valeur_tva_usd=RapportController::convertir_dans_une_devise($Devis->valeur_tva_euro,date("Y-m-d"),$Devis->devise.'_USD');
+                    $Devis->valeur_tva=RapportController::convertir_dans_une_devise($Devis->valeur_tva_euro,date("Y-m-d"),$Devis->devise.'_XOF');
+                }
+
+
+            }
+
+            endforeach;
+
+
+
+
+
+        /*debut du traçages*/
+        $ip			= $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_HOST'])){
+            $nommachine = $_SERVER['REMOTE_HOST'];
+        }else{
+            $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        }
+        Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; Régularisation de bon de commande Numero '.$boncommande->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
+
+        //dd(App()->getLocale());
+        return redirect()->route('regularisation',$parameters['locale'])->with('success',"success");
     }
     public function update_ligne_bc(Request $request)
     {

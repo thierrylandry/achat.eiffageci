@@ -21,18 +21,21 @@
 
     <h2>LISTE DES COMMANDES  <a href="{{ URL::previous() }}" class="btn btn-info pull-right"><i class="fa fa-arrow-left" aria-hidden="true"></i> Retour</a></h2>
     <br>
-    <form method="post" action="{{route('save_ligne_bc')}}" onsubmit="return confirm('{{__('translation.confirmation')}}');">
+    <form method="post" action="{{route('save_ligne_bc_regularisation')}}" onsubmit="return confirm('{{__('translation.confirmation')}}');">
 
         @csrf
         <input type="hidden" name="tot_serv" id="tot_serv" value=""/>
         <input type="hidden" name="tva_serv" id="tva_serv" value=""/>
         <input type="hidden" name="ttc_serv" id="ttc_serv" value=""/>
+        <input type="hidden" name="les_id_futur_devis" value="{{$future_devis}}" />
+        <input type="hidden" name="devise" id="devise" value="{{$devise}}"/>
+        <input type="hidden" name="locale" id="locale" value="{{App()->getLocale()}}"/>
         <div class="row">
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label class="control-label" for="date_livraison">Numero de BC:</label>
+                    <label class="control-label" for="numero_bc">Numero de BC:</label>
                     <div>
-                        <input type="text" class="form-control" id="date_livraison" name="date_livraison" placeholder="Enter un numero" value="{{isset($bc->numBonCommande)?$bc->numBonCommande:''}}"  required>
+                        <input type="text" class="form-control" id="numero_bc" name="numero_bc" placeholder="Enter un numero" value="{{isset($bc->numBonCommande)?$bc->numBonCommande:''}}"  required>
                     </div>
                     <label>LISTE DES DATES PROPOSEES: </label>
                 </div>
