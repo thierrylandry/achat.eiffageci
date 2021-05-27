@@ -65,5 +65,6 @@ return [
     'numero_origine'=> 'Numéro origine',
     'confirmation'=>'Voulez vous continuer?',
     'selectionner_element'=>'SVP sélectionnez au moins un produit',
+    'retirer_panier'=> 'Retirer du panier',
 
 ];
