@@ -23,6 +23,44 @@
     </div>
     <h2><i class="fa fa-shopping-basket"></i> {{__('neutrale.mon_panier')}} </h2>
     </br>
+
+    <div class="row" style="border: solid;">
+        <fieldset>{{__('neutrale.dupliquer')}}</fieldset>
+    </br>
+        <div class="col-sm-2">
+            <div class="form-group" style="max-width: 200px;">
+                <label for="type">{{__('neutrale.code_gestion')}}</label>
+                <select class="form-control selectpicker col-sm-2 "  id="id_codeGestion" name="id_codeGestion" data-live-search="true" data-size="6" required>
+                    <option value="">{{__('neutrale.selectionner')}}</option>
+                    @foreach($gestions as $gestion)
+                        <option  value="{{$gestion->id}}" data-subtext="{{$gestion->description}}">{{$gestion->codeGestion}}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label for="type">{{__('gestion_stock.code_tache')}}</label>
+                            <select class="form-control selectpicker col-sm-1"  id="id_codeTache" name="id_codeTache" data-live-search="true" data-size="6">
+                                <option value="">{{__('neutrale.selectionner_code_tache')}}</option>
+                                @foreach($codetaches as $codetache)
+                                    <option  value="{{$codetache->id}}" data-subtext="{{$codetache->description}}">{{$codetache->libelle}}</option>
+                                @endforeach
+                            </select>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label for="type">{{__('neutrale.date_besoin')}}</label>
+                <input type="date" class="form-control" id="DateBesoin" name="DateBesoin" placeholder="DateBesoin" value="{{date('Y-m-d')}}"  required>
+
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <label for="type">{{__('neutrale.usage')}}</label><input type="text" name="usage" id="usage" value="" />
+        </div>
+
+    </div>
     </br>
     <div class="row" style="overflow-x: auto">
 
@@ -55,7 +93,7 @@
                     <td class="dt-head-center">{{$lignebesoin->designation->libelle}} </br>{{$lignebesoin->id_materiel}}</td>
                     <td class="dt-head-center"> <div class="form-group" style="max-width: 200px;">
                             <label for="type">{{__('neutrale.code_gestion')}}</label>
-                            <select class="form-control selectpicker col-sm-2"  id="id_codeGestion{{$lignebesoin->id}}" name="id_codeGestion{{$lignebesoin->id}}" data-live-search="true" data-size="6" required>
+                            <select class="form-control selectpicker col-sm-2 id_codeGestion"  id="id_codeGestion{{$lignebesoin->id}}" name="id_codeGestion{{$lignebesoin->id}}" data-live-search="true" data-size="6" required>
                                 <option value="">{{__('neutrale.selectionner')}}</option>
                                 @foreach($gestions as $gestion)
                                     <option @if(isset($lignebesoin) and $gestion->id==$lignebesoin->id_codeGestion)
@@ -66,7 +104,7 @@
                         </div></td>
                     <td class="dt-head-center"> <div class="form-group" style="max-width: 200px;">
                             <label for="type">{{__('gestion_stock.code_tache')}}</label>
-                            <select class="form-control selectpicker col-sm-1"  id="id_codeTache{{$lignebesoin->id}}" name="id_codeTache{{$lignebesoin->id}}" data-live-search="true" data-size="6">
+                            <select class="form-control selectpicker col-sm-1 id_codeTache"  id="id_codeTache{{$lignebesoin->id}}" name="id_codeTache{{$lignebesoin->id}}" data-live-search="true" data-size="6">
                                 <option value="">{{__('neutrale.selectionner_code_tache')}}</option>
                                 @foreach($codetaches as $codetache)
                                     <option @if(isset($lignebesoin) and $codetache->id==$lignebesoin->id_codeTache)
@@ -76,7 +114,7 @@
                             </select>
                         </div></td>
                     <td class="dt-head-center"><label for="type">{{__('gestion_stock.demandeur')}}</label><input type="text" name="demandeur{{$lignebesoin->id}}" id="demandeur{{$lignebesoin->id}}" value="{{$lignebesoin->demandeur}}" /> </td>
-                    <td class="dt-head-center"><label for="type">{{__('neutrale.usage')}}</label><input type="text" name="usage{{$lignebesoin->id}}" id="usage{{$lignebesoin->id}}" value="{{$lignebesoin->usage}}" /></td>
+                    <td class="dt-head-center"><label for="type">{{__('neutrale.usage')}}</label><input type="text" class="usage" name="usage{{$lignebesoin->id}}" id="usage{{$lignebesoin->id}}" value="{{$lignebesoin->usage}}" /></td>
                     <td class="dt-head-center"> <div class="form-group">
                             <label for="type">Nature</label>
                             <select class="form-control selectpicker col-sm-4" id="id_nature{{$lignebesoin->id}}" name="id_nature{{$lignebesoin->id}}" data-live-search="true" data-size="6">
@@ -134,7 +172,7 @@
                     </td>
                     <td class="dt-head-center"> <div class="">
                             <label for="type">{{__('neutrale.date_besoin')}}</label>
-                            <input type="date" class="form-control" id="DateBesoin{{$lignebesoin->id}}" name="DateBesoin{{$lignebesoin->id}}" placeholder="DateBesoin" value="{{isset($lignebesoin)? $lignebesoin->DateBesoin:date('Y-m-d',strtotime(date('Y-m-d'). ' + 7 days'))}}"  required>
+                            <input type="date" class="form-control DateBesoin" id="DateBesoin{{$lignebesoin->id}}" name="DateBesoin{{$lignebesoin->id}}" placeholder="DateBesoin" value="{{isset($lignebesoin)? $lignebesoin->DateBesoin:date('Y-m-d',strtotime(date('Y-m-d'). ' + 7 days'))}}"  required>
                         </div>
                     </td>
                     <td class="dt-head-center"> <div class="form-group">
@@ -251,6 +289,29 @@
                     });
                 }
             } );
+            $('#DateBesoin').change(function (e) {
+                var date_livraison = $('#DateBesoin').val();
+                $('.DateBesoin').val(date_livraison);
+
+            });
+            $('#id_codeTache').change(function (e) {
+                var date_livraison = $('#id_codeTache').val();
+                $('.id_codeTache').val(date_livraison);
+                $('.id_codeTache').selectpicker('refresh');
+
+            });
+            $('#id_codeGestion').change(function (e) {
+                var date_livraison = $('#id_codeGestion').val();
+                $('.id_codeGestion').val(date_livraison);
+                $('.id_codeGestion').selectpicker('refresh');
+
+            });
+            $('#usage').change(function (e) {
+                var date_livraison = $('#usage').val();
+                $('.usage').val(date_livraison);
+                $('.usage').selectpicker('refresh');
+
+            });
         })(jQuery);
 
     </script>

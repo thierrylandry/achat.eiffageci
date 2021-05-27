@@ -51,7 +51,9 @@ return [
     'personnaliser_mail' => 'Edited email',
     'supprimer' => 'Delete',
     'suppression_multiple' => 'Multiple deletion',
-    'soumettre' => 'Submit',
+    'soumettre' => 'Save',
+    'soumettre_creer_bc' => 'Create order voucher',
+    'seule_devis'=>'Only needs expressions with the specified management code, supplier and price will be submitted. Do you want to continue?',
     'traite' => 'TREATY',
     'reception_devis_fournisseur' => 'NEED DEXPRESSION IN PROGRESS',
     'les_bons_commandes' => 'Purchase orders',
@@ -140,4 +142,5 @@ return [
     'needed'=>'Date of need expression',
     'date_besoin'=>'Date of need expression',
     'description_panier'=>'Description (Warning it will appear on the order voucher)',
+    'dupliquer'=>'Duplicate information on all lines',
 ];

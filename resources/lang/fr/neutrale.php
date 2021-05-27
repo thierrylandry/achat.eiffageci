@@ -51,7 +51,9 @@ return [
     'personnaliser_mail' => 'PERSONNALISER MAIL',
     'supprimer' => 'Supprimer',
     'suppression_multiple' => 'Suppression multiple',
-    'soumettre' => 'Soumettre',
+    'soumettre' => 'Sauvegarder',
+    'soumettre_creer_bc' => 'Creer le Bon de commande',
+    'seule_devis'=>'Seule les demandes d\'achat  avec le code de gestion, le fournisseur et le prix précisés seront soumis. Voulez vous continuer?',
     'traite' => 'TRAITE',
     'reception_devis_fournisseur' => 'TRAITEMENT DES DEMANDES D\'ACHAT VALIDE',
     'les_bons_commandes' => 'LES BONS DE COMMANDES',
@@ -144,5 +146,6 @@ return [
     'selectionner_code_tache'=>'Selectionner code tache',
     'date_besoin'=>'Date du besoin',
     'description_panier'=>'Description (Attention ceci figurera sur le bon de commande)',
+    'dupliquer'=>'Dupliquer les informations sur toutes les lignes',
 
 ];

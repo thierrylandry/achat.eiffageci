@@ -29,7 +29,6 @@
 
                 <tr>
                     <th class="dt-head-center">id</th>
-                    <th class="dt-head-center">{{__('gestion_stock.image')}}</th>
                     <th class="dt-head-center">{{__('gestion_stock.article')}}</th>
                     <th class="dt-head-center">{{__('gestion_stock.famille')}}</th>
                     <th class="dt-head-center">{{__('gestion_stock.domaine')}}</th>
@@ -39,7 +38,6 @@
                 @foreach($materiels as $produit )
                     <tr>
                         <td>{{$produit->id}}</td>
-                        <td> @if($produit->image<>"")<img src="{{ URL::asset('/uploads/'.$produit->image)}}" width="100px" height="100px" alt="Snow" onclick="voir(this)"/> @endif </td>
                         <td>{{$produit->libelle}}</td>
                         <td>
                             {{$produit->famille->libelle}}
@@ -180,10 +178,10 @@
                         if(data==1){
                            // location.reload(true);
 
-                            alert('{{__('menu.produit_panier')}}');
+                           // alert('{{__('menu.produit_panier')}}');
                         }else{
                             console.log(data);
-                            alert('{{__('menu.produit_panier')}}');
+                           // alert('{{__('menu.produit_panier')}}');
                         }
                         afficher_contenue_panier();
                     });

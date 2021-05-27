@@ -140,7 +140,7 @@
                                                 </td>
                                                 <td><input class="form-control" style="min-width: 80px;"  type="number" min="0" id="row_n_{{$da->id}}_prix_unitaire" name="row_n_{{$da->id}}_prix_unitaire" value="" />
                                                     <label>PROPOSITION:
-                                                        <a  onclick="document.getElementById('row_n_{{$da->id}}_prix_unitaire').value='{{isset($tab_proposition[$da->id])?$tab_proposition[$da->id]->prix_unitaire:''}}';$('#row_n_{{$da->id}}_prix_unitaire').selectpicker('refresh')">  {{isset($tab_proposition[$da->id])?$tab_proposition[$da->id]->prix_unitaire:''}}</a>;
+                                                        <a  onclick="document.getElementById('row_n_{{$da->id}}_prix_unitaire').value='{{isset($tab_proposition[$da->id])?$tab_proposition[$da->id]->prix_unitaire_euro:''}}';$('#row_n_{{$da->id}}_prix_unitaire').selectpicker('refresh')">  </a>;
                                                     </label>
                                                 </td>
                                                 <td><input class="form-control"  type="number" min="0" id="row_n_{{$da->id}}_remise" name="row_n_{{$da->id}}_remise" value="0" value="" />
@@ -164,9 +164,11 @@
                                         </tbody>
 
                                     </table>
-
-                                    <input type="button" class="btn btn-success pull-right" id="soumettre" name="soumettre" value="{{ __('neutrale.soumettre') }}" />
-                                    <input type="button" class="btn btn-danger pull-left" id="supprimer" name="supprimer" value="{{ __('neutrale.supprimer') }}" />
+                                    <input type="button" class="btn btn-success col-sm-2 pull-right" style="margin: 10px" id="soumettre_et_creer_bc" name="soumettre" value="{{ __('neutrale.soumettre_creer_bc') }}" />
+                                    <div class="col-sm-1">   </div>
+                                    <input type="button" class="btn btn-warning col-sm-1 pull-right" style="margin: 10px" id="soumettre" name="soumettre" value="{{ __('neutrale.soumettre') }}" />
+                                    <div class="col-sm-1">   </div>
+                                    <input type="button" class="btn btn-danger pull-right" id="supprimer" style="margin: 10px" name="supprimer" value="{{ __('neutrale.supprimer') }}" />
 
                                 </div>
                             </form></div>
@@ -318,8 +320,8 @@
                                         </tbody>
                                     </table>
 
-                                    <input type="button" class="btn btn-success pull-right" id="soumettre1" name="soumettre1" value="{{__('translation.update')}}" />
-                                    <input type="button" class="btn btn-danger pull-left" id="supprimer1" name="supprimer" value="{{__('neutrale.supprimer')}}" />
+                                    <input type="button" class="btn btn-success pull-right" style="margin: 10px" id="soumettre1" name="soumettre1" value="{{__('translation.update')}}" />
+                                    <input type="button" class="btn btn-danger pull-right" style="margin: 10px" id="supprimer1" name="supprimer" value="{{__('neutrale.supprimer')}}" />
 
                                 </div>
                             </form>
@@ -416,7 +418,7 @@
 
 
 
-                if( confirm('Seule les devis avec le code de gestion, le fournisseur et le prix précisés seront soumis. Voulez vous soumettre le(s) devis?')){
+                if( confirm("{{__('neutrale.seule_devis')}}")){
                     var data = table1.rows().data();
                     var lesId;
                     var lesIdmat;
@@ -454,6 +456,51 @@
                 }
 
             } );
+            $('#soumettre_et_creer_bc').click( function() {
+
+
+
+                if( confirm("{{__('neutrale.seule_devis')}}")){
+                    var data = table1.rows().data();
+                    var lesId;
+                    var lesIdmat;
+                    console.log(data);
+                    data.each(function (value, index) {
+                        // var valeur=parseInt(value);
+
+                        var valeur=value+'';
+                        var  text=valeur.split(",");
+                        var vvl=$('#row_n_'+text[1]+'_fournisseur').val();
+                        console.log(vvl);
+                        if(typeof(valeur)!=="undefined"){
+                            lesId=lesId+','+text[1];
+                            lesIdmat=lesIdmat+','+text[2];
+                        }
+
+
+                    });
+                    var res;
+                    //console.log(lesId);
+                    res=table1.$("input, select[value!='']").serialize();
+
+                       console.log(res);
+                    //enregistrer_devis/"+res+"/"+lesId+"/"+lesIdmat
+                    var csrf_token = $('meta[name="csrf-token"]').attr('content');
+                    $.post("../enregistrer_devis",{res:res,lesId:lesId,lesIdmat:lesIdmat,_token: "{{ csrf_token() }}"},
+                        function (data) {
+                            console.log(data);
+                            if(data==1){
+                                location.reload();
+                                window.location.replace("{{route('gestion_bc_ajouter',app()->getLocale())}}");
+
+                            }
+                        }
+                    );
+                    return false;
+                }
+
+            } );
+
 
             $('#supprimer').click( function() {
 

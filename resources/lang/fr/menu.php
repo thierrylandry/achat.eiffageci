@@ -20,7 +20,7 @@ return array (
     'setting' => 'Paramétrages',
     'les_devis' => 'Les Devis',
     'demande_devis' => 'Demande de dévis',
-    'reception_devis' => 'Reception de Dévis',
+    'reception_devis' => 'Traitements des demandes d\'achats',
     'reception_commande_sans_bc' => 'Reception de commande sans B.C.',
     'gestion_bc' => 'Gestion des BCs',
     'regularisation_bc' => 'Régularisation de BCs',
