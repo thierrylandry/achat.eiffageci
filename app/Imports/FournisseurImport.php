@@ -88,6 +88,7 @@ class FournisseurImport implements ToModel,WithHeadingRow
                 $fournisseur->conditionPaiement=$row['condition_paiement'];
                 $fournisseur->adresseGeographique=$row['adresse_geographique'];
                 $fournisseur->contact=$raw["contact"];
+                $fournisseur->numero_origine=$raw["numero_origine"];
                 $fournisseur->domaine=implode(',',$domaines);
                 $fournisseur->id_projet=$GLOBALS['id_projet'];
                 $fournisseur->slug= Str::slug($row['libelle'].$date->format('dmYhis'));

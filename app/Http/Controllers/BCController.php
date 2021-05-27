@@ -1707,7 +1707,7 @@ $optcode.=" <option value='".$code->codeRubrique."' data-subtext='".$code->libel
 
 
         }else{
-            $res=$projet_choisi->signature1;
+            $res=Auth::user()->signature;
 
         }
 
@@ -1734,7 +1734,7 @@ $optcode.=" <option value='".$code->codeRubrique."' data-subtext='".$code->libel
 
 
         }else{
-            $res=$projet_choisi->signataire_principale->nom.' '.$projet_choisi->signataire_principale->prenoms;
+            $res=Auth::user()->nom.' '.Auth::user()->prenoms;
 
         }
 

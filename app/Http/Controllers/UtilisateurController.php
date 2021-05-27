@@ -261,7 +261,7 @@ class UtilisateurController
         $utilisateur->save();
 
 
-        return redirect()->route('home',app()->getLocale())->with('success',"success");
+        return redirect()->route('home',$parameters['locale'])->with('success',"success");
     }
     public function alljson(){
         $collections = [];

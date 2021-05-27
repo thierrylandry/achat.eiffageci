@@ -65,4 +65,5 @@ return [
     'retirer_panier'=> 'Remove from basket',
     'confirmation'=>'Do you want to continue?',
     'selectionner_element'=>'Please select at least one product',
+    'numero_origine'=> 'Origin number',
 ];

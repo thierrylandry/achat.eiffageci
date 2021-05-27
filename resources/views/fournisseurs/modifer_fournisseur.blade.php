@@ -9,7 +9,7 @@
 @section('modifier_fournisseur')
 @endsection
 @section('content')
-    <h2>{{__('menu.fournisseurs')}} - {{__('translation.update')}}<a href="{{route('ajouter_fournisseur',app()->getLocale())}}" class="btn btn-default  pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i> {{ __('translation.add') }}</a><a href="{{route('lister_fournisseurs',app()->getLocale())}}" class="btn btn-default pull-right">{{ __('translation.liste') }}</a></h2>
+    <h2>{{__('menu.fournisseurs')}} / {{__('translation.update')}}<a href="{{route('ajouter_fournisseur',app()->getLocale())}}" class="btn btn-default  pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i> {{ __('translation.add') }}</a><a href="{{route('lister_fournisseurs',app()->getLocale())}}" class="btn btn-default pull-right">{{ __('translation.liste') }}</a></h2>
     </br>
     </br>
     </br>
@@ -69,7 +69,10 @@
                                 <label for="commentaire">{{__('gestion_stock.commentaire')}}</label>
                                 <textarea id="commentaire" name="commentaire" class="form-control col-sm-8" style="height: 100px">{{isset($fournisseur)? $fournisseur->commentaire:''}}</textarea>
                             </div>
-
+                            <div class="form-group">
+                                <label for="email">{{ __('translation.numero_origine') }}</label>
+                                <input type="text" class="form-control" id="numero_origine" name="numero_origine" placeholder="{{ __('translation.numero_origine') }}" value="{{isset($fournisseur)? $fournisseur->numero_origine:''}}">
+                            </div>
                         </div>
 
                     </div>
@@ -163,7 +166,7 @@
                             </br>
                             <input type="hidden" class="form-control" id="slug" name="slug" placeholder="" value="{{isset($fournisseur)? $fournisseur->slug:''}}">
                             <br><div class="form-group" >
-                                <button type="submit" class="btn btn-success form-control" style="width: 200px;">{{isset($fournisseur)? 'Modifier':'Ajouter'}}</button>
+                                <button type="submit" class="btn btn-success form-control" style="width: 200px;">{{ __('translation.update') }}</button>
                             </div>
 
                         </div>

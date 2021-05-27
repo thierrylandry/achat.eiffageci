@@ -93,11 +93,11 @@ class FournisseurController extends Controller
 
         // Fournisseur::create($parameters);
         $date= new \DateTime(null);
-
         $fournisseur->libelle=$parameters['libelle'];
         $fournisseur->domaine=implode(',',$parameters['domaine']);
         $fournisseur->conditionPaiement=$parameters['conditionPaiement'];
         $fournisseur->commentaire=$parameters['commentaire'];
+        $fournisseur->numero_origine=$parameters['numero_origine'];
         $fournisseur->adresseGeographique=$parameters['adresseGeographique'];
         $fournisseur->responsable=$parameters['responsable'];
         $fournisseur->email=$parameters['email'];
@@ -148,6 +148,7 @@ class FournisseurController extends Controller
         $fournisseur->domaine= implode(',',$parameters['domaine']);
         $fournisseur->conditionPaiement=$parameters['conditionPaiement'];
         $fournisseur->commentaire=$parameters['commentaire'];
+        $fournisseur->numero_origine=$parameters['numero_origine'];
         $fournisseur->adresseGeographique=$parameters['adresseGeographique'];
         $fournisseur->responsable=$parameters['responsable'];
       //  $fournisseur->interlocuteur=$parameters['interlocuteur'];

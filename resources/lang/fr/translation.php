@@ -62,4 +62,8 @@ return [
     'users' => 'Les utilisateurs',
     'email' => 'E-mail',
     'prenoms'=> 'Prenoms',
+    'numero_origine'=> 'Numéro origine',
+    'confirmation'=>'Voulez vous continuer?',
+    'selectionner_element'=>'SVP sélectionnez au moins un produit',
+
 ];

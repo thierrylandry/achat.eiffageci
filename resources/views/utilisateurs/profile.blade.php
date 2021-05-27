@@ -30,6 +30,7 @@
                             </div>
 
                             <input type="hidden" class="form-control" id="slug" name="slug" placeholder="" value="{{isset($utilisateur)? $utilisateur->slug:''}}"/>
+                            <input type="hidden" class="form-control" id="locale" name="locale" placeholder="" value="{{App()->getLocale()}}"/>
                         </div>
 
                         <div class="col-sm-4">
@@ -49,7 +50,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="signature2">{{__('menu.signature')}}</label>
-                                <input type="file" class="form-control" id="signature2" name="signature"   required>
+                                <input type="file" class="form-control" id="signature2" name="signature" >
                             </div>
                         </div>
 

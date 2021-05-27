@@ -81,7 +81,7 @@
                         exportOptions: {
                             columns: [ 1,2,3,4,5]
                         },
-                        text:"Copier",
+                        text:"{{__('neutrale.copier')}}",
                         filename: "{{__('menu.fournisseurs')}}" +date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
                         className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
                         messageTop: "{{__('menu.fournisseurs')}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
@@ -119,7 +119,7 @@
                         exportOptions: {
                             columns: [ 1,2,3,4,5]
                         },
-                        text:"Imprimer",
+                        text:"{{__('neutrale.imprimer')}}",
                         filename: "{{__('menu.fournisseurs')}}"+date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear(),
                         className: 'btn btn-primary btn-sm m-5 width-140 assets-select-btn toolbox-delete-selected',
                         messageTop: "{{__('menu.fournisseurs')}}" +date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear(),
