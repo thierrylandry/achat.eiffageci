@@ -88,12 +88,14 @@
                                 @if($bc->etat==1)
 
                                     <div class="row">
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-2 ">
                                             <a  class="btn_supp btn btn-info" href="{{route('lister_commande',['locale'=>app()->getLocale(),'slug'=>$bc->id])}}" data-toggle="modal" class="" title="Plus d'info">
                                                 <i class=" fa fa-list "></i>
                                             </a>
                                         </div>
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-2 ">
+                                        </div>
+                                        <div class="col-sm-2 ">
                                             <a class=" btn btn-danger" href="{{route('supprimer_bc',['locale'=>app()->getLocale(),'slug'=>$bc->slug])}}" data-toggle="modal" class="sup" title="Supprimer">
                                                 <i class=" fa fa-trash"></i>
                                             </a>

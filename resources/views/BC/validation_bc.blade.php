@@ -8,7 +8,7 @@
 
 </br>
     <div class="row">
-        <div class="col-sm-offset-1 col-sm-9" >    @include('BC/list_bc_validation')</div>
+        <div class="col-sm-offset-1 col-sm-10" >    @include('BC/list_bc_validation')</div>
     </div>
 
     @if(isset($bc) || isset($ajouter))

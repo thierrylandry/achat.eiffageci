@@ -14,6 +14,7 @@ use App\Services;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 class UtilisateurController
 {
@@ -237,7 +238,15 @@ class UtilisateurController
         $utilisateur->abréviation = $parameters['abréviation'];
         $utilisateur->function = $parameters['function'];
         $utilisateur->contact =$parameters['contact'];
+        if($request->file('signature')){
+                $utilisateur->signature=$utilisateur->id.'.'.$request->file('signature')->getClientOriginalExtension();
+                $path = Storage::putFileAs(
+                    'images/users', $request->file('signature'), $utilisateur->signature
+                );
 
+        }else{
+
+        }
 
         //Hash::needsRehash($parameters['password'])
         //dd("ancien ".$utilisateur->password." nouveau :".$parameters['password']." Qaund on hash sa donne ceci".Hash::check($parameters['password'],$parameters['password']));

@@ -30,21 +30,24 @@
         <input type="hidden" name="les_id_futur_devis" value="{{$future_devis}}" />
         <input type="hidden" name="devise" id="devise" value="{{$devise}}"/>
         <input type="hidden" name="locale" id="locale" value="{{App()->getLocale()}}"/>
+        <input type="hidden" name="id_fournisseur" id="id_fournisseur" value="{{$fournisseur->id}}"/>
         <div class="row">
             <div class="col-sm-4">
                 <div class="form-group">
                     <label class="control-label" for="numero_bc">Numero de BC:</label>
                     <div>
-                        <input type="text" class="form-control" id="numero_bc" name="numero_bc" placeholder="Enter un numero" value="{{isset($bc->numBonCommande)?$bc->numBonCommande:''}}"  required>
+                        <input type="text" class="form-control" id="numero_bc" name="numero_bc" placeholder="Enter un numero" value="{{isset($numero_bc)?$numero_bc:''}}"  required>
                     </div>
-                    <label>LISTE DES DATES PROPOSEES: </label>
                 </div>
                 <div class="form-group">
                     <label class="control-label" for="date_livraison">Date de livraison:</label>
                     <div>
                         <input type="date" class="form-control" id="date_livraison" name="date_livraison" placeholder="Enter un numero" value="{{isset($bc->date)?$bc->date:''}}"  required>
                     </div>
-                    <label>LISTE DES DATES PROPOSEES: </label>
+                    <label>LISTE DES DATES PROPOSEES: @foreach($date_propose as $date)
+
+                        <a  onclick="document.getElementById('date_livraison').value='{{$date}}'">  {{ "".$date}}</a>;
+                    @endforeach</label>
                 </div>
                 </br>
                 <div class="form-group">
@@ -53,12 +56,9 @@
                         <select class="form-control selectpicker" id="id_service" name="id_service" data-live-search="true" data-size="6" noneSelectedText="SELECTIONNER UN SERVICE"   required >
                             <option value="">SELECTIONNER UN SERVICE</option>
 
-                            <option {{isset($bc->service_demandeur)&&$bc->service_demandeur=="Service materiel"? "selected":''}} value="Service materiel">Service matériel</option>
-                            <option  {{isset($bc->service_demandeur)&&$bc->service_demandeur=="Direction"? "selected":''}} value="Direction">Direction</option>
-                            <option {{isset($bc->service_demandeur)&&$bc->service_demandeur=="Secretariat"? "selected":''}} value="Secretariat">Secrétariat</option>
-                            <option  {{isset($bc->service_demandeur)&&$bc->service_demandeur=="Service travaux"? "selected":''}}value="Service travaux">Service travaux </option>
-                            <option {{isset($bc->service_demandeur)&&$bc->service_demandeur=="Service methodes"? "selected":''}} value="Service methodes">Service méthodes </option>
-                            <option {{isset($bc->service_demandeur)&&$bc->service_demandeur=="Service informatique"? "selected":''}} value="Service informatique">Service informatique </option>
+                            @foreach($services as $service)
+                            <option {{isset($bc)&& $bc->service_demandeur==$service->id? "selected":''}} value="{{$service->id}}">{{$service->libelle}}</option>
+                        @endforeach
                         </select>
                     </div>
                     <label>LISTE DES SERVICE PROPOSES: </label>

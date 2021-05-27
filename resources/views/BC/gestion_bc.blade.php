@@ -23,7 +23,6 @@
                         <b><label for="libelle" class="control-label col-sm-6">{{__('neutrale.projet')}}:</label></b>
                         <div class="col-sm-6">
                             <select class="form-control selectpicker " id="id_projet" name="id_projet" data-live-search="true" data-size="6" required>
-                                <option value="" >{{__('neutrale.selectionner_projet')}}</option>
                                 @foreach($projets as $projet)
                                     @if(isset($bc) && $bc->id_projet==$projet->id)
                                         {{$selec="selected"}}
@@ -270,7 +269,7 @@
 
 </div>
        <div class="row">
-        <div class="col-sm-offset-2 col-sm-8" >    @include('BC/list_bc')</div>
+        <div class="col-sm-offset-1 col-sm-10" >    @include('BC/list_bc')</div>
     </div>
 
     @if(isset($bc) || isset($ajouter))

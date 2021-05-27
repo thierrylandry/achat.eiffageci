@@ -419,12 +419,19 @@ return $view;
         $fournisseur =Fournisseur::find($id_fournisseur);
         $ligne_bonlivraisons = Ligne_bonlivraison::where('ligne_bonlivraison.id_projet','=',$projet_choisi->id)->where('ligne_bonlivraison.devise','=',$devise)->where('id_fournisseur','=',$id_fournisseur)->where('etat','=',0)->get();
         $future_devis="";
+        $numero_bc=$this->generer_numero_bc();
+        $date_propose= Array();
         foreach($ligne_bonlivraisons as $devi):
             $future_devis=$future_devis.$devi->id.",";
+            if(!in_array($devi->date_reception, $date_propose)){
+                $date_propose[]=$devi->date_reception;
+            }
             endforeach;
-
+            $date_propose= Array();
+            $service_id= Array();
+            $service_libelle= Array();
         $gestions =Gestion::all();
-        return view('BC/bc_regularisation',compact('ligne_bonlivraisons','fournisseur','gestions','devise','projet_choisi','future_devis'));
+        return view('BC/bc_regularisation',compact('ligne_bonlivraisons','fournisseur','gestions','devise','projet_choisi','future_devis','numero_bc','date_propose'));
     }
     public function generer_numero_bc(){
         $projet_choisi= ProjectController::check_projet_access();
@@ -772,6 +779,7 @@ return $view;
         $parameters=$request->except(['_token']);
         $les_id_futur_devis=explode(',',$parameters['les_id_futur_devis']);
         $commentaire=$parameters['commentaire'];
+        $projet_choisi= ProjectController::check_projet_access();
         //je crée le bons de commandes
         $date= new \DateTime(null);
         $boncommande= new Boncommande();
@@ -781,7 +789,9 @@ return $view;
         $boncommande->remise_excep=$parameters['remise_exc'];
         $boncommande->commentaire_general=$commentaire;
         $boncommande->devise_bc=$parameters['devise'];
-        $boncommande->numBonCommande=$parameters['numero_bc'];
+        $boncommande->numBonCommande=$projet_choisi->libelle.'-'.$parameters['numero_bc'];
+        $boncommande->id_fournisseur= $parameters['id_fournisseur'];
+        $boncommande->id_user= Auth()->user()->id;
         $boncommande->slug=Str::slug($parameters['numero_bc'].$date->format('dmYhis'));
       //  $sumligne=ligne_bc::where('id_bonCommande','=',$boncommande->id)->sum('prix_tot');
 
@@ -832,7 +842,7 @@ $boncommande=Boncommande::find($boncommande->id);
                 $Devis->prix_unitaire_euro=$ligne_bonlivraison->prix_unitaire_euro;
                 $Devis->prix_unitaire_usd=$ligne_bonlivraison->prix_unitaire_usd;
                 $Devis->etat=1;
-                $Devis->save();
+
                $ligne_bonlivraison->id_devis=$Devis->id;
                $ligne_bonlivraison->etat=1;
                $ligne_bonlivraison->save();
@@ -880,6 +890,28 @@ $boncommande=Boncommande::find($boncommande->id);
 
 
             }
+
+            //régularisation de la demande d'achat
+             // Fournisseur::create($parameters);
+        $date = new \DateTime(null);
+        $da = new DA();
+        $da->unite = $Devis->unite;
+        $da->quantite = $Devis->quantite;
+        $da->DateBesoin = $ligne_bonlivraison->date_reception;
+        $da->id_user = Auth()->user()->id;
+        $da->id_codeGestion = $gestion->id;
+        $da->id_nature = 1;
+        $da->id_materiel = $Devis->id_materiel;
+        $da->etat=2;
+        $da->usage = $boncommande->commentaire_general;
+        $da->demandeur = Auth()->user()->nom;
+        $da->slug = Str::slug($da->id_materiel. $date->format('dmYhis'));
+        $da->id_projet=session('id_projet');
+        $da->save();
+        $Devis->id_da=$da->id;
+       // dd($Devis);
+        $Devis->save();
+            //régularisation
 
             endforeach;
 
@@ -1319,6 +1351,7 @@ $boncommande=Boncommande::find($boncommande->id);
 
 
         $id_devi="";
+
         foreach($bc->ligne_bcs()->get() as $devi):
             $id_devi=$id_devi.$devi->id.",";
             endforeach;

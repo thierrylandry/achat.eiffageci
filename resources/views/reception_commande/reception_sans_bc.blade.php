@@ -146,9 +146,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="libelle" class="control-label">{{__('reception.date_livraison')}}</label>
-
-
-                        <input type="date" id="date_livraison" name="date_livraison" value="{{isset($ligne_bonlivraison->date_livraison)? $ligne_bonlivraison->date_livraison:''}}"/>
+                        <input type="date" id="date_livraison" name="date_livraison" value="{{isset($ligne_bonlivraison->date_reception)?$ligne_bonlivraison->date_reception:''}}" required/>
                     </div>
                 </div>
 

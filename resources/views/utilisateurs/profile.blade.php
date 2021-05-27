@@ -4,7 +4,7 @@
     <h2>{{strtoupper(__('menu.mon_profile'))}} / {{isset($utilisateur)? strtoupper(__('neutrale.modifier_utilisateur')):''}}</h2><br/><br/><br/>
 
     <div class="row">
-            <form role="form" id="FormRegister" class="bucket-form" method="post" action="{{route('modifier_profile')}}">
+            <form role="form" id="FormRegister" class="bucket-form" enctype="multipart/form-data" method="post" action="{{route('modifier_profile')}}">
 
                         <div class="col-sm-4">
                             @csrf
@@ -21,6 +21,12 @@
                             <div class="form-group">
                                 <label for="email">{{__('translation.email')}}</label>
                                 <input type="email" class="form-control" id="email" name="email" value="{{isset($utilisateur)? $utilisateur->email:''}}" readonly>
+                            </div>
+                            <div class="form-group">
+                                {{__('menu.signature')}}
+                                    <img src="{{asset('storage/app/images/users/'.$utilisateur->signature)}}" id="blah" width="225px" />
+                                <br>
+
                             </div>
 
                             <input type="hidden" class="form-control" id="slug" name="slug" placeholder="" value="{{isset($utilisateur)? $utilisateur->slug:''}}"/>
@@ -40,6 +46,10 @@
                             <div class="form-group">
                                 <label for="contact">{{__('translation.contact')}}</label>
                                 <input type="text" class="form-control" id="contact" name="contact" placeholder="{{__('translation.contact')}}" value="{{isset($utilisateur)? $utilisateur->contact:''}}">
+                            </div>
+                            <div class="form-group">
+                                <label for="signature2">{{__('menu.signature')}}</label>
+                                <input type="file" class="form-control" id="signature2" name="signature"   required>
                             </div>
                         </div>
 
@@ -104,43 +114,15 @@
                     </br>
                     </br>
                     </br>
-                    <!-- Script pour générer l'adresse e-mail à partir du nom et prénoms saisi -->
+
                     <script type="application/javascript">
 
-                        var txtnom = document.getElementById('nom');
-                        var txtprenoms = document.getElementById('prenoms');
-
-                        function génère_mail()
-                        {
-                            var mail = txtprenoms.value +'.'+ txtnom.value + '@eiffage.com';
-                            document.getElementById('email').value = mail;
-                        }
-
-                        txtprenoms.addEventListener('keydown', function (e) {génère_mail()});
-                        txtprenoms.addEventListener('change', function (e) {génère_mail()});
-                        txtnom.addEventListener('change', function (e) {génère_mail()});
-                        txtnom.addEventListener('keydown', function (e) {génère_mail()});
-
-                        $(document).ready(function (e) {
-                            //  génère_mail();
-                        });
-
-                        var table= $('#fournisseurs').DataTable({
-                            language: {
-                                url: "js/French.json"
-                            },
-                            "ordering":true,
-                            "responsive": true,
-                            "createdRow": function( row, data, dataIndex){
-
-                            },
-                            columnDefs: [
-                                { responsivePriority: 5, targets: 0 },
-                                { responsivePriority: 4, targets: -1 }
-                            ]
-                        }).column(0).visible(false);
-                        //table.DataTable().draw();
-
+                        signature2.onchange = evt => {
+                            const [file] = signature2.files
+                            if (file) {
+                              blah.src = URL.createObjectURL(file)
+                            }
+                          }
 
                     </script>
 @endsection

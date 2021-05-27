@@ -176,7 +176,21 @@ class ReceptionController extends Controller
             $ligne_livraison->quantite	=$quantite;
             $ligne_livraison->date_reception=$date_livraison;
             $ligne_livraison->numero_bl	=$numero_bl;
-            $ligne_livraison->prix_unitaire	=$prix_unitaire;
+            if($devise=="XOF"){
+                $ligne_livraison->prix_unitaire	=$prix_unitaire;
+                $ligne_livraison->prix_unitaire_euro=RapportController::convertir_dans_une_devise($prix_unitaire,date("Y-m-d"),$devise.'_EUR');
+                $ligne_livraison->prix_unitaire_usd=RapportController::convertir_dans_une_devise($prix_unitaire,date("Y-m-d"),$devise.'_USD');
+            }elseif($devise=="USD"){
+                $ligne_livraison->prix_unitaire_usd	=$prix_unitaire;
+                $ligne_livraison->prix_unitaire_euro=RapportController::convertir_dans_une_devise($prix_unitaire,date("Y-m-d"),$devise.'_EUR');
+                $ligne_livraison->prix_unitaire=RapportController::convertir_dans_une_devise($prix_unitaire,date("Y-m-d"),$devise.'_XOF');
+            }else{
+
+                $ligne_livraison->prix_unitaire_euro=$prix_unitaire;
+              //  dd($ligne_livraison->prix_unitaire_euro);
+                $ligne_livraison->prix_unitaire_usd=RapportController::convertir_dans_une_devise($prix_unitaire,date("Y-m-d"),$devise.'_USD');
+                $ligne_livraison->prix_unitaire=RapportController::convertir_dans_une_devise($prix_unitaire,date("Y-m-d"),$devise.'_XOF');
+            }
             $ligne_livraison->reference	=$designation->libelle;
             $ligne_livraison->devise=$devise;
             $ligne_livraison->remise=$remise;
