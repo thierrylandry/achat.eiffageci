@@ -19,6 +19,7 @@
 @csrf
                 <div class="modal-body">
 <input type="hidden" name="slug"  value="{{isset($bc)? $bc->slug:''}}"/>
+<input type="hidden" name="locale"  value="{{App()->getLocale()}}"/>
                     <div class="form-group">
                         <b><label for="libelle" class="control-label col-sm-6">{{__('neutrale.projet')}}:</label></b>
                         <div class="col-sm-6">
