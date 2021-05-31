@@ -1011,7 +1011,10 @@ Route::get('/notificateur',[
         'uses'=>'DAController@afficher_contenue_panier',
 
     ])->middleware('auth');
-
+    Route::get('/produit_processing', [
+        'as'=>'produit_processing',
+        'uses'=>'DAController@produit_processing',
+    ])->middleware('roles');
     Route::get('modifier_taux_change/{id}',[
         'as'=>'modifier_taux_change',
         'uses'=>'ConfigurationController@modifier_taux_change',

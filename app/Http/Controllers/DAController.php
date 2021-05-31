@@ -37,6 +37,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use phpDocumentor\Reflection\Types\Array_;
+use SoulDoit\DataTable\SSP;
 
 class DAController
 {
@@ -531,7 +532,7 @@ class DAController
     public function demande_achat()
     {
 
-        $materiels=Designation::all();
+       // $materiels=Designation::all();
         /*debut du traçages*/
         $ip			= $_SERVER['REMOTE_ADDR'];
         if (isset($_SERVER['REMOTE_HOST'])){
@@ -541,11 +542,32 @@ class DAController
         }
 
         $panini ="panier";
+
+        $dt_obj = $this->dtSsp();
+        $dt_info=$dt_obj->getInfo();
+
+
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; affichage de la fenetre de création de D.A.', ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
 
-        return view('DA/demande_achat',compact('materiels','panini'));
+      //  return view('DA/demande_achat',compact('materiels','panini'));
+        return view('DA/demande_achat',compact('dt_info','panini'));
 
+    }
+    public function produit_processing($id=null)
+    {
+        $dt_obj = $this->dtSsp();
 
+        return response()->json($dt_obj->getDtArr());
+    }
+    private function dtSsp()
+    {
+        $dt = [
+            ['label'=>'ID',         'db'=>'id',            'dt'=>0, 'formatter'=>function($value, $model){ return str_pad($value, 5, '0', STR_PAD_LEFT); }],
+            ['label'=>__('gestion_stock.article'),      'db'=>'libelle',         'dt'=>1],
+            ['label'=>__('gestion_stock.famille'),   'db'=>'famille.libelle',         'dt'=>2],
+            ['label'=>__('gestion_stock.domaine'), 'db'=>'domaines.libelleDomainne',    'dt'=>3],
+        ];
+        return (new SSP('designation', $dt))->leftJoin('famille', 'id_famille', "famille.id")->leftJoin('domaines', 'famille.id_domaine', "domaines.id")->order(2, 'desc');
     }
     public function mon_panier()
     {

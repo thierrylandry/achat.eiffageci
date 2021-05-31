@@ -15,7 +15,8 @@
         "laravel/tinker": "^1.0",
         "maatwebsite/excel": "^3.1",
         "predis/predis": "^1.1",
-        "spipu/html2pdf": "^5.2"
+        "spipu/html2pdf": "^5.2",
+        "syamsoul/laravel-datatable-ssp": "^2.3"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

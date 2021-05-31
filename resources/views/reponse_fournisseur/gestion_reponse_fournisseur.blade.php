@@ -119,7 +119,7 @@
                                                     </select>
                                                 </td>
                                                 <td>{{$da->DateBesoin}}</td>
-                                                <td>  <select class="form-control" id="row_n_{{$da->id}}_fournisseur" name="row_n_{{$da->id}}_fournisseur">
+                                                <td>  <select class="form-control selectpicker" id="row_n_{{$da->id}}_fournisseur" data-live-search="true"  name="row_n_{{$da->id}}_fournisseur">
                                                         <option value="">SELECTIONNER UN  FOURNISSEUR</option>
 
                                                         @foreach($fournisseurs as $fournisseur)

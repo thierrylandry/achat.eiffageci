@@ -23,33 +23,7 @@
 
             <div id="events"></div>
     <input type="button" class="btn btn-info" value="{{__('gestion_stock.lister_selection')}} " id="action_liste"> <input type="button" class="btn btn-success" value="{{__('gestion_stock.ajouter_au_panier')}} " id="ajouter_panier">
-            <table  name ="produits" id="produits" class='table table-bordered table-striped  no-wrap '>
-
-                <thead>
-
-                <tr>
-                    <th class="dt-head-center">id</th>
-                    <th class="dt-head-center">{{__('gestion_stock.article')}}</th>
-                    <th class="dt-head-center">{{__('gestion_stock.famille')}}</th>
-                    <th class="dt-head-center">{{__('gestion_stock.domaine')}}</th>
-                </tr>
-                </thead>
-                <tbody name ="contenu_tableau_entite" id="contenu_tableau_entite">
-                @foreach($materiels as $produit )
-                    <tr>
-                        <td>{{$produit->id}}</td>
-                        <td>{{$produit->libelle}}</td>
-                        <td>
-                            {{$produit->famille->libelle}}
-                        </td>
-                        <td>
-                            {{(isset($produit->famille->domaine->libelleDomainne)?$produit->famille->domaine->libelleDomainne:'')}}
-                        </td>
-
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
+            <table  name ="produits" id="produits" class='table table-bordered table-striped  no-wrap '></table>
 
 
         </form>
@@ -115,6 +89,11 @@
         (function($) {
             var events = $('#events');
             var table= $('#produits').DataTable({
+                processing: true,
+                    serverSide: true,
+                    ajax: '{{route('produit_processing',['locale'=>App()->getLocale()])}}',
+                    columns: {!!json_encode($dt_info['labels'])!!},
+                    order: {!!json_encode($dt_info['order'])!!},
                 dom: 'Bfrtip',
 
                 buttons: [
@@ -138,6 +117,7 @@
                 "createdRow": function( row, data, dataIndex){
 
                 },
+                "deferRender": true,
                 responsive: false,
                 "columnDefs": [
                     {

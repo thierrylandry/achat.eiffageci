@@ -1465,7 +1465,7 @@ $boncommande=Boncommande::find($boncommande->id);
             $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         }
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.';Création du Bon de commande N° '.$Boncommande->numBonCommande, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
-        return redirect()->back()->with('success',"success");
+        return redirect()->route('gestion_bc',App()->getLocale())->with('success', "success");
     }
     public function modifier_bc( Request $request)
     {
