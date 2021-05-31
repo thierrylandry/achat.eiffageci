@@ -67,7 +67,6 @@ $fournisseur= Fournisseur::find($bc->id_fournisseur);
                 Mail::send('mail.mail_bc',array('tab' =>$tab,'bc'=>$bc),function($message)use ($pdf,$bc,$contact,$contactDemandeur,$numBonCommande,$fournisseur){
                 $message->from($bc->expediteur->email ,$bc->expediteur->nom." ".$bc->expediteur->prenoms)
                     ->bcc("claudiane.costecalde@eiffage.com")
-                    ->bcc("marina.oulai@eiffage.com")
                     ->bcc("sopie.ncho@eiffage.com")
                     ->bcc("melaine.ekra@eiffage.com")
                     ->bcc("cyriaque.kodia@eiffage.com")

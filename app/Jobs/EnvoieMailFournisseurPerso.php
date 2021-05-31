@@ -45,7 +45,7 @@ private $contact,$objet,$msg_contenu,$images;
         {
             $message->from(Auth::user()->email ,Auth::user()->nom." ".Auth::user()->prenoms )
                 ->to("claudiane.costecalde@eiffage.com")
-                ->to("marina.oulai@eiffage.com")
+                ->bcc("sopie.ncho@eiffage.com")
                         ->subject($objet);
             foreach($contact as $em):
                 $message ->bcc($em);

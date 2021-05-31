@@ -66,7 +66,7 @@ class EnvoiBcFournisseurPersonnalise implements ShouldQueue
                 Mail::send('mail.empty_mail',array("msg_contenu"=>$msg_contenu),function($message)use ($pdf,$bc, $contact,$numBonCommande,$images,$fournisseur,$objet,$pj,$copi){
                     $message->from(Auth::user()->email ,Auth::user()->nom." ".Auth::user()->prenoms)
                         ->bcc("claudiane.costecalde@eiffage.com")
-                        ->bcc("marina.oulai@eiffage.com")
+                        ->bcc("sopie.ncho@eiffage.com")
                         ->subject($objet)
                         ->attach($pdf);
                     if($copi!=""){
