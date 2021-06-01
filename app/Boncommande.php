@@ -23,6 +23,10 @@ class Boncommande extends Model
     {
         return $this->belongsTo('App\User','id_expediteur');
     }
+    public function auteur()
+    {
+        return $this->belongsTo('App\User','id_user');
+    }
     public function projet()
     {
         return $this->belongsTo('App\Projet','id_projet');

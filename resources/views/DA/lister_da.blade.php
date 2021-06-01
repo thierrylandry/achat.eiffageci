@@ -87,22 +87,22 @@
                         <td>
 
                             @if($da->etat==1)
-                            <i class="fa fa-circle "  style="color: red"></i>
+                            <i class="fa fa-circle "  style="color: orange"></i>
                             {{__('menu.suspendu')}}
                             @elseif($da->etat==2)
-                            <i class="fa fa-circle" style="color: mediumspringgreen"></i>
+                            <i class="fa fa-circle" style="color: yellow"></i>
                             {{__('menu.accepted')}}
                             @elseif($da->etat==3)
-                            <i class="fa fa-circle" style="color: #f0ad4e"></i>
+                            <i class="fa fa-circle" style="color: chartreuse"></i>
                             {{__('menu.attente')}}
                             @elseif($da->etat==0)
-                            <i class="fa fa-circle" style="color: black"></i>
+                            <i class="fa fa-circle" style="color: red"></i>
                             {{__('menu.refuser')}}
                             @elseif($da->etat==4)
-                                <i class="fa fa-circle" style="color:#00ffff"></i>
+                                <i class="fa fa-circle" style="color:green"></i>
                                 {{__('menu.traite_termine')}}
                             @elseif($da->etat==11)
-                                <i class="fa fa-circle" style="color: violet"></i>
+                                <i class="fa fa-circle" style="color: black"></i>
                                 {{__('menu.traite_retouner')}}
                             @endif
                         </td>

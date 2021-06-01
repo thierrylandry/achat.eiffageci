@@ -42,43 +42,34 @@
                     @foreach($bcs_en_attentes as $bc )
                         <tr>
                             <td>{{$bc->id}}</td>
-                            <td>                        @if($bc->etat==1)
-                                    <i class="fa fa-circle "  style="color:  red"><p style="visibility: hidden">1</p></i>
+                            <td>                               @if($bc->etat==1)
+                                <i class="fa fa-circle "  style="color:  orange"><p style="visibility: hidden">1</p></i>
 
-                                @elseif($bc->etat==2)
-                                    <i class="fa fa-circle" style="color: mediumspringgreen"><p style="visibility: hidden">2</p></i>
-                                @elseif($bc->etat==3)
-                                    <i class="fa fa-circle" style="color: #f0ad4e"><p style="visibility: hidden">3</p></i>
-                                @elseif($bc->etat==4)
-                                    <a href="" data-toggle="modal" class="">
-                                        <i class="fa fa-circle" style="color: #00ffff"><p style="visibility: hidden">4</p></i>
-                                    </a>
-                                @elseif($bc->etat==11)
-                                    <a href="" data-toggle="modal" class="">
-                                        <i class="fa fa-circle" style="color: violet"><p style="visibility: hidden">11</p></i>
-                                    </a>
+                            @elseif($bc->etat==2)
+                                <i class="fa fa-circle" style="color: yellow"><p style="visibility: hidden">2</p></i>
+                            @elseif($bc->etat==3)
+                                <i class="fa fa-circle" style="color: chartreuse"><p style="visibility: hidden">3</p></i>
+                            @elseif($bc->etat==4)
+                                <a href="" data-toggle="modal" class="">
+                                    <i class="fa fa-circle" style="color: green"><p style="visibility: hidden">4</p></i>
+                                </a>
+                            @elseif($bc->etat==11)
+                                <a href="" data-toggle="modal" class="">
+                                    <i class="fa fa-circle" style="color: black"><p style="visibility: hidden">11</p></i>
+                                </a>
 
-                                @elseif($bc->etat==0)
-                                    <i class="fa fa-circle" style="color: black"><p style="visibility: hidden">0</p></i>
-                                @endif
+                            @elseif($bc->etat==0)
+                                <i class="fa fa-circle" style="color: red"><p style="visibility: hidden">0</p></i>
+                            @endif
 
                             </td>
                             <td>{{$bc->numBonCommande}}</td>
                             <td>
-                                @foreach($fournisseurss as $fournisseur)
-                                    @if($fournisseur->id==$bc->id_fournisseur)
-                                        {{$fournisseur->libelle}}
-                                    @endif
-
-                                @endforeach</td>
+                                {{$bc->fournisseur->libelle}} ({{$bc->devise->libelle}})</td>
                             <td>
                                 {{$bc->date	}}
                             </td>
-                            <td>@foreach($utilisateurs as $utilisateur)
-                                    @if($utilisateur->id==$bc->id_user)
-                                        {{$utilisateur->nom}}
-                                    @endif
-                                @endforeach</td>
+                            <td> {{$bc->auteur->nom}} ({{$bc->auteur->prenoms}})</td>
                             <td>@if($bc->devise_bc =="XOF") @if($bc->total_ttc!=0){{number_format($bc->total_ttc, 0, ',', ' ')}} @endif  @elseif($bc->devise_bc =="EUR") @if($bc->total_ttc_euro!=0){{number_format($bc->total_ttc_euro, 0, ',', ' ')}}@endif @elseif($bc->devise_bc =="USD") @if($bc->total_ttc_usd!=0){{number_format($bc->total_ttc_usd, 0, ',', ' ')}}@endif  @endif  {{$bc->devise->libelle}}
                             </td>
                             <td>
@@ -236,43 +227,34 @@
                     @foreach($bcs as $bc )
                         <tr>
                             <td>{{$bc->id}}</td>
-                            <td>                        @if($bc->etat==1)
-                                    <i class="fa fa-circle "  style="color:  red"><p style="visibility: hidden">1</p></i>
+                            <td>                               @if($bc->etat==1)
+                                <i class="fa fa-circle "  style="color:  orange"><p style="visibility: hidden">1</p></i>
 
-                                @elseif($bc->etat==2)
-                                    <i class="fa fa-circle" style="color: mediumspringgreen"><p style="visibility: hidden">2</p></i>
-                                @elseif($bc->etat==3)
-                                    <i class="fa fa-circle" style="color: #f0ad4e"><p style="visibility: hidden">3</p></i>
-                                @elseif($bc->etat==4)
-                                    <a href="" data-toggle="modal" class="">
-                                        <i class="fa fa-circle" style="color: #00ffff"><p style="visibility: hidden">4</p></i>
-                                    </a>
-                                @elseif($bc->etat==11)
-                                    <a href="" data-toggle="modal" class="">
-                                        <i class="fa fa-circle" style="color: violet"><p style="visibility: hidden">11</p></i>
-                                    </a>
+                            @elseif($bc->etat==2)
+                                <i class="fa fa-circle" style="color: yellow"><p style="visibility: hidden">2</p></i>
+                            @elseif($bc->etat==3)
+                                <i class="fa fa-circle" style="color: chartreuse"><p style="visibility: hidden">3</p></i>
+                            @elseif($bc->etat==4)
+                                <a href="" data-toggle="modal" class="">
+                                    <i class="fa fa-circle" style="color: green"><p style="visibility: hidden">4</p></i>
+                                </a>
+                            @elseif($bc->etat==11)
+                                <a href="" data-toggle="modal" class="">
+                                    <i class="fa fa-circle" style="color: black"><p style="visibility: hidden">11</p></i>
+                                </a>
 
-                                @elseif($bc->etat==0)
-                                    <i class="fa fa-circle" style="color: black"><p style="visibility: hidden">0</p></i>
-                                @endif
+                            @elseif($bc->etat==0)
+                                <i class="fa fa-circle" style="color: red"><p style="visibility: hidden">0</p></i>
+                            @endif
 
                             </td>
                             <td>{{$bc->numBonCommande}}</td>
                             <td>
-                                @foreach($fournisseurss as $fournisseur)
-                                    @if($fournisseur->id==$bc->id_fournisseur)
-                                        {{$fournisseur->libelle}}
-                                    @endif
-
-                                @endforeach</td>
+                                {{$bc->fournisseur->libelle}} ({{$bc->devise->libelle}})</td>
                             <td>
                                 {{$bc->date	}}
                             </td>
-                            <td>@foreach($utilisateurs as $utilisateur)
-                                    @if($utilisateur->id==$bc->id_user)
-                                        {{$utilisateur->nom}}
-                                    @endif
-                                @endforeach</td>
+                            <td> {{$bc->auteur->nom}} ({{$bc->auteur->prenoms}})</td>
                             <td>
                                 @if($bc->etat==1)
 

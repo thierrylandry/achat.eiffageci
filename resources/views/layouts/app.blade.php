@@ -375,11 +375,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
          <table   style="color: ghostwhite;size:20pt">
              <thead>
              <tr><th></th><th>D.A</th><th>B.C</th></tr>
-             <tr><td><div style="background-color: #CC0000; width: 25px"> &nbsp;</div></td><td> {{ __('menu.attente') }} </td><td>{{ __('menu.attente') }}</td></tr>
-             <tr><td><div style="background-color: mediumspringgreen; width: 25px"> &nbsp;</div></td><td>{{ __('menu.valide') }} </td><td>{{ __('menu.valide') }}</td></tr>
-             <tr><td><div style="background-color: #e0a800; width: 25px"> &nbsp;</div></td><td>{{ __('menu.encours') }} </td><td>{{ __('menu.transmis') }}</td></tr>
-             <tr><td><div style="background-color: #00ffff; width: 25px"> &nbsp;</div></td><td> {{ __('menu.traite_termine') }} </td><td>{{ __('menu.traite_termine_transmis') }}</td></tr>
-             <tr><td><div style="background-color: violet; width: 25px"> &nbsp;</div></td><td>  {{ __('menu.traite_retourne') }} </td><td>{{ __('menu.traite_transmis_retourne') }} </td></tr>
+             <tr><td><div style="background-color: orange; width: 25px"> &nbsp;</div></td><td> {{ __('menu.attente') }} </td><td>{{ __('menu.attente') }}</td></tr>
+             <tr><td><div style="background-color: yellow; width: 25px"> &nbsp;</div></td><td>{{ __('menu.valide') }} </td><td>{{ __('menu.valide') }}</td></tr>
+             <tr><td><div style="background-color: red; width: 25px"> &nbsp;</div></td><td>{{ __('menu.refuser') }} </td><td>{{ __('menu.refuser') }}</td></tr>
+             <tr><td><div style="background-color: chartreuse; width: 25px"> &nbsp;</div> </td><td>{{ __('menu.encours') }} </td><td>{{ __('menu.transmis') }}</td></tr>
+             <tr><td><div style="background-color: green; width: 25px"> &nbsp;</div></td><td> {{ __('menu.traite_termine') }} </td><td>{{ __('menu.traite_termine_transmis') }}</td></tr>
+             <tr><td><div style="background-color: black; width: 25px"> &nbsp;</div></td><td>  {{ __('menu.traite_retourne') }} </td><td>{{ __('menu.traite_transmis_retourne') }} </td></tr>
              </thead>
 
          </table></li>
