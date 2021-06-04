@@ -301,6 +301,9 @@
                                                 <a href="{{route('gestion_importation',['locale'=>app()->getLocale(),'slug'=>$projet->id])}}" data-toggle="modal" class="btn btn-default pull-right">
                                                     <i class="fa  fa-upload"></i> Importations & {{__('menu.signature')}}
                                                 </a>
+                                                <a href="{{route('workflow',['locale'=>app()->getLocale(),'slug'=>$projet->id])}}" data-toggle="modal" class="btn  pull-right">
+                                                    <i class="fa  fa-check"></i> {{__('menu.work_flow_validation')}}
+                                                </a>
 
                                             </td>
                                         </tr>

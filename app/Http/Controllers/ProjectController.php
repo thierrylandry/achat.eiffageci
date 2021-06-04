@@ -12,6 +12,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use App\Validation_flow;
 
 class ProjectController extends Controller
 {
@@ -41,6 +42,46 @@ class ProjectController extends Controller
 
     }
 
+    public function workflow($locale,$id){
+       
+        $projet = Projet::find($id);
+        $userall = User::where('id_projet','=',$projet->id)->get();
+        $users = array();
+        foreach($userall as $useral):
+            if ($useral->hasRole('Valideur_BC')){
+                $users[]=$useral;
+            }
+        endforeach;
+        $validation_flows = Validation_flow::all();
+        return view('workflow.workflow',compact('projet','users','validation_flows'));
+    }
+    public function workflow_modifier($locale,$id){
+        $projet_choisi= ProjectController::check_projet_access();
+        $projet = $projet_choisi;
+        $validation_flow = Validation_flow::find($id);
+        $validation_flows = Validation::all();
+        $userall = User::where('id_projet','=',$projet->id)->get();
+        $users = array();
+        foreach($userall as $useral):
+            if ($useral->hasRole('Valideur_BC')){
+                $users[]=$useral;
+            }
+        endforeach;
+        return view('workflow.workflow',compact('projet','users','validation_flow','validation_flows'));
+    }
+    public function save_workflow(Request $request){
+        $parameters = $request->except(['_token']);
+        $id_projet=$parameters['id_projet'];
+        $id_valideur=$parameters['id_projet'];
+        $position=$parameters['position'];
+        $validation_flow = new Validation_flow();
+
+        $validation_flow->id_projet=$id_projet;
+        $validation_flow->id_valideur=$id_valideur;
+        $validation_flow->position=$position;
+        $validation_flow->save();
+        return redirect()->back()->with('success', "success");
+    }
     public function gestion_projets($locale){
 
         $projets  = Projet::all();

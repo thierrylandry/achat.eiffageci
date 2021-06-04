@@ -59,4 +59,5 @@ return array (
     'attente'=>'En attente de validation',
     'traite_termine'=>'traitée',
     'traite_retouner'=>'Rétournée',
+    'work_flow_validation'=>'Workflow de validation',
 );

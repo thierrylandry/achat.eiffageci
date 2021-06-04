@@ -60,4 +60,5 @@ return array (
     'attente'=>'in progress',
     'traite_termine'=>'processed',
     'traite_retouner'=>'Returned',
+    'work_flow_validation'=>'Validation workflow',
 );

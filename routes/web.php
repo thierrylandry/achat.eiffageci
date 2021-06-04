@@ -428,6 +428,11 @@ Route::get('/donne_moi_les_famille_disponible/{domaine}',[
     'uses'=>'ProjectController@gestion_projets',
     'roles' => ['Configuration']
 ])->middleware('auth')->middleware('roles');
+Route::get('work_flow/{id}',[
+    'as'=>'workflow',
+    'uses'=>'ProjectController@workflow',
+    'roles' => ['Configuration']
+])->middleware('auth')->middleware('roles');
 
 Route::get('modifier_projets/{id}',[
     'as'=>'modifier_projets',
@@ -1092,6 +1097,13 @@ Route::post('/save_bc',[
     'uses'=>'BCController@save_bc',
     'middleware' => 'roles',
     'roles' => ['Gestionnaire_BC']
+
+])->middleware('auth');
+Route::post('/save_workflow',[
+    'as'=>'save_workflow',
+    'uses'=>'ProjectController@save_workflow',
+    'middleware' => 'roles',
+    'roles' => ['Configuration']
 
 ])->middleware('auth');
 

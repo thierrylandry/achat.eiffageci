@@ -17,7 +17,7 @@ class CreateTableValidationFlow extends Migration
             $table->increments('id');
             $table->integer('id_projet');
             $table->integer('id_valideur');
-            $table->integer('posisition');
+            $table->integer('position');
             $table->timestamps();
         });
     }
