@@ -270,7 +270,7 @@
 
 </div>
        <div class="row">
-        <div class="col-sm-offset-1 col-sm-10" >    @include('BC/list_bc')</div>
+        <div class=" col-sm-12" >    @include('BC/list_bc')</div>
     </div>
 
     @if(isset($bc) || isset($ajouter))

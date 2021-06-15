@@ -4,15 +4,15 @@
     class='active'
 @endsection
 @section('content')
-
-
-    <h2>{{ __('menu.workflow') }} {{$projet->libelle}}  @if(isset($validation_flow)) {{ __('translation.update') }} @else {{ __('translation.add') }}  @endif</h2><br/><br/><br/>
+<a href="{{route('gestion_projets',app()->getLocale())}}" class="btn btn-default  pull-right"> {{__('neutrale.retour')}}</a>
+<h1>{{App\Projet::find($projet->id)->chantier}} ({{App\Projet::find($projet->id)->libelle}})</h1>
+    <h2>{{ __('menu.work_flow_validation') }}   @if(isset($validation_flow)) {{ __('translation.update') }} @else {{ __('translation.add') }}  @endif</h2><br/><br/><br/>
 
                     <div class="row">
 
                         <div class="col-sm-12">
 
-                                <form role="form" id="FormRegister" class="bucket-form" method="post" action="@if(isset($validation_flow))   {{route('update_taux_change')}}  @else {{route('save_workflow')}} @endif" enctype="multipart/form-data">
+                                <form role="form" id="FormRegister" class="bucket-form" method="post" action="@if(isset($validation_flow))   {{route('update_workflow')}}  @else {{route('save_workflow')}} @endif" enctype="multipart/form-data">
 
 
 
@@ -20,10 +20,10 @@
                                             <div class="row">
                                                 <div class="col-sm-3" >
                                                     <div class="form-froup">
-                                                        <b><label for="libelle" class="control-label">Valideur</label></b>
-                                                        <input type="hidden" name="id_projet" value="$projet->id">
+                                                        <b><label for="libelle" class="control-label">{{__('neutrale.valideur')}} * </label></b>
+                                                        <input type="hidden" name="id_projet" value="{{$projet->id}}">
                                                         <select name="id_valideur" class="form-control">
-                                                            <option>Selectionner valideur</option>
+                                                            <option>{{__('neutrale.selectionner')}}</option>
                                                             @foreach($users as $user)
                                                             <option value="{{$user->id}}" {{isset($validation_flow) && $validation_flow->id_valideur==$user->id?'selected':''}}>{{$user->nom}} {{$user->prenoms}}</option>
                                                             @endforeach
@@ -32,8 +32,8 @@
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <div class="form-froup">
-                                                        <b><label for="libelle" class="control-label">Position</label></b>
-                                                        <input type="number" class="form-control" id="position" name="position" placeholder="Position"  value="@if(isset($validation_flow)){{$validation_flow->position}}@endif" required>
+                                                        <b><label for="libelle" class="control-label">{{__('neutrale.position')}} *</label></b>
+                                                        <input type="number" class="form-control" id="position" name="position" placeholder="Position" min="0"  value="@if(isset($validation_flow)){{$validation_flow->position}}@endif" required>
                                                     <br>
                                                     </div>
                                                 </div>
@@ -45,8 +45,8 @@
                                                 </div>
 
 
-                                                @if(isset($validation_flow))
-                                                <a href="{{route('taux_change',app()->getLocale())}}">{{__('neutrale.ajouter')}}</a>
+                                            @if(isset($validation_flow))
+                                                <a href="{{route('workflow',['locale'=>app()->getLocale(),'slug'=>$projet->id])}}">{{__('neutrale.ajouter')}}</a>
                                             @endif
                                             </div>
 
@@ -75,7 +75,14 @@
                                             <td>{{$validation_flow->id}}</td>
                                             <td>{{$validation_flow->valideur->nom}} {{$validation_flow->valideur->prenoms}}</td>
                                             <td>{{$validation_flow->position}}</td>
-                                            <td></td>
+                                            <td>
+                                                <a href="{{route('supprimer_work_flow',['locale'=>app()->getLocale(),'id'=>$validation_flow->id])}}" data-toggle="modal" class="btn btn-danger pull-right">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                                <a href="{{route('workflow_modifier',['locale'=>app()->getLocale(),'id'=>$validation_flow->id])}}" data-toggle="modal" class="btn btn-info pull-right">
+                                                    <i class="fa fa-pencil"></i>
+                                                </a>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>

@@ -1,4 +1,57 @@
 
+<style>
+    .container {
+        width: 600px;
+        margin: 100px auto; 
+    }
+    .progressbar {
+        counter-reset: step;
+    }
+    .progressbar li {
+        list-style-type: none;
+        width: 25%;
+        float: left;
+        font-size: 12px;
+        position: relative;
+        text-align: center;
+        text-transform: uppercase;
+        color: #7d7d7d;
+    }
+    .progressbar li:before {
+        width: 30px;
+        height: 30px;
+        content: counter(step);
+        counter-increment: step;
+        line-height: 30px;
+        border: 2px solid #7d7d7d;
+        display: block;
+        text-align: center;
+        margin: 0 auto 10px auto;
+        border-radius: 50%;
+        background-color: white;
+    }
+    .progressbar li:after {
+        width: 100%;
+        height: 2px;
+        content: '';
+        position: absolute;
+        background-color: #7d7d7d;
+        top: 15px;
+        left: -50%;
+        z-index: -1;
+    }
+    .progressbar li:first-child:after {
+        content: none;
+    }
+    .progressbar li.active {
+        color: chartreuse;
+    }
+    .progressbar li.active:before {
+        border-color: chartreuse;
+    }
+    .progressbar li.active + li:after {
+        background-color: chartreuse;
+    }</style>
 <div class="alert alert-warning ">
     <span class="alert-icon"><i class="fa fa-bell-o"></i></span>
     <div class="notification-info">
@@ -46,7 +99,7 @@
                     @foreach($bcs_en_attentes as $bc )
                         <tr>
                             <td>{{$bc->id}}</td>
-                            <td>                               @if($bc->etat==1)
+                            <td id="wrapper">                               @if($bc->etat==1)
                                 <i class="fa fa-circle "  style="color:  orange"><p style="visibility: hidden">1</p></i>
 
                             @elseif($bc->etat==2)
@@ -65,7 +118,14 @@
                             @elseif($bc->etat==0)
                                 <i class="fa fa-circle" style="color: red"><p style="visibility: hidden">0</p></i>
                             @endif
-
+                            <ul class="progressbar">
+                                <?php $i=0; ?>
+                               @foreach($validation_flows as $validation_flow)
+                        
+                               <li @if($i==0) class="active" @endif>{{$validation_flow->valideur->nom}} {{$validation_flow->valideur->prenoms}}</li>
+                               <?php $i++;?>
+                               @endforeach 
+                        </ul>
                             </td>
                             <td>{{$bc->numBonCommande}}</td>
                             <td>
@@ -533,29 +593,24 @@
 
         });
     });
+    var inputs = $('.input');
+	var paras = $('.description-flex-container').find('p');
+	inputs.click(function(){
+		var t = $(this),
+				ind = t.index(),
+				matchedPara = paras.eq(ind);
+		
+		t.add(matchedPara).addClass('active');
+		inputs.not(t).add(paras.not(matchedPara)).removeClass('active');
+	});
+
     $(".preciser_livraison").click( function (e){
         table3.clear().draw();
         var data = table1.row($(this).parents('tr')).data();
         $('#numbcc').val(data[2]);
 
         $('.date_livr_def').val("");
-        $.get("detail_list_devis/"+data[0], function(data){
 
-          var tabobj=   data= JSON.parse(data);
-            var les_id="";
-            $.each(tabobj,function (index,value) {
-
-                les_id= les_id+","+value.id;
-console.log(value.date_livraison_eff);
-                table3.row.add( [
-                    value.id,
-                    value.titre_ext,
-                    value.quantite,
-                    " <input type='date' class='form-control date_livr_def ' name='"+value.id+"date_livr_def' id='"+value.id+"date_livr_def' value='"+value.date_livraison_eff+"'  />"
-                        ]).draw();
-            });
-            $("#lesidd").val(les_id);
-        });
     });
 
 </script>

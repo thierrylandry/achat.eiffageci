@@ -143,4 +143,5 @@ return [
     'date_besoin'=>'Date of need expression',
     'description_panier'=>'Description (Warning it will appear on the order voucher)',
     'dupliquer'=>'Duplicate information on all lines',
+    'position'=>'Position',
 ];

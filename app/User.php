@@ -65,6 +65,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Projet', 'user_projet', 'id_user', 'id_projet');
     }
+    public function validation_flow(){
+        return $this->hasMany('App\Validation_flow','id_valideur');  
+    }
     public function hasAnyProjets($projets)
     {
         if (is_array($projets)) {

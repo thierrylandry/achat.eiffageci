@@ -147,5 +147,6 @@ return [
     'date_besoin'=>'Date du besoin',
     'description_panier'=>'Description (Attention ceci figurera sur le bon de commande)',
     'dupliquer'=>'Dupliquer les informations sur toutes les lignes',
+    'position'=>'Position',
 
 ];

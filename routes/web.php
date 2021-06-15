@@ -433,6 +433,17 @@ Route::get('work_flow/{id}',[
     'uses'=>'ProjectController@workflow',
     'roles' => ['Configuration']
 ])->middleware('auth')->middleware('roles');
+Route::get('supprimer_work_flow/{id}',[
+    'as'=>'supprimer_work_flow',
+    'uses'=>'ProjectController@supprimer_work_flow',
+    'roles' => ['Configuration']
+])->middleware('auth')->middleware('roles');
+Route::get('workflow_modifier/{id}',[
+    'as'=>'workflow_modifier',
+    'uses'=>'ProjectController@workflow_modifier',
+    'roles' => ['Configuration']
+])->middleware('auth')->middleware('roles');
+
 
 Route::get('modifier_projets/{id}',[
     'as'=>'modifier_projets',
@@ -1106,7 +1117,13 @@ Route::post('/save_workflow',[
     'roles' => ['Configuration']
 
 ])->middleware('auth');
+Route::post('/update_workflow',[
+    'as'=>'update_workflow',
+    'uses'=>'ProjectController@update_workflow',
+    'middleware' => 'roles',
+    'roles' => ['Configuration']
 
+])->middleware('auth');
 Route::post('/ajouter_ligne_bc',[
     'as'=>'ajouter_ligne_bc',
     'uses'=>'BCController@ajouter_ligne_bc',

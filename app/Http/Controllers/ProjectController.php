@@ -59,7 +59,7 @@ class ProjectController extends Controller
         $projet_choisi= ProjectController::check_projet_access();
         $projet = $projet_choisi;
         $validation_flow = Validation_flow::find($id);
-        $validation_flows = Validation::all();
+        $validation_flows = Validation_flow::all();
         $userall = User::where('id_projet','=',$projet->id)->get();
         $users = array();
         foreach($userall as $useral):
@@ -69,12 +69,41 @@ class ProjectController extends Controller
         endforeach;
         return view('workflow.workflow',compact('projet','users','validation_flow','validation_flows'));
     }
+    public function supprimer_work_flow($locale,$id){
+        $validation_flow = Validation_flow::find($id);
+        $validation_flow->delete();
+        return redirect()->back()->with('success', "success");
+    }
     public function save_workflow(Request $request){
         $parameters = $request->except(['_token']);
         $id_projet=$parameters['id_projet'];
-        $id_valideur=$parameters['id_projet'];
+        $id_valideur=$parameters['id_valideur'];
         $position=$parameters['position'];
+
+        $les_validation_workflow = Validation_flow::where('id_projet','=',$id_projet)->where('id_valideur','=',$id_valideur)->first();
+      if(is_null($les_validation_workflow)){
         $validation_flow = new Validation_flow();
+
+        $validation_flow->id_projet=$id_projet;
+        $validation_flow->id_valideur=$id_valideur;
+        $validation_flow->position=$position;
+        $validation_flow->save();
+        return redirect()->back()->with('success', "success");
+      }else{
+        return redirect()->back()->with('error', "echec");
+      }
+
+    }
+    public function update_workflow(Request $request){
+        $parameters = $request->except(['_token']);
+        $id_projet=$parameters['id_projet'];
+        $id_valideur=$parameters['id_valideur'];
+        $position=$parameters['position'];
+        $id=$parameters['id'];
+
+        $les_validation_workflow = Validation_flow::where('id_projet','=',$id_projet)->where('id_valideur','=',$id_valideur)->first();
+      
+        $validation_flow = Validation_flow::find($id);
 
         $validation_flow->id_projet=$id_projet;
         $validation_flow->id_valideur=$id_valideur;

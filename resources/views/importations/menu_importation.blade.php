@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('gestion_stock')
+@section('configuration')
     class="active"
 @endsection
 @section('dashboard')
@@ -71,6 +71,8 @@
     </style>
 @endsection()
 @section('content')
+<h2>{{App\Projet::find($id_projet)->chantier}} ({{App\Projet::find($id_projet)->libelle}})</h2>
+</br>
     <div >
         <div class="row justify-content-center m-auto text-center w-75">
 
