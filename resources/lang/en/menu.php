@@ -16,6 +16,7 @@ return array (
     'list_da' => 'Need expression list',
     'list_da_valider' => 'Validate need expression',
     'historique' => 'History',
+    'mes_validation' => ' my validations',
     'gestion_stock' => 'Storage management',
     'setting' => 'Settings',
     'les_devis' => 'Quotations',

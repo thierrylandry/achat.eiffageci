@@ -16,6 +16,7 @@ return array (
     'list_da' => 'Lister les D.A.',
     'list_da_valider' => 'Listes des D.A. a valider',
     'historique' => 'Historique',
+    'mes_validation' => ' Mes validations',
     'gestion_stock' => 'Gestion des stocks',
     'setting' => 'Paramétrages',
     'les_devis' => 'Les Devis',

@@ -8,7 +8,6 @@
     }
     .progressbar li {
         list-style-type: none;
-        width: 25%;
         float: left;
         font-size: 12px;
         position: relative;
@@ -44,9 +43,15 @@
     }
     .progressbar li.active {
         color: chartreuse;
+        border-color: chartreuse;
+        font-weight: bold;
+       
     }
     .progressbar li.active:before {
         border-color: chartreuse;
+        background-color: chartreuse;
+        color: black;
+        font-stretch:stretch;
     }
     .progressbar li.active + li:after {
         background-color: chartreuse;
@@ -117,7 +122,7 @@
                                 <?php $i=0; ?>
                                @foreach($validation_flows as $validation_flow)
                         
-                               <li @if($i==0) class="active" @endif>{{$validation_flow->valideur->nom}} {{$validation_flow->valideur->prenoms}}</li>
+                               <li @if($bc->validation_step>=$validation_flow->position) class="active" @endif>{{$validation_flow->valideur->abréviation}}</br></li>
                                <?php $i++;?>
                                @endforeach 
                         </ul>
@@ -128,7 +133,7 @@
                             <td>
                                 {{$bc->date	}}
                             </td>
-                            <td> {{$bc->auteur->nom}} ({{$bc->auteur->prenoms}})</td>
+                            <td> {{$bc->auteur->nom}} {{$bc->auteur->prenoms}}</td>
                             <td>@if($bc->devise_bc =="XOF") @if($bc->total_ttc!=0){{number_format($bc->total_ttc, 0, ',', ' ')}} @endif  @elseif($bc->devise_bc =="EUR") @if($bc->total_ttc_euro!=0){{number_format($bc->total_ttc_euro, 0, ',', ' ')}}@endif @elseif($bc->devise_bc =="USD") @if($bc->total_ttc_usd!=0){{number_format($bc->total_ttc_usd, 0, ',', ' ')}}@endif  @endif  {{$bc->devise->libelle}}
                             </td>
                             <td>
@@ -261,6 +266,83 @@
     </div>
     <div class="panel panel-default">
         <div class="panel-heading" style="background-color: #f0bcb4!important;">
+            <h4 class="panel-title" style="font-size: 32px; color:white" data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+
+                <a > {{ __('menu.mes_validation') }}</a>
+            </h4>
+        </div>
+        <div id="collapse3" class="panel-collapse collapse" >
+            <div class="panel-body" >
+                <table name ="bonCommandes" id="bonCommandes2" class='table table-bordered table-striped  no-wrap '>
+
+                    <thead>
+
+                    <tr>
+                        <th class="dt-head-center">id</th>
+                        <th class="">{{ __('neutrale.statut') }}</th>
+                        <th class="">{{__('neutrale.numero_bc')}}</th>
+                        <th class="">{{__('menu.fournisseurs')}}</th>
+                        <th class="">{{__('reception.date_livraison')}}</th>
+                        <th class="">{{__('gestion_stock.auteur')}}</th>
+                        <th class="">{{__('neutrale.expediteur')}}</th>
+                        <th class="">{{__('gestion_stock.action')}}</th>
+
+                    </tr>
+                    </thead>
+                    <tbody name ="contenu_tableau_entite" id="contenu_tableau_entite">
+                    @foreach($bc_valider_en_attentes as $bc )
+                        <tr>
+                            <td>{{$bc->id}}</td>
+                            <td>                               @if($bc->etat==1)
+                                <i class="fa fa-circle "  style="color:  orange"><p style="visibility: hidden">1</p></i>
+
+                            @elseif($bc->etat==2)
+                                <i class="fa fa-circle" style="color: yellow"><p style="visibility: hidden">2</p></i>
+                            @elseif($bc->etat==3)
+                                <i class="fa fa-circle" style="color: chartreuse"><p style="visibility: hidden">3</p></i>
+                            @elseif($bc->etat==4)
+                                <a href="" data-toggle="modal" class="">
+                                    <i class="fa fa-circle" style="color: green"><p style="visibility: hidden">4</p></i>
+                                </a>
+                            @elseif($bc->etat==11)
+                                <a href="" data-toggle="modal" class="">
+                                    <i class="fa fa-circle" style="color: black"><p style="visibility: hidden">11</p></i>
+                                </a>
+
+                            @elseif($bc->etat==0)
+                                <i class="fa fa-circle" style="color: red"><p style="visibility: hidden">0</p></i>
+                            @endif
+                            <ul class="progressbar">
+                                <?php $i=0; ?>
+                               @foreach($validation_flows as $validation_flow)
+                        
+                               <li @if($bc->validation_step>=$validation_flow->position) class="active" @endif>{{$validation_flow->valideur->abréviation}}</br></li>
+                               <?php $i++;?>
+                               @endforeach 
+                        </ul>
+                            </td>
+                            <td>{{$bc->numBonCommande}}</td>
+                            <td>
+                                {{$bc->fournisseur->libelle}} ({{$bc->devise->libelle}})</td>
+                            <td>
+                                {{$bc->date	}}
+                            </td>
+                            <td> {{$bc->auteur->nom}} {{$bc->auteur->prenoms}}</td>
+                            <td>@if($bc->devise_bc =="XOF") @if($bc->total_ttc!=0){{number_format($bc->total_ttc, 0, ',', ' ')}} @endif  @elseif($bc->devise_bc =="EUR") @if($bc->total_ttc_euro!=0){{number_format($bc->total_ttc_euro, 0, ',', ' ')}}@endif @elseif($bc->devise_bc =="USD") @if($bc->total_ttc_usd!=0){{number_format($bc->total_ttc_usd, 0, ',', ' ')}}@endif  @endif  {{$bc->devise->libelle}}
+                            </td>
+                            <td>
+                               
+                            </td>
+
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading" style="background-color: #f0bcb4!important;">
             <h4 class="panel-title" style="font-size: 32px; color:white" data-toggle="collapse" data-parent="#accordion" href="#collapse2">
 
                 <a > {{ __('menu.historique') }}</a>
@@ -313,7 +395,7 @@
                             <td>
                                 {{$bc->date	}}
                             </td>
-                            <td> {{$bc->auteur->nom}} ({{$bc->auteur->prenoms}})</td>
+                            <td> {{$bc->auteur->nom}} {{$bc->auteur->prenoms}}</td>
                             <td>
                                 @if($bc->etat==1)
 
@@ -460,7 +542,7 @@
 
         });
 if(mavariable==""){
-    alert({{__('translation.selectionner_element')}});
+    alert("{{__('translation.selectionner_element')}}");
 }else{
         $.get('validation_bc_collective/'+mavariable,function (data) {
                 if(data=="success"){
@@ -564,6 +646,33 @@ if(mavariable==""){
 
         }
     }).column(0).visible(false);
+    
+    var table2= $('#bonCommandes2').DataTable({
+        "columnDefs": [
+            {
+                'targets': 0,
+                'checkboxes': {
+                    'selectRow': true
+                }
+            }
+        ],
+        "select": {
+            'style': 'multi'
+        },
+        'order': [[0, 'desc']],
+        language: {
+            @if(App()->getLocale()=='fr')
+            url: "../public/js/French.json"
+            @elseif(App()->getLocale()=='en')
+            url: "../public/js/English.json"
+            @endif
+        },
+        "ordering":false,
+        "responsive": false,
+        "createdRow": function( row, data, dataIndex){
+
+        }
+    });
     //table.DataTable().draw();
     function addRow(tableID) {
 

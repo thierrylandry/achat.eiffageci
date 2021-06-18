@@ -1,4 +1,3 @@
-
 <style>
     .container {
         width: 600px;
@@ -9,7 +8,6 @@
     }
     .progressbar li {
         list-style-type: none;
-        width: 25%;
         float: left;
         font-size: 12px;
         position: relative;
@@ -45,9 +43,15 @@
     }
     .progressbar li.active {
         color: chartreuse;
+        border-color: chartreuse;
+        font-weight: bold;
+       
     }
     .progressbar li.active:before {
         border-color: chartreuse;
+        background-color: chartreuse;
+        color: black;
+        font-stretch:stretch;
     }
     .progressbar li.active + li:after {
         background-color: chartreuse;
@@ -122,7 +126,7 @@
                                 <?php $i=0; ?>
                                @foreach($validation_flows as $validation_flow)
                         
-                               <li @if($i==0) class="active" @endif>{{$validation_flow->valideur->nom}} {{$validation_flow->valideur->prenoms}}</li>
+                               <li @if($bc->validation_step>=$validation_flow->position) class="active" @endif>{{$validation_flow->valideur->abréviation}} </li>
                                <?php $i++;?>
                                @endforeach 
                         </ul>

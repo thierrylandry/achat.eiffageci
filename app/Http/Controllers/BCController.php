@@ -489,13 +489,14 @@ return $view;
     }
     public function validation_bc()
     {
-
+       
         $projet_choisi= ProjectController::check_projet_access();
         $bcs=  Boncommande::where('id_projet','=',$projet_choisi->id)->where('etat','!=',1)->orderBy('created_at', 'DESC')->get();
         //je vérifie si on valide selon le paramettre valideur different
         $validation_flows =Validation_flow::where('id_projet','=',$projet_choisi->id)->orderBy('position','ASC')->get();
 
         $bcs_en_attentes = BCController::liste_bc_en_attente_fonction_mode_validation($projet_choisi);
+        $bc_valider_en_attentes = Boncommande::where('id_projet','=',$projet_choisi->id)->where('etat','!=',3)->where('validation_step','!=','')->where('validation_step','>=',Auth::user()->validation_flow()->where('id_projet','=',$projet_choisi->id)->first()->position)->orderBy('created_at', 'DESC')->get();
          $utilisateurs=  User::where('id_projet','=',$projet_choisi->id)->get();
 
         $fournisseurs= DB::table('fournisseur')
@@ -509,7 +510,7 @@ return $view;
 
         $analytiques= Analytique::where('id_projet','=',$projet_choisi->id)->get();
        
-        return view('BC/validation_bc',compact('bcs','bcs_en_attentes','fournisseurs','utilisateurs','analytiques','fournisseurss','validation_flows'));
+        return view('BC/validation_bc',compact('bcs','bcs_en_attentes','fournisseurs','utilisateurs','analytiques','fournisseurss','validation_flows','bc_valider_en_attentes'));
     }
     public function procede_validation_step($boncommande,$projet){
         $validation_flow= Validation_flow::where('id_projet','=',$projet->id)->orderBy('position','DESC')->first();
@@ -594,7 +595,7 @@ return $view;
                       $pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
 
         }else{
-            $boncommande->validation_step=$validation_flow->position;
+            $boncommande->validation_step=Auth::user()->validation_flow()->where('id_projet','=',$boncommande->id_projet)->first()->position;
             
             $trace_validation_bc= new Trace_validation_bc();
             $trace_validation_bc->id_bonCommande=$boncommande->id;
@@ -713,10 +714,10 @@ return $view;
                     $das->save();
                 }
                 // Finally, you can download the file using download function
-                $pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
+                $pdf->download('bon_de_commande_n°'.$Boncommande->numBonCommande.'.pdf');
             }else{
                 // pour la validation graduelle
-                $this->procede_validation_step($boncommande,$Boncommande->projet);
+                $this->procede_validation_step($Boncommande,$Boncommande->projet);
 
             }
 
@@ -1114,8 +1115,8 @@ $boncommande=Boncommande::find($boncommande->id);
                     $bc->date_validation=date("Y-m-d H:i:s");
                        //  dd($bc->projet->typeValidation);
                                        // Send data to the view using loadView function of PDF facade
-             //   $bc=$Boncommande;
-                 $pdf = PDF::loadView('BC.bon-commande', compact('bc','tothtax','taille','taille_minim','taille_maxim'));
+                        //   $bc=$Boncommande;
+                  $pdf = PDF::loadView('BC.bon-commande', compact('bc','tothtax','taille','taille_minim','taille_maxim'));
 
 
                  //$lignebesoins=Lignebesoin::where('id_bonCommande','=',$bc->id)->first();
@@ -1131,7 +1132,7 @@ $boncommande=Boncommande::find($boncommande->id);
                  //constituer le mail
  
                  $corps= Array();
-                $contactDemandeur= Array();
+                    $contactDemandeur= Array();
  
                  $images= Array();
                  $precisions= Array();
@@ -1160,8 +1161,8 @@ $boncommande=Boncommande::find($boncommande->id);
                      $i++;
  
                  endforeach;
-                $pdf->save(storage_path('bon_commande').'\ '.__('neutrale.numero_bc_sans_abreviation').$bc->numBonCommande.'.pdf');
-                //  dd($contactDemandeur);
+                    $pdf->save(storage_path('bon_commande').'\ '.__('neutrale.numero_bc_sans_abreviation').$bc->numBonCommande.'.pdf');
+                    //  dd($contactDemandeur);
                       $this->dispatch(new EnvoiBcFournisseur($contact,storage_path('bon_commande').'\ '.__('neutrale.numero_bc_sans_abreviation').$bc->numBonCommande.'.pdf',$tab,$corps,$contactDemandeur,$bc,$precisions,$images) );
                       //  return redirect()->route('gestion_bc')->with('success', "Envoie d'email reussi");
                       $pdf->download('bon_de_commande_n°'.$bc->numBonCommande.'.pdf');
@@ -1506,12 +1507,13 @@ $boncommande=Boncommande::find($boncommande->id);
         $projets= Projet::where('id','=',$projet_choisi->id)->get();
         $expediteurs= array();
         $suggestion = $this->generer_numero_bc();
+        $validation_flows =Validation_flow::where('id_projet','=',$projet_choisi->id)->orderBy('position','ASC')->get();
         foreach($utilisateurs as $user):
             if($user->hasRole('Gestionnaire_Pro_Forma')){
                 $expediteurs[]=$user;
             }
         endforeach;
-        return view('BC/gestion_bc',compact('bcs','bcs_en_attentes','fournisseurs','utilisateurs','ajouter','analytiques','fournisseurss','projets','expediteurs','suggestion'));
+        return view('BC/gestion_bc',compact('bcs','bcs_en_attentes','fournisseurs','utilisateurs','ajouter','analytiques','fournisseurss','projets','expediteurs','suggestion','validation_flows'));
     }
     public function detail_rep_fournisseur($locale,$id){
 
