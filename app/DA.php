@@ -9,7 +9,7 @@ class DA extends Model
     //
     protected  $table="lignebesoin";
     //
-    protected $fillable= ['unite','quantite','DateBesoin','id_user','id_fournisseur_select','id_nature','id_materiel','id_boncommande','demandeur','id_valideur','motif','dateConfirmation','date_livraison_eff','id_codeGestion'];
+    protected $fillable= ['slug','unite','quantite','DateBesoin','id_user','id_fournisseur_select','id_nature','id_materiel','id_boncommande','demandeur','id_valideur','motif','dateConfirmation','date_livraison_eff','id_codeGestion'];
 
     public function bondecommande(){
 
