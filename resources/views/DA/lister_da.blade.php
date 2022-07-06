@@ -185,7 +185,7 @@
                         </td>
                         <th class="dt-head-center">{{$da->commentaire}}</th>
                         <td>
-                            @if($da->etat==1)
+                            @if($da->etat==1  && Auth::user()->hasAnyRole(['Valideur_DA']))
                                 <a href="{{route('confirmer_da_depuis_creermodifier_da',['locale'=>app()->getLocale(),'slug'=>$da->slug])}} "id="btnconfirmerda2" data-toggle="modal" class="btn btn-success confirmons">
                                     <i class=" fa fa-check-circle" style="size: 40px"> Accepter ?</i>
                                 </a>
