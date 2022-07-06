@@ -198,7 +198,9 @@ class UtilisateurController
         $utilisateur->email = $parameters['email'];
         $utilisateur->contact =$parameters['contact'];
         $utilisateur->service = $parameters['id_service'];
-        $utilisateur->id_projet=$parameters['id_projet'];
+        if(isset($parameters['id_projet'])){
+            $utilisateur->id_projet=$parameters['id_projet'];
+        }
 
         //Hash::needsRehash($parameters['password'])
         //dd("ancien ".$utilisateur->password." nouveau :".$parameters['password']." Qaund on hash sa donne ceci".Hash::check($parameters['password'],$parameters['password']));
