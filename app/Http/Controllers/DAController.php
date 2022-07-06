@@ -427,6 +427,7 @@ class DAController
         $projet_choisi= ProjectController::check_projet_access();
 
         if($projet_choisi->id_type_validation_da==1){
+
             $das = Lignebesoin::where('etat','=',1)->where('id_projet','=',$projet_choisi->id)->where('id_codeGestion','<>','')->where('usage','<>','')->paginate(100);
         }else{
             $users = User::where('service','=',Auth::user()->id_service)->select('id')->get();
@@ -917,7 +918,6 @@ class DAController
     public function confirmer_da_depuis_creermodifier_da($locale,$slug)
     {
         $da = DA::where('slug', '=', $slug)->first();
-
         if (isset(Auth::user()->id)) {
             $da->id_valideur= Auth::user()->id ;
 
@@ -952,7 +952,7 @@ class DAController
             $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         }
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; confirmaion de la D.A '.$da->id, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
-        return redirect()->route('creer_da')->with('success', "success");
+        return redirect()->back()->with('success', "success");
 
     }
 
@@ -1035,10 +1035,9 @@ class DAController
 
 
         $da=  DA::where('slug','=',$parameters['slug'])->first();
-
+        //dd($parameters['slug']);
         // Fournisseur::create($parameters);
         $date= new \DateTime(null);
-
 
         $da->unite = $parameters['unite'];
         $da->id_codeGestion = $parameters['id_codeGestion'];
@@ -1062,7 +1061,7 @@ class DAController
             $nommachine = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         }
         Log::info('ip :'.$ip.'; Machine: '.$nommachine.'; Modification  de la D.A '.$da->id, ['nom et prenom' => Auth::user()->nom.' '.Auth::user()->prenom]);
-        return redirect()->route('creer_da')->with('success',"success");
+        return redirect()->back()->with('success',"success");
     }
     public function alljson(){
         $collections = [];
